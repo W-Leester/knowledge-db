@@ -15,7 +15,7 @@
 - [x] 기술 방식 확정: PWA (`docs/02`, `docs/03`)
 - [x] 설계문서 v1.0 작성 (`docs/05`)
 
-## Phase 0.5 — 개발 환경 구성 (2026-07-17 점검)
+## Phase 0.5 — 개발 환경 구성 ✅ 완료 (2026-07-17)
 
 **완료 기준: `git push`만으로 GitHub에 올라가는 상태 (Pages 활성화는 Phase 2)**
 
@@ -26,10 +26,11 @@
 - [x] Node.js v24.11.1 확인 (Phase 4 도구용)
 
 ### 남은 조치
-- [ ] `.gitignore` 작성 (Knowledge_DB.zip 등) ※ Phase 2에서 이동해 옴
-- [ ] `Knowledge_DB` 폴더 `git init` + 첫 커밋 — **Phase 1 작업 전에 해두면 이후 변경 이력 추적 가능**
-- [ ] GitHub에 public 저장소 생성 (웹 또는 gh CLI) + remote 연결 + 첫 push (브라우저 인증 1회)
-- [ ] (선택) gh CLI 설치 — 없어도 진행 가능
+- [x] `.gitignore` 작성 (zip·OS 잡동사니 제외)
+- [x] `Knowledge_DB` 폴더 `git init`(main) + 첫 커밋 `c2e88f8` (46개 파일)
+- [x] remote 연결: `origin = https://github.com/W-Leester/knowledge-db.git`
+- [x] GitHub 저장소 `knowledge-db` 생성 + 첫 push 완료 (main → origin/main 추적 설정)
+- ~~(선택) gh CLI 설치~~ (웹 생성 방식 선택으로 불필요)
 
 ## Phase 1 — 콘텐츠·공통 기반 (진행 중)
 
@@ -121,7 +122,7 @@
 | Phase | 상태 | 마일스톤 |
 |---|---|---|
 | 0 요구사항·설계 | ✅ 완료 | — |
-| 0.5 환경 구성 | 🔄 점검 완료, git init·저장소 생성 남음 | push 가능 상태 |
+| 0.5 환경 구성 | ✅ 완료 (repo: github.com/W-Leester/knowledge-db) | push 가능 상태 ✅ |
 | 1 콘텐츠·공통 기반 | 🔄 진행 중 (1A 완료) | M1: 로컬 자원만으로 전 문서 정상 표시 |
 | 2 배포·PWA 설치 | ⬜ 대기 | **M2: 폰에서 열람 (실질 목표)** |
 | 3 오프라인·편의 | ⬜ 대기 | M3: 비행기 모드 열람 |

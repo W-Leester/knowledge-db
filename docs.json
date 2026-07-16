@@ -1,0 +1,87 @@
+{
+  "docs": [
+    {
+      "id": "database-systems",
+      "title": "데이터베이스 완전 정리",
+      "desc": "SQL·NoSQL·NewSQL부터 스토리지(S3·CDN)와 Supabase까지",
+      "file": "database-systems.html",
+      "group": "Software · Data",
+      "icon": "🗄",
+      "gradient": ["#002C5F", "#1A5CB5"],
+      "tags": ["RDBMS", "NoSQL", "S3·CDN", "Supabase"],
+      "version": 1,
+      "assets": [
+        "Docs/img/db-history-timeline.svg",
+        "Docs/img/db-prehistory.svg",
+        "Docs/img/db-scaleup-vs-scaleout.svg",
+        "Docs/img/db-cap-theorem.svg",
+        "Docs/img/db-nosql-models.svg",
+        "Docs/img/db-redis-cache.svg",
+        "Docs/img/db-cassandra-ring.svg",
+        "Docs/img/db-graph-vs-join.svg",
+        "Docs/img/db-row-vs-column.svg",
+        "Docs/img/db-polyglot.svg",
+        "Docs/img/db-object-storage.svg",
+        "Docs/img/db-cdn-presigned.svg",
+        "Docs/img/db-upload-flow.svg",
+        "Docs/img/db-baas-supabase.svg"
+      ]
+    },
+    {
+      "id": "ai-hw-processors",
+      "title": "AI 하드웨어 — 프로세서",
+      "desc": "CPU · GPU · NPU · TPU 아키텍처 완전 분해",
+      "file": "ai-hw-processors.html",
+      "group": "AI Hardware",
+      "icon": "⚙️",
+      "gradient": ["#003F8A", "#00AA6C"],
+      "tags": ["CPU", "GPU", "NPU", "TPU"],
+      "version": 1,
+      "assets": [
+        "Docs/img/cpu-vs-gpu-cores.svg",
+        "Docs/img/cpu-cache-hierarchy.svg",
+        "Docs/img/cpu-amx-tile.svg",
+        "Docs/img/gpu-warp-latency-hiding.svg",
+        "Docs/img/gpu-tensor-core-generations.svg",
+        "Docs/img/gpu-flash-attention.svg",
+        "Docs/img/npu-systolic-array.svg",
+        "Docs/img/npu-unified-memory.svg",
+        "Docs/img/tpu-systolic-dataflow.svg",
+        "Docs/img/tpu-ici-vs-nvlink.svg"
+      ]
+    },
+    {
+      "id": "ai-hw-memory",
+      "title": "AI 하드웨어 — 메모리",
+      "desc": "DDR · LPDDR · GDDR · HBM, 그리고 KV-Cache",
+      "file": "ai-hw-memory.html",
+      "group": "AI Hardware",
+      "icon": "🧠",
+      "gradient": ["#1A5CB5", "#6B21A8"],
+      "tags": ["DDR5", "HBM3e", "KV-Cache"],
+      "version": 1,
+      "assets": [
+        "Docs/img/mem-roofline-model.svg",
+        "Docs/img/mem-dram-cell.svg",
+        "Docs/img/mem-ddr5-subchannel.svg",
+        "Docs/img/mem-lpddr-bga.svg",
+        "Docs/img/mem-gddr7-bus.svg",
+        "Docs/img/mem-hbm-tsv.svg",
+        "Docs/img/mem-cowos-package.svg",
+        "Docs/img/mem-kvcache-growth.svg"
+      ]
+    },
+    {
+      "id": "design-system",
+      "title": "디자인 시스템 v1.0",
+      "desc": "문서들이 공유하는 Hyundai-inspired 디자인 토큰·컴포넌트",
+      "file": "design-system.html",
+      "group": "Design",
+      "icon": "🎨",
+      "gradient": ["#E8962A", "#DC2626"],
+      "tags": ["Colors", "Typography", "Components"],
+      "version": 1,
+      "assets": []
+    }
+  ]
+}

@@ -104,61 +104,80 @@ footer { text-align: center; font-size: 11.5px; color: var(--text-muted); paddin
   폰에서는 브라우저 메뉴의 "홈 화면에 추가"로 앱처럼 쓸 수 있다.</p>
 </header>
 
-<main>
-  <div class="group-label">Software · Data</div>
-
-  <a class="doc-card" href="database-systems.html">
-    <div class="doc-icon" style="background:linear-gradient(135deg,#002C5F,#1A5CB5)">🗄</div>
-    <div class="doc-body">
-      <h2>데이터베이스 완전 정리</h2>
-      <p>SQL·NoSQL·NewSQL부터 스토리지(S3·CDN)와 Supabase까지</p>
-      <div class="doc-meta">
-        <span class="chip">RDBMS</span><span class="chip">NoSQL</span><span class="chip">S3·CDN</span><span class="chip">Supabase</span>
-      </div>
-    </div>
-    <svg class="arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7,4 12,9 7,14"/></svg>
-  </a>
-
-  <div class="group-label">AI Hardware</div>
-
-  <a class="doc-card" href="ai-hw-processors.html">
-    <div class="doc-icon" style="background:linear-gradient(135deg,#003F8A,#00AA6C)">⚙️</div>
-    <div class="doc-body">
-      <h2>AI 하드웨어 — 프로세서</h2>
-      <p>CPU · GPU · NPU · TPU 아키텍처 완전 분해</p>
-      <div class="doc-meta">
-        <span class="chip">CPU</span><span class="chip">GPU</span><span class="chip">NPU</span><span class="chip">TPU</span>
-      </div>
-    </div>
-    <svg class="arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7,4 12,9 7,14"/></svg>
-  </a>
-
-  <a class="doc-card" href="ai-hw-memory.html">
-    <div class="doc-icon" style="background:linear-gradient(135deg,#1A5CB5,#6B21A8)">🧠</div>
-    <div class="doc-body">
-      <h2>AI 하드웨어 — 메모리</h2>
-      <p>DDR · LPDDR · GDDR · HBM, 그리고 KV-Cache</p>
-      <div class="doc-meta">
-        <span class="chip">DDR5</span><span class="chip">HBM3e</span><span class="chip">KV-Cache</span>
-      </div>
-    </div>
-    <svg class="arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7,4 12,9 7,14"/></svg>
-  </a>
-
-  <div class="group-label">Design</div>
-
-  <a class="doc-card" href="design-system.html">
-    <div class="doc-icon" style="background:linear-gradient(135deg,#E8962A,#DC2626)">🎨</div>
-    <div class="doc-body">
-      <h2>디자인 시스템 v1.0</h2>
-      <p>문서들이 공유하는 Hyundai-inspired 디자인 토큰·컴포넌트</p>
-      <div class="doc-meta">
-        <span class="chip">Colors</span><span class="chip">Typography</span><span class="chip">Components</span>
-      </div>
-    </div>
-    <svg class="arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7,4 12,9 7,14"/></svg>
-  </a>
+<main id="doc-list">
+  <noscript>
+    <!-- JS 실패 시 폴백: 정적 링크 목록 (새 문서 추가 시 docs.json과 함께 여기도 갱신) -->
+    <div class="group-label">문서 목록</div>
+    <p style="padding:0 4px 10px;font-size:13px;color:var(--text-secondary)">
+      스크립트를 사용할 수 없어 기본 목록으로 표시합니다.</p>
+    <a class="doc-card" href="database-systems.html"><div class="doc-body"><h2>데이터베이스 완전 정리</h2></div></a>
+    <a class="doc-card" href="ai-hw-processors.html"><div class="doc-body"><h2>AI 하드웨어 — 프로세서</h2></div></a>
+    <a class="doc-card" href="ai-hw-memory.html"><div class="doc-body"><h2>AI 하드웨어 — 메모리</h2></div></a>
+    <a class="doc-card" href="design-system.html"><div class="doc-body"><h2>디자인 시스템 v1.0</h2></div></a>
+  </noscript>
 </main>
+
+<script>
+(async function () {
+  const main = document.getElementById('doc-list');
+  try {
+    const res = await fetch('docs.json');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const { docs } = await res.json();
+
+    const frag = document.createDocumentFragment();
+    let currentGroup = null;
+
+    for (const d of docs) {
+      if (d.group !== currentGroup) {
+        currentGroup = d.group;
+        const label = document.createElement('div');
+        label.className = 'group-label';
+        label.textContent = d.group;
+        frag.appendChild(label);
+      }
+
+      const card = document.createElement('a');
+      card.className = 'doc-card';
+      card.href = d.file;
+
+      const icon = document.createElement('div');
+      icon.className = 'doc-icon';
+      icon.style.background = `linear-gradient(135deg,${d.gradient[0]},${d.gradient[1]})`;
+      icon.textContent = d.icon;
+
+      const body = document.createElement('div');
+      body.className = 'doc-body';
+      const h2 = document.createElement('h2');
+      h2.textContent = d.title;
+      const p = document.createElement('p');
+      p.textContent = d.desc;
+      const meta = document.createElement('div');
+      meta.className = 'doc-meta';
+      for (const t of d.tags) {
+        const chip = document.createElement('span');
+        chip.className = 'chip';
+        chip.textContent = t;
+        meta.appendChild(chip);
+      }
+      body.append(h2, p, meta);
+
+      card.insertAdjacentHTML('beforeend',
+        '<svg class="arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7,4 12,9 7,14"/></svg>');
+      card.prepend(icon, body);
+      frag.appendChild(card);
+    }
+    main.appendChild(frag);
+  } catch (e) {
+    // fetch 실패 (오프라인 첫 방문, file:// 로컬 열기 등) — 안내만 표시
+    main.insertAdjacentHTML('beforeend',
+      '<p style="padding:20px 4px;font-size:13.5px;color:var(--text-secondary)">' +
+      '문서 목록을 불러오지 못했습니다. 네트워크 연결을 확인한 뒤 새로고침해 주세요.<br>' +
+      '<span style="font-size:12px;color:var(--text-muted)">(PC에서 파일로 직접 열었다면: 로컬 서버로 열어야 합니다 — 예: npx serve)</span></p>');
+    console.error('docs.json load failed:', e);
+  }
+})();
+</script>
 
 <footer>Knowledge DB · Hyundai-Inspired Design System v1.0</footer>
 
