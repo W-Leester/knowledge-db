@@ -41,39 +41,36 @@
 - [x] `index.html` 홈 화면 생성
 - ~~원본 → `content/` 복사 빌드 스크립트~~ (폐기 — Knowledge_DB 루트 직접 배포로 설계 변경)
 
-### 1B. docs.json — 문서 매니페스트 (설계 4.1)
-- [ ] 스키마대로 `docs.json` 작성 — 문서 4개 항목 (id, title, desc, file, group, icon, gradient, tags, version)
-- [ ] 각 문서가 참조하는 SVG를 `assets` 배열에 정리 (grep으로 추출)
-- [ ] `index.html`을 docs.json 기반 JS 렌더링으로 전환
-- [ ] `<noscript>` 정적 링크 목록 추가 (JS 실패 폴백)
+### 1B. docs.json — 문서 매니페스트 (설계 4.1) ✅
+- [x] 스키마대로 `docs.json` 작성 — 문서 4개 항목 (SVG 자산 32개 grep 추출·실존 검증 완료)
+- [x] `index.html`을 docs.json 기반 JS 렌더링으로 전환 + fetch 실패 안내
+- [x] `<noscript>` 정적 링크 목록 추가 (JS 실패 폴백)
 
-### 1C. 폰트 로컬화 (NFR-02, 설계 3장)
-- [ ] Pretendard woff2(필요 웨이트만)·JetBrains Mono woff2 다운로드 → `assets/fonts/`
-- [ ] `assets/fonts.css` 작성 (@font-face)
-- [ ] 문서 5개의 CDN `<link>` 2줄 → `fonts.css` 1줄로 치환
-- [ ] 네트워크 차단 상태(DevTools offline)에서 폰트 정상 표시 확인
+### 1C. 폰트 로컬화 (NFR-02, 설계 3장) ✅
+- [x] Pretendard Variable(가변·한글, ~2MB) + JetBrains Mono latin 400/500/600/700 → `assets/fonts/`
+- [x] `assets/fonts.css` 작성, 문서 5개의 CDN `<link>` 치환 (외부 참조 0건 grep 확인)
+- [ ] 네트워크 차단 상태에서 폰트 정상 표시 확인 → 1F에서 일괄 검증
 
-### 1D. 다크모드 + 공통 스크립트 (FR-07, FR-09, 설계 4.4~4.5)
-- [ ] `assets/dark.css` — `:root[data-theme="dark"]` 변수 오버라이드 작성
-- [ ] `assets/app.js` — 테마 적용·토글, 읽던 위치 저장/복원, 최근 문서 기록, ⌂ 홈 플로팅 버튼
-- [ ] FOUC 방지 인라인 스니펫 확정 (head 최상단)
-- [ ] 문서 4개에 3줄 패치 (fonts.css / dark.css / app.js) + index.html에 테마 토글 UI
-- [ ] 전 문서 다크모드에서 대비·가독성 점검 (SVG 포함)
+### 1D. 다크모드 + 공통 스크립트 (FR-07, FR-09, 설계 4.4~4.5) ✅ (검증 제외)
+- [x] `assets/dark.css` — 토큰 오버라이드 + 사이드바/헤더 개별 보정 + SVG 라이트 매트 처리
+- [x] `assets/app.js` — 테마 3단 토글(시스템/라이트/다크), 읽던 위치 저장·이어읽기 토스트, 최근 문서 기록, ⌂ 홈 버튼 (좌하단 플로팅)
+- [x] FOUC 방지 인라인 스니펫 + 문서 5개 head 패치 (테마 토글은 index 포함 전 페이지 공통 플로팅 버튼으로 통일)
+- [ ] 전 문서 다크모드에서 대비·가독성 점검 (SVG 포함) → 1F에서 일괄 검증
 
-### 1E. 아이콘
-- [ ] PWA 아이콘 디자인 (네이비 #002C5F 배경 + 심볼, SVG)
-- [ ] `icons/icon-192.png`, `icon-512.png`, `maskable-512.png` 생성
+### 1E. 아이콘 ✅
+- [x] PWA 아이콘 생성: 네이비 그라데이션 + "K" 모노그램 + 베이지 바 (`icons/icon-192.png`, `icon-512.png`, `maskable-512.png`)
 
-### 1F. 검증
-- [ ] DevTools 모바일 뷰(360px)로 전 문서 + 홈 최종 점검 → **M1 달성**
+### 1F. 검증 (남음)
+- [ ] 로컬 서버(`npx serve`) 또는 Pages 배포 후, 모바일 뷰(360px)로 전 문서 + 홈 점검
+- [ ] 다크모드 전 문서 가독성 점검, 오프라인 폰트 확인 → **M1 달성**
 
 ## Phase 2 — 배포·PWA 설치 (MVP)
 
 **완료 기준(M2): Galaxy S25 홈 화면 아이콘으로 문서를 열어볼 수 있다**
 
 - ~~.gitignore / git init / 저장소 생성·push~~ → Phase 0.5로 이동
-- [ ] GitHub Pages 활성화 (main / root) → 배포 URL 확인
-- [ ] `manifest.webmanifest` 작성 + `index.html`에 링크 (설계 4.6)
+- [x] `manifest.webmanifest` 작성 + `index.html`에 링크·파비콘 (설계 4.6) — Phase 1과 함께 선행 완료
+- [ ] GitHub Pages 활성화 (main / root) → 배포 URL 확인 (★사용자 작업: 저장소 Settings → Pages)
 - [ ] 폰 테스트 ①: Chrome에서 접속 → 설치 배너/홈 화면에 추가 → 앱 서랍·전체화면 확인
 - [ ] 폰 테스트 ②: Samsung Internet에서 동일 확인 (NFR-08)
 - [ ] 새 문서 추가 리허설: 더미 문서 + docs.json 항목 → push → 폰에서 등장 확인 → 더미 제거

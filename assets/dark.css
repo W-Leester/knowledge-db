@@ -1,0 +1,57 @@
+/* ─── 다크모드 (FR-09) ───
+   :root[data-theme="dark"]에서 디자인 토큰만 재정의해 전 문서에 일괄 적용.
+   data-theme 부여는 head 인라인 스니펫(FOUC 방지) + assets/app.js가 담당.
+
+   주의: --navy-900은 원본에서 "배경(+흰 글자)"과 "제목 텍스트 색" 양쪽에 쓰인다.
+   → 토큰은 양쪽 모두 견딜 수 있는 중간 블루로 올리고,
+     사이드바처럼 큰 배경면은 아래 개별 셀렉터에서 딥 네이비로 되돌린다. */
+
+:root[data-theme="dark"] {
+  --bg-primary: #0F1520;
+  --bg-secondary: #171F2B;
+  --bg-card: #151D29;
+  /* --bg-dark(#0D1B2E)는 원본 유지 — 어두운 강조 섹션은 다크모드에서도 그대로 동작 */
+
+  --navy-900: #4079CC;
+  --navy-700: #3568B0;
+  --navy-500: #5E90DC;
+  --navy-300: #85ACE8;
+  --navy-100: #1B2A40;
+
+  --text-primary: #E7E5E0;
+  --text-secondary: #ABB0BA;
+  --text-muted: #7A8090;
+  /* --text-inverse(#FFF)는 유지 */
+
+  --border: #2B3444;
+  --border-strong: #3C4658;
+
+  --green-light: #0F2C22;
+  --amber-light: #33260F;
+  --red-light: #331616;
+  --purple-light: #241533;
+  --teal-light: #0E2B28;
+  --purple: #B085E0;
+
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.4);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.5);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.6);
+}
+
+/* 큰 배경면은 밝아진 navy 토큰 대신 딥 네이비 유지 */
+:root[data-theme="dark"] #sidebar,
+:root[data-theme="dark"] #toc-sidebar {
+  background: #0A1626;
+}
+
+/* index.html 헤더 그라데이션 */
+:root[data-theme="dark"] body > header {
+  background: linear-gradient(135deg, #0A1626, #14263F);
+}
+
+/* SVG 다이어그램은 라이트 배경 전제로 그려져 있음 → 밝은 매트 위에 표시 */
+:root[data-theme="dark"] img[src*="Docs/img/"] {
+  background: #F5F1E8;
+  border-radius: 10px;
+  padding: 6px;
+}
