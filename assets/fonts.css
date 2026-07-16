@@ -1,0 +1,43 @@
+/* ─── 로컬 웹폰트 (CDN 대체, NFR-02) ───
+   Pretendard Variable: 가변 폰트 하나로 전 웨이트 커버 (한글 포함, ~2MB, 셸 캐시 대상)
+   JetBrains Mono: 코드용, latin만 (400/500/700) */
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('fonts/PretendardVariable.woff2') format('woff2-variations');
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/jetbrains-mono-latin-500-normal.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/jetbrains-mono-latin-600-normal.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/jetbrains-mono-latin-700-normal.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
