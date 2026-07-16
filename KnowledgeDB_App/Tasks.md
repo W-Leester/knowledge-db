@@ -70,7 +70,8 @@
 
 - ~~.gitignore / git init / 저장소 생성·push~~ → Phase 0.5로 이동
 - [x] `manifest.webmanifest` 작성 + `index.html`에 링크·파비콘 (설계 4.6) — Phase 1과 함께 선행 완료
-- [ ] GitHub Pages 활성화 (main / root) → 배포 URL 확인 (★사용자 작업: 저장소 Settings → Pages)
+- [x] GitHub Pages 활성화 완료 → **https://w-leester.github.io/knowledge-db/**
+- [x] 배포 검증: 핵심 리소스 16종(HTML·docs.json·폰트·아이콘·SVG·manifest) 전부 200 + 정상 MIME 확인
 - [ ] 폰 테스트 ①: Chrome에서 접속 → 설치 배너/홈 화면에 추가 → 앱 서랍·전체화면 확인
 - [ ] 폰 테스트 ②: Samsung Internet에서 동일 확인 (NFR-08)
 - [ ] 새 문서 추가 리허설: 더미 문서 + docs.json 항목 → push → 폰에서 등장 확인 → 더미 제거
