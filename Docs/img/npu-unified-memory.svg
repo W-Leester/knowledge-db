@@ -1,0 +1,200 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .bg { fill: #F2EDE4; }
+    .panel { fill: #FFFFFF; stroke: #D5CFBF; stroke-width: 1.5; }
+    .chip-cpu { fill: #003F8A; rx: 6; }
+    .chip-gpu { fill: #00AA6C; }
+    .chip-npu { fill: #E8962A; }
+    .chip-soc { fill: #002C5F; }
+    .mem-ddr { fill: #BDD4F5; stroke: #003F8A; stroke-width: 1.5; }
+    .mem-gddr { fill: #B3EDD8; stroke: #00AA6C; stroke-width: 1.5; }
+    .mem-unified { fill: #E8EEF7; stroke: #003F8A; stroke-width: 2; }
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; text-anchor: middle; }
+    .panel-title { font-size: 12px; font-weight: 700; fill: #1A1A1A; text-anchor: middle; }
+    .chip-text { font-size: 10px; font-weight: 700; fill: #FFFFFF; text-anchor: middle; dominant-baseline: middle; }
+    .mem-text { font-size: 9px; font-weight: 600; fill: #002C5F; text-anchor: middle; dominant-baseline: middle; }
+    .label { font-size: 9px; fill: #1A1A1A; text-anchor: middle; }
+    .label-bold { font-size: 9px; font-weight: 700; fill: #1A1A1A; text-anchor: middle; }
+    .bottleneck { fill: #DC2626; font-size: 9px; font-weight: 700; text-anchor: middle; }
+    .green-label { fill: #00AA6C; font-size: 9px; font-weight: 700; text-anchor: middle; }
+    .annot { font-size: 9px; fill: #555555; text-anchor: middle; }
+    .divider { stroke: #D5CFBF; stroke-width: 1.5; stroke-dasharray: 6,4; }
+  </style>
+
+  <defs>
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <polygon points="0 0, 8 4, 0 8" fill="#DC2626"/>
+    </marker>
+    <marker id="arrRedL" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto-start-reverse">
+      <polygon points="8 0, 0 4, 8 8" fill="#DC2626"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <polygon points="0 0, 8 4, 0 8" fill="#00AA6C"/>
+    </marker>
+    <marker id="arrNavy" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <polygon points="0 0, 8 4, 0 8" fill="#003F8A"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" class="bg"/>
+
+  <!-- Title -->
+  <text x="400" y="28" class="title">통합 메모리 아키텍처 vs 분리 메모리 아키텍처</text>
+
+  <!-- ===== LEFT PANEL: Traditional Discrete ===== -->
+  <rect x="28" y="44" width="355" height="310" rx="10" class="panel"/>
+  <text x="205" y="64" class="panel-title">전통적 분리 메모리 (CPU + GPU)</text>
+
+  <!-- CPU chip -->
+  <rect x="60" y="85" width="110" height="55" rx="6" fill="#003F8A"/>
+  <text x="115" y="108" class="chip-text">CPU</text>
+  <text x="115" y="124" font-size="8" fill="#AAC4E8" text-anchor="middle">x86 / ARM</text>
+
+  <!-- CPU DDR5 -->
+  <rect x="60" y="160" width="110" height="38" rx="5" class="mem-ddr"/>
+  <text x="115" y="183" class="mem-text">DDR5 DRAM</text>
+
+  <!-- Arrow CPU <-> DDR5 -->
+  <line x1="115" y1="140" x2="115" y2="160" stroke="#003F8A" stroke-width="1.5" marker-end="url(#arrNavy)"/>
+  <text x="128" y="155" font-size="8" fill="#003F8A">64 GB/s</text>
+
+  <!-- GPU chip -->
+  <rect x="220" y="85" width="110" height="55" rx="6" fill="#00AA6C"/>
+  <text x="275" y="108" class="chip-text">GPU</text>
+  <text x="275" y="124" font-size="8" fill="#CCF5E7" text-anchor="middle">CUDA Cores</text>
+
+  <!-- GPU GDDR6 -->
+  <rect x="220" y="160" width="110" height="38" rx="5" class="mem-gddr"/>
+  <text x="275" y="183" class="mem-text">GDDR6 VRAM</text>
+
+  <!-- Arrow GPU <-> GDDR6 -->
+  <line x1="275" y1="140" x2="275" y2="160" stroke="#00AA6C" stroke-width="1.5" marker-end="url(#arrGreen)"/>
+  <text x="288" y="155" font-size="8" fill="#00AA6C">672 GB/s</text>
+
+  <!-- PCIe bottleneck arrow (animated flash) -->
+  <line x1="170" y1="113" x2="220" y2="113" stroke="#DC2626" stroke-width="3" marker-end="url(#arrRed)">
+    <animate attributeName="stroke-opacity" values="1;0.2;1" dur="1.2s" repeatCount="indefinite"/>
+  </line>
+  <line x1="220" y1="118" x2="170" y2="118" stroke="#DC2626" stroke-width="3" marker-end="url(#arrRed)">
+    <animate attributeName="stroke-opacity" values="1;0.2;1" dur="1.2s" repeatCount="indefinite" begin="0.6s"/>
+  </line>
+
+  <!-- PCIe label (flashing) -->
+  <rect x="163" y="89" width="70" height="22" rx="4" fill="#FDECEA" stroke="#DC2626" stroke-width="1">
+    <animate attributeName="opacity" values="1;0.4;1" dur="1.2s" repeatCount="indefinite"/>
+  </rect>
+  <text x="198" y="104" font-size="8" font-weight="700" fill="#DC2626" text-anchor="middle">
+    <animate attributeName="opacity" values="1;0.4;1" dur="1.2s" repeatCount="indefinite"/>
+    PCIe 64 GB/s
+  </text>
+
+  <!-- Bottleneck label -->
+  <rect x="148" y="130" width="100" height="22" rx="4" fill="#FDECEA" stroke="#DC2626" stroke-width="1"/>
+  <text x="198" y="145" class="bottleneck">병목 (Bottleneck)</text>
+
+  <!-- Data copy annotation -->
+  <rect x="55" y="214" width="285" height="38" rx="6" fill="#FEF3C7" stroke="#E8962A" stroke-width="1"/>
+  <text x="197" y="230" font-size="9" font-weight="700" fill="#B45309" text-anchor="middle">데이터 복사 필요</text>
+  <text x="197" y="245" font-size="8" fill="#92400E" text-anchor="middle">CPU 메모리 → GPU 메모리 전송 (latency + power)</text>
+
+  <!-- Separate memories note -->
+  <text x="115" y="272" font-size="9" fill="#555555" text-anchor="middle">CPU 전용</text>
+  <text x="115" y="284" font-size="9" fill="#555555" text-anchor="middle">메모리 공간</text>
+  <text x="275" y="272" font-size="9" fill="#555555" text-anchor="middle">GPU 전용</text>
+  <text x="275" y="284" font-size="9" fill="#555555" text-anchor="middle">메모리 공간</text>
+  <text x="197" y="308" font-size="9" fill="#DC2626" font-weight="700" text-anchor="middle">주소 공간 분리 — 직접 접근 불가</text>
+
+  <!-- Divider -->
+  <line x1="400" y1="44" x2="400" y2="354" class="divider"/>
+
+  <!-- VS label -->
+  <rect x="376" y="172" width="48" height="28" rx="14" fill="#002C5F"/>
+  <text x="400" y="190" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">VS</text>
+
+  <!-- ===== RIGHT PANEL: Apple M Unified ===== -->
+  <rect x="417" y="44" width="355" height="310" rx="10" class="panel"/>
+  <text x="595" y="64" class="panel-title">Apple M 통합 메모리 (Unified Memory)</text>
+
+  <!-- Unified memory pool outer ring -->
+  <rect x="438" y="80" width="313" height="240" rx="16" fill="#E8EEF7" stroke="#003F8A" stroke-width="2"/>
+  <text x="595" y="100" font-size="10" font-weight="700" fill="#003F8A" text-anchor="middle">LPDDR5X 통합 메모리 풀</text>
+  <text x="595" y="113" font-size="9" fill="#555555" text-anchor="middle">단일 주소 공간 — CPU·GPU·NPU 공유</text>
+
+  <!-- SoC die background -->
+  <rect x="463" y="124" width="263" height="168" rx="12" fill="#FFFFFF" stroke="#002C5F" stroke-width="1.5"/>
+  <text x="595" y="143" font-size="10" font-weight="600" fill="#002C5F" text-anchor="middle">Apple M4 SoC Die</text>
+
+  <!-- CPU cluster -->
+  <rect x="478" y="152" width="72" height="52" rx="6" fill="#003F8A"/>
+  <text x="514" y="174" class="chip-text">CPU</text>
+  <text x="514" y="188" font-size="7" fill="#AAC4E8" text-anchor="middle">P+E Cores</text>
+
+  <!-- GPU cluster -->
+  <rect x="558" y="152" width="72" height="52" rx="6" fill="#00AA6C"/>
+  <text x="594" y="174" class="chip-text">GPU</text>
+  <text x="594" y="188" font-size="7" fill="#CCF5E7" text-anchor="middle">38 cores</text>
+
+  <!-- NPU / Neural Engine -->
+  <rect x="638" y="152" width="72" height="52" rx="6" fill="#E8962A"/>
+  <text x="674" y="174" class="chip-text">NPU</text>
+  <text x="674" y="188" font-size="7" fill="#FEF0D9" text-anchor="middle">Neural Eng.</text>
+
+  <!-- Internal bus -->
+  <rect x="478" y="212" width="232" height="12" rx="3" fill="#002C5F" opacity="0.15"/>
+  <text x="594" y="221" font-size="8" fill="#002C5F" text-anchor="middle" font-weight="600">On-Die High-Bandwidth Fabric</text>
+
+  <!-- Animated data flow arrows inside SoC: CPU <-> GPU <-> NPU -->
+  <line x1="550" y1="176" x2="558" y2="176" stroke="#FFFFFF" stroke-width="2" marker-end="url(#arrWhite)">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite"/>
+  </line>
+  <line x1="630" y1="176" x2="638" y2="176" stroke="#FFFFFF" stroke-width="2" marker-end="url(#arrWhite)">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite" begin="0.5s"/>
+  </line>
+  <line x1="558" y1="182" x2="550" y2="182" stroke="#FFFFFF" stroke-width="2" marker-end="url(#arrWhite)">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite" begin="0.25s"/>
+  </line>
+  <line x1="638" y1="182" x2="630" y2="182" stroke="#FFFFFF" stroke-width="2" marker-end="url(#arrWhite)">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite" begin="0.75s"/>
+  </line>
+
+  <!-- Labels below chips -->
+  <text x="594" y="244" font-size="9" font-weight="700" fill="#002C5F" text-anchor="middle">CPU ↔ GPU ↔ NPU — 동일 메모리 풀</text>
+  <text x="594" y="258" font-size="9" fill="#555555" text-anchor="middle">복사 없음, 대역폭 공유, 지연 최소화</text>
+  <text x="594" y="276" font-size="9" font-weight="700" fill="#00AA6C" text-anchor="middle">M4 Max: CPU+GPU+NPU → 410 GB/s 공유 대역폭</text>
+
+  <!-- Smooth flow arrows (memory <-> SoC, animated) -->
+  <line x1="514" y1="148" x2="514" y2="134" stroke="#003F8A" stroke-width="1.5" marker-end="url(#arrNavy)">
+    <animate attributeName="stroke-opacity" values="1;0.3;1" dur="1.0s" repeatCount="indefinite"/>
+  </line>
+  <line x1="594" y1="148" x2="594" y2="134" stroke="#00AA6C" stroke-width="1.5" marker-end="url(#arrGreen)">
+    <animate attributeName="stroke-opacity" values="1;0.3;1" dur="1.0s" repeatCount="indefinite" begin="0.33s"/>
+  </line>
+  <line x1="674" y1="148" x2="674" y2="134" stroke="#E8962A" stroke-width="1.5" marker-end="url(#arrAmber)">
+    <animate attributeName="stroke-opacity" values="1;0.3;1" dur="1.0s" repeatCount="indefinite" begin="0.66s"/>
+  </line>
+
+  <defs>
+    <marker id="arrWhite" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto">
+      <polygon points="0 0, 6 3, 0 6" fill="#FFFFFF"/>
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <polygon points="0 0, 8 4, 0 8" fill="#E8962A"/>
+    </marker>
+  </defs>
+
+  <!-- Bottom comparison annotation -->
+  <rect x="28" y="362" width="744" height="72" rx="8" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1"/>
+
+  <!-- Left side summary -->
+  <rect x="40" y="372" width="340" height="50" rx="6" fill="#FDECEA"/>
+  <text x="210" y="390" font-size="10" font-weight="700" fill="#DC2626" text-anchor="middle">분리 메모리 단점</text>
+  <text x="210" y="404" font-size="9" fill="#7F1D1D" text-anchor="middle">PCIe 대역폭 병목 · 데이터 복사 오버헤드 · 높은 전력 소비</text>
+  <text x="210" y="418" font-size="9" fill="#7F1D1D" text-anchor="middle">CPU 64 GB/s vs GPU 672 GB/s — 불균형한 대역폭</text>
+
+  <!-- Right side summary -->
+  <rect x="420" y="372" width="340" height="50" rx="6" fill="#E8F5F0"/>
+  <text x="590" y="390" font-size="10" font-weight="700" fill="#00AA6C" text-anchor="middle">통합 메모리 장점</text>
+  <text x="590" y="404" font-size="9" fill="#065F46" text-anchor="middle">복사 불필요 · 단일 주소 공간 · 저전력 LPDDR5X</text>
+  <text x="590" y="418" font-size="9" fill="#065F46" text-anchor="middle">M4 Max 410 GB/s — CPU·GPU·NPU 동시 활용</text>
+</svg>

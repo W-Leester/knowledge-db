@@ -1,0 +1,90 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .vertex { font-size: 14px; font-weight: 800; fill: #FFFFFF; }
+    .vertex-sub { font-size: 9.5px; fill: #FFFFFF; }
+    .edge-label { font-size: 12px; font-weight: 700; }
+    .db-name { font-size: 10px; fill: #555555; }
+    .small { font-size: 10px; fill: #555555; }
+  </style>
+
+  <rect width="800" height="450" fill="#F2EDE4"/>
+  <text x="400" y="28" text-anchor="middle" class="title">CAP 정리 — 분산 시스템은 셋 중 둘만 가질 수 있다</text>
+
+  <!-- Triangle -->
+  <polygon points="290,90 110,360 470,360" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+
+  <!-- Edges highlighted -->
+  <line x1="290" y1="90" x2="110" y2="360" stroke="#1A5CB5" stroke-width="4"/>
+  <line x1="290" y1="90" x2="470" y2="360" stroke="#E8962A" stroke-width="4"/>
+  <line x1="110" y1="360" x2="470" y2="360" stroke="#8A8A8A" stroke-width="4" stroke-dasharray="8,5"/>
+
+  <!-- Vertex C (top) -->
+  <circle cx="290" cy="90" r="42" fill="#002C5F"/>
+  <text x="290" y="84" text-anchor="middle" class="vertex">C</text>
+  <text x="290" y="98" text-anchor="middle" class="vertex-sub">Consistency</text>
+  <text x="290" y="110" text-anchor="middle" class="vertex-sub">일관성</text>
+  <text x="290" y="40" text-anchor="middle" class="small">모든 노드가 항상 같은 데이터를 보여준다</text>
+
+  <!-- Vertex A (bottom-left) -->
+  <circle cx="110" cy="360" r="42" fill="#002C5F"/>
+  <text x="110" y="354" text-anchor="middle" class="vertex">A</text>
+  <text x="110" y="368" text-anchor="middle" class="vertex-sub">Availability</text>
+  <text x="110" y="380" text-anchor="middle" class="vertex-sub">가용성</text>
+  <text x="110" y="422" text-anchor="middle" class="small">언제든 요청에 응답한다</text>
+
+  <!-- Vertex P (bottom-right) -->
+  <circle cx="470" cy="360" r="42" fill="#002C5F"/>
+  <text x="470" y="354" text-anchor="middle" class="vertex">P</text>
+  <text x="470" y="368" text-anchor="middle" class="vertex-sub">Partition</text>
+  <text x="470" y="380" text-anchor="middle" class="vertex-sub">Tolerance</text>
+  <text x="470" y="422" text-anchor="middle" class="small">네트워크가 끊겨도 동작한다</text>
+
+  <!-- Edge labels -->
+  <!-- CA edge (bottom is A-C left edge) : CP is C-P edge (right), AP is A-P (bottom) -->
+  <rect x="118" y="196" width="86" height="40" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.5" rx="5" transform="rotate(0)"/>
+  <text x="161" y="213" text-anchor="middle" class="edge-label" fill="#1A5CB5">CA</text>
+  <text x="161" y="228" text-anchor="middle" font-size="9" fill="#555555">분산 아님 (P 포기)</text>
+
+  <rect x="382" y="196" width="86" height="40" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.5" rx="5"/>
+  <text x="425" y="213" text-anchor="middle" class="edge-label" fill="#B45309">CP</text>
+  <text x="425" y="228" text-anchor="middle" font-size="9" fill="#555555">일관성 우선</text>
+
+  <rect x="247" y="340" width="86" height="40" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5" rx="5"/>
+  <text x="290" y="357" text-anchor="middle" class="edge-label" fill="#065F46">AP</text>
+  <text x="290" y="372" text-anchor="middle" font-size="9" fill="#555555">가용성 우선</text>
+
+  <!-- ===== Right panel: explanation ===== -->
+  <rect x="530" y="55" width="240" height="110" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5" rx="6"/>
+  <rect x="530" y="55" width="240" height="26" fill="#1A5CB5" rx="6"/>
+  <rect x="530" y="70" width="240" height="11" fill="#1A5CB5"/>
+  <text x="650" y="73" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">CA — 단일 노드 세계</text>
+  <text x="542" y="100" class="small">네트워크 분단이 없다고 가정</text>
+  <text x="542" y="118" class="small">= 사실상 분산 시스템이 아님</text>
+  <text x="542" y="140" class="db-name" font-weight="700" fill="#002C5F">단일 서버 MySQL · PostgreSQL</text>
+  <text x="542" y="155" class="db-name">Oracle (단일 인스턴스)</text>
+
+  <rect x="530" y="175" width="240" height="110" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5" rx="6"/>
+  <rect x="530" y="175" width="240" height="26" fill="#E8962A" rx="6"/>
+  <rect x="530" y="190" width="240" height="11" fill="#E8962A"/>
+  <text x="650" y="193" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">CP — 정확성이 생명일 때</text>
+  <text x="542" y="220" class="small">분단 시 일부 요청을 거부하더라도</text>
+  <text x="542" y="238" class="small">잘못된 데이터는 절대 보여주지 않음</text>
+  <text x="542" y="260" class="db-name" font-weight="700" fill="#002C5F">MongoDB(기본) · HBase</text>
+  <text x="542" y="275" class="db-name">Redis Cluster · Zookeeper · etcd</text>
+
+  <rect x="530" y="295" width="240" height="110" fill="#FFFFFF" stroke="#00AA6C" stroke-width="1.5" rx="6"/>
+  <rect x="530" y="295" width="240" height="26" fill="#00AA6C" rx="6"/>
+  <rect x="530" y="310" width="240" height="11" fill="#00AA6C"/>
+  <text x="650" y="313" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">AP — 서비스 지속이 생명일 때</text>
+  <text x="542" y="340" class="small">분단 시에도 일단 응답하고,</text>
+  <text x="542" y="358" class="small">데이터는 나중에 동기화 (Eventually)</text>
+  <text x="542" y="380" class="db-name" font-weight="700" fill="#002C5F">Cassandra · DynamoDB</text>
+  <text x="542" y="395" class="db-name">CouchDB · Riak</text>
+
+  <!-- Bottom key insight -->
+  <rect x="30" y="425" width="740" height="1" fill="none"/>
+  <rect x="55" y="432" width="0" height="0" fill="none"/>
+  <rect x="110" y="430" width="0" height="0" fill="none"/>
+  <text x="290" y="445" text-anchor="middle" font-size="11.5" font-weight="700" fill="#DC2626">현실에서 네트워크 장애(P)는 피할 수 없다 → 실질적 선택지는 CP vs AP 뿐!</text>
+</svg>

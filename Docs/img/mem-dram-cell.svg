@@ -1,0 +1,164 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .label { font-size: 11px; fill: #1A1A1A; }
+    .label-small { font-size: 10px; fill: #555555; }
+    .label-warn { font-size: 11px; fill: #DC2626; font-weight: 600; }
+    .section-title { font-size: 12px; font-weight: 700; fill: #002C5F; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="#F2EDE4"/>
+
+  <!-- Title -->
+  <text x="400" y="26" text-anchor="middle" class="title">DRAM 1T1C 셀 구조 — 왜 휘발성인가</text>
+
+  <!-- ===== LEFT: Cell Diagram ===== -->
+  <rect x="30" y="38" width="350" height="370" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="205" y="58" text-anchor="middle" class="section-title">DRAM 1T1C 셀 구조</text>
+
+  <!-- Word Line (horizontal) -->
+  <line x1="50" y1="180" x2="330" y2="180" stroke="#002C5F" stroke-width="2.5"/>
+  <text x="55" y="173" class="label" fill="#002C5F" font-weight="600">Word Line (WL)</text>
+
+  <!-- Bit Line (vertical) -->
+  <line x1="200" y1="60" x2="200" y2="380" stroke="#003F8A" stroke-width="2.5"/>
+  <text x="204" y="75" class="label" fill="#003F8A" font-weight="600">Bit Line (BL)</text>
+
+  <!-- NMOS Transistor symbol -->
+  <!-- Gate connected to WL at (160, 180) -->
+  <!-- Source/Drain: vertical channel from (200, 155) to (200, 205) -->
+  <!-- Gate line from WL to channel -->
+  <!-- Body rectangle -->
+  <rect x="183" y="155" width="8" height="50" fill="#1A1A1A" rx="1"/>
+  <!-- Gate insulator gap -->
+  <rect x="171" y="158" width="10" height="44" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1"/>
+  <!-- Gate line from WL -->
+  <line x1="130" y1="180" x2="171" y2="180" stroke="#1A1A1A" stroke-width="2"/>
+  <!-- Drain (top) to BL -->
+  <line x1="191" y1="160" x2="200" y2="160" stroke="#1A1A1A" stroke-width="2"/>
+  <!-- Source (bottom) to capacitor -->
+  <line x1="191" y1="200" x2="200" y2="200" stroke="#1A1A1A" stroke-width="2"/>
+  <!-- NMOS label -->
+  <text x="165" y="148" class="label" fill="#555555">NMOS</text>
+  <text x="155" y="160" class="label-small">트랜지스터 (스위치)</text>
+
+  <!-- Gate arrow indicator -->
+  <text x="120" y="196" class="label-small" fill="#002C5F">WL=HIGH →</text>
+  <text x="120" y="208" class="label-small" fill="#002C5F">트랜지스터 ON</text>
+
+  <!-- Capacitor (two parallel plates) -->
+  <!-- Connected below transistor source at (200, 200) -->
+  <line x1="200" y1="200" x2="200" y2="235" stroke="#1A1A1A" stroke-width="2"/>
+  <!-- Top plate -->
+  <rect x="155" y="235" width="90" height="10" fill="#003F8A" rx="2"/>
+  <!-- Space between plates -->
+  <rect x="160" y="248" width="80" height="14" fill="#E8EEF7" stroke="#D5CFBF" stroke-width="0.5"/>
+  <!-- Bottom plate -->
+  <rect x="155" y="262" width="90" height="10" fill="#003F8A" rx="2"/>
+  <!-- Ground from bottom plate -->
+  <line x1="200" y1="272" x2="200" y2="295" stroke="#1A1A1A" stroke-width="2"/>
+  <!-- Ground symbol -->
+  <line x1="180" y1="295" x2="220" y2="295" stroke="#1A1A1A" stroke-width="2"/>
+  <line x1="186" y1="301" x2="214" y2="301" stroke="#1A1A1A" stroke-width="1.5"/>
+  <line x1="192" y1="307" x2="208" y2="307" stroke="#1A1A1A" stroke-width="1"/>
+
+  <!-- Charge symbols inside capacitor -->
+  <text x="175" y="258" font-size="14" fill="#E8962A" font-weight="700" id="charge-sym">+ + +</text>
+  <text x="175" y="282" font-size="14" fill="#DC2626" font-weight="700">- - -</text>
+
+  <!-- Capacitor label -->
+  <text x="260" y="248" class="label" fill="#555555">캐패시터</text>
+  <text x="260" y="261" class="label" fill="#555555">(저장)</text>
+  <line x1="248" y1="253" x2="260" y2="253" stroke="#555555" stroke-width="1" stroke-dasharray="3,2"/>
+
+  <!-- Leakage current arrow -->
+  <path d="M 248 242 Q 280 220 285 255" fill="none" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <polygon points="284,255 290,262 278,260" fill="#DC2626"/>
+  <text x="260" y="315" class="label-warn" text-anchor="middle">누설 전류</text>
+  <text x="260" y="328" class="label-warn" text-anchor="middle">→ Refresh 필요</text>
+
+  <!-- Charge animation: pulsing opacity on charge symbols -->
+  <animateTransform attributeName="transform" type="translate" values="0,0;0,2;0,0" dur="2s" repeatCount="indefinite" href="#charge-sym"/>
+
+  <!-- Animated charge level bar on capacitor plate area -->
+  <rect x="161" y="249" width="78" height="12" fill="#E8EEF7"/>
+  <rect x="161" y="249" id="charge-bar" width="78" height="12" fill="#E8962A" opacity="0.6" rx="1">
+    <animate attributeName="width" values="78;20;78" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- ===== RIGHT: Refresh Timing Diagram ===== -->
+  <rect x="400" y="38" width="375" height="370" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="587" y="58" text-anchor="middle" class="section-title">DRAM Refresh 주기</text>
+
+  <!-- Decay curve chart area -->
+  <rect x="425" y="70" width="325" height="170" fill="#F8F8F8" stroke="#D5CFBF" stroke-width="1" rx="3"/>
+  <text x="587" y="86" text-anchor="middle" font-size="11" fill="#555555">캐패시터 전하량 vs 시간</text>
+
+  <!-- Y axis label -->
+  <text x="418" y="160" text-anchor="middle" font-size="10" fill="#555555" transform="rotate(-90,418,160)">전하량</text>
+  <!-- X axis label -->
+  <text x="587" y="252" text-anchor="middle" font-size="10" fill="#555555">시간 →</text>
+
+  <!-- Y axis -->
+  <line x1="440" y1="95" x2="440" y2="235" stroke="#1A1A1A" stroke-width="1"/>
+  <text x="435" y="100" text-anchor="end" font-size="9" fill="#555555">HIGH</text>
+  <text x="435" y="232" text-anchor="end" font-size="9" fill="#555555">LOW</text>
+  <!-- Threshold line -->
+  <line x1="440" y1="175" x2="740" y2="175" stroke="#DC2626" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="742" y="179" font-size="9" fill="#DC2626">임계값</text>
+
+  <!-- Decay and refresh cycles -->
+  <!-- Cycle 1: decay from 440,105 to about 480,175, then refresh spike -->
+  <path d="M 440,105 Q 455,108 468,145 Q 473,163 478,178" fill="none" stroke="#003F8A" stroke-width="2"/>
+  <!-- Refresh pulse 1 -->
+  <line x1="478" y1="178" x2="478" y2="105" stroke="#00AA6C" stroke-width="2"/>
+  <line x1="478" y1="105" x2="480" y2="105" stroke="#00AA6C" stroke-width="2"/>
+  <!-- Decay from refresh1 -->
+  <path d="M 480,105 Q 495,108 508,145 Q 513,163 518,178" fill="none" stroke="#003F8A" stroke-width="2"/>
+  <!-- Refresh pulse 2 -->
+  <line x1="518" y1="178" x2="518" y2="105" stroke="#00AA6C" stroke-width="2"/>
+  <line x1="518" y1="105" x2="520" y2="105" stroke="#00AA6C" stroke-width="2"/>
+  <!-- Decay from refresh2 -->
+  <path d="M 520,105 Q 535,108 548,145 Q 553,163 558,178" fill="none" stroke="#003F8A" stroke-width="2"/>
+  <!-- Refresh pulse 3 -->
+  <line x1="558" y1="178" x2="558" y2="105" stroke="#00AA6C" stroke-width="2"/>
+  <line x1="558" y1="105" x2="560" y2="105" stroke="#00AA6C" stroke-width="2"/>
+  <!-- Continue decay -->
+  <path d="M 560,105 Q 575,108 588,145 Q 593,163 598,178" fill="none" stroke="#003F8A" stroke-width="2"/>
+  <!-- Refresh pulse 4 -->
+  <line x1="598" y1="178" x2="598" y2="105" stroke="#00AA6C" stroke-width="2"/>
+  <line x1="598" y1="105" x2="600" y2="105" stroke="#00AA6C" stroke-width="2"/>
+  <!-- Final decay -->
+  <path d="M 600,105 Q 620,108 635,155 Q 640,170 645,178" fill="none" stroke="#003F8A" stroke-width="2"/>
+  <line x1="645" y1="178" x2="645" y2="105" stroke="#00AA6C" stroke-width="2"/>
+  <line x1="645" y1="105" x2="720" y2="105" stroke="#00AA6C" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- Refresh pulse labels -->
+  <text x="478" y="92" text-anchor="middle" font-size="9" fill="#00AA6C" font-weight="600">↑ Refresh</text>
+  <text x="558" y="92" text-anchor="middle" font-size="9" fill="#00AA6C" font-weight="600">↑ Refresh</text>
+  <text x="645" y="92" text-anchor="middle" font-size="9" fill="#00AA6C" font-weight="600">↑ Refresh</text>
+
+  <!-- Refresh interval brace -->
+  <line x1="478" y1="237" x2="558" y2="237" stroke="#E8962A" stroke-width="1.5"/>
+  <line x1="478" y1="233" x2="478" y2="241" stroke="#E8962A" stroke-width="1.5"/>
+  <line x1="558" y1="233" x2="558" y2="241" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="518" y="248" text-anchor="middle" font-size="10" fill="#E8962A" font-weight="600">Refresh 간격</text>
+
+  <!-- Labels and annotations below chart -->
+  <rect x="420" y="265" width="340" height="40" fill="#E8EEF7" rx="4"/>
+  <text x="590" y="281" text-anchor="middle" font-size="12" fill="#002C5F" font-weight="700">DRAM Refresh 주기: ~64ms</text>
+  <text x="590" y="297" text-anchor="middle" font-size="11" fill="#555555">일반 DRAM: 8,192 행 / 64ms = 매 7.8μs마다 한 행 Refresh</text>
+
+  <rect x="420" y="312" width="340" height="52" fill="#FFF0F0" stroke="#DC2626" stroke-width="1" rx="4"/>
+  <text x="590" y="328" text-anchor="middle" font-size="11.5" fill="#DC2626" font-weight="700">Refresh 동안 메모리 접근 불가 → 레이턴시 발생</text>
+  <text x="590" y="344" text-anchor="middle" font-size="10.5" fill="#555555">Refresh 동작: tRFC = 350~560ns (HBM3e 기준 더 빠름)</text>
+  <text x="590" y="358" text-anchor="middle" font-size="10.5" fill="#555555">전력 소비의 ~10~15%를 Refresh가 차지</text>
+
+  <!-- Why volatile explanation -->
+  <rect x="30" y="355" width="350" height="52" fill="#002C5F" rx="4"/>
+  <text x="205" y="372" text-anchor="middle" font-size="11.5" fill="#FFFFFF" font-weight="700">왜 DRAM은 휘발성(Volatile)인가?</text>
+  <text x="205" y="388" text-anchor="middle" font-size="10.5" fill="#E8EEF7">캐패시터 전하가 자연 방전 → 전원 차단 시 모든 데이터 소실</text>
+  <text x="205" y="402" text-anchor="middle" font-size="10.5" fill="#E8EEF7">SRAM은 플립플롭 → 전원 유지 시 유지 (but 면적 6배 큼)</text>
+</svg>

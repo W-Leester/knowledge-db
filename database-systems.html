@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>데이터베이스 완전 정리 — SQL · NoSQL · 그리고 그 너머</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 70%, var(--navy-500) 100%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--navy-300); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 42px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; color: rgba(255,255,255,.6); }
+#hero .sub { font-size: 16px; color: rgba(255,255,255,.75); max-width: 620px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border: 1px solid rgba(255,255,255,.3); border-radius: 100px; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.85); font-family: 'JetBrains Mono', monospace; }
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .18; pointer-events: none; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+
+/* ─── Badges & pills ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+.badge-purple { background: var(--purple-light); color: var(--purple); }
+.badge-gray { background: #F0EDE8; color: var(--text-secondary); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── DB type header cards ─── */
+.db-head {
+  display: flex; align-items: center; gap: var(--sp-4);
+  background: var(--navy-900); color:#fff; border-radius: var(--radius-md);
+  padding: var(--sp-4) var(--sp-6); margin: var(--sp-8) 0 var(--sp-4);
+}
+.db-head .icon-circle {
+  width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; background: rgba(255,255,255,.12);
+}
+.db-head h3 { margin: 0; color: #fff; font-size: 18px; }
+.db-head .rep { font-size: 12px; color: rgba(255,255,255,.65); font-family:'JetBrains Mono',monospace; margin-top:2px; }
+.db-head.c-redis { background: linear-gradient(120deg, #7f1d1d, var(--red)); }
+.db-head.c-mongo { background: linear-gradient(120deg, #064E3B, var(--green)); }
+.db-head.c-cass  { background: linear-gradient(120deg, var(--navy-900), var(--navy-500)); }
+.db-head.c-neo   { background: linear-gradient(120deg, #3b0764, var(--purple)); }
+
+/* pros/cons two-column */
+.pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); margin: var(--sp-4) 0; }
+.pc-box { border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6); font-size: 13.5px; }
+.pc-box.pros { background: var(--green-light); border: 1px solid #A7E3CC; }
+.pc-box.cons { background: var(--red-light); border: 1px solid #F5B5B5; }
+.pc-box h5 { font-size: 13px; font-weight: 700; margin-bottom: var(--sp-2); }
+.pc-box.pros h5 { color: #065F46; }
+.pc-box.cons h5 { color: var(--red); }
+.pc-box ul { padding-left: 18px; }
+.pc-box li { margin-bottom: 4px; color: var(--text-secondary); }
+
+/* ─── Selector tool ─── */
+#selector-tool {
+  background: var(--bg-secondary); border: 2px solid var(--navy-900);
+  border-radius: var(--radius-lg); padding: var(--sp-8); margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-md);
+}
+#selector-tool h3 { margin-top: 0; }
+.sel-questions { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin: var(--sp-4) 0; }
+.sel-btn {
+  padding: 10px 18px; border-radius: 100px; border: 1.5px solid var(--border-strong);
+  background: var(--bg-card); font-family: inherit; font-size: 13.5px; font-weight: 600;
+  color: var(--text-secondary); cursor: pointer; transition: all .18s;
+}
+.sel-btn:hover { border-color: var(--navy-500); color: var(--navy-900); transform: translateY(-1px); }
+.sel-btn.active { background: var(--navy-900); border-color: var(--navy-900); color: #fff; }
+#sel-result {
+  border-radius: var(--radius-md); padding: var(--sp-6); margin-top: var(--sp-4);
+  background: var(--navy-100); border-left: 5px solid var(--navy-900);
+  display: none; animation: fadeIn .3s ease;
+}
+#sel-result.show { display: block; }
+#sel-result .rec { font-size: 19px; font-weight: 800; color: var(--navy-900); font-family:'JetBrains Mono',monospace; margin-bottom: var(--sp-2); }
+#sel-result .why { font-size: 14px; color: var(--text-secondary); }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px);} to { opacity:1; transform:none; } }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }   /* 터치 타깃 확대 */
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2, .pros-cons { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; }
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #selector-tool { padding: var(--sp-4); }
+  .sel-btn { padding: 10px 14px; font-size: 12.5px; }
+  #lightbox { padding: 10px; }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>데이터베이스<br>완전 정리</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#rdbms">1. RDBMS — 관계형의 시대</a>
+    <a href="#nosql-why">2. NoSQL은 왜 등장했나</a>
+    <a href="#nosql-types">3. NoSQL 4대 유형</a>
+    <a href="#t-redis" class="sub">3-1. Redis (Key-Value)</a>
+    <a href="#t-mongo" class="sub">3-2. MongoDB (Document)</a>
+    <a href="#t-cassandra" class="sub">3-3. Cassandra (Column)</a>
+    <a href="#t-neo4j" class="sub">3-4. Neo4j (Graph)</a>
+    <a href="#modern">4. NewSQL & 전문화 시대</a>
+    <a href="#polyglot">5. Polyglot Persistence</a>
+    <a href="#storage">6. 스토리지 — S3 · CDN</a>
+    <a href="#baas">7. 클라우드 DB & BaaS</a>
+    <a href="#compare">8. 종합 비교 & 선택 가이드</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Software Engineering · Data Infrastructure</div>
+  <h1>데이터베이스 완전 정리<br><span class="thin">SQL · NoSQL · 그리고 그 너머</span></h1>
+  <p class="sub">1970년 관계형 모델의 탄생부터 웹 스케일이 만든 NoSQL 혁명, AI 시대의 벡터 DB,
+  그리고 파일이 사는 곳(S3·CDN)과 이 모든 것을 하나로 묶은 Supabase까지 —
+  왜 이렇게 다양해졌는지, 무엇을 언제 써야 하는지를 한 문서로 정리한다.</p>
+  <div class="tags">
+    <span class="tag">RDBMS</span><span class="tag">Redis</span><span class="tag">MongoDB</span>
+    <span class="tag">Cassandra</span><span class="tag">Neo4j</span><span class="tag">CAP</span>
+    <span class="tag">NewSQL</span><span class="tag">Vector DB</span>
+    <span class="tag">S3</span><span class="tag">CDN</span><span class="tag">Supabase</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — DB 세계의 지형도</h2>
+    <p>데이터베이스 55년사는 "무결성 → 확장성 → 적재적소"라는 세 시대로 요약된다</p>
+  </div>
+
+  <figure>
+    <img src="Docs/img/db-history-timeline.svg" alt="데이터베이스 진화 타임라인">
+    <figcaption>DB 진화의 3시대 — 각 시대를 지배한 가치가 다르다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="card-grid g4">
+    <div class="stat-card"><div class="stat-value">1970</div><div class="stat-label">관계형 모델 탄생<br>(E.F. Codd 논문)</div></div>
+    <div class="stat-card"><div class="stat-value">2006~07</div><div class="stat-label">Bigtable·Dynamo 논문<br>= NoSQL 빅뱅</div></div>
+    <div class="stat-card"><div class="stat-value">4</div><div class="stat-label">NoSQL 데이터 모델<br>KV·문서·컬럼·그래프</div></div>
+    <div class="stat-card"><div class="stat-value">400+</div><div class="stat-label">현존 DBMS 종류<br>(DB-Engines 등재 기준)</div></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>이 문서를 관통하는 하나의 질문 —</strong> "당신의 데이터는 <u>틀리면 안 되는가</u>(일관성), <u>멈추면 안 되는가</u>(가용성), <u>커져도 되는가</u>(확장성)?"
+    모든 DB는 이 세 가지 사이의 서로 다른 타협점이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. RDBMS ═══════════ -->
+<section id="rdbms">
+  <div class="section-header">
+    <div class="eyebrow">Relational Era</div>
+    <h2>1. RDBMS — 관계형 데이터베이스의 시대</h2>
+    <p>40년간 사실상 유일한 표준이었던, 그리고 여전히 기본값인 기술</p>
+  </div>
+
+  <h3><span class="num">A</span>관계형 이전 — 파일의 혼란, 그리고 두 번의 실패한 시도</h3>
+  <p class="body">데이터베이스가 없던 시절(1950~60년대), 데이터 저장의 유일한 수단은 <strong>파일</strong>이었다.
+  팀마다 엑셀·텍스트 파일을 하나씩 만들어 관리했고, 수백 건 규모에서는 그럭저럭 굴러갔다.
+  하지만 데이터가 쌓이면서 <strong>중복 · 불일치 · 검색 비효율 · 동시 수정 충돌</strong>이라는 4대 문제가 폭발했다 —
+  <em>"데이터는 쌓이는데 관리가 안 된다."</em></p>
+  <p class="body">그래서 저장 방식 자체를 새로 설계하려는 시도가 시작됐다. IBM이 주도한 <strong>계층형 DB</strong>(조직도 같은 트리 구조)는
+  위아래로만 움직일 수 있어 "이 직원이 참여한 모든 프로젝트는?" 같은 질문에 답하지 못했고,
+  이를 개선한 <strong>네트워크형 DB</strong>(그물 구조)는 유연해진 대신 데이터를 꺼내는 경로를 프로그래머가 일일이 코드로 정의해야 했다.
+  <strong>연결하려는 시도는 시작됐지만, 해답은 아니었다.</strong></p>
+
+  <figure>
+    <img src="Docs/img/db-prehistory.svg" alt="파일 시대의 문제와 계층형·네트워크형·관계형 DB의 진화">
+    <figcaption>파일의 혼란 → 트리 → 그물 → 표. 1970년 Codd의 "표로 저장하자"는 단순한 아이디어가 승리했다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">1970년 IBM의 수학자 <strong>에드거 커드(E.F. Codd)</strong>가 논문
+  <em>「대규모 공유 데이터 뱅크를 위한 관계형 데이터 모델」</em>로 판을 뒤집는다. 핵심 아이디어는 놀랄 만큼 단순했다 —
+  <strong>"데이터를 표(테이블)로 저장하자."</strong> 중복을 제거하는 <strong>정규화</strong>로 여러 테이블에 나누고,
+  영어처럼 읽히는 <strong>SQL</strong>로 질의하며, 표와 표는 <strong>JOIN</strong>으로 연결한다.
+  처음엔 "이론은 좋은데 실제로 빠를까?"라는 의심을 받았지만, 하드웨어 성능이 따라와 주면서 이후 50년을 지배하는 표준이 되었다.</p>
+
+  <h3><span class="num">B</span>ACID — 트랜잭션의 4대 보증</h3>
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">속성</th><th>의미</th><th>예시 — 계좌이체 10만원</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Atomicity<br><span style="font-weight:400;color:var(--text-muted)">원자성</span></td><td>전부 성공하거나 전부 실패. 중간 상태는 없다</td><td>출금만 되고 입금이 안 되는 상황은 발생 불가 — 실패 시 전체 롤백</td></tr>
+        <tr><td class="hl">Consistency<br><span style="font-weight:400;color:var(--text-muted)">일관성</span></td><td>트랜잭션 전후로 무결성 규칙이 항상 유지</td><td>"잔액 ≥ 0" 제약을 위반하는 트랜잭션은 커밋 거부</td></tr>
+        <tr><td class="hl">Isolation<br><span style="font-weight:400;color:var(--text-muted)">고립성</span></td><td>동시 실행되는 트랜잭션이 서로 간섭하지 않음</td><td>내 이체가 진행되는 동안 다른 조회는 중간값을 보지 못함</td></tr>
+        <tr><td class="hl">Durability<br><span style="font-weight:400;color:var(--text-muted)">지속성</span></td><td>커밋된 데이터는 장애에도 살아남음</td><td>커밋 직후 정전이 나도 재기동 시 이체 기록 유지 (WAL 로그)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="num">C</span>대표 제품 계보</h3>
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th>제품</th><th>포지션</th><th>특징</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Oracle</td><td><span class="badge badge-blue">엔터프라이즈</span></td><td>금융권·대기업 표준. 기능·안정성 최강, 라이선스 비용도 최강</td></tr>
+        <tr><td class="hl">MySQL / MariaDB</td><td><span class="badge badge-green">웹 서비스</span></td><td>웹 시대의 표준. Oracle의 MySQL 인수 후 원 개발자가 MariaDB로 포크</td></tr>
+        <tr><td class="hl">PostgreSQL</td><td><span class="badge badge-amber">떠오르는 왕</span></td><td>JSONB·GIS·전문검색·pgvector 등 확장 생태계 강력 — <strong>"웬만하면 Postgres"</strong>라는 말의 주인공</td></tr>
+        <tr><td class="hl">SQL Server</td><td><span class="badge badge-blue">MS 진영</span></td><td>.NET·Windows 환경과 최적 궁합, BI 도구 연동 우수</td></tr>
+        <tr><td class="hl">SQLite</td><td><span class="badge badge-purple">임베디드</span></td><td>서버 없이 <strong>파일 하나</strong>로 동작. 모바일·브라우저 등 지구상 최다 배포 DB</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pros-cons">
+    <div class="pc-box pros">
+      <h5>✓ RDBMS의 강점</h5>
+      <ul>
+        <li>데이터 무결성 — 스키마 + 제약조건 + ACID</li>
+        <li>복잡한 JOIN·집계·서브쿼리 자유자재</li>
+        <li>SQL = 40년 검증된 표준, 인력·도구 풍부</li>
+        <li>트랜잭션이 필요한 모든 업무의 기본값</li>
+      </ul>
+    </div>
+    <div class="pc-box cons">
+      <h5>✗ RDBMS의 한계</h5>
+      <ul>
+        <li><strong>수평 확장(scale-out)이 어렵다</strong> — 분산 JOIN·분산 트랜잭션의 비용</li>
+        <li>스키마 변경이 무겁다 (ALTER TABLE의 공포)</li>
+        <li>초대량 쓰기 트래픽에서 병목</li>
+        <li>비정형 데이터(로그·SNS·센서)와 안 맞음</li>
+      </ul>
+    </div>
+  </div>
+
+  <details class="acc">
+    <summary>심화 — 정규화란 정확히 무엇인가</summary>
+    <div class="acc-body">
+      <p>정규화는 <strong>"하나의 사실은 한 곳에만 저장한다"</strong>는 원칙이다. 고객 주소가 주문 테이블에 100번 복사돼 있으면, 이사할 때 100곳을 고쳐야 하고 한 곳이라도 놓치면 데이터가 모순된다(갱신 이상).
+      그래서 고객 정보는 <code class="mono">customers</code>에 한 번만 두고, 주문은 <code class="mono">customer_id</code>로 참조한다.</p>
+      <p>대가는 조회 시 JOIN 비용이다. NoSQL(특히 문서 DB)은 정반대로 <strong>비정규화(중복 허용)</strong>를 기본 전략으로 삼아 조회를 빠르게 하는 대신, 갱신 시 여러 곳을 손봐야 하는 부담을 응용 프로그램이 진다. — 정규화 vs 비정규화는 "쓰기 편의 vs 읽기 성능"의 트레이드오프다.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ═══════════ 2. WHY NOSQL ═══════════ -->
+<section id="nosql-why">
+  <div class="section-header">
+    <div class="eyebrow">Web-Scale Revolution</div>
+    <h2>2. NoSQL은 왜 등장했나</h2>
+    <p>2000년대 구글·아마존이 부딪힌 벽 — 그리고 CAP 정리라는 물리 법칙</p>
+  </div>
+
+  <p class="body">2000년대 중반, 구글·아마존·페이스북의 데이터가 <strong>한 대의 서버로는 감당 불가능한 규모</strong>가 되었다.
+  해법은 수천 대의 값싼 서버에 데이터를 나눠 담는 것(scale-out)인데, 문제는 <strong>RDBMS의 JOIN과 ACID가 여러 서버에 걸쳐서는 극도로 느리고 어렵다</strong>는 점이었다.</p>
+
+  <figure>
+    <img src="Docs/img/db-scaleup-vs-scaleout.svg" alt="Scale-Up vs Scale-Out">
+    <figcaption>확장 전략의 분기점 — 이 그림 하나가 NoSQL 탄생의 이유다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="callout amber">
+    <span class="icon">📜</span>
+    <div><strong>NoSQL 빅뱅을 일으킨 두 논문 —</strong> <u>Google Bigtable (2006)</u>은 HBase·Cassandra의 컬럼 모델의 아버지,
+    <u>Amazon Dynamo (2007)</u>는 DynamoDB·Cassandra의 분산 링 구조의 어머니가 되었다. 현대 NoSQL 대부분이 이 두 논문의 후손이다.</div>
+  </div>
+
+  <h3><span class="num">D</span>CAP 정리 — 분산 시스템의 물리 법칙</h3>
+  <p class="body">2000년 에릭 브루어(Eric Brewer)가 제시한 정리: 분산 시스템은 <strong>일관성(C)·가용성(A)·분단내성(P)</strong> 중
+  <strong>둘만</strong> 온전히 가질 수 있다. 네트워크 장애(P)는 현실에서 피할 수 없으므로, 실질적 선택은 <strong>CP vs AP</strong>다.</p>
+
+  <figure>
+    <img src="Docs/img/db-cap-theorem.svg" alt="CAP 정리">
+    <figcaption>CAP 삼각형 — 각 DB가 어느 변에 서 있는지가 그 DB의 성격을 결정한다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <h3><span class="num">E</span>ACID vs BASE — 철학의 대립</h3>
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:110px"></th><th>ACID (RDBMS 진영)</th><th>BASE (NoSQL 진영)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">풀네임</td><td>Atomicity · Consistency · Isolation · Durability</td><td><strong>B</strong>asically <strong>A</strong>vailable · <strong>S</strong>oft state · <strong>E</strong>ventually consistent</td></tr>
+        <tr><td class="hl">일관성</td><td>강한 일관성 — 커밋 즉시 모두가 같은 값을 봄</td><td>최종적 일관성 — 잠시 노드마다 다를 수 있으나 <em>결국</em> 일치</td></tr>
+        <tr><td class="hl">우선 가치</td><td>정확성 — "틀린 데이터를 보여주느니 멈춘다"</td><td>가용성 — "일단 응답하고 나중에 맞춘다"</td></tr>
+        <tr><td class="hl">어울리는 데이터</td><td>돈 · 재고 · 예약 · 계약</td><td>좋아요 수 · 조회수 · 로그 · 타임라인</td></tr>
+        <tr><td class="hl">비유</td><td>은행 장부</td><td>SNS 피드</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">💡</span>
+    <div><strong>직관적 예시 —</strong> 인스타그램 좋아요 수가 나에겐 1,204개, 친구에겐 1,203개로 3초간 다르게 보여도 아무 문제 없다(BASE로 충분).
+    하지만 내 계좌 잔액이 기기마다 다르게 보이면 재앙이다(ACID 필수). <strong>데이터의 성격이 DB를 결정한다.</strong></div>
+  </div>
+</section>
+
+<!-- ═══════════ 3. NOSQL 4 TYPES ═══════════ -->
+<section id="nosql-types">
+  <div class="section-header">
+    <div class="eyebrow">NoSQL Taxonomy</div>
+    <h2>3. NoSQL 4대 유형 — 저장 구조가 곧 정체성</h2>
+    <p>Key-Value · Document · Column-Family · Graph — 무엇을 최적화했는지가 다르다</p>
+  </div>
+
+  <figure>
+    <img src="Docs/img/db-nosql-models.svg" alt="NoSQL 4대 데이터 모델">
+    <figcaption>4가지 데이터 모델 비교 — 각자 "잘하는 질문"이 완전히 다르다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <!-- ── 3-1 Redis ── -->
+  <div class="db-head c-redis" id="t-redis">
+    <div class="icon-circle">⚡</div>
+    <div>
+      <h3>3-1. Key-Value — Redis</h3>
+      <div class="rep">Redis · DynamoDB · Memcached · etcd</div>
+    </div>
+  </div>
+
+  <p class="body">거대한 해시맵(딕셔너리)이다. <strong>Key로만 조회</strong>하는 대신 O(1)에 가까운 속도를 얻는다.
+  Redis는 여기에 <strong>인메모리(RAM)</strong>라는 무기를 더해 <strong>마이크로초~밀리초 응답</strong>을 실현한다 — 디스크 DB 대비 100~1,000배.</p>
+
+  <figure>
+    <img src="Docs/img/db-redis-cache.svg" alt="Redis Cache-Aside 패턴">
+    <figcaption>Cache-Aside 패턴 — "MySQL이 본 저장소, Redis가 그 앞의 방패"는 웹 서비스의 표준 구성 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="card-grid">
+    <div class="card"><h4>🗂 단순 캐시만이 아니다</h4><p>String 외에 List·Set·<strong>Sorted Set</strong>(실시간 랭킹)·Hash·Stream(경량 메시지 큐) 등 자료구조를 서버 차원에서 제공한다. "자료구조 서버"라 불리는 이유.</p></div>
+    <div class="card"><h4>⏱ TTL — 스스로 사라지는 데이터</h4><p>키마다 만료 시간을 설정 가능. 세션(30분), 인증코드(3분), 캐시(60초)처럼 <strong>수명이 있는 데이터</strong>에 이상적이다.</p></div>
+    <div class="card"><h4>⚠️ 약점</h4><p>메모리 크기 = 비용. 복잡한 질의·검색 불가. 기본은 휘발성이므로 원본 저장소로 쓰려면 AOF/RDB 영속화 설정 필요.</p></div>
+  </div>
+
+  <!-- ── 3-2 MongoDB ── -->
+  <div class="db-head c-mongo" id="t-mongo">
+    <div class="icon-circle">📄</div>
+    <div>
+      <h3>3-2. Document — MongoDB</h3>
+      <div class="rep">MongoDB · CouchDB · Firestore</div>
+    </div>
+  </div>
+
+  <p class="body">JSON(내부적으로 BSON) 문서 단위로 저장한다. RDBMS라면 여러 테이블 + JOIN이 필요한 데이터를
+  <strong>문서 하나에 중첩</strong>해 담고, <strong>문서마다 구조가 달라도 된다</strong>. 조회가 직관적이고 스키마 진화가 자유롭다.</p>
+
+  <pre class="code"><span class="title-bar">같은 데이터, 두 가지 표현 — RDBMS vs MongoDB</span><span class="c">-- RDBMS: 2개 테이블 + JOIN</span>
+<span class="k">SELECT</span> u.name, o.item, o.price
+<span class="k">FROM</span> users u <span class="k">JOIN</span> orders o <span class="k">ON</span> u.id = o.user_id
+<span class="k">WHERE</span> u.id = <span class="s">1001</span>;
+
+<span class="c">// MongoDB: 문서 하나로 끝 — JOIN 없음</span>
+db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
+<span class="c">// → { name: "원영", orders: [ {item:"키보드", price:120000},</span>
+<span class="c">//                            {item:"모니터", price:350000} ], vip: true }</span></pre>
+
+  <div class="pros-cons">
+    <div class="pc-box pros">
+      <h5>✓ 어울리는 곳</h5>
+      <ul>
+        <li>상품 카탈로그 — 상품마다 속성이 제각각</li>
+        <li>CMS·게시판 등 콘텐츠 저장</li>
+        <li>스키마가 계속 바뀌는 초기 스타트업/프로토타입</li>
+        <li>객체(JSON) 그대로 저장하고 싶은 API 백엔드</li>
+      </ul>
+    </div>
+    <div class="pc-box cons">
+      <h5>✗ 주의할 점</h5>
+      <ul>
+        <li>비정규화(중복)가 기본 → 갱신 시 여러 문서 수정 부담</li>
+        <li>문서 간 JOIN($lookup)은 약하고 느림</li>
+        <li>"스키마가 없다" ≠ "설계가 필요 없다" — 오히려 접근 패턴 기반 설계가 중요</li>
+        <li>다중 문서 트랜잭션은 4.0+부터 지원되나 RDBMS보다 비쌈</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── 3-3 Cassandra ── -->
+  <div class="db-head c-cass" id="t-cassandra">
+    <div class="icon-circle">🌐</div>
+    <div>
+      <h3>3-3. Column-Family — Cassandra</h3>
+      <div class="rep">Cassandra · ScyllaDB · HBase · Bigtable</div>
+    </div>
+  </div>
+
+  <p class="body">Bigtable(컬럼 모델) + Dynamo(분산 링)의 자식. <strong>마스터가 없는 P2P 링 구조</strong>로 모든 노드가 동등하며,
+  노드를 추가하면 용량·처리량이 <strong>선형으로 증가</strong>한다. LSM-Tree 저장 구조 덕에 <strong>쓰기 성능이 압도적</strong>이다.</p>
+
+  <figure>
+    <img src="Docs/img/db-cassandra-ring.svg" alt="Cassandra 링 아키텍처">
+    <figcaption>마스터리스 링 + 튜닝 가능한 일관성 — AP 진영의 대표 아키텍처 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="callout red">
+    <span class="icon">🎯</span>
+    <div><strong>가장 큰 함정 —</strong> Cassandra는 JOIN도, 즉석(ad-hoc) 쿼리도 없다. <strong>"어떤 쿼리를 할지 먼저 정하고, 그 쿼리에 맞춰 테이블을 설계"</strong>해야 한다
+    (Query-First Design). RDBMS 사고방식으로 접근하면 반드시 실패하는 DB다.</div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><h4>💬 Discord</h4><p>수조(trillions) 건의 채팅 메시지를 Cassandra → ScyllaDB로 저장. 채널ID+시간 기반 파티셔닝.</p></div>
+    <div class="card"><h4>🎬 Netflix</h4><p>시청 기록·북마크를 글로벌 멀티 리전 Cassandra에 저장 — 어느 리전이 죽어도 시청은 계속된다.</p></div>
+    <div class="card"><h4>📡 IoT / 시계열</h4><p>초당 수십만 건 센서 데이터 수집. 쓰기 폭주 + 무중단이 요구 조건일 때 최우선 후보.</p></div>
+  </div>
+
+  <!-- ── 3-4 Neo4j ── -->
+  <div class="db-head c-neo" id="t-neo4j">
+    <div class="icon-circle">🕸</div>
+    <div>
+      <h3>3-4. Graph — Neo4j</h3>
+      <div class="rep">Neo4j · Amazon Neptune · ArangoDB · Memgraph</div>
+    </div>
+  </div>
+
+  <p class="body">노드(정점)와 <strong>관계(간선) 자체를 일급 데이터</strong>로 저장한다. 각 노드가 이웃의 물리적 포인터를 직접 들고 있어
+  (<strong>Index-Free Adjacency</strong>), 관계를 따라가는 비용이 <strong>전체 데이터 크기와 무관</strong>하다 — RDBMS의 자기 JOIN과 결정적으로 다른 점.</p>
+
+  <figure>
+    <img src="Docs/img/db-graph-vs-join.svg" alt="Graph DB vs RDBMS JOIN">
+    <figcaption>"친구의 친구" 문제 — 관계 깊이가 깊어질수록 격차는 수십~수백 배로 벌어진다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <pre class="code"><span class="title-bar">Cypher — Neo4j의 질의 언어 (관계를 화살표로 그린다)</span><span class="c">// 친구 추천: 원영의 친구의 친구 중, 아직 원영과 친구가 아닌 사람</span>
+<span class="k">MATCH</span> (me:Person {name:<span class="s">'원영'</span>})-[:FRIEND]->()-[:FRIEND]->(fof)
+<span class="k">WHERE NOT</span> (me)-[:FRIEND]->(fof) <span class="k">AND</span> me &lt;&gt; fof
+<span class="k">RETURN</span> fof.name, <span class="f">count</span>(*) <span class="k">AS</span> mutualFriends
+<span class="k">ORDER BY</span> mutualFriends <span class="k">DESC</span></pre>
+
+  <div class="card-grid">
+    <div class="card"><h4>🚨 사기 탐지 (FDS)</h4><p>서로 다른 계좌들이 같은 기기·IP·전화번호로 연결된 고리를 실시간 탐지 — 은행·핀테크의 핵심 활용처.</p></div>
+    <div class="card"><h4>🤝 추천 엔진</h4><p>"이 상품을 산 사람들이 함께 산 상품" — 구매 그래프를 2~3 hop 탐색하는 문제.</p></div>
+    <div class="card"><h4>🧠 지식 그래프</h4><p>개체 간 관계망(인물-사건-장소). 최근엔 LLM + GraphRAG의 기반 저장소로 재조명.</p></div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. MODERN ═══════════ -->
+<section id="modern">
+  <div class="section-header">
+    <div class="eyebrow">Post-NoSQL Era</div>
+    <h2>4. NewSQL과 전문화의 시대</h2>
+    <p>"ACID도, scale-out도 포기 못 해" — 그리고 용도별 전문 DB의 폭발</p>
+  </div>
+
+  <h3><span class="num">F</span>NewSQL — 분산 환경에서 ACID 되살리기</h3>
+  <p class="body">NoSQL이 포기했던 트랜잭션을 분산 아키텍처 위에서 복원한 세대.
+  구글이 <strong>원자시계 + GPS</strong>로 전 지구적 트랜잭션 순서를 보장한 <strong>Spanner(2012)</strong>가 출발점이며,
+  <strong>CockroachDB · TiDB · YugabyteDB</strong>가 그 오픈소스 후예다. 대부분 PostgreSQL/MySQL 호환 인터페이스를 제공해 이전 장벽을 낮췄다.</p>
+
+  <h3><span class="num">G</span>OLTP vs OLAP — 행 저장과 열 저장</h3>
+  <figure>
+    <img src="Docs/img/db-row-vs-column.svg" alt="행 저장 vs 열 저장">
+    <figcaption>같은 테이블, 다른 물리 배치 — 거래 처리와 분석이 서로 다른 DB를 쓰는 이유 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <h3><span class="num">H</span>특수 목적 DB 전성시대</h3>
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th>유형</th><th>대표 제품</th><th>무엇에 최적화됐나</th><th>대표 용도</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">검색 엔진</td><td class="mono">Elasticsearch, OpenSearch</td><td>역색인(Inverted Index) 기반 전문 검색</td><td>상품 검색, 자동완성, 로그 분석(ELK)</td></tr>
+        <tr><td class="hl">시계열 DB</td><td class="mono">InfluxDB, TimescaleDB, Prometheus</td><td>시간축 압축·다운샘플링·보존정책 내장</td><td>서버 메트릭, IoT 센서, <strong>주가·분봉 데이터</strong></td></tr>
+        <tr><td class="hl">벡터 DB</td><td class="mono">Pinecone, Milvus, Qdrant, pgvector</td><td>고차원 임베딩의 근사 최근접(ANN) 검색</td><td>RAG, 유사 이미지·문서 검색, 추천</td></tr>
+        <tr><td class="hl">분석 컬럼 DB</td><td class="mono">ClickHouse, BigQuery, Snowflake</td><td>열 저장 + 벡터화 실행 = 초고속 집계</td><td>대시보드, 수십억 행 애드혹 분석</td></tr>
+        <tr><td class="hl">임베디드 분석</td><td class="mono">DuckDB</td><td>"분석계의 SQLite" — 설치 없는 로컬 OLAP</td><td>Parquet/CSV 직접 쿼리, Pandas 대체, 백테스트</td></tr>
+        <tr><td class="hl">메시지 로그</td><td class="mono">Kafka</td><td>추가 전용(append-only) 분산 로그</td><td>이벤트 스트리밍, DB 간 동기화(CDC)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">📈</span>
+    <div><strong>주식 데이터 프로젝트에 적용하면 —</strong> 분봉 수집·저장은 <strong>SQLite</strong>(단일 파일, 설치 불요),
+    대량 백테스트 분석은 <strong>DuckDB + Parquet</strong>(열 저장 · 압축 · 집계 속도)이 로컬 환경 최적 조합이다.
+    규모가 커져 실시간 수집 서버를 두게 되면 그때 TimescaleDB를 검토하면 된다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. POLYGLOT ═══════════ -->
+<section id="polyglot">
+  <div class="section-header">
+    <div class="eyebrow">Architecture Pattern</div>
+    <h2>5. Polyglot Persistence — 조합의 기술</h2>
+    <p>"만능 DB는 없다" — 현대 대규모 서비스의 표준 설계 철학</p>
+  </div>
+
+  <p class="body">하나의 DB로 모든 문제를 풀려던 시대는 끝났다. 현대의 대규모 서비스는 <strong>데이터의 성격별로 최적의 저장소를 조합</strong>한다.
+  아래는 전형적인 이커머스의 실제 구성이다.</p>
+
+  <figure>
+    <img src="Docs/img/db-polyglot.svg" alt="Polyglot Persistence 아키텍처">
+    <figcaption>요청의 성격에 따라 서로 다른 DB로 — 원본(MySQL)의 변경은 CDC/Kafka로 파생 저장소에 전파 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="callout red">
+    <span class="icon">⚖️</span>
+    <div><strong>공짜가 아니다 —</strong> DB가 늘수록 운영 부담(백업·모니터링·버전업)과 <strong>저장소 간 정합성 문제</strong>가 커진다.
+    그래서 실무 원칙은: <strong>"기본은 PostgreSQL 하나로 시작하고, 특정 요구(검색·캐시·규모)가 <u>측정으로 증명될 때만</u> 전문 DB를 추가한다."</strong>
+    요즘 Postgres는 JSONB(문서)·pgvector(벡터)·전문검색까지 흡수해 중소 규모에선 혼자 다 커버한다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. STORAGE ═══════════ -->
+<section id="storage">
+  <div class="section-header">
+    <div class="eyebrow">Object Storage · CDN</div>
+    <h2>6. 스토리지 — 파일은 어디에 사는가</h2>
+    <p>DB와는 완전히 다른 세계 — 이미지·영상·문서가 저장되고 전달되는 방식</p>
+  </div>
+
+  <p class="body">지금까지는 <strong>구조화된 데이터</strong>(텍스트·숫자·관계)의 이야기였다. 그런데 서비스에는 또 다른 종류의 데이터가 있다 —
+  이미지·영상·문서 같은 <strong>바이너리 파일</strong>이다. 웹 초창기의 데이터는 몇 KB짜리 텍스트가 전부였지만,
+  사진(수 MB)과 영상(수백 MB)이 들어오고, 결정적으로 <strong>파일을 만드는 주체가 개발자가 아니라 사용자가 되면서</strong>
+  (게시판 첨부, 프로필 사진, SNS에 매일 올라오는 수억 장의 사진) 파일 저장은 서비스 전체의 문제가 되었다.</p>
+
+  <h3><span class="num">I</span>서버 직접 저장의 한계 → 객체 스토리지(S3)의 발명</h3>
+  <p class="body">초창기에는 웹 서버 안에 <code class="mono">/uploads</code> 폴더를 만들어 파일을 넣고, DB에는 그 경로를 저장했다
+  (워드프레스는 지금도 이 구조를 쓴다). 소규모에선 통하지만, 서버가 죽으면 파일도 함께 사라지고, 서버를 늘리는 순간
+  "어느 서버에 어느 파일이 있나" 지옥이 열리며, 트래픽이 몰리면 파일 전송이 서버 본업을 마비시킨다.
+  2006년 <strong>Amazon S3</strong>가 이 문제를 정면으로 해결했다 — <strong>"파일 저장을 서버에서 떼어내라."</strong></p>
+
+  <figure>
+    <img src="Docs/img/db-object-storage.svg" alt="서버 직접 저장 vs S3 객체 스토리지">
+    <figcaption>파일을 "경로"가 아니라 "객체"로 보는 발상의 전환이 무제한 확장을 가능하게 했다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:140px">객체 스토리지 개념</th><th style="width:110px">비유</th><th>설명</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">버킷 (Bucket)</td><td>창고</td><td>파일들을 담는 큰 저장 공간. 프로젝트/서비스당 하나씩 만드는 게 보통</td></tr>
+        <tr><td class="hl">객체 (Object)</td><td>박스</td><td>저장되는 파일 하나하나 — 사진 한 장, 영상 하나, 문서 하나</td></tr>
+        <tr><td class="hl">키 (Key)</td><td>박스 이름</td><td><code class="mono">users/123/profile.jpg</code> — 폴더처럼 보이지만 슬래시(/)는 그냥 <strong>이름의 일부</strong>. 폴더 계층이 없어서 경로 탐색 없이 키로 바로 접근하고, 수천 대 서버에 분산하기 쉽다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🛡</span>
+    <div><strong>내구성 11-nines —</strong> S3는 파일 손상 확률 기준 <strong>99.999999999%</strong>(9가 11개)의 내구성을 설계 목표로 한다.
+    파일 하나가 여러 서버에 자동 복제되므로 서버 몇 대가 고장 나도 파일은 살아있다. 용량도 사실상 무제한 —
+    파일을 던지면 URL이 나온다. 그게 전부다.</div>
+  </div>
+
+  <h3><span class="num">J</span>CDN과 접근 권한 — 저장과 전달은 다른 문제</h3>
+  <p class="body">S3에 저장했다고 끝이 아니다. 원본 서버가 미국에 있으면 한국 사용자의 요청은 태평양을 왕복해야 한다.
+  <strong>CDN(Content Delivery Network)</strong>은 같은 파일을 전 세계 <strong>엣지 서버</strong>(서울·도쿄·런던…)에 미리 복사(캐싱)해 두고,
+  사용자에게 가장 가까운 곳에서 전달해 <strong>지연 시간(Latency)</strong>을 극적으로 줄인다.
+  그리고 모든 파일이 공개여선 안 되므로, 접근 권한이 함께 설계된다.</p>
+
+  <figure>
+    <img src="Docs/img/db-cdn-presigned.svg" alt="CDN 엣지 서버와 Presigned URL">
+    <figcaption>전달(CDN)과 접근 제어(Public·Private·Presigned URL)까지가 스토리지 시스템의 완성이다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="callout amber">
+    <span class="icon">🎟</span>
+    <div><strong>Presigned URL = 영화표 —</strong> Private 파일을 보여줘야 할 때, 서버가 "이 사람은 볼 권한이 있다"고 서명한
+    <strong>시간제한 임시 URL</strong>을 발급한다. 그 영화, 그 시간, 그 좌석에만 유효한 입장권처럼 — 10분이 지나면 그 URL로는 더 이상 파일을 볼 수 없다.</div>
+  </div>
+
+  <h3><span class="num">K</span>실전 — 사진 한 장의 전체 여정</h3>
+  <p class="body">인스타그램에 사진을 올리는 순간부터 다른 사용자 화면에 뜨기까지, DB와 스토리지가 어떻게 역할을 나누는지 따라가 보자.</p>
+
+  <figure>
+    <img src="Docs/img/db-upload-flow.svg" alt="사진 업로드부터 조회까지 7단계 흐름">
+    <figcaption>업로드 5단계 + 조회 2단계 — DB에는 URL만, 파일은 스토리지에, 전달은 CDN이 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="callout red">
+    <span class="icon">⚠️</span>
+    <div><strong>철칙: 파일은 DB에 절대 저장하지 않는다 —</strong> DB는 텍스트·숫자·짧은 주소에 최적화된 도구다.
+    이미지를 DB에 넣으면 들어는 가지만 백업·복제·쿼리 전부가 무거워지며 시스템 전체가 느려진다.
+    <strong>파일 → 스토리지에, DB → 파일의 위치(URL)만.</strong> 이것이 현대 웹 서비스의 기본 원칙이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 7. CLOUD DB & BAAS ═══════════ -->
+<section id="baas">
+  <div class="section-header">
+    <div class="eyebrow">Managed · Serverless · BaaS</div>
+    <h2>7. 클라우드 DB & BaaS — Supabase의 시대</h2>
+    <p>"DB는 설치하는 게 아니라 전기처럼 꽂아 쓰는 것" — 그리고 DB·스토리지·인증의 통합</p>
+  </div>
+
+  <h3><span class="num">L</span>관리형 DB와 서버리스 — 설치의 종말</h3>
+  <p class="body">2010년대 이전까지 DB는 전부 <strong>직접 설치하는 것</strong>이었다. 서버를 사거나 빌리고, MySQL을 설치·설정하고,
+  업데이트·백업·용량 증설을 직접 했다 — 이것이 <strong>DBA(데이터베이스 관리자)</strong>라는 전문 직군의 일이었다.
+  클라우드가 이걸 대신하겠다고 나선 것이 <strong>관리형 DB</strong>다.</p>
+
+  <div class="card-grid">
+    <div class="card"><h4>☁️ AWS RDS</h4><p>MySQL·PostgreSQL을 AWS가 미리 만들어 놓은 상태로 제공. 백업·업데이트·용량 관리를 전부 AWS가 알아서 한다. "설치"가 "생성 버튼 클릭"이 됐다.</p></div>
+    <div class="card"><h4>🔥 Google Firebase</h4><p>한 발 더 나아가 설정 거의 없이 <strong>앱에서 DB를 바로 연결</strong>. 서버 코드를 거의 안 짜도 앱이 만들어졌다 — 2010년대 중반 프런트엔드 개발자들의 표준 선택지.</p></div>
+    <div class="card"><h4>⚡ 서버리스의 진짜 의미</h4><p>서버가 없다는 뜻이 아니다 — 서버는 있는데 <strong>개발자가 신경 쓰지 않아도 된다</strong>는 뜻. 발전기를 직접 돌리지 않고 콘센트에 꽂아 쓰는 전기처럼, DB가 인프라에서 유틸리티가 됐다.</p></div>
+  </div>
+
+  <h3><span class="num">M</span>Firebase의 한계, 그리고 Supabase</h3>
+  <p class="body">2010년대 후반, React 보편화로 프런트엔드 개발자가 폭증했다. 이들이 서비스를 만들려면 결국 DB·인증·API가 필요한데,
+  로그인 하나 제대로 만드는 데만 상당한 절차(JWT 등)가 든다. 스타트업도 마찬가지 — <strong>"DB보다 제품 개발 속도가 더 중요해졌다."</strong>
+  Firebase가 이 요구를 먼저 잡았지만 약점이 있었다: DB가 <strong>NoSQL 기반</strong>이라 복잡한 관계·정교한 쿼리가 어렵고, 구글 독점 서비스라 정책 변경에 종속된다.
+  그래서 2020년 <strong>Supabase</strong>가 등장한다 — <em>"Firebase처럼 편하게, 그런데 제대로 된 SQL(PostgreSQL)로."</em></p>
+
+  <figure>
+    <img src="Docs/img/db-baas-supabase.svg" alt="조립식 클라우드 vs Supabase 통합 스택">
+    <figcaption>서비스를 하나씩 조립하던 시대 → 필요한 것들이 처음부터 연결돼 있는 시대 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px"></th><th>Firebase (Google)</th><th>Supabase (2020~)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">데이터베이스</td><td>NoSQL (문서 기반)</td><td><strong>PostgreSQL</strong> — 표 · JOIN · 관계 설계 자유</td></tr>
+        <tr><td class="hl">쿼리</td><td>제한적 — 복잡한 조건 조회가 어려움</td><td>SQL 전부 사용 가능 — 어떤 쿼리도 OK</td></tr>
+        <tr><td class="hl">소유 구조</td><td>구글 독점 — 정책 바뀌면 따라가야 함</td><td><strong>오픈소스</strong> — 코드 공개, 셀프 호스팅 가능</td></tr>
+        <tr><td class="hl">스토리지</td><td>Cloud Storage 연동</td><td>S3 구조 기반 + <strong>RLS로 DB 사용자와 권한 연동</strong></td></tr>
+        <tr><td class="hl">한 줄 요약</td><td>서버 없는 앱 개발의 개척자</td><td>개척자의 편리함 + 제대로 된 SQL</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card-grid">
+    <div class="card" style="border-top:3px solid var(--navy-700)"><h4>① PostgreSQL DB</h4><p>§1에서 "떠오르는 왕"이라 했던 그 DB 그대로. SQL·JOIN·관계 설계 전부 가능.</p></div>
+    <div class="card" style="border-top:3px solid var(--navy-500)"><h4>② 인증 (Auth)</h4><p>이메일·구글·GitHub 소셜 로그인을 몇 줄 코드로. 직접 만들면 며칠 걸릴 기능을 그냥 준다.</p></div>
+    <div class="card" style="border-top:3px solid var(--amber)"><h4>③ 스토리지</h4><p>파일 업로드 → URL 발급. <strong>RLS 연동</strong>: "이 파일은 이 사용자만"을 DB 기준으로 자동 관리.</p></div>
+    <div class="card" style="border-top:3px solid var(--green)"><h4>④ API 자동 생성</h4><p>테이블을 만들면 CRUD API가 즉시 생성 — 백엔드 코드를 직접 짤 필요가 없다.</p></div>
+    <div class="card" style="border-top:3px solid var(--purple)"><h4>⑤ 실시간 (Realtime)</h4><p>DB 변경이 연결된 화면에 즉시 반영. 채팅·알림·협업 기능을 아주 쉽게 구현.</p></div>
+    <div class="card" style="border-top:3px solid var(--red)"><h4>💡 그래서 AI가 추천한다</h4><p>바이브 코딩에서 AI가 늘 Supabase를 권하는 이유 = <strong>DB+인증+스토리지가 처음부터 연결된 통합 스택</strong>이기 때문.</p></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🔗</span>
+    <div><strong>§1의 복선 회수 —</strong> PostgreSQL이 최근 유독 인기가 높아진 큰 이유 중 하나가 바로 Supabase다.
+    "필요한 것들이 처음부터 연결돼 있는" 통합 플랫폼이 기반 DB로 Postgres를 선택하면서,
+    새 프로젝트의 기본값이 <em>MySQL → PostgreSQL</em>로 옮겨가는 흐름에 가속이 붙었다.
+    단, Supabase도 결국 PostgreSQL이므로 — 이 문서 전체에서 배운 <strong>관계형 설계 원칙(정규화·인덱스·트랜잭션)이 그대로 적용</strong>된다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 8. COMPARE ═══════════ -->
+<section id="compare">
+  <div class="section-header">
+    <div class="eyebrow">Decision Guide</div>
+    <h2>8. 종합 비교 & 선택 가이드</h2>
+    <p>한 장의 표, 그리고 상황을 고르면 답이 나오는 선택 도우미</p>
+  </div>
+
+  <h3><span class="num">N</span>5대 DB 최종 비교표</h3>
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead>
+        <tr><th></th><th>RDBMS<br><span class="mono" style="font-weight:400">PostgreSQL·MySQL</span></th><th>Redis</th><th>MongoDB</th><th>Cassandra</th><th>Neo4j</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="hl">데이터 모델</td><td>테이블 (행×열)</td><td>Key-Value + 자료구조</td><td>JSON 문서</td><td>와이드 컬럼</td><td>그래프 (노드·간선)</td></tr>
+        <tr><td class="hl">스키마</td><td><span class="badge badge-blue">엄격</span></td><td><span class="badge badge-gray">없음</span></td><td><span class="badge badge-green">유연</span></td><td><span class="badge badge-amber">반고정</span></td><td><span class="badge badge-green">유연</span></td></tr>
+        <tr><td class="hl">트랜잭션</td><td>완전 ACID</td><td>제한적 (MULTI/Lua)</td><td>문서 단위 (4.0+ 멀티문서)</td><td>경량 (LWT)</td><td>ACID</td></tr>
+        <tr><td class="hl">확장 방식</td><td>주로 수직 ↑<br>(+읽기 복제)</td><td>클러스터</td><td>샤딩 (자동)</td><td><strong>수평 → 최강</strong></td><td>주로 수직 ↑</td></tr>
+        <tr><td class="hl">JOIN / 관계</td><td><strong>강력</strong></td><td>없음</td><td>약함 ($lookup)</td><td>없음</td><td><strong>본질 그 자체</strong></td></tr>
+        <tr><td class="hl">CAP 포지션</td><td>CA (단일 노드)</td><td>CP (Cluster)</td><td>CP (기본)</td><td>AP (튜닝 가능)</td><td>CA/CP</td></tr>
+        <tr><td class="hl">최대 강점</td><td>무결성 · 범용성</td><td>속도 (인메모리)</td><td>개발 생산성</td><td>쓰기량 · 가용성</td><td>관계 탐색</td></tr>
+        <tr><td class="hl">대표 사용처</td><td>결제 · 재고 · ERP</td><td>캐시 · 세션 · 랭킹</td><td>카탈로그 · CMS</td><td>IoT · 메시징 · 로그</td><td>추천 · 사기 탐지</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Interactive selector -->
+  <div id="selector-tool">
+    <h3 style="margin-bottom:4px">🧭 DB 선택 도우미</h3>
+    <p style="font-size:13.5px; color:var(--text-secondary)">지금 다루려는 데이터와 가장 가까운 상황을 클릭해 보세요.</p>
+    <div class="sel-questions" id="sel-buttons"></div>
+    <div id="sel-result">
+      <div class="rec" id="sel-rec"></div>
+      <div class="why" id="sel-why"></div>
+    </div>
+  </div>
+
+  <h3><span class="num">O</span>기억할 세 가지 실무 결론</h3>
+  <div class="card-grid">
+    <div class="card" style="border-left:4px solid var(--navy-900)">
+      <h4>1. 기본값은 PostgreSQL</h4>
+      <p>고민된다면 Postgres로 시작하라. JSONB·pgvector·전문검색까지 품은 현재의 Postgres는 중소 규모의 거의 모든 요구를 혼자 감당한다.
+      전문 DB는 <strong>병목이 측정으로 증명된 후에</strong> 추가해도 늦지 않다. (Supabase를 쓴다면 이미 Postgres 위에 서 있는 것이다.)</p>
+    </div>
+    <div class="card" style="border-left:4px solid var(--amber)">
+      <h4>2. 데이터의 성격이 DB를 고른다</h4>
+      <p>"요즘 뜨는 DB"가 아니라 <strong>일관성·가용성·규모·형태</strong>라는 데이터의 요구사항이 기준이다.
+      돈이면 ACID, 캐시면 인메모리, 쓰기 폭주면 링 구조, 관계 탐색이면 그래프 — 문제가 도구를 결정한다.</p>
+    </div>
+    <div class="card" style="border-left:4px solid var(--red)">
+      <h4>3. 파일은 DB 밖에 산다</h4>
+      <p>이미지·영상·문서는 <strong>객체 스토리지(S3)</strong>에 저장하고 DB에는 URL만 넣는다.
+      전달 속도는 CDN이, 접근 제어는 Public/Private/Presigned URL이 담당한다 — 저장·전달·권한은 한 세트다.</p>
+    </div>
+  </div>
+</section>
+
+<footer style="border-top:1px solid var(--border); padding-top:24px; color:var(--text-muted); font-size:12.5px; text-align:center; margin-bottom:40px;">
+  Knowledge DB · 데이터베이스 완전 정리 — SQL · NoSQL · NewSQL · 전문 DB · 스토리지(S3·CDN) · BaaS(Supabase)<br>
+  Hyundai-Inspired Design System v1.0 · 도식: Docs/img/db-*.svg (14종) · §1A·§6·§7은 유튜브 강의 "뿌리강의 3강 — DB와 스토리지" 내용을 반영해 보강
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+// 목차 링크를 누르면 드로어 자동 닫기
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+
+// ── DB Selector tool ──
+const SCENARIOS = [
+  { q: '💳 결제·주문·재고 — 틀리면 안 되는 돈', rec: 'PostgreSQL / MySQL', why: '강한 일관성과 ACID 트랜잭션이 절대 조건. 고민의 여지가 없는 영역이다. 이중 지불·재고 초과판매는 BASE로는 막을 수 없다.' },
+  { q: '⚡ 자주 읽히는 데이터를 빠르게 (캐시·세션)', rec: 'Redis', why: '인메모리 Key-Value로 0.1ms 응답. DB 앞단의 Cache-Aside 패턴으로 반복 조회의 90%+를 흡수한다. TTL로 세션·인증코드 수명 관리까지.' },
+  { q: '🛍 상품마다 속성이 제각각인 카탈로그', rec: 'MongoDB (또는 PostgreSQL JSONB)', why: '문서마다 필드가 달라도 되는 유연한 스키마. 객체를 JSON 그대로 저장하고 중첩 구조로 JOIN 없이 조회한다. 규모가 작다면 Postgres JSONB로도 충분.' },
+  { q: '📡 초당 수십만 건 쓰기 + 절대 무중단', rec: 'Cassandra / ScyllaDB', why: '마스터 없는 링 구조로 노드 장애에도 무중단, 노드 추가로 선형 확장. LSM-Tree라 쓰기가 압도적으로 빠르다. 단, 쿼리를 미리 정해 설계할 것.' },
+  { q: '🕸 관계를 2~3단계 타고 들어가는 질의 (추천·사기탐지)', rec: 'Neo4j', why: 'Index-Free Adjacency로 관계 탐색이 데이터 크기와 무관하게 빠르다. RDBMS 자기 JOIN으로는 깊이 3부터 감당 불가.' },
+  { q: '🔍 텍스트 검색·자동완성·로그 분석', rec: 'Elasticsearch', why: '역색인 기반 전문 검색에 최적화. 오타 보정·형태소 분석·랭킹까지. 로그라면 ELK 스택이 사실상 표준.' },
+  { q: '📈 주가·센서 등 시계열 데이터', rec: 'TimescaleDB / InfluxDB (로컬은 SQLite+DuckDB)', why: '시간축 압축·다운샘플링·보존정책이 내장. 개인/로컬 규모라면 SQLite 수집 + DuckDB·Parquet 분석 조합이 가장 실용적.' },
+  { q: '🤖 AI 임베딩 유사도 검색 (RAG)', rec: 'pgvector / Qdrant / Milvus', why: '고차원 벡터의 근사 최근접(ANN) 검색 전용 인덱스(HNSW 등). 이미 Postgres를 쓴다면 pgvector 확장이 가장 낮은 진입 장벽.' },
+  { q: '📊 수억 행 로컬 분석·백테스트', rec: 'DuckDB + Parquet', why: '열 저장 + 벡터화 실행으로 노트북에서도 수억 행 집계가 초 단위. 서버 설치 없이 파일만으로 동작하는 "분석계의 SQLite".' },
+  { q: '🖼 이미지·영상 등 사용자 업로드 파일', rec: '객체 스토리지 (S3 등) + CDN', why: '파일은 DB가 아니라 스토리지에 — DB에는 URL만 저장한다. 전 세계 전달 속도는 CDN 엣지 캐싱이, 비공개 파일은 Presigned URL이 해결한다.' },
+  { q: '🚀 혼자서 MVP 최속 구축 (DB+로그인+파일)', rec: 'Supabase', why: 'PostgreSQL + 인증 + 스토리지(RLS 권한 연동) + 자동 API + 실시간이 처음부터 연결된 통합 스택. "Firebase처럼 편하게, 제대로 된 SQL로." 백엔드 코드 없이 서비스가 굴러간다.' },
+];
+const btnWrap = document.getElementById('sel-buttons');
+SCENARIOS.forEach((s, i) => {
+  const b = document.createElement('button');
+  b.className = 'sel-btn'; b.textContent = s.q;
+  b.onclick = () => {
+    document.querySelectorAll('.sel-btn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById('sel-rec').textContent = '→ ' + s.rec;
+    document.getElementById('sel-why').textContent = s.why;
+    document.getElementById('sel-result').classList.add('show');
+  };
+  btnWrap.appendChild(b);
+});
+</script>
+</body>
+</html>

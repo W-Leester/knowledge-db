@@ -1,0 +1,223 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .section-title { font-size: 12px; font-weight: 700; fill: #002C5F; }
+    .label { font-size: 10.5px; fill: #1A1A1A; }
+    .label-small { font-size: 9.5px; fill: #555555; }
+    .die-label { font-size: 10px; fill: #FFFFFF; font-weight: 600; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="#F2EDE4"/>
+
+  <!-- Title -->
+  <text x="400" y="22" text-anchor="middle" class="title">HBM (High Bandwidth Memory) TSV 3D 스택 단면도</text>
+
+  <!-- ===== Main cross-section diagram ===== -->
+  <rect x="15" y="30" width="535" height="405" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="272" y="50" text-anchor="middle" class="section-title">HBM3e 8-Hi 스택 단면 (측면도)</text>
+
+  <!-- Height annotation -->
+  <line x1="28" y1="65" x2="28" y2="375" stroke="#E8962A" stroke-width="1.5"/>
+  <line x1="24" y1="65" x2="32" y2="65" stroke="#E8962A" stroke-width="1.5"/>
+  <line x1="24" y1="375" x2="32" y2="375" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="22" y="220" text-anchor="middle" font-size="10" fill="#E8962A" font-weight="600" transform="rotate(-90,22,220)">약 720μm (HBM3e 8-Hi)</text>
+
+  <!-- Silicon Interposer (bottom, widest) -->
+  <rect x="40" y="370" width="480" height="30" fill="#8B4513" rx="3"/>
+  <text x="280" y="387" text-anchor="middle" font-size="11" fill="#FFFFFF" font-weight="600">실리콘 인터포저 (Silicon Interposer)</text>
+  <text x="280" y="399" text-anchor="middle" font-size="9" fill="#FFD0A0">HBM ↔ GPU 초광폭 연결 / 수천 개의 TSV</text>
+
+  <!-- Base Die (logic die) -->
+  <rect x="60" y="343" width="440" height="25" fill="#6B3FA0" rx="2"/>
+  <text x="280" y="360" text-anchor="middle" font-size="10" fill="#FFFFFF" font-weight="600">Base Die (로직 다이) — 메모리 컨트롤러 내장</text>
+
+  <!-- 8 DRAM Core Dies -->
+  <!-- Die colors alternating slightly -->
+  <rect x="75" y="318" width="410" height="23" fill="#003F8A" rx="2"/>
+  <text x="280" y="333" text-anchor="middle" class="die-label">DRAM Die 1</text>
+
+  <rect x="75" y="293" width="410" height="23" fill="#003F8A" rx="2"/>
+  <text x="280" y="308" text-anchor="middle" class="die-label">DRAM Die 2</text>
+
+  <rect x="75" y="268" width="410" height="23" fill="#003F8A" rx="2"/>
+  <text x="280" y="283" text-anchor="middle" class="die-label">DRAM Die 3</text>
+
+  <rect x="75" y="243" width="410" height="23" fill="#003F8A" rx="2"/>
+  <text x="280" y="258" text-anchor="middle" class="die-label">DRAM Die 4</text>
+
+  <rect x="75" y="218" width="410" height="23" fill="#003F8A" rx="2"/>
+  <text x="280" y="233" text-anchor="middle" class="die-label">DRAM Die 5</text>
+
+  <rect x="75" y="193" width="410" height="23" fill="#003F8A" rx="2"/>
+  <text x="280" y="208" text-anchor="middle" class="die-label">DRAM Die 6</text>
+
+  <rect x="75" y="168" width="410" height="23" fill="#003F8A" rx="2"/>
+  <text x="280" y="183" text-anchor="middle" class="die-label">DRAM Die 7</text>
+
+  <rect x="75" y="143" width="410" height="23" fill="#003F8A" rx="2"/>
+  <text x="280" y="158" text-anchor="middle" class="die-label">DRAM Die 8 (최상층)</text>
+
+  <!-- Micro bumps between dies (dots at each interface) -->
+  <!-- Between Die8 and Die7 -->
+  <circle cx="115" cy="167" r="2" fill="#C0C0C0"/>
+  <circle cx="145" cy="167" r="2" fill="#C0C0C0"/>
+  <circle cx="175" cy="167" r="2" fill="#C0C0C0"/>
+  <circle cx="205" cy="167" r="2" fill="#C0C0C0"/>
+  <circle cx="235" cy="167" r="2" fill="#C0C0C0"/>
+  <circle cx="265" cy="167" r="2" fill="#C0C0C0"/>
+  <circle cx="295" cy="167" r="2" fill="#C0C0C0"/>
+  <circle cx="325" cy="167" r="2" fill="#C0C0C0"/>
+  <circle cx="355" cy="167" r="2" fill="#C0C0C0"/>
+  <circle cx="385" cy="167" r="2" fill="#C0C0C0"/>
+  <circle cx="415" cy="167" r="2" fill="#C0C0C0"/>
+  <circle cx="445" cy="167" r="2" fill="#C0C0C0"/>
+
+  <!-- Repeat for other interfaces (simplified) -->
+  <circle cx="115" cy="192" r="2" fill="#C0C0C0"/>
+  <circle cx="175" cy="192" r="2" fill="#C0C0C0"/>
+  <circle cx="235" cy="192" r="2" fill="#C0C0C0"/>
+  <circle cx="295" cy="192" r="2" fill="#C0C0C0"/>
+  <circle cx="355" cy="192" r="2" fill="#C0C0C0"/>
+  <circle cx="415" cy="192" r="2" fill="#C0C0C0"/>
+  <circle cx="115" cy="217" r="2" fill="#C0C0C0"/>
+  <circle cx="175" cy="217" r="2" fill="#C0C0C0"/>
+  <circle cx="295" cy="217" r="2" fill="#C0C0C0"/>
+  <circle cx="415" cy="217" r="2" fill="#C0C0C0"/>
+  <circle cx="115" cy="242" r="2" fill="#C0C0C0"/>
+  <circle cx="235" cy="242" r="2" fill="#C0C0C0"/>
+  <circle cx="355" cy="242" r="2" fill="#C0C0C0"/>
+  <circle cx="445" cy="242" r="2" fill="#C0C0C0"/>
+  <circle cx="115" cy="267" r="2" fill="#C0C0C0"/>
+  <circle cx="175" cy="267" r="2" fill="#C0C0C0"/>
+  <circle cx="295" cy="267" r="2" fill="#C0C0C0"/>
+  <circle cx="385" cy="267" r="2" fill="#C0C0C0"/>
+  <circle cx="115" cy="292" r="2" fill="#C0C0C0"/>
+  <circle cx="235" cy="292" r="2" fill="#C0C0C0"/>
+  <circle cx="355" cy="292" r="2" fill="#C0C0C0"/>
+  <circle cx="445" cy="292" r="2" fill="#C0C0C0"/>
+  <circle cx="115" cy="317" r="2" fill="#C0C0C0"/>
+  <circle cx="175" cy="317" r="2" fill="#C0C0C0"/>
+  <circle cx="295" cy="317" r="2" fill="#C0C0C0"/>
+  <circle cx="415" cy="317" r="2" fill="#C0C0C0"/>
+  <circle cx="175" cy="342" r="2" fill="#C0C0C0"/>
+  <circle cx="295" cy="342" r="2" fill="#C0C0C0"/>
+  <circle cx="385" cy="342" r="2" fill="#C0C0C0"/>
+
+  <!-- TSV pillars (golden vertical lines through all dies) -->
+  <!-- 5 TSV columns -->
+  <!-- TSV 1: x=120 -->
+  <rect x="118" y="143" width="4" height="227" fill="#D4AF37" rx="1"/>
+  <!-- Animated TSV glow: data conducting from bottom to top -->
+  <rect x="118" y="370" width="4" height="0" fill="#FFD700" opacity="0.8" rx="1">
+    <animate attributeName="y" values="370;143" dur="1.5s" repeatCount="indefinite"/>
+    <animate attributeName="height" values="0;227" dur="1.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;0;0.8" dur="1.5s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- TSV 2: x=200 -->
+  <rect x="198" y="143" width="4" height="227" fill="#D4AF37" rx="1"/>
+  <rect x="198" y="370" width="4" height="0" fill="#FFD700" opacity="0.8" rx="1">
+    <animate attributeName="y" values="370;143" dur="1.5s" begin="0.3s" repeatCount="indefinite"/>
+    <animate attributeName="height" values="0;227" dur="1.5s" begin="0.3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;0;0.8" dur="1.5s" begin="0.3s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- TSV 3: x=280 -->
+  <rect x="278" y="143" width="4" height="227" fill="#D4AF37" rx="1"/>
+  <rect x="278" y="370" width="4" height="0" fill="#FFD700" opacity="0.8" rx="1">
+    <animate attributeName="y" values="370;143" dur="1.5s" begin="0.6s" repeatCount="indefinite"/>
+    <animate attributeName="height" values="0;227" dur="1.5s" begin="0.6s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;0;0.8" dur="1.5s" begin="0.6s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- TSV 4: x=360 -->
+  <rect x="358" y="143" width="4" height="227" fill="#D4AF37" rx="1"/>
+  <rect x="358" y="370" width="4" height="0" fill="#FFD700" opacity="0.8" rx="1">
+    <animate attributeName="y" values="370;143" dur="1.5s" begin="0.9s" repeatCount="indefinite"/>
+    <animate attributeName="height" values="0;227" dur="1.5s" begin="0.9s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;0;0.8" dur="1.5s" begin="0.9s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- TSV 5: x=440 -->
+  <rect x="438" y="143" width="4" height="227" fill="#D4AF37" rx="1"/>
+  <rect x="438" y="370" width="4" height="0" fill="#FFD700" opacity="0.8" rx="1">
+    <animate attributeName="y" values="370;143" dur="1.5s" begin="1.2s" repeatCount="indefinite"/>
+    <animate attributeName="height" values="0;227" dur="1.5s" begin="1.2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;0;0.8" dur="1.5s" begin="1.2s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Callout labels on right side of diagram -->
+  <!-- TSV callout -->
+  <line x1="443" y1="220" x2="485" y2="220" stroke="#D4AF37" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="488" y="217" class="label" fill="#D4AF37" font-weight="600">TSV (Through Silicon Via)</text>
+  <text x="488" y="229" class="label-small">관통 전극 — 다이 간 직통 연결</text>
+
+  <!-- Micro bump callout -->
+  <line x1="450" y1="167" x2="485" y2="167" stroke="#555555" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="488" y="164" class="label" font-weight="600">Micro Bump</text>
+  <text x="488" y="176" class="label-small">다이 간 물리적 연결점</text>
+
+  <!-- 1024-bit bus callout -->
+  <line x1="75" y1="190" x2="58" y2="125" stroke="#003F8A" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="58" y="118" class="label" fill="#003F8A" font-weight="600">1024-bit 버스</text>
+  <text x="58" y="130" class="label-small">(TSV로 구현)</text>
+
+  <!-- HBM3e bandwidth annotation at bottom of diagram -->
+  <rect x="40" y="406" width="480" height="22" fill="#002C5F" rx="3"/>
+  <text x="280" y="421" text-anchor="middle" font-size="10.5" fill="#FFFFFF" font-weight="600">HBM3e: 최대 9.6 Gbps/pin × 1024 pins = 9.8 TB/s / 스택</text>
+
+  <!-- ===== RIGHT: Comparison inset ===== -->
+  <rect x="560" y="30" width="230" height="405" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="675" y="50" text-anchor="middle" class="section-title">칩 면적 비교</text>
+
+  <!-- HBM stack footprint -->
+  <rect x="590" y="60" width="80" height="80" fill="#E8EEF7" stroke="#002C5F" stroke-width="2" rx="4"/>
+  <text x="630" y="97" text-anchor="middle" font-size="10" fill="#002C5F" font-weight="700">HBM</text>
+  <text x="630" y="111" text-anchor="middle" font-size="9" fill="#555555">스택</text>
+  <text x="630" y="125" text-anchor="middle" font-size="9" fill="#555555">~78mm²</text>
+
+  <!-- GDDR6X chip footprint -->
+  <rect x="685" y="90" width="90" height="50" fill="#FFF0D0" stroke="#E8962A" stroke-width="2" rx="4"/>
+  <text x="730" y="113" text-anchor="middle" font-size="10" fill="#E8962A" font-weight="700">GDDR6X</text>
+  <text x="730" y="127" text-anchor="middle" font-size="9" fill="#555555">~67mm²</text>
+
+  <text x="675" y="160" text-anchor="middle" font-size="10" fill="#002C5F" font-weight="600">HBM: 작은 면적,</text>
+  <text x="675" y="173" text-anchor="middle" font-size="10" fill="#002C5F" font-weight="600">극대 대역폭</text>
+
+  <!-- Specs comparison -->
+  <rect x="570" y="185" width="210" height="180" fill="#F8F8F8" stroke="#D5CFBF" stroke-width="1" rx="4"/>
+  <text x="675" y="202" text-anchor="middle" font-size="11" fill="#002C5F" font-weight="700">HBM3e vs GDDR7</text>
+
+  <!-- Row: BW -->
+  <text x="578" y="220" font-size="10" fill="#555555" font-weight="600">대역폭:</text>
+  <text x="578" y="234" font-size="10" fill="#002C5F">HBM3e: 9.8 TB/s/stack</text>
+  <text x="578" y="248" font-size="10" fill="#E8962A">GDDR7: ~112 GB/s/chip</text>
+
+  <line x1="578" y1="255" x2="772" y2="255" stroke="#D5CFBF" stroke-width="0.5"/>
+
+  <!-- Row: Pins -->
+  <text x="578" y="270" font-size="10" fill="#555555" font-weight="600">핀 수:</text>
+  <text x="578" y="284" font-size="10" fill="#002C5F">HBM3e: 1024-bit</text>
+  <text x="578" y="298" font-size="10" fill="#E8962A">GDDR7: 16-bit × 칩당</text>
+
+  <line x1="578" y1="305" x2="772" y2="305" stroke="#D5CFBF" stroke-width="0.5"/>
+
+  <!-- Row: Voltage -->
+  <text x="578" y="320" font-size="10" fill="#555555" font-weight="600">전압:</text>
+  <text x="578" y="334" font-size="10" fill="#002C5F">HBM3e: 1.1V</text>
+  <text x="578" y="348" font-size="10" fill="#E8962A">GDDR7: 1.1V</text>
+
+  <line x1="578" y1="355" x2="772" y2="355" stroke="#D5CFBF" stroke-width="0.5"/>
+
+  <!-- Where used -->
+  <text x="578" y="370" font-size="9" fill="#555555" font-weight="600">사용처:</text>
+  <text x="578" y="382" font-size="9" fill="#002C5F">HBM: H100, A100, MI300X</text>
+  <text x="578" y="394" font-size="9" fill="#E8962A">GDDR7: RTX 5090, RX 9070</text>
+
+  <!-- Bottom note in right panel -->
+  <rect x="570" y="372" width="210" height="56" fill="#002C5F" rx="4"/>
+  <text x="675" y="390" text-anchor="middle" font-size="10" fill="#FFFFFF" font-weight="700">AI 가속기에 HBM이 필수인 이유</text>
+  <text x="675" y="405" text-anchor="middle" font-size="9" fill="#E8EEF7">1024-bit 초광폭 버스로</text>
+  <text x="675" y="418" text-anchor="middle" font-size="9" fill="#E8EEF7">TB/s급 대역폭 제공</text>
+</svg>

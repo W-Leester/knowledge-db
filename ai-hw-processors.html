@@ -1,0 +1,2566 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI를 움직이는 두뇌 — 프로세서 아키텍처 완전 분해</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --font-main: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-main);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+body.doc-mode {
+  overflow: auto;
+  height: auto;
+}
+img { max-width: 100%; height: auto; display: block; }
+
+/* ===== PROGRESS BAR ===== */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: var(--navy-900);
+  z-index: 1000;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+body.doc-mode #progress-bar { display: none; }
+
+/* ===== UI CONTROLS ===== */
+#ui-controls {
+  position: fixed;
+  top: 16px; right: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 999;
+  align-items: center;
+}
+
+.ctrl-btn {
+  background: rgba(255,255,255,0.92);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-family: var(--font-main);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy-900);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.ctrl-btn:hover {
+  background: var(--navy-900);
+  color: white;
+  border-color: var(--navy-900);
+}
+
+/* ===== SLIDE COUNTER ===== */
+#slide-counter {
+  position: fixed;
+  bottom: 20px; right: 20px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--text-muted);
+  z-index: 999;
+  background: rgba(255,255,255,0.85);
+  padding: 4px 10px;
+  border-radius: 6px;
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+}
+body.doc-mode #slide-counter { display: none; }
+
+/* ===== NAV ARROWS ===== */
+#nav-prev, #nav-next {
+  position: fixed;
+  top: 50%; transform: translateY(-50%);
+  z-index: 998;
+  background: rgba(255,255,255,0.85);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--navy-900);
+  backdrop-filter: blur(6px);
+  transition: var(--transition);
+  user-select: none;
+}
+#nav-prev { left: 12px; }
+#nav-next { right: 70px; }
+#nav-prev:hover, #nav-next:hover {
+  background: var(--navy-900);
+  color: white;
+}
+body.doc-mode #nav-prev,
+body.doc-mode #nav-next { display: none; }
+
+/* ===== PRESENTATION VIEWPORT ===== */
+#presentation-viewport {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#slide-scaler {
+  width: 1280px;
+  height: 720px;
+  position: relative;
+  transform-origin: center center;
+}
+
+/* ===== SLIDES ===== */
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 1280px;
+  height: 720px;
+  background: var(--bg-primary);
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+  display: flex;
+  flex-direction: column;
+}
+.slide.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.slide.dark {
+  background: var(--bg-dark);
+  color: var(--text-inverse);
+}
+
+/* ===== SLIDE HEADER ===== */
+.slide-header {
+  padding: 32px 56px 0;
+  flex-shrink: 0;
+}
+.slide-eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--navy-500);
+  margin-bottom: 6px;
+}
+.slide.dark .slide-eyebrow { color: var(--amber); }
+.slide-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--navy-900);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.slide.dark .slide-title { color: var(--text-inverse); }
+.slide-subtitle {
+  font-size: 17px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+}
+.slide.dark .slide-subtitle { color: rgba(255,255,255,0.6); }
+.title-rule {
+  width: 48px; height: 3px;
+  background: var(--navy-900);
+  border-radius: 2px;
+  margin-top: 12px;
+}
+.slide.dark .title-rule { background: var(--amber); }
+
+/* ===== SLIDE BODY ===== */
+.slide-body {
+  flex: 1;
+  padding: 20px 56px 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== GRID LAYOUTS ===== */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.main-sidebar { display: grid; grid-template-columns: 1fr 320px; gap: 24px; }
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+.card-dark {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(6px);
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy-900);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ===== STAT CARDS ===== */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+  flex-shrink: 0;
+}
+.stat-card {
+  background: var(--navy-100);
+  border-radius: 10px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--navy-700);
+}
+.stat-number {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--navy-900);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* ===== CALLOUT ===== */
+.callout {
+  border-left: 3px solid var(--navy-700);
+  background: var(--navy-100);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: var(--navy-900);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.callout.green {
+  border-color: var(--green);
+  background: var(--green-light);
+  color: #006040;
+}
+.callout.amber {
+  border-color: var(--amber);
+  background: var(--amber-light);
+  color: #7a4a00;
+}
+.callout strong { font-weight: 700; }
+
+/* ===== TABS ===== */
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+.tab-btn {
+  padding: 7px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font-main);
+}
+.tab-btn.active {
+  color: var(--navy-900);
+  border-bottom-color: var(--navy-900);
+}
+.tab-btn:hover:not(.active) { color: var(--text-primary); }
+.tab-panel { display: none; }
+.tab-panel.active { display: flex; flex-direction: column; gap: 10px; }
+
+/* ===== BULLET LIST ===== */
+.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bullet-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 15px;
+  color: var(--text-primary);
+  line-height: 1.65;
+  margin-bottom: 8px;
+}
+.bullet-list li::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--navy-700);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.bullet-list.dark-list li { color: rgba(255,255,255,0.85); }
+.bullet-list.dark-list li::before { background: var(--amber); }
+
+/* ===== BADGE ===== */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.badge-navy { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #006040; }
+.badge-amber { background: var(--amber-light); color: #7a4a00; }
+
+/* ===== COMPARISON TABLE ===== */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.comp-table th {
+  background: var(--navy-900);
+  color: white;
+  padding: 8px 10px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 15px;
+}
+.comp-table th:first-child { border-radius: 8px 0 0 0; text-align: left; }
+.comp-table th:last-child { border-radius: 0 8px 0 0; }
+.comp-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  color: var(--text-primary);
+}
+.comp-table td:first-child { text-align: left; font-weight: 600; }
+.comp-table tr:last-child td { border-bottom: none; }
+.comp-table tr:nth-child(even) td { background: var(--bg-card); }
+
+/* ===== COVER SLIDE ===== */
+#slide-0 {
+  background: var(--bg-dark);
+  overflow: hidden;
+}
+.circuit-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.circuit-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(26,92,181,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 75% 30%, rgba(232,150,42,0.08) 0%, transparent 50%);
+}
+.cover-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 40px;
+}
+.cover-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(232,150,42,0.15);
+  border: 1px solid rgba(232,150,42,0.3);
+  border-radius: 100px;
+  padding: 6px 18px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--amber);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.cover-hero {
+  font-size: 64px;
+  font-weight: 900;
+  color: white;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+}
+.cover-hero span { color: var(--amber); }
+.cover-subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 8px;
+}
+.cover-sub2 {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--amber);
+  letter-spacing: 0.12em;
+  margin-bottom: 40px;
+}
+.proc-labels {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+.proc-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+}
+.proc-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+
+/* ===== ANIMATION CLASSES ===== */
+.anim-fadein { animation: fadeIn 0.6s ease forwards; }
+.anim-slideup { animation: slideUp 0.7s ease forwards; }
+.anim-fadein-d1 { animation: fadeIn 0.6s 0.2s ease both; }
+.anim-fadein-d2 { animation: fadeIn 0.6s 0.45s ease both; }
+.anim-fadein-d3 { animation: fadeIn 0.6s 0.65s ease both; }
+.anim-fadein-d4 { animation: fadeIn 0.6s 0.85s ease both; }
+.anim-fadein-d5 { animation: fadeIn 0.6s 1.05s ease both; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== DECISION TREE ===== */
+.decision-tree-wrapper {
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== PRODUCT CARDS ===== */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.product-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.product-card:hover {
+  border-color: var(--navy-700);
+  box-shadow: 0 4px 20px rgba(0,44,95,0.12);
+  transform: translateY(-2px);
+}
+.product-card-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--navy-900);
+  margin-bottom: 4px;
+}
+.product-card-spec {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.product-card-price {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy-700);
+  margin-top: 8px;
+}
+
+/* ===== TREND CARDS (dark) ===== */
+.trend-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  flex: 1;
+}
+.trend-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 24px;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+}
+.trend-card:hover {
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(255,255,255,0.25);
+}
+.trend-card::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  opacity: 0.06;
+}
+.trend-card:nth-child(1)::before { background: var(--navy-500); }
+.trend-card:nth-child(2)::before { background: var(--green); }
+.trend-card:nth-child(3)::before { background: var(--amber); }
+.trend-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+.trend-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 8px;
+}
+.trend-body {
+  font-size: 15px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.6;
+}
+
+/* ===== TIMELINE ===== */
+.timeline {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-top: 20px;
+  flex-shrink: 0;
+}
+.timeline-item {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+.timeline-item::after {
+  content: '';
+  position: absolute;
+  top: 14px; right: 0;
+  width: 100%; height: 2px;
+  background: rgba(255,255,255,0.15);
+  z-index: 0;
+}
+.timeline-item:last-child::after { display: none; }
+.timeline-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--navy-500);
+  border: 2px solid rgba(255,255,255,0.3);
+  margin: 0 auto 6px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+}
+.timeline-year {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--amber);
+}
+.timeline-label {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  margin-top: 2px;
+}
+
+/* ===== RADAR CHART ===== */
+#radar-wrapper {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+  overflow: hidden;
+}
+#radar-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+}
+.radar-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  user-select: none;
+}
+.radar-check input { display: none; }
+.radar-swatch {
+  width: 14px; height: 14px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  opacity: 0.35;
+  transition: opacity 0.2s;
+}
+.radar-check.checked .radar-swatch { opacity: 1; }
+
+/* ===== DOCUMENT MODE ===== */
+body.doc-mode #presentation-viewport { display: none; }
+#doc-mode-content { display: none; }
+body.doc-mode #doc-mode-content {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  gap: 32px;
+}
+
+#doc-toc {
+  position: sticky;
+  top: 80px;
+  height: fit-content;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+.toc-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+.toc-list { list-style: none; }
+.toc-item {
+  padding: 6px 10px;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: var(--transition);
+  border-left: 2px solid transparent;
+}
+.toc-item:hover {
+  background: var(--navy-100);
+  color: var(--navy-900);
+}
+.toc-item.active {
+  background: var(--navy-100);
+  color: var(--navy-900);
+  font-weight: 700;
+  border-left-color: var(--navy-900);
+}
+
+#doc-body { display: flex; flex-direction: column; gap: 48px; }
+.doc-section {
+  background: white;
+  border-radius: 16px;
+  padding: 36px;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.doc-section.dark-section {
+  background: var(--bg-dark);
+  border-color: transparent;
+}
+.doc-section-num {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.doc-section.dark-section .doc-section-num { color: rgba(255,255,255,0.35); }
+.doc-h2 {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--navy-900);
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.doc-section.dark-section .doc-h2 { color: white; }
+.doc-p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+.doc-section.dark-section .doc-p { color: rgba(255,255,255,0.65); }
+
+/* ===== MISC ===== */
+.img-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(255,255,255,0.6);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  min-height: 140px;
+}
+.img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.label {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.mono { font-family: var(--font-mono); }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ===== LIGHTBOX ===== */
+#lightbox-overlay {
+  position: fixed; inset: 0;
+  background: rgba(10,15,30,0.92);
+  z-index: 10000;
+  display: none; align-items: center; justify-content: center;
+  cursor: zoom-out;
+  backdrop-filter: blur(8px);
+}
+#lightbox-overlay.lb-active { display: flex; }
+#lightbox-img {
+  max-width: 90vw; max-height: 88vh;
+  object-fit: contain; border-radius: 12px;
+  box-shadow: 0 32px 100px rgba(0,0,0,0.7);
+  cursor: default;
+  animation: lb-in 0.25s cubic-bezier(0.34,1.4,0.64,1);
+}
+@keyframes lb-in {
+  from { opacity:0; transform:scale(0.88); }
+  to   { opacity:1; transform:scale(1); }
+}
+#lb-close {
+  position: absolute; top: 20px; right: 24px;
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.25);
+  color: #fff; width: 44px; height: 44px;
+  border-radius: 50%; font-size: 20px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+#lb-close:hover { background: rgba(255,255,255,0.22); }
+#lb-caption {
+  position: absolute; bottom: 20px; left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.65); font-size: 13px;
+  background: rgba(0,0,0,0.45);
+  padding: 5px 16px; border-radius: 100px; white-space: nowrap;
+  pointer-events: none;
+}
+.img-box img { cursor: zoom-in; }
+
+/* ===== SLIDE 9: COMPUTE COMPARE ===== */
+.cc-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; flex-shrink:0; align-items:stretch; }
+.cc-card { background:var(--bg-card); border:1.5px solid var(--border); border-radius:10px; padding:10px 12px 8px; display:flex; flex-direction:column; gap:5px; }
+.cc-card.cc-cpu { border-top:3px solid #003F8A; }
+.cc-card.cc-gpu { border-top:3px solid #00AA6C; }
+.cc-card.cc-npu { border-top:3px solid #E8962A; }
+.cc-card.cc-tpu { border-top:3px solid #DC2626; }
+.cc-badge { font-size:11px; font-weight:800; letter-spacing:.1em; padding:2px 9px; border-radius:20px; display:inline-block; align-self:flex-start; color:#fff; }
+.cc-cpu .cc-badge { background:#003F8A; }
+.cc-gpu .cc-badge { background:#00AA6C; }
+.cc-npu .cc-badge { background:#E8962A; }
+.cc-tpu .cc-badge { background:#DC2626; }
+.cc-sub { font-size:9px; color:var(--text-muted); letter-spacing:.04em; font-weight:500; }
+.cc-svg-wrap svg { width:100%; height:auto; display:block; }
+.cc-desc { font-size:9px; color:var(--text-secondary); line-height:1.5; border-top:1px solid var(--border); padding-top:5px; }
+/* CPU pipeline */
+@keyframes cpu-pipe { 0%,20%{opacity:.2} 27%,47%{opacity:1} 54%,100%{opacity:.2} }
+.cs-f  { animation:cpu-pipe 2.4s 0.0s infinite; }
+.cs-d  { animation:cpu-pipe 2.4s 0.6s infinite; }
+.cs-ex { animation:cpu-pipe 2.4s 1.2s infinite; }
+.cs-w  { animation:cpu-pipe 2.4s 1.8s infinite; }
+.core-c2 .cs-f  { animation-delay:0.3s; } .core-c2 .cs-d  { animation-delay:0.9s; }
+.core-c2 .cs-ex { animation-delay:1.5s; } .core-c2 .cs-w  { animation-delay:2.1s; }
+.core-c3 .cs-f  { animation-delay:0.15s;} .core-c3 .cs-d  { animation-delay:0.75s;}
+.core-c3 .cs-ex { animation-delay:1.35s;} .core-c3 .cs-w  { animation-delay:1.95s;}
+.core-c4 .cs-f  { animation-delay:0.45s;} .core-c4 .cs-d  { animation-delay:1.05s;}
+.core-c4 .cs-ex { animation-delay:1.65s;} .core-c4 .cs-w  { animation-delay:2.25s;}
+/* GPU warp rows */
+@keyframes gpu-warp { 0%,8%{opacity:.15} 14%,24%{opacity:1} 30%,100%{opacity:.15} }
+.gr-0{animation:gpu-warp 1.6s 0.00s infinite} .gr-1{animation:gpu-warp 1.6s 0.20s infinite}
+.gr-2{animation:gpu-warp 1.6s 0.40s infinite} .gr-3{animation:gpu-warp 1.6s 0.60s infinite}
+.gr-4{animation:gpu-warp 1.6s 0.80s infinite} .gr-5{animation:gpu-warp 1.6s 1.00s infinite}
+.gr-6{animation:gpu-warp 1.6s 1.20s infinite}
+/* NPU diagonal */
+@keyframes npu-mac { 0%,5%{opacity:.18} 12%,22%{opacity:1} 30%,100%{opacity:.18} }
+.nd-0{animation:npu-mac 3s 0.00s infinite} .nd-1{animation:npu-mac 3s 0.30s infinite}
+.nd-2{animation:npu-mac 3s 0.60s infinite} .nd-3{animation:npu-mac 3s 0.90s infinite}
+.nd-4{animation:npu-mac 3s 1.20s infinite} .nd-5{animation:npu-mac 3s 1.50s infinite}
+.nd-6{animation:npu-mac 3s 1.80s infinite} .nd-7{animation:npu-mac 3s 2.10s infinite}
+/* TPU column wave */
+@keyframes tpu-col { 0%,5%{opacity:.22} 12%,24%{opacity:1} 32%,100%{opacity:.22} }
+.tc-0{animation:tpu-col 2.4s 0.0s infinite} .tc-1{animation:tpu-col 2.4s 0.4s infinite}
+.tc-2{animation:tpu-col 2.4s 0.8s infinite} .tc-3{animation:tpu-col 2.4s 1.2s infinite}
+.tc-4{animation:tpu-col 2.4s 1.6s infinite} .tc-5{animation:tpu-col 2.4s 2.0s infinite}
+/* Metrics */
+.cc-metrics-section { margin-top:10px; background:var(--bg-secondary); border:1px solid var(--border); border-radius:10px; padding:10px 16px 8px; flex-shrink:0; }
+.cc-metrics-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.cc-metrics-title { font-size:10px; font-weight:700; color:var(--text-muted); letter-spacing:.08em; text-transform:uppercase; }
+.cc-legend { display:flex; gap:12px; margin-left:auto; }
+.cc-legend-item { display:flex; align-items:center; gap:4px; font-size:9px; color:var(--text-secondary); font-weight:600; }
+.cc-legend-dot { width:8px; height:8px; border-radius:2px; }
+.cc-metric-row { display:grid; grid-template-columns:76px repeat(4,1fr); align-items:center; gap:6px; margin-bottom:5px; }
+.cc-metric-label { font-size:10px; font-weight:600; color:var(--text-secondary); text-align:right; padding-right:4px; }
+.cc-bar-wrap { display:flex; flex-direction:column; gap:2px; }
+.cc-bar-track { height:12px; border-radius:3px; background:rgba(0,0,0,0.07); overflow:hidden; position:relative; }
+.cc-bar-fill { position:absolute; left:0; top:0; bottom:0; width:0%; transition:width 1.1s cubic-bezier(.34,1.2,.64,1); border-radius:3px; }
+.cc-cpu-fill { background:linear-gradient(90deg,#002C5F,#1A5CB5); }
+.cc-gpu-fill { background:linear-gradient(90deg,#007a50,#00AA6C); }
+.cc-npu-fill { background:linear-gradient(90deg,#c07015,#E8962A); }
+.cc-tpu-fill { background:linear-gradient(90deg,#b01e1e,#DC2626); }
+.cc-bar-val { font-size:9px; font-weight:600; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.2; }
+
+/* ===== RESIZE HANDLE ===== */
+.resize-handle {
+  width: 14px; flex-shrink: 0; cursor: col-resize;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent;
+}
+.resize-handle::before {
+  content: ''; width: 3px; height: 36px;
+  background: var(--border); border-radius: 2px;
+  transition: background 0.2s, height 0.2s, width 0.2s;
+}
+.resize-handle:hover::before, .resize-handle.rh-active::before {
+  background: var(--navy-500); height: 52px; width: 4px;
+}
+
+/* ===== RESPONSIVE — 모바일 문서 모드 ===== */
+@media (max-width: 900px) {
+  body.doc-mode #doc-mode-content {
+    grid-template-columns: 1fr;
+    padding: 64px 12px 90px;
+    gap: 16px;
+  }
+  #doc-toc { display: none; }               /* 좁은 화면에선 목차 숨김 — 순차 스크롤 */
+  .doc-section { padding: 22px 16px; }
+  .doc-h2 { font-size: 22px !important; }
+  /* ResizablePanels가 인라인 flex로 바꿔놓은 다단 레이아웃을 세로 배치로 무력화 */
+  #doc-body .two-col,
+  #doc-body .three-col,
+  #doc-body .main-sidebar { display: block !important; }
+  #doc-body .two-col > div,
+  #doc-body .three-col > div,
+  #doc-body .main-sidebar > div {
+    flex-basis: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin-bottom: 12px;
+  }
+  #doc-body .resize-handle { display: none !important; }
+  /* 상단 컨트롤 — 모바일에선 전체화면 버튼 숨기고 모드 토글만 */
+  #ui-controls { top: 10px; right: 10px; }
+  #fullscreen-btn { display: none; }
+  .ctrl-btn { font-size: 13px; padding: 8px 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="progress-bar"></div>
+
+<!-- UI Controls -->
+<div id="ui-controls">
+  <button class="ctrl-btn" id="fullscreen-btn" title="전체화면 (F)">⛶ 전체화면</button>
+  <button class="ctrl-btn" id="mode-toggle-btn">📋 문서 모드</button>
+</div>
+
+<!-- Slide Counter -->
+<div id="slide-counter">1 / 10</div>
+
+<!-- Nav Arrows -->
+<button id="nav-prev" aria-label="이전 슬라이드">&#8592;</button>
+<button id="nav-next" aria-label="다음 슬라이드">&#8594;</button>
+
+<!-- ===================== PRESENTATION VIEWPORT ===================== -->
+<div id="presentation-viewport">
+  <div id="slide-scaler">
+
+    <!-- =========================================================
+         SLIDE 0 — COVER
+    ========================================================== -->
+    <section class="slide dark active" id="slide-0">
+      <div class="circuit-bg"></div>
+      <div class="cover-content">
+        <div class="cover-tag anim-fadein">
+          <span>◈</span> AI Hardware Architecture Deep Dive
+        </div>
+        <h1 class="cover-hero anim-fadein-d1">AI를 움직이는 <span>두뇌</span></h1>
+        <p class="cover-subtitle anim-fadein-d2">프로세서 아키텍처 완전 분해</p>
+        <p class="cover-sub2 anim-fadein-d3">CPU &nbsp;·&nbsp; GPU &nbsp;·&nbsp; NPU &nbsp;·&nbsp; TPU</p>
+        <div class="proc-labels anim-fadein-d4">
+          <div class="proc-label">
+            <div class="proc-dot" style="background:#8A8A8A;"></div>
+            CPU
+          </div>
+          <div class="proc-label">
+            <div class="proc-dot" style="background:#002C5F;"></div>
+            GPU
+          </div>
+          <div class="proc-label">
+            <div class="proc-dot" style="background:#00AA6C;"></div>
+            NPU
+          </div>
+          <div class="proc-label">
+            <div class="proc-dot" style="background:#E8962A;"></div>
+            TPU
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 1 — AI 워크로드의 특성
+    ========================================================== -->
+    <section class="slide" id="slide-1">
+      <div class="slide-header">
+        <div class="slide-eyebrow">SLIDE 01 · AI 워크로드</div>
+        <h2 class="slide-title">왜 CPU 하나로는 부족한가</h2>
+        <div class="title-rule"></div>
+      </div>
+      <div class="slide-body" style="overflow:hidden;">
+        <div class="two-col" style="flex:1; min-height:0; margin-bottom:12px;">
+          <!-- Left -->
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div class="card" style="flex:1;">
+              <div class="card-title">AI 연산의 본질</div>
+              <ul class="bullet-list">
+                <li><strong>AI = 거대한 행렬 곱셈의 반복</strong> (GEMM)</li>
+                <li>GPT-3 학습: 3.14 × 10²³ FLOP 필요</li>
+                <li>A100 GPU 312 TFLOPS → <span class="mono" style="color:var(--navy-700);">약 11.6일</span></li>
+                <li>단일 CPU로 하면 → <span style="color:var(--red);font-weight:700;">수십 년</span> 이상</li>
+                <li>병렬 연산 능력 = AI 인프라의 핵심 지표</li>
+              </ul>
+            </div>
+
+            <div style="flex-shrink:0;">
+              <div class="tab-bar" id="s1-tabs">
+                <button class="tab-btn active" data-tab="s1-basic">기초</button>
+                <button class="tab-btn" data-tab="s1-adv">심화</button>
+              </div>
+              <div id="s1-basic" class="tab-panel active">
+                <div class="callout">
+                  <strong>순차 처리 (CPU)</strong>: 작업을 하나씩 처리. 복잡한 로직에 강함.<br>
+                  <strong>병렬 처리 (GPU)</strong>: 수천 개 코어가 동시에 단순 연산. 행렬곱에 최적.
+                </div>
+              </div>
+              <div id="s1-adv" class="tab-panel">
+                <div class="callout amber">
+                  <strong>Amdahl's Law</strong>: 병렬화 불가 부분이 병목. 행렬곱은 99%+ 병렬화 가능.<br>
+                  <strong>Roofline Model</strong>: 연산 강도(FLOPs/byte) &lt; 하드웨어 능선 → Memory-bound
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: SVG image -->
+          <div class="img-box" style="height:100%;">
+            <img src="Docs/img/cpu-vs-gpu-cores.svg" alt="CPU vs GPU 코어 비교">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 2 — CPU 아키텍처
+    ========================================================== -->
+    <section class="slide" id="slide-2">
+      <div class="slide-header">
+        <div class="slide-eyebrow">SLIDE 02 · CPU</div>
+        <h2 class="slide-title">CPU — 범용의 강자, AI의 조력자</h2>
+        <div class="title-rule"></div>
+      </div>
+      <div class="slide-body">
+        <div class="three-col" style="flex:1;min-height:0;">
+          <!-- Col 1: 기초 -->
+          <div class="card" style="overflow:hidden;">
+            <div class="card-title">CPU의 강점</div>
+            <ul class="bullet-list" style="font-size:15px;">
+              <li>복잡한 제어 흐름 (Branch Prediction)</li>
+              <li>Out-of-Order Execution으로 레이턴시 최소화</li>
+              <li>OS/커널, 시스템 태스크 처리</li>
+              <li>Sparse 연산 및 irregular 접근 패턴</li>
+              <li>소형 배치 LLM 추론 (단일 사용자)</li>
+            </ul>
+            <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+              <div class="label">AI에서 CPU의 역할</div>
+              <div style="font-size:15px;color:var(--text-secondary);line-height:1.55;">
+                KV-Cache 관리, 토크나이저 전처리,<br>sparse attention 연산, 배치 스케줄링
+              </div>
+            </div>
+          </div>
+
+          <!-- Col 2: Cache hierarchy -->
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="img-box" style="flex:1;">
+              <img src="Docs/img/cpu-cache-hierarchy.svg" alt="CPU Cache Hierarchy">
+            </div>
+            <div class="callout" style="font-size:15px;">
+              <strong>LLM 추론에서 CPU의 역할:</strong> KV-cache 관리, sparse 연산, 배치 전처리
+            </div>
+          </div>
+
+          <!-- Col 3: AMX 심화 -->
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="img-box" style="flex:1;">
+              <img src="Docs/img/cpu-amx-tile.svg" alt="CPU AMX Tile 구조">
+            </div>
+            <div class="card" style="padding:12px;">
+              <div class="card-title" style="font-size:14px;">AMX (Advanced Matrix Extensions)</div>
+              <div style="font-size:15px;color:var(--text-secondary);line-height:1.55;">
+                Intel Sapphire Rapids 도입. 2D Tile 레지스터(8×16)로 GEMM 가속. INT8 최대 4 TOPS.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-row" style="margin-top:10px;">
+          <div class="stat-card">
+            <div class="stat-number" data-target="96">0</div>
+            <div class="stat-label">최대 코어 수 (Intel Xeon)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="480" data-suffix="MB">0</div>
+            <div class="stat-label">L3 Cache 최대 (AMD EPYC)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="4" data-prefix="최대 " data-suffix=" TOPS">0</div>
+            <div class="stat-label">AMX INT8 (Sapphire Rapids)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 3 — GPU 아키텍처
+    ========================================================== -->
+    <section class="slide" id="slide-3">
+      <div class="slide-header">
+        <div class="slide-eyebrow">SLIDE 03 · GPU</div>
+        <h2 class="slide-title">GPU — 병렬의 제왕</h2>
+        <div class="title-rule"></div>
+      </div>
+      <div class="slide-body">
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;">
+          <div class="tab-bar" id="s3-tabs">
+            <button class="tab-btn active" data-tab="s3-basic">기초</button>
+            <button class="tab-btn" data-tab="s3-warp">Warp & 레이턴시 숨기기</button>
+            <button class="tab-btn" data-tab="s3-tensor">Tensor Core</button>
+            <button class="tab-btn" data-tab="s3-flash">Flash Attention</button>
+          </div>
+
+          <div id="s3-basic" class="tab-panel active" style="flex:1;min-height:0;">
+            <div class="two-col" style="flex:1;min-height:0;">
+              <div class="card">
+                <div class="card-title">SIMT — Single Instruction Multiple Threads</div>
+                <ul class="bullet-list" style="font-size:15px;">
+                  <li>수천 개 스레드가 <strong>동일 명령어</strong>를 동시 실행</li>
+                  <li>하나의 SM(Streaming Multiprocessor)에 128개 CUDA 코어</li>
+                  <li>H100: 132 SM × 128 코어 = <strong>16,896 CUDA 코어</strong></li>
+                  <li>행렬 A×B의 각 원소를 독립적으로 병렬 계산</li>
+                  <li>Shared Memory로 SM 내 데이터 재사용</li>
+                </ul>
+              </div>
+              <div class="card">
+                <div class="card-title">왜 GPU가 AI에 최적인가</div>
+                <ul class="bullet-list" style="font-size:15px;">
+                  <li>GEMM: 완전한 데이터 병렬성 (data-parallelism)</li>
+                  <li>HBM3 메모리 → 3.35 TB/s 대역폭</li>
+                  <li>NVLink 4.0: GPU 간 900 GB/s 직결 통신</li>
+                  <li>CUDA 생태계: cuBLAS, cuDNN, TensorRT</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div id="s3-warp" class="tab-panel" style="flex:1;min-height:0;">
+            <div class="two-col" style="flex:1;min-height:0;">
+              <div class="img-box" style="flex:1;">
+                <img src="Docs/img/gpu-warp-latency-hiding.svg" alt="Warp & Latency Hiding">
+              </div>
+              <div class="card">
+                <div class="card-title">Warp & 레이턴시 숨기기 (Latency Hiding)</div>
+                <ul class="bullet-list" style="font-size:15px;">
+                  <li>Warp = 32개 스레드의 실행 단위</li>
+                  <li>한 Warp가 메모리 대기 시 → 즉시 다른 Warp 실행</li>
+                  <li>스레드 Context Switch 비용 = 0 (하드웨어 스케줄러)</li>
+                  <li>충분한 Occupancy가 레이턴시 숨기기의 핵심</li>
+                  <li>Warp Divergence: if/else가 성능을 절반으로</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div id="s3-tensor" class="tab-panel" style="flex:1;min-height:0;">
+            <div class="two-col" style="flex:1;min-height:0;">
+              <div class="img-box" style="flex:1;">
+                <img src="Docs/img/gpu-tensor-core-generations.svg" alt="Tensor Core 세대별 발전">
+              </div>
+              <div class="card">
+                <div class="card-title">Tensor Core & FP8 혁명</div>
+                <ul class="bullet-list" style="font-size:15px;">
+                  <li>Volta(V100): FP16 GEMM 전용 코어 등장</li>
+                  <li>Ampere(A100): TF32, BF16, INT8 지원</li>
+                  <li>Hopper(H100): <strong>FP8 도입 → 3,958 TFLOPS</strong></li>
+                  <li>FP8 = FP16 대비 2× 처리량, 정밀도 손실 최소</li>
+                  <li>4차원 GEMM: D = A×B + C (행렬 누산 연산)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div id="s3-flash" class="tab-panel" style="flex:1;min-height:0;">
+            <div class="two-col" style="flex:1;min-height:0;">
+              <div class="img-box" style="flex:1;">
+                <img src="Docs/img/gpu-flash-attention.svg" alt="Flash Attention SRAM/HBM">
+              </div>
+              <div class="card">
+                <div class="card-title">Flash Attention — IO 최소화 알고리즘</div>
+                <ul class="bullet-list" style="font-size:15px;">
+                  <li>표준 Attention: Q·Kᵀ를 HBM에 저장 → O(N²) IO</li>
+                  <li>Flash Attention: SRAM(192KB/SM) 내에서 타일 연산</li>
+                  <li>HBM 접근 횟수 5~10× 감소 → 속도 3× 향상</li>
+                  <li>LLM 추론은 <strong>Memory-bound</strong> → 대역폭이 핵심</li>
+                  <li>V3: 128K context에서도 선형 메모리 사용</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-row" style="margin-top:8px;flex-shrink:0;">
+          <div class="stat-card">
+            <div class="stat-number" data-target="3456">0</div>
+            <div class="stat-label">H100 Tensor Core 수</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="3958" data-suffix=" TFLOPS">0</div>
+            <div class="stat-label">H100 FP8 성능</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="3.35" data-suffix=" TB/s">0</div>
+            <div class="stat-label">H100 HBM3 대역폭</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 4 — NPU 아키텍처
+    ========================================================== -->
+    <section class="slide" id="slide-4">
+      <div class="slide-header">
+        <div class="slide-eyebrow">SLIDE 04 · NPU</div>
+        <h2 class="slide-title">NPU — 추론 효율의 극한</h2>
+        <div class="title-rule"></div>
+      </div>
+      <div class="slide-body">
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;">
+          <div class="tab-bar" id="s4-tabs">
+            <button class="tab-btn active" data-tab="s4-basic">기초</button>
+            <button class="tab-btn" data-tab="s4-systolic">Systolic Array 심화</button>
+            <button class="tab-btn" data-tab="s4-quant">양자화와 NPU</button>
+          </div>
+
+          <div id="s4-basic" class="tab-panel active" style="flex:1;min-height:0;">
+            <div class="two-col" style="flex:1;min-height:0;">
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div class="img-box" style="flex:1;">
+                  <img src="Docs/img/npu-systolic-array.svg" alt="NPU Systolic Array">
+                </div>
+                <div class="callout green">
+                  <strong>Apple M4 Neural Engine:</strong> 38 TOPS, 소비전력 ~3W.<br>
+                  TOPS/W 기준으로 H100의 <strong>10배 이상</strong> 효율.
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div class="img-box" style="flex:1;">
+                  <img src="Docs/img/npu-unified-memory.svg" alt="NPU Unified Memory">
+                </div>
+                <div class="card" style="padding:12px;">
+                  <div class="card-title" style="font-size:14px;">Unified Memory 아키텍처</div>
+                  <div style="font-size:15px;color:var(--text-secondary);line-height:1.55;">
+                    CPU/GPU/NPU가 동일 메모리 공유. 데이터 복사 없음. Apple Silicon의 핵심 혁신.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="s4-systolic" class="tab-panel" style="flex:1;min-height:0;">
+            <div class="two-col" style="flex:1;min-height:0;">
+              <div class="img-box" style="flex:1;">
+                <img src="Docs/img/npu-systolic-array.svg" alt="Systolic Array 구조">
+              </div>
+              <div class="card">
+                <div class="card-title">Systolic Array — 메모리 없는 연산</div>
+                <ul class="bullet-list" style="font-size:15px;">
+                  <li>MAC(Multiply-Accumulate) 유닛이 격자 형태로 배열</li>
+                  <li>데이터가 물결처럼 흘러 연산 — 추가 메모리 접근 없음</li>
+                  <li>가중치(Weight)를 배열에 고정 → Stationary 방식</li>
+                  <li>높은 데이터 재사용률 → 에너지 효율 극대화</li>
+                  <li>Google TPU, Apple Neural Engine 모두 사용</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div id="s4-quant" class="tab-panel" style="flex:1;min-height:0;">
+            <div class="two-col" style="flex:1;min-height:0;">
+              <div class="card">
+                <div class="card-title">양자화 (Quantization) 효과</div>
+                <ul class="bullet-list" style="font-size:15px;">
+                  <li>FP32 → INT8: 메모리 4× 절감, 연산 4× 빠름</li>
+                  <li>FP32 → INT4: 메모리 8× 절감 (AWQ, GPTQ 기법)</li>
+                  <li>NPU는 INT8/INT4 전용 회로 → GPU 대비 더 효율적</li>
+                  <li>QAT(Quantization-Aware Training)로 정확도 유지</li>
+                  <li>온디바이스 LLM: Llama 3.2 3B INT4 = 1.8GB</li>
+                </ul>
+              </div>
+              <div>
+                <table class="comp-table">
+                  <thead>
+                    <tr><th></th><th>GPU (H100)</th><th>NPU (M4)</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>용도</td><td>학습/대형 추론</td><td>엣지 추론</td></tr>
+                    <tr><td>전력</td><td>700W</td><td>~20W</td></tr>
+                    <tr><td>TOPS/W</td><td>~5.7</td><td>50+</td></tr>
+                    <tr><td>메모리</td><td>80GB HBM3</td><td>최대 128GB 통합</td></tr>
+                    <tr><td>정밀도</td><td>FP8~FP64</td><td>INT4~INT16</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-row" style="margin-top:8px;flex-shrink:0;">
+          <div class="stat-card">
+            <div class="stat-number" data-target="38" data-suffix=" TOPS">0</div>
+            <div class="stat-label">Apple M4 Neural Engine</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="50" data-suffix="+ TOPS/W">0</div>
+            <div class="stat-label">NPU 전력 효율 (M4)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="4" data-prefix="INT" data-suffix=" 지원">0</div>
+            <div class="stat-label">최저 양자화 비트폭</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 5 — TPU 아키텍처
+    ========================================================== -->
+    <section class="slide" id="slide-5">
+      <div class="slide-header">
+        <div class="slide-eyebrow">SLIDE 05 · TPU</div>
+        <h2 class="slide-title">TPU — Google이 직접 만든 이유</h2>
+        <div class="title-rule"></div>
+      </div>
+      <div class="slide-body">
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;">
+          <div class="tab-bar" id="s5-tabs">
+            <button class="tab-btn active" data-tab="s5-basic">기초</button>
+            <button class="tab-btn" data-tab="s5-systolic">Systolic Array 원리</button>
+            <button class="tab-btn" data-tab="s5-ici">ICI vs NVLink</button>
+          </div>
+
+          <div id="s5-basic" class="tab-panel active" style="flex:1;min-height:0;">
+            <div class="main-sidebar" style="flex:1;min-height:0;">
+              <div class="img-box" style="flex:1;">
+                <img src="Docs/img/tpu-systolic-dataflow.svg" alt="TPU Systolic Dataflow">
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div class="card">
+                  <div class="card-title">TPU 세대별 진화</div>
+                  <ul class="bullet-list" style="font-size:14px;">
+                    <li><strong>v1 (2015)</strong>: 추론 전용, 92 TOPS INT8</li>
+                    <li><strong>v2 (2017)</strong>: 학습 추가, HBM 도입</li>
+                    <li><strong>v4 (2021)</strong>: 275 TFLOPS BF16</li>
+                    <li><strong>v5p (2023)</strong>: 459 TFLOPS, 4,096칩 Pod</li>
+                    <li><strong>v5e (2023)</strong>: 비용 최적화 버전</li>
+                  </ul>
+                </div>
+                <div class="callout amber">
+                  <strong>XLA 컴파일러 의존</strong> → 범용성 낮음<br>
+                  BUT 특화 성능 극대화 & Google 인프라와 최적 통합
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="s5-systolic" class="tab-panel" style="flex:1;min-height:0;">
+            <div class="two-col" style="flex:1;min-height:0;">
+              <div class="img-box" style="flex:1;">
+                <img src="Docs/img/tpu-systolic-dataflow.svg" alt="TPU Systolic Array 원리">
+              </div>
+              <div class="card">
+                <div class="card-title">TPU Systolic Array 원리</div>
+                <ul class="bullet-list" style="font-size:15px;">
+                  <li>128×128 MAC 유닛 배열 (v1 기준)</li>
+                  <li>데이터가 행/열 방향으로 펄스처럼 이동</li>
+                  <li>각 MAC은 이전 결과를 누산하며 통과</li>
+                  <li>메모리 접근 없이 칩 내에서 연산 완료</li>
+                  <li>Weight Stationary: 가중치 고정, 입력 이동</li>
+                  <li>BF16: FP32 대비 4× 처리량, 범위 유지</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div id="s5-ici" class="tab-panel" style="flex:1;min-height:0;">
+            <div class="two-col" style="flex:1;min-height:0;">
+              <div class="img-box" style="flex:1;">
+                <img src="Docs/img/tpu-ici-vs-nvlink.svg" alt="ICI vs NVLink 토폴로지">
+              </div>
+              <div class="card">
+                <div class="card-title">ICI vs NVLink — 상호연결 비교</div>
+                <ul class="bullet-list" style="font-size:15px;">
+                  <li><strong>ICI (Inter-Chip Interconnect)</strong>: TPU 전용, 3D 토러스 토폴로지</li>
+                  <li>TPU Pod: 4,096칩이 직접 연결 (no switch)</li>
+                  <li>ICI 대역폭: 192 GB/s per link (v4)</li>
+                  <li><strong>NVLink 4.0</strong>: NVIDIA GPU 간, 900 GB/s 양방향</li>
+                  <li>NVSwitch 기반 full-mesh → 더 유연한 토폴로지</li>
+                  <li>TPU ICI: 낮은 레이턴시, 규모 확장성 우수</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-row" style="margin-top:8px;flex-shrink:0;">
+          <div class="stat-card">
+            <div class="stat-number" data-target="459" data-suffix=" TFLOPS">0</div>
+            <div class="stat-label">TPU v5p BF16 성능</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="4096" data-suffix="칩">0</div>
+            <div class="stat-label">TPU v5p 최대 Pod 크기</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="192" data-suffix=" GB/s">0</div>
+            <div class="stat-label">ICI 링크 대역폭 (v4)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 6 — 인터랙티브 비교 매트릭스
+    ========================================================== -->
+    <section class="slide" id="slide-6">
+      <div class="slide-header">
+        <div class="slide-eyebrow">SLIDE 06 · 비교 매트릭스</div>
+        <h2 class="slide-title">4대 프로세서 비교</h2>
+        <div class="title-rule"></div>
+      </div>
+      <div class="slide-body">
+        <div id="radar-wrapper">
+          <!-- Radar Chart Canvas -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+            <svg id="radar-svg" width="380" height="340" viewBox="0 0 380 340"></svg>
+          </div>
+
+          <!-- Controls + Table -->
+          <div style="width:500px;display:flex;flex-direction:column;gap:14px;">
+            <div id="radar-controls">
+              <div class="label">프로세서 토글</div>
+              <label class="radar-check checked" data-proc="cpu">
+                <input type="checkbox" checked>
+                <div class="radar-swatch" style="background:#8A8A8A;"></div>
+                <span>CPU</span>
+              </label>
+              <label class="radar-check checked" data-proc="gpu">
+                <input type="checkbox" checked>
+                <div class="radar-swatch" style="background:#002C5F;"></div>
+                <span>GPU</span>
+              </label>
+              <label class="radar-check checked" data-proc="npu">
+                <input type="checkbox" checked>
+                <div class="radar-swatch" style="background:#00AA6C;"></div>
+                <span>NPU</span>
+              </label>
+              <label class="radar-check checked" data-proc="tpu">
+                <input type="checkbox" checked>
+                <div class="radar-swatch" style="background:#E8962A;"></div>
+                <span>TPU</span>
+              </label>
+            </div>
+
+            <table class="comp-table" style="font-size:14px;">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>CPU</th>
+                  <th>GPU</th>
+                  <th>NPU</th>
+                  <th>TPU</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>대표 제품</td><td>Intel Xeon</td><td>NVIDIA H100</td><td>Apple M4 NE</td><td>TPU v5p</td></tr>
+                <tr><td>학습</td><td>△</td><td>★★★</td><td>✗</td><td>★★★</td></tr>
+                <tr><td>추론</td><td>△</td><td>★★</td><td>★★★</td><td>★★</td></tr>
+                <tr><td>전력효율</td><td>△</td><td>★</td><td>★★★</td><td>★★</td></tr>
+                <tr><td>유연성</td><td>★★★</td><td>★★★</td><td>★</td><td>★</td></tr>
+                <tr><td>비용</td><td>★★</td><td>★</td><td>★★★</td><td>★★</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 7 — 워크로드별 선택 가이드
+    ========================================================== -->
+    <section class="slide" id="slide-7">
+      <div class="slide-header">
+        <div class="slide-eyebrow">SLIDE 07 · 선택 가이드</div>
+        <h2 class="slide-title">어떤 칩을 언제 써야 하는가</h2>
+        <div class="title-rule"></div>
+      </div>
+      <div class="slide-body">
+        <!-- Decision Tree SVG -->
+        <div style="flex-shrink:0;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:14px;">
+          <svg id="dtree-svg" width="1140" height="160" viewBox="0 0 1140 160"></svg>
+        </div>
+
+        <!-- Product Cards -->
+        <div class="product-grid" style="flex-shrink:0;">
+          <div class="product-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+              <div class="product-card-name">NVIDIA H100 SXM</div>
+              <span class="badge badge-navy">학습/추론</span>
+            </div>
+            <div class="product-card-spec">
+              80GB HBM3 · 700W TDP<br>
+              3,958 TFLOPS FP8 · NVLink 4.0<br>
+              3,456 Tensor Cores
+            </div>
+            <div class="product-card-price">$30,000+</div>
+          </div>
+          <div class="product-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+              <div class="product-card-name">AMD Instinct MI300X</div>
+              <span class="badge badge-amber">대용량 추론</span>
+            </div>
+            <div class="product-card-spec">
+              192GB HBM3 · 750W TDP<br>
+              5.3 TB/s 메모리 대역폭<br>
+              ROCm 생태계 지원
+            </div>
+            <div class="product-card-price">~$15,000</div>
+          </div>
+          <div class="product-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+              <div class="product-card-name">Apple M4 Max</div>
+              <span class="badge badge-green">엣지/온디바이스</span>
+            </div>
+            <div class="product-card-spec">
+              최대 128GB 통합 메모리 · 92W<br>
+              38 TOPS Neural Engine<br>
+              Llama 3 70B INT4 실행 가능
+            </div>
+            <div class="product-card-price">~$3,500</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 8 — 미래 트렌드
+    ========================================================== -->
+    <section class="slide dark" id="slide-8">
+      <div class="circuit-bg"></div>
+      <div class="slide-header" style="position:relative;z-index:1;">
+        <div class="slide-eyebrow">SLIDE 08 · 미래 트렌드</div>
+        <h2 class="slide-title">AI 반도체의 다음 5년</h2>
+        <div class="title-rule"></div>
+      </div>
+      <div class="slide-body" style="position:relative;z-index:1;">
+        <div class="trend-grid">
+          <div class="trend-card anim-fadein-d1">
+            <div class="trend-icon">🧩</div>
+            <div class="trend-title">Chiplet 아키텍처</div>
+            <div class="trend-body">
+              단일 다이의 한계를 넘어 이종 칩을 패키지 수준에서 조합.
+              NVIDIA Blackwell (GB202)는 2개 다이를 NV-HBI로 연결.
+              AMD CDNA4는 Compute + HBM Chiplet 분리.
+              UCIe 표준 → 벤더 간 상호운용 가속.
+            </div>
+          </div>
+          <div class="trend-card anim-fadein-d2">
+            <div class="trend-icon">🧠</div>
+            <div class="trend-title">In-Memory Computing (PIM)</div>
+            <div class="trend-body">
+              메모리 안에서 직접 연산 → 메모리 월(Memory Wall) 돌파.
+              Samsung HBM-PIM: DRAM 내 GEMV 연산.
+              SK Hynix AiM: 1 TB/s 내부 대역폭.
+              2027+ 상용화 시 LLM 추론 에너지 10× 절감 목표.
+            </div>
+          </div>
+          <div class="trend-card anim-fadein-d3">
+            <div class="trend-icon">💡</div>
+            <div class="trend-title">Photonic Computing</div>
+            <div class="trend-body">
+              광학 신호로 행렬곱 연산 → 열 발생 없음.
+              Lightmatter Passage: 광학 인터커넥트 상용화.
+              Lightelligence: ONN(광학 신경망) 가속기.
+              전력 10× 절감, 레이턴시 최소화 목표. 2028+ 양산 전망.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot">24</div>
+            <div class="timeline-year">2024</div>
+            <div class="timeline-label">NVIDIA Blackwell<br>GB200 출시</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">25</div>
+            <div class="timeline-year">2025</div>
+            <div class="timeline-label">HBM4 양산<br>TPU v6 출시</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">26</div>
+            <div class="timeline-year">2026</div>
+            <div class="timeline-label">UCIe Chiplet<br>표준화</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">27</div>
+            <div class="timeline-year">2027+</div>
+            <div class="timeline-label">PIM 상용화<br>광학 인터커넥트</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SLIDE 9: COMPUTE COMPARE ===== -->
+    <section class="slide" id="slide-9">
+      <div class="slide-header">
+        <div class="slide-eyebrow">SLIDE 09 · 연산 방식 비교</div>
+        <h2 class="slide-title">4대 프로세서 — 어떻게 연산하는가</h2>
+        <div class="title-rule"></div>
+      </div>
+      <div class="slide-body">
+        <div class="cc-grid">
+
+          <!-- CPU -->
+          <div class="cc-card cc-cpu">
+            <span class="cc-badge">CPU</span>
+            <div class="cc-sub">범용 · OoO 파이프라인 · 브랜치 예측</div>
+            <div class="cc-svg-wrap">
+              <svg viewBox="0 0 248 95" xmlns="http://www.w3.org/2000/svg">
+                <g class="core-c1">
+                  <rect x="2" y="2" width="118" height="46" rx="6" fill="#E8EEF7" stroke="#003F8A" stroke-width="1.5"/>
+                  <text x="61" y="12" text-anchor="middle" font-size="7" fill="#003F8A" font-weight="700">CORE 1 · OoO</text>
+                  <rect x="9"  y="15" width="22" height="28" rx="3" fill="#003F8A" class="cs-f"/><text x="20"  y="32" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">F</text>
+                  <rect x="34" y="15" width="22" height="28" rx="3" fill="#003F8A" class="cs-d"/><text x="45"  y="32" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">D</text>
+                  <rect x="59" y="15" width="26" height="28" rx="3" fill="#1A5CB5" class="cs-ex"/><text x="72" y="32" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="700">EX</text>
+                  <rect x="88" y="15" width="24" height="28" rx="3" fill="#1A5CB5" class="cs-w"/><text x="100" y="32" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">W</text>
+                  <path d="M68 43 Q64 49 48 49 Q32 49 32 43" fill="none" stroke="#E8962A" stroke-width="1" stroke-dasharray="2,2"/>
+                  <text x="50" y="48" text-anchor="middle" font-size="6" fill="#E8962A" font-weight="600">OoO</text>
+                </g>
+                <g class="core-c2">
+                  <rect x="128" y="2" width="118" height="46" rx="6" fill="#E8EEF7" stroke="#003F8A" stroke-width="1.5"/>
+                  <text x="187" y="12" text-anchor="middle" font-size="7" fill="#003F8A" font-weight="700">CORE 2 · OoO</text>
+                  <rect x="135" y="15" width="22" height="28" rx="3" fill="#003F8A" class="cs-f"/><text x="146" y="32" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">F</text>
+                  <rect x="160" y="15" width="22" height="28" rx="3" fill="#003F8A" class="cs-d"/><text x="171" y="32" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">D</text>
+                  <rect x="185" y="15" width="26" height="28" rx="3" fill="#1A5CB5" class="cs-ex"/><text x="198" y="32" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="700">EX</text>
+                  <rect x="214" y="15" width="24" height="28" rx="3" fill="#1A5CB5" class="cs-w"/><text x="226" y="32" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">W</text>
+                  <path d="M194 43 Q190 49 174 49 Q158 49 158 43" fill="none" stroke="#E8962A" stroke-width="1" stroke-dasharray="2,2"/>
+                </g>
+                <g class="core-c3">
+                  <rect x="2" y="52" width="118" height="38" rx="6" fill="#E8EEF7" stroke="#003F8A" stroke-width="1.5"/>
+                  <text x="61" y="62" text-anchor="middle" font-size="7" fill="#003F8A" font-weight="700">CORE 3 · OoO</text>
+                  <rect x="9"  y="64" width="22" height="22" rx="3" fill="#003F8A" class="cs-f"/><text x="20"  y="78" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">F</text>
+                  <rect x="34" y="64" width="22" height="22" rx="3" fill="#003F8A" class="cs-d"/><text x="45"  y="78" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">D</text>
+                  <rect x="59" y="64" width="26" height="22" rx="3" fill="#1A5CB5" class="cs-ex"/><text x="72" y="78" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="700">EX</text>
+                  <rect x="88" y="64" width="24" height="22" rx="3" fill="#1A5CB5" class="cs-w"/><text x="100" y="78" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">W</text>
+                </g>
+                <g class="core-c4">
+                  <rect x="128" y="52" width="118" height="38" rx="6" fill="#E8EEF7" stroke="#003F8A" stroke-width="1.5"/>
+                  <text x="187" y="62" text-anchor="middle" font-size="7" fill="#003F8A" font-weight="700">CORE 4 · OoO</text>
+                  <rect x="135" y="64" width="22" height="22" rx="3" fill="#003F8A" class="cs-f"/><text x="146" y="78" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">F</text>
+                  <rect x="160" y="64" width="22" height="22" rx="3" fill="#003F8A" class="cs-d"/><text x="171" y="78" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">D</text>
+                  <rect x="185" y="64" width="26" height="22" rx="3" fill="#1A5CB5" class="cs-ex"/><text x="198" y="78" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="700">EX</text>
+                  <rect x="214" y="64" width="24" height="22" rx="3" fill="#1A5CB5" class="cs-w"/><text x="226" y="78" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">W</text>
+                </g>
+                <text x="124" y="95" text-anchor="middle" font-size="7" fill="#8A8A8A">소수 강력 코어 · MIMD · 각 코어 독립 명령어 실행</text>
+              </svg>
+            </div>
+            <div class="cc-desc">Intel Xeon / AMD EPYC · 64~128코어<br>복잡 분기·OoO·캐시 최강, AI 보조 역할</div>
+          </div>
+
+          <!-- GPU -->
+          <div class="cc-card cc-gpu">
+            <span class="cc-badge">GPU</span>
+            <div class="cc-sub">SIMT · Warp 스케줄링 · 레이턴시 하이딩</div>
+            <div class="cc-svg-wrap">
+              <svg viewBox="0 0 248 96" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5"    y="5"    width="18" height="11" rx="2" fill="#00AA6C" class="gr-0"/><rect x="24.5" y="5"    width="18" height="11" rx="2" fill="#00AA6C" class="gr-0"/><rect x="44"   y="5"    width="18" height="11" rx="2" fill="#00AA6C" class="gr-0"/><rect x="63.5" y="5"    width="18" height="11" rx="2" fill="#00AA6C" class="gr-0"/><rect x="83"   y="5"    width="18" height="11" rx="2" fill="#00AA6C" class="gr-0"/><rect x="102.5" y="5"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-0"/><rect x="122"  y="5"    width="18" height="11" rx="2" fill="#00AA6C" class="gr-0"/><rect x="141.5" y="5"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-0"/><rect x="161"  y="5"    width="18" height="11" rx="2" fill="#00AA6C" class="gr-0"/><rect x="180.5" y="5"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-0"/><rect x="200"  y="5"    width="18" height="11" rx="2" fill="#00AA6C" class="gr-0"/><rect x="219.5" y="5"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-0"/>
+                <rect x="5"    y="17.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-1"/><rect x="24.5" y="17.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-1"/><rect x="44"   y="17.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-1"/><rect x="63.5" y="17.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-1"/><rect x="83"   y="17.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-1"/><rect x="102.5" y="17.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-1"/><rect x="122"  y="17.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-1"/><rect x="141.5" y="17.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-1"/><rect x="161"  y="17.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-1"/><rect x="180.5" y="17.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-1"/><rect x="200"  y="17.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-1"/><rect x="219.5" y="17.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-1"/>
+                <rect x="5"    y="30"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-2"/><rect x="24.5" y="30"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-2"/><rect x="44"   y="30"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-2"/><rect x="63.5" y="30"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-2"/><rect x="83"   y="30"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-2"/><rect x="102.5" y="30"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-2"/><rect x="122"  y="30"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-2"/><rect x="141.5" y="30"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-2"/><rect x="161"  y="30"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-2"/><rect x="180.5" y="30"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-2"/><rect x="200"  y="30"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-2"/><rect x="219.5" y="30"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-2"/>
+                <rect x="5"    y="42.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-3"/><rect x="24.5" y="42.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-3"/><rect x="44"   y="42.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-3"/><rect x="63.5" y="42.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-3"/><rect x="83"   y="42.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-3"/><rect x="102.5" y="42.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-3"/><rect x="122"  y="42.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-3"/><rect x="141.5" y="42.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-3"/><rect x="161"  y="42.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-3"/><rect x="180.5" y="42.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-3"/><rect x="200"  y="42.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-3"/><rect x="219.5" y="42.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-3"/>
+                <rect x="5"    y="55"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-4"/><rect x="24.5" y="55"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-4"/><rect x="44"   y="55"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-4"/><rect x="63.5" y="55"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-4"/><rect x="83"   y="55"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-4"/><rect x="102.5" y="55"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-4"/><rect x="122"  y="55"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-4"/><rect x="141.5" y="55"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-4"/><rect x="161"  y="55"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-4"/><rect x="180.5" y="55"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-4"/><rect x="200"  y="55"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-4"/><rect x="219.5" y="55"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-4"/>
+                <rect x="5"    y="67.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-5"/><rect x="24.5" y="67.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-5"/><rect x="44"   y="67.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-5"/><rect x="63.5" y="67.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-5"/><rect x="83"   y="67.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-5"/><rect x="102.5" y="67.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-5"/><rect x="122"  y="67.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-5"/><rect x="141.5" y="67.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-5"/><rect x="161"  y="67.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-5"/><rect x="180.5" y="67.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-5"/><rect x="200"  y="67.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-5"/><rect x="219.5" y="67.5" width="18" height="11" rx="2" fill="#00AA6C" class="gr-5"/>
+                <rect x="5"    y="80"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-6"/><rect x="24.5" y="80"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-6"/><rect x="44"   y="80"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-6"/><rect x="63.5" y="80"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-6"/><rect x="83"   y="80"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-6"/><rect x="102.5" y="80"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-6"/><rect x="122"  y="80"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-6"/><rect x="141.5" y="80"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-6"/><rect x="161"  y="80"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-6"/><rect x="180.5" y="80"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-6"/><rect x="200"  y="80"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-6"/><rect x="219.5" y="80"   width="18" height="11" rx="2" fill="#00AA6C" class="gr-6"/>
+                <line x1="5" y1="3" x2="237.5" y2="3" stroke="#00AA6C" stroke-width="0.8" stroke-dasharray="1,1"/>
+                <text x="124" y="96" text-anchor="middle" font-size="7" fill="#007a50" font-weight="600">← 1 Warp: 12 threads 동시 같은 명령어 실행 (SIMT) →</text>
+              </svg>
+            </div>
+            <div class="cc-desc">NVIDIA H100 · 16,896 CUDA Cores<br>대규모 병렬·Warp 레이턴시 하이딩·Tensor Core FP8</div>
+          </div>
+
+          <!-- NPU -->
+          <div class="cc-card cc-npu">
+            <span class="cc-badge">NPU</span>
+            <div class="cc-sub">Systolic Array · 대각선 데이터플로우 · 저전력</div>
+            <div class="cc-svg-wrap">
+              <svg viewBox="0 0 248 97" xmlns="http://www.w3.org/2000/svg">
+                <line x1="2" y1="15" x2="30" y2="15" stroke="#aaa" stroke-width="1"/><polygon points="28,12 33,15 28,18" fill="#aaa"/>
+                <line x1="2" y1="37" x2="30" y2="37" stroke="#aaa" stroke-width="1"/><polygon points="28,34 33,37 28,40" fill="#aaa"/>
+                <line x1="2" y1="59" x2="30" y2="59" stroke="#aaa" stroke-width="1"/><polygon points="28,56 33,59 28,62" fill="#aaa"/>
+                <line x1="2" y1="81" x2="30" y2="81" stroke="#aaa" stroke-width="1"/><polygon points="28,78 33,81 28,84" fill="#aaa"/>
+                <rect x="34"  y="6"  width="35" height="18" rx="3" fill="#E8962A" class="nd-0"/><text x="51"  y="18" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="73"  y="6"  width="35" height="18" rx="3" fill="#E8962A" class="nd-1"/><text x="90"  y="18" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="112" y="6"  width="35" height="18" rx="3" fill="#E8962A" class="nd-2"/><text x="129" y="18" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="151" y="6"  width="35" height="18" rx="3" fill="#E8962A" class="nd-3"/><text x="168" y="18" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="190" y="6"  width="35" height="18" rx="3" fill="#E8962A" class="nd-4"/><text x="207" y="18" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="34"  y="28" width="35" height="18" rx="3" fill="#E8962A" class="nd-1"/><text x="51"  y="40" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="73"  y="28" width="35" height="18" rx="3" fill="#E8962A" class="nd-2"/><text x="90"  y="40" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="112" y="28" width="35" height="18" rx="3" fill="#E8962A" class="nd-3"/><text x="129" y="40" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="151" y="28" width="35" height="18" rx="3" fill="#E8962A" class="nd-4"/><text x="168" y="40" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="190" y="28" width="35" height="18" rx="3" fill="#E8962A" class="nd-5"/><text x="207" y="40" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="34"  y="50" width="35" height="18" rx="3" fill="#E8962A" class="nd-2"/><text x="51"  y="62" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="73"  y="50" width="35" height="18" rx="3" fill="#E8962A" class="nd-3"/><text x="90"  y="62" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="112" y="50" width="35" height="18" rx="3" fill="#E8962A" class="nd-4"/><text x="129" y="62" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="151" y="50" width="35" height="18" rx="3" fill="#E8962A" class="nd-5"/><text x="168" y="62" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="190" y="50" width="35" height="18" rx="3" fill="#E8962A" class="nd-6"/><text x="207" y="62" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="34"  y="72" width="35" height="18" rx="3" fill="#E8962A" class="nd-3"/><text x="51"  y="84" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="73"  y="72" width="35" height="18" rx="3" fill="#E8962A" class="nd-4"/><text x="90"  y="84" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="112" y="72" width="35" height="18" rx="3" fill="#E8962A" class="nd-5"/><text x="129" y="84" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="151" y="72" width="35" height="18" rx="3" fill="#E8962A" class="nd-6"/><text x="168" y="84" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <rect x="190" y="72" width="35" height="18" rx="3" fill="#E8962A" class="nd-7"/><text x="207" y="84" text-anchor="middle" font-size="7" fill="#fff" font-weight="700">MAC</text>
+                <text x="124" y="97" text-anchor="middle" font-size="7" fill="#8A8A8A">대각선 파형 실행 · Psum 우측 전달 (Systolic)</text>
+              </svg>
+            </div>
+            <div class="cc-desc">Apple M4 NE · 38 TOPS @ ~3W<br>INT8/INT4 전용 · 엣지 추론 최강 · TOPS/W 최고</div>
+          </div>
+
+          <!-- TPU -->
+          <div class="cc-card cc-tpu">
+            <span class="cc-badge">TPU</span>
+            <div class="cc-sub">MXU · Weight-Stationary · 대규모 GEMM</div>
+            <div class="cc-svg-wrap">
+              <svg viewBox="0 0 248 97" xmlns="http://www.w3.org/2000/svg">
+                <text x="42"  y="9" text-anchor="middle" font-size="7" fill="#DC2626" font-weight="700">W&#x2080;</text>
+                <text x="73"  y="9" text-anchor="middle" font-size="7" fill="#DC2626" font-weight="700">W&#x2081;</text>
+                <text x="104" y="9" text-anchor="middle" font-size="7" fill="#DC2626" font-weight="700">W&#x2082;</text>
+                <text x="135" y="9" text-anchor="middle" font-size="7" fill="#DC2626" font-weight="700">W&#x2083;</text>
+                <text x="166" y="9" text-anchor="middle" font-size="7" fill="#DC2626" font-weight="700">W&#x2084;</text>
+                <text x="197" y="9" text-anchor="middle" font-size="7" fill="#DC2626" font-weight="700">W&#x2085;</text>
+                <line x1="2" y1="22" x2="24" y2="22" stroke="#aaa" stroke-width="1"/><polygon points="22,19 27,22 22,25" fill="#aaa"/>
+                <line x1="2" y1="41" x2="24" y2="41" stroke="#aaa" stroke-width="1"/><polygon points="22,38 27,41 22,44" fill="#aaa"/>
+                <line x1="2" y1="60" x2="24" y2="60" stroke="#aaa" stroke-width="1"/><polygon points="22,57 27,60 22,63" fill="#aaa"/>
+                <line x1="2" y1="79" x2="24" y2="79" stroke="#aaa" stroke-width="1"/><polygon points="22,76 27,79 22,82" fill="#aaa"/>
+                <rect x="28"  y="13" width="28" height="16" rx="3" fill="#DC2626" class="tc-0"/><circle cx="42"  cy="18" r="3" fill="#E8962A"/><text x="42"  y="27" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="59"  y="13" width="28" height="16" rx="3" fill="#DC2626" class="tc-1"/><circle cx="73"  cy="18" r="3" fill="#E8962A"/><text x="73"  y="27" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="90"  y="13" width="28" height="16" rx="3" fill="#DC2626" class="tc-2"/><circle cx="104" cy="18" r="3" fill="#E8962A"/><text x="104" y="27" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="121" y="13" width="28" height="16" rx="3" fill="#DC2626" class="tc-3"/><circle cx="135" cy="18" r="3" fill="#E8962A"/><text x="135" y="27" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="152" y="13" width="28" height="16" rx="3" fill="#DC2626" class="tc-4"/><circle cx="166" cy="18" r="3" fill="#E8962A"/><text x="166" y="27" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="183" y="13" width="28" height="16" rx="3" fill="#DC2626" class="tc-5"/><circle cx="197" cy="18" r="3" fill="#E8962A"/><text x="197" y="27" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="28"  y="32" width="28" height="16" rx="3" fill="#DC2626" class="tc-0"/><circle cx="42"  cy="37" r="3" fill="#E8962A"/><text x="42"  y="46" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="59"  y="32" width="28" height="16" rx="3" fill="#DC2626" class="tc-1"/><circle cx="73"  cy="37" r="3" fill="#E8962A"/><text x="73"  y="46" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="90"  y="32" width="28" height="16" rx="3" fill="#DC2626" class="tc-2"/><circle cx="104" cy="37" r="3" fill="#E8962A"/><text x="104" y="46" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="121" y="32" width="28" height="16" rx="3" fill="#DC2626" class="tc-3"/><circle cx="135" cy="37" r="3" fill="#E8962A"/><text x="135" y="46" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="152" y="32" width="28" height="16" rx="3" fill="#DC2626" class="tc-4"/><circle cx="166" cy="37" r="3" fill="#E8962A"/><text x="166" y="46" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="183" y="32" width="28" height="16" rx="3" fill="#DC2626" class="tc-5"/><circle cx="197" cy="37" r="3" fill="#E8962A"/><text x="197" y="46" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="28"  y="51" width="28" height="16" rx="3" fill="#DC2626" class="tc-0"/><circle cx="42"  cy="56" r="3" fill="#E8962A"/><text x="42"  y="65" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="59"  y="51" width="28" height="16" rx="3" fill="#DC2626" class="tc-1"/><circle cx="73"  cy="56" r="3" fill="#E8962A"/><text x="73"  y="65" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="90"  y="51" width="28" height="16" rx="3" fill="#DC2626" class="tc-2"/><circle cx="104" cy="56" r="3" fill="#E8962A"/><text x="104" y="65" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="121" y="51" width="28" height="16" rx="3" fill="#DC2626" class="tc-3"/><circle cx="135" cy="56" r="3" fill="#E8962A"/><text x="135" y="65" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="152" y="51" width="28" height="16" rx="3" fill="#DC2626" class="tc-4"/><circle cx="166" cy="56" r="3" fill="#E8962A"/><text x="166" y="65" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="183" y="51" width="28" height="16" rx="3" fill="#DC2626" class="tc-5"/><circle cx="197" cy="56" r="3" fill="#E8962A"/><text x="197" y="65" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="28"  y="70" width="28" height="16" rx="3" fill="#DC2626" class="tc-0"/><circle cx="42"  cy="75" r="3" fill="#E8962A"/><text x="42"  y="84" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="59"  y="70" width="28" height="16" rx="3" fill="#DC2626" class="tc-1"/><circle cx="73"  cy="75" r="3" fill="#E8962A"/><text x="73"  y="84" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="90"  y="70" width="28" height="16" rx="3" fill="#DC2626" class="tc-2"/><circle cx="104" cy="75" r="3" fill="#E8962A"/><text x="104" y="84" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="121" y="70" width="28" height="16" rx="3" fill="#DC2626" class="tc-3"/><circle cx="135" cy="75" r="3" fill="#E8962A"/><text x="135" y="84" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="152" y="70" width="28" height="16" rx="3" fill="#DC2626" class="tc-4"/><circle cx="166" cy="75" r="3" fill="#E8962A"/><text x="166" y="84" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <rect x="183" y="70" width="28" height="16" rx="3" fill="#DC2626" class="tc-5"/><circle cx="197" cy="75" r="3" fill="#E8962A"/><text x="197" y="84" text-anchor="middle" font-size="5.5" fill="#fde" font-weight="700">x+</text>
+                <line x1="214" y1="22" x2="242" y2="22" stroke="#aaa" stroke-width="1"/><polygon points="240,19 245,22 240,25" fill="#aaa"/>
+                <line x1="214" y1="41" x2="242" y2="41" stroke="#aaa" stroke-width="1"/><polygon points="240,38 245,41 240,44" fill="#aaa"/>
+                <line x1="214" y1="60" x2="242" y2="60" stroke="#aaa" stroke-width="1"/><polygon points="240,57 245,60 240,63" fill="#aaa"/>
+                <line x1="214" y1="79" x2="242" y2="79" stroke="#aaa" stroke-width="1"/><polygon points="240,76 245,79 240,82" fill="#aaa"/>
+                <text x="2"   y="9"  font-size="7" fill="#555">Input</text>
+                <text x="246" y="9"  font-size="7" fill="#555" text-anchor="end">&#x2211; out</text>
+                <text x="124" y="97" text-anchor="middle" font-size="7" fill="#8A8A8A">Weight-Stationary: W 고정 &#x25CF; Input 좌&#x2192;우 흐름 (MXU)</text>
+              </svg>
+            </div>
+            <div class="cc-desc">Google TPU v5p · 256&#xd7;256 MXU<br>학습 처리량 최강 · XLA 전용 · Systolic GEMM</div>
+          </div>
+
+        </div><!-- .cc-grid -->
+
+        <!-- Metric comparison bars -->
+        <div class="cc-metrics-section">
+          <div class="cc-metrics-header">
+            <span class="cc-metrics-title">핵심 지표 상대 비교</span>
+            <div class="cc-legend">
+              <span class="cc-legend-item"><span class="cc-legend-dot" style="background:#003F8A"></span>CPU</span>
+              <span class="cc-legend-item"><span class="cc-legend-dot" style="background:#00AA6C"></span>GPU</span>
+              <span class="cc-legend-item"><span class="cc-legend-dot" style="background:#E8962A"></span>NPU</span>
+              <span class="cc-legend-item"><span class="cc-legend-dot" style="background:#DC2626"></span>TPU</span>
+            </div>
+          </div>
+          <div class="cc-metric-row">
+            <div class="cc-metric-label">병렬 스레드 수</div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-cpu-fill" data-target="6"></div></div><span class="cc-bar-val">64~128코어</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-gpu-fill" data-target="100"></div></div><span class="cc-bar-val">16,896 CUDA</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-npu-fill" data-target="40"></div></div><span class="cc-bar-val">INT8 MAC 배열</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-tpu-fill" data-target="75"></div></div><span class="cc-bar-val">65,536+ MAC</span></div>
+          </div>
+          <div class="cc-metric-row">
+            <div class="cc-metric-label">제어 유연성</div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-cpu-fill" data-target="100"></div></div><span class="cc-bar-val">최강 (범용)</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-gpu-fill" data-target="60"></div></div><span class="cc-bar-val">CUDA 에코계</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-npu-fill" data-target="22"></div></div><span class="cc-bar-val">추론 전용</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-tpu-fill" data-target="14"></div></div><span class="cc-bar-val">XLA 전용</span></div>
+          </div>
+          <div class="cc-metric-row">
+            <div class="cc-metric-label">전력 효율</div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-cpu-fill" data-target="8"></div></div><span class="cc-bar-val">~2 TOPS/W</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-gpu-fill" data-target="32"></div></div><span class="cc-bar-val">~10 TOPS/W</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-npu-fill" data-target="100"></div></div><span class="cc-bar-val">~100 TOPS/W</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-tpu-fill" data-target="68"></div></div><span class="cc-bar-val">~50 TOPS/W</span></div>
+          </div>
+          <div class="cc-metric-row">
+            <div class="cc-metric-label">학습 처리량</div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-cpu-fill" data-target="10"></div></div><span class="cc-bar-val">보조 역할</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-gpu-fill" data-target="92"></div></div><span class="cc-bar-val">3,958 TFLOPS</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-npu-fill" data-target="4"></div></div><span class="cc-bar-val">미지원</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-tpu-fill" data-target="100"></div></div><span class="cc-bar-val">459 TFLOPS</span></div>
+          </div>
+          <div class="cc-metric-row">
+            <div class="cc-metric-label">추론 효율</div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-cpu-fill" data-target="20"></div></div><span class="cc-bar-val">저속</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-gpu-fill" data-target="68"></div></div><span class="cc-bar-val">고속</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-npu-fill" data-target="100"></div></div><span class="cc-bar-val">초고효율</span></div>
+            <div class="cc-bar-wrap"><div class="cc-bar-track"><div class="cc-bar-fill cc-tpu-fill" data-target="72"></div></div><span class="cc-bar-val">고효율</span></div>
+          </div>
+        </div>
+
+      </div><!-- .slide-body -->
+    </section>
+
+  </div><!-- #slide-scaler -->
+</div><!-- #presentation-viewport -->
+
+<!-- ===================== DOCUMENT MODE ===================== -->
+<div id="doc-mode-content">
+  <aside id="doc-toc">
+    <div class="toc-title">목차</div>
+    <ul class="toc-list" id="toc-list">
+      <li class="toc-item" data-section="ds-0">표지</li>
+      <li class="toc-item" data-section="ds-1">AI 워크로드의 특성</li>
+      <li class="toc-item" data-section="ds-2">CPU 아키텍처</li>
+      <li class="toc-item" data-section="ds-3">GPU 아키텍처</li>
+      <li class="toc-item" data-section="ds-4">NPU 아키텍처</li>
+      <li class="toc-item" data-section="ds-5">TPU 아키텍처</li>
+      <li class="toc-item" data-section="ds-6">비교 매트릭스</li>
+      <li class="toc-item" data-section="ds-7">선택 가이드</li>
+      <li class="toc-item" data-section="ds-8">미래 트렌드</li>
+      <li class="toc-item" data-section="ds-9">연산 방식 비교</li>
+    </ul>
+  </aside>
+
+  <div id="doc-body">
+    <div class="doc-section dark-section" id="ds-0">
+      <div class="doc-section-num">Section 00</div>
+      <h2 class="doc-h2">AI를 움직이는 두뇌</h2>
+      <p class="doc-p">프로세서 아키텍처 완전 분해 — CPU · GPU · NPU · TPU에 대한 심층 기술 분석 자료입니다. 전문가를 대상으로 기초 개념부터 최신 아키텍처 혁신까지 다룹니다.</p>
+    </div>
+    <div class="doc-section" id="ds-1">
+      <div class="doc-section-num">Section 01</div>
+      <h2 class="doc-h2">왜 CPU 하나로는 부족한가</h2>
+      <div class="two-col" style="margin-bottom:16px;">
+        <div>
+          <p class="doc-p">AI 연산의 핵심은 거대한 행렬 곱셈(GEMM)의 반복입니다. GPT-3 학습에는 3.14 × 10²³ FLOP이 필요하며, A100 GPU(312 TFLOPS)로도 약 11.6일이 걸립니다. 단일 CPU로는 수십 년이 소요됩니다.</p>
+          <p class="doc-p">Amdahl's Law에 따르면 병렬화 가능 비율이 높을수록 병렬 처리의 이점이 커집니다. 행렬 곱셈은 99%+ 병렬화가 가능하므로 GPU의 수천 개 코어가 극적인 성능 향상을 제공합니다.</p>
+        </div>
+        <div class="img-box">
+          <img src="Docs/img/cpu-vs-gpu-cores.svg" alt="CPU vs GPU 코어 비교">
+        </div>
+      </div>
+      <div class="callout">Roofline Model: 연산 강도(FLOPs/byte)가 하드웨어 능선보다 낮으면 Memory-bound → LLM 추론이 여기에 해당</div>
+    </div>
+    <div class="doc-section" id="ds-2">
+      <div class="doc-section-num">Section 02</div>
+      <h2 class="doc-h2">CPU — 범용의 강자, AI의 조력자</h2>
+      <div class="three-col" style="margin-bottom:16px;">
+        <div class="img-box"><img src="Docs/img/cpu-cache-hierarchy.svg" alt="CPU Cache Hierarchy"></div>
+        <div class="img-box"><img src="Docs/img/cpu-amx-tile.svg" alt="CPU AMX Tile"></div>
+        <div>
+          <p class="doc-p" style="font-size:15px;">CPU는 복잡한 제어 흐름, Branch Prediction, Out-of-Order Execution이 강점입니다. Intel Sapphire Rapids의 AMX(Advanced Matrix Extensions)는 2D Tile 레지스터로 최대 4 TOPS INT8 행렬 연산을 지원합니다.</p>
+        </div>
+      </div>
+      <div class="callout">LLM 추론에서 CPU의 역할: KV-cache 관리, sparse 연산, 배치 전처리. GPU/NPU/TPU의 조력자.</div>
+    </div>
+    <div class="doc-section" id="ds-3">
+      <div class="doc-section-num">Section 03</div>
+      <h2 class="doc-h2">GPU — 병렬의 제왕</h2>
+      <div class="two-col" style="margin-bottom:16px;">
+        <div>
+          <p class="doc-p">SIMT(Single Instruction Multiple Threads) 아키텍처로 수천 개 스레드가 동일 명령어를 동시 실행합니다. NVIDIA H100은 132 SM × 128 CUDA 코어 = 16,896 CUDA 코어를 탑재합니다.</p>
+          <p class="doc-p">Hopper 아키텍처의 FP8 Tensor Core는 3,958 TFLOPS를 제공하며, HBM3 메모리가 3.35 TB/s 대역폭을 지원합니다. Flash Attention V3는 HBM 접근을 최소화해 레이턴시를 3× 줄입니다.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div class="img-box"><img src="Docs/img/gpu-warp-latency-hiding.svg" alt="Warp Latency Hiding"></div>
+          <div class="img-box"><img src="Docs/img/gpu-flash-attention.svg" alt="Flash Attention"></div>
+        </div>
+      </div>
+      <div class="two-col" style="margin-bottom:12px;">
+        <div class="img-box"><img src="Docs/img/gpu-tensor-core-generations.svg" alt="Tensor Core 세대"></div>
+        <div class="callout amber" style="height:fit-content;align-self:center;">LLM 추론은 Compute-bound가 아닌 <strong>Memory-bound</strong> → 메모리 대역폭이 성능의 핵심</div>
+      </div>
+    </div>
+    <div class="doc-section" id="ds-4">
+      <div class="doc-section-num">Section 04</div>
+      <h2 class="doc-h2">NPU — 추론 효율의 극한</h2>
+      <div class="two-col" style="margin-bottom:16px;">
+        <div class="img-box"><img src="Docs/img/npu-systolic-array.svg" alt="NPU Systolic Array"></div>
+        <div class="img-box"><img src="Docs/img/npu-unified-memory.svg" alt="NPU Unified Memory"></div>
+      </div>
+      <p class="doc-p">NPU는 INT8/INT4 전용 하드웨어로 엣지 추론에 특화됩니다. Apple M4 Neural Engine은 38 TOPS를 약 3W로 처리하며, TOPS/W 기준으로 H100보다 10배 이상 효율적입니다. Unified Memory 아키텍처는 CPU-GPU-NPU 간 데이터 복사 오버헤드를 제거합니다.</p>
+      <div class="callout green">FP32 → INT4 양자화: 메모리 8× 절감. Llama 3.2 3B INT4 모델 = 1.8GB → M4 MacBook에서 실행 가능</div>
+    </div>
+    <div class="doc-section" id="ds-5">
+      <div class="doc-section-num">Section 05</div>
+      <h2 class="doc-h2">TPU — Google이 직접 만든 이유</h2>
+      <div class="two-col" style="margin-bottom:16px;">
+        <div class="img-box"><img src="Docs/img/tpu-systolic-dataflow.svg" alt="TPU Systolic Dataflow"></div>
+        <div class="img-box"><img src="Docs/img/tpu-ici-vs-nvlink.svg" alt="ICI vs NVLink"></div>
+      </div>
+      <p class="doc-p">2015년 추론 전용 TPU v1(92 TOPS) 이후, TPU v5p는 459 TFLOPS BF16으로 성장했습니다. 4,096칩이 3D 토러스 ICI로 직결되는 Pod 구조가 초대형 모델 학습을 가능하게 합니다.</p>
+      <div class="callout amber"><strong>트레이드오프:</strong> XLA 컴파일러 의존 → 범용성 낮음 vs PyTorch 대비 특화 워크로드에서 2-3× 성능 우위</div>
+    </div>
+    <div class="doc-section" id="ds-6">
+      <div class="doc-section-num">Section 06</div>
+      <h2 class="doc-h2">4대 프로세서 비교</h2>
+      <table class="comp-table" style="margin-bottom:16px;">
+        <thead>
+          <tr><th></th><th>CPU</th><th>GPU</th><th>NPU</th><th>TPU</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>대표 제품</td><td>Intel Xeon</td><td>NVIDIA H100</td><td>Apple M4 NE</td><td>TPU v5p</td></tr>
+          <tr><td>학습</td><td>△</td><td>★★★</td><td>✗</td><td>★★★</td></tr>
+          <tr><td>추론</td><td>△</td><td>★★</td><td>★★★</td><td>★★</td></tr>
+          <tr><td>전력효율</td><td>△</td><td>★</td><td>★★★</td><td>★★</td></tr>
+          <tr><td>유연성</td><td>★★★</td><td>★★★</td><td>★</td><td>★</td></tr>
+          <tr><td>비용</td><td>★★</td><td>★</td><td>★★★</td><td>★★</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="doc-section" id="ds-7">
+      <div class="doc-section-num">Section 07</div>
+      <h2 class="doc-h2">어떤 칩을 언제 써야 하는가</h2>
+      <div class="product-grid" style="margin-bottom:16px;">
+        <div class="product-card">
+          <div class="product-card-name">NVIDIA H100 SXM</div>
+          <div class="product-card-spec">80GB HBM3 · 700W TDP · 3,958 TFLOPS FP8</div>
+          <div class="product-card-price">$30,000+</div>
+        </div>
+        <div class="product-card">
+          <div class="product-card-name">AMD Instinct MI300X</div>
+          <div class="product-card-spec">192GB HBM3 · 750W · 5.3 TB/s 대역폭</div>
+          <div class="product-card-price">~$15,000</div>
+        </div>
+        <div class="product-card">
+          <div class="product-card-name">Apple M4 Max</div>
+          <div class="product-card-spec">128GB Unified · 92W · 38 TOPS NE</div>
+          <div class="product-card-price">~$3,500</div>
+        </div>
+      </div>
+      <div class="callout">용도별 선택: LLM 학습 → H100/MI300X | 클라우드 추론 → H100 | 엣지/온디바이스 → Apple M-series | Google 인프라 → TPU</div>
+    </div>
+    <div class="doc-section dark-section" id="ds-8">
+      <div class="doc-section-num" style="color:rgba(255,255,255,0.35);">Section 08</div>
+      <h2 class="doc-h2">AI 반도체의 다음 5년</h2>
+      <div class="trend-grid" style="margin-bottom:20px;">
+        <div class="trend-card">
+          <div class="trend-icon">🧩</div>
+          <div class="trend-title">Chiplet 아키텍처</div>
+          <div class="trend-body">NVIDIA Blackwell, AMD CDNA4. UCIe 표준으로 이종 칩 조합 가속화.</div>
+        </div>
+        <div class="trend-card">
+          <div class="trend-icon">🧠</div>
+          <div class="trend-title">In-Memory Computing</div>
+          <div class="trend-body">Samsung HBM-PIM, SK Hynix AiM. 메모리 안에서 연산하여 에너지 10× 절감.</div>
+        </div>
+        <div class="trend-card">
+          <div class="trend-icon">💡</div>
+          <div class="trend-title">Photonic Computing</div>
+          <div class="trend-body">Lightmatter, Lightelligence. 광학 연산으로 발열 없는 초저전력 가속기.</div>
+        </div>
+      </div>
+    </div>
+    <div class="doc-section" id="ds-9">
+      <div class="doc-section-num">Section 09</div>
+      <h2 class="doc-h2">4대 프로세서 — 연산 방식 비교</h2>
+      <div class="callout" style="margin-bottom:16px;">CPU: 소수 강력 코어 OoO 파이프라인 · GPU: 대규모 SIMT Warp 스케줄링 · NPU: Systolic 대각 파형 INT8 특화 · TPU: Weight-Stationary MXU 대규모 GEMM</div>
+      <table class="comp-table" style="margin-bottom:16px;">
+        <thead><tr><th>지표</th><th>CPU</th><th>GPU</th><th>NPU</th><th>TPU</th></tr></thead>
+        <tbody>
+          <tr><td>연산 모델</td><td>MIMD · OoO</td><td>SIMT · Warp</td><td>Systolic (대각)</td><td>Systolic (열 고정)</td></tr>
+          <tr><td>병렬 스레드</td><td>64~128코어</td><td>16,896 CUDA</td><td>INT8 MAC 배열</td><td>65,536+ MAC</td></tr>
+          <tr><td>제어 유연성</td><td>★★★ 범용</td><td>★★ CUDA</td><td>★ 추론 전용</td><td>★ XLA 전용</td></tr>
+          <tr><td>전력 효율</td><td>~2 TOPS/W</td><td>~10 TOPS/W</td><td>~100 TOPS/W</td><td>~50 TOPS/W</td></tr>
+          <tr><td>학습 처리량</td><td>보조 역할</td><td>3,958 TFLOPS</td><td>미지원</td><td>459 TFLOPS</td></tr>
+          <tr><td>추론 효율</td><td>저속</td><td>고속</td><td>초고효율</td><td>고효율</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+// ================================================================
+// CLASS: SlideEngine
+// ================================================================
+class SlideEngine {
+  constructor() {
+    this.slides = Array.from(document.querySelectorAll('.slide'));
+    this.current = 0;
+    this.total = this.slides.length;
+    this.isAnimating = false;
+
+    this._counter = document.getElementById('slide-counter');
+    this._progress = document.getElementById('progress-bar');
+    this._scaler = document.getElementById('slide-scaler');
+
+    this._bindKeys();
+    this._bindTouch();
+    this._bindNav();
+    this._resize();
+    window.addEventListener('resize', () => this._resize());
+    this._updateUI();
+  }
+
+  goto(idx) {
+    if (idx < 0 || idx >= this.total || idx === this.current || this.isAnimating) return;
+    this.isAnimating = true;
+    this.slides[this.current].classList.remove('active');
+    this.current = idx;
+    this.slides[this.current].classList.add('active');
+    this._updateUI();
+    setTimeout(() => { this.isAnimating = false; }, 500);
+    AnimEngine.triggerSlide(idx);
+  }
+
+  next() { this.goto(this.current + 1); }
+  prev() { this.goto(this.current - 1); }
+
+  _updateUI() {
+    this._counter.textContent = `${this.current + 1} / ${this.total}`;
+    this._progress.style.width = `${((this.current + 1) / this.total) * 100}%`;
+  }
+
+  _resize() {
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const scale = Math.min(vw / 1280, vh / 720);
+    this._scaler.style.transform = `scale(${scale})`;
+  }
+
+  _bindKeys() {
+    document.addEventListener('keydown', e => {
+      if (document.body.classList.contains('doc-mode')) return;
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); this.next(); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); this.prev(); }
+      else if (e.key === 'f' || e.key === 'F') { toggleFullscreen(); }
+      else if (e.key === 'Escape') { if (document.fullscreenElement) document.exitFullscreen(); }
+    });
+  }
+
+  _bindTouch() {
+    let startX = 0;
+    const vp = document.getElementById('presentation-viewport');
+    vp.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    vp.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 50) { dx < 0 ? this.next() : this.prev(); }
+    }, { passive: true });
+  }
+
+  _bindNav() {
+    document.getElementById('nav-prev').addEventListener('click', () => this.prev());
+    document.getElementById('nav-next').addEventListener('click', () => this.next());
+  }
+}
+
+// ================================================================
+// CLASS: AnimEngine (Animation Engine)
+// ================================================================
+const AnimEngine = {
+  triggered: new Set(),
+
+  triggerSlide(idx) {
+    if (this.triggered.has(idx)) return;
+    this.triggered.add(idx);
+    // Countup
+    const slide = document.getElementById(`slide-${idx}`);
+    if (!slide) return;
+    slide.querySelectorAll('[data-target]').forEach(el => {
+      const target = parseFloat(el.getAttribute('data-target'));
+      const isFloat = target % 1 !== 0;
+      const prefix = el.getAttribute('data-prefix') || '';
+      const suffix = el.getAttribute('data-suffix') || '';
+      el.textContent = prefix + '0' + suffix;
+      const duration = 1200;
+      const steps = 60;
+      const step = target / steps;
+      let current = 0;
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = prefix + (isFloat ? current.toFixed(2) : Math.round(current)) + suffix;
+        if (current >= target) clearInterval(timer);
+      }, duration / steps);
+    });
+  },
+
+  init() {
+    // Trigger slide 0 on load
+    this.triggerSlide(0);
+  }
+};
+
+// ================================================================
+// CLASS: TabController
+// ================================================================
+class TabController {
+  constructor() {
+    document.querySelectorAll('.tab-bar').forEach(bar => {
+      bar.addEventListener('click', e => {
+        const btn = e.target.closest('.tab-btn');
+        if (!btn) return;
+        const tabId = btn.dataset.tab;
+        const barBtns = bar.querySelectorAll('.tab-btn');
+        barBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        // Find sibling panels
+        const parent = bar.parentElement;
+        parent.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        const target = document.getElementById(tabId);
+        if (target) target.classList.add('active');
+      });
+    });
+  }
+}
+
+// ================================================================
+// CLASS: ModeToggle
+// ================================================================
+class ModeToggle {
+  constructor() {
+    this.btn = document.getElementById('mode-toggle-btn');
+    this.isDoc = false;
+    this.btn.addEventListener('click', () => this.toggle());
+  }
+
+  toggle() {
+    this.isDoc = !this.isDoc;
+    document.body.classList.toggle('doc-mode', this.isDoc);
+    this.btn.textContent = this.isDoc ? '▶ 발표 모드' : '📋 문서 모드';
+
+    if (this.isDoc) {
+      // Draw doc-mode radar if needed
+      setTimeout(() => drawRadarChart(), 100);
+      this._initTOC();
+    }
+  }
+
+  _initTOC() {
+    const items = document.querySelectorAll('.toc-item');
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        const sec = document.getElementById(item.dataset.section);
+        if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          items.forEach(i => i.classList.remove('active'));
+          const match = document.querySelector(`[data-section="${e.target.id}"]`);
+          if (match) match.classList.add('active');
+        }
+      });
+    }, { threshold: 0.35 });
+
+    document.querySelectorAll('.doc-section').forEach(s => obs.observe(s));
+  }
+}
+
+// ================================================================
+// RADAR CHART (Slide 6)
+// ================================================================
+function drawRadarChart() {
+  const svg = document.getElementById('radar-svg');
+  if (!svg) return;
+  svg.innerHTML = '';
+
+  const cx = 190, cy = 170, R = 130;
+  const axes = ['학습 성능', '추론 효율', '전력효율', '유연성', '비용효율'];
+  const n = axes.length;
+  const colors = { cpu: '#8A8A8A', gpu: '#002C5F', npu: '#00AA6C', tpu: '#E8962A' };
+
+  // Data: 학습성능, 추론효율, 전력효율, 유연성, 비용효율 (0~5)
+  const data = {
+    cpu: [1.5, 2, 2.5, 5, 3.5],
+    gpu: [5, 4, 2, 4.5, 2],
+    npu: [0.5, 5, 5, 2, 4.5],
+    tpu: [4.5, 3.5, 3.5, 1.5, 3]
+  };
+
+  const angle = idx => (Math.PI * 2 * idx / n) - Math.PI / 2;
+  const point = (val, idx) => ({
+    x: cx + (R * val / 5) * Math.cos(angle(idx)),
+    y: cy + (R * val / 5) * Math.sin(angle(idx))
+  });
+
+  // Grid rings
+  for (let r = 1; r <= 5; r++) {
+    const pts = axes.map((_, i) => point(r, i));
+    const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ') + 'Z';
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', '#D5CFBF');
+    path.setAttribute('stroke-width', r === 5 ? '1.5' : '0.8');
+    svg.appendChild(path);
+  }
+
+  // Axis lines + labels
+  axes.forEach((label, i) => {
+    const p = point(5, i);
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+    line.setAttribute('x2', p.x); line.setAttribute('y2', p.y);
+    line.setAttribute('stroke', '#C5BFAF'); line.setAttribute('stroke-width', '1');
+    svg.appendChild(line);
+
+    const lp = point(5.7, i);
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', lp.x);
+    text.setAttribute('y', lp.y + 4);
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('font-size', '11');
+    text.setAttribute('font-family', 'Pretendard, sans-serif');
+    text.setAttribute('font-weight', '600');
+    text.setAttribute('fill', '#555');
+    text.textContent = label;
+    svg.appendChild(text);
+  });
+
+  // Draw polygon for each processor
+  const checks = document.querySelectorAll('#slide-6 .radar-check');
+  const activeProcs = new Set();
+  checks.forEach(ch => {
+    if (ch.classList.contains('checked')) activeProcs.add(ch.dataset.proc);
+  });
+
+  ['cpu', 'gpu', 'npu', 'tpu'].forEach(proc => {
+    if (!activeProcs.has(proc)) return;
+    const vals = data[proc];
+    const pts = vals.map((v, i) => point(v, i));
+    const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ') + 'Z';
+
+    const fill = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    fill.setAttribute('d', d);
+    fill.setAttribute('fill', colors[proc]);
+    fill.setAttribute('fill-opacity', '0.12');
+    fill.setAttribute('stroke', colors[proc]);
+    fill.setAttribute('stroke-width', '2');
+    fill.setAttribute('stroke-linejoin', 'round');
+    svg.appendChild(fill);
+
+    pts.forEach(p => {
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('cx', p.x); circle.setAttribute('cy', p.y);
+      circle.setAttribute('r', '4');
+      circle.setAttribute('fill', colors[proc]);
+      svg.appendChild(circle);
+    });
+  });
+}
+
+// ================================================================
+// DECISION TREE (Slide 7)
+// ================================================================
+function drawDecisionTree() {
+  const svg = document.getElementById('dtree-svg');
+  if (!svg) return;
+
+  const ns = 'http://www.w3.org/2000/svg';
+  const navy = '#002C5F', green = '#00AA6C', amber = '#E8962A', gray = '#8A8A8A';
+
+  // Nodes: [x, y, w, h, text, color, textColor]
+  const nodes = [
+    [50, 55, 150, 50, '어떤 작업인가?', navy, '#fff'],
+    [280, 20, 140, 40, 'LLM 학습', '#1A5CB5', '#fff'],
+    [280, 75, 140, 40, 'LLM 추론 (클라우드)', '#1A5CB5', '#fff'],
+    [280, 125, 140, 40, '엣지/모바일 추론', green, '#fff'],
+    [570, 5, 160, 40, 'H100, H200\nMI300X', navy, '#fff'],
+    [570, 55, 160, 40, 'H100, H200\nA100', navy, '#fff'],
+    [570, 105, 160, 40, 'Apple M-series\nSnapdragon X', green, '#fff'],
+    [850, 55, 170, 40, 'Google 인프라 → TPU\n연구 → GPU', amber, '#1A1A1A'],
+    [850, 105, 170, 40, '비용 우선 → MI300X\n성능 우선 → H100', gray, '#fff'],
+  ];
+
+  // Draw arrows
+  const arrows = [
+    [200, 80, 280, 40],
+    [200, 80, 280, 95],
+    [200, 80, 280, 145],
+    [420, 40, 570, 25],
+    [420, 95, 570, 75],
+    [420, 145, 570, 125],
+    [730, 25, 850, 75],
+    [730, 75, 850, 75],
+    [730, 125, 850, 125],
+  ];
+
+  arrows.forEach(([x1,y1,x2,y2]) => {
+    const line = document.createElementNS(ns, 'line');
+    line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+    line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+    line.setAttribute('stroke', '#C5BFAF');
+    line.setAttribute('stroke-width', '1.5');
+    line.setAttribute('marker-end', 'url(#arrow)');
+    svg.appendChild(line);
+  });
+
+  // Arrow marker
+  const defs = document.createElementNS(ns, 'defs');
+  const marker = document.createElementNS(ns, 'marker');
+  marker.setAttribute('id', 'arrow');
+  marker.setAttribute('markerWidth', '8'); marker.setAttribute('markerHeight', '8');
+  marker.setAttribute('refX', '6'); marker.setAttribute('refY', '3');
+  marker.setAttribute('orient', 'auto');
+  const markerPath = document.createElementNS(ns, 'path');
+  markerPath.setAttribute('d', 'M0,0 L0,6 L8,3 z');
+  markerPath.setAttribute('fill', '#C5BFAF');
+  marker.appendChild(markerPath);
+  defs.appendChild(marker);
+  svg.insertBefore(defs, svg.firstChild);
+
+  nodes.forEach(([x, y, w, h, text, bg, fg]) => {
+    const rect = document.createElementNS(ns, 'rect');
+    rect.setAttribute('x', x); rect.setAttribute('y', y);
+    rect.setAttribute('width', w); rect.setAttribute('height', h);
+    rect.setAttribute('rx', '8');
+    rect.setAttribute('fill', bg);
+    svg.appendChild(rect);
+
+    const lines = text.split('\n');
+    const lineH = 14;
+    const startY = y + h/2 - (lines.length - 1) * lineH / 2;
+    lines.forEach((line, i) => {
+      const t = document.createElementNS(ns, 'text');
+      t.setAttribute('x', x + w/2);
+      t.setAttribute('y', startY + i * lineH);
+      t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('dominant-baseline', 'middle');
+      t.setAttribute('font-size', '10.5');
+      t.setAttribute('font-family', 'Pretendard, sans-serif');
+      t.setAttribute('font-weight', '600');
+      t.setAttribute('fill', fg);
+      t.textContent = line;
+      svg.appendChild(t);
+    });
+  });
+}
+
+// ================================================================
+// FULLSCREEN
+// ================================================================
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(()=>{});
+    document.getElementById('fullscreen-btn').textContent = '✕ 전체화면 종료';
+  } else {
+    document.exitFullscreen();
+    document.getElementById('fullscreen-btn').textContent = '⛶ 전체화면';
+  }
+}
+document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement) {
+    document.getElementById('fullscreen-btn').textContent = '⛶ 전체화면';
+  }
+});
+
+// ================================================================
+// RADAR CHART INTERACTIVITY
+// ================================================================
+function initRadarInteractivity() {
+  document.querySelectorAll('#slide-6 .radar-check').forEach(label => {
+    label.querySelector('input').addEventListener('change', e => {
+      label.classList.toggle('checked', e.target.checked);
+      drawRadarChart();
+    });
+  });
+}
+
+// ================================================================
+// INIT
+// ================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const slideEngine = new SlideEngine();
+  new TabController();
+  const modeToggle = new ModeToggle();
+  // 모바일(좁은 화면)에서는 발표 모드 대신 문서 모드로 자동 시작
+  if (window.matchMedia('(max-width: 820px)').matches) modeToggle.toggle();
+  AnimEngine.init();
+  initRadarInteractivity();
+  drawRadarChart();
+  drawDecisionTree();
+
+  // Re-draw on slide 6 enter
+  const origGoto = slideEngine.goto.bind(slideEngine);
+  slideEngine.goto = function(idx) {
+    origGoto(idx);
+    if (idx === 6) setTimeout(() => drawRadarChart(), 100);
+    if (idx === 9) setTimeout(() => animateCCBars(), 200);
+  };
+
+  new Lightbox();
+  new ResizablePanels();
+});
+
+// ================================================================
+// COMPUTE COMPARE BARS
+// ================================================================
+function animateCCBars() {
+  document.querySelectorAll('#slide-9 .cc-bar-fill').forEach(fill => {
+    const target = fill.getAttribute('data-target');
+    fill.style.width = '0%';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      fill.style.width = target + '%';
+    }));
+  });
+}
+
+// ================================================================
+// LIGHTBOX
+// ================================================================
+class Lightbox {
+  constructor() {
+    this.overlay = document.getElementById('lightbox-overlay');
+    this.img     = document.getElementById('lightbox-img');
+    this.caption = document.getElementById('lb-caption');
+    document.getElementById('lb-close').addEventListener('click', () => this.close());
+    this.overlay.addEventListener('click', e => { if (e.target === this.overlay) this.close(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') this.close(); });
+    this.img.addEventListener('click', e => e.stopPropagation());
+    document.querySelectorAll('.img-box img').forEach(img => {
+      img.addEventListener('click', e => { e.stopPropagation(); this.open(img.src, img.alt); });
+    });
+    document.querySelectorAll('.cc-svg-wrap svg').forEach(svg => {
+      svg.style.cursor = 'zoom-in';
+      svg.addEventListener('click', e => {
+        e.stopPropagation();
+        const svgStr = new XMLSerializer().serializeToString(svg);
+        const url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgStr);
+        const label = svg.closest('.cc-card')?.querySelector('.cc-badge')?.textContent?.trim() || '';
+        this.open(url, label + ' 연산 방식 다이어그램');
+      });
+    });
+  }
+  open(src, alt) {
+    this.img.src = '';
+    this.img.src = src;
+    this.caption.textContent = alt || '';
+    this.overlay.classList.add('lb-active');
+    document.body.style.overflow = 'hidden';
+  }
+  close() {
+    this.overlay.classList.remove('lb-active');
+    document.body.style.overflow = '';
+  }
+}
+
+// ================================================================
+// RESIZABLE PANELS
+// ================================================================
+class ResizablePanels {
+  constructor() {
+    this.drag = null;
+    this._init();
+    document.addEventListener('mousemove', e => this._move(e));
+    document.addEventListener('mouseup',   () => this._up());
+  }
+  _init() {
+    document.querySelectorAll('.two-col, .three-col, .main-sidebar, .cc-grid').forEach(container => {
+      const children = Array.from(container.children);
+      if (children.length < 2) return;
+      container.style.display    = 'flex';
+      container.style.gap        = '0';
+      container.style.alignItems = 'stretch';
+      const pct = 100 / children.length;
+      children.forEach(child => {
+        child.style.flexBasis  = pct + '%';
+        child.style.flexGrow   = '0';
+        child.style.flexShrink = '0';
+        child.style.minWidth   = '80px';
+        child.style.overflow   = 'hidden';
+      });
+      for (let i = children.length - 2; i >= 0; i--) {
+        const handle = this._makeHandle(container, children[i], children[i + 1]);
+        children[i].after(handle);
+      }
+    });
+  }
+  _makeHandle(container, left, right) {
+    const h = document.createElement('div');
+    h.className = 'resize-handle';
+    h.addEventListener('mousedown', e => {
+      e.preventDefault();
+      h.classList.add('rh-active');
+      const scaler = document.getElementById('slide-scaler');
+      const scale  = scaler ? (() => {
+        const m = scaler.style.transform.match(/scale\(([^)]+)\)/);
+        return m ? parseFloat(m[1]) : 1;
+      })() : 1;
+      this.drag = {
+        left, right, h, scale,
+        startX: e.clientX,
+        startL: left.getBoundingClientRect().width  / scale,
+        startR: right.getBoundingClientRect().width / scale,
+      };
+      document.body.style.cursor     = 'col-resize';
+      document.body.style.userSelect = 'none';
+    });
+    return h;
+  }
+  _move(e) {
+    if (!this.drag) return;
+    const { left, right, scale, startX, startL, startR } = this.drag;
+    const dx = (e.clientX - startX) / scale;
+    const newL = startL + dx;
+    const newR = startR - dx;
+    if (newL >= 80 && newR >= 80) {
+      left.style.flexBasis  = newL + 'px';
+      right.style.flexBasis = newR + 'px';
+    }
+  }
+  _up() {
+    if (!this.drag) return;
+    this.drag.h.classList.remove('rh-active');
+    document.body.style.cursor     = '';
+    document.body.style.userSelect = '';
+    this.drag = null;
+  }
+}
+</script>
+
+<div id="lightbox-overlay">
+  <button id="lb-close">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lb-caption"></div>
+</div>
+
+</body>
+</html>

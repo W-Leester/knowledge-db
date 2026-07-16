@@ -1,0 +1,86 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .box-title { font-size: 12px; font-weight: 700; fill: #FFFFFF; }
+    .label { font-size: 11px; fill: #1A1A1A; }
+    .small { font-size: 10px; fill: #555555; }
+    .step { font-size: 11px; font-weight: 700; }
+    .mono { font-family: 'Consolas', 'Courier New', monospace; }
+  </style>
+
+  <rect width="800" height="450" fill="#F2EDE4"/>
+  <text x="400" y="28" text-anchor="middle" class="title">Redis 캐시 패턴 (Cache-Aside) — 거의 모든 웹 서비스의 표준 구성</text>
+
+  <!-- App Server -->
+  <rect x="50" y="150" width="150" height="110" fill="#002C5F" rx="8"/>
+  <text x="125" y="185" text-anchor="middle" class="box-title">애플리케이션</text>
+  <text x="125" y="203" text-anchor="middle" class="box-title">서버</text>
+  <text x="125" y="230" text-anchor="middle" font-size="10" fill="#E8EEF7">(Spring · Django</text>
+  <text x="125" y="244" text-anchor="middle" font-size="10" fill="#E8EEF7">· Node.js ...)</text>
+
+  <!-- Redis -->
+  <rect x="330" y="70" width="170" height="110" fill="#DC2626" rx="8"/>
+  <text x="415" y="100" text-anchor="middle" class="box-title">Redis</text>
+  <text x="415" y="118" text-anchor="middle" font-size="10" fill="#FEE2E2">인메모리 캐시</text>
+  <rect x="348" y="130" width="134" height="36" fill="#FFFFFF" opacity="0.92" rx="4"/>
+  <text x="415" y="145" text-anchor="middle" font-size="10.5" fill="#DC2626" font-weight="700">응답: ~0.1ms</text>
+  <text x="415" y="159" text-anchor="middle" font-size="9" fill="#555555">RAM에서 즉시 반환</text>
+
+  <!-- MySQL -->
+  <rect x="330" y="280" width="170" height="110" fill="#003F8A" rx="8"/>
+  <text x="415" y="310" text-anchor="middle" class="box-title">MySQL / PostgreSQL</text>
+  <text x="415" y="328" text-anchor="middle" font-size="10" fill="#E8EEF7">원본 저장소 (디스크)</text>
+  <rect x="348" y="340" width="134" height="36" fill="#FFFFFF" opacity="0.92" rx="4"/>
+  <text x="415" y="355" text-anchor="middle" font-size="10.5" fill="#003F8A" font-weight="700">응답: ~10ms</text>
+  <text x="415" y="369" text-anchor="middle" font-size="9" fill="#555555">디스크 I/O + 쿼리 실행</text>
+
+  <!-- ① request to Redis -->
+  <path d="M 200 175 Q 250 130 328 118" fill="none" stroke="#DC2626" stroke-width="2.5"/>
+  <polygon points="328,118 318,115 320,124" fill="#DC2626"/>
+  <rect x="216" y="106" width="96" height="22" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="11"/>
+  <text x="264" y="121" text-anchor="middle" class="step" fill="#DC2626">① 캐시 먼저 조회</text>
+
+  <!-- Cache HIT return -->
+  <path d="M 328 150 Q 255 165 202 185" fill="none" stroke="#00AA6C" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <polygon points="202,185 212,181 211,190" fill="#00AA6C"/>
+  <rect x="222" y="158" width="100" height="22" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1" rx="11"/>
+  <text x="272" y="173" text-anchor="middle" class="step" fill="#065F46">HIT → 즉시 반환 ✓</text>
+
+  <!-- ② MISS: to MySQL -->
+  <path d="M 200 240 Q 250 285 328 320" fill="none" stroke="#003F8A" stroke-width="2.5"/>
+  <polygon points="328,320 318,314 317,323" fill="#003F8A"/>
+  <rect x="200" y="278" width="118" height="22" fill="#E8EEF7" stroke="#003F8A" stroke-width="1" rx="11"/>
+  <text x="259" y="293" text-anchor="middle" class="step" fill="#003F8A">② MISS → DB 조회</text>
+
+  <!-- ③ write back to Redis -->
+  <path d="M 435 278 Q 450 230 435 182" fill="none" stroke="#E8962A" stroke-width="2.5"/>
+  <polygon points="435,182 431,192 440,191" fill="#E8962A"/>
+  <rect x="452" y="218" width="130" height="22" fill="#FEF3E2" stroke="#E8962A" stroke-width="1" rx="11"/>
+  <text x="517" y="233" text-anchor="middle" class="step" fill="#B45309">③ 결과를 캐시에 저장</text>
+  <text x="517" y="252" text-anchor="middle" font-size="9" fill="#8A8A8A">TTL(만료시간) 설정 — 예: 60초</text>
+
+  <!-- Right panel: why & numbers -->
+  <rect x="610" y="60" width="160" height="180" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="690" y="82" text-anchor="middle" font-size="11.5" font-weight="700" fill="#002C5F">속도 차이 체감</text>
+  <!-- bar: redis -->
+  <text x="622" y="106" font-size="9.5" fill="#DC2626" font-weight="700">Redis 0.1ms</text>
+  <rect x="622" y="112" width="4" height="12" fill="#DC2626" rx="2"/>
+  <!-- bar: mysql -->
+  <text x="622" y="146" font-size="9.5" fill="#003F8A" font-weight="700">MySQL 10ms</text>
+  <rect x="622" y="152" width="136" height="12" fill="#003F8A" rx="2"/>
+  <text x="690" y="186" text-anchor="middle" font-size="10.5" fill="#1A1A1A" font-weight="700">약 100배 차이</text>
+  <text x="690" y="204" text-anchor="middle" font-size="9" fill="#555555">(디스크 DB 대비</text>
+  <text x="690" y="216" text-anchor="middle" font-size="9" fill="#555555">100~1,000배 빠름)</text>
+
+  <rect x="610" y="256" width="160" height="134" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="690" y="278" text-anchor="middle" font-size="11.5" font-weight="700" fill="#002C5F">Redis 활용 예</text>
+  <text x="622" y="300" font-size="9.5" fill="#555555">· 세션 저장소 (로그인 상태)</text>
+  <text x="622" y="318" font-size="9.5" fill="#555555">· 실시간 랭킹 (Sorted Set)</text>
+  <text x="622" y="336" font-size="9.5" fill="#555555">· 속도 제한 (Rate Limit)</text>
+  <text x="622" y="354" font-size="9.5" fill="#555555">· 분산 락 · 메시지 큐</text>
+  <text x="622" y="372" font-size="9.5" fill="#555555">· 인기 상품 Top-N 캐싱</text>
+
+  <!-- Bottom summary -->
+  <rect x="50" y="405" width="720" height="34" fill="#002C5F" rx="6"/>
+  <text x="410" y="427" text-anchor="middle" font-size="11.5" fill="#FFFFFF" font-weight="700">효과: 반복 조회의 90%+ 를 Redis가 흡수 → DB 부하 급감, 응답속도 100배 개선 · 주의: 캐시-원본 불일치(Invalidation) 전략 필요</text>
+</svg>

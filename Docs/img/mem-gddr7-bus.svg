@@ -1,0 +1,220 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .section-title { font-size: 12px; font-weight: 700; fill: #002C5F; }
+    .label { font-size: 10px; fill: #1A1A1A; }
+    .label-small { font-size: 9px; fill: #555555; }
+    .label-green { font-size: 10px; fill: #00AA6C; font-weight: 600; }
+    .label-white { font-size: 10px; fill: #FFFFFF; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="#F2EDE4"/>
+
+  <!-- Title -->
+  <text x="400" y="22" text-anchor="middle" class="title">GDDR7 버스 아키텍처 및 PAM4 신호 방식</text>
+
+  <!-- ===== TOP: GPU + GDDR7 arrangement ===== -->
+  <rect x="10" y="30" width="780" height="220" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="400" y="47" text-anchor="middle" class="section-title">GDDR7 버스 구조: 16-bit × 16채널 = 256-bit 총 버스 폭</text>
+
+  <!-- Central GPU die -->
+  <rect x="290" y="58" width="220" height="140" fill="#002C5F" rx="8" stroke="#003F8A" stroke-width="2"/>
+  <text x="400" y="105" text-anchor="middle" font-size="13" fill="#FFFFFF" font-weight="700">GPU 다이</text>
+  <text x="400" y="122" text-anchor="middle" font-size="10" fill="#A0B8D8">Shader Array / Tensor Core</text>
+  <text x="400" y="138" text-anchor="middle" font-size="10" fill="#A0B8D8">ROPS / L2 Cache</text>
+  <text x="400" y="155" text-anchor="middle" font-size="10" fill="#E8EEF7" font-weight="600">256-bit 메모리 인터페이스</text>
+  <text x="400" y="170" text-anchor="middle" font-size="9" fill="#90A8C8">(RTX 5090 기준)</text>
+  <text x="400" y="186" text-anchor="middle" font-size="9" fill="#90A8C8">1.5+ TB/s</text>
+
+  <!-- GDDR7 chips: 4 on top, 4 on bottom, 4 on left, 4 on right -->
+  <!-- Top chips (4) -->
+  <rect x="292" y="33" width="48" height="22" fill="#E8962A" rx="3"/>
+  <text x="316" y="48" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="316" y1="56" x2="316" y2="58" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" repeatCount="indefinite"/>
+  </line>
+
+  <rect x="348" y="33" width="48" height="22" fill="#E8962A" rx="3"/>
+  <text x="372" y="48" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="372" y1="56" x2="372" y2="58" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.1s" repeatCount="indefinite"/>
+  </line>
+
+  <rect x="404" y="33" width="48" height="22" fill="#E8962A" rx="3"/>
+  <text x="428" y="48" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="428" y1="56" x2="428" y2="58" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.2s" repeatCount="indefinite"/>
+  </line>
+
+  <rect x="460" y="33" width="48" height="22" fill="#E8962A" rx="3"/>
+  <text x="484" y="48" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="484" y1="56" x2="484" y2="58" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.3s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- Bottom chips (4) -->
+  <rect x="292" y="202" width="48" height="22" fill="#E8962A" rx="3"/>
+  <text x="316" y="217" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="316" y1="198" x2="316" y2="202" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.4s" repeatCount="indefinite"/>
+  </line>
+
+  <rect x="348" y="202" width="48" height="22" fill="#E8962A" rx="3"/>
+  <text x="372" y="217" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="372" y1="198" x2="372" y2="202" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.5s" repeatCount="indefinite"/>
+  </line>
+
+  <rect x="404" y="202" width="48" height="22" fill="#E8962A" rx="3"/>
+  <text x="428" y="217" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="428" y1="198" x2="428" y2="202" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.6s" repeatCount="indefinite"/>
+  </line>
+
+  <rect x="460" y="202" width="48" height="22" fill="#E8962A" rx="3"/>
+  <text x="484" y="217" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="484" y1="198" x2="484" y2="202" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.7s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- Left chips (4) -->
+  <rect x="232" y="62" width="56" height="22" fill="#E8962A" rx="3"/>
+  <text x="260" y="77" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="289" y1="73" x2="290" y2="73" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.05s" repeatCount="indefinite"/>
+  </line>
+
+  <rect x="232" y="92" width="56" height="22" fill="#E8962A" rx="3"/>
+  <text x="260" y="107" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="289" y1="103" x2="290" y2="103" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.15s" repeatCount="indefinite"/>
+  </line>
+
+  <rect x="232" y="140" width="56" height="22" fill="#E8962A" rx="3"/>
+  <text x="260" y="155" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="289" y1="151" x2="290" y2="151" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.25s" repeatCount="indefinite"/>
+  </line>
+
+  <rect x="232" y="170" width="56" height="22" fill="#E8962A" rx="3"/>
+  <text x="260" y="185" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="289" y1="181" x2="290" y2="181" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.35s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- Right chips (4) -->
+  <rect x="514" y="62" width="56" height="22" fill="#E8962A" rx="3"/>
+  <text x="542" y="77" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="510" y1="73" x2="514" y2="73" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.45s" repeatCount="indefinite"/>
+  </line>
+
+  <rect x="514" y="92" width="56" height="22" fill="#E8962A" rx="3"/>
+  <text x="542" y="107" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="510" y1="103" x2="514" y2="103" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.55s" repeatCount="indefinite"/>
+  </line>
+
+  <rect x="514" y="140" width="56" height="22" fill="#E8962A" rx="3"/>
+  <text x="542" y="155" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="510" y1="151" x2="514" y2="151" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.65s" repeatCount="indefinite"/>
+  </line>
+
+  <rect x="514" y="170" width="56" height="22" fill="#E8962A" rx="3"/>
+  <text x="542" y="185" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">GDDR7</text>
+  <line x1="510" y1="181" x2="514" y2="181" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="0.8s" begin="0.75s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- Labels for count -->
+  <text x="175" y="135" text-anchor="middle" font-size="9" fill="#555555">각 칩: 16-bit 버스</text>
+  <text x="175" y="148" text-anchor="middle" font-size="9" fill="#555555">16채널 × 16-bit</text>
+  <text x="175" y="161" text-anchor="middle" font-size="9" fill="#003F8A" font-weight="600">= 256-bit</text>
+
+  <!-- BW annotation -->
+  <rect x="584" y="55" width="195" height="50" fill="#002C5F" rx="4"/>
+  <text x="681" y="72" text-anchor="middle" font-size="10" fill="#FFFFFF" font-weight="700">대역폭 계산 (RTX 5090)</text>
+  <text x="681" y="88" text-anchor="middle" font-size="10" fill="#E8EEF7">32 Gbps × 32핀 × 16ch</text>
+  <text x="681" y="99" text-anchor="middle" font-size="10" fill="#00AA6C" font-weight="700">≈ 1.79 TB/s</text>
+
+  <!-- 16-bit label per chip count -->
+  <rect x="584" y="110" width="195" height="38" fill="#E8EEF7" rx="4"/>
+  <text x="681" y="125" text-anchor="middle" font-size="10" fill="#002C5F" font-weight="700">GDDR7 vs GDDR6X</text>
+  <text x="681" y="140" text-anchor="middle" font-size="10" fill="#555555">속도: 32 Gbps (GDDR6X: 21 Gbps)</text>
+
+  <!-- ===== BOTTOM: PAM4 vs NRZ ===== -->
+  <rect x="10" y="260" width="780" height="180" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="400" y="277" text-anchor="middle" class="section-title">PAM4 vs NRZ 신호 방식 — GDDR7 채택 배경</text>
+
+  <!-- NRZ section -->
+  <rect x="20" y="285" width="370" height="145" fill="#F8F8F8" stroke="#D5CFBF" stroke-width="1" rx="4"/>
+  <text x="205" y="302" text-anchor="middle" font-size="11" fill="#555555" font-weight="600">NRZ (Non-Return-to-Zero) — GDDR6X 이전</text>
+  <text x="205" y="316" text-anchor="middle" font-size="10" fill="#555555">2레벨 (0, 1) · 심볼당 1 bit</text>
+
+  <!-- NRZ waveform -->
+  <!-- Signal levels: HIGH=340, LOW=380 -->
+  <!-- Bit sequence: 1 0 1 1 0 1 0 0 1 -->
+  <line x1="35" y1="332" x2="355" y2="332" stroke="#D5CFBF" stroke-width="0.5" stroke-dasharray="4,4"/>
+  <text x="30" y="336" font-size="9" fill="#555555" text-anchor="end">1</text>
+  <line x1="35" y1="362" x2="355" y2="362" stroke="#D5CFBF" stroke-width="0.5" stroke-dasharray="4,4"/>
+  <text x="30" y="366" font-size="9" fill="#555555" text-anchor="end">0</text>
+
+  <!-- NRZ waveform drawing -->
+  <polyline points="35,332 70,332 70,362 105,362 105,332 140,332 140,332 175,332 175,362 210,362 210,332 245,332 245,362 280,362 280,362 315,362 315,332 350,332"
+    fill="none" stroke="#003F8A" stroke-width="2.5"/>
+
+  <!-- NRZ bit labels -->
+  <text x="52" y="393" text-anchor="middle" font-size="9" fill="#555555">1</text>
+  <text x="87" y="393" text-anchor="middle" font-size="9" fill="#555555">0</text>
+  <text x="122" y="393" text-anchor="middle" font-size="9" fill="#555555">1</text>
+  <text x="157" y="393" text-anchor="middle" font-size="9" fill="#555555">1</text>
+  <text x="192" y="393" text-anchor="middle" font-size="9" fill="#555555">0</text>
+  <text x="227" y="393" text-anchor="middle" font-size="9" fill="#555555">1</text>
+  <text x="262" y="393" text-anchor="middle" font-size="9" fill="#555555">0</text>
+  <text x="297" y="393" text-anchor="middle" font-size="9" fill="#555555">0</text>
+  <text x="332" y="393" text-anchor="middle" font-size="9" fill="#555555">1</text>
+
+  <text x="205" y="416" text-anchor="middle" font-size="10" fill="#DC2626" font-weight="600">1 bit/symbol → 주파수 증가에 한계</text>
+
+  <!-- PAM4 section -->
+  <rect x="405" y="285" width="375" height="145" fill="#F8F8F8" stroke="#00AA6C" stroke-width="1.5" rx="4"/>
+  <text x="592" y="302" text-anchor="middle" font-size="11" fill="#00AA6C" font-weight="700">PAM4 (4-level Pulse Amplitude Modulation) — GDDR7</text>
+  <text x="592" y="316" text-anchor="middle" font-size="10" fill="#555555">4레벨 (00, 01, 10, 11) · 심볼당 2 bits</text>
+
+  <!-- PAM4 waveform -->
+  <!-- 4 levels: 11=high, 10=mid-high, 01=mid-low, 00=low -->
+  <!-- y: 11=325, 10=340, 01=355, 00=370 -->
+  <line x1="420" y1="326" x2="770" y2="326" stroke="#D5CFBF" stroke-width="0.5" stroke-dasharray="4,4"/>
+  <text x="416" y="329" font-size="8" fill="#555555" text-anchor="end">11</text>
+  <line x1="420" y1="341" x2="770" y2="341" stroke="#D5CFBF" stroke-width="0.5" stroke-dasharray="4,4"/>
+  <text x="416" y="344" font-size="8" fill="#555555" text-anchor="end">10</text>
+  <line x1="420" y1="356" x2="770" y2="356" stroke="#D5CFBF" stroke-width="0.5" stroke-dasharray="4,4"/>
+  <text x="416" y="359" font-size="8" fill="#555555" text-anchor="end">01</text>
+  <line x1="420" y1="371" x2="770" y2="371" stroke="#D5CFBF" stroke-width="0.5" stroke-dasharray="4,4"/>
+  <text x="416" y="374" font-size="8" fill="#555555" text-anchor="end">00</text>
+
+  <!-- PAM4 waveform: 2bits per symbol, sequence: 11 00 10 11 01 10 00 11 -->
+  <polyline points="420,326 460,326 460,371 500,371 500,341 540,341 540,326 580,326 580,356 620,356 620,341 660,341 660,371 700,371 700,326 740,326 740,326 770,326"
+    fill="none" stroke="#00AA6C" stroke-width="2.5">
+    <animate attributeName="stroke-dasharray" values="0,400;400,0" dur="2s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" values="400;0" dur="2s" fill="freeze"/>
+  </polyline>
+
+  <!-- PAM4 2-bit labels -->
+  <text x="440" y="393" text-anchor="middle" font-size="9" fill="#003F8A" font-weight="600">11</text>
+  <text x="480" y="393" text-anchor="middle" font-size="9" fill="#003F8A" font-weight="600">00</text>
+  <text x="520" y="393" text-anchor="middle" font-size="9" fill="#003F8A" font-weight="600">10</text>
+  <text x="560" y="393" text-anchor="middle" font-size="9" fill="#003F8A" font-weight="600">11</text>
+  <text x="600" y="393" text-anchor="middle" font-size="9" fill="#003F8A" font-weight="600">01</text>
+  <text x="640" y="393" text-anchor="middle" font-size="9" fill="#003F8A" font-weight="600">10</text>
+  <text x="680" y="393" text-anchor="middle" font-size="9" fill="#003F8A" font-weight="600">00</text>
+  <text x="720" y="393" text-anchor="middle" font-size="9" fill="#003F8A" font-weight="600">11</text>
+
+  <text x="592" y="416" text-anchor="middle" font-size="10" fill="#00AA6C" font-weight="700">2 bits/symbol → 같은 주파수에서 2× 데이터 전송!</text>
+
+  <!-- Bottom annotation bar -->
+  <rect x="10" y="432" width="780" height="16" fill="#002C5F" rx="3"/>
+  <text x="400" y="444" text-anchor="middle" font-size="10" fill="#FFFFFF" font-weight="600">GDDR7부터 PAM4 채택 → 대역폭 2배 향상 | RTX 5090: 1.79 TB/s (RTX 4090 대비 ~2.3× 향상)</text>
+</svg>

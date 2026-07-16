@@ -1,0 +1,161 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .section-title { font-size: 13px; font-weight: 700; fill: #002C5F; }
+    .label { font-size: 11px; fill: #1A1A1A; }
+    .label-small { font-size: 10px; fill: #555555; }
+    .highlight { font-size: 11px; fill: #00AA6C; font-weight: 600; }
+    .chip { rx: 6; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="#F2EDE4"/>
+
+  <!-- Title -->
+  <text x="400" y="24" text-anchor="middle" class="title">DDR4 vs DDR5 서브채널 아키텍처 비교</text>
+
+  <!-- ===== LEFT: DDR4 ===== -->
+  <rect x="20" y="35" width="310" height="240" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="175" y="54" text-anchor="middle" class="section-title">DDR4: 단일 64-bit 채널</text>
+
+  <!-- Memory Controller -->
+  <rect x="35" y="65" width="90" height="60" fill="#002C5F" rx="5"/>
+  <text x="80" y="90" text-anchor="middle" font-size="10" fill="#FFFFFF" font-weight="600">메모리</text>
+  <text x="80" y="104" text-anchor="middle" font-size="10" fill="#FFFFFF" font-weight="600">컨트롤러</text>
+  <text x="80" y="118" text-anchor="middle" font-size="9" fill="#A0B8D8">(IMC)</text>
+
+  <!-- DRAM Chip DDR4 -->
+  <rect x="215" y="65" width="90" height="60" fill="#E8EEF7" stroke="#003F8A" stroke-width="2" rx="5"/>
+  <text x="260" y="88" text-anchor="middle" font-size="10" fill="#003F8A" font-weight="600">DDR4</text>
+  <text x="260" y="102" text-anchor="middle" font-size="10" fill="#003F8A" font-weight="600">DRAM</text>
+  <text x="260" y="116" text-anchor="middle" font-size="9" fill="#555555">x64</text>
+
+  <!-- Wide single bus (64-bit) -->
+  <rect x="128" y="82" width="85" height="26" fill="#003F8A" rx="3"/>
+  <text x="170" y="99" text-anchor="middle" font-size="10" fill="#FFFFFF" font-weight="700">64-bit 단일 버스</text>
+
+  <!-- Animated data packet DDR4 -->
+  <rect id="ddr4-pkt" x="128" y="84" width="22" height="22" fill="#E8962A" rx="2" opacity="0.85">
+    <animate attributeName="x" values="128;190;128" dur="2s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Bus label below -->
+  <text x="175" y="148" text-anchor="middle" font-size="11" fill="#002C5F" font-weight="600">64-bit 단일 채널</text>
+
+  <!-- Cache line info -->
+  <rect x="35" y="160" width="270" height="45" fill="#F8F8F8" stroke="#D5CFBF" stroke-width="1" rx="4"/>
+  <text x="170" y="178" text-anchor="middle" font-size="11" fill="#555555">버스트당 캐시 라인 전송:</text>
+  <text x="170" y="193" text-anchor="middle" font-size="11" fill="#003F8A" font-weight="600">64 bytes (512 bits) 연속 블록 전송</text>
+
+  <!-- Command bus (thin) -->
+  <line x1="128" y1="68" x2="213" y2="68" stroke="#E8962A" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="170" y="64" text-anchor="middle" font-size="9" fill="#E8962A">CMD/ADDR</text>
+
+  <!-- DDR4 annotation -->
+  <rect x="35" y="213" width="270" height="52" fill="#FFF8F0" stroke="#E8962A" stroke-width="1" rx="4"/>
+  <text x="170" y="228" text-anchor="middle" font-size="10.5" fill="#E8962A" font-weight="700">단점: 하나의 큰 블록만 처리</text>
+  <text x="170" y="243" text-anchor="middle" font-size="10" fill="#555555">소규모 읽기도 64B 전체 전송 필요</text>
+  <text x="170" y="257" text-anchor="middle" font-size="10" fill="#555555">단일 CMD/ADDR 버스 → 직렬 처리</text>
+
+  <!-- ===== RIGHT: DDR5 ===== -->
+  <rect x="345" y="35" width="325" height="240" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="507" y="54" text-anchor="middle" class="section-title">DDR5: 2 × 32-bit 서브채널</text>
+
+  <!-- Memory Controller DDR5 -->
+  <rect x="358" y="65" width="90" height="100" fill="#002C5F" rx="5"/>
+  <text x="403" y="90" text-anchor="middle" font-size="10" fill="#FFFFFF" font-weight="600">메모리</text>
+  <text x="403" y="104" text-anchor="middle" font-size="10" fill="#FFFFFF" font-weight="600">컨트롤러</text>
+  <text x="403" y="118" text-anchor="middle" font-size="9" fill="#A0B8D8">(2ch)</text>
+  <!-- Sub-channel ports -->
+  <rect x="440" y="72" width="6" height="20" fill="#00AA6C" rx="1"/>
+  <rect x="440" y="137" width="6" height="20" fill="#00AA6C" rx="1"/>
+
+  <!-- Sub-channel A bus (32-bit) - top -->
+  <rect x="449" y="72" width="80" height="20" fill="#00AA6C" rx="3" opacity="0.85"/>
+  <text x="489" y="86" text-anchor="middle" font-size="9" fill="#FFFFFF" font-weight="700">Sub-Ch A 32-bit</text>
+
+  <!-- Sub-channel B bus (32-bit) - bottom -->
+  <rect x="449" y="137" width="80" height="20" fill="#003F8A" rx="3" opacity="0.9"/>
+  <text x="489" y="151" text-anchor="middle" font-size="9" fill="#FFFFFF" font-weight="700">Sub-Ch B 32-bit</text>
+
+  <!-- Animated data packet Sub-Ch A -->
+  <rect x="449" y="74" width="18" height="16" fill="#E8962A" rx="2" opacity="0.9">
+    <animate attributeName="x" values="449;524;449" dur="1.8s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Animated data packet Sub-Ch B (offset timing) -->
+  <rect x="500" y="139" width="18" height="16" fill="#E8962A" rx="2" opacity="0.9">
+    <animate attributeName="x" values="524;449;524" dur="1.8s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- CMD/ADDR for each sub-channel -->
+  <line x1="449" y1="68" x2="529" y2="68" stroke="#E8962A" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="489" y="65" text-anchor="middle" font-size="8" fill="#E8962A">CMD A</text>
+  <line x1="449" y1="133" x2="529" y2="133" stroke="#E8962A" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="489" y="130" text-anchor="middle" font-size="8" fill="#E8962A">CMD B</text>
+
+  <!-- DRAM Chips (two sub-channels) -->
+  <rect x="532" y="65" width="120" height="40" fill="#E8EEF7" stroke="#00AA6C" stroke-width="2" rx="5"/>
+  <text x="592" y="83" text-anchor="middle" font-size="10" fill="#00AA6C" font-weight="600">Sub-Channel A</text>
+  <text x="592" y="97" text-anchor="middle" font-size="9" fill="#555555">32-bit DRAM</text>
+
+  <rect x="532" y="128" width="120" height="40" fill="#E8EEF7" stroke="#003F8A" stroke-width="2" rx="5"/>
+  <text x="592" y="146" text-anchor="middle" font-size="10" fill="#003F8A" font-weight="600">Sub-Channel B</text>
+  <text x="592" y="160" text-anchor="middle" font-size="9" fill="#555555">32-bit DRAM</text>
+
+  <!-- On-die ECC badge -->
+  <rect x="532" y="110" width="120" height="16" fill="#00AA6C" rx="2"/>
+  <text x="592" y="121" text-anchor="middle" font-size="9" fill="#FFFFFF" font-weight="600">온다이 ECC 내장</text>
+
+  <!-- DDR5 annotation -->
+  <rect x="358" y="183" width="295" height="80" fill="#F0FFF8" stroke="#00AA6C" stroke-width="1" rx="4"/>
+  <text x="505" y="199" text-anchor="middle" font-size="11" fill="#00AA6C" font-weight="700">독립적 명령 처리 → 더 유연한 소규모 요청 처리</text>
+  <text x="505" y="214" text-anchor="middle" font-size="10" fill="#555555">각 서브채널이 독립적으로 CMD/ADDR 처리</text>
+  <text x="505" y="228" text-anchor="middle" font-size="10" fill="#555555">32B 단위 소규모 전송 가능 → 효율 향상</text>
+  <text x="505" y="242" text-anchor="middle" font-size="10" fill="#003F8A" font-weight="600">최대 속도: DDR5-8400+ (MT/s)</text>
+  <text x="505" y="257" text-anchor="middle" font-size="10" fill="#555555">전압: 1.1V (DDR4 1.2V 대비 절전)</text>
+
+  <!-- ===== Comparison Table ===== -->
+  <rect x="20" y="285" width="760" height="150" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="400" y="302" text-anchor="middle" font-size="12" fill="#002C5F" font-weight="700">DDR4 vs DDR5 비교</text>
+
+  <!-- Table header -->
+  <rect x="30" y="308" width="740" height="24" fill="#002C5F" rx="3"/>
+  <text x="200" y="325" text-anchor="middle" font-size="11" fill="#FFFFFF" font-weight="600">항목</text>
+  <text x="430" y="325" text-anchor="middle" font-size="11" fill="#FFFFFF" font-weight="600">DDR4</text>
+  <text x="640" y="325" text-anchor="middle" font-size="11" fill="#FFFFFF" font-weight="600">DDR5</text>
+  <line x1="320" y1="308" x2="320" y2="428" stroke="#FFFFFF" stroke-width="0.5"/>
+  <line x1="535" y1="308" x2="535" y2="428" stroke="#FFFFFF" stroke-width="0.5"/>
+
+  <!-- Row 1 -->
+  <rect x="30" y="332" width="740" height="22" fill="#F8F8F8"/>
+  <text x="200" y="347" text-anchor="middle" font-size="11" fill="#1A1A1A">버스 폭</text>
+  <text x="430" y="347" text-anchor="middle" font-size="11" fill="#555555">64-bit</text>
+  <text x="640" y="347" text-anchor="middle" font-size="11" fill="#00AA6C" font-weight="600">2 × 32-bit 서브채널</text>
+
+  <!-- Row 2 -->
+  <rect x="30" y="354" width="740" height="22" fill="#FFFFFF"/>
+  <text x="200" y="369" text-anchor="middle" font-size="11" fill="#1A1A1A">최대 속도</text>
+  <text x="430" y="369" text-anchor="middle" font-size="11" fill="#555555">3200 MT/s</text>
+  <text x="640" y="369" text-anchor="middle" font-size="11" fill="#00AA6C" font-weight="600">8400+ MT/s</text>
+
+  <!-- Row 3 -->
+  <rect x="30" y="376" width="740" height="22" fill="#F8F8F8"/>
+  <text x="200" y="391" text-anchor="middle" font-size="11" fill="#1A1A1A">전압</text>
+  <text x="430" y="391" text-anchor="middle" font-size="11" fill="#555555">1.2V</text>
+  <text x="640" y="391" text-anchor="middle" font-size="11" fill="#00AA6C" font-weight="600">1.1V (절전)</text>
+
+  <!-- Row 4 -->
+  <rect x="30" y="398" width="740" height="22" fill="#FFFFFF"/>
+  <text x="200" y="413" text-anchor="middle" font-size="11" fill="#1A1A1A">온다이 ECC</text>
+  <text x="430" y="413" text-anchor="middle" font-size="11" fill="#DC2626">없음</text>
+  <text x="640" y="413" text-anchor="middle" font-size="11" fill="#00AA6C" font-weight="600">있음 (신뢰성 향상)</text>
+
+  <!-- Row borders -->
+  <line x1="30" y1="332" x2="770" y2="332" stroke="#D5CFBF" stroke-width="0.5"/>
+  <line x1="30" y1="354" x2="770" y2="354" stroke="#D5CFBF" stroke-width="0.5"/>
+  <line x1="30" y1="376" x2="770" y2="376" stroke="#D5CFBF" stroke-width="0.5"/>
+  <line x1="30" y1="398" x2="770" y2="398" stroke="#D5CFBF" stroke-width="0.5"/>
+  <line x1="30" y1="420" x2="770" y2="420" stroke="#D5CFBF" stroke-width="0.5"/>
+  <rect x="30" y="308" width="740" height="112" fill="none" stroke="#D5CFBF" stroke-width="1" rx="2"/>
+</svg>

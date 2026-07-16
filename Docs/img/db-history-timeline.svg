@@ -1,0 +1,124 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .era { font-size: 12px; font-weight: 700; }
+    .year { font-size: 10px; font-weight: 700; fill: #002C5F; }
+    .event { font-size: 10.5px; fill: #1A1A1A; font-weight: 600; }
+    .desc { font-size: 9px; fill: #555555; }
+  </style>
+
+  <rect width="800" height="450" fill="#F2EDE4"/>
+  <text x="400" y="28" text-anchor="middle" class="title">데이터베이스 진화의 역사 — RDBMS 독주에서 다양화의 시대로</text>
+
+  <!-- Era bands -->
+  <rect x="40" y="50" width="270" height="34" fill="#002C5F" rx="6"/>
+  <text x="175" y="71" text-anchor="middle" class="era" fill="#FFFFFF">RDBMS 독주 시대 (1970~2005)</text>
+
+  <rect x="318" y="50" width="230" height="34" fill="#E8962A" rx="6"/>
+  <text x="433" y="71" text-anchor="middle" class="era" fill="#FFFFFF">NoSQL 폭발기 (2006~2012)</text>
+
+  <rect x="556" y="50" width="204" height="34" fill="#00AA6C" rx="6"/>
+  <text x="658" y="71" text-anchor="middle" class="era" fill="#FFFFFF">전문화·다양화 (2012~현재)</text>
+
+  <!-- Main timeline axis -->
+  <line x1="40" y1="240" x2="760" y2="240" stroke="#002C5F" stroke-width="3"/>
+  <polygon points="760,240 748,233 748,247" fill="#002C5F"/>
+
+  <!-- ===== Events above the line ===== -->
+  <!-- 1970 Codd -->
+  <circle cx="70" cy="240" r="6" fill="#002C5F"/>
+  <line x1="70" y1="234" x2="70" y2="130" stroke="#002C5F" stroke-width="1.2" stroke-dasharray="3,2"/>
+  <rect x="42" y="98" width="86" height="36" fill="#FFFFFF" stroke="#002C5F" stroke-width="1" rx="4"/>
+  <text x="85" y="112" text-anchor="middle" class="year">1970</text>
+  <text x="85" y="126" text-anchor="middle" class="event">관계형 모델 논문</text>
+  <text x="70" y="260" text-anchor="middle" class="desc">E.F. Codd</text>
+
+  <!-- 1979 Oracle -->
+  <circle cx="135" cy="240" r="6" fill="#002C5F"/>
+  <line x1="135" y1="234" x2="135" y2="185" stroke="#002C5F" stroke-width="1.2" stroke-dasharray="3,2"/>
+  <rect x="100" y="152" width="72" height="36" fill="#FFFFFF" stroke="#002C5F" stroke-width="1" rx="4"/>
+  <text x="136" y="166" text-anchor="middle" class="year">1979</text>
+  <text x="136" y="180" text-anchor="middle" class="event">Oracle 출시</text>
+
+  <!-- 1986 SQL 표준 -->
+  <circle cx="195" cy="240" r="6" fill="#002C5F"/>
+  <line x1="195" y1="234" x2="195" y2="130" stroke="#002C5F" stroke-width="1.2" stroke-dasharray="3,2"/>
+  <rect x="160" y="98" width="76" height="36" fill="#FFFFFF" stroke="#002C5F" stroke-width="1" rx="4"/>
+  <text x="198" y="112" text-anchor="middle" class="year">1986</text>
+  <text x="198" y="126" text-anchor="middle" class="event">SQL ANSI 표준</text>
+
+  <!-- 1995 MySQL / PostgreSQL -->
+  <circle cx="265" cy="240" r="6" fill="#002C5F"/>
+  <line x1="265" y1="234" x2="265" y2="185" stroke="#002C5F" stroke-width="1.2" stroke-dasharray="3,2"/>
+  <rect x="222" y="152" width="90" height="36" fill="#FFFFFF" stroke="#002C5F" stroke-width="1" rx="4"/>
+  <text x="267" y="166" text-anchor="middle" class="year">1995~96</text>
+  <text x="267" y="180" text-anchor="middle" class="event">MySQL·PostgreSQL</text>
+
+  <!-- 2006 Bigtable -->
+  <circle cx="345" cy="240" r="6" fill="#E8962A"/>
+  <line x1="345" y1="234" x2="345" y2="130" stroke="#E8962A" stroke-width="1.2" stroke-dasharray="3,2"/>
+  <rect x="308" y="98" width="88" height="36" fill="#FEF3E2" stroke="#E8962A" stroke-width="1" rx="4"/>
+  <text x="352" y="112" text-anchor="middle" class="year" fill="#B45309">2006</text>
+  <text x="352" y="126" text-anchor="middle" class="event">Google Bigtable 논문</text>
+
+  <!-- 2007 Dynamo -->
+  <circle cx="400" cy="240" r="6" fill="#E8962A"/>
+  <line x1="400" y1="234" x2="400" y2="185" stroke="#E8962A" stroke-width="1.2" stroke-dasharray="3,2"/>
+  <rect x="356" y="152" width="94" height="36" fill="#FEF3E2" stroke="#E8962A" stroke-width="1" rx="4"/>
+  <text x="403" y="166" text-anchor="middle" class="year" fill="#B45309">2007</text>
+  <text x="403" y="180" text-anchor="middle" class="event">Amazon Dynamo 논문</text>
+
+  <!-- 2008-09 Cassandra / MongoDB / Redis -->
+  <circle cx="470" cy="240" r="6" fill="#E8962A"/>
+  <line x1="470" y1="234" x2="470" y2="130" stroke="#E8962A" stroke-width="1.2" stroke-dasharray="3,2"/>
+  <rect x="415" y="86" width="112" height="48" fill="#FEF3E2" stroke="#E8962A" stroke-width="1" rx="4"/>
+  <text x="471" y="100" text-anchor="middle" class="year" fill="#B45309">2008~09</text>
+  <text x="471" y="114" text-anchor="middle" class="event">Cassandra·MongoDB</text>
+  <text x="471" y="128" text-anchor="middle" class="event">Redis·Neo4j 등장</text>
+
+  <!-- 2012 Spanner -->
+  <circle cx="580" cy="240" r="6" fill="#00AA6C"/>
+  <line x1="580" y1="234" x2="580" y2="185" stroke="#00AA6C" stroke-width="1.2" stroke-dasharray="3,2"/>
+  <rect x="534" y="152" width="96" height="36" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1" rx="4"/>
+  <text x="582" y="166" text-anchor="middle" class="year" fill="#065F46">2012</text>
+  <text x="582" y="180" text-anchor="middle" class="event">Spanner → NewSQL</text>
+
+  <!-- 2015~ ClickHouse / TimescaleDB -->
+  <circle cx="655" cy="240" r="6" fill="#00AA6C"/>
+  <line x1="655" y1="234" x2="655" y2="130" stroke="#00AA6C" stroke-width="1.2" stroke-dasharray="3,2"/>
+  <rect x="606" y="98" width="100" height="36" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1" rx="4"/>
+  <text x="656" y="112" text-anchor="middle" class="year" fill="#065F46">2015~</text>
+  <text x="656" y="126" text-anchor="middle" class="event">시계열·OLAP 전문 DB</text>
+
+  <!-- 2022~ Vector DB -->
+  <circle cx="725" cy="240" r="6" fill="#00AA6C"/>
+  <line x1="725" y1="234" x2="725" y2="185" stroke="#00AA6C" stroke-width="1.2" stroke-dasharray="3,2"/>
+  <rect x="676" y="152" width="98" height="36" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1" rx="4"/>
+  <text x="725" y="166" text-anchor="middle" class="year" fill="#065F46">2022~</text>
+  <text x="725" y="180" text-anchor="middle" class="event">벡터 DB (AI/RAG)</text>
+
+  <!-- ===== Bottom: driving forces ===== -->
+  <rect x="40" y="290" width="225" height="130" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="152" y="312" text-anchor="middle" font-size="12" font-weight="700" fill="#002C5F">1기 — 무결성의 시대</text>
+  <text x="52" y="334" class="desc" font-size="10">· 기업 업무 전산화 (은행·회계·ERP)</text>
+  <text x="52" y="352" class="desc" font-size="10">· 데이터 정확성이 최우선 가치</text>
+  <text x="52" y="370" class="desc" font-size="10">· ACID 트랜잭션 + 정규화 + JOIN</text>
+  <text x="52" y="388" class="desc" font-size="10">· 서버 1대를 키우는 Scale-Up</text>
+  <text x="52" y="406" class="desc" font-size="10" fill="#002C5F" font-weight="600">→ "하나의 진실된 장부"</text>
+
+  <rect x="287" y="290" width="225" height="130" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="399" y="312" text-anchor="middle" font-size="12" font-weight="700" fill="#B45309">2기 — 웹 스케일의 시대</text>
+  <text x="299" y="334" class="desc" font-size="10">· 구글·아마존·페이스북의 데이터 폭발</text>
+  <text x="299" y="352" class="desc" font-size="10">· 수천 대 서버 분산이 필수가 됨</text>
+  <text x="299" y="370" class="desc" font-size="10">· 일관성 일부를 포기, 가용성·확장 확보</text>
+  <text x="299" y="388" class="desc" font-size="10">· 스키마 유연성 (비정형 데이터)</text>
+  <text x="299" y="406" class="desc" font-size="10" fill="#B45309" font-weight="600">→ "멈추지 않는 거대한 시스템"</text>
+
+  <rect x="534" y="290" width="226" height="130" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="647" y="312" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">3기 — 적재적소의 시대</text>
+  <text x="546" y="334" class="desc" font-size="10">· NewSQL: 분산 + ACID 동시 달성</text>
+  <text x="546" y="352" class="desc" font-size="10">· 용도별 전문 DB (검색·시계열·그래프)</text>
+  <text x="546" y="370" class="desc" font-size="10">· AI 시대: 벡터 임베딩 검색</text>
+  <text x="546" y="388" class="desc" font-size="10">· 여러 DB 조합 = Polyglot Persistence</text>
+  <text x="546" y="406" class="desc" font-size="10" fill="#065F46" font-weight="600">→ "문제에 맞는 도구를 고른다"</text>
+</svg>

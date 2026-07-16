@@ -1,0 +1,251 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <!-- Arrow markers -->
+    <marker id="arr-red" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#DC2626"/>
+    </marker>
+    <marker id="arr-red-rev" markerWidth="7" markerHeight="6" refX="1" refY="3" orient="auto">
+      <polygon points="7 0, 0 3, 7 6" fill="#DC2626"/>
+    </marker>
+    <marker id="arr-green" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#00AA6C"/>
+    </marker>
+    <marker id="arr-green-rev" markerWidth="7" markerHeight="6" refX="1" refY="3" orient="auto">
+      <polygon points="7 0, 0 3, 7 6" fill="#00AA6C"/>
+    </marker>
+    <marker id="arr-gray" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#888888"/>
+    </marker>
+    <!-- Glow for flash -->
+    <filter id="green-glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="#F2EDE4"/>
+
+  <!-- Title -->
+  <text x="400" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#002C5F">Flash Attention vs Standard Attention — 메모리 접근 비교</text>
+  <text x="400" y="42" text-anchor="middle" font-size="10" fill="#555555">Standard: O(N²) HBM 접근  vs  Flash: O(N) HBM 접근  → 메모리 대역폭 병목 해소</text>
+
+  <!-- Divider -->
+  <line x1="400" y1="48" x2="400" y2="420" stroke="#D5CFBF" stroke-width="1.5" stroke-dasharray="5,4"/>
+
+  <!-- ======================================= -->
+  <!-- LEFT SIDE: Standard Attention           -->
+  <!-- ======================================= -->
+  <text x="200" y="60" text-anchor="middle" font-size="13" font-weight="700" fill="#DC2626">Standard Attention</text>
+
+  <!-- GPU SM (SRAM) small box - left -->
+  <rect x="20" y="72" width="130" height="50" rx="6" fill="#E8EEF7" stroke="#002C5F" stroke-width="2"/>
+  <text x="85" y="90" text-anchor="middle" font-size="9" font-weight="700" fill="#002C5F">GPU SM</text>
+  <text x="85" y="103" text-anchor="middle" font-size="8" fill="#555555">SRAM ~20MB</text>
+  <text x="85" y="114" text-anchor="middle" font-size="7" fill="#888888">(on-chip, fast)</text>
+
+  <!-- HBM large box - left -->
+  <rect x="20" y="350" width="340" height="65" rx="6" fill="#1D4ED8" stroke="#001A3A" stroke-width="2"/>
+  <text x="190" y="370" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">HBM (High Bandwidth Memory)</text>
+  <text x="190" y="385" text-anchor="middle" font-size="9" fill="#AACCFF">80 GB  ·  3.35 TB/s  (H100 SXM)</text>
+  <text x="190" y="398" text-anchor="middle" font-size="8" fill="#7799DD">off-chip — 수백 ns 지연</text>
+  <text x="190" y="410" text-anchor="middle" font-size="8" fill="#7799DD">Q, K, V 행렬 저장  ·  중간 결과 저장</text>
+
+  <!-- Standard Attention Steps: Q,K,V loaded from HBM to SM -->
+  <!-- Step 1: Load Q, K from HBM → SM -->
+  <!-- Step 2: Compute QKᵀ, write S to HBM -->
+  <!-- Step 3: Load S from HBM, compute softmax, write P to HBM -->
+  <!-- Step 4: Load P from HBM, load V, compute PV, write O to HBM -->
+
+  <!-- Intermediate matrices in HBM area -->
+  <!-- S matrix (QKᵀ) -->
+  <rect x="30" y="295" width="70" height="45" rx="4" fill="#FCA5A5" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="65" y="313" text-anchor="middle" font-size="9" font-weight="700" fill="#991B1B">S = QKᵀ</text>
+  <text x="65" y="326" text-anchor="middle" font-size="7" fill="#7F1D1D">N×N matrix</text>
+  <text x="65" y="337" text-anchor="middle" font-size="7" fill="#7F1D1D">(O(N²) memory)</text>
+
+  <!-- P matrix (softmax(S)) -->
+  <rect x="115" y="295" width="70" height="45" rx="4" fill="#FCA5A5" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="150" y="313" text-anchor="middle" font-size="9" font-weight="700" fill="#991B1B">P = softmax</text>
+  <text x="150" y="326" text-anchor="middle" font-size="7" fill="#7F1D1D">N×N matrix</text>
+  <text x="150" y="337" text-anchor="middle" font-size="7" fill="#7F1D1D">(O(N²) memory)</text>
+
+  <!-- O output -->
+  <rect x="200" y="295" width="60" height="45" rx="4" fill="#FED7AA" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="230" y="313" text-anchor="middle" font-size="9" font-weight="700" fill="#92400E">O = PV</text>
+  <text x="230" y="326" text-anchor="middle" font-size="7" fill="#78350F">N×d</text>
+  <text x="230" y="337" text-anchor="middle" font-size="7" fill="#78350F">output</text>
+
+  <!-- Q, K, V in HBM -->
+  <rect x="270" y="295" width="80" height="45" rx="4" fill="#BFDBFE" stroke="#1D4ED8" stroke-width="1.5"/>
+  <text x="310" y="313" text-anchor="middle" font-size="9" font-weight="700" fill="#1E3A8A">Q, K, V</text>
+  <text x="310" y="326" text-anchor="middle" font-size="7" fill="#1E3A8A">입력 행렬</text>
+  <text x="310" y="337" text-anchor="middle" font-size="7" fill="#1E3A8A">HBM 저장</text>
+
+  <!-- ===== ARROWS for Standard Attention ===== -->
+
+  <!-- Step 1: Q,K load HBM → SM (①) -->
+  <line x1="290" y1="294" x2="130" y2="122" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arr-red)">
+    <animate attributeName="opacity" values="0;1;1;1;0" dur="3.5s" begin="0s" repeatCount="indefinite"/>
+  </line>
+  <rect x="168" y="190" width="62" height="16" rx="3" fill="#DC2626">
+    <animate attributeName="opacity" values="0;1;1;1;0" dur="3.5s" begin="0s" repeatCount="indefinite"/>
+  </rect>
+  <text x="199" y="202" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">
+    <animate attributeName="opacity" values="0;1;1;1;0" dur="3.5s" begin="0s" repeatCount="indefinite"/>
+    ① Q,K 로드
+  </text>
+
+  <!-- Step 2: Write S to HBM (②) -->
+  <line x1="100" y1="122" x2="65" y2="294" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arr-red)">
+    <animate attributeName="opacity" values="0;0;1;1;0" dur="3.5s" begin="0.5s" repeatCount="indefinite"/>
+  </line>
+  <rect x="14" y="205" width="75" height="16" rx="3" fill="#DC2626">
+    <animate attributeName="opacity" values="0;0;1;1;0" dur="3.5s" begin="0.5s" repeatCount="indefinite"/>
+  </rect>
+  <text x="51" y="217" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">
+    <animate attributeName="opacity" values="0;0;1;1;0" dur="3.5s" begin="0.5s" repeatCount="indefinite"/>
+    ② S 기록 (HBM)
+  </text>
+
+  <!-- Step 3: Load S back for softmax (③) -->
+  <line x1="65" y1="294" x2="85" y2="122" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arr-red)">
+    <animate attributeName="opacity" values="0;0;0;1;0" dur="3.5s" begin="1.0s" repeatCount="indefinite"/>
+  </line>
+  <rect x="88" y="225" width="75" height="16" rx="3" fill="#DC2626">
+    <animate attributeName="opacity" values="0;0;0;1;0" dur="3.5s" begin="1.0s" repeatCount="indefinite"/>
+  </rect>
+  <text x="125" y="237" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">
+    <animate attributeName="opacity" values="0;0;0;1;0" dur="3.5s" begin="1.0s" repeatCount="indefinite"/>
+    ③ S 재로드
+  </text>
+
+  <!-- Step 4: Write P to HBM (④) -->
+  <line x1="75" y1="122" x2="150" y2="294" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arr-red)">
+    <animate attributeName="opacity" values="0;0;0;0;1" dur="3.5s" begin="1.5s" repeatCount="indefinite"/>
+  </line>
+  <rect x="124" y="240" width="75" height="16" rx="3" fill="#DC2626">
+    <animate attributeName="opacity" values="0;0;0;0;1" dur="3.5s" begin="1.5s" repeatCount="indefinite"/>
+  </rect>
+  <text x="161" y="252" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">
+    <animate attributeName="opacity" values="0;0;0;0;1" dur="3.5s" begin="1.5s" repeatCount="indefinite"/>
+    ④ P 기록 (HBM)
+  </text>
+
+  <!-- Step 5 note -->
+  <line x1="150" y1="294" x2="100" y2="122" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
+
+  <!-- Round trip counter -->
+  <rect x="20" y="130" width="130" height="55" rx="5" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="85" y="148" text-anchor="middle" font-size="9" font-weight="700" fill="#DC2626">HBM 왕복 횟수</text>
+  <text x="85" y="163" text-anchor="middle" font-size="22" font-weight="900" fill="#DC2626">4×</text>
+  <text x="85" y="178" text-anchor="middle" font-size="8" fill="#991B1B">읽기+쓰기 반복</text>
+
+  <!-- Complexity label -->
+  <rect x="20" y="255" width="340" height="32" rx="4" fill="#FEE2E2" stroke="#DC2626" stroke-width="1"/>
+  <text x="190" y="268" text-anchor="middle" font-size="10" font-weight="700" fill="#DC2626">O(N²) HBM 접근 — N 증가 시 폭발적 증가</text>
+  <text x="190" y="282" text-anchor="middle" font-size="9" fill="#7F1D1D">N=4096 기준: ~67M 원소 × FP16 = ~128MB 매번 읽고 씀</text>
+
+  <!-- ======================================= -->
+  <!-- RIGHT SIDE: Flash Attention             -->
+  <!-- ======================================= -->
+  <text x="600" y="60" text-anchor="middle" font-size="13" font-weight="700" fill="#00AA6C">Flash Attention</text>
+  <text x="600" y="74" text-anchor="middle" font-size="9" fill="#555555">(Dao et al., 2022 / 2023)</text>
+
+  <!-- GPU SM (SRAM) - larger, tiled blocks shown -->
+  <rect x="420" y="80" width="350" height="130" rx="6" fill="#E8F8F1" stroke="#00AA6C" stroke-width="2.5" filter="url(#green-glow)"/>
+  <text x="595" y="98" text-anchor="middle" font-size="10" font-weight="700" fill="#00AA6C">GPU SM — SRAM (On-Chip)</text>
+  <text x="595" y="112" text-anchor="middle" font-size="8" fill="#555555">~20MB · 수 ns 접근 시간</text>
+
+  <!-- Tiled blocks inside SRAM -->
+  <!-- Q tile -->
+  <rect x="432" y="118" width="55" height="40" rx="4" fill="#BFDBFE" stroke="#1D4ED8" stroke-width="1.5"/>
+  <text x="460" y="134" text-anchor="middle" font-size="9" font-weight="700" fill="#1E3A8A">Q tile</text>
+  <text x="460" y="147" text-anchor="middle" font-size="7" fill="#1E3A8A">Br × d</text>
+
+  <!-- K tile -->
+  <rect x="495" y="118" width="55" height="40" rx="4" fill="#BFDBFE" stroke="#1D4ED8" stroke-width="1.5"/>
+  <text x="522" y="134" text-anchor="middle" font-size="9" font-weight="700" fill="#1E3A8A">K tile</text>
+  <text x="522" y="147" text-anchor="middle" font-size="7" fill="#1E3A8A">Bc × d</text>
+
+  <!-- V tile -->
+  <rect x="558" y="118" width="55" height="40" rx="4" fill="#BFDBFE" stroke="#1D4ED8" stroke-width="1.5"/>
+  <text x="585" y="134" text-anchor="middle" font-size="9" font-weight="700" fill="#1E3A8A">V tile</text>
+  <text x="585" y="147" text-anchor="middle" font-size="7" fill="#1E3A8A">Bc × d</text>
+
+  <!-- S local (no HBM write!) -->
+  <rect x="621" y="118" width="60" height="40" rx="4" fill="#D1FAE5" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="651" y="134" text-anchor="middle" font-size="9" font-weight="700" fill="#065F46">S local</text>
+  <text x="651" y="147" text-anchor="middle" font-size="7" fill="#065F46">SRAM only!</text>
+
+  <!-- O accumulator -->
+  <rect x="690" y="118" width="65" height="40" rx="4" fill="#FEF3C7" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="722" y="134" text-anchor="middle" font-size="9" font-weight="700" fill="#92400E">O accum</text>
+  <text x="722" y="147" text-anchor="middle" font-size="7" fill="#92400E">누산 결과</text>
+
+  <!-- "in-place compute" label inside SRAM -->
+  <text x="595" y="172" text-anchor="middle" font-size="8" fill="#065F46" font-weight="700">타일 단위 반복 계산 — HBM에 중간 결과 없음</text>
+  <text x="595" y="185" text-anchor="middle" font-size="7" fill="#555555">online softmax 알고리즘으로 numerically stable</text>
+  <text x="595" y="198" text-anchor="middle" font-size="7" fill="#555555">로컬 softmax 보정 후 O 누산 → 최종값만 HBM에 기록</text>
+
+  <!-- Loop indicators -->
+  <rect x="420" y="218" width="160" height="28" rx="4" fill="#D1FAE5" stroke="#00AA6C" stroke-width="1"/>
+  <text x="500" y="231" text-anchor="middle" font-size="8" fill="#065F46" font-weight="700">외부 루프: Q 타일</text>
+  <text x="500" y="243" text-anchor="middle" font-size="7" fill="#555555">Tr = N / Br 번 반복</text>
+
+  <rect x="590" y="218" width="165" height="28" rx="4" fill="#D1FAE5" stroke="#00AA6C" stroke-width="1"/>
+  <text x="672" y="231" text-anchor="middle" font-size="8" fill="#065F46" font-weight="700">내부 루프: K,V 타일</text>
+  <text x="672" y="243" text-anchor="middle" font-size="7" fill="#555555">Tc = N / Bc 번 반복</text>
+
+  <!-- HBM - right side -->
+  <rect x="420" y="350" width="350" height="65" rx="6" fill="#1D4ED8" stroke="#001A3A" stroke-width="2"/>
+  <text x="595" y="370" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">HBM (High Bandwidth Memory)</text>
+  <text x="595" y="385" text-anchor="middle" font-size="9" fill="#AACCFF">80 GB  ·  3.35 TB/s  (H100 SXM)</text>
+  <text x="595" y="398" text-anchor="middle" font-size="8" fill="#7799DD">Q, K, V 원본 저장  ·  최종 O만 기록</text>
+  <text x="595" y="410" text-anchor="middle" font-size="8" fill="#7799DD">HBM 접근: 타일 로드 + 결과 저장 = O(N)</text>
+
+  <!-- Flash Attention arrows -->
+  <!-- Load Q,K,V tiles (1 time each, sequential tiles) -->
+  <line x1="505" y1="349" x2="490" y2="212" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#arr-green)">
+    <animate attributeName="opacity" values="0;1;1;0" dur="3s" begin="0.2s" repeatCount="indefinite"/>
+  </line>
+  <rect x="420" y="270" width="95" height="16" rx="3" fill="#00AA6C">
+    <animate attributeName="opacity" values="0;1;1;0" dur="3s" begin="0.2s" repeatCount="indefinite"/>
+  </rect>
+  <text x="467" y="282" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">
+    <animate attributeName="opacity" values="0;1;1;0" dur="3s" begin="0.2s" repeatCount="indefinite"/>
+    타일 로드 (1×)
+  </text>
+
+  <!-- Write O back to HBM (1 time at end) -->
+  <line x1="685" y1="212" x2="685" y2="349" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#arr-green)">
+    <animate attributeName="opacity" values="0;0;1;1" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+  </line>
+  <rect x="625" y="270" width="95" height="16" rx="3" fill="#00AA6C">
+    <animate attributeName="opacity" values="0;0;1;1" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+  </rect>
+  <text x="672" y="282" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">
+    <animate attributeName="opacity" values="0;0;1;1" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+    O 기록 (1×)
+  </text>
+
+  <!-- Round trip counter - right -->
+  <rect x="420" y="255" width="115" height="65" rx="5" fill="#D1FAE5" stroke="#00AA6C" stroke-width="2"/>
+  <text x="477" y="273" text-anchor="middle" font-size="9" font-weight="700" fill="#00AA6C">HBM 왕복 횟수</text>
+  <text x="477" y="295" text-anchor="middle" font-size="22" font-weight="900" fill="#00AA6C">1×</text>
+  <text x="477" y="313" text-anchor="middle" font-size="8" fill="#065F46">최종 결과만 기록</text>
+
+  <!-- Complexity label - right -->
+  <rect x="420" y="326" width="350" height="20" rx="4" fill="#D1FAE5" stroke="#00AA6C" stroke-width="1"/>
+  <text x="595" y="340" text-anchor="middle" font-size="10" font-weight="700" fill="#065F46">O(N) HBM 접근 — 시퀀스 길이에 선형 비례</text>
+
+  <!-- Bottom comparison table -->
+  <rect x="20" y="422" width="760" height="26" rx="4" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1"/>
+  <text x="60" y="432" font-size="8" font-weight="700" fill="#555555">비교</text>
+  <text x="60" y="443" font-size="8" fill="#DC2626">Standard: HBM 읽기/쓰기 O(N²)  ·  느림  ·  메모리 부족 (긴 시퀀스)</text>
+  <text x="440" y="432" font-size="8" font-weight="700" fill="#555555">Flash:</text>
+  <text x="462" y="432" font-size="8" fill="#00AA6C">HBM 접근 O(N)  ·  2-4× 빠름  ·  긴 시퀀스(100K+) 지원 가능</text>
+</svg>

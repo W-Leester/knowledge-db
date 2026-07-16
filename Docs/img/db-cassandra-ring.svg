@@ -1,0 +1,91 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .node-label { font-size: 11px; font-weight: 700; fill: #FFFFFF; }
+    .small { font-size: 10px; fill: #555555; }
+    .label { font-size: 11px; fill: #1A1A1A; }
+  </style>
+
+  <rect width="800" height="450" fill="#F2EDE4"/>
+  <text x="400" y="28" text-anchor="middle" class="title">Cassandra 링 아키텍처 — 마스터 없는(Masterless) P2P 분산</text>
+
+  <!-- Ring -->
+  <circle cx="240" cy="240" r="140" fill="none" stroke="#B5AFA5" stroke-width="2.5" stroke-dasharray="8,5"/>
+
+  <!-- token range arcs annotation -->
+  <text x="240" y="235" text-anchor="middle" font-size="11" fill="#8A8A8A">해시 토큰 링</text>
+  <text x="240" y="251" text-anchor="middle" font-size="10" fill="#8A8A8A">(0 ~ 2⁶⁴)</text>
+
+  <!-- 6 nodes on ring: positions at angles -->
+  <!-- N1 top (240,100) -->
+  <circle cx="240" cy="100" r="30" fill="#002C5F"/>
+  <text x="240" y="97" text-anchor="middle" class="node-label">Node 1</text>
+  <text x="240" y="111" text-anchor="middle" font-size="8.5" fill="#E8EEF7">0~60</text>
+  <!-- N2 upper right (361,170) -->
+  <circle cx="361" cy="170" r="30" fill="#003F8A"/>
+  <text x="361" y="167" text-anchor="middle" class="node-label">Node 2</text>
+  <text x="361" y="181" text-anchor="middle" font-size="8.5" fill="#E8EEF7">60~120</text>
+  <!-- N3 lower right (361,310) -->
+  <circle cx="361" cy="310" r="30" fill="#1A5CB5"/>
+  <text x="361" y="307" text-anchor="middle" class="node-label">Node 3</text>
+  <text x="361" y="321" text-anchor="middle" font-size="8.5" fill="#E8EEF7">120~180</text>
+  <!-- N4 bottom (240,380) -->
+  <circle cx="240" cy="380" r="30" fill="#5B8DD9"/>
+  <text x="240" y="377" text-anchor="middle" class="node-label">Node 4</text>
+  <text x="240" y="391" text-anchor="middle" font-size="8.5" fill="#FFFFFF">180~240</text>
+  <!-- N5 lower left (119,310) -->
+  <circle cx="119" cy="310" r="30" fill="#1A5CB5"/>
+  <text x="119" y="307" text-anchor="middle" class="node-label">Node 5</text>
+  <text x="119" y="321" text-anchor="middle" font-size="8.5" fill="#E8EEF7">240~300</text>
+  <!-- N6 upper left (119,170) -->
+  <circle cx="119" cy="170" r="30" fill="#003F8A"/>
+  <text x="119" y="167" text-anchor="middle" class="node-label">Node 6</text>
+  <text x="119" y="181" text-anchor="middle" font-size="8.5" fill="#E8EEF7">300~360</text>
+
+  <!-- Write path: client writes key -->
+  <rect x="330" y="55" width="120" height="34" fill="#E8962A" rx="6"/>
+  <text x="390" y="72" text-anchor="middle" font-size="10.5" fill="#FFFFFF" font-weight="700">쓰기: key="user:77"</text>
+  <text x="390" y="84" text-anchor="middle" font-size="8.5" fill="#FEF3E2">hash(key) = 85 → Node 2 담당</text>
+
+  <path d="M 372 92 Q 368 120 364 138" fill="none" stroke="#E8962A" stroke-width="2.5"/>
+  <polygon points="364,138 361,128 370,130" fill="#E8962A"/>
+
+  <!-- Replication arrows RF=3: N2 -> N3 -> N4 -->
+  <path d="M 375 198 Q 385 240 375 282" fill="none" stroke="#00AA6C" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="375,282 372,272 381,273" fill="#00AA6C"/>
+  <path d="M 340 332 Q 305 365 272 372" fill="none" stroke="#00AA6C" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="272,372 281,366 283,375" fill="#00AA6C"/>
+  <text x="420" y="245" font-size="9.5" fill="#065F46" font-weight="700">복제 (RF=3)</text>
+  <text x="420" y="258" font-size="8.5" fill="#555555">다음 2개 노드에</text>
+  <text x="420" y="270" font-size="8.5" fill="#555555">자동 복사</text>
+
+  <!-- Dead node demo: X on node 5 -->
+  <line x1="99" y1="290" x2="139" y2="330" stroke="#DC2626" stroke-width="4"/>
+  <line x1="139" y1="290" x2="99" y2="330" stroke="#DC2626" stroke-width="4"/>
+  <text x="60" y="355" font-size="9.5" fill="#DC2626" font-weight="700">노드 장애에도</text>
+  <text x="60" y="368" font-size="9.5" fill="#DC2626" font-weight="700">서비스 무중단</text>
+
+  <!-- Right panel: tunable consistency -->
+  <rect x="500" y="100" width="270" height="200" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="635" y="124" text-anchor="middle" font-size="12.5" font-weight="700" fill="#002C5F">튜닝 가능한 일관성 (쿼리별 선택)</text>
+
+  <rect x="516" y="138" width="238" height="42" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1" rx="4"/>
+  <text x="524" y="155" font-size="10.5" fill="#065F46" font-weight="700">ONE — 노드 1대만 확인</text>
+  <text x="524" y="171" font-size="9.5" fill="#555555">가장 빠름 · 일관성 약함 (로그, 조회수)</text>
+
+  <rect x="516" y="188" width="238" height="42" fill="#FEF3E2" stroke="#E8962A" stroke-width="1" rx="4"/>
+  <text x="524" y="205" font-size="10.5" fill="#B45309" font-weight="700">QUORUM — 과반수(2/3) 확인</text>
+  <text x="524" y="221" font-size="9.5" fill="#555555">속도·일관성 균형 (일반적 선택)</text>
+
+  <rect x="516" y="238" width="238" height="42" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="4"/>
+  <text x="524" y="255" font-size="10.5" fill="#DC2626" font-weight="700">ALL — 전체 복제본 확인</text>
+  <text x="524" y="271" font-size="9.5" fill="#555555">가장 안전 · 가장 느림 · 가용성 낮아짐</text>
+
+  <!-- key points bottom -->
+  <rect x="30" y="415" width="740" height="1" fill="none"/>
+  <rect x="500" y="320" width="270" height="80" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="635" y="342" text-anchor="middle" font-size="11.5" font-weight="700" fill="#002C5F">왜 강력한가</text>
+  <text x="514" y="362" font-size="9.5" fill="#555555">· 모든 노드 동등 → 마스터 병목·SPOF 없음</text>
+  <text x="514" y="378" font-size="9.5" fill="#555555">· 노드 추가 = 용량·처리량 선형 증가</text>
+  <text x="514" y="394" font-size="9.5" fill="#555555">· 사용: Discord 메시지, Netflix 시청기록, IoT</text>
+</svg>

@@ -1,0 +1,102 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .section-title { font-size: 13px; font-weight: 700; fill: #002C5F; }
+    .label { font-size: 11px; fill: #1A1A1A; }
+    .small { font-size: 9.5px; fill: #555555; }
+    .servertxt { font-size: 9px; fill: #FFFFFF; font-weight: 600; }
+  </style>
+
+  <rect width="800" height="450" fill="#F2EDE4"/>
+  <text x="400" y="28" text-anchor="middle" class="title">Scale-Up vs Scale-Out — RDBMS와 NoSQL의 근본적 확장 전략 차이</text>
+
+  <!-- ===== LEFT: Scale-Up ===== -->
+  <rect x="30" y="45" width="360" height="330" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="210" y="68" text-anchor="middle" class="section-title">수직 확장 Scale-Up — RDBMS 전통 방식</text>
+
+  <!-- small server -->
+  <rect x="60" y="220" width="70" height="90" fill="#5B8DD9" rx="4"/>
+  <rect x="68" y="230" width="54" height="8" fill="#FFFFFF" opacity="0.35" rx="2"/>
+  <rect x="68" y="243" width="54" height="8" fill="#FFFFFF" opacity="0.35" rx="2"/>
+  <circle cx="118" cy="298" r="3" fill="#00AA6C"/>
+  <text x="95" y="284" text-anchor="middle" class="servertxt">4 Core</text>
+  <text x="95" y="325" text-anchor="middle" class="small">₩</text>
+
+  <!-- arrow -->
+  <line x1="140" y1="255" x2="168" y2="255" stroke="#002C5F" stroke-width="2"/>
+  <polygon points="168,255 159,250 159,260" fill="#002C5F"/>
+
+  <!-- medium server -->
+  <rect x="175" y="185" width="85" height="125" fill="#1A5CB5" rx="4"/>
+  <rect x="184" y="196" width="67" height="9" fill="#FFFFFF" opacity="0.35" rx="2"/>
+  <rect x="184" y="210" width="67" height="9" fill="#FFFFFF" opacity="0.35" rx="2"/>
+  <rect x="184" y="224" width="67" height="9" fill="#FFFFFF" opacity="0.35" rx="2"/>
+  <circle cx="248" cy="298" r="3" fill="#00AA6C"/>
+  <text x="217" y="268" text-anchor="middle" class="servertxt">32 Core</text>
+  <text x="217" y="325" text-anchor="middle" class="small">₩₩₩</text>
+
+  <!-- arrow -->
+  <line x1="268" y1="240" x2="296" y2="240" stroke="#002C5F" stroke-width="2"/>
+  <polygon points="296,240 287,235 287,245" fill="#002C5F"/>
+
+  <!-- big server -->
+  <rect x="300" y="140" width="80" height="170" fill="#002C5F" rx="4"/>
+  <rect x="309" y="152" width="62" height="10" fill="#FFFFFF" opacity="0.35" rx="2"/>
+  <rect x="309" y="167" width="62" height="10" fill="#FFFFFF" opacity="0.35" rx="2"/>
+  <rect x="309" y="182" width="62" height="10" fill="#FFFFFF" opacity="0.35" rx="2"/>
+  <rect x="309" y="197" width="62" height="10" fill="#FFFFFF" opacity="0.35" rx="2"/>
+  <circle cx="368" cy="298" r="3" fill="#00AA6C"/>
+  <text x="340" y="235" text-anchor="middle" class="servertxt">128 Core</text>
+  <text x="340" y="325" text-anchor="middle" class="small">₩₩₩₩₩₩₩</text>
+
+  <!-- warning -->
+  <rect x="50" y="80" width="320" height="46" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="4"/>
+  <text x="210" y="99" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">한계: 비용이 기하급수적 증가 + 물리적 상한 존재</text>
+  <text x="210" y="115" text-anchor="middle" class="small">서버 1대가 죽으면 전체 중단 (SPOF, 단일 장애점)</text>
+
+  <text x="40" y="355" class="small" font-size="10.5">더 좋은 CPU·더 많은 RAM으로 <tspan font-weight="700" fill="#002C5F">한 대를 키움</tspan> · 구조 단순, 트랜잭션 유지 쉬움</text>
+
+  <!-- ===== RIGHT: Scale-Out ===== -->
+  <rect x="410" y="45" width="360" height="330" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="590" y="68" text-anchor="middle" class="section-title">수평 확장 Scale-Out — NoSQL 방식</text>
+
+  <!-- benefit -->
+  <rect x="430" y="80" width="320" height="46" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1" rx="4"/>
+  <text x="590" y="99" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">노드 추가 = 용량·처리량 선형 증가, 상한 없음</text>
+  <text x="590" y="115" text-anchor="middle" class="small">일부 노드가 죽어도 복제본이 서비스 지속 (고가용성)</text>
+
+  <!-- rows of small identical servers -->
+  <!-- row 1: 2 servers, +arrow, row2: 4 servers, row3: 6 servers -->
+  <g>
+    <!-- Row 1 -->
+    <rect x="455" y="140" width="46" height="52" fill="#1A5CB5" rx="3"/>
+    <rect x="507" y="140" width="46" height="52" fill="#1A5CB5" rx="3"/>
+    <text x="504" y="170" text-anchor="middle" class="servertxt"> </text>
+    <text x="590" y="170" class="label" font-weight="700" fill="#002C5F">2대 →</text>
+    <!-- Row 2 -->
+    <rect x="455" y="205" width="46" height="52" fill="#1A5CB5" rx="3"/>
+    <rect x="507" y="205" width="46" height="52" fill="#1A5CB5" rx="3"/>
+    <rect x="559" y="205" width="46" height="52" fill="#5B8DD9" rx="3"/>
+    <rect x="611" y="205" width="46" height="52" fill="#5B8DD9" rx="3"/>
+    <text x="675" y="235" class="label" font-weight="700" fill="#002C5F">4대 →</text>
+    <!-- Row 3 -->
+    <rect x="455" y="270" width="46" height="52" fill="#1A5CB5" rx="3"/>
+    <rect x="507" y="270" width="46" height="52" fill="#1A5CB5" rx="3"/>
+    <rect x="559" y="270" width="46" height="52" fill="#5B8DD9" rx="3"/>
+    <rect x="611" y="270" width="46" height="52" fill="#5B8DD9" rx="3"/>
+    <rect x="663" y="270" width="46" height="52" fill="#E8962A" rx="3"/>
+    <rect x="715" y="270" width="42" height="52" fill="#E8962A" rx="3"/>
+    <text x="736" y="245" class="label" font-weight="700" fill="#B45309">계속 추가!</text>
+  </g>
+  <!-- status lights -->
+  <circle cx="494" cy="185" r="2.5" fill="#00AA6C"/><circle cx="546" cy="185" r="2.5" fill="#00AA6C"/>
+  <circle cx="494" cy="250" r="2.5" fill="#00AA6C"/><circle cx="546" cy="250" r="2.5" fill="#00AA6C"/><circle cx="598" cy="250" r="2.5" fill="#00AA6C"/><circle cx="650" cy="250" r="2.5" fill="#00AA6C"/>
+  <circle cx="494" cy="315" r="2.5" fill="#00AA6C"/><circle cx="546" cy="315" r="2.5" fill="#00AA6C"/><circle cx="598" cy="315" r="2.5" fill="#00AA6C"/><circle cx="650" cy="315" r="2.5" fill="#00AA6C"/><circle cx="702" cy="315" r="2.5" fill="#00AA6C"/><circle cx="750" cy="315" r="2.5" fill="#00AA6C"/>
+
+  <text x="420" y="355" class="small" font-size="10.5">값싼 범용 서버를 <tspan font-weight="700" fill="#002C5F">여러 대 연결</tspan> · 단, 분산 JOIN·트랜잭션이 어려워짐 → NoSQL의 탄생 배경</text>
+
+  <!-- Bottom summary -->
+  <rect x="30" y="390" width="740" height="42" fill="#002C5F" rx="6"/>
+  <text x="400" y="408" text-anchor="middle" font-size="12" fill="#FFFFFF" font-weight="700">핵심: RDBMS의 JOIN과 ACID는 여러 서버에 걸쳐 구현하기 극도로 어렵다</text>
+  <text x="400" y="424" text-anchor="middle" font-size="10.5" fill="#E8EEF7">→ NoSQL은 JOIN·엄격한 일관성을 포기하는 대신 무제한 수평 확장을 얻었다</text>
+</svg>

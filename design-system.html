@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hyundai-Inspired AI Presentation — Design System v1.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+/* ─────────────────────────────────────────
+   CSS CUSTOM PROPERTIES (Design Tokens)
+───────────────────────────────────────── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Sidebar */
+#sidebar {
+  width: 220px;
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-8);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 13px; font-weight: 700; color: #fff; }
+#sidebar nav a {
+  display: block;
+  padding: var(--sp-2) var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+
+/* Main content */
+main {
+  flex: 1;
+  padding: var(--sp-12) var(--sp-12);
+  max-width: 960px;
+}
+
+section { margin-bottom: 80px; scroll-margin-top: var(--sp-8); }
+
+.section-header {
+  border-bottom: 2px solid var(--navy-900);
+  padding-bottom: var(--sp-3);
+  margin-bottom: var(--sp-8);
+}
+.section-header h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--navy-900);
+}
+.section-header p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: var(--sp-1);
+}
+
+h3 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: var(--sp-4); margin-top: var(--sp-8); }
+h3:first-child { margin-top: 0; }
+
+/* ─── COLOR SWATCHES ─── */
+.color-grid { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+.color-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  cursor: pointer;
+}
+.color-swatch .box {
+  width: 72px; height: 72px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  transition: transform .15s;
+  position: relative;
+}
+.color-swatch .box:hover { transform: scale(1.08); }
+.color-swatch .box .copied {
+  position: absolute; inset: 0; display: none;
+  align-items: center; justify-content: center;
+  background: rgba(0,0,0,.45); color: #fff;
+  font-size: 11px; border-radius: var(--radius-md);
+}
+.color-swatch .box.show-copied .copied { display: flex; }
+.color-swatch span { font-size: 11px; color: var(--text-secondary); text-align: center; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── TYPOGRAPHY SCALE ─── */
+.type-scale { display: flex; flex-direction: column; gap: var(--sp-4); }
+.type-row {
+  display: flex; align-items: baseline; gap: var(--sp-6);
+  padding: var(--sp-3) 0; border-bottom: 1px solid var(--border);
+}
+.type-row .meta { width: 120px; flex-shrink: 0; font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+.type-row .sample { flex: 1; }
+
+/* ─── COMPONENTS ─── */
+.component-demo {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-8);
+  margin-bottom: var(--sp-6);
+  position: relative;
+}
+.component-demo .demo-label {
+  font-size: 11px; font-weight: 600; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--text-muted);
+  margin-bottom: var(--sp-4);
+}
+.demo-row { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  padding: 10px 20px; border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  cursor: pointer; border: none; transition: all .2s; text-decoration: none;
+}
+.btn-primary { background: var(--navy-900); color: #fff; }
+.btn-primary:hover { background: var(--navy-700); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-secondary { background: transparent; color: var(--navy-900); border: 2px solid var(--navy-900); }
+.btn-secondary:hover { background: var(--navy-100); }
+.btn-ghost { background: transparent; color: var(--text-secondary); }
+.btn-ghost:hover { background: var(--border); color: var(--text-primary); }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-sm { padding: 6px 14px; font-size: 13px; }
+.btn-lg { padding: 14px 28px; font-size: 16px; }
+
+/* Cards */
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card-dark { background: var(--navy-900); color: #fff; border-color: var(--navy-700); }
+.card-dark p { color: rgba(255,255,255,.7); }
+.card-accent { border-left: 4px solid var(--navy-900); }
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); }
+
+.stat-card {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  text-align: center;
+}
+.stat-card .stat-value {
+  font-size: 40px; font-weight: 800; color: var(--navy-900);
+  font-family: 'JetBrains Mono', monospace; line-height: 1;
+  margin-bottom: var(--sp-2);
+}
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+.stat-card .stat-trend { font-size: 12px; color: var(--green); margin-top: var(--sp-1); font-weight: 600; }
+
+/* Badges */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 3px 10px; border-radius: 100px;
+  font-size: 12px; font-weight: 600;
+}
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: var(--green); }
+.badge-amber { background: var(--amber-light); color: var(--amber); }
+.badge-red { background: var(--red-light); color: var(--red); }
+.badge-gray { background: #F0EDE8; color: var(--text-secondary); }
+
+/* Precision pills */
+.pill {
+  display: inline-flex; align-items: center;
+  padding: 4px 12px; border-radius: 100px;
+  font-size: 12px; font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+.pill-fp32 { background: #E0E7FF; color: #3730A3; }
+.pill-fp16 { background: var(--navy-100); color: var(--navy-900); }
+.pill-bf16 { background: #E0F2FE; color: #0369A1; }
+.pill-fp8  { background: var(--amber-light); color: #B45309; }
+.pill-int8 { background: var(--green-light); color: #065F46; }
+.pill-int4 { background: #F3E8FF; color: #6B21A8; }
+
+/* Table */
+.ds-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.ds-table thead tr { background: var(--navy-900); color: #fff; }
+.ds-table thead th { padding: 12px 16px; text-align: left; font-weight: 600; font-size: 13px; }
+.ds-table tbody tr { border-bottom: 1px solid var(--border); }
+.ds-table tbody tr:last-child { border-bottom: none; }
+.ds-table tbody tr:nth-child(even) { background: var(--bg-card); }
+.ds-table tbody tr:hover { background: var(--navy-100); }
+.ds-table tbody td { padding: 11px 16px; }
+
+/* Tabs */
+.tabs { }
+.tab-list {
+  display: flex; gap: 0; border-bottom: 2px solid var(--border);
+  margin-bottom: var(--sp-6);
+}
+.tab-btn {
+  padding: 10px 20px; background: none; border: none;
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  color: var(--text-muted); cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -2px;
+  transition: all .2s;
+}
+.tab-btn:hover { color: var(--text-primary); }
+.tab-btn.active { color: var(--navy-900); border-bottom-color: var(--navy-900); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Progress bar */
+.progress-wrap { background: var(--border); border-radius: 100px; overflow: hidden; height: 8px; }
+.progress-bar { height: 100%; background: var(--navy-900); border-radius: 100px; transition: width .5s ease; }
+
+/* Tooltip */
+.tooltip-wrap { position: relative; display: inline-block; }
+.tooltip-box {
+  position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  background: #1A1A1A; color: #fff; padding: 6px 12px;
+  border-radius: var(--radius-sm); font-size: 12px; white-space: nowrap;
+  opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+.tooltip-box::after {
+  content: ''; position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: #1A1A1A;
+}
+.tooltip-wrap:hover .tooltip-box { opacity: 1; }
+
+/* Callout */
+.callout {
+  display: flex; gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-6); border-radius: var(--radius-md);
+  border-left: 4px solid; margin: var(--sp-4) 0;
+}
+.callout-blue { background: var(--navy-100); border-color: var(--navy-900); }
+.callout-green { background: var(--green-light); border-color: var(--green); }
+.callout-amber { background: var(--amber-light); border-color: var(--amber); }
+.callout-red { background: var(--red-light); border-color: var(--red); }
+.callout-icon { font-size: 18px; line-height: 1.4; }
+.callout-body p { font-size: 14px; line-height: 1.6; }
+.callout-body strong { font-weight: 700; }
+
+/* Code block */
+.code-block {
+  position: relative; background: #1A1A1A; color: #E5E7EB;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  line-height: 1.7; overflow-x: auto;
+  margin: var(--sp-4) 0;
+}
+.code-block .copy-btn {
+  position: absolute; top: var(--sp-3); right: var(--sp-3);
+  background: rgba(255,255,255,.1); border: none; color: #ccc;
+  border-radius: var(--radius-sm); padding: 4px 10px;
+  font-size: 11px; cursor: pointer; font-family: inherit;
+  transition: background .2s;
+}
+.code-block .copy-btn:hover { background: rgba(255,255,255,.2); }
+.code-block .kw { color: #C084FC; }
+.code-block .str { color: #86EFAC; }
+.code-block .cm { color: #6B7280; }
+.code-block .va { color: #7DD3FC; }
+.code-block .nu { color: #FCD34D; }
+
+/* Icons */
+.icon-grid { display: flex; flex-wrap: wrap; gap: var(--sp-4); }
+.icon-item {
+  display: flex; flex-direction: column; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-4); border: 1px solid var(--border);
+  border-radius: var(--radius-md); background: var(--bg-secondary);
+  cursor: pointer; transition: all .2s; min-width: 80px;
+}
+.icon-item:hover { border-color: var(--navy-900); background: var(--navy-100); }
+.icon-item svg { width: 28px; height: 28px; }
+.icon-item span { font-size: 11px; color: var(--text-muted); }
+
+/* Animation demos */
+.anim-demo {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  margin-bottom: var(--sp-4);
+  display: flex; align-items: center; gap: var(--sp-8);
+}
+.anim-demo .demo-area {
+  flex: 1; height: 80px; display: flex; align-items: center; justify-content: center;
+  background: var(--bg-card); border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.anim-demo .demo-meta { width: 200px; flex-shrink: 0; }
+.anim-demo .demo-meta h4 { font-size: 14px; font-weight: 700; margin-bottom: var(--sp-1); }
+.anim-demo .demo-meta p { font-size: 12px; color: var(--text-muted); margin-bottom: var(--sp-3); }
+.anim-demo .play-btn {
+  padding: 6px 14px; background: var(--navy-900); color: #fff;
+  border: none; border-radius: var(--radius-sm); font-size: 12px;
+  cursor: pointer; font-family: inherit; font-weight: 600;
+}
+
+/* Animations */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes countPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+@keyframes barFill { from { width: 0; } to { width: var(--target-w); } }
+@keyframes pulse-glow { 0%,100% { box-shadow: 0 0 0 0 rgba(0,44,95,.4); } 50% { box-shadow: 0 0 0 12px rgba(0,44,95,0); } }
+
+.anim-fadeinup { animation: fadeInUp .5s ease; }
+.anim-slideinleft { animation: slideInLeft .5s ease; }
+.anim-pulse-glow { animation: pulse-glow 1.5s infinite; }
+
+/* Slide template preview */
+.template-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); }
+.template-card {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); overflow: hidden; cursor: pointer;
+  transition: all .2s;
+}
+.template-card:hover { border-color: var(--navy-900); box-shadow: var(--shadow-md); }
+.template-preview {
+  width: 100%; aspect-ratio: 16/9;
+  position: relative; overflow: hidden;
+}
+.template-card .template-name {
+  padding: var(--sp-3) var(--sp-4); font-size: 13px; font-weight: 600;
+  border-top: 1px solid var(--border);
+}
+
+/* Responsive — 모바일 드로어 */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#backdrop { display: none; position: fixed; inset: 0; background: rgba(13,27,46,.55); z-index: 98; }
+#backdrop.show { display: block; }
+
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; height: 100vh; width: 250px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 12px var(--sp-6); font-size: 14px; }
+  main { padding: 68px var(--sp-4) var(--sp-12); }
+  .card-grid, .template-grid { grid-template-columns: 1fr; }
+  .type-row { flex-direction: column; gap: var(--sp-1); }
+  .type-row .meta { width: auto; }
+  .demo-row { gap: var(--sp-2); }
+}
+</style>
+</head>
+<body>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="DsDrawer.toggle()">
+  <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="DsDrawer.close()"></div>
+
+<!-- Sidebar -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Design System</h2>
+    <p>AI PT v1.0</p>
+  </div>
+  <nav>
+    <a href="#colors">색상 시스템</a>
+    <a href="#typography">타이포그래피</a>
+    <a href="#components">컴포넌트</a>
+    <a href="#icons">아이콘 세트</a>
+    <a href="#animations">애니메이션</a>
+    <a href="#templates">슬라이드 템플릿</a>
+  </nav>
+</aside>
+
+<!-- Main -->
+<main>
+
+  <!-- Header banner -->
+  <div style="background:var(--navy-900);color:#fff;padding:20px 28px;border-radius:var(--radius-lg);margin-bottom:48px;display:flex;align-items:center;justify-content:space-between;">
+    <div>
+      <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:6px;">Hyundai-Inspired · AI Presentation</div>
+      <div style="font-size:22px;font-weight:800;">Design System <span style="color:var(--amber);">v1.0</span></div>
+    </div>
+    <div style="font-size:13px;color:rgba(255,255,255,.5);">재사용 가능한 UI 컴포넌트 라이브러리</div>
+  </div>
+
+  <!-- ════════════════════ 1. COLORS ════════════════════ -->
+  <section id="colors">
+    <div class="section-header">
+      <h2>색상 시스템 Color System</h2>
+      <p>클릭하면 HEX 값이 클립보드에 복사됩니다</p>
+    </div>
+
+    <h3>배경 & 서피스</h3>
+    <div class="color-grid" id="cg-bg"></div>
+
+    <h3>네이비 스케일 (포인트 컬러)</h3>
+    <div class="color-grid" id="cg-navy"></div>
+
+    <h3>텍스트</h3>
+    <div class="color-grid" id="cg-text"></div>
+
+    <h3>상태 색상 (Status)</h3>
+    <div class="color-grid" id="cg-status"></div>
+
+    <h3 style="margin-top:32px;">배경 조합 대비비</h3>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <div style="background:var(--navy-900);color:#fff;padding:16px 24px;border-radius:12px;font-size:14px;font-weight:600;">네이비 위 흰 텍스트 ✓</div>
+      <div style="background:var(--bg-primary);color:var(--navy-900);padding:16px 24px;border-radius:12px;font-size:14px;font-weight:600;border:1px solid var(--border);">베이지 위 네이비 텍스트 ✓</div>
+      <div style="background:var(--bg-dark);color:#fff;padding:16px 24px;border-radius:12px;font-size:14px;font-weight:600;">다크 위 흰 텍스트 ✓</div>
+      <div style="background:var(--green);color:#fff;padding:16px 24px;border-radius:12px;font-size:14px;font-weight:600;">그린 위 흰 텍스트 ✓</div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ 2. TYPOGRAPHY ════════════════════ -->
+  <section id="typography">
+    <div class="section-header">
+      <h2>타이포그래피 Typography</h2>
+      <p>Primary: Pretendard &nbsp;|&nbsp; Mono: JetBrains Mono</p>
+    </div>
+
+    <h3>폰트 패밀리</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px;">
+      <div class="card">
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Primary — Pretendard</div>
+        <div style="font-size:28px;font-weight:800;margin-bottom:8px;line-height:1.2;">AI 하드웨어<br>Architecture</div>
+        <div style="font-size:14px;color:var(--text-secondary);">한글 영문 혼용에 최적화. 자소 형태, 자간, 굵기 체계가 일관적.</div>
+      </div>
+      <div class="card" style="font-family:'JetBrains Mono',monospace;">
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;font-family:'Pretendard',sans-serif;">Mono — JetBrains Mono</div>
+        <div style="font-size:24px;font-weight:700;margin-bottom:8px;line-height:1.3;">3,958 TFLOPS<br>3.35 TB/s</div>
+        <div style="font-size:13px;color:var(--text-secondary);">기술 수치, 스펙, 코드에 사용.</div>
+      </div>
+    </div>
+
+    <h3>타입 스케일</h3>
+    <div class="type-scale">
+      <div class="type-row"><div class="meta">64px · 800</div><div class="sample" style="font-size:64px;font-weight:800;line-height:1.1;">AI 두뇌</div></div>
+      <div class="type-row"><div class="meta">48px · 800</div><div class="sample" style="font-size:48px;font-weight:800;line-height:1.1;">AI 두뇌</div></div>
+      <div class="type-row"><div class="meta">32px · 700</div><div class="sample" style="font-size:32px;font-weight:700;">프로세서 아키텍처</div></div>
+      <div class="type-row"><div class="meta">24px · 700</div><div class="sample" style="font-size:24px;font-weight:700;">GPU Warp 스케줄링</div></div>
+      <div class="type-row"><div class="meta">20px · 600</div><div class="sample" style="font-size:20px;font-weight:600;">섹션 제목 Section Title</div></div>
+      <div class="type-row"><div class="meta">16px · 500</div><div class="sample" style="font-size:16px;font-weight:500;">본문 텍스트. AI 학습에는 수천 개의 GPU가 동시에 협력합니다.</div></div>
+      <div class="type-row"><div class="meta">14px · 400</div><div class="sample" style="font-size:14px;font-weight:400;">보조 설명. Tensor Core는 4세대에서 FP8 정밀도를 지원합니다.</div></div>
+      <div class="type-row"><div class="meta">12px · 400</div><div class="sample" style="font-size:12px;color:var(--text-muted);">캡션 · 주석. * 단위: TFLOPS (FP16 기준)</div></div>
+    </div>
+
+    <h3>폰트 굵기 (Pretendard)</h3>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+      <div style="font-size:18px;font-weight:400;">400 Regular — 일반 본문 텍스트</div>
+      <div style="font-size:18px;font-weight:500;">500 Medium — 라벨, 부연 설명</div>
+      <div style="font-size:18px;font-weight:600;">600 SemiBold — 소제목, 탭 버튼</div>
+      <div style="font-size:18px;font-weight:700;">700 Bold — 제목, 강조</div>
+      <div style="font-size:18px;font-weight:800;">800 ExtraBold — Hero 타이틀, 수치</div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ 3. COMPONENTS ════════════════════ -->
+  <section id="components">
+    <div class="section-header">
+      <h2>컴포넌트 라이브러리 Components</h2>
+      <p>복사-붙여넣기로 바로 사용 가능</p>
+    </div>
+
+    <!-- Buttons -->
+    <h3>버튼 Buttons</h3>
+    <div class="component-demo">
+      <div class="demo-label">Variants</div>
+      <div class="demo-row">
+        <button class="btn btn-primary">Primary 버튼</button>
+        <button class="btn btn-secondary">Secondary 버튼</button>
+        <button class="btn btn-ghost">Ghost 버튼</button>
+        <button class="btn btn-danger">Danger 버튼</button>
+      </div>
+      <div class="demo-row" style="margin-top:12px;">
+        <button class="btn btn-primary btn-sm">Small</button>
+        <button class="btn btn-primary">Medium</button>
+        <button class="btn btn-primary btn-lg">Large</button>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <h3>카드 Cards</h3>
+    <div class="component-demo">
+      <div class="demo-label">Card Variants</div>
+      <div class="card-grid">
+        <div class="card">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:8px;">기본 카드</div>
+          <div style="font-size:16px;font-weight:700;">GPU 아키텍처</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-top:6px;">SIMT 방식의 병렬 처리로 AI 학습의 표준이 됨.</div>
+        </div>
+        <div class="card card-dark">
+          <div style="font-size:13px;color:rgba(255,255,255,.5);margin-bottom:8px;">다크 카드</div>
+          <div style="font-size:16px;font-weight:700;color:#fff;">HBM3e</div>
+          <div style="font-size:13px;margin-top:6px;">4.8 TB/s 대역폭</div>
+        </div>
+        <div class="card card-accent">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:8px;">액센트 카드</div>
+          <div style="font-size:16px;font-weight:700;">핵심 인사이트</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-top:6px;">LLM 추론은 Memory-bound입니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stat Cards -->
+    <h3>통계 카드 Stat Cards</h3>
+    <div class="component-demo">
+      <div class="demo-label">Countup animation on entrance</div>
+      <div class="card-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="sc1">3,958</div>
+          <div class="stat-label">H100 TFLOPS (FP8)</div>
+          <div class="stat-trend">↑ 3× vs A100</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="sc2">141</div>
+          <div class="stat-label">H200 HBM 용량 (GB)</div>
+          <div class="stat-trend">↑ 1.75× vs H100</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="sc3">4.8</div>
+          <div class="stat-label">H200 대역폭 (TB/s)</div>
+          <div class="stat-trend">↑ 1.43× vs H100</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <h3>배지 & 정밀도 필 Badges & Precision Pills</h3>
+    <div class="component-demo">
+      <div class="demo-label">Status Badges</div>
+      <div class="demo-row">
+        <span class="badge badge-blue">학습</span>
+        <span class="badge badge-green">추론</span>
+        <span class="badge badge-amber">엣지</span>
+        <span class="badge badge-red">레거시</span>
+        <span class="badge badge-gray">미정</span>
+      </div>
+      <div class="demo-label" style="margin-top:16px;">Precision Pills</div>
+      <div class="demo-row">
+        <span class="pill pill-fp32">FP32</span>
+        <span class="pill pill-fp16">FP16</span>
+        <span class="pill pill-bf16">BF16</span>
+        <span class="pill pill-fp8">FP8</span>
+        <span class="pill pill-int8">INT8</span>
+        <span class="pill pill-int4">INT4</span>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <h3>데이터 테이블 Table</h3>
+    <div class="component-demo">
+      <div class="demo-label">Comparison Table</div>
+      <table class="ds-table">
+        <thead>
+          <tr>
+            <th>프로세서</th>
+            <th>대표 제품</th>
+            <th>학습</th>
+            <th>추론</th>
+            <th>전력 (W)</th>
+            <th>가격</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>CPU</td><td>Intel Xeon</td><td>△</td><td>△</td><td>350</td><td>$3K~</td></tr>
+          <tr><td>GPU</td><td>NVIDIA H100</td><td>★★★</td><td>★★</td><td>700</td><td>$30K+</td></tr>
+          <tr><td>NPU</td><td>Apple M4 NE</td><td>✗</td><td>★★★</td><td>20</td><td>$3.5K</td></tr>
+          <tr><td>TPU</td><td>TPU v5p</td><td>★★★</td><td>★★</td><td>450</td><td>Cloud only</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tabs -->
+    <h3>탭 Tabs</h3>
+    <div class="component-demo">
+      <div class="tabs" data-tab-group="demo1">
+        <div class="tab-list">
+          <button class="tab-btn active" data-tab="t1">기초</button>
+          <button class="tab-btn" data-tab="t2">심화</button>
+          <button class="tab-btn" data-tab="t3">비교</button>
+        </div>
+        <div class="tab-panel active" id="t1"><p style="font-size:14px;color:var(--text-secondary);">기초 내용: GPU는 수천 개의 작은 코어로 구성되어 병렬 처리에 최적화되어 있습니다.</p></div>
+        <div class="tab-panel" id="t2"><p style="font-size:14px;color:var(--text-secondary);">심화 내용: Warp 스케줄링을 통해 메모리 레이턴시를 숨기고, Tensor Core로 행렬 연산을 가속합니다.</p></div>
+        <div class="tab-panel" id="t3"><p style="font-size:14px;color:var(--text-secondary);">비교: H100 vs A100 — FP8 지원, 3× 성능 향상, HBM3 채택.</p></div>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <h3>진행 바 Progress Bar</h3>
+    <div class="component-demo">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>GPU 활용률</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;">78%</span></div>
+          <div class="progress-wrap"><div class="progress-bar" style="width:78%;background:var(--navy-900);"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>메모리 사용</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;">62/80 GB</span></div>
+          <div class="progress-wrap"><div class="progress-bar" style="width:77.5%;background:var(--amber);"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>모델 로딩</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;">완료</span></div>
+          <div class="progress-wrap"><div class="progress-bar" style="width:100%;background:var(--green);"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Callouts -->
+    <h3>콜아웃 Callouts</h3>
+    <div class="component-demo">
+      <div class="callout callout-blue"><div class="callout-icon">💡</div><div class="callout-body"><p><strong>인사이트:</strong> LLM 추론은 대부분의 경우 Memory-bound입니다. FLOPS를 올려도 추론 속도가 빨라지지 않는 이유입니다.</p></div></div>
+      <div class="callout callout-green"><div class="callout-icon">✅</div><div class="callout-body"><p><strong>장점:</strong> Flash Attention은 HBM 접근을 O(N²)에서 O(N)으로 줄여 실제 추론 속도를 2~4배 향상시킵니다.</p></div></div>
+      <div class="callout callout-amber"><div class="callout-icon">⚠️</div><div class="callout-body"><p><strong>주의:</strong> NPU TOPS 수치는 제조사마다 측정 방식이 달라 직접 비교가 어렵습니다. 실제 벤치마크를 확인하세요.</p></div></div>
+      <div class="callout callout-red"><div class="callout-icon">🔴</div><div class="callout-body"><p><strong>병목:</strong> CoWoS 패키징 공정은 TSMC에 의존적이며 H100/H200 공급 제한의 주요 원인입니다.</p></div></div>
+    </div>
+
+    <!-- Tooltip -->
+    <h3>툴팁 Tooltip</h3>
+    <div class="component-demo">
+      <div class="demo-row">
+        <span class="tooltip-wrap">
+          <button class="btn btn-primary">HBM3e란? <span style="font-size:12px;">ⓘ</span></button>
+          <div class="tooltip-box">High Bandwidth Memory 3rd gen enhanced — 4.8 TB/s per GPU</div>
+        </span>
+        <span class="tooltip-wrap">
+          <span style="text-decoration:underline dotted;cursor:help;font-size:14px;">Systolic Array</span>
+          <div class="tooltip-box">MAC 연산을 메모리 접근 없이 PE 간 직접 데이터 전달로 처리하는 구조</div>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ 4. ICONS ════════════════════ -->
+  <section id="icons">
+    <div class="section-header">
+      <h2>아이콘 세트 Icons</h2>
+      <p>클릭하면 SVG 코드가 복사됩니다</p>
+    </div>
+    <div class="icon-grid" id="icon-grid"></div>
+  </section>
+
+  <!-- ════════════════════ 5. ANIMATIONS ════════════════════ -->
+  <section id="animations">
+    <div class="section-header">
+      <h2>애니메이션 Animations</h2>
+      <p>▶ 재생 버튼을 클릭하면 애니메이션이 재실행됩니다</p>
+    </div>
+
+    <div class="anim-demo">
+      <div class="demo-area" id="anim1-area">
+        <div id="anim1-box" style="padding:12px 24px;background:var(--navy-900);color:#fff;border-radius:8px;font-weight:700;">Fade In Up</div>
+      </div>
+      <div class="demo-meta">
+        <h4>Fade In Up</h4>
+        <p>슬라이드 요소 등장 시 기본 애니메이션</p>
+        <button class="play-btn" onclick="playAnim('anim1-box','anim-fadeinup')">▶ 재생</button>
+        <div class="code-block" style="margin-top:12px;font-size:11px;padding:10px 14px;">@keyframes fadeInUp {<br>  from { opacity: 0; transform: translateY(20px); }<br>  to { opacity: 1; transform: translateY(0); }<br>}</div>
+      </div>
+    </div>
+
+    <div class="anim-demo">
+      <div class="demo-area" id="anim2-area">
+        <div style="text-align:center;">
+          <div id="anim2-num" style="font-size:48px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--navy-900);">0</div>
+          <div style="font-size:12px;color:var(--text-muted);">TFLOPS</div>
+        </div>
+      </div>
+      <div class="demo-meta">
+        <h4>Number Count-Up</h4>
+        <p>슬라이드 진입 시 통계 수치가 0에서 카운트업</p>
+        <button class="play-btn" onclick="playCountup('anim2-num',3958,1200)">▶ 재생</button>
+      </div>
+    </div>
+
+    <div class="anim-demo">
+      <div class="demo-area" id="anim3-area" style="padding:12px 24px;flex-direction:column;gap:8px;align-items:stretch;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+          <span style="width:60px;text-align:right;flex-shrink:0;font-size:11px;">H200</span>
+          <div style="flex:1;background:var(--border);border-radius:4px;height:12px;overflow:hidden;"><div id="bar1" style="height:100%;background:var(--navy-900);width:0%;border-radius:4px;transition:width 1s ease;"></div></div>
+          <span style="width:48px;font-family:'JetBrains Mono',monospace;font-size:11px;">4.8</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+          <span style="width:60px;text-align:right;flex-shrink:0;font-size:11px;">H100</span>
+          <div style="flex:1;background:var(--border);border-radius:4px;height:12px;overflow:hidden;"><div id="bar2" style="height:100%;background:var(--navy-500);width:0%;border-radius:4px;transition:width 1s ease .1s;"></div></div>
+          <span style="width:48px;font-family:'JetBrains Mono',monospace;font-size:11px;">3.35</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+          <span style="width:60px;text-align:right;flex-shrink:0;font-size:11px;">A100</span>
+          <div style="flex:1;background:var(--border);border-radius:4px;height:12px;overflow:hidden;"><div id="bar3" style="height:100%;background:var(--navy-300);width:0%;border-radius:4px;transition:width 1s ease .2s;"></div></div>
+          <span style="width:48px;font-family:'JetBrains Mono',monospace;font-size:11px;">2.0</span>
+        </div>
+      </div>
+      <div class="demo-meta">
+        <h4>Bar Chart Animation</h4>
+        <p>대역폭/성능 비교에 사용. 너비 0→실제값 트랜지션.</p>
+        <button class="play-btn" onclick="playBars()">▶ 재생</button>
+      </div>
+    </div>
+
+    <div class="anim-demo">
+      <div class="demo-area">
+        <div id="anim4-box" style="width:60px;height:60px;background:var(--navy-900);border-radius:12px;cursor:pointer;transition:transform .2s,box-shadow .2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 24px rgba(0,44,95,.35)'" onmouseout="this.style.transform='';this.style.boxShadow=''"></div>
+      </div>
+      <div class="demo-meta">
+        <h4>Card Hover Lift</h4>
+        <p>카드, 버튼에 사용. translateY(-4px) + shadow.</p>
+        <p style="margin-top:4px;font-size:11px;color:var(--green);">← 박스 위에 마우스를 올려보세요</p>
+      </div>
+    </div>
+
+    <div class="anim-demo">
+      <div class="demo-area">
+        <div id="anim5-box" style="width:60px;height:60px;background:var(--navy-900);border-radius:50%;"></div>
+      </div>
+      <div class="demo-meta">
+        <h4>Pulse Glow</h4>
+        <p>활성 상태, 강조 요소에 사용.</p>
+        <button class="play-btn" onclick="togglePulse()">▶ 재생 / 정지</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ 6. TEMPLATES ════════════════════ -->
+  <section id="templates">
+    <div class="section-header">
+      <h2>슬라이드 템플릿 코드 Slide Templates</h2>
+      <p>클릭하면 HTML 코드가 클립보드에 복사됩니다</p>
+    </div>
+
+    <div class="template-grid">
+      <!-- Cover -->
+      <div class="template-card" onclick="copyTemplate('tpl-cover')">
+        <div class="template-preview" style="background:var(--bg-dark);">
+          <div style="padding:20px;color:#fff;height:100%;display:flex;flex-direction:column;justify-content:center;">
+            <div style="font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.1em;margin-bottom:4px;">SUBTITLE</div>
+            <div style="font-size:20px;font-weight:800;line-height:1.2;margin-bottom:4px;">Hero Title</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.5);">Subtitle text here</div>
+          </div>
+        </div>
+        <div class="template-name">커버 슬라이드 (다크)</div>
+      </div>
+
+      <!-- Two column -->
+      <div class="template-card" onclick="copyTemplate('tpl-twocol')">
+        <div class="template-preview" style="background:var(--bg-primary);">
+          <div style="padding:16px;height:100%;display:flex;flex-direction:column;">
+            <div style="font-size:11px;font-weight:700;color:var(--navy-900);border-bottom:2px solid var(--navy-900);padding-bottom:6px;margin-bottom:10px;">슬라이드 제목</div>
+            <div style="display:flex;gap:8px;flex:1;">
+              <div style="flex:1;background:var(--bg-secondary);border-radius:6px;padding:8px;font-size:8px;color:var(--text-muted);">좌측 컬럼 — 텍스트/설명</div>
+              <div style="flex:1;background:var(--navy-100);border-radius:6px;padding:8px;font-size:8px;color:var(--navy-900);">우측 컬럼 — 다이어그램/이미지</div>
+            </div>
+          </div>
+        </div>
+        <div class="template-name">좌우 2컬럼</div>
+      </div>
+
+      <!-- Data table -->
+      <div class="template-card" onclick="copyTemplate('tpl-table')">
+        <div class="template-preview" style="background:var(--bg-primary);">
+          <div style="padding:16px;height:100%;display:flex;flex-direction:column;">
+            <div style="font-size:11px;font-weight:700;color:var(--navy-900);margin-bottom:8px;">데이터 테이블 슬라이드</div>
+            <table style="width:100%;border-collapse:collapse;font-size:8px;">
+              <tr style="background:var(--navy-900);color:#fff;"><td style="padding:4px 6px;">항목</td><td style="padding:4px 6px;">값 A</td><td style="padding:4px 6px;">값 B</td></tr>
+              <tr style="background:var(--bg-secondary);"><td style="padding:3px 6px;border-bottom:1px solid var(--border);">행 1</td><td style="padding:3px 6px;border-bottom:1px solid var(--border);">100</td><td style="padding:3px 6px;border-bottom:1px solid var(--border);">200</td></tr>
+              <tr><td style="padding:3px 6px;background:var(--bg-card);">행 2</td><td style="padding:3px 6px;background:var(--bg-card);">300</td><td style="padding:3px 6px;background:var(--bg-card);">400</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="template-name">테이블 슬라이드</div>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="template-card" onclick="copyTemplate('tpl-stats')">
+        <div class="template-preview" style="background:var(--bg-primary);">
+          <div style="padding:16px;height:100%;display:flex;flex-direction:column;">
+            <div style="font-size:11px;font-weight:700;color:var(--navy-900);margin-bottom:10px;">통계 대시보드</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;flex:1;">
+              <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:6px;text-align:center;"><div style="font-size:14px;font-weight:800;color:var(--navy-900);">3,958</div><div style="font-size:7px;color:var(--text-muted);">TFLOPS</div></div>
+              <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:6px;text-align:center;"><div style="font-size:14px;font-weight:800;color:var(--navy-900);">141</div><div style="font-size:7px;color:var(--text-muted);">GB HBM</div></div>
+              <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:6px;text-align:center;"><div style="font-size:14px;font-weight:800;color:var(--navy-900);">4.8</div><div style="font-size:7px;color:var(--text-muted);">TB/s</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="template-name">통계 카드 그리드</div>
+      </div>
+
+      <!-- Full diagram -->
+      <div class="template-card" onclick="copyTemplate('tpl-diagram')">
+        <div class="template-preview" style="background:var(--bg-primary);">
+          <div style="padding:16px;height:100%;display:flex;flex-direction:column;">
+            <div style="font-size:11px;font-weight:700;color:var(--navy-900);margin-bottom:6px;">다이어그램 중심 슬라이드</div>
+            <div style="flex:1;background:var(--navy-100);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--navy-700);">&lt;img src="Docs/img/diagram.svg"&gt;</div>
+          </div>
+        </div>
+        <div class="template-name">풀 다이어그램</div>
+      </div>
+
+      <!-- Tabs slide -->
+      <div class="template-card" onclick="copyTemplate('tpl-tabs')">
+        <div class="template-preview" style="background:var(--bg-primary);">
+          <div style="padding:16px;height:100%;display:flex;flex-direction:column;">
+            <div style="font-size:11px;font-weight:700;color:var(--navy-900);margin-bottom:6px;">탭 슬라이드</div>
+            <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:8px;">
+              <div style="padding:4px 10px;font-size:9px;font-weight:700;color:var(--navy-900);border-bottom:2px solid var(--navy-900);margin-bottom:-2px;">기초</div>
+              <div style="padding:4px 10px;font-size:9px;color:var(--text-muted);">심화</div>
+              <div style="padding:4px 10px;font-size:9px;color:var(--text-muted);">비교</div>
+            </div>
+            <div style="flex:1;background:var(--bg-secondary);border-radius:6px;padding:8px;font-size:8px;color:var(--text-secondary);">탭 패널 콘텐츠 영역</div>
+          </div>
+        </div>
+        <div class="template-name">기초/심화 탭 슬라이드</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Hidden template strings -->
+<textarea id="tpl-cover" style="display:none">&lt;div class="slide slide-dark"&gt;
+  &lt;div class="cover-hero"&gt;
+    &lt;p class="cover-tag"&gt;AI HARDWARE&lt;/p&gt;
+    &lt;h1 class="cover-title"&gt;슬라이드 제목&lt;/h1&gt;
+    &lt;p class="cover-subtitle"&gt;부제목 텍스트&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</textarea>
+
+<textarea id="tpl-twocol" style="display:none">&lt;div class="slide slide-light"&gt;
+  &lt;h2 class="slide-title"&gt;슬라이드 제목&lt;/h2&gt;
+  &lt;div class="two-col"&gt;
+    &lt;div class="col-left"&gt;
+      &lt;!-- 텍스트 내용 --&gt;
+    &lt;/div&gt;
+    &lt;div class="col-right"&gt;
+      &lt;img src="Docs/img/diagram.svg" alt="다이어그램"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</textarea>
+
+<textarea id="tpl-table" style="display:none">&lt;div class="slide slide-light"&gt;
+  &lt;h2 class="slide-title"&gt;슬라이드 제목&lt;/h2&gt;
+  &lt;table class="ds-table"&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;&lt;th&gt;항목&lt;/th&gt;&lt;th&gt;값 A&lt;/th&gt;&lt;th&gt;값 B&lt;/th&gt;&lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;&lt;td&gt;행 1&lt;/td&gt;&lt;td&gt;데이터&lt;/td&gt;&lt;td&gt;데이터&lt;/td&gt;&lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;</textarea>
+
+<textarea id="tpl-stats" style="display:none">&lt;div class="slide slide-light"&gt;
+  &lt;h2 class="slide-title"&gt;슬라이드 제목&lt;/h2&gt;
+  &lt;div class="stat-grid"&gt;
+    &lt;div class="stat-card"&gt;
+      &lt;div class="stat-value" data-countup="3958"&gt;0&lt;/div&gt;
+      &lt;div class="stat-label"&gt;TFLOPS (FP8)&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</textarea>
+
+<textarea id="tpl-diagram" style="display:none">&lt;div class="slide slide-light"&gt;
+  &lt;h2 class="slide-title"&gt;슬라이드 제목&lt;/h2&gt;
+  &lt;div class="diagram-full"&gt;
+    &lt;img src="Docs/img/diagram-name.svg" alt="다이어그램 설명"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</textarea>
+
+<textarea id="tpl-tabs" style="display:none">&lt;div class="slide slide-light"&gt;
+  &lt;h2 class="slide-title"&gt;슬라이드 제목&lt;/h2&gt;
+  &lt;div class="tabs" data-tab-group="slide-X"&gt;
+    &lt;div class="tab-list"&gt;
+      &lt;button class="tab-btn active" data-tab="basic-X"&gt;기초&lt;/button&gt;
+      &lt;button class="tab-btn" data-tab="adv-X"&gt;심화&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="tab-panel active" id="basic-X"&gt;
+      &lt;!-- 기초 내용 --&gt;
+    &lt;/div&gt;
+    &lt;div class="tab-panel" id="adv-X"&gt;
+      &lt;!-- 심화 내용 --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</textarea>
+
+<script>
+// ─── Mobile drawer ────────────────────────────────────
+const DsDrawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#sidebar nav a').forEach(a => a.addEventListener('click', () => DsDrawer.close()));
+
+// ─── Color swatches ───────────────────────────────────
+const colorGroups = {
+  'cg-bg': [
+    { name: '--bg-primary', hex: '#F2EDE4', label: '베이지 배경' },
+    { name: '--bg-secondary', hex: '#FFFFFF', label: '흰 배경' },
+    { name: '--bg-card', hex: '#FAF7F2', label: '카드 배경' },
+    { name: '--bg-dark', hex: '#0D1B2E', label: '다크 배경' },
+  ],
+  'cg-navy': [
+    { name: '--navy-900', hex: '#002C5F', label: '현대 블루' },
+    { name: '--navy-700', hex: '#003F8A', label: 'Navy 700' },
+    { name: '--navy-500', hex: '#1A5CB5', label: 'Navy 500' },
+    { name: '--navy-300', hex: '#5B8DD9', label: 'Navy 300' },
+    { name: '--navy-100', hex: '#E8EEF7', label: 'Navy 100' },
+  ],
+  'cg-text': [
+    { name: '--text-primary', hex: '#1A1A1A', label: '본문 텍스트' },
+    { name: '--text-secondary', hex: '#555555', label: '보조 텍스트' },
+    { name: '--text-muted', hex: '#8A8A8A', label: '흐린 텍스트' },
+    { name: '--border', hex: '#D5CFBF', label: '경계선' },
+    { name: '--border-strong', hex: '#B5AFA5', label: '강한 경계선' },
+  ],
+  'cg-status': [
+    { name: '--green', hex: '#00AA6C', label: '그린 (성공)' },
+    { name: '--green-light', hex: '#E6F7F1', label: '그린 라이트' },
+    { name: '--amber', hex: '#E8962A', label: '앰버 (경고)' },
+    { name: '--amber-light', hex: '#FEF3E2', label: '앰버 라이트' },
+    { name: '--red', hex: '#DC2626', label: '레드 (오류)' },
+    { name: '--red-light', hex: '#FEE2E2', label: '레드 라이트' },
+  ]
+};
+
+Object.entries(colorGroups).forEach(([id, colors]) => {
+  const grid = document.getElementById(id);
+  colors.forEach(({ name, hex, label }) => {
+    const sw = document.createElement('div');
+    sw.className = 'color-swatch';
+    sw.innerHTML = `
+      <div class="box" style="background:${hex};" title="${name}">
+        <div class="copied">복사됨!</div>
+      </div>
+      <span>${hex}</span>
+      <span style="font-family:inherit;font-size:10px;color:var(--text-muted);">${label}</span>`;
+    sw.querySelector('.box').addEventListener('click', function() {
+      navigator.clipboard.writeText(hex);
+      this.classList.add('show-copied');
+      setTimeout(() => this.classList.remove('show-copied'), 1200);
+    });
+    grid.appendChild(sw);
+  });
+});
+
+// ─── Icons ───────────────────────────────────────────
+const icons = [
+  { name: 'CPU', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/><line x1="9" y1="4" x2="9" y2="2"/><line x1="12" y1="4" x2="12" y2="2"/><line x1="15" y1="4" x2="15" y2="2"/><line x1="9" y1="22" x2="9" y2="20"/><line x1="12" y1="22" x2="12" y2="20"/><line x1="15" y1="22" x2="15" y2="20"/><line x1="4" y1="9" x2="2" y2="9"/><line x1="4" y1="12" x2="2" y2="12"/><line x1="4" y1="15" x2="2" y2="15"/><line x1="22" y1="9" x2="20" y2="9"/><line x1="22" y1="12" x2="20" y2="12"/><line x1="22" y1="15" x2="20" y2="15"/></svg>' },
+  { name: 'GPU', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="6" width="20" height="12" rx="2"/><rect x="5" y="9" width="3" height="3" rx=".5"/><rect x="10" y="9" width="3" height="3" rx=".5"/><rect x="15" y="9" width="3" height="3" rx=".5"/><line x1="6" y1="18" x2="6" y2="21"/><line x1="12" y1="18" x2="12" y2="21"/><line x1="18" y1="18" x2="18" y2="21"/></svg>' },
+  { name: 'NPU', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>' },
+  { name: 'Memory', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="8" width="20" height="8" rx="1.5"/><line x1="6" y1="8" x2="6" y2="16"/><line x1="9" y1="8" x2="9" y2="16"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="15" y1="8" x2="15" y2="16"/><line x1="18" y1="8" x2="18" y2="16"/><line x1="4" y1="6" x2="4" y2="8"/><line x1="8" y1="6" x2="8" y2="8"/><line x1="12" y1="6" x2="12" y2="8"/><line x1="16" y1="6" x2="16" y2="8"/><line x1="20" y1="6" x2="20" y2="8"/></svg>' },
+  { name: 'Speed', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10"/><polyline points="12 6 12 12 16 14"/><line x1="20" y1="20" x2="22" y2="22"/><circle cx="20" cy="20" r="2"/></svg>' },
+  { name: 'Power', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18.4 6.6a9 9 0 1 1-12.77.04"/><line x1="12" y1="2" x2="12" y2="12"/></svg>' },
+  { name: 'Network', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><line x1="12" y1="7" x2="5" y2="17"/><line x1="12" y1="7" x2="19" y2="17"/><line x1="5" y1="19" x2="19" y2="19"/></svg>' },
+  { name: 'Database', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4 3 9 3s9-1.34 9-3v-6"/></svg>' },
+  { name: 'Chart', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>' },
+  { name: 'Arrow →', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' },
+  { name: 'Arrow ↑', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>' },
+  { name: 'Info', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' },
+  { name: 'Check', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>' },
+  { name: 'Warning', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.3 3.5L2 20h20L13.7 3.5a2 2 0 0 0-3.4 0z"/><line x1="12" y1="10" x2="12" y2="14"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>' },
+];
+
+const iconGrid = document.getElementById('icon-grid');
+icons.forEach(({ name, svg }) => {
+  const item = document.createElement('div');
+  item.className = 'icon-item';
+  item.title = `클릭하여 "${name}" SVG 복사`;
+  item.innerHTML = svg + `<span>${name}</span>`;
+  item.style.color = 'var(--navy-900)';
+  item.addEventListener('click', () => {
+    navigator.clipboard.writeText(svg);
+    item.style.background = 'var(--green-light)';
+    item.style.borderColor = 'var(--green)';
+    setTimeout(() => { item.style.background = ''; item.style.borderColor = ''; }, 800);
+  });
+  iconGrid.appendChild(item);
+});
+
+// ─── Tabs ─────────────────────────────────────────────
+document.querySelectorAll('.tab-list').forEach(list => {
+  list.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = list.closest('.tabs');
+      group.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      group.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      const panel = document.getElementById(btn.dataset.tab);
+      if (panel) panel.classList.add('active');
+    });
+  });
+});
+
+// ─── Sidebar active ────────────────────────────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('#sidebar nav a');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => obs.observe(s));
+
+// ─── Animations ───────────────────────────────────────
+function playAnim(id, cls) {
+  const el = document.getElementById(id);
+  el.style.animation = 'none';
+  el.offsetHeight; // reflow
+  el.style.animation = `${cls === 'anim-fadeinup' ? 'fadeInUp' : 'slideInLeft'} .6s ease forwards`;
+}
+
+function playCountup(id, target, duration) {
+  const el = document.getElementById(id);
+  const start = performance.now();
+  function step(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.floor(ease * target).toLocaleString();
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function playBars() {
+  ['bar1','bar2','bar3'].forEach(id => { document.getElementById(id).style.width = '0%'; });
+  setTimeout(() => {
+    document.getElementById('bar1').style.width = '100%';
+    document.getElementById('bar2').style.width = '70%';
+    document.getElementById('bar3').style.width = '42%';
+  }, 100);
+}
+
+let pulseActive = false;
+function togglePulse() {
+  const el = document.getElementById('anim5-box');
+  pulseActive = !pulseActive;
+  el.style.animation = pulseActive ? 'pulse-glow 1.5s infinite' : 'none';
+}
+
+// ─── Template copy ─────────────────────────────────────
+function copyTemplate(id) {
+  const text = document.getElementById(id).value;
+  navigator.clipboard.writeText(text).then(() => {
+    // Visual feedback handled by card hover
+  });
+}
+
+// ─── Code block copy buttons ──────────────────────────
+document.querySelectorAll('.code-block').forEach(block => {
+  const btn = document.createElement('button');
+  btn.className = 'copy-btn';
+  btn.textContent = '복사';
+  btn.addEventListener('click', () => {
+    navigator.clipboard.writeText(block.textContent.replace('복사', '').trim());
+    btn.textContent = '완료!';
+    setTimeout(() => btn.textContent = '복사', 1200);
+  });
+  block.appendChild(btn);
+});
+</script>
+</body>
+</html>

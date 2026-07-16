@@ -1,0 +1,190 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .axis-label { font-size: 11px; fill: #555555; }
+    .legend-label { font-size: 10px; fill: #1A1A1A; }
+    .annotation { font-size: 10px; fill: #1A1A1A; }
+    .formula-text { font-size: 10px; fill: #1A1A1A; font-family: 'Courier New', monospace; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="#F2EDE4"/>
+
+  <!-- Title -->
+  <text x="400" y="22" text-anchor="middle" class="title">KV-Cache 메모리 증가 시각화 — 컨텍스트 길이 vs GPU 메모리</text>
+
+  <!-- Chart area -->
+  <rect x="65" y="35" width="490" height="310" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="4"/>
+
+  <!-- ===== GPU Memory limit lines ===== -->
+  <!-- Chart: x=65 to 555, y=35 to 345 -->
+  <!-- Y scale: 0 to 160 GB → y = 345 - (v/160)*310 -->
+  <!-- 0GB: y=345, 80GB: y=190, 141GB: y=72, 160GB: y=35 -->
+
+  <!-- X positions for context lengths (log-like spread):
+       1K→x=65, 4K→x=135, 8K→x=195, 32K→x=300, 128K→x=415, 1M→x=555
+       Using: 65 + (log10(v)-3)/(6-3)*490
+       log10(1K)=3→x=65, log10(1M)=6→x=555
+       4K=3.602→x=163, 8K=3.903→x=212, 32K=4.505→x=311, 128K=5.107→x=409
+  -->
+
+  <!-- Overflow region shading (above H200=141GB, y=72) -->
+  <rect x="65" y="35" width="490" height="37" fill="#DC2626" opacity="0.08"/>
+  <text x="310" y="55" text-anchor="middle" font-size="10" fill="#DC2626" opacity="0.7">KV-Cache 메모리 초과 영역</text>
+
+  <!-- H200 141GB line -->
+  <line x1="65" y1="72" x2="555" y2="72" stroke="#00AA6C" stroke-width="1.5" stroke-dasharray="8,4"/>
+  <text x="558" y="76" font-size="9.5" fill="#00AA6C" font-weight="600">H200 141GB</text>
+
+  <!-- H100/A100 80GB line -->
+  <line x1="65" y1="190" x2="555" y2="190" stroke="#003F8A" stroke-width="1.5" stroke-dasharray="8,4"/>
+  <text x="558" y="194" font-size="9.5" fill="#003F8A" font-weight="600">A100/H100 80GB</text>
+
+  <!-- Grid lines (horizontal) -->
+  <line x1="65" y1="345" x2="555" y2="345" stroke="#D5CFBF" stroke-width="0.5"/>
+  <line x1="65" y1="287" x2="555" y2="287" stroke="#D5CFBF" stroke-width="0.5"/>
+  <line x1="65" y1="190" x2="555" y2="190" stroke="#D5CFBF" stroke-width="0.3"/>
+  <line x1="65" y1="130" x2="555" y2="130" stroke="#D5CFBF" stroke-width="0.5"/>
+  <line x1="65" y1="72" x2="555" y2="72" stroke="#D5CFBF" stroke-width="0.3"/>
+
+  <!-- Grid lines (vertical) -->
+  <line x1="163" y1="35" x2="163" y2="345" stroke="#D5CFBF" stroke-width="0.5"/>
+  <line x1="212" y1="35" x2="212" y2="345" stroke="#D5CFBF" stroke-width="0.5"/>
+  <line x1="311" y1="35" x2="311" y2="345" stroke="#D5CFBF" stroke-width="0.5"/>
+  <line x1="409" y1="35" x2="409" y2="345" stroke="#D5CFBF" stroke-width="0.5"/>
+
+  <!-- ===== Data curves ===== -->
+  <!-- KV-Cache formula: 2 × n_layers × n_heads × d_head × seq_len × batch × 2 bytes
+       Llama 3 8B:  n_layers=32, n_heads=8 (GQA), d_head=128 → factor = 2*32*8*128*2 = 131072 bytes/token
+         At 1K: 131072*1024 = 134 MB ≈ 0.13 GB
+         At 4K: 0.52 GB, At 8K: 1.05 GB, At 32K: 4.2 GB, At 128K: 16.8 GB, At 1M: 131 GB
+       Llama 3 70B: n_layers=80, n_heads=8 (GQA), d_head=128 → factor = 2*80*8*128*2 = 327680 bytes/token
+         At 1K: 0.33 GB, At 4K: 1.3 GB, At 8K: 2.6 GB, At 32K: 10.5 GB, At 128K: 41.9 GB, At 1M: 327 GB (off chart)
+       GPT-4 175B equiv: n_layers=96, n_heads=96, d_head=128 → factor = 2*96*96*128*2 = 4718592 bytes/token
+         (using 8 GQA groups to be reasonable) n_heads=8, factor=2*96*8*128*2=393216 bytes/token
+         At 1K: 0.39 GB, At 4K: 1.57 GB, At 8K: 3.1 GB, At 32K: 12.6 GB, At 128K: 50.3 GB, At 1M: off chart
+
+       Y = 345 - (GB/160)*310
+       X mapping: log scale, x = 65 + (log10(tokens) - 3) / 3 * 490
+         1K=65, 4K=163, 8K=212, 32K=311, 128K=409, 512K=472, 1M=555
+  -->
+
+  <!-- Llama 3 8B curve (blue) -->
+  <!-- Points: (65,344.7), (163,344.0), (212,343.0), (311,337.9), (409,312.5), (472,290), (555,91) -->
+  <!-- Approx y = 345 - (GB/160)*310 -->
+  <!-- 0.13→344.7, 0.52→344, 1.05→343, 4.2→337, 16.8→312, 40→268, 131→91 -->
+  <polyline id="line8b"
+    points="65,344.7 163,344 212,343 311,337 409,312 472,270 555,91"
+    fill="none" stroke="#003F8A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <animate attributeName="stroke-dasharray" values="0,600;600,0" dur="2s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" values="600;0" dur="2s" fill="freeze"/>
+  </polyline>
+  <!-- Area fill under 8B curve -->
+  <polygon points="65,345 65,344.7 163,344 212,343 311,337 409,312 472,270 555,91 555,345"
+    fill="#003F8A" opacity="0.07"/>
+
+  <!-- Llama 3 70B curve (amber) -->
+  <!-- 0.33→344.4, 1.3→342.5, 2.6→340, 10.5→324.6, 41.9→264, 105→141, beyond chart -->
+  <polyline id="line70b"
+    points="65,344.4 163,342.5 212,340 311,324 409,264 472,200 520,130"
+    fill="none" stroke="#E8962A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <animate attributeName="stroke-dasharray" values="0,600;600,0" dur="2s" begin="0.4s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" values="600;0" dur="2s" begin="0.4s" fill="freeze"/>
+  </polyline>
+  <polygon points="65,345 65,344.4 163,342.5 212,340 311,324 409,264 472,200 520,130 520,345"
+    fill="#E8962A" opacity="0.07"/>
+
+  <!-- GPT-4 class 175B equiv curve (red) -->
+  <!-- 0.39→344.2, 1.57→341.9, 3.1→339.0, 12.6→320.6, 50.3→248, 126→100 -->
+  <polyline id="line175b"
+    points="65,344.2 163,341.9 212,339 311,320 409,248 455,160 490,80"
+    fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <animate attributeName="stroke-dasharray" values="0,600;600,0" dur="2s" begin="0.8s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" values="600;0" dur="2s" begin="0.8s" fill="freeze"/>
+  </polyline>
+  <polygon points="65,345 65,344.2 163,341.9 212,339 311,320 409,248 455,160 490,80 490,345"
+    fill="#DC2626" opacity="0.07"/>
+
+  <!-- ===== Axes ===== -->
+  <!-- X axis -->
+  <line x1="65" y1="345" x2="560" y2="345" stroke="#1A1A1A" stroke-width="1.5"/>
+  <polygon points="560,341 568,345 560,349" fill="#1A1A1A"/>
+  <!-- X tick labels -->
+  <text x="65" y="360" text-anchor="middle" class="axis-label">1K</text>
+  <text x="163" y="360" text-anchor="middle" class="axis-label">4K</text>
+  <text x="212" y="360" text-anchor="middle" class="axis-label">8K</text>
+  <text x="311" y="360" text-anchor="middle" class="axis-label">32K</text>
+  <text x="409" y="360" text-anchor="middle" class="axis-label">128K</text>
+  <text x="555" y="360" text-anchor="middle" class="axis-label">1M</text>
+  <text x="310" y="380" text-anchor="middle" font-size="11.5" fill="#1A1A1A" font-weight="600">컨텍스트 길이 (토큰 수)</text>
+
+  <!-- Y axis -->
+  <line x1="65" y1="35" x2="65" y2="350" stroke="#1A1A1A" stroke-width="1.5"/>
+  <polygon points="61,35 65,27 69,35" fill="#1A1A1A"/>
+  <!-- Y tick labels -->
+  <text x="60" y="349" text-anchor="end" class="axis-label">0</text>
+  <text x="60" y="291" text-anchor="end" class="axis-label">20</text>
+  <text x="60" y="194" text-anchor="end" class="axis-label">80</text>
+  <text x="60" y="133" text-anchor="end" class="axis-label">120</text>
+  <text x="60" y="76" text-anchor="end" class="axis-label">141</text>
+  <text x="60" y="39" text-anchor="end" class="axis-label">160</text>
+  <text x="16" y="200" text-anchor="middle" font-size="11.5" fill="#1A1A1A" font-weight="600" transform="rotate(-90,16,200)">KV-Cache 메모리 (GB)</text>
+
+  <!-- ===== Legend ===== -->
+  <rect x="68" y="37" width="200" height="68" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="4" opacity="0.95"/>
+  <line x1="75" y1="52" x2="105" y2="52" stroke="#003F8A" stroke-width="2.5"/>
+  <text x="110" y="55" class="legend-label">Llama 3 8B (GQA 8그룹)</text>
+  <line x1="75" y1="68" x2="105" y2="68" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="110" y="71" class="legend-label">Llama 3 70B (GQA 8그룹)</text>
+  <line x1="75" y1="84" x2="105" y2="84" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="110" y="87" class="legend-label">GPT-4급 175B 모델</text>
+  <line x1="75" y1="98" x2="105" y2="98" stroke="#00AA6C" stroke-width="1.5" stroke-dasharray="8,4"/>
+  <text x="110" y="101" class="legend-label">H200 141GB 메모리 한계</text>
+
+  <!-- Annotation: 128K on Llama70B -->
+  <circle cx="409" cy="264" r="4" fill="#E8962A"/>
+  <line x1="409" y1="264" x2="450" y2="240" stroke="#E8962A" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="453" y="237" font-size="9" fill="#E8962A" font-weight="600">~42 GB</text>
+  <text x="453" y="248" font-size="9" fill="#555555">Llama 70B 128K</text>
+
+  <!-- ===== Formula box (right) ===== -->
+  <rect x="570" y="35" width="220" height="200" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="680" y="52" text-anchor="middle" font-size="11" fill="#002C5F" font-weight="700">KV-Cache 크기 공식</text>
+  <line x1="578" y1="57" x2="782" y2="57" stroke="#D5CFBF" stroke-width="0.5"/>
+
+  <rect x="578" y="62" width="204" height="78" fill="#F8F8F8" rx="3"/>
+  <text x="583" y="78" class="formula-text">KV = 2 × L × H × D ×</text>
+  <text x="583" y="93" class="formula-text">     seq_len × batch × 2B</text>
+  <line x1="583" y1="100" x2="778" y2="100" stroke="#D5CFBF" stroke-width="0.5"/>
+  <text x="583" y="113" font-size="9" fill="#555555">L = 레이어 수</text>
+  <text x="583" y="125" font-size="9" fill="#555555">H = KV 헤드 수 (GQA)</text>
+  <text x="583" y="137" font-size="9" fill="#555555">D = 헤드 차원 (d_head)</text>
+
+  <!-- Example calc -->
+  <rect x="578" y="148" width="204" height="80" fill="#E8EEF7" rx="3"/>
+  <text x="680" y="163" text-anchor="middle" font-size="10" fill="#002C5F" font-weight="700">예: Llama 3 70B</text>
+  <text x="583" y="177" font-size="9" fill="#555555">128K ctx, batch=1, FP16</text>
+  <text x="583" y="191" font-size="9" fill="#555555">= 2 × 80 × 8 × 128</text>
+  <text x="583" y="205" font-size="9" fill="#555555">  × 131072 × 1 × 2</text>
+  <text x="680" y="222" text-anchor="middle" font-size="10" fill="#003F8A" font-weight="700">≈ 42 GB</text>
+
+  <!-- ===== Bottom annotation boxes ===== -->
+  <rect x="65" y="393" width="490" height="20" fill="#E8EEF7" rx="3"/>
+  <text x="310" y="407" text-anchor="middle" font-size="10.5" fill="#002C5F" font-weight="600">컨텍스트 길이가 2배 → KV-Cache 2배 → GPU 메모리 병목 (선형 증가)</text>
+
+  <!-- Key insight boxes -->
+  <rect x="570" y="245" width="220" height="80" fill="#002C5F" rx="5"/>
+  <text x="680" y="263" text-anchor="middle" font-size="11" fill="#FFFFFF" font-weight="700">H200이 추론에서 유리한 이유</text>
+  <text x="680" y="279" text-anchor="middle" font-size="10" fill="#E8EEF7">141GB → 더 긴 컨텍스트 처리</text>
+  <text x="680" y="294" text-anchor="middle" font-size="10" fill="#00AA6C" font-weight="600">128K ctx × batch=3 가능</text>
+  <text x="680" y="309" text-anchor="middle" font-size="9" fill="#A0B8D8">(H100 80GB 대비 ~1.76× 용량)</text>
+  <text x="680" y="322" text-anchor="middle" font-size="9" fill="#A0B8D8">+ 4.8TB/s → 빠른 KV 로딩</text>
+
+  <!-- Batch size note -->
+  <rect x="570" y="335" width="220" height="78" fill="#F8F8F8" stroke="#D5CFBF" stroke-width="1" rx="5"/>
+  <text x="680" y="353" text-anchor="middle" font-size="11" fill="#002C5F" font-weight="700">배치 크기와 메모리</text>
+  <text x="578" y="369" font-size="9" fill="#555555">batch=1: KV 최소, 처리량 ↓</text>
+  <text x="578" y="383" font-size="9" fill="#555555">batch↑: 메모리 선형 증가</text>
+  <text x="578" y="397" font-size="9" fill="#DC2626" font-weight="600">→ 메모리 용량이 추론 처리량 결정</text>
+  <text x="578" y="411" font-size="9" fill="#555555">KV 캐시 압축 기법으로 완화 가능</text>
+</svg>

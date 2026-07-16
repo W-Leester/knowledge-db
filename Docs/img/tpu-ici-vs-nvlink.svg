@@ -1,0 +1,330 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .bg { fill: #F2EDE4; }
+    .panel { fill: #FFFFFF; stroke: #D5CFBF; stroke-width: 1.5; }
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; text-anchor: middle; }
+    .panel-title { font-size: 12px; font-weight: 700; fill: #1A1A1A; text-anchor: middle; }
+    .tpu-chip { fill: #003F8A; stroke: #002C5F; stroke-width: 1.5; }
+    .tpu-active { fill: #002C5F; stroke: #60A8E8; stroke-width: 2; }
+    .gpu-chip { fill: #00AA6C; stroke: #007A4D; stroke-width: 1.5; }
+    .sw-chip { fill: #E8962A; stroke: #B45309; stroke-width: 2; }
+    .chip-text { font-size: 8px; font-weight: 700; fill: #FFFFFF; text-anchor: middle; dominant-baseline: middle; }
+    .bw-label { font-size: 9px; font-weight: 700; fill: #002C5F; text-anchor: middle; }
+    .annot { font-size: 9px; fill: #555555; text-anchor: middle; }
+    .tbl-head { font-size: 9px; font-weight: 700; fill: #FFFFFF; text-anchor: middle; dominant-baseline: middle; }
+    .tbl-cell { font-size: 9px; fill: #1A1A1A; text-anchor: middle; dominant-baseline: middle; }
+    .tbl-cell-em { font-size: 9px; font-weight: 700; fill: #002C5F; text-anchor: middle; dominant-baseline: middle; }
+    .ici-link { stroke: #60A8E8; stroke-width: 1.5; }
+    .nvlink { stroke: #00CC88; stroke-width: 1.5; }
+  </style>
+
+  <defs>
+    <marker id="iciArr" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto">
+      <polygon points="0 0, 6 3, 0 6" fill="#60A8E8"/>
+    </marker>
+    <marker id="nvlArr" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto">
+      <polygon points="0 0, 6 3, 0 6" fill="#00CC88"/>
+    </marker>
+    <marker id="nvlArrR" markerWidth="6" markerHeight="6" refX="2" refY="3" orient="auto-start-reverse">
+      <polygon points="6 0, 0 3, 6 6" fill="#00CC88"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" class="bg"/>
+  <text x="400" y="24" class="title">TPU Pod ICI vs NVIDIA NVLink — 인터커넥트 토폴로지 비교</text>
+
+  <!-- ===== LEFT: TPU ICI 2D Torus ===== -->
+  <rect x="18" y="34" width="370" height="280" rx="10" class="panel"/>
+  <text x="203" y="52" class="panel-title">TPU Pod ICI — 2D Torus Mesh</text>
+
+  <!-- 4x4 TPU chip grid. Each chip 38x24. Step 70x54. Origin: x=48, y=66 -->
+  <!-- Positions: col 0-3 at x=48,118,188,258. row 0-3 at y=66,120,174,228 -->
+
+  <!-- Define TPU chip positions as comments for clarity -->
+  <!-- (col,row): (0,0)=c0r0=(67,78), etc. centers -->
+
+  <!-- Draw ICI links first (horizontal and vertical, torus) -->
+  <!-- Horizontal links (each row) -->
+  <!-- Row 0 -->
+  <line x1="86" y1="78" x2="118" y2="78" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0s"/>
+  </line>
+  <line x1="188" y1="78" x2="156" y2="78" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.45s"/>
+  </line>
+  <line x1="226" y1="78" x2="258" y2="78" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.9s"/>
+  </line>
+  <line x1="328" y1="78" x2="296" y2="78" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.35s"/>
+  </line>
+  <!-- Torus wrap-around row 0: right to left (dashed) -->
+  <path d="M 336,74 Q 360,58 48,58 Q 36,58 36,78 L 48,78" stroke="#60A8E8" stroke-width="1" stroke-dasharray="3,3" fill="none" opacity="0.5">
+    <animate attributeName="stroke-opacity" values="0.3;0.7;0.3" dur="2.4s" repeatCount="indefinite"/>
+  </path>
+  <!-- Row 1 -->
+  <line x1="86" y1="132" x2="118" y2="132" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.2s"/>
+  </line>
+  <line x1="188" y1="132" x2="156" y2="132" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.65s"/>
+  </line>
+  <line x1="226" y1="132" x2="258" y2="132" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.1s"/>
+  </line>
+  <line x1="328" y1="132" x2="296" y2="132" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.55s"/>
+  </line>
+  <!-- Row 2 -->
+  <line x1="86" y1="186" x2="118" y2="186" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.4s"/>
+  </line>
+  <line x1="188" y1="186" x2="156" y2="186" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.85s"/>
+  </line>
+  <line x1="226" y1="186" x2="258" y2="186" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.3s"/>
+  </line>
+  <line x1="328" y1="186" x2="296" y2="186" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.75s"/>
+  </line>
+  <!-- Row 3 -->
+  <line x1="86" y1="240" x2="118" y2="240" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.6s"/>
+  </line>
+  <line x1="188" y1="240" x2="156" y2="240" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.05s"/>
+  </line>
+  <line x1="226" y1="240" x2="258" y2="240" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.5s"/>
+  </line>
+  <line x1="328" y1="240" x2="296" y2="240" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.95s"/>
+  </line>
+
+  <!-- Vertical links (each column) -->
+  <!-- Col 0 -->
+  <line x1="67" y1="90" x2="67" y2="120" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.1s"/>
+  </line>
+  <line x1="67" y1="144" x2="67" y2="174" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.5s"/>
+  </line>
+  <line x1="67" y1="198" x2="67" y2="228" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.9s"/>
+  </line>
+  <line x1="67" y1="252" x2="67" y2="220" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.3s"/>
+  </line>
+  <!-- Torus wrap col 0 (dashed) -->
+  <path d="M 63,252 Q 30,270 30,66 Q 30,60 48,60 L 48,66" stroke="#60A8E8" stroke-width="1" stroke-dasharray="3,3" fill="none" opacity="0.4"/>
+  <!-- Col 1 -->
+  <line x1="137" y1="90" x2="137" y2="120" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.25s"/>
+  </line>
+  <line x1="137" y1="144" x2="137" y2="174" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.65s"/>
+  </line>
+  <line x1="137" y1="198" x2="137" y2="228" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.05s"/>
+  </line>
+  <line x1="137" y1="252" x2="137" y2="222" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.45s"/>
+  </line>
+  <!-- Col 2 -->
+  <line x1="207" y1="90" x2="207" y2="120" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.4s"/>
+  </line>
+  <line x1="207" y1="144" x2="207" y2="174" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.8s"/>
+  </line>
+  <line x1="207" y1="198" x2="207" y2="228" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.2s"/>
+  </line>
+  <line x1="207" y1="252" x2="207" y2="222" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.6s"/>
+  </line>
+  <!-- Col 3 -->
+  <line x1="277" y1="90" x2="277" y2="120" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.55s"/>
+  </line>
+  <line x1="277" y1="144" x2="277" y2="174" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="0.95s"/>
+  </line>
+  <line x1="277" y1="198" x2="277" y2="228" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.35s"/>
+  </line>
+  <line x1="277" y1="252" x2="277" y2="222" class="ici-link" marker-end="url(#iciArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" begin="1.75s"/>
+  </line>
+
+  <!-- TPU chip rectangles (on top of links) -->
+  <!-- Row 0 -->
+  <rect x="48" y="66" width="38" height="24" rx="4" class="tpu-chip"/><text x="67" y="78" class="chip-text">TPU</text>
+  <rect x="118" y="66" width="38" height="24" rx="4" class="tpu-chip"/><text x="137" y="78" class="chip-text">TPU</text>
+  <rect x="188" y="66" width="38" height="24" rx="4" class="tpu-chip"/><text x="207" y="78" class="chip-text">TPU</text>
+  <rect x="258" y="66" width="38" height="24" rx="4" class="tpu-chip"/><text x="277" y="78" class="chip-text">TPU</text>
+  <!-- Row 1 -->
+  <rect x="48" y="120" width="38" height="24" rx="4" class="tpu-chip"/><text x="67" y="132" class="chip-text">TPU</text>
+  <rect x="118" y="120" width="38" height="24" rx="4" class="tpu-chip"/><text x="137" y="132" class="chip-text">TPU</text>
+  <rect x="188" y="120" width="38" height="24" rx="4" class="tpu-chip"/><text x="207" y="132" class="chip-text">TPU</text>
+  <rect x="258" y="120" width="38" height="24" rx="4" class="tpu-chip"/><text x="277" y="132" class="chip-text">TPU</text>
+  <!-- Row 2 -->
+  <rect x="48" y="174" width="38" height="24" rx="4" class="tpu-chip"/><text x="67" y="186" class="chip-text">TPU</text>
+  <rect x="118" y="174" width="38" height="24" rx="4" class="tpu-chip"/><text x="137" y="186" class="chip-text">TPU</text>
+  <rect x="188" y="174" width="38" height="24" rx="4" class="tpu-chip"/><text x="207" y="186" class="chip-text">TPU</text>
+  <rect x="258" y="174" width="38" height="24" rx="4" class="tpu-chip"/><text x="277" y="186" class="chip-text">TPU</text>
+  <!-- Row 3 -->
+  <rect x="48" y="228" width="38" height="24" rx="4" class="tpu-chip"/><text x="67" y="240" class="chip-text">TPU</text>
+  <rect x="118" y="228" width="38" height="24" rx="4" class="tpu-chip"/><text x="137" y="240" class="chip-text">TPU</text>
+  <rect x="188" y="228" width="38" height="24" rx="4" class="tpu-chip"/><text x="207" y="240" class="chip-text">TPU</text>
+  <rect x="258" y="228" width="38" height="24" rx="4" class="tpu-chip"/><text x="277" y="240" class="chip-text">TPU</text>
+
+  <!-- ICI annotations -->
+  <rect x="28" y="264" width="360" height="42" rx="6" fill="#E8EEF7"/>
+  <text x="208" y="279" font-size="10" font-weight="700" fill="#002C5F" text-anchor="middle">ICI: 600 GB/s/chip (양방향)</text>
+  <text x="208" y="292" font-size="9" fill="#555555" text-anchor="middle">2D Torus Mesh 토폴로지 — 모든 칩이 직접 연결</text>
+  <text x="208" y="305" font-size="9" fill="#555555" text-anchor="middle">O(1) hop to neighbors · PCIe 없음 · 수천 칩 확장</text>
+
+  <!-- VS divider -->
+  <line x1="400" y1="34" x2="400" y2="368" stroke="#D5CFBF" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="376" y="160" width="48" height="28" rx="14" fill="#002C5F"/>
+  <text x="400" y="178" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">VS</text>
+
+  <!-- ===== RIGHT: NVLink Switch Star ===== -->
+  <rect x="412" y="34" width="370" height="280" rx="10" class="panel"/>
+  <text x="597" y="52" class="panel-title">NVIDIA NVLink Switch — Star 토폴로지</text>
+
+  <!-- Central NVLink Switch chip -->
+  <rect x="564" y="148" width="66" height="42" rx="6" class="sw-chip"/>
+  <text x="597" y="165" font-size="9" font-weight="700" fill="#FFFFFF" text-anchor="middle">NVLink</text>
+  <text x="597" y="178" font-size="8" font-weight="700" fill="#FFFFFF" text-anchor="middle">Switch</text>
+  <!-- Pulsing glow on switch -->
+  <rect x="560" y="144" width="74" height="50" rx="8" fill="none" stroke="#E8962A" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.3;0.9;0.3" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="stroke-width" values="2;4;2" dur="2s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- 8 GPU chips around the switch, star topology -->
+  <!-- Positions: top-left, top, top-right, right, bottom-right, bottom, bottom-left, left -->
+  <!-- GPU 0: top-left (460,68) -->
+  <rect x="440" y="60" width="40" height="24" rx="4" class="gpu-chip"/><text x="460" y="72" class="chip-text">GPU 0</text>
+  <!-- GPU 1: top-center (572, 68) -->
+  <rect x="552" y="60" width="40" height="24" rx="4" class="gpu-chip"/><text x="572" y="72" class="chip-text">GPU 1</text>
+  <!-- GPU 2: top-right (685, 68) -->
+  <rect x="665" y="60" width="40" height="24" rx="4" class="gpu-chip"/><text x="685" y="72" class="chip-text">GPU 2</text>
+  <!-- GPU 3: right (715, 165) -->
+  <rect x="710" y="157" width="40" height="24" rx="4" class="gpu-chip"/><text x="730" y="169" class="chip-text">GPU 3</text>
+  <!-- GPU 4: bottom-right (665, 258) -->
+  <rect x="665" y="252" width="40" height="24" rx="4" class="gpu-chip"/><text x="685" y="264" class="chip-text">GPU 4</text>
+  <!-- GPU 5: bottom-center (552, 258) -->
+  <rect x="552" y="252" width="40" height="24" rx="4" class="gpu-chip"/><text x="572" y="264" class="chip-text">GPU 5</text>
+  <!-- GPU 6: bottom-left (440, 258) -->
+  <rect x="440" y="252" width="40" height="24" rx="4" class="gpu-chip"/><text x="460" y="264" class="chip-text">GPU 6</text>
+  <!-- GPU 7: left (420, 157) -->
+  <rect x="419" y="157" width="40" height="24" rx="4" class="gpu-chip"/><text x="439" y="169" class="chip-text">GPU 7</text>
+
+  <!-- NVLink connections from switch to each GPU -->
+  <!-- To GPU 0 -->
+  <line x1="571" y1="153" x2="480" y2="84" stroke="#00CC88" stroke-width="2" marker-end="url(#nvlArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.6s" repeatCount="indefinite" begin="0s"/>
+  </line>
+  <line x1="480" y1="81" x2="574" y2="151" stroke="#00CC88" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5">
+    <animate attributeName="stroke-opacity" values="0.2;0.6;0.2" dur="1.6s" repeatCount="indefinite" begin="0.8s"/>
+  </line>
+  <!-- To GPU 1 -->
+  <line x1="580" y1="148" x2="575" y2="84" stroke="#00CC88" stroke-width="2" marker-end="url(#nvlArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.6s" repeatCount="indefinite" begin="0.2s"/>
+  </line>
+  <line x1="575" y1="81" x2="583" y2="148" stroke="#00CC88" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5">
+    <animate attributeName="stroke-opacity" values="0.2;0.6;0.2" dur="1.6s" repeatCount="indefinite" begin="1.0s"/>
+  </line>
+  <!-- To GPU 2 -->
+  <line x1="621" y1="153" x2="680" y2="84" stroke="#00CC88" stroke-width="2" marker-end="url(#nvlArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.6s" repeatCount="indefinite" begin="0.4s"/>
+  </line>
+  <line x1="682" y1="81" x2="623" y2="151" stroke="#00CC88" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5">
+    <animate attributeName="stroke-opacity" values="0.2;0.6;0.2" dur="1.6s" repeatCount="indefinite" begin="1.2s"/>
+  </line>
+  <!-- To GPU 3 -->
+  <line x1="630" y1="169" x2="710" y2="169" stroke="#00CC88" stroke-width="2" marker-end="url(#nvlArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.6s" repeatCount="indefinite" begin="0.6s"/>
+  </line>
+  <line x1="710" y1="173" x2="630" y2="173" stroke="#00CC88" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5">
+    <animate attributeName="stroke-opacity" values="0.2;0.6;0.2" dur="1.6s" repeatCount="indefinite" begin="1.4s"/>
+  </line>
+  <!-- To GPU 4 -->
+  <line x1="621" y1="188" x2="680" y2="256" stroke="#00CC88" stroke-width="2" marker-end="url(#nvlArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.6s" repeatCount="indefinite" begin="0.8s"/>
+  </line>
+  <line x1="682" y1="253" x2="623" y2="188" stroke="#00CC88" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5">
+    <animate attributeName="stroke-opacity" values="0.2;0.6;0.2" dur="1.6s" repeatCount="indefinite" begin="0.4s"/>
+  </line>
+  <!-- To GPU 5 -->
+  <line x1="580" y1="190" x2="575" y2="252" stroke="#00CC88" stroke-width="2" marker-end="url(#nvlArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.6s" repeatCount="indefinite" begin="1.0s"/>
+  </line>
+  <line x1="575" y1="249" x2="582" y2="190" stroke="#00CC88" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5">
+    <animate attributeName="stroke-opacity" values="0.2;0.6;0.2" dur="1.6s" repeatCount="indefinite" begin="0.2s"/>
+  </line>
+  <!-- To GPU 6 -->
+  <line x1="571" y1="188" x2="480" y2="256" stroke="#00CC88" stroke-width="2" marker-end="url(#nvlArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.6s" repeatCount="indefinite" begin="1.2s"/>
+  </line>
+  <line x1="480" y1="253" x2="574" y2="189" stroke="#00CC88" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5">
+    <animate attributeName="stroke-opacity" values="0.2;0.6;0.2" dur="1.6s" repeatCount="indefinite" begin="0.6s"/>
+  </line>
+  <!-- To GPU 7 -->
+  <line x1="564" y1="169" x2="459" y2="169" stroke="#00CC88" stroke-width="2" marker-end="url(#nvlArr)">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="1.6s" repeatCount="indefinite" begin="1.4s"/>
+  </line>
+  <line x1="459" y1="173" x2="564" y2="173" stroke="#00CC88" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5">
+    <animate attributeName="stroke-opacity" values="0.2;0.6;0.2" dur="1.6s" repeatCount="indefinite" begin="0.0s"/>
+  </line>
+
+  <!-- NVLink annotations -->
+  <rect x="412" y="286" width="370" height="28" rx="6" fill="#E8F5F0"/>
+  <text x="597" y="297" font-size="10" font-weight="700" fill="#007A4D" text-anchor="middle">NVLink 4.0: 900 GB/s/GPU (양방향)</text>
+  <text x="597" y="309" font-size="9" fill="#555555" text-anchor="middle">Switch 경유 — 모든 GPU 간 full bisection bandwidth · 최대 576 GPU</text>
+
+  <!-- ===== Bottom Comparison Table ===== -->
+  <rect x="18" y="318" width="764" height="112" rx="10" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1.5"/>
+
+  <!-- Table header -->
+  <rect x="18" y="318" width="764" height="28" rx="10" fill="#002C5F"/>
+  <rect x="18" y="334" width="764" height="12" fill="#002C5F"/>
+  <text x="200" y="336" class="tbl-head"> </text>
+  <text x="120" y="336" class="tbl-head">항목</text>
+  <text x="370" y="336" class="tbl-head">TPU ICI</text>
+  <text x="600" y="336" class="tbl-head">NVIDIA NVLink</text>
+
+  <!-- Table rows -->
+  <!-- Row 1: 토폴로지 -->
+  <rect x="18" y="346" width="764" height="26" fill="#F7F9FC"/>
+  <text x="120" y="363" class="tbl-cell">토폴로지</text>
+  <text x="370" y="363" class="tbl-cell-em">2D Torus Mesh</text>
+  <text x="600" y="363" class="tbl-cell-em">NVLink Switch (Star)</text>
+
+  <!-- Row 2: 대역폭 -->
+  <rect x="18" y="372" width="764" height="26" fill="#FFFFFF"/>
+  <text x="120" y="389" class="tbl-cell">단방향 대역폭</text>
+  <text x="370" y="389" class="tbl-cell">600 GB/s / chip</text>
+  <text x="600" y="389" class="tbl-cell">900 GB/s / GPU</text>
+
+  <!-- Row 3: 확장성 -->
+  <rect x="18" y="398" width="764" height="26" fill="#F7F9FC"/>
+  <rect x="18" y="412" width="764" height="12" rx="10" fill="#F7F9FC"/>
+  <text x="120" y="415" class="tbl-cell">최대 확장성</text>
+  <text x="370" y="415" class="tbl-cell">TPU Pod (수천 칩)</text>
+  <text x="600" y="415" class="tbl-cell">NVLink Domain (최대 576 GPU)</text>
+
+  <!-- Vertical dividers in table -->
+  <line x1="230" y1="318" x2="230" y2="424" stroke="#D5CFBF" stroke-width="0.8"/>
+  <line x1="480" y1="318" x2="480" y2="424" stroke="#D5CFBF" stroke-width="0.8"/>
+  <line x1="730" y1="318" x2="730" y2="424" stroke="#D5CFBF" stroke-width="0.8"/>
+
+  <!-- Horizontal dividers in table -->
+  <line x1="18" y1="372" x2="782" y2="372" stroke="#D5CFBF" stroke-width="0.8"/>
+  <line x1="18" y1="398" x2="782" y2="398" stroke="#D5CFBF" stroke-width="0.8"/>
+</svg>

@@ -1,0 +1,198 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .bg { fill: #F2EDE4; }
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .subtitle { font-size: 11px; fill: #555555; }
+    .pe-box { fill: #E8EEF7; stroke: #002C5F; stroke-width: 1.5; rx: 5; }
+    .pe-label { font-size: 9px; font-weight: 700; fill: #002C5F; text-anchor: middle; dominant-baseline: middle; }
+    .weight-label { font-size: 8px; fill: #003F8A; text-anchor: middle; }
+    .arrow-label { font-size: 9px; fill: #1A1A1A; }
+    .legend-text { font-size: 10px; fill: #1A1A1A; }
+    .annotation { font-size: 10px; fill: #555555; text-anchor: middle; }
+    .annot-box { fill: #FFFFFF; stroke: #D5CFBF; stroke-width: 1; rx: 6; }
+    .section-label { font-size: 10px; font-weight: 600; fill: #555555; text-anchor: middle; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="450" class="bg"/>
+
+  <!-- Title -->
+  <text x="400" y="28" class="title" text-anchor="middle">Systolic Array — NPU 핵심 연산 유닛</text>
+  <text x="400" y="44" class="subtitle" text-anchor="middle">MAC (Multiply-Accumulate) 데이터 흐름</text>
+
+  <!-- PE Grid: 4x4, centered, each PE 64x48, gap 18 -->
+  <!-- Grid starts at x=230, y=70 -->
+  <!-- Col offsets: 0, 82, 164, 246 -->
+  <!-- Row offsets: 0, 66, 132, 198 -->
+
+  <!-- Column headers (input activations) -->
+  <text x="262" y="63" class="section-label">col 0</text>
+  <text x="344" y="63" class="section-label">col 1</text>
+  <text x="426" y="63" class="section-label">col 2</text>
+  <text x="508" y="63" class="section-label">col 3</text>
+
+  <!-- Row headers (partial sums label) -->
+  <text x="215" y="100" class="section-label" text-anchor="end">행 0</text>
+  <text x="215" y="166" class="section-label" text-anchor="end">행 1</text>
+  <text x="215" y="232" class="section-label" text-anchor="end">행 2</text>
+  <text x="215" y="298" class="section-label" text-anchor="end">행 3</text>
+
+  <!-- Weight values in PEs (stationary) -->
+  <!-- Row 0 -->
+  <g id="pe00"><rect x="230" y="76" width="64" height="48" rx="5" class="pe-box"/><text x="262" y="96" class="pe-label">×+</text><text x="262" y="113" class="weight-label">w₀₀=2</text></g>
+  <g id="pe01"><rect x="312" y="76" width="64" height="48" rx="5" class="pe-box"/><text x="344" y="96" class="pe-label">×+</text><text x="344" y="113" class="weight-label">w₀₁=3</text></g>
+  <g id="pe02"><rect x="394" y="76" width="64" height="48" rx="5" class="pe-box"/><text x="426" y="96" class="pe-label">×+</text><text x="426" y="113" class="weight-label">w₀₂=1</text></g>
+  <g id="pe03"><rect x="476" y="76" width="64" height="48" rx="5" class="pe-box"/><text x="508" y="96" class="pe-label">×+</text><text x="508" y="113" class="weight-label">w₀₃=4</text></g>
+  <!-- Row 1 -->
+  <g id="pe10"><rect x="230" y="142" width="64" height="48" rx="5" class="pe-box"/><text x="262" y="162" class="pe-label">×+</text><text x="262" y="179" class="weight-label">w₁₀=1</text></g>
+  <g id="pe11"><rect x="312" y="142" width="64" height="48" rx="5" class="pe-box"/><text x="344" y="162" class="pe-label">×+</text><text x="344" y="179" class="weight-label">w₁₁=2</text></g>
+  <g id="pe12"><rect x="394" y="142" width="64" height="48" rx="5" class="pe-box"/><text x="426" y="162" class="pe-label">×+</text><text x="426" y="179" class="weight-label">w₁₂=3</text></g>
+  <g id="pe13"><rect x="476" y="142" width="64" height="48" rx="5" class="pe-box"/><text x="508" y="162" class="pe-label">×+</text><text x="508" y="179" class="weight-label">w₁₃=2</text></g>
+  <!-- Row 2 -->
+  <g id="pe20"><rect x="230" y="208" width="64" height="48" rx="5" class="pe-box"/><text x="262" y="228" class="pe-label">×+</text><text x="262" y="245" class="weight-label">w₂₀=4</text></g>
+  <g id="pe21"><rect x="312" y="208" width="64" height="48" rx="5" class="pe-box"/><text x="344" y="228" class="pe-label">×+</text><text x="344" y="245" class="weight-label">w₂₁=1</text></g>
+  <g id="pe22"><rect x="394" y="208" width="64" height="48" rx="5" class="pe-box"/><text x="426" y="228" class="pe-label">×+</text><text x="426" y="245" class="weight-label">w₂₂=2</text></g>
+  <g id="pe23"><rect x="476" y="208" width="64" height="48" rx="5" class="pe-box"/><text x="508" y="228" class="pe-label">×+</text><text x="508" y="245" class="weight-label">w₂₃=3</text></g>
+  <!-- Row 3 -->
+  <g id="pe30"><rect x="230" y="274" width="64" height="48" rx="5" class="pe-box"/><text x="262" y="294" class="pe-label">×+</text><text x="262" y="311" class="weight-label">w₃₀=3</text></g>
+  <g id="pe31"><rect x="312" y="274" width="64" height="48" rx="5" class="pe-box"/><text x="344" y="294" class="pe-label">×+</text><text x="344" y="311" class="weight-label">w₃₁=4</text></g>
+  <g id="pe32"><rect x="394" y="274" width="64" height="48" rx="5" class="pe-box"/><text x="426" y="294" class="pe-label">×+</text><text x="426" y="311" class="weight-label">w₃₂=1</text></g>
+  <g id="pe33"><rect x="476" y="274" width="64" height="48" rx="5" class="pe-box"/><text x="508" y="294" class="pe-label">×+</text><text x="508" y="311" class="weight-label">w₃₃=2</text></g>
+
+  <!-- Horizontal connectors between PEs (activation flow direction) -->
+  <!-- Row 0 -->
+  <line x1="294" y1="100" x2="312" y2="100" stroke="#00AA6C" stroke-width="1.5" marker-end="url(#arrowG)"/>
+  <line x1="376" y1="100" x2="394" y2="100" stroke="#00AA6C" stroke-width="1.5" marker-end="url(#arrowG)"/>
+  <line x1="458" y1="100" x2="476" y2="100" stroke="#00AA6C" stroke-width="1.5" marker-end="url(#arrowG)"/>
+  <!-- Row 1 -->
+  <line x1="294" y1="166" x2="312" y2="166" stroke="#00AA6C" stroke-width="1.5" marker-end="url(#arrowG)"/>
+  <line x1="376" y1="166" x2="394" y2="166" stroke="#00AA6C" stroke-width="1.5" marker-end="url(#arrowG)"/>
+  <line x1="458" y1="166" x2="476" y2="166" stroke="#00AA6C" stroke-width="1.5" marker-end="url(#arrowG)"/>
+  <!-- Row 2 -->
+  <line x1="294" y1="232" x2="312" y2="232" stroke="#00AA6C" stroke-width="1.5" marker-end="url(#arrowG)"/>
+  <line x1="376" y1="232" x2="394" y2="232" stroke="#00AA6C" stroke-width="1.5" marker-end="url(#arrowG)"/>
+  <line x1="458" y1="232" x2="476" y2="232" stroke="#00AA6C" stroke-width="1.5" marker-end="url(#arrowG)"/>
+  <!-- Row 3 -->
+  <line x1="294" y1="298" x2="312" y2="298" stroke="#00AA6C" stroke-width="1.5" marker-end="url(#arrowG)"/>
+  <line x1="376" y1="298" x2="394" y2="298" stroke="#00AA6C" stroke-width="1.5" marker-end="url(#arrowG)"/>
+  <line x1="458" y1="298" x2="476" y2="298" stroke="#00AA6C" stroke-width="1.5" marker-end="url(#arrowG)"/>
+
+  <!-- Vertical connectors between PEs (partial sum flow) -->
+  <!-- Col 0 -->
+  <line x1="262" y1="124" x2="262" y2="142" stroke="#E8962A" stroke-width="1.5" marker-end="url(#arrowA)"/>
+  <line x1="262" y1="190" x2="262" y2="208" stroke="#E8962A" stroke-width="1.5" marker-end="url(#arrowA)"/>
+  <line x1="262" y1="256" x2="262" y2="274" stroke="#E8962A" stroke-width="1.5" marker-end="url(#arrowA)"/>
+  <!-- Col 1 -->
+  <line x1="344" y1="124" x2="344" y2="142" stroke="#E8962A" stroke-width="1.5" marker-end="url(#arrowA)"/>
+  <line x1="344" y1="190" x2="344" y2="208" stroke="#E8962A" stroke-width="1.5" marker-end="url(#arrowA)"/>
+  <line x1="344" y1="256" x2="344" y2="274" stroke="#E8962A" stroke-width="1.5" marker-end="url(#arrowA)"/>
+  <!-- Col 2 -->
+  <line x1="426" y1="124" x2="426" y2="142" stroke="#E8962A" stroke-width="1.5" marker-end="url(#arrowA)"/>
+  <line x1="426" y1="190" x2="426" y2="208" stroke="#E8962A" stroke-width="1.5" marker-end="url(#arrowA)"/>
+  <line x1="426" y1="256" x2="426" y2="274" stroke="#E8962A" stroke-width="1.5" marker-end="url(#arrowA)"/>
+  <!-- Col 3 -->
+  <line x1="508" y1="124" x2="508" y2="142" stroke="#E8962A" stroke-width="1.5" marker-end="url(#arrowA)"/>
+  <line x1="508" y1="190" x2="508" y2="208" stroke="#E8962A" stroke-width="1.5" marker-end="url(#arrowA)"/>
+  <line x1="508" y1="256" x2="508" y2="274" stroke="#E8962A" stroke-width="1.5" marker-end="url(#arrowA)"/>
+
+  <!-- Input activation arrows entering from left -->
+  <line x1="180" y1="100" x2="228" y2="100" stroke="#00AA6C" stroke-width="2" marker-end="url(#arrowG)"/>
+  <text x="186" y="94" font-size="9" fill="#00AA6C" font-weight="600">a₀</text>
+  <line x1="180" y1="166" x2="228" y2="166" stroke="#00AA6C" stroke-width="2" marker-end="url(#arrowG)"/>
+  <text x="186" y="160" font-size="9" fill="#00AA6C" font-weight="600">a₁</text>
+  <line x1="180" y1="232" x2="228" y2="232" stroke="#00AA6C" stroke-width="2" marker-end="url(#arrowG)"/>
+  <text x="186" y="226" font-size="9" fill="#00AA6C" font-weight="600">a₂</text>
+  <line x1="180" y1="298" x2="228" y2="298" stroke="#00AA6C" stroke-width="2" marker-end="url(#arrowG)"/>
+  <text x="186" y="292" font-size="9" fill="#00AA6C" font-weight="600">a₃</text>
+
+  <!-- Partial sum output arrows exiting bottom -->
+  <line x1="262" y1="322" x2="262" y2="340" stroke="#E8962A" stroke-width="2" marker-end="url(#arrowA)"/>
+  <line x1="344" y1="322" x2="344" y2="340" stroke="#E8962A" stroke-width="2" marker-end="url(#arrowA)"/>
+  <line x1="426" y1="322" x2="426" y2="340" stroke="#E8962A" stroke-width="2" marker-end="url(#arrowA)"/>
+  <line x1="508" y1="322" x2="508" y2="340" stroke="#E8962A" stroke-width="2" marker-end="url(#arrowA)"/>
+  <text x="262" y="353" font-size="8" fill="#E8962A" text-anchor="middle" font-weight="600">∑₀</text>
+  <text x="344" y="353" font-size="8" fill="#E8962A" text-anchor="middle" font-weight="600">∑₁</text>
+  <text x="426" y="353" font-size="8" fill="#E8962A" text-anchor="middle" font-weight="600">∑₂</text>
+  <text x="508" y="353" font-size="8" fill="#E8962A" text-anchor="middle" font-weight="600">∑₃</text>
+
+  <!-- Animated activation tokens (green circles) moving right -->
+  <circle r="6" fill="#00AA6C" opacity="0.9">
+    <animateMotion dur="2.4s" repeatCount="indefinite" begin="0s">
+      <mpath href="#pathA0"/>
+    </animateMotion>
+  </circle>
+  <circle r="6" fill="#00AA6C" opacity="0.9">
+    <animateMotion dur="2.4s" repeatCount="indefinite" begin="0.6s">
+      <mpath href="#pathA1"/>
+    </animateMotion>
+  </circle>
+  <circle r="6" fill="#00AA6C" opacity="0.9">
+    <animateMotion dur="2.4s" repeatCount="indefinite" begin="1.2s">
+      <mpath href="#pathA2"/>
+    </animateMotion>
+  </circle>
+  <circle r="6" fill="#00AA6C" opacity="0.9">
+    <animateMotion dur="2.4s" repeatCount="indefinite" begin="1.8s">
+      <mpath href="#pathA3"/>
+    </animateMotion>
+  </circle>
+
+  <!-- Animated partial sum tokens (amber circles) moving down col 0 -->
+  <circle r="5" fill="#E8962A" opacity="0.85">
+    <animateMotion dur="2.4s" repeatCount="indefinite" begin="0s">
+      <mpath href="#pathP0"/>
+    </animateMotion>
+  </circle>
+  <circle r="5" fill="#E8962A" opacity="0.85">
+    <animateMotion dur="2.4s" repeatCount="indefinite" begin="0.6s">
+      <mpath href="#pathP1"/>
+    </animateMotion>
+  </circle>
+
+  <!-- Motion paths for activation tokens -->
+  <path id="pathA0" d="M 180,100 L 540,100" fill="none" visibility="hidden"/>
+  <path id="pathA1" d="M 180,166 L 540,166" fill="none" visibility="hidden"/>
+  <path id="pathA2" d="M 180,232 L 540,232" fill="none" visibility="hidden"/>
+  <path id="pathA3" d="M 180,298 L 540,298" fill="none" visibility="hidden"/>
+  <!-- Motion paths for partial sum tokens (column 0 and 1) -->
+  <path id="pathP0" d="M 262,76 L 262,340" fill="none" visibility="hidden"/>
+  <path id="pathP1" d="M 344,76 L 344,340" fill="none" visibility="hidden"/>
+
+  <!-- Defs for arrowheads -->
+  <defs>
+    <marker id="arrowG" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <polygon points="0 0, 7 3.5, 0 7" fill="#00AA6C"/>
+    </marker>
+    <marker id="arrowA" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <polygon points="0 0, 7 3.5, 0 7" fill="#E8962A"/>
+    </marker>
+  </defs>
+
+  <!-- Legend panel on right -->
+  <rect x="572" y="75" width="200" height="165" rx="8" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1"/>
+  <text x="672" y="95" font-size="11" font-weight="700" fill="#002C5F" text-anchor="middle">범례 (Legend)</text>
+
+  <rect x="585" y="108" width="14" height="14" rx="3" fill="#E8EEF7" stroke="#002C5F" stroke-width="1.5"/>
+  <text x="605" y="120" class="legend-text">PE (Processing Element)</text>
+  <text x="605" y="133" font-size="9" fill="#555555">가중치 (Weight) — 고정</text>
+
+  <circle cx="592" cy="153" r="6" fill="#00AA6C"/>
+  <text x="605" y="157" class="legend-text">활성화 값 → 흐름</text>
+  <text x="605" y="170" font-size="9" fill="#555555">좌 → 우 이동</text>
+
+  <circle cx="592" cy="190" r="5" fill="#E8962A"/>
+  <text x="605" y="194" class="legend-text">부분합 ↓ 흐름</text>
+  <text x="605" y="207" font-size="9" fill="#555555">위 → 아래 누적</text>
+
+  <!-- Clock cycle annotation -->
+  <rect x="572" y="255" width="200" height="80" rx="8" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1"/>
+  <text x="672" y="272" font-size="10" font-weight="700" fill="#002C5F" text-anchor="middle">클럭 사이클 동작</text>
+  <text x="582" y="288" font-size="9" fill="#1A1A1A">t=1: 첫 행 활성화 진입</text>
+  <text x="582" y="301" font-size="9" fill="#1A1A1A">t=2: 곱셈 후 부분합 전달</text>
+  <text x="582" y="314" font-size="9" fill="#1A1A1A">t=3: 누적 부분합 하단 출력</text>
+  <text x="582" y="327" font-size="9" fill="#555555">매 클럭: 동시 병렬 연산</text>
+
+  <!-- Bottom annotation -->
+  <rect x="60" y="368" width="490" height="32" rx="7" fill="#002C5F"/>
+  <text x="305" y="388" font-size="11" fill="#FFFFFF" text-anchor="middle" font-weight="600">Systolic Array: 메모리 접근 없이 PE 간 직접 데이터 전달 — 에너지 효율 극대화</text>
+</svg>

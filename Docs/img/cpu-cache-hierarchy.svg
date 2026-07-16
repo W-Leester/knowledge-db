@@ -1,0 +1,144 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="tier0grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#001830"/>
+      <stop offset="100%" stop-color="#002C5F"/>
+    </linearGradient>
+    <linearGradient id="tier1grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#003F8A"/>
+      <stop offset="100%" stop-color="#0055BB"/>
+    </linearGradient>
+    <linearGradient id="tier2grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1A6BB5"/>
+      <stop offset="100%" stop-color="#3A88D8"/>
+    </linearGradient>
+    <linearGradient id="tier3grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7AAFD8"/>
+      <stop offset="100%" stop-color="#A8CCEE"/>
+    </linearGradient>
+    <linearGradient id="tier4grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#D5CFBF"/>
+      <stop offset="100%" stop-color="#E8EEF7"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="#F2EDE4"/>
+
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#002C5F">CPU 메모리 계층 구조 (Memory Hierarchy)</text>
+  <text x="400" y="48" text-anchor="middle" font-size="11" fill="#555555">빠름 · 작음 ← →  느림 · 큼</text>
+
+  <!-- Pyramid tiers as trapezoids using polygon -->
+  <!-- Tier 0: Registers (narrowest top) -->
+  <g id="tier-0">
+    <polygon points="310,65 490,65 510,105 290,105" fill="url(#tier0grad)" stroke="#001020" stroke-width="1.5"/>
+    <text x="400" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">Registers</text>
+    <text x="400" y="97" text-anchor="middle" font-size="9" fill="#CCDDFF">~1 KB · 0.25 ns</text>
+    <animate attributeName="filter" values="none;url(#glow);none" dur="5s" begin="0s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Tier 1: L1 Cache -->
+  <g id="tier-1">
+    <polygon points="290,108 510,108 535,152 265,152" fill="url(#tier1grad)" stroke="#001A3A" stroke-width="1.5"/>
+    <text x="400" y="125" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">L1 Cache</text>
+    <text x="400" y="143" text-anchor="middle" font-size="9" fill="#CCDDFF">32–64 KB · 1 ns</text>
+    <animate attributeName="filter" values="none;url(#glow);none" dur="5s" begin="1s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Tier 2: L2 Cache -->
+  <g id="tier-2">
+    <polygon points="265,155 535,155 562,203 238,203" fill="url(#tier2grad)" stroke="#0D3A6A" stroke-width="1.5"/>
+    <text x="400" y="174" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">L2 Cache</text>
+    <text x="400" y="192" text-anchor="middle" font-size="9" fill="#EEF4FF">256 KB – 1 MB · 4 ns</text>
+    <animate attributeName="filter" values="none;url(#glow);none" dur="5s" begin="2s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Tier 3: L3 Cache -->
+  <g id="tier-3">
+    <polygon points="238,206 562,206 595,262 205,262" fill="url(#tier3grad)" stroke="#3A6A9A" stroke-width="1.5"/>
+    <text x="400" y="228" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">L3 Cache</text>
+    <text x="400" y="246" text-anchor="middle" font-size="9" fill="#EEF4FF">8 – 64 MB · 15 ns</text>
+    <text x="400" y="260" text-anchor="middle" font-size="8" fill="#EEF4FF">(모든 코어 공유)</text>
+    <animate attributeName="filter" values="none;url(#glow);none" dur="5s" begin="3s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Tier 4: DRAM (widest base) -->
+  <g id="tier-4">
+    <polygon points="205,265 595,265 640,330 160,330" fill="url(#tier4grad)" stroke="#8899AA" stroke-width="1.5"/>
+    <text x="400" y="288" text-anchor="middle" font-size="13" font-weight="700" fill="#002C5F">DRAM (Main Memory)</text>
+    <text x="400" y="308" text-anchor="middle" font-size="9" fill="#334466">16 – 256 GB · 60–100 ns</text>
+    <text x="400" y="323" text-anchor="middle" font-size="8" fill="#555555">DDR5 / LPDDR5 / HBM</text>
+    <animate attributeName="filter" values="none;url(#glow);none" dur="5s" begin="4s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- NVMe SSD (optional base) -->
+  <rect x="160" y="335" width="480" height="38" rx="4" fill="#EDE8DF" stroke="#B8B0A0" stroke-width="1.5"/>
+  <text x="400" y="352" text-anchor="middle" font-size="12" font-weight="600" fill="#666655">NVMe SSD (Storage)</text>
+  <text x="400" y="367" text-anchor="middle" font-size="9" fill="#888877">수 TB · 50–100 µs  (참고용 — 메모리 계층 외부)</text>
+
+  <!-- Right side annotation bar -->
+  <!-- Speed arrow (pointing up = fast) -->
+  <line x1="665" y1="335" x2="665" y2="70" stroke="#002C5F" stroke-width="2.5" marker-end="url(#arrow-up)"/>
+  <defs>
+    <marker id="arrow-up" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M0,8 L4,0 L8,8" fill="none" stroke="#002C5F" stroke-width="1.5"/>
+    </marker>
+    <marker id="arrow-down" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L4,8 L8,0" fill="none" stroke="#555555" stroke-width="1.5"/>
+    </marker>
+  </defs>
+  <text x="680" y="90" font-size="9" fill="#002C5F" font-weight="700">빠름 ↑</text>
+  <text x="680" y="103" font-size="9" fill="#555555">낮은 지연</text>
+  <text x="680" y="117" font-size="9" fill="#555555">고비용/비트</text>
+  <text x="680" y="131" font-size="9" fill="#555555">CPU 내장</text>
+
+  <line x1="665" y1="335" x2="665" y2="70" stroke="none"/>
+  <line x1="665" y1="70" x2="665" y2="335" stroke="#555555" stroke-width="2" stroke-dasharray="4,3"/>
+
+  <text x="680" y="310" font-size="9" fill="#DC2626" font-weight="700">느림 ↓</text>
+  <text x="680" y="323" font-size="9" fill="#555555">높은 지연</text>
+
+  <!-- Capacity arrow (pointing down = larger) -->
+  <line x1="725" y1="70" x2="725" y2="335" stroke="#00AA6C" stroke-width="2.5"/>
+  <polygon points="721,330 725,340 729,330" fill="#00AA6C"/>
+  <text x="738" y="90" font-size="9" fill="#555555">용량 작음</text>
+  <text x="738" y="310" font-size="9" fill="#00AA6C" font-weight="700">용량 큼 ↓</text>
+
+  <!-- Left annotations: latency callouts -->
+  <line x1="290" y1="85" x2="145" y2="85" stroke="#002C5F" stroke-width="1" stroke-dasharray="3,3"/>
+  <rect x="60" y="74" width="82" height="24" rx="3" fill="#002C5F"/>
+  <text x="101" y="84" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">0.25 ns</text>
+  <text x="101" y="94" text-anchor="middle" font-size="7" fill="#AACCFF">~1 레지스터</text>
+
+  <line x1="265" y1="130" x2="145" y2="130" stroke="#003F8A" stroke-width="1" stroke-dasharray="3,3"/>
+  <rect x="60" y="120" width="82" height="22" rx="3" fill="#003F8A"/>
+  <text x="101" y="130" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">~1 ns</text>
+  <text x="101" y="140" text-anchor="middle" font-size="7" fill="#AACCFF">4 cycles</text>
+
+  <line x1="238" y1="178" x2="145" y2="178" stroke="#1A6BB5" stroke-width="1" stroke-dasharray="3,3"/>
+  <rect x="60" y="168" width="82" height="22" rx="3" fill="#1A6BB5"/>
+  <text x="101" y="178" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">~4 ns</text>
+  <text x="101" y="188" text-anchor="middle" font-size="7" fill="#DDEEFF">12 cycles</text>
+
+  <line x1="205" y1="234" x2="145" y2="234" stroke="#5A8EBB" stroke-width="1" stroke-dasharray="3,3"/>
+  <rect x="60" y="224" width="82" height="22" rx="3" fill="#5A8EBB"/>
+  <text x="101" y="234" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">~15 ns</text>
+  <text x="101" y="244" text-anchor="middle" font-size="7" fill="#EEEEFF">40 cycles</text>
+
+  <line x1="160" y1="297" x2="145" y2="297" stroke="#7799AA" stroke-width="1" stroke-dasharray="3,3"/>
+  <rect x="35" y="287" width="107" height="22" rx="3" fill="#889FAA"/>
+  <text x="88" y="297" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">60–100 ns</text>
+  <text x="88" y="307" text-anchor="middle" font-size="7" fill="#EEEEFF">200+ cycles</text>
+
+  <!-- Bottom note -->
+  <text x="400" y="418" text-anchor="middle" font-size="10" fill="#555555">캐시 히트율(Cache Hit Rate)이 높을수록 CPU 성능이 향상됩니다</text>
+  <text x="400" y="433" text-anchor="middle" font-size="9" fill="#888888">L1 히트율 ~95%  |  L2 히트율 ~80%  |  L3 히트율 ~60%  (일반적인 워크로드 기준)</text>
+</svg>

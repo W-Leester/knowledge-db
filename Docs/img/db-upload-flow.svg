@@ -1,0 +1,111 @@
+<svg width="800" height="470" viewBox="0 0 800 470" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .step-num { font-size: 11px; font-weight: 800; fill: #FFFFFF; }
+    .box-title { font-size: 10.5px; font-weight: 700; fill: #FFFFFF; }
+    .small { font-size: 9px; fill: #555555; }
+    .mono { font-family: 'Consolas', 'Courier New', monospace; }
+  </style>
+
+  <rect width="800" height="470" fill="#F2EDE4"/>
+  <text x="400" y="26" text-anchor="middle" class="title">실전 — 인스타그램에 사진 한 장이 올라가는 전체 여정</text>
+
+  <!-- ═══ Upload phase (top row) ═══ -->
+  <text x="46" y="58" font-size="11.5" fill="#B45309" font-weight="700">📤 업로드 단계</text>
+
+  <!-- 1 user phone -->
+  <rect x="40" y="70" width="130" height="76" fill="#1A1A1A" rx="8"/>
+  <circle cx="58" cy="88" r="9" fill="#E8962A"/>
+  <text x="58" y="92" text-anchor="middle" class="step-num">1</text>
+  <text x="105" y="93" text-anchor="middle" class="box-title">📱 사용자</text>
+  <text x="105" y="110" text-anchor="middle" font-size="8.5" fill="#D5CFBF">사진 선택 후</text>
+  <text x="105" y="123" text-anchor="middle" font-size="8.5" fill="#D5CFBF">업로드 버튼</text>
+
+  <line x1="172" y1="108" x2="208" y2="108" stroke="#002C5F" stroke-width="2.5"/>
+  <polygon points="212,108 202,103 202,113" fill="#002C5F"/>
+
+  <!-- 2 server -->
+  <rect x="216" y="70" width="130" height="76" fill="#002C5F" rx="8"/>
+  <circle cx="234" cy="88" r="9" fill="#E8962A"/>
+  <text x="234" y="92" text-anchor="middle" class="step-num">2</text>
+  <text x="281" y="93" text-anchor="middle" class="box-title">API 서버</text>
+  <text x="281" y="110" text-anchor="middle" font-size="8.5" fill="#E8EEF7">파일 수신 후</text>
+  <text x="281" y="123" text-anchor="middle" font-size="8.5" fill="#E8EEF7">스토리지로 전달</text>
+
+  <line x1="348" y1="108" x2="384" y2="108" stroke="#002C5F" stroke-width="2.5"/>
+  <polygon points="388,108 378,103 378,113" fill="#002C5F"/>
+
+  <!-- 3 S3 -->
+  <rect x="392" y="70" width="130" height="76" fill="#E8962A" rx="8"/>
+  <circle cx="410" cy="88" r="9" fill="#002C5F"/>
+  <text x="410" y="92" text-anchor="middle" class="step-num">3</text>
+  <text x="439" y="93" text-anchor="middle" class="box-title">🪣 S3 스토리지</text>
+  <text x="457" y="110" text-anchor="middle" font-size="8.5" fill="#FEF3E2">파일 저장 + 복제</text>
+  <text x="457" y="123" text-anchor="middle" font-size="8.5" fill="#FEF3E2">(원본은 여기!)</text>
+
+  <line x1="524" y1="108" x2="560" y2="108" stroke="#002C5F" stroke-width="2.5"/>
+  <polygon points="564,108 554,103 554,113" fill="#002C5F"/>
+
+  <!-- 4 URL created -->
+  <rect x="568" y="70" width="192" height="76" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5" rx="8"/>
+  <circle cx="586" cy="88" r="9" fill="#E8962A"/>
+  <text x="586" y="92" text-anchor="middle" class="step-num">4</text>
+  <text x="664" y="93" text-anchor="middle" font-size="10" fill="#B45309" font-weight="700">URL 생성</text>
+  <text x="664" y="112" text-anchor="middle" font-size="7" fill="#555" class="mono">https://cdn.../users/123/</text>
+  <text x="664" y="124" text-anchor="middle" font-size="7" fill="#555" class="mono">photo_456.jpg</text>
+
+  <!-- 5: URL down to DB -->
+  <path d="M 664 148 Q 664 175 620 190" fill="none" stroke="#003F8A" stroke-width="2.5"/>
+  <polygon points="616,191 626,186 627,195" fill="#003F8A"/>
+
+  <rect x="430" y="184" width="184" height="70" fill="#003F8A" rx="8"/>
+  <circle cx="448" cy="202" r="9" fill="#E8962A"/>
+  <text x="448" y="206" text-anchor="middle" class="step-num">5</text>
+  <text x="522" y="205" text-anchor="middle" class="box-title">DB — URL만 저장</text>
+  <rect x="442" y="216" width="160" height="28" fill="#FFF" opacity="0.94" rx="4"/>
+  <text x="522" y="228" text-anchor="middle" font-size="6.8" fill="#555" class="mono">post_id | user | photo_url</text>
+  <text x="522" y="239" text-anchor="middle" font-size="6.8" fill="#002C5F" class="mono" font-weight="700">9012 | 원영 | https://cdn...jpg</text>
+
+  <!-- KEY principle box -->
+  <rect x="46" y="176" width="350" height="86" fill="#FEE2E2" stroke="#DC2626" stroke-width="2" rx="8"/>
+  <text x="221" y="200" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="800">⚠ 철칙: 파일은 DB에 절대 넣지 않는다</text>
+  <text x="221" y="221" text-anchor="middle" font-size="9.5" fill="#555">DB는 텍스트·숫자·짧은 주소에 최적화된 도구.</text>
+  <text x="221" y="236" text-anchor="middle" font-size="9.5" fill="#555">무거운 바이너리를 넣으면 들어는 가지만 전체가 느려진다.</text>
+  <text x="221" y="253" text-anchor="middle" font-size="9.5" fill="#DC2626" font-weight="700">파일 → 스토리지에 / DB → 파일의 "위치(URL)"만</text>
+
+  <!-- ═══ View phase (bottom row) ═══ -->
+  <text x="46" y="296" font-size="11.5" fill="#065F46" font-weight="700">📥 조회 단계 (다른 사용자가 게시물을 볼 때)</text>
+
+  <!-- 6 -->
+  <rect x="40" y="308" width="200" height="76" fill="#003F8A" rx="8"/>
+  <circle cx="58" cy="326" r="9" fill="#00AA6C"/>
+  <text x="58" y="330" text-anchor="middle" class="step-num">6</text>
+  <text x="140" y="330" text-anchor="middle" class="box-title">서버가 DB에서 URL을 꺼내</text>
+  <text x="140" y="348" text-anchor="middle" font-size="8.5" fill="#E8EEF7">게시물 데이터(글+URL)를</text>
+  <text x="140" y="361" text-anchor="middle" font-size="8.5" fill="#E8EEF7">화면에 내려줌</text>
+
+  <line x1="242" y1="346" x2="278" y2="346" stroke="#00AA6C" stroke-width="2.5"/>
+  <polygon points="282,346 272,341 272,351" fill="#00AA6C"/>
+
+  <!-- 7 -->
+  <rect x="286" y="308" width="230" height="76" fill="#00AA6C" rx="8"/>
+  <circle cx="304" cy="326" r="9" fill="#002C5F"/>
+  <text x="304" y="330" text-anchor="middle" class="step-num">7</text>
+  <text x="401" y="330" text-anchor="middle" class="box-title">화면이 URL로 이미지 요청 →</text>
+  <text x="401" y="348" text-anchor="middle" font-size="8.5" fill="#E6F7F1">CDN이 가장 가까운 엣지 서버에서</text>
+  <text x="401" y="361" text-anchor="middle" font-size="8.5" fill="#E6F7F1">이미지를 즉시 전달 ⚡</text>
+
+  <line x1="518" y1="346" x2="554" y2="346" stroke="#00AA6C" stroke-width="2.5"/>
+  <polygon points="558,346 548,341 548,351" fill="#00AA6C"/>
+
+  <!-- viewer -->
+  <rect x="562" y="308" width="198" height="76" fill="#1A1A1A" rx="8"/>
+  <text x="661" y="336" text-anchor="middle" class="box-title">📱 다른 사용자 화면</text>
+  <text x="661" y="356" text-anchor="middle" font-size="8.5" fill="#D5CFBF">글(DB에서) + 사진(CDN에서)이</text>
+  <text x="661" y="369" text-anchor="middle" font-size="8.5" fill="#D5CFBF">합쳐져 게시물 완성</text>
+
+  <!-- bottom summary -->
+  <rect x="30" y="404" width="740" height="50" fill="#002C5F" rx="8"/>
+  <text x="400" y="425" text-anchor="middle" font-size="11.5" fill="#FFFFFF" font-weight="700">역할 분담 — DB: "무엇이 어디에 있나" (메타데이터) · 스토리지: 파일 원본 보관 · CDN: 사용자 가까이에서 전달</text>
+  <text x="400" y="444" text-anchor="middle" font-size="9.5" fill="#E8EEF7">권한이 필요한 파일(개인 사진 등)은 6번 단계에서 Presigned URL을 발급해 내려준다</text>
+</svg>

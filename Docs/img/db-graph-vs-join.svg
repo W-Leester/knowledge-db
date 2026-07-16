@@ -1,0 +1,128 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .section-title { font-size: 12.5px; font-weight: 700; fill: #002C5F; }
+    .small { font-size: 9.5px; fill: #555555; }
+    .mono { font-family: 'Consolas', 'Courier New', monospace; }
+  </style>
+
+  <rect width="800" height="450" fill="#F2EDE4"/>
+  <text x="400" y="28" text-anchor="middle" class="title">"친구의 친구" 찾기 — RDBMS JOIN vs Graph DB 탐색</text>
+
+  <!-- ===== LEFT: RDBMS ===== -->
+  <rect x="30" y="45" width="360" height="350" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="210" y="68" text-anchor="middle" class="section-title">RDBMS — 테이블 자기 JOIN</text>
+
+  <!-- friends table -->
+  <g class="mono">
+    <rect x="55" y="82" width="140" height="20" fill="#002C5F"/>
+    <text x="125" y="96" text-anchor="middle" font-size="9.5" fill="#FFF" font-weight="700">friends 테이블</text>
+    <rect x="55" y="102" width="70" height="18" fill="#E8EEF7" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="125" y="102" width="70" height="18" fill="#E8EEF7" stroke="#D5CFBF" stroke-width="0.5"/>
+    <text x="90" y="115" text-anchor="middle" font-size="8.5" fill="#002C5F" font-weight="700">user_id</text>
+    <text x="160" y="115" text-anchor="middle" font-size="8.5" fill="#002C5F" font-weight="700">friend_id</text>
+    <rect x="55" y="120" width="70" height="16" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="125" y="120" width="70" height="16" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <text x="90" y="132" text-anchor="middle" font-size="8.5" fill="#555">원영</text>
+    <text x="160" y="132" text-anchor="middle" font-size="8.5" fill="#555">민수</text>
+    <rect x="55" y="136" width="70" height="16" fill="#FAF7F2" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="125" y="136" width="70" height="16" fill="#FAF7F2" stroke="#D5CFBF" stroke-width="0.5"/>
+    <text x="90" y="148" text-anchor="middle" font-size="8.5" fill="#555">민수</text>
+    <text x="160" y="148" text-anchor="middle" font-size="8.5" fill="#555">철수</text>
+    <rect x="55" y="152" width="70" height="16" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="125" y="152" width="70" height="16" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <text x="90" y="164" text-anchor="middle" font-size="8.5" fill="#555">...</text>
+    <text x="160" y="164" text-anchor="middle" font-size="8.5" fill="#555">...(1억 행)</text>
+  </g>
+
+  <!-- SQL code -->
+  <rect x="210" y="82" width="165" height="90" fill="#0D1B2E" rx="5"/>
+  <g class="mono" font-size="8.2">
+    <text x="220" y="98" fill="#5B8DD9">SELECT f2.friend_id</text>
+    <text x="220" y="112" fill="#E8EEF7">FROM friends f1</text>
+    <text x="220" y="126" fill="#E8962A">JOIN friends f2</text>
+    <text x="228" y="140" fill="#E8EEF7">ON f1.friend_id</text>
+    <text x="240" y="152" fill="#E8EEF7">= f2.user_id</text>
+    <text x="220" y="166" fill="#E8EEF7">WHERE f1.user_id='원영'</text>
+  </g>
+
+  <!-- join explosion illustration -->
+  <text x="60" y="200" font-size="10" fill="#1A1A1A" font-weight="700">JOIN 1단계마다 테이블 전체와 대조:</text>
+  <!-- depth bars -->
+  <text x="60" y="225" font-size="9.5" fill="#555">1단계 (친구)</text>
+  <rect x="150" y="215" width="30" height="13" fill="#1A5CB5" rx="2"/>
+  <text x="186" y="225" font-size="9" fill="#555">빠름</text>
+
+  <text x="60" y="250" font-size="9.5" fill="#555">2단계 (친구²)</text>
+  <rect x="150" y="240" width="90" height="13" fill="#E8962A" rx="2"/>
+  <text x="246" y="250" font-size="9" fill="#555">느려짐</text>
+
+  <text x="60" y="275" font-size="9.5" fill="#555">3단계 (친구³)</text>
+  <rect x="150" y="265" width="200" height="13" fill="#DC2626" rx="2"/>
+  <text x="60" y="300" font-size="9.5" fill="#DC2626" font-weight="700">4단계 → 인덱스를 타도 중간 결과가 폭발 (수십 초~불능)</text>
+
+  <rect x="50" y="315" width="320" height="64" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="5"/>
+  <text x="210" y="335" text-anchor="middle" font-size="10.5" fill="#DC2626" font-weight="700">관계 깊이 ↑ = JOIN 횟수 ↑ = 비용 기하급수적 ↑</text>
+  <text x="210" y="352" text-anchor="middle" font-size="9.5" fill="#555555">매 단계마다 인덱스 룩업 + 중간 결과 집합 생성을 반복</text>
+  <text x="210" y="368" text-anchor="middle" font-size="9.5" fill="#555555">데이터가 클수록 (1억 행) 기울기가 가팔라짐</text>
+
+  <!-- ===== RIGHT: Graph ===== -->
+  <rect x="410" y="45" width="360" height="350" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="590" y="68" text-anchor="middle" class="section-title">Graph DB — 포인터 따라가기 (Index-Free Adjacency)</text>
+
+  <!-- Cypher code -->
+  <rect x="430" y="82" width="320" height="52" fill="#0D1B2E" rx="5"/>
+  <g class="mono" font-size="9">
+    <text x="440" y="100" fill="#00AA6C">MATCH</text>
+    <text x="482" y="100" fill="#E8EEF7">(me:Person {name:'원영'})</text>
+    <text x="452" y="115" fill="#E8962A">-[:FRIEND]-></text>
+    <text x="530" y="115" fill="#E8EEF7">()</text>
+    <text x="545" y="115" fill="#E8962A">-[:FRIEND]-></text>
+    <text x="623" y="115" fill="#E8EEF7">(fof)</text>
+    <text x="440" y="129" fill="#5B8DD9">RETURN fof.name</text>
+  </g>
+
+  <!-- graph traversal: nodes with direct pointers -->
+  <!-- edges -->
+  <line x1="480" y1="210" x2="565" y2="185" stroke="#E8962A" stroke-width="2.5"/>
+  <line x1="480" y1="210" x2="560" y2="250" stroke="#E8962A" stroke-width="2.5"/>
+  <line x1="565" y1="185" x2="655" y2="175" stroke="#00AA6C" stroke-width="2.5"/>
+  <line x1="565" y1="185" x2="660" y2="225" stroke="#00AA6C" stroke-width="2.5"/>
+  <line x1="560" y1="250" x2="660" y2="270" stroke="#00AA6C" stroke-width="2.5"/>
+
+  <!-- hop labels -->
+  <text x="512" y="188" font-size="8.5" fill="#B45309" font-weight="700">1 hop</text>
+  <text x="505" y="242" font-size="8.5" fill="#B45309" font-weight="700">1 hop</text>
+  <text x="605" y="170" font-size="8.5" fill="#065F46" font-weight="700">2 hop</text>
+  <text x="608" y="212" font-size="8.5" fill="#065F46" font-weight="700">2 hop</text>
+  <text x="604" y="272" font-size="8.5" fill="#065F46" font-weight="700">2 hop</text>
+
+  <!-- nodes -->
+  <circle cx="480" cy="210" r="24" fill="#002C5F"/>
+  <text x="480" y="214" text-anchor="middle" font-size="9.5" fill="#FFF" font-weight="700">원영</text>
+  <circle cx="565" cy="185" r="19" fill="#1A5CB5"/>
+  <text x="565" y="189" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">민수</text>
+  <circle cx="560" cy="250" r="19" fill="#1A5CB5"/>
+  <text x="560" y="254" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">지은</text>
+  <circle cx="655" cy="175" r="19" fill="#00AA6C"/>
+  <text x="655" y="179" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">철수</text>
+  <circle cx="660" cy="225" r="19" fill="#00AA6C"/>
+  <text x="660" y="229" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">수진</text>
+  <circle cx="660" cy="270" r="19" fill="#00AA6C"/>
+  <text x="660" y="274" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">태호</text>
+
+  <text x="700" y="200" font-size="9" fill="#065F46" font-weight="700">← 결과:</text>
+  <text x="700" y="212" font-size="9" fill="#065F46">friend-of-</text>
+  <text x="700" y="224" font-size="9" fill="#065F46">friend</text>
+
+  <text x="430" y="308" font-size="10" fill="#1A1A1A" font-weight="700">각 노드가 이웃 노드의 메모리 주소(포인터)를 직접 보유</text>
+  <text x="430" y="324" font-size="9.5" fill="#555555">→ 탐색 비용 = 방문한 노드 수에만 비례. 전체 데이터 크기와 무관!</text>
+
+  <rect x="430" y="335" width="320" height="46" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1" rx="5"/>
+  <text x="590" y="354" text-anchor="middle" font-size="10.5" fill="#065F46" font-weight="700">깊이가 깊어져도 속도 거의 일정 (hop당 상수 시간)</text>
+  <text x="590" y="371" text-anchor="middle" font-size="9.5" fill="#555555">깊은 관계 탐색에서 RDBMS 대비 수십~수백 배 빠름</text>
+
+  <!-- Bottom -->
+  <rect x="30" y="408" width="740" height="32" fill="#002C5F" rx="6"/>
+  <text x="400" y="429" text-anchor="middle" font-size="11.5" fill="#FFFFFF" font-weight="700">용도: 친구 추천 · 사기 탐지(계좌-기기-IP 연결고리) · 지식 그래프 · 공급망 분석 — "관계 자체가 데이터"인 문제</text>
+</svg>

@@ -1,0 +1,240 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .bg { fill: #F2EDE4; }
+    .title { font-size: 14px; font-weight: 700; fill: #002C5F; text-anchor: middle; }
+    .pe { fill: #E8EEF7; stroke: #002C5F; stroke-width: 1.2; }
+    .pe-active-t0 { fill: #BDD4F5; stroke: #002C5F; stroke-width: 1.8; }
+    .pe-active-t1 { fill: #93C4F0; stroke: #002C5F; stroke-width: 1.8; }
+    .pe-active-t2 { fill: #60A8E8; stroke: #002C5F; stroke-width: 1.8; }
+    .pe-active-t3 { fill: #2C87D8; stroke: #FFFFFF; stroke-width: 1.8; }
+    .w-text { font-size: 7px; fill: #002C5F; text-anchor: middle; dominant-baseline: middle; }
+    .w-text-light { font-size: 7px; fill: #FFFFFF; text-anchor: middle; dominant-baseline: middle; }
+    .axis-label { font-size: 9px; fill: #555555; text-anchor: middle; }
+    .clock-box { fill: #002C5F; rx: 4; }
+    .clock-text { font-size: 10px; font-weight: 700; fill: #FFFFFF; text-anchor: middle; dominant-baseline: middle; }
+    .annot-box { fill: #FFFFFF; stroke: #D5CFBF; stroke-width: 1; }
+    .annot-title { font-size: 9px; font-weight: 700; fill: #002C5F; }
+    .annot-body { font-size: 8px; fill: #1A1A1A; }
+    .flow-arrow { stroke: #00AA6C; stroke-width: 1.5; fill: none; }
+    .sum-arrow { stroke: #E8962A; stroke-width: 1.5; fill: none; }
+  </style>
+
+  <defs>
+    <marker id="gArr" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <polygon points="0 0, 7 3.5, 0 7" fill="#00AA6C"/>
+    </marker>
+    <marker id="aArr" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <polygon points="0 0, 7 3.5, 0 7" fill="#E8962A"/>
+    </marker>
+    <marker id="bArr" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <polygon points="0 0, 7 3.5, 0 7" fill="#003F8A"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" class="bg"/>
+  <text x="400" y="22" class="title">TPU Systolic Array — Weight Stationary 데이터 흐름</text>
+  <text x="400" y="37" font-size="10" fill="#555555" text-anchor="middle">8×8 배열 · 클럭 사이클별 진입 지연(Skewing) 시각화</text>
+
+  <!-- 8x8 PE grid: each PE 36x28, gap 6 => step = 42. Origin at x=130, y=55 -->
+  <!-- We'll draw all 64 PEs. Color-code diagonal activation waves by t=0..3 -->
+
+  <!-- PE matrix: col 0..7 at x=130+42*col, row 0..7 at y=55+34*row -->
+  <!-- Weight values as w[r][c] abbreviated. Color indicates which cycle it gets activated -->
+  <!-- Diagonal t=n: r+c = n (conceptually). We'll highlight 4 diagonals -->
+
+  <!-- Row labels -->
+  <text x="120" y="69" class="axis-label" text-anchor="end">r0</text>
+  <text x="120" y="103" class="axis-label" text-anchor="end">r1</text>
+  <text x="120" y="137" class="axis-label" text-anchor="end">r2</text>
+  <text x="120" y="171" class="axis-label" text-anchor="end">r3</text>
+  <text x="120" y="205" class="axis-label" text-anchor="end">r4</text>
+  <text x="120" y="239" class="axis-label" text-anchor="end">r5</text>
+  <text x="120" y="273" class="axis-label" text-anchor="end">r6</text>
+  <text x="120" y="307" class="axis-label" text-anchor="end">r7</text>
+
+  <!-- Col labels -->
+  <text x="152" y="50" class="axis-label">c0</text>
+  <text x="194" y="50" class="axis-label">c1</text>
+  <text x="236" y="50" class="axis-label">c2</text>
+  <text x="278" y="50" class="axis-label">c3</text>
+  <text x="320" y="50" class="axis-label">c4</text>
+  <text x="362" y="50" class="axis-label">c5</text>
+  <text x="404" y="50" class="axis-label">c6</text>
+  <text x="446" y="50" class="axis-label">c7</text>
+
+  <!-- Draw all 64 PEs with diagonal coloring (diag = row index, t=0 at top-left diagonal) -->
+  <!-- t=0 diagonal: r=0,c=0 -->
+  <!-- t=1 diagonal: r=0,c=1 and r=1,c=0 -->
+  <!-- t=2: r=0,c=2; r=1,c=1; r=2,c=0 -->
+  <!-- t=3: r=0,c=3; r=1,c=2; r=2,c=1; r=3,c=0 -->
+
+  <!-- Row 0 -->
+  <rect x="134" y="55" width="36" height="28" rx="3" class="pe-active-t0"/><text x="152" y="69" class="w-text">w00</text>
+  <rect x="176" y="55" width="36" height="28" rx="3" class="pe-active-t1"/><text x="194" y="69" class="w-text">w01</text>
+  <rect x="218" y="55" width="36" height="28" rx="3" class="pe-active-t2"/><text x="236" y="69" class="w-text">w02</text>
+  <rect x="260" y="55" width="36" height="28" rx="3" class="pe-active-t3"/><text x="278" y="69" class="w-text-light">w03</text>
+  <rect x="302" y="55" width="36" height="28" rx="3" class="pe"/><text x="320" y="69" class="w-text">w04</text>
+  <rect x="344" y="55" width="36" height="28" rx="3" class="pe"/><text x="362" y="69" class="w-text">w05</text>
+  <rect x="386" y="55" width="36" height="28" rx="3" class="pe"/><text x="404" y="69" class="w-text">w06</text>
+  <rect x="428" y="55" width="36" height="28" rx="3" class="pe"/><text x="446" y="69" class="w-text">w07</text>
+  <!-- Row 1 -->
+  <rect x="134" y="89" width="36" height="28" rx="3" class="pe-active-t1"/><text x="152" y="103" class="w-text">w10</text>
+  <rect x="176" y="89" width="36" height="28" rx="3" class="pe-active-t2"/><text x="194" y="103" class="w-text">w11</text>
+  <rect x="218" y="89" width="36" height="28" rx="3" class="pe-active-t3"/><text x="236" y="103" class="w-text-light">w12</text>
+  <rect x="260" y="89" width="36" height="28" rx="3" class="pe"/><text x="278" y="103" class="w-text">w13</text>
+  <rect x="302" y="89" width="36" height="28" rx="3" class="pe"/><text x="320" y="103" class="w-text">w14</text>
+  <rect x="344" y="89" width="36" height="28" rx="3" class="pe"/><text x="362" y="103" class="w-text">w15</text>
+  <rect x="386" y="89" width="36" height="28" rx="3" class="pe"/><text x="404" y="103" class="w-text">w16</text>
+  <rect x="428" y="89" width="36" height="28" rx="3" class="pe"/><text x="446" y="103" class="w-text">w17</text>
+  <!-- Row 2 -->
+  <rect x="134" y="123" width="36" height="28" rx="3" class="pe-active-t2"/><text x="152" y="137" class="w-text">w20</text>
+  <rect x="176" y="123" width="36" height="28" rx="3" class="pe-active-t3"/><text x="194" y="137" class="w-text-light">w21</text>
+  <rect x="218" y="123" width="36" height="28" rx="3" class="pe"/><text x="236" y="137" class="w-text">w22</text>
+  <rect x="260" y="123" width="36" height="28" rx="3" class="pe"/><text x="278" y="137" class="w-text">w23</text>
+  <rect x="302" y="123" width="36" height="28" rx="3" class="pe"/><text x="320" y="137" class="w-text">w24</text>
+  <rect x="344" y="123" width="36" height="28" rx="3" class="pe"/><text x="362" y="137" class="w-text">w25</text>
+  <rect x="386" y="123" width="36" height="28" rx="3" class="pe"/><text x="404" y="137" class="w-text">w26</text>
+  <rect x="428" y="123" width="36" height="28" rx="3" class="pe"/><text x="446" y="137" class="w-text">w27</text>
+  <!-- Row 3 -->
+  <rect x="134" y="157" width="36" height="28" rx="3" class="pe-active-t3"/><text x="152" y="171" class="w-text-light">w30</text>
+  <rect x="176" y="157" width="36" height="28" rx="3" class="pe"/><text x="194" y="171" class="w-text">w31</text>
+  <rect x="218" y="157" width="36" height="28" rx="3" class="pe"/><text x="236" y="171" class="w-text">w32</text>
+  <rect x="260" y="157" width="36" height="28" rx="3" class="pe"/><text x="278" y="171" class="w-text">w33</text>
+  <rect x="302" y="157" width="36" height="28" rx="3" class="pe"/><text x="320" y="171" class="w-text">w34</text>
+  <rect x="344" y="157" width="36" height="28" rx="3" class="pe"/><text x="362" y="171" class="w-text">w35</text>
+  <rect x="386" y="157" width="36" height="28" rx="3" class="pe"/><text x="404" y="171" class="w-text">w36</text>
+  <rect x="428" y="157" width="36" height="28" rx="3" class="pe"/><text x="446" y="171" class="w-text">w37</text>
+  <!-- Row 4 -->
+  <rect x="134" y="191" width="36" height="28" rx="3" class="pe"/><text x="152" y="205" class="w-text">w40</text>
+  <rect x="176" y="191" width="36" height="28" rx="3" class="pe"/><text x="194" y="205" class="w-text">w41</text>
+  <rect x="218" y="191" width="36" height="28" rx="3" class="pe"/><text x="236" y="205" class="w-text">w42</text>
+  <rect x="260" y="191" width="36" height="28" rx="3" class="pe"/><text x="278" y="205" class="w-text">w43</text>
+  <rect x="302" y="191" width="36" height="28" rx="3" class="pe"/><text x="320" y="205" class="w-text">w44</text>
+  <rect x="344" y="191" width="36" height="28" rx="3" class="pe"/><text x="362" y="205" class="w-text">w45</text>
+  <rect x="386" y="191" width="36" height="28" rx="3" class="pe"/><text x="404" y="205" class="w-text">w46</text>
+  <rect x="428" y="191" width="36" height="28" rx="3" class="pe"/><text x="446" y="205" class="w-text">w47</text>
+  <!-- Row 5 -->
+  <rect x="134" y="225" width="36" height="28" rx="3" class="pe"/><text x="152" y="239" class="w-text">w50</text>
+  <rect x="176" y="225" width="36" height="28" rx="3" class="pe"/><text x="194" y="239" class="w-text">w51</text>
+  <rect x="218" y="225" width="36" height="28" rx="3" class="pe"/><text x="236" y="239" class="w-text">w52</text>
+  <rect x="260" y="225" width="36" height="28" rx="3" class="pe"/><text x="278" y="239" class="w-text">w53</text>
+  <rect x="302" y="225" width="36" height="28" rx="3" class="pe"/><text x="320" y="239" class="w-text">w54</text>
+  <rect x="344" y="225" width="36" height="28" rx="3" class="pe"/><text x="362" y="239" class="w-text">w55</text>
+  <rect x="386" y="225" width="36" height="28" rx="3" class="pe"/><text x="404" y="239" class="w-text">w56</text>
+  <rect x="428" y="225" width="36" height="28" rx="3" class="pe"/><text x="446" y="239" class="w-text">w57</text>
+  <!-- Row 6 -->
+  <rect x="134" y="259" width="36" height="28" rx="3" class="pe"/><text x="152" y="273" class="w-text">w60</text>
+  <rect x="176" y="259" width="36" height="28" rx="3" class="pe"/><text x="194" y="273" class="w-text">w61</text>
+  <rect x="218" y="259" width="36" height="28" rx="3" class="pe"/><text x="236" y="273" class="w-text">w62</text>
+  <rect x="260" y="259" width="36" height="28" rx="3" class="pe"/><text x="278" y="273" class="w-text">w63</text>
+  <rect x="302" y="259" width="36" height="28" rx="3" class="pe"/><text x="320" y="273" class="w-text">w64</text>
+  <rect x="344" y="259" width="36" height="28" rx="3" class="pe"/><text x="362" y="273" class="w-text">w65</text>
+  <rect x="386" y="259" width="36" height="28" rx="3" class="pe"/><text x="404" y="273" class="w-text">w66</text>
+  <rect x="428" y="259" width="36" height="28" rx="3" class="pe"/><text x="446" y="273" class="w-text">w67</text>
+  <!-- Row 7 -->
+  <rect x="134" y="293" width="36" height="28" rx="3" class="pe"/><text x="152" y="307" class="w-text">w70</text>
+  <rect x="176" y="293" width="36" height="28" rx="3" class="pe"/><text x="194" y="307" class="w-text">w71</text>
+  <rect x="218" y="293" width="36" height="28" rx="3" class="pe"/><text x="236" y="307" class="w-text">w72</text>
+  <rect x="260" y="293" width="36" height="28" rx="3" class="pe"/><text x="278" y="307" class="w-text">w73</text>
+  <rect x="302" y="293" width="36" height="28" rx="3" class="pe"/><text x="320" y="307" class="w-text">w74</text>
+  <rect x="344" y="293" width="36" height="28" rx="3" class="pe"/><text x="362" y="307" class="w-text">w75</text>
+  <rect x="386" y="293" width="36" height="28" rx="3" class="pe"/><text x="404" y="307" class="w-text">w76</text>
+  <rect x="428" y="293" width="36" height="28" rx="3" class="pe"/><text x="446" y="307" class="w-text">w77</text>
+
+  <!-- Input vectors from left, staggered (skewed) -->
+  <!-- Row 0: enters at t=0 (no delay) -->
+  <line x1="90" y1="69" x2="132" y2="69" stroke="#00AA6C" stroke-width="2" marker-end="url(#gArr)"/>
+  <text x="78" y="73" font-size="8" fill="#00AA6C" font-weight="700" text-anchor="middle">x₀[t=0]</text>
+  <!-- Row 1: t=1 delay -->
+  <line x1="90" y1="103" x2="132" y2="103" stroke="#00AA6C" stroke-width="1.8" stroke-dasharray="3,2" marker-end="url(#gArr)"/>
+  <text x="78" y="107" font-size="8" fill="#00AA6C" text-anchor="middle">x₁[t+1]</text>
+  <!-- Row 2: t=2 delay -->
+  <line x1="90" y1="137" x2="132" y2="137" stroke="#00AA6C" stroke-width="1.5" stroke-dasharray="2,3" marker-end="url(#gArr)"/>
+  <text x="78" y="141" font-size="8" fill="#00AA6C" text-anchor="middle">x₂[t+2]</text>
+  <!-- Row 3: t=3 delay -->
+  <line x1="90" y1="171" x2="132" y2="171" stroke="#00AA6C" stroke-width="1.5" stroke-dasharray="1,4" marker-end="url(#gArr)"/>
+  <text x="78" y="175" font-size="8" fill="#00AA6C" text-anchor="middle">x₃[t+3]</text>
+  <!-- Rows 4-7: fainter -->
+  <line x1="100" y1="205" x2="132" y2="205" stroke="#00AA6C" stroke-width="1" stroke-dasharray="1,5" opacity="0.4" marker-end="url(#gArr)"/>
+  <line x1="100" y1="239" x2="132" y2="239" stroke="#00AA6C" stroke-width="1" stroke-dasharray="1,5" opacity="0.3" marker-end="url(#gArr)"/>
+  <line x1="100" y1="273" x2="132" y2="273" stroke="#00AA6C" stroke-width="1" stroke-dasharray="1,5" opacity="0.2" marker-end="url(#gArr)"/>
+  <line x1="100" y1="307" x2="132" y2="307" stroke="#00AA6C" stroke-width="1" stroke-dasharray="1,5" opacity="0.15" marker-end="url(#gArr)"/>
+
+  <!-- Partial sum outputs bottom right (diagonal) -->
+  <line x1="152" y1="321" x2="152" y2="335" stroke="#E8962A" stroke-width="1.5" marker-end="url(#aArr)"/>
+  <line x1="194" y1="321" x2="194" y2="335" stroke="#E8962A" stroke-width="1.5" marker-end="url(#aArr)"/>
+  <line x1="236" y1="321" x2="236" y2="335" stroke="#E8962A" stroke-width="1.5" marker-end="url(#aArr)"/>
+  <line x1="278" y1="321" x2="278" y2="335" stroke="#E8962A" stroke-width="1.5" marker-end="url(#aArr)"/>
+  <line x1="320" y1="321" x2="320" y2="335" stroke="#E8962A" stroke-width="1" opacity="0.5" marker-end="url(#aArr)"/>
+  <line x1="362" y1="321" x2="362" y2="335" stroke="#E8962A" stroke-width="1" opacity="0.4" marker-end="url(#aArr)"/>
+  <line x1="404" y1="321" x2="404" y2="335" stroke="#E8962A" stroke-width="1" opacity="0.3" marker-end="url(#aArr)"/>
+  <line x1="446" y1="321" x2="446" y2="335" stroke="#E8962A" stroke-width="1" opacity="0.2" marker-end="url(#aArr)"/>
+  <text x="290" y="345" font-size="9" fill="#E8962A" font-weight="600" text-anchor="middle">출력: 부분합 (대각선 순차 완성)</text>
+
+  <!-- Animated tokens: t=0 diagonal wave -->
+  <circle r="5" fill="#2C87D8" opacity="0.9">
+    <animateMotion dur="3.2s" repeatCount="indefinite" begin="0s" calcMode="linear">
+      <mpath href="#tok0"/>
+    </animateMotion>
+  </circle>
+  <circle r="5" fill="#60A8E8" opacity="0.9">
+    <animateMotion dur="3.2s" repeatCount="indefinite" begin="0.4s" calcMode="linear">
+      <mpath href="#tok1"/>
+    </animateMotion>
+  </circle>
+  <circle r="5" fill="#93C4F0" opacity="0.9">
+    <animateMotion dur="3.2s" repeatCount="indefinite" begin="0.8s" calcMode="linear">
+      <mpath href="#tok2"/>
+    </animateMotion>
+  </circle>
+  <circle r="5" fill="#BDD4F5" opacity="0.9">
+    <animateMotion dur="3.2s" repeatCount="indefinite" begin="1.2s" calcMode="linear">
+      <mpath href="#tok3"/>
+    </animateMotion>
+  </circle>
+
+  <path id="tok0" d="M 90,69 L 466,69" fill="none" visibility="hidden"/>
+  <path id="tok1" d="M 90,103 L 466,103" fill="none" visibility="hidden"/>
+  <path id="tok2" d="M 90,137 L 466,137" fill="none" visibility="hidden"/>
+  <path id="tok3" d="M 90,171 L 466,171" fill="none" visibility="hidden"/>
+
+  <!-- Clock cycle legend on right -->
+  <rect x="500" y="55" width="285" height="200" rx="8" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1"/>
+  <text x="642" y="73" font-size="11" font-weight="700" fill="#002C5F" text-anchor="middle">클럭 사이클 진입 순서</text>
+
+  <!-- t=0 -->
+  <rect x="512" y="82" width="36" height="20" rx="3" fill="#BDD4F5" stroke="#002C5F" stroke-width="1"/>
+  <text x="530" y="96" font-size="9" fill="#002C5F" text-anchor="middle" font-weight="700">t=0</text>
+  <text x="555" y="96" font-size="9" fill="#1A1A1A">r=0, c=0 진입</text>
+  <!-- t=1 -->
+  <rect x="512" y="108" width="36" height="20" rx="3" fill="#93C4F0" stroke="#002C5F" stroke-width="1"/>
+  <text x="530" y="122" font-size="9" fill="#002C5F" text-anchor="middle" font-weight="700">t=1</text>
+  <text x="555" y="122" font-size="9" fill="#1A1A1A">r=0,c=1 / r=1,c=0</text>
+  <!-- t=2 -->
+  <rect x="512" y="134" width="36" height="20" rx="3" fill="#60A8E8" stroke="#002C5F" stroke-width="1"/>
+  <text x="530" y="148" font-size="9" fill="#FFFFFF" text-anchor="middle" font-weight="700">t=2</text>
+  <text x="555" y="148" font-size="9" fill="#1A1A1A">r=0,c=2 / r=1,c=1 / r=2,c=0</text>
+  <!-- t=3 -->
+  <rect x="512" y="160" width="36" height="20" rx="3" fill="#2C87D8" stroke="#002C5F" stroke-width="1"/>
+  <text x="530" y="174" font-size="9" fill="#FFFFFF" text-anchor="middle" font-weight="700">t=3</text>
+  <text x="555" y="174" font-size="9" fill="#1A1A1A">대각선 4개 PE 동시 활성</text>
+
+  <line x1="512" y1="192" x2="772" y2="192" stroke="#D5CFBF" stroke-width="0.8"/>
+  <text x="642" y="208" font-size="9" fill="#555555" text-anchor="middle">대각선 방향으로 활성화 전파</text>
+  <text x="642" y="222" font-size="9" fill="#555555" text-anchor="middle">최대 t = (N-1)+(N-1) = 14 사이클</text>
+  <text x="642" y="236" font-size="9" fill="#555555" text-anchor="middle">후 모든 출력 완성 (8×8 배열)</text>
+  <text x="642" y="248" font-size="9" fill="#555555" text-anchor="middle">이후 연속 파이프라인 가동</text>
+
+  <!-- Annotation boxes -->
+  <rect x="500" y="262" width="285" height="72" rx="8" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1"/>
+  <text x="510" y="278" class="annot-title">Weight Stationary: 가중치는 각 PE에 고정</text>
+  <text x="510" y="292" font-size="8" fill="#555555">  각 PE는 하나의 가중치 w[r][c]를 저장하고 재사용</text>
+  <text x="510" y="305" class="annot-title">입력 벡터: 행마다 1사이클 지연 후 진입 (Skewing)</text>
+  <text x="510" y="319" font-size="8" fill="#555555">  행 r은 t=r 사이클에 배열에 진입 → 타이밍 동기화</text>
+  <text x="510" y="332" class="annot-title">출력: 대각선 방향으로 순차 완성</text>
+
+  <!-- Bottom bar -->
+  <rect x="28" y="362" width="744" height="30" rx="7" fill="#002C5F"/>
+  <text x="400" y="381" font-size="11" fill="#FFFFFF" text-anchor="middle" font-weight="600">Google TPU의 핵심 — 메모리 접근 없이 행렬곱 완성 · 65,536 MAC/사이클 (256×256 배열)</text>
+</svg>

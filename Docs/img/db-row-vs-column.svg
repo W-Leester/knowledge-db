@@ -1,0 +1,120 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .section-title { font-size: 12.5px; font-weight: 700; fill: #002C5F; }
+    .small { font-size: 9.5px; fill: #555555; }
+    .cell { font-size: 8.5px; fill: #1A1A1A; }
+    .mono { font-family: 'Consolas', 'Courier New', monospace; }
+  </style>
+
+  <rect width="800" height="450" fill="#F2EDE4"/>
+  <text x="400" y="26" text-anchor="middle" class="title">행 저장 vs 열 저장 — OLTP와 OLAP이 갈라지는 지점</text>
+
+  <!-- source table (top center) -->
+  <text x="400" y="52" text-anchor="middle" font-size="11" fill="#555555">논리적 테이블 (주식 체결 데이터)</text>
+  <g>
+    <rect x="255" y="60" width="72" height="20" fill="#002C5F"/>
+    <rect x="327" y="60" width="72" height="20" fill="#002C5F"/>
+    <rect x="399" y="60" width="72" height="20" fill="#002C5F"/>
+    <rect x="471" y="60" width="72" height="20" fill="#002C5F"/>
+    <text x="291" y="74" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">시간</text>
+    <text x="363" y="74" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">종목</text>
+    <text x="435" y="74" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">가격</text>
+    <text x="507" y="74" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">수량</text>
+
+    <rect x="255" y="80" width="72" height="18" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="327" y="80" width="72" height="18" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="399" y="80" width="72" height="18" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="471" y="80" width="72" height="18" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <text x="291" y="93" text-anchor="middle" class="cell">09:00</text>
+    <text x="363" y="93" text-anchor="middle" class="cell">삼성전자</text>
+    <text x="435" y="93" text-anchor="middle" class="cell">71,000</text>
+    <text x="507" y="93" text-anchor="middle" class="cell">120</text>
+
+    <rect x="255" y="98" width="72" height="18" fill="#FAF7F2" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="327" y="98" width="72" height="18" fill="#FAF7F2" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="399" y="98" width="72" height="18" fill="#FAF7F2" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="471" y="98" width="72" height="18" fill="#FAF7F2" stroke="#D5CFBF" stroke-width="0.5"/>
+    <text x="291" y="111" text-anchor="middle" class="cell">09:01</text>
+    <text x="363" y="111" text-anchor="middle" class="cell">SK하이닉스</text>
+    <text x="435" y="111" text-anchor="middle" class="cell">183,000</text>
+    <text x="507" y="111" text-anchor="middle" class="cell">80</text>
+
+    <rect x="255" y="116" width="72" height="18" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="327" y="116" width="72" height="18" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="399" y="116" width="72" height="18" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="471" y="116" width="72" height="18" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <text x="291" y="129" text-anchor="middle" class="cell">09:02</text>
+    <text x="363" y="129" text-anchor="middle" class="cell">삼성전자</text>
+    <text x="435" y="129" text-anchor="middle" class="cell">71,100</text>
+    <text x="507" y="129" text-anchor="middle" class="cell">200</text>
+  </g>
+
+  <!-- arrows down to both sides -->
+  <path d="M 300 145 Q 240 165 205 185" fill="none" stroke="#003F8A" stroke-width="2"/>
+  <polygon points="205,185 215,181 212,190" fill="#003F8A"/>
+  <path d="M 500 145 Q 560 165 595 185" fill="none" stroke="#00AA6C" stroke-width="2"/>
+  <polygon points="595,185 585,181 588,190" fill="#00AA6C"/>
+
+  <!-- ===== LEFT: Row store ===== -->
+  <rect x="30" y="195" width="360" height="200" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="210" y="218" text-anchor="middle" class="section-title">행(Row) 저장 — OLTP · 거래 처리</text>
+  <text x="210" y="234" text-anchor="middle" class="small">MySQL · PostgreSQL · Oracle</text>
+
+  <!-- disk layout: rows contiguous -->
+  <text x="48" y="256" font-size="9.5" fill="#555555" font-weight="700">디스크 배치: 한 행이 통째로 붙어있음</text>
+  <g font-size="8">
+    <rect x="48" y="264" width="46" height="20" fill="#E8EEF7" stroke="#5B8DD9" stroke-width="0.8"/>
+    <text x="71" y="277" text-anchor="middle" fill="#002C5F">09:00</text>
+    <rect x="94" y="264" width="52" height="20" fill="#E8EEF7" stroke="#5B8DD9" stroke-width="0.8"/>
+    <text x="120" y="277" text-anchor="middle" fill="#002C5F">삼성전자</text>
+    <rect x="146" y="264" width="46" height="20" fill="#E8EEF7" stroke="#5B8DD9" stroke-width="0.8"/>
+    <text x="169" y="277" text-anchor="middle" fill="#002C5F">71,000</text>
+    <rect x="192" y="264" width="34" height="20" fill="#E8EEF7" stroke="#5B8DD9" stroke-width="0.8"/>
+    <text x="209" y="277" text-anchor="middle" fill="#002C5F">120</text>
+
+    <rect x="226" y="264" width="46" height="20" fill="#FAF7F2" stroke="#B5AFA5" stroke-width="0.8"/>
+    <text x="249" y="277" text-anchor="middle" fill="#555">09:01</text>
+    <rect x="272" y="264" width="56" height="20" fill="#FAF7F2" stroke="#B5AFA5" stroke-width="0.8"/>
+    <text x="300" y="277" text-anchor="middle" fill="#555">SK하이닉스</text>
+    <rect x="328" y="264" width="46" height="20" fill="#FAF7F2" stroke="#B5AFA5" stroke-width="0.8"/>
+    <text x="351" y="277" text-anchor="middle" fill="#555">183,000</text>
+  </g>
+  <text x="48" y="302" font-size="8.5" fill="#8A8A8A">[행1 전체][행2 전체][행3 전체] ... 순서로 저장</text>
+
+  <rect x="48" y="314" width="324" height="30" fill="#E8EEF7" rx="4"/>
+  <text x="210" y="327" text-anchor="middle" font-size="9.5" fill="#002C5F" font-weight="700">"주문 1건 삽입/수정/조회" → 그 행만 한 번에 읽고 씀 ✓</text>
+  <text x="210" y="339" text-anchor="middle" font-size="9" fill="#555555">INSERT INTO orders ... / SELECT * WHERE id=1001</text>
+
+  <rect x="48" y="352" width="324" height="30" fill="#FEE2E2" rx="4"/>
+  <text x="210" y="365" text-anchor="middle" font-size="9.5" fill="#DC2626" font-weight="700">"가격 컬럼 전체 평균" → 필요 없는 컬럼까지 전부 읽음 ✗</text>
+  <text x="210" y="377" text-anchor="middle" font-size="9" fill="#555555">1년치 분석 시 디스크 I/O 낭비 극심</text>
+
+  <!-- ===== RIGHT: Column store ===== -->
+  <rect x="410" y="195" width="360" height="200" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
+  <text x="590" y="218" text-anchor="middle" class="section-title">열(Column) 저장 — OLAP · 분석</text>
+  <text x="590" y="234" text-anchor="middle" class="small">ClickHouse · DuckDB · BigQuery · Parquet</text>
+
+  <text x="428" y="256" font-size="9.5" fill="#555555" font-weight="700">디스크 배치: 같은 컬럼끼리 붙어있음</text>
+  <g font-size="8">
+    <rect x="428" y="264" width="100" height="20" fill="#E6F7F1" stroke="#00AA6C" stroke-width="0.8"/>
+    <text x="478" y="277" text-anchor="middle" fill="#065F46">09:00|09:01|09:02</text>
+    <rect x="532" y="264" width="110" height="20" fill="#FEF3E2" stroke="#E8962A" stroke-width="0.8"/>
+    <text x="587" y="277" text-anchor="middle" fill="#B45309">삼성|SK|삼성...</text>
+    <rect x="646" y="264" width="108" height="20" fill="#E8EEF7" stroke="#5B8DD9" stroke-width="0.8"/>
+    <text x="700" y="277" text-anchor="middle" fill="#002C5F">71000|183000|71100</text>
+  </g>
+  <text x="428" y="302" font-size="8.5" fill="#8A8A8A">[시간 컬럼 전체][종목 컬럼 전체][가격 컬럼 전체] ...</text>
+
+  <rect x="428" y="314" width="324" height="30" fill="#E6F7F1" rx="4"/>
+  <text x="590" y="327" text-anchor="middle" font-size="9.5" fill="#065F46" font-weight="700">"AVG(가격)" → 가격 컬럼 블록만 읽음 (I/O 1/N) ✓</text>
+  <text x="590" y="339" text-anchor="middle" font-size="9" fill="#555555">같은 타입이 모여있어 압축률 5~20배 ↑ → 더 적게 읽음</text>
+
+  <rect x="428" y="352" width="324" height="30" fill="#FEE2E2" rx="4"/>
+  <text x="590" y="365" text-anchor="middle" font-size="9.5" fill="#DC2626" font-weight="700">"행 1건 수정" → 여러 컬럼 블록을 재작성해야 함 ✗</text>
+  <text x="590" y="377" text-anchor="middle" font-size="9" fill="#555555">건별 갱신이 잦은 거래 처리에는 부적합</text>
+
+  <!-- bottom -->
+  <rect x="30" y="408" width="740" height="32" fill="#002C5F" rx="6"/>
+  <text x="400" y="429" text-anchor="middle" font-size="11.5" fill="#FFFFFF" font-weight="700">실무 공식: 운영(주문·결제)은 행 저장 DB에, 분석(리포트·백테스트)은 열 저장 DB에 — 두 세계를 분리하라</text>
+</svg>

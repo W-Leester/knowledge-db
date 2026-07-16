@@ -1,0 +1,222 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#E8962A"/>
+    </marker>
+    <marker id="arrowhead-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#002C5F"/>
+    </marker>
+    <marker id="arrowhead-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#00AA6C"/>
+    </marker>
+    <filter id="highlight-glow">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="#F2EDE4"/>
+
+  <!-- Title -->
+  <text x="400" y="25" text-anchor="middle" font-size="15" font-weight="700" fill="#002C5F">AMX Tile: 2D 행렬 연산을 CPU에서 직접 처리</text>
+  <text x="400" y="43" text-anchor="middle" font-size="10" fill="#555555">Intel Sapphire Rapids (2023)부터 지원  ·  최대 8개 Tile 레지스터 (각 1KB)</text>
+
+  <!-- ===== MATRIX A: 16 rows × 8 cols shown (representing 16×64) ===== -->
+  <!-- Position: x=30, y=65 -->
+  <!-- Each cell: 14w × 12h -->
+  <!-- Show 16 rows × 8 cols (abbreviated from 64 cols) -->
+
+  <text x="142" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="#002C5F">Tile A  (16 × 64, BF16)</text>
+
+  <!-- Matrix A grid: 8 cols × 16 rows = 128 cells shown, label says ×8 for brevity -->
+  <!-- Cols 0-7 shown (of 64), indicate truncation -->
+  <!-- Cell size 14×11, gap 1 -->
+  <!-- x start=30, y start=68 -->
+
+  <!-- Row highlight animation for A -->
+  <g id="a-highlight-row">
+    <rect x="30" y="68" width="126" height="11" fill="#5588CC" opacity="0.5" id="a-row-hi">
+      <animate attributeName="y" values="68;68;68;80;80;80;92;92;92;104;104;104;116;116;116;128;128;128;140;140;140;152;152;152;164;164;164;176;176;176;188;188;188;200;200;200;212;212;212;224;224;224;236;236;236;248;248;248;260;260;260;272;272;272" dur="4s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <!-- A grid cells (8 cols × 16 rows) -->
+  <!-- Row 0 -->
+  <rect x="30" y="68" width="13" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.9"/>
+  <rect x="44" y="68" width="13" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.85"/>
+  <rect x="58" y="68" width="13" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5" opacity="0.8"/>
+  <rect x="72" y="68" width="13" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5" opacity="0.75"/>
+  <rect x="86" y="68" width="13" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.9"/>
+  <rect x="100" y="68" width="13" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5" opacity="0.85"/>
+  <rect x="114" y="68" width="13" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.8"/>
+  <rect x="128" y="68" width="13" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5" opacity="0.75"/>
+  <!-- Row 1 -->
+  <rect x="30" y="80" width="13" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5" opacity="0.9"/>
+  <rect x="44" y="80" width="13" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.85"/>
+  <rect x="58" y="80" width="13" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5" opacity="0.8"/>
+  <rect x="72" y="80" width="13" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.75"/>
+  <rect x="86" y="80" width="13" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.9"/>
+  <rect x="100" y="80" width="13" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5" opacity="0.85"/>
+  <rect x="114" y="80" width="13" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.8"/>
+  <rect x="128" y="80" width="13" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.75"/>
+  <!-- Row 2 -->
+  <rect x="30" y="92" width="13" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5"/>
+  <rect x="44" y="92" width="13" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5"/>
+  <rect x="58" y="92" width="13" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5"/>
+  <rect x="72" y="92" width="13" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5"/>
+  <rect x="86" y="92" width="13" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5"/>
+  <rect x="100" y="92" width="13" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5"/>
+  <rect x="114" y="92" width="13" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5"/>
+  <rect x="128" y="92" width="13" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5"/>
+  <!-- Rows 3-15: abbreviated with fill -->
+  <rect x="30" y="104" width="112" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.7"/>
+  <rect x="30" y="116" width="112" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5" opacity="0.7"/>
+  <rect x="30" y="128" width="112" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.65"/>
+  <rect x="30" y="140" width="112" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5" opacity="0.65"/>
+  <rect x="30" y="152" width="112" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.6"/>
+  <rect x="30" y="164" width="112" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5" opacity="0.6"/>
+  <rect x="30" y="176" width="112" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.55"/>
+  <rect x="30" y="188" width="112" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5" opacity="0.55"/>
+  <rect x="30" y="200" width="112" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.5"/>
+  <rect x="30" y="212" width="112" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5" opacity="0.5"/>
+  <rect x="30" y="224" width="112" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.45"/>
+  <rect x="30" y="236" width="112" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5" opacity="0.45"/>
+  <rect x="30" y="248" width="112" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.4"/>
+  <rect x="30" y="260" width="112" height="11" fill="#003F8A" stroke="#001A3A" stroke-width="0.5" opacity="0.4"/>
+  <rect x="30" y="272" width="112" height="11" fill="#002C5F" stroke="#001A3A" stroke-width="0.5" opacity="0.35"/>
+
+  <!-- Truncation indicator -->
+  <text x="148" y="180" font-size="16" fill="#002C5F" font-weight="700">···</text>
+  <text x="30" y="298" font-size="9" fill="#555555">16 rows</text>
+  <text x="80" y="298" font-size="9" fill="#555555">(64 cols →)</text>
+
+  <!-- Dimension labels for A -->
+  <text x="30" y="310" font-size="8" fill="#002C5F">M=16</text>
+  <text x="30" y="321" font-size="8" fill="#002C5F">K=64</text>
+
+  <!-- ===== OPERATOR × ===== -->
+  <text x="185" y="185" text-anchor="middle" font-size="28" font-weight="700" fill="#1A1A1A">×</text>
+
+  <!-- ===== MATRIX B: 8 rows × 16 cols shown (representing 64×16) ===== -->
+  <text x="310" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="#00AA6C">Tile B  (64 × 16, BF16)</text>
+
+  <!-- Column highlight animation for B -->
+  <g id="b-highlight-col">
+    <rect x="204" y="68" width="13" height="216" fill="#44CC88" opacity="0.4" id="b-col-hi">
+      <animate attributeName="x" values="204;204;204;218;218;218;232;232;232;246;246;246;260;260;260;274;274;274;288;288;288;302;302;302;316;316;316;330;330;330;344;344;344;358;358;358;372;372;372;386;386;386;400;400;400;204;204;204" dur="4s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <!-- B grid (16 cols × 8 rows shown, representing 64 rows) -->
+  <!-- Col 0 -->
+  <rect x="204" y="68" width="13" height="11" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.9"/>
+  <rect x="204" y="80" width="13" height="11" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.85"/>
+  <rect x="204" y="92" width="13" height="11" fill="#009960" stroke="#005533" stroke-width="0.5" opacity="0.8"/>
+  <rect x="204" y="104" width="13" height="11" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.75"/>
+  <rect x="204" y="116" width="13" height="11" fill="#009960" stroke="#005533" stroke-width="0.5" opacity="0.7"/>
+  <rect x="204" y="128" width="13" height="11" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.65"/>
+  <rect x="204" y="140" width="13" height="11" fill="#009960" stroke="#005533" stroke-width="0.5" opacity="0.6"/>
+  <rect x="204" y="152" width="13" height="11" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.55"/>
+
+  <!-- Cols 1-15 (abbreviated) -->
+  <rect x="218" y="68" width="13" height="96" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.85"/>
+  <rect x="232" y="68" width="13" height="96" fill="#009960" stroke="#005533" stroke-width="0.5" opacity="0.8"/>
+  <rect x="246" y="68" width="13" height="96" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.75"/>
+  <rect x="260" y="68" width="13" height="96" fill="#009960" stroke="#005533" stroke-width="0.5" opacity="0.7"/>
+  <rect x="274" y="68" width="13" height="96" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.65"/>
+  <rect x="288" y="68" width="13" height="96" fill="#009960" stroke="#005533" stroke-width="0.5" opacity="0.6"/>
+  <rect x="302" y="68" width="13" height="96" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.55"/>
+  <rect x="316" y="68" width="13" height="96" fill="#009960" stroke="#005533" stroke-width="0.5" opacity="0.5"/>
+  <rect x="330" y="68" width="13" height="96" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.45"/>
+  <rect x="344" y="68" width="13" height="96" fill="#009960" stroke="#005533" stroke-width="0.5" opacity="0.4"/>
+  <rect x="358" y="68" width="13" height="96" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.35"/>
+  <rect x="372" y="68" width="13" height="96" fill="#009960" stroke="#005533" stroke-width="0.5" opacity="0.3"/>
+  <rect x="386" y="68" width="13" height="96" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.25"/>
+  <rect x="400" y="68" width="13" height="96" fill="#009960" stroke="#005533" stroke-width="0.5" opacity="0.2"/>
+  <rect x="414" y="68" width="13" height="96" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.15"/>
+
+  <!-- Rows continue (truncation) -->
+  <text x="310" y="180" text-anchor="middle" font-size="16" fill="#00AA6C" font-weight="700">⋮</text>
+  <text x="204" y="298" font-size="9" fill="#555555">(64 rows ↓)</text>
+  <text x="280" y="298" font-size="9" fill="#555555">16 cols</text>
+  <text x="204" y="310" font-size="8" fill="#00AA6C">K=64</text>
+  <text x="204" y="321" font-size="8" fill="#00AA6C">N=16</text>
+
+  <!-- ===== OPERATOR = ===== -->
+  <text x="452" y="185" text-anchor="middle" font-size="28" font-weight="700" fill="#1A1A1A">=</text>
+
+  <!-- ===== MATRIX C: 16×16 result ===== -->
+  <text x="584" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="#E8962A">Tile C  (16 × 16, FP32)</text>
+
+  <!-- C grid 16×16, each cell 16×16 -->
+  <!-- x start=474, y start=68, cell=16+1=17 -->
+
+  <!-- Generate 16×16 grid for C with orange tones -->
+  <!-- Row 0-15, Col 0-15 -->
+  <!-- Using a simpler approach with rows of rects -->
+  <!-- Row 0 -->
+  <rect x="474" y="68" width="15" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="490" y="68" width="15" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="506" y="68" width="15" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="522" y="68" width="15" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="538" y="68" width="15" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="554" y="68" width="15" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="570" y="68" width="15" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="586" y="68" width="15" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="602" y="68" width="15" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="618" y="68" width="15" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="634" y="68" width="15" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="650" y="68" width="15" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="666" y="68" width="15" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="682" y="68" width="15" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="698" y="68" width="15" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5"/>
+  <rect x="714" y="68" width="15" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5"/>
+
+  <!-- Rows 1-15 of C (with varying alpha to create depth) -->
+  <rect x="474" y="84" width="256" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5" opacity="0.9"/>
+  <rect x="474" y="100" width="256" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5" opacity="0.85"/>
+  <rect x="474" y="116" width="256" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5" opacity="0.8"/>
+  <rect x="474" y="132" width="256" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5" opacity="0.75"/>
+  <rect x="474" y="148" width="256" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5" opacity="0.7"/>
+  <rect x="474" y="164" width="256" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5" opacity="0.65"/>
+  <rect x="474" y="180" width="256" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5" opacity="0.6"/>
+  <rect x="474" y="196" width="256" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5" opacity="0.55"/>
+  <rect x="474" y="212" width="256" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5" opacity="0.5"/>
+  <rect x="474" y="228" width="256" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5" opacity="0.45"/>
+  <rect x="474" y="244" width="256" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5" opacity="0.4"/>
+  <rect x="474" y="260" width="256" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5" opacity="0.35"/>
+  <rect x="474" y="276" width="256" height="15" fill="#E8962A" stroke="#CC7700" stroke-width="0.5" opacity="0.3"/>
+  <rect x="474" y="292" width="256" height="15" fill="#F5C070" stroke="#CC7700" stroke-width="0.5" opacity="0.25"/>
+
+  <!-- Animated result cell highlight -->
+  <rect id="c-cell-anim" x="474" y="68" width="15" height="15" fill="#FFFFFF" opacity="0.7">
+    <animate attributeName="x" values="474;490;506;522;538;554;570;586;602;618;634;650;666;682;698;714;474" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="y" values="68;68;84;84;100;100;116;116;132;132;148;148;164;164;180;180;68" dur="4s" repeatCount="indefinite"/>
+  </rect>
+
+  <text x="474" y="323" font-size="8" fill="#CC7700">M=16, N=16</text>
+
+  <!-- C dimension labels -->
+  <text x="606" y="298" font-size="9" fill="#CC7700">16 × 16</text>
+  <text x="606" y="310" font-size="9" fill="#CC7700">FP32 result</text>
+
+  <!-- === OPERATION FORMULA === -->
+  <rect x="20" y="335" width="760" height="45" rx="6" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1.5"/>
+  <text x="400" y="353" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">TDPBF16PS  tmm0, tmm1, tmm2  (AMX 명령어)</text>
+  <text x="400" y="370" text-anchor="middle" font-size="10" fill="#555555">C[i,j] += Σ A[i,k] × B[k,j]  for k=0..63  →  16×16 = 256 FP32 결과를 한 번에 계산</text>
+
+  <!-- AMX vs FMA comparison -->
+  <rect x="20" y="390" width="370" height="48" rx="5" fill="#E8EEF7" stroke="#002C5F" stroke-width="1"/>
+  <text x="205" y="406" text-anchor="middle" font-size="9" font-weight="700" fill="#002C5F">기존 AVX-512 FMA (Before AMX)</text>
+  <text x="205" y="420" text-anchor="middle" font-size="9" fill="#555555">zmm 레지스터 16개 × 16 FP32 = 256 FLOP</text>
+  <text x="205" y="433" text-anchor="middle" font-size="9" fill="#555555">여러 루프 반복 필요, 레지스터 pressure 높음</text>
+
+  <rect x="410" y="390" width="370" height="48" rx="5" fill="#E8F8F1" stroke="#00AA6C" stroke-width="1"/>
+  <text x="595" y="406" text-anchor="middle" font-size="9" font-weight="700" fill="#00AA6C">AMX TDPBF16PS (After AMX)</text>
+  <text x="595" y="420" text-anchor="middle" font-size="9" fill="#555555">단일 명령어로 16×64×16 = 16,384 MAC</text>
+  <text x="595" y="433" text-anchor="middle" font-size="9" fill="#006644">AI 추론 처리량 최대 8× 향상</text>
+</svg>

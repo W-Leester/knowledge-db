@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#002C5F">
+<title>Knowledge DB — 내 지식 문서함</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --border: #D5CFBF;
+  --green: #00AA6C;
+  --amber: #E8962A;
+  --purple: #6B21A8;
+  --radius-md: 14px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.12);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-tap-highlight-color: transparent;
+}
+
+header {
+  background: linear-gradient(135deg, var(--navy-900), var(--navy-700));
+  color: #fff;
+  padding: 44px 22px 36px;
+  border-radius: 0 0 24px 24px;
+  position: relative;
+  overflow: hidden;
+}
+header .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: 6px; }
+header h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+header p { font-size: 13.5px; color: rgba(255,255,255,.72); max-width: 560px; }
+header .wave { position: absolute; right: -40px; bottom: -50px; opacity: .15; pointer-events: none; }
+
+main { max-width: 760px; margin: 0 auto; padding: 24px 16px 60px; }
+
+.group-label {
+  font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--text-muted); margin: 26px 4px 10px;
+}
+.group-label:first-child { margin-top: 4px; }
+
+a.doc-card {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  margin-bottom: 12px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-sm);
+  transition: transform .18s, box-shadow .18s;
+}
+a.doc-card:active { transform: scale(.985); }
+@media (hover:hover) {
+  a.doc-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+}
+.doc-icon {
+  width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; color: #fff;
+}
+.doc-body { flex: 1; min-width: 0; }
+.doc-body h2 { font-size: 15.5px; font-weight: 700; color: var(--navy-900); margin-bottom: 3px; }
+.doc-body p { font-size: 12.5px; color: var(--text-secondary); }
+.doc-meta { display: flex; gap: 6px; margin-top: 7px; flex-wrap: wrap; }
+.chip {
+  font-size: 10.5px; font-weight: 600; padding: 2px 9px; border-radius: 100px;
+  background: var(--navy-100); color: var(--navy-900);
+  font-family: 'JetBrains Mono', monospace;
+}
+.arrow { color: var(--text-muted); flex-shrink: 0; }
+
+footer { text-align: center; font-size: 11.5px; color: var(--text-muted); padding: 10px 16px 40px; }
+</style>
+</head>
+<body>
+
+<header>
+  <svg class="wave" width="360" height="280" viewBox="0 0 360 280"><path d="M0,140 C70,90 140,190 210,140 C280,90 320,120 360,110 L360,280 L0,280 Z" fill="#fff"/><path d="M0,185 C85,130 155,230 240,175 C300,135 330,160 360,152 L360,280 L0,280 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Knowledge DB</div>
+  <h1>내 지식 문서함</h1>
+  <p>공부한 내용을 인터랙티브 HTML 문서로 정리하는 개인 지식 베이스.
+  폰에서는 브라우저 메뉴의 "홈 화면에 추가"로 앱처럼 쓸 수 있다.</p>
+</header>
+
+<main>
+  <div class="group-label">Software · Data</div>
+
+  <a class="doc-card" href="database-systems.html">
+    <div class="doc-icon" style="background:linear-gradient(135deg,#002C5F,#1A5CB5)">🗄</div>
+    <div class="doc-body">
+      <h2>데이터베이스 완전 정리</h2>
+      <p>SQL·NoSQL·NewSQL부터 스토리지(S3·CDN)와 Supabase까지</p>
+      <div class="doc-meta">
+        <span class="chip">RDBMS</span><span class="chip">NoSQL</span><span class="chip">S3·CDN</span><span class="chip">Supabase</span>
+      </div>
+    </div>
+    <svg class="arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7,4 12,9 7,14"/></svg>
+  </a>
+
+  <div class="group-label">AI Hardware</div>
+
+  <a class="doc-card" href="ai-hw-processors.html">
+    <div class="doc-icon" style="background:linear-gradient(135deg,#003F8A,#00AA6C)">⚙️</div>
+    <div class="doc-body">
+      <h2>AI 하드웨어 — 프로세서</h2>
+      <p>CPU · GPU · NPU · TPU 아키텍처 완전 분해</p>
+      <div class="doc-meta">
+        <span class="chip">CPU</span><span class="chip">GPU</span><span class="chip">NPU</span><span class="chip">TPU</span>
+      </div>
+    </div>
+    <svg class="arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7,4 12,9 7,14"/></svg>
+  </a>
+
+  <a class="doc-card" href="ai-hw-memory.html">
+    <div class="doc-icon" style="background:linear-gradient(135deg,#1A5CB5,#6B21A8)">🧠</div>
+    <div class="doc-body">
+      <h2>AI 하드웨어 — 메모리</h2>
+      <p>DDR · LPDDR · GDDR · HBM, 그리고 KV-Cache</p>
+      <div class="doc-meta">
+        <span class="chip">DDR5</span><span class="chip">HBM3e</span><span class="chip">KV-Cache</span>
+      </div>
+    </div>
+    <svg class="arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7,4 12,9 7,14"/></svg>
+  </a>
+
+  <div class="group-label">Design</div>
+
+  <a class="doc-card" href="design-system.html">
+    <div class="doc-icon" style="background:linear-gradient(135deg,#E8962A,#DC2626)">🎨</div>
+    <div class="doc-body">
+      <h2>디자인 시스템 v1.0</h2>
+      <p>문서들이 공유하는 Hyundai-inspired 디자인 토큰·컴포넌트</p>
+      <div class="doc-meta">
+        <span class="chip">Colors</span><span class="chip">Typography</span><span class="chip">Components</span>
+      </div>
+    </div>
+    <svg class="arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7,4 12,9 7,14"/></svg>
+  </a>
+</main>
+
+<footer>Knowledge DB · Hyundai-Inspired Design System v1.0</footer>
+
+</body>
+</html>

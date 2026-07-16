@@ -1,0 +1,369 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 13px; font-weight: 700; fill: #1A1A1A; }
+    .subtitle { font-size: 10px; fill: #555555; }
+    .label { font-size: 11px; fill: #1A1A1A; }
+    .small { font-size: 9px; fill: #555555; }
+    .core-label { font-size: 8px; fill: #FFFFFF; font-weight: 600; }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="#F2EDE4"/>
+
+  <!-- Divider line -->
+  <line x1="400" y1="0" x2="400" y2="450" stroke="#D5CFBF" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- ===== LEFT: CPU ===== -->
+  <text x="200" y="32" text-anchor="middle" class="title">CPU</text>
+  <text x="200" y="50" text-anchor="middle" class="subtitle">소수의 강력한 코어 (4~64개)</text>
+
+  <!-- CPU chip outline -->
+  <rect x="60" y="65" width="280" height="320" rx="8" fill="#FFFFFF" stroke="#002C5F" stroke-width="2"/>
+  <!-- Chip label -->
+  <text x="200" y="82" text-anchor="middle" font-size="9" fill="#002C5F" font-weight="700">CPU DIE</text>
+
+  <!-- 4 large CPU cores in 2×2 grid -->
+  <!-- Core 0 (top-left) -->
+  <g transform="translate(80, 95)">
+    <rect width="110" height="120" rx="6" fill="#002C5F" stroke="#001A3A" stroke-width="1.5"/>
+    <text x="55" y="16" text-anchor="middle" class="core-label">CORE 0</text>
+    <!-- ALU -->
+    <rect x="10" y="22" width="40" height="22" rx="3" fill="#003F8A"/>
+    <text x="30" y="37" text-anchor="middle" font-size="7" fill="#FFFFFF">ALU</text>
+    <!-- Control Unit -->
+    <rect x="60" y="22" width="40" height="22" rx="3" fill="#003F8A"/>
+    <text x="80" y="37" text-anchor="middle" font-size="7" fill="#FFFFFF">CTRL</text>
+    <!-- L1 Cache -->
+    <rect x="10" y="52" width="90" height="16" rx="3" fill="#E8EEF7" stroke="#002C5F" stroke-width="0.8"/>
+    <text x="55" y="63" text-anchor="middle" font-size="7" fill="#002C5F" font-weight="600">L1 Cache  32KB</text>
+    <!-- L2 Cache -->
+    <rect x="10" y="72" width="90" height="16" rx="3" fill="#D0DCF0" stroke="#002C5F" stroke-width="0.8"/>
+    <text x="55" y="83" text-anchor="middle" font-size="7" fill="#002C5F" font-weight="600">L2 Cache  256KB</text>
+    <!-- Branch predictor -->
+    <rect x="10" y="92" width="90" height="16" rx="3" fill="#C0CCE8" stroke="#002C5F" stroke-width="0.8"/>
+    <text x="55" y="103" text-anchor="middle" font-size="7" fill="#002C5F" font-weight="600">Branch Predictor</text>
+  </g>
+
+  <!-- Core 1 (top-right) -->
+  <g transform="translate(200, 95)">
+    <rect width="110" height="120" rx="6" fill="#002C5F" stroke="#001A3A" stroke-width="1.5"/>
+    <text x="55" y="16" text-anchor="middle" class="core-label">CORE 1</text>
+    <rect x="10" y="22" width="40" height="22" rx="3" fill="#003F8A"/>
+    <text x="30" y="37" text-anchor="middle" font-size="7" fill="#FFFFFF">ALU</text>
+    <rect x="60" y="22" width="40" height="22" rx="3" fill="#003F8A"/>
+    <text x="80" y="37" text-anchor="middle" font-size="7" fill="#FFFFFF">CTRL</text>
+    <rect x="10" y="52" width="90" height="16" rx="3" fill="#E8EEF7" stroke="#002C5F" stroke-width="0.8"/>
+    <text x="55" y="63" text-anchor="middle" font-size="7" fill="#002C5F" font-weight="600">L1 Cache  32KB</text>
+    <rect x="10" y="72" width="90" height="16" rx="3" fill="#D0DCF0" stroke="#002C5F" stroke-width="0.8"/>
+    <text x="55" y="83" text-anchor="middle" font-size="7" fill="#002C5F" font-weight="600">L2 Cache  256KB</text>
+    <rect x="10" y="92" width="90" height="16" rx="3" fill="#C0CCE8" stroke="#002C5F" stroke-width="0.8"/>
+    <text x="55" y="103" text-anchor="middle" font-size="7" fill="#002C5F" font-weight="600">Branch Predictor</text>
+  </g>
+
+  <!-- Core 2 (bottom-left) -->
+  <g transform="translate(80, 230)">
+    <rect width="110" height="120" rx="6" fill="#002C5F" stroke="#001A3A" stroke-width="1.5"/>
+    <text x="55" y="16" text-anchor="middle" class="core-label">CORE 2</text>
+    <rect x="10" y="22" width="40" height="22" rx="3" fill="#003F8A"/>
+    <text x="30" y="37" text-anchor="middle" font-size="7" fill="#FFFFFF">ALU</text>
+    <rect x="60" y="22" width="40" height="22" rx="3" fill="#003F8A"/>
+    <text x="80" y="37" text-anchor="middle" font-size="7" fill="#FFFFFF">CTRL</text>
+    <rect x="10" y="52" width="90" height="16" rx="3" fill="#E8EEF7" stroke="#002C5F" stroke-width="0.8"/>
+    <text x="55" y="63" text-anchor="middle" font-size="7" fill="#002C5F" font-weight="600">L1 Cache  32KB</text>
+    <rect x="10" y="72" width="90" height="16" rx="3" fill="#D0DCF0" stroke="#002C5F" stroke-width="0.8"/>
+    <text x="55" y="83" text-anchor="middle" font-size="7" fill="#002C5F" font-weight="600">L2 Cache  256KB</text>
+    <rect x="10" y="92" width="90" height="16" rx="3" fill="#C0CCE8" stroke="#002C5F" stroke-width="0.8"/>
+    <text x="55" y="103" text-anchor="middle" font-size="7" fill="#002C5F" font-weight="600">Branch Predictor</text>
+  </g>
+
+  <!-- Core 3 (bottom-right) -->
+  <g transform="translate(200, 230)">
+    <rect width="110" height="120" rx="6" fill="#002C5F" stroke="#001A3A" stroke-width="1.5"/>
+    <text x="55" y="16" text-anchor="middle" class="core-label">CORE 3</text>
+    <rect x="10" y="22" width="40" height="22" rx="3" fill="#003F8A"/>
+    <text x="30" y="37" text-anchor="middle" font-size="7" fill="#FFFFFF">ALU</text>
+    <rect x="60" y="22" width="40" height="22" rx="3" fill="#003F8A"/>
+    <text x="80" y="37" text-anchor="middle" font-size="7" fill="#FFFFFF">CTRL</text>
+    <rect x="10" y="52" width="90" height="16" rx="3" fill="#E8EEF7" stroke="#002C5F" stroke-width="0.8"/>
+    <text x="55" y="63" text-anchor="middle" font-size="7" fill="#002C5F" font-weight="600">L1 Cache  32KB</text>
+    <rect x="10" y="72" width="90" height="16" rx="3" fill="#D0DCF0" stroke="#002C5F" stroke-width="0.8"/>
+    <text x="55" y="83" text-anchor="middle" font-size="7" fill="#002C5F" font-weight="600">L2 Cache  256KB</text>
+    <rect x="10" y="92" width="90" height="16" rx="3" fill="#C0CCE8" stroke="#002C5F" stroke-width="0.8"/>
+    <text x="55" y="103" text-anchor="middle" font-size="7" fill="#002C5F" font-weight="600">Branch Predictor</text>
+  </g>
+
+  <!-- Shared L3 Cache bar -->
+  <rect x="75" y="360" width="240" height="18" rx="4" fill="#A0B4D8" stroke="#002C5F" stroke-width="1"/>
+  <text x="195" y="373" text-anchor="middle" font-size="8" fill="#002C5F" font-weight="700">Shared L3 Cache — 8~64MB</text>
+
+  <!-- ===== RIGHT: GPU ===== -->
+  <text x="600" y="32" text-anchor="middle" class="title">GPU</text>
+  <text x="600" y="50" text-anchor="middle" class="subtitle">수천 개의 경량 코어 (수천~수만 개)</text>
+
+  <!-- GPU chip outline -->
+  <rect x="420" y="65" width="360" height="320" rx="8" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
+  <text x="600" y="82" text-anchor="middle" font-size="9" fill="#00AA6C" font-weight="700">GPU DIE — 10×20 = 200 CUDA Cores (representative)</text>
+
+  <!-- 10×20 grid of tiny GPU cores with wave animation -->
+  <!-- Each cell is 14×12 with 3px gap: total width=170×17=... let's do 16w+2gap=18 per cell, 20 cols = 360 - 40 margins -->
+  <!-- 20 columns × 16px + gaps, 10 rows × 12px + gaps -->
+  <!-- Start at x=430, y=90 -->
+
+  <!-- Row 0 -->
+  <g id="gpu-row-0">
+    <rect x="432" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-0"/>
+    <rect x="449" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-1"/>
+    <rect x="466" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-2"/>
+    <rect x="483" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-3"/>
+    <rect x="500" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-4"/>
+    <rect x="517" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-5"/>
+    <rect x="534" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-6"/>
+    <rect x="551" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-7"/>
+    <rect x="568" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-8"/>
+    <rect x="585" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-9"/>
+    <rect x="602" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-10"/>
+    <rect x="619" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-11"/>
+    <rect x="636" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-12"/>
+    <rect x="653" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-13"/>
+    <rect x="670" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-14"/>
+    <rect x="687" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-15"/>
+    <rect x="704" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-16"/>
+    <rect x="721" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-17"/>
+    <rect x="738" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-18"/>
+    <rect x="755" y="92" width="14" height="11" rx="1" fill="#00AA6C" id="gc-0-19"/>
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0s" repeatCount="indefinite" href="#gpu-row-0"/>
+  </g>
+  <g id="gpu-row-1">
+    <rect x="432" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="449" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="466" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="483" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="500" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="517" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="534" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="551" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="568" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="585" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="602" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="619" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="636" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="653" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="670" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="687" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="704" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="721" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="738" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="755" y="106" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.1s" repeatCount="indefinite" href="#gpu-row-1"/>
+  </g>
+  <g id="gpu-row-2">
+    <rect x="432" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="449" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="466" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="483" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="500" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="517" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="534" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="551" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="568" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="585" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="602" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="619" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="636" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="653" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="670" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="687" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="704" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="721" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="738" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="755" y="120" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.2s" repeatCount="indefinite" href="#gpu-row-2"/>
+  </g>
+  <g id="gpu-row-3">
+    <rect x="432" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="449" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="466" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="483" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="500" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="517" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="534" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="551" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="568" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="585" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="602" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="619" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="636" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="653" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="670" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="687" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="704" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="721" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="738" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="755" y="134" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.3s" repeatCount="indefinite" href="#gpu-row-3"/>
+  </g>
+  <g id="gpu-row-4">
+    <rect x="432" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="449" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="466" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="483" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="500" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="517" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="534" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="551" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="568" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="585" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="602" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="619" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="636" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="653" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="670" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="687" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="704" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="721" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="738" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="755" y="148" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.4s" repeatCount="indefinite" href="#gpu-row-4"/>
+  </g>
+  <g id="gpu-row-5">
+    <rect x="432" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="449" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="466" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="483" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="500" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="517" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="534" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="551" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="568" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="585" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="602" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="619" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="636" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="653" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="670" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="687" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="704" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="721" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="738" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="755" y="162" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.5s" repeatCount="indefinite" href="#gpu-row-5"/>
+  </g>
+  <g id="gpu-row-6">
+    <rect x="432" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="449" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="466" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="483" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="500" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="517" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="534" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="551" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="568" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="585" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="602" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="619" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="636" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="653" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="670" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="687" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="704" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="721" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="738" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="755" y="176" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.6s" repeatCount="indefinite" href="#gpu-row-6"/>
+  </g>
+  <g id="gpu-row-7">
+    <rect x="432" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="449" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="466" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="483" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="500" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="517" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="534" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="551" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="568" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="585" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="602" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="619" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="636" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="653" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="670" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="687" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="704" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="721" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="738" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="755" y="190" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.7s" repeatCount="indefinite" href="#gpu-row-7"/>
+  </g>
+  <g id="gpu-row-8">
+    <rect x="432" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="449" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="466" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="483" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="500" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="517" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="534" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="551" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="568" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="585" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="602" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="619" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="636" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="653" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="670" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="687" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="704" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="721" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="738" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="755" y="204" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.8s" repeatCount="indefinite" href="#gpu-row-8"/>
+  </g>
+  <g id="gpu-row-9">
+    <rect x="432" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="449" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="466" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="483" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="500" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="517" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="534" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="551" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="568" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="585" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="602" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="619" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="636" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="653" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="670" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="687" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="704" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="721" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="738" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <rect x="755" y="218" width="14" height="11" rx="1" fill="#00AA6C"/>
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.9s" repeatCount="indefinite" href="#gpu-row-9"/>
+  </g>
+
+  <!-- SM Labels -->
+  <rect x="432" y="238" width="160" height="60" rx="4" fill="#E8F8F1" stroke="#00AA6C" stroke-width="1"/>
+  <text x="512" y="254" text-anchor="middle" font-size="8" fill="#006644" font-weight="700">Streaming Multiprocessor (SM)</text>
+  <text x="512" y="268" text-anchor="middle" font-size="7" fill="#555555">각 SM = 128 CUDA Cores</text>
+  <text x="512" y="280" text-anchor="middle" font-size="7" fill="#555555">+ Shared Memory + L1 Cache</text>
+  <text x="512" y="292" text-anchor="middle" font-size="7" fill="#555555">H100: 132 SMs × 128 = 16,896 cores</text>
+
+  <rect x="606" y="238" width="165" height="60" rx="4" fill="#E8F8F1" stroke="#00AA6C" stroke-width="1"/>
+  <text x="688" y="254" text-anchor="middle" font-size="8" fill="#006644" font-weight="700">Thread Hierarchy</text>
+  <text x="688" y="268" text-anchor="middle" font-size="7" fill="#555555">Thread → Warp (32) → Block</text>
+  <text x="688" y="280" text-anchor="middle" font-size="7" fill="#555555">→ Grid</text>
+  <text x="688" y="292" text-anchor="middle" font-size="7" fill="#555555">SIMT 실행 모델</text>
+
+  <!-- GPU HBM label -->
+  <rect x="430" y="308" width="350" height="18" rx="4" fill="#B8E8D8" stroke="#00AA6C" stroke-width="1"/>
+  <text x="605" y="321" text-anchor="middle" font-size="8" fill="#006644" font-weight="700">HBM3 Memory — 80GB / 3.35 TB/s (H100 SXM)</text>
+
+  <!-- Bottom comparison row -->
+  <rect x="20" y="395" width="360" height="38" rx="6" fill="#E8EEF7" stroke="#002C5F" stroke-width="1"/>
+  <text x="200" y="411" text-anchor="middle" font-size="9" fill="#002C5F" font-weight="700">직렬 처리에 최적화</text>
+  <text x="200" y="425" text-anchor="middle" font-size="8" fill="#555555">복잡한 제어 흐름 · 낮은 지연 응답 · OS 스케줄링</text>
+
+  <rect x="420" y="395" width="360" height="38" rx="6" fill="#E8F8F1" stroke="#00AA6C" stroke-width="1"/>
+  <text x="600" y="411" text-anchor="middle" font-size="9" fill="#006644" font-weight="700">병렬 처리에 최적화</text>
+  <text x="600" y="425" text-anchor="middle" font-size="8" fill="#555555">행렬 연산 · AI 추론 · 렌더링 · 과학 시뮬레이션</text>
+</svg>

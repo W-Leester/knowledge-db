@@ -1,0 +1,153 @@
+<svg width="800" height="490" viewBox="0 0 800 490" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <style>
+    .title { font-size: 15px; font-weight: 700; fill: #002C5F; }
+    .band-title { font-size: 12.5px; font-weight: 700; fill: #002C5F; }
+    .prob-title { font-size: 11px; font-weight: 700; fill: #DC2626; }
+    .small { font-size: 9.5px; fill: #555555; }
+    .panel-title { font-size: 11.5px; font-weight: 700; fill: #FFFFFF; }
+  </style>
+
+  <rect width="800" height="490" fill="#F2EDE4"/>
+  <text x="400" y="26" text-anchor="middle" class="title">데이터베이스 이전의 세계 — 파일의 혼란에서 관계형 혁명까지 (1950s~1970)</text>
+
+  <!-- ===== Top band: file era 4 problems ===== -->
+  <rect x="30" y="42" width="740" height="150" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="8"/>
+  <text x="46" y="64" class="band-title">파일의 시대 (1950s~60s) — 엑셀·텍스트 파일 관리의 4대 문제</text>
+
+  <!-- problem 1 -->
+  <rect x="46" y="76" width="172" height="100" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="6"/>
+  <text x="132" y="96" text-anchor="middle" class="prob-title">① 중복 데이터</text>
+  <text x="132" y="115" text-anchor="middle" class="small">고객파일에도, 주문파일에도</text>
+  <text x="132" y="129" text-anchor="middle" class="small">홍길동 주소가 따로 저장</text>
+  <text x="132" y="148" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">이사 시 한 곳만 수정하면</text>
+  <text x="132" y="162" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">→ 어느 게 맞는지 아무도 모름</text>
+
+  <!-- problem 2 -->
+  <rect x="230" y="76" width="172" height="100" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="6"/>
+  <text x="316" y="96" text-anchor="middle" class="prob-title">② 데이터 불일치</text>
+  <text x="316" y="115" text-anchor="middle" class="small">A파일: 재고 100개</text>
+  <text x="316" y="129" text-anchor="middle" class="small">B파일: 재고 80개</text>
+  <text x="316" y="148" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">파일이 늘수록</text>
+  <text x="316" y="162" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">모순이 폭발적으로 증가</text>
+
+  <!-- problem 3 -->
+  <rect x="414" y="76" width="172" height="100" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="6"/>
+  <text x="500" y="96" text-anchor="middle" class="prob-title">③ 검색 비효율</text>
+  <text x="500" y="115" text-anchor="middle" class="small">Ctrl+F도 없던 시절 —</text>
+  <text x="500" y="129" text-anchor="middle" class="small">프로그램을 짜서 파일 전체를</text>
+  <text x="500" y="143" text-anchor="middle" class="small">처음부터 끝까지 순차 스캔</text>
+  <text x="500" y="162" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">수만 건이면 하세월</text>
+
+  <!-- problem 4 -->
+  <rect x="598" y="76" width="156" height="100" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="6"/>
+  <text x="676" y="96" text-anchor="middle" class="prob-title">④ 동시 수정 충돌</text>
+  <text x="676" y="115" text-anchor="middle" class="small">A와 B가 같은 파일을</text>
+  <text x="676" y="129" text-anchor="middle" class="small">동시에 열어 수정·저장</text>
+  <text x="676" y="148" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">한 명의 수정본이</text>
+  <text x="676" y="162" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">그대로 증발</text>
+
+  <!-- arrow down -->
+  <line x1="400" y1="196" x2="400" y2="216" stroke="#002C5F" stroke-width="2.5"/>
+  <polygon points="400,220 393,209 407,209" fill="#002C5F"/>
+  <text x="415" y="213" font-size="10" fill="#002C5F" font-weight="700">"저장 방식 자체를 새로 설계하자"</text>
+
+  <!-- ===== Bottom band: 3 model evolution ===== -->
+  <!-- Panel 1: Hierarchical -->
+  <rect x="30" y="228" width="230" height="212" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="8"/>
+  <rect x="30" y="228" width="230" height="30" fill="#8A8A8A" rx="8"/>
+  <rect x="30" y="244" width="230" height="14" fill="#8A8A8A"/>
+  <text x="145" y="248" text-anchor="middle" class="panel-title">계층형 DB (1960s · IBM)</text>
+
+  <!-- tree diagram -->
+  <circle cx="145" cy="285" r="14" fill="#002C5F"/>
+  <text x="145" y="289" text-anchor="middle" font-size="8" fill="#FFF" font-weight="700">회사</text>
+  <line x1="145" y1="299" x2="95" y2="325" stroke="#8A8A8A" stroke-width="1.5"/>
+  <line x1="145" y1="299" x2="195" y2="325" stroke="#8A8A8A" stroke-width="1.5"/>
+  <circle cx="95" cy="335" r="12" fill="#1A5CB5"/>
+  <text x="95" y="339" text-anchor="middle" font-size="7.5" fill="#FFF" font-weight="700">부서A</text>
+  <circle cx="195" cy="335" r="12" fill="#1A5CB5"/>
+  <text x="195" y="339" text-anchor="middle" font-size="7.5" fill="#FFF" font-weight="700">부서B</text>
+  <line x1="95" y1="347" x2="70" y2="368" stroke="#8A8A8A" stroke-width="1.5"/>
+  <line x1="95" y1="347" x2="120" y2="368" stroke="#8A8A8A" stroke-width="1.5"/>
+  <line x1="195" y1="347" x2="195" y2="368" stroke="#8A8A8A" stroke-width="1.5"/>
+  <circle cx="70" cy="376" r="10" fill="#5B8DD9"/>
+  <circle cx="120" cy="376" r="10" fill="#5B8DD9"/>
+  <circle cx="195" cy="376" r="10" fill="#5B8DD9"/>
+  <text x="70" y="380" text-anchor="middle" font-size="7" fill="#FFF">직원</text>
+  <text x="120" y="380" text-anchor="middle" font-size="7" fill="#FFF">직원</text>
+  <text x="195" y="380" text-anchor="middle" font-size="7" fill="#FFF">직원</text>
+
+  <text x="145" y="408" text-anchor="middle" class="small">조직도처럼 나무(트리) 구조로 저장</text>
+  <text x="145" y="426" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">한계: 위아래로만 이동 가능 —</text>
+  <text x="145" y="438" text-anchor="middle" class="small" fill="#DC2626">"이 직원의 모든 프로젝트?"에 답 못함</text>
+
+  <!-- arrow -->
+  <line x1="264" y1="334" x2="288" y2="334" stroke="#002C5F" stroke-width="2"/>
+  <polygon points="292,334 283,329 283,339" fill="#002C5F"/>
+
+  <!-- Panel 2: Network -->
+  <rect x="296" y="228" width="230" height="212" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="8"/>
+  <rect x="296" y="228" width="230" height="30" fill="#B5AFA5" rx="8"/>
+  <rect x="296" y="244" width="230" height="14" fill="#B5AFA5"/>
+  <text x="411" y="248" text-anchor="middle" class="panel-title">네트워크형 DB (1960s말)</text>
+
+  <!-- mesh diagram -->
+  <line x1="360" y1="295" x2="460" y2="295" stroke="#8A8A8A" stroke-width="1.5"/>
+  <line x1="360" y1="295" x2="411" y2="350" stroke="#8A8A8A" stroke-width="1.5"/>
+  <line x1="460" y1="295" x2="411" y2="350" stroke="#8A8A8A" stroke-width="1.5"/>
+  <line x1="360" y1="295" x2="360" y2="368" stroke="#8A8A8A" stroke-width="1.5"/>
+  <line x1="460" y1="295" x2="462" y2="368" stroke="#8A8A8A" stroke-width="1.5"/>
+  <line x1="360" y1="368" x2="411" y2="350" stroke="#8A8A8A" stroke-width="1.5"/>
+  <line x1="462" y1="368" x2="411" y2="350" stroke="#8A8A8A" stroke-width="1.5"/>
+  <line x1="360" y1="368" x2="462" y2="368" stroke="#8A8A8A" stroke-width="1.5"/>
+  <circle cx="360" cy="295" r="13" fill="#1A5CB5"/>
+  <circle cx="460" cy="295" r="13" fill="#1A5CB5"/>
+  <circle cx="411" cy="350" r="13" fill="#002C5F"/>
+  <circle cx="360" cy="368" r="13" fill="#5B8DD9"/>
+  <circle cx="462" cy="368" r="13" fill="#5B8DD9"/>
+
+  <text x="411" y="408" text-anchor="middle" class="small">옆으로도 연결 — 그물(그래프) 구조</text>
+  <text x="411" y="426" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">한계: 이동 경로를 프로그래머가</text>
+  <text x="411" y="438" text-anchor="middle" class="small" fill="#DC2626">일일이 코드로 정의 → 극도로 복잡</text>
+
+  <!-- arrow -->
+  <line x1="530" y1="334" x2="554" y2="334" stroke="#002C5F" stroke-width="2"/>
+  <polygon points="558,334 549,329 549,339" fill="#002C5F"/>
+
+  <!-- Panel 3: Relational -->
+  <rect x="562" y="228" width="208" height="212" fill="#FFFFFF" stroke="#E8962A" stroke-width="2" rx="8"/>
+  <rect x="562" y="228" width="208" height="30" fill="#002C5F" rx="8"/>
+  <rect x="562" y="244" width="208" height="14" fill="#002C5F"/>
+  <text x="666" y="248" text-anchor="middle" class="panel-title">관계형 DB (1970 · E.F. Codd)</text>
+
+  <!-- table diagram -->
+  <g>
+    <rect x="590" y="276" width="50" height="16" fill="#002C5F"/>
+    <rect x="640" y="276" width="50" height="16" fill="#002C5F"/>
+    <rect x="690" y="276" width="52" height="16" fill="#002C5F"/>
+    <text x="615" y="288" text-anchor="middle" font-size="7.5" fill="#FFF">이름</text>
+    <text x="665" y="288" text-anchor="middle" font-size="7.5" fill="#FFF">전화번호</text>
+    <text x="716" y="288" text-anchor="middle" font-size="7.5" fill="#FFF">이메일</text>
+    <rect x="590" y="292" width="50" height="14" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="640" y="292" width="50" height="14" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="690" y="292" width="52" height="14" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="590" y="306" width="50" height="14" fill="#FAF7F2" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="640" y="306" width="50" height="14" fill="#FAF7F2" stroke="#D5CFBF" stroke-width="0.5"/>
+    <rect x="690" y="306" width="52" height="14" fill="#FAF7F2" stroke="#D5CFBF" stroke-width="0.5"/>
+    <text x="615" y="302" text-anchor="middle" font-size="7" fill="#555">홍길동</text>
+    <text x="615" y="316" text-anchor="middle" font-size="7" fill="#555">김영희</text>
+  </g>
+  <text x="666" y="338" text-anchor="middle" font-size="9.5" fill="#002C5F" font-weight="700">"데이터를 표(테이블)로 저장하자"</text>
+
+  <rect x="578" y="348" width="176" height="58" fill="#E8EEF7" rx="5"/>
+  <text x="666" y="364" text-anchor="middle" font-size="9" fill="#002C5F" font-weight="700">3종 무기</text>
+  <text x="666" y="378" text-anchor="middle" font-size="8.5" fill="#555">JOIN — 표와 표를 연결해 조회</text>
+  <text x="666" y="390" text-anchor="middle" font-size="8.5" fill="#555">SQL — 영어처럼 읽히는 질의 언어</text>
+  <text x="666" y="402" text-anchor="middle" font-size="8.5" fill="#555">정규화 — 하나의 사실은 한 곳에만</text>
+
+  <text x="666" y="426" text-anchor="middle" font-size="9.5" fill="#B45309" font-weight="700">→ 이후 50년을 지배한 혁명</text>
+
+  <!-- bottom -->
+  <rect x="30" y="454" width="740" height="28" fill="#002C5F" rx="6"/>
+  <text x="400" y="472" text-anchor="middle" font-size="11" fill="#FFFFFF" font-weight="700">흐름: 파일의 혼란 → 트리(위아래만) → 그물(복잡한 수동 연결) → 표 + JOIN + SQL (단순함이 이겼다)</text>
+</svg>
