@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI의 혈관 — 메모리 아키텍처 완전 분해</title>
 <script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<link rel="stylesheet" href="assets/fonts.css">
-<link rel="stylesheet" href="assets/dark.css">
-<script src="assets/app.js" defer></script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
 <style>
 /* ═══════════════════════════════════════════════════
    DESIGN TOKENS
@@ -777,7 +777,7 @@ body.doc-mode #toc-sidebar { display: block; }
   <div class="two-col wide-left" style="flex:1; min-height:0; gap:24px;">
     <div class="col col-center">
       <div class="img-wrap" style="max-height:340px; width:100%;">
-        <img src="Docs/img/mem-roofline-model.svg" alt="Roofline Model" style="max-width:100%; max-height:100%; object-fit:contain;">
+        <img src="img/mem-roofline-model.svg" alt="Roofline Model" style="max-width:100%; max-height:100%; object-fit:contain;">
       </div>
     </div>
     <div class="col" style="justify-content:center; gap:10px;">
@@ -828,7 +828,7 @@ body.doc-mode #toc-sidebar { display: block; }
   <div class="two-col" style="flex:1; min-height:0; gap:24px;">
     <div class="col col-center">
       <div class="img-wrap" style="max-height:280px; width:100%;">
-        <img src="Docs/img/mem-dram-cell.svg" alt="DRAM Cell Structure" style="max-width:100%; max-height:100%; object-fit:contain;">
+        <img src="img/mem-dram-cell.svg" alt="DRAM Cell Structure" style="max-width:100%; max-height:100%; object-fit:contain;">
       </div>
     </div>
     <div class="col" style="justify-content:center; gap:12px;">
@@ -875,7 +875,7 @@ body.doc-mode #toc-sidebar { display: block; }
     <!-- Left -->
     <div style="display:flex; flex-direction:column; gap:10px; min-height:0;">
       <div class="img-wrap" style="max-height:200px;">
-        <img src="Docs/img/mem-ddr5-subchannel.svg" alt="DDR5 Sub-channel" style="max-width:100%; max-height:100%; object-fit:contain;">
+        <img src="img/mem-ddr5-subchannel.svg" alt="DDR5 Sub-channel" style="max-width:100%; max-height:100%; object-fit:contain;">
       </div>
       <div class="change-cards">
         <div class="change-card">
@@ -953,7 +953,7 @@ body.doc-mode #toc-sidebar { display: block; }
   <div class="two-col wide-left" style="flex:1; min-height:0; gap:24px;">
     <div class="col col-center">
       <div class="img-wrap" style="max-height:260px; width:100%;">
-        <img src="Docs/img/mem-lpddr-bga.svg" alt="LPDDR BGA Packaging" style="max-width:100%; max-height:100%; object-fit:contain;">
+        <img src="img/mem-lpddr-bga.svg" alt="LPDDR BGA Packaging" style="max-width:100%; max-height:100%; object-fit:contain;">
       </div>
       <div class="stat-grid stat-grid-3" style="margin-top:12px; width:100%;">
         <div class="stat-card">
@@ -1011,7 +1011,7 @@ body.doc-mode #toc-sidebar { display: block; }
   <div style="display:grid; grid-template-columns:1fr 1.1fr; gap:20px; flex:1; min-height:0;">
     <div style="display:flex; flex-direction:column; gap:10px; min-height:0;">
       <div class="img-wrap" style="max-height:220px;">
-        <img src="Docs/img/mem-gddr7-bus.svg" alt="GDDR7 Bus" style="max-width:100%; max-height:100%; object-fit:contain;">
+        <img src="img/mem-gddr7-bus.svg" alt="GDDR7 Bus" style="max-width:100%; max-height:100%; object-fit:contain;">
       </div>
       <div class="stat-grid" style="grid-template-columns:1fr 1fr; gap:8px;">
         <div class="stat-card accent-navy">
@@ -1083,7 +1083,7 @@ body.doc-mode #toc-sidebar { display: block; }
     <!-- col1 -->
     <div style="display:flex; flex-direction:column; gap:10px; min-height:0;">
       <div class="img-wrap" style="max-height:160px;">
-        <img src="Docs/img/mem-hbm-tsv.svg" alt="HBM TSV Stack" style="max-width:100%; max-height:100%; object-fit:contain;">
+        <img src="img/mem-hbm-tsv.svg" alt="HBM TSV Stack" style="max-width:100%; max-height:100%; object-fit:contain;">
       </div>
       <div class="stat-grid stat-grid-3" style="gap:8px;">
         <div class="stat-card accent-navy">
@@ -1114,7 +1114,7 @@ body.doc-mode #toc-sidebar { display: block; }
     <!-- col2 -->
     <div style="display:flex; flex-direction:column; gap:10px; min-height:0;">
       <div class="img-wrap" style="max-height:160px;">
-        <img src="Docs/img/mem-cowos-package.svg" alt="CoWoS Packaging" style="max-width:100%; max-height:100%; object-fit:contain;">
+        <img src="img/mem-cowos-package.svg" alt="CoWoS Packaging" style="max-width:100%; max-height:100%; object-fit:contain;">
       </div>
       <!-- Tabs -->
       <div class="tab-container" style="flex:none;">
@@ -1185,7 +1185,7 @@ body.doc-mode #toc-sidebar { display: block; }
   <div style="display:grid; grid-template-columns:1.1fr 1fr; gap:20px; flex:1; min-height:0;">
     <div style="display:flex; flex-direction:column; gap:10px; min-height:0;">
       <div class="img-wrap" style="max-height:180px;">
-        <img src="Docs/img/mem-kvcache-growth.svg" alt="KV-Cache Growth" style="max-width:100%; max-height:100%; object-fit:contain;">
+        <img src="img/mem-kvcache-growth.svg" alt="KV-Cache Growth" style="max-width:100%; max-height:100%; object-fit:contain;">
       </div>
       <div class="formula-block">
         <div class="formula-title">KV-Cache 메모리 계산식</div>
@@ -1598,14 +1598,14 @@ const DocMode = (() => {
 
   const sections = [
     { id: 'doc-0', title: '커버', content: `<div style="background:var(--bg-dark); border-radius:16px; padding:60px; text-align:center; color:white; margin-bottom:8px;"><div style="font-size:48px; font-weight:900; margin-bottom:12px;">AI의 혈관</div><div style="font-size:20px; opacity:0.6; margin-bottom:8px;">메모리 아키텍처 완전 분해</div><div style="font-size:14px; opacity:0.4;">DDR · LPDDR · GDDR · HBM</div></div>` },
-    { id: 'doc-1', title: '메모리 병목 문제', content: `<p>AI 성능의 진짜 병목은 연산(TFLOPS)이 아닌 메모리 대역폭입니다. H100 기준 Peak Compute 3,958 TFLOPS(FP8) vs Memory Bandwidth 3.35 TB/s. Ridge Point = 1,181 FLOP/Byte. LLM 추론(batch=1)의 Arithmetic Intensity ≈ 1 FLOP/Byte로 Ridge Point의 1/1,181에 불과합니다. 이것이 FLOPS를 올려도 추론이 빨라지지 않는 이유입니다.</p><img src="Docs/img/mem-roofline-model.svg" style="max-width:600px; margin:16px auto; display:block;">` },
-    { id: 'doc-2', title: 'DRAM 기초', content: `<p>DRAM의 기본 셀은 1개 트랜지스터 + 1개 커패시터(1T1C)입니다. 커패시터는 누설 전류로 서서히 방전되므로 64ms마다 Refresh가 필수입니다. 레이턴시(첫 데이터까지 대기 시간)와 대역폭(초당 전송량)은 본질적으로 다른 개념입니다.</p><img src="Docs/img/mem-dram-cell.svg" style="max-width:500px; margin:16px auto; display:block;">` },
-    { id: 'doc-3', title: 'DDR4 → DDR5', content: `<p>DDR5의 핵심 변화는 64-bit 단일 채널에서 <strong>2×32-bit Sub-channel</strong>로의 분리입니다. 독립적 커맨드/어드레스 버스로 Bank Conflict 감소, 대역폭 2배 이상 향상(25.6 → 67.2 GB/s), 전압 1.2V→1.1V, On-die ECC 기본 내장. 2-socket Xeon 서버에서 16채널 DDR5-8400 = 1.07 TB/s 총 대역폭.</p><img src="Docs/img/mem-ddr5-subchannel.svg" style="max-width:560px; margin:16px auto; display:block;">` },
-    { id: 'doc-4', title: 'LPDDR5 / LPDDR5X', content: `<p>LPDDR은 BGA로 SoC에 직접 납땜하는 모바일 특화 메모리입니다. Apple M4 Max는 LPDDR5X 8채널로 410 GB/s Unified Memory를 구현합니다. PCIe 복사 오버헤드 없이 CPU/GPU/NPU가 동일 메모리 공유 — 데이터센터 GPU 대비 낮은 대역폭이지만 Zero-copy 아키텍처로 효율적 추론.</p><img src="Docs/img/mem-lpddr-bga.svg" style="max-width:500px; margin:16px auto; display:block;">` },
-    { id: 'doc-5', title: 'GDDR7', content: `<p>GDDR7은 PAM4(4-level Pulse Amplitude Modulation) 시그널링으로 핀당 36 Gbps를 달성합니다. RTX 5090에서 GDDR7 × 512-bit = 1,792 GB/s. 비교: RTX 4090 GDDR6X = 1,008 GB/s, H200 HBM3e = 4,800 GB/s. GDDR은 저비용/대면적 배치 용이, HBM은 고대역폭/고비용/CoWoS 필수.</p><img src="Docs/img/mem-gddr7-bus.svg" style="max-width:500px; margin:16px auto; display:block;">` },
-    { id: 'doc-6', title: 'HBM3e', content: `<p>HBM(High Bandwidth Memory)은 DRAM 다이를 TSV(Through-Silicon Via)로 수직 적층합니다. HBM3e per stack = 1.15 TB/s. H200 = 6 stacks × 1.15 TB/s ≈ 4.8 TB/s, 141GB. CoWoS(Chip on Wafer on Substrate) 패키징으로 GPU 다이와 HBM을 실리콘 인터포저 위에 배치. CoWoS 생산 능력이 AI 칩 공급 병목의 핵심.</p><div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0;"><img src="Docs/img/mem-hbm-tsv.svg" style="max-width:100%;"><img src="Docs/img/mem-cowos-package.svg" style="max-width:100%;"></div>` },
+    { id: 'doc-1', title: '메모리 병목 문제', content: `<p>AI 성능의 진짜 병목은 연산(TFLOPS)이 아닌 메모리 대역폭입니다. H100 기준 Peak Compute 3,958 TFLOPS(FP8) vs Memory Bandwidth 3.35 TB/s. Ridge Point = 1,181 FLOP/Byte. LLM 추론(batch=1)의 Arithmetic Intensity ≈ 1 FLOP/Byte로 Ridge Point의 1/1,181에 불과합니다. 이것이 FLOPS를 올려도 추론이 빨라지지 않는 이유입니다.</p><img src="img/mem-roofline-model.svg" style="max-width:600px; margin:16px auto; display:block;">` },
+    { id: 'doc-2', title: 'DRAM 기초', content: `<p>DRAM의 기본 셀은 1개 트랜지스터 + 1개 커패시터(1T1C)입니다. 커패시터는 누설 전류로 서서히 방전되므로 64ms마다 Refresh가 필수입니다. 레이턴시(첫 데이터까지 대기 시간)와 대역폭(초당 전송량)은 본질적으로 다른 개념입니다.</p><img src="img/mem-dram-cell.svg" style="max-width:500px; margin:16px auto; display:block;">` },
+    { id: 'doc-3', title: 'DDR4 → DDR5', content: `<p>DDR5의 핵심 변화는 64-bit 단일 채널에서 <strong>2×32-bit Sub-channel</strong>로의 분리입니다. 독립적 커맨드/어드레스 버스로 Bank Conflict 감소, 대역폭 2배 이상 향상(25.6 → 67.2 GB/s), 전압 1.2V→1.1V, On-die ECC 기본 내장. 2-socket Xeon 서버에서 16채널 DDR5-8400 = 1.07 TB/s 총 대역폭.</p><img src="img/mem-ddr5-subchannel.svg" style="max-width:560px; margin:16px auto; display:block;">` },
+    { id: 'doc-4', title: 'LPDDR5 / LPDDR5X', content: `<p>LPDDR은 BGA로 SoC에 직접 납땜하는 모바일 특화 메모리입니다. Apple M4 Max는 LPDDR5X 8채널로 410 GB/s Unified Memory를 구현합니다. PCIe 복사 오버헤드 없이 CPU/GPU/NPU가 동일 메모리 공유 — 데이터센터 GPU 대비 낮은 대역폭이지만 Zero-copy 아키텍처로 효율적 추론.</p><img src="img/mem-lpddr-bga.svg" style="max-width:500px; margin:16px auto; display:block;">` },
+    { id: 'doc-5', title: 'GDDR7', content: `<p>GDDR7은 PAM4(4-level Pulse Amplitude Modulation) 시그널링으로 핀당 36 Gbps를 달성합니다. RTX 5090에서 GDDR7 × 512-bit = 1,792 GB/s. 비교: RTX 4090 GDDR6X = 1,008 GB/s, H200 HBM3e = 4,800 GB/s. GDDR은 저비용/대면적 배치 용이, HBM은 고대역폭/고비용/CoWoS 필수.</p><img src="img/mem-gddr7-bus.svg" style="max-width:500px; margin:16px auto; display:block;">` },
+    { id: 'doc-6', title: 'HBM3e', content: `<p>HBM(High Bandwidth Memory)은 DRAM 다이를 TSV(Through-Silicon Via)로 수직 적층합니다. HBM3e per stack = 1.15 TB/s. H200 = 6 stacks × 1.15 TB/s ≈ 4.8 TB/s, 141GB. CoWoS(Chip on Wafer on Substrate) 패키징으로 GPU 다이와 HBM을 실리콘 인터포저 위에 배치. CoWoS 생산 능력이 AI 칩 공급 병목의 핵심.</p><div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0;"><img src="img/mem-hbm-tsv.svg" style="max-width:100%;"><img src="img/mem-cowos-package.svg" style="max-width:100%;"></div>` },
     { id: 'doc-7', title: '전체 대역폭 비교', content: `<p>DDR4-3200 25.6 GB/s부터 HBM3e(H200) 4,800 GB/s까지 약 188배 차이. 주요 수치: LPDDR5X(M4 Max) 410 GB/s, GDDR7(RTX 5090) 1,792 GB/s, HBM3(H100) 3,350 GB/s. 인터랙티브 차트는 슬라이드 모드에서 확인하세요.</p>` },
-    { id: 'doc-8', title: 'LLM과 KV-Cache', content: `<p>KV-Cache 크기 = 2 × n_layers × n_heads × d_head × seq_len × batch × dtype_bytes. Llama 3 70B(FP16), 128K context, batch=1 → ≈42.9GB. H100 80GB에서는 모델 가중치(FP16 140GB)조차 불가능 → INT4 양자화 필수. H200 141GB에서 INT4 Llama 3 70B(35GB) + KV-Cache(42.9GB) = 77.9GB로 128K 컨텍스트 처리 가능. vLLM Paged Attention은 KV-cache를 16토큰 블록 단위로 관리해 단편화 최소화.</p><img src="Docs/img/mem-kvcache-growth.svg" style="max-width:580px; margin:16px auto; display:block;">` },
+    { id: 'doc-8', title: 'LLM과 KV-Cache', content: `<p>KV-Cache 크기 = 2 × n_layers × n_heads × d_head × seq_len × batch × dtype_bytes. Llama 3 70B(FP16), 128K context, batch=1 → ≈42.9GB. H100 80GB에서는 모델 가중치(FP16 140GB)조차 불가능 → INT4 양자화 필수. H200 141GB에서 INT4 Llama 3 70B(35GB) + KV-Cache(42.9GB) = 77.9GB로 128K 컨텍스트 처리 가능. vLLM Paged Attention은 KV-cache를 16토큰 블록 단위로 관리해 단편화 최소화.</p><img src="img/mem-kvcache-growth.svg" style="max-width:580px; margin:16px auto; display:block;">` },
     { id: 'doc-9', title: '메모리의 미래', content: `<p><strong>CXL 3.0 메모리 풀링:</strong> PCIe 6.0 기반 코히런트 인터커넥트. 128TB 메모리 풀을 여러 노드가 공유. 2024-2025 상용화.</p><p style="margin-top:10px;"><strong>HBM4 (2025):</strong> 1,500 GB/s per stack, 하이브리드 본딩으로 TSV 밀도 2×, Rubin 세대 적용 예정.</p><p style="margin-top:10px;"><strong>Processing-in-Memory:</strong> 메모리 안에 연산 유닛 내장. Samsung HBM-PIM(Aquabolt-XL)은 HBM2e 내부에 SIMD AI 연산기 16개. 메모리 월 근본적 해결 접근.</p>` },
   ];
 

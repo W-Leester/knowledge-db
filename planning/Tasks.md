@@ -32,6 +32,13 @@
 - [x] GitHub 저장소 `knowledge-db` 생성 + 첫 push 완료 (main → origin/main 추적 설정)
 - ~~(선택) gh CLI 설치~~ (웹 생성 방식 선택으로 불필요)
 
+## Phase 0.6 — 저장소 구조 개편 ✅ 완료 (2026-07-17)
+
+- [x] 문서 HTML 4개 + SVG(구 `Docs/img`) → `docs/`·`docs/img/`로 이동 (루트는 앱 셸만)
+- [x] `KnowledgeDB_App/` → `planning/` 이름 변경, 빈 `MyRecords.md` 삭제
+- [x] 경로 일괄 갱신: 문서 내 `../assets/`·`img/`, docs.json, index.html noscript, app.js 홈 버튼, dark.css SVG 매트 셀렉터
+- [x] `CLAUDE.md` 추가 (Claude Code용 저장소 가이드) 및 새 구조 반영
+
 ## Phase 1 — 콘텐츠·공통 기반 (진행 중)
 
 **완료 기준(M1): PC DevTools 모바일 뷰에서 전 문서가 폰트 포함 로컬 자원만으로 깨짐 없이 표시**

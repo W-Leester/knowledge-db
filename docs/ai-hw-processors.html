@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI를 움직이는 두뇌 — 프로세서 아키텍처 완전 분해</title>
 <script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<link rel="stylesheet" href="assets/fonts.css">
-<link rel="stylesheet" href="assets/dark.css">
-<script src="assets/app.js" defer></script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
 <style>
 /* ===== DESIGN TOKENS ===== */
 :root {
@@ -1041,7 +1041,7 @@ body.doc-mode #doc-mode-content {
 
           <!-- Right: SVG image -->
           <div class="img-box" style="height:100%;">
-            <img src="Docs/img/cpu-vs-gpu-cores.svg" alt="CPU vs GPU 코어 비교">
+            <img src="img/cpu-vs-gpu-cores.svg" alt="CPU vs GPU 코어 비교">
           </div>
         </div>
       </div>
@@ -1079,7 +1079,7 @@ body.doc-mode #doc-mode-content {
           <!-- Col 2: Cache hierarchy -->
           <div style="display:flex;flex-direction:column;gap:10px;">
             <div class="img-box" style="flex:1;">
-              <img src="Docs/img/cpu-cache-hierarchy.svg" alt="CPU Cache Hierarchy">
+              <img src="img/cpu-cache-hierarchy.svg" alt="CPU Cache Hierarchy">
             </div>
             <div class="callout" style="font-size:15px;">
               <strong>LLM 추론에서 CPU의 역할:</strong> KV-cache 관리, sparse 연산, 배치 전처리
@@ -1089,7 +1089,7 @@ body.doc-mode #doc-mode-content {
           <!-- Col 3: AMX 심화 -->
           <div style="display:flex;flex-direction:column;gap:10px;">
             <div class="img-box" style="flex:1;">
-              <img src="Docs/img/cpu-amx-tile.svg" alt="CPU AMX Tile 구조">
+              <img src="img/cpu-amx-tile.svg" alt="CPU AMX Tile 구조">
             </div>
             <div class="card" style="padding:12px;">
               <div class="card-title" style="font-size:14px;">AMX (Advanced Matrix Extensions)</div>
@@ -1162,7 +1162,7 @@ body.doc-mode #doc-mode-content {
           <div id="s3-warp" class="tab-panel" style="flex:1;min-height:0;">
             <div class="two-col" style="flex:1;min-height:0;">
               <div class="img-box" style="flex:1;">
-                <img src="Docs/img/gpu-warp-latency-hiding.svg" alt="Warp & Latency Hiding">
+                <img src="img/gpu-warp-latency-hiding.svg" alt="Warp & Latency Hiding">
               </div>
               <div class="card">
                 <div class="card-title">Warp & 레이턴시 숨기기 (Latency Hiding)</div>
@@ -1180,7 +1180,7 @@ body.doc-mode #doc-mode-content {
           <div id="s3-tensor" class="tab-panel" style="flex:1;min-height:0;">
             <div class="two-col" style="flex:1;min-height:0;">
               <div class="img-box" style="flex:1;">
-                <img src="Docs/img/gpu-tensor-core-generations.svg" alt="Tensor Core 세대별 발전">
+                <img src="img/gpu-tensor-core-generations.svg" alt="Tensor Core 세대별 발전">
               </div>
               <div class="card">
                 <div class="card-title">Tensor Core & FP8 혁명</div>
@@ -1198,7 +1198,7 @@ body.doc-mode #doc-mode-content {
           <div id="s3-flash" class="tab-panel" style="flex:1;min-height:0;">
             <div class="two-col" style="flex:1;min-height:0;">
               <div class="img-box" style="flex:1;">
-                <img src="Docs/img/gpu-flash-attention.svg" alt="Flash Attention SRAM/HBM">
+                <img src="img/gpu-flash-attention.svg" alt="Flash Attention SRAM/HBM">
               </div>
               <div class="card">
                 <div class="card-title">Flash Attention — IO 최소화 알고리즘</div>
@@ -1252,7 +1252,7 @@ body.doc-mode #doc-mode-content {
             <div class="two-col" style="flex:1;min-height:0;">
               <div style="display:flex;flex-direction:column;gap:10px;">
                 <div class="img-box" style="flex:1;">
-                  <img src="Docs/img/npu-systolic-array.svg" alt="NPU Systolic Array">
+                  <img src="img/npu-systolic-array.svg" alt="NPU Systolic Array">
                 </div>
                 <div class="callout green">
                   <strong>Apple M4 Neural Engine:</strong> 38 TOPS, 소비전력 ~3W.<br>
@@ -1261,7 +1261,7 @@ body.doc-mode #doc-mode-content {
               </div>
               <div style="display:flex;flex-direction:column;gap:10px;">
                 <div class="img-box" style="flex:1;">
-                  <img src="Docs/img/npu-unified-memory.svg" alt="NPU Unified Memory">
+                  <img src="img/npu-unified-memory.svg" alt="NPU Unified Memory">
                 </div>
                 <div class="card" style="padding:12px;">
                   <div class="card-title" style="font-size:14px;">Unified Memory 아키텍처</div>
@@ -1276,7 +1276,7 @@ body.doc-mode #doc-mode-content {
           <div id="s4-systolic" class="tab-panel" style="flex:1;min-height:0;">
             <div class="two-col" style="flex:1;min-height:0;">
               <div class="img-box" style="flex:1;">
-                <img src="Docs/img/npu-systolic-array.svg" alt="Systolic Array 구조">
+                <img src="img/npu-systolic-array.svg" alt="Systolic Array 구조">
               </div>
               <div class="card">
                 <div class="card-title">Systolic Array — 메모리 없는 연산</div>
@@ -1358,7 +1358,7 @@ body.doc-mode #doc-mode-content {
           <div id="s5-basic" class="tab-panel active" style="flex:1;min-height:0;">
             <div class="main-sidebar" style="flex:1;min-height:0;">
               <div class="img-box" style="flex:1;">
-                <img src="Docs/img/tpu-systolic-dataflow.svg" alt="TPU Systolic Dataflow">
+                <img src="img/tpu-systolic-dataflow.svg" alt="TPU Systolic Dataflow">
               </div>
               <div style="display:flex;flex-direction:column;gap:10px;">
                 <div class="card">
@@ -1382,7 +1382,7 @@ body.doc-mode #doc-mode-content {
           <div id="s5-systolic" class="tab-panel" style="flex:1;min-height:0;">
             <div class="two-col" style="flex:1;min-height:0;">
               <div class="img-box" style="flex:1;">
-                <img src="Docs/img/tpu-systolic-dataflow.svg" alt="TPU Systolic Array 원리">
+                <img src="img/tpu-systolic-dataflow.svg" alt="TPU Systolic Array 원리">
               </div>
               <div class="card">
                 <div class="card-title">TPU Systolic Array 원리</div>
@@ -1401,7 +1401,7 @@ body.doc-mode #doc-mode-content {
           <div id="s5-ici" class="tab-panel" style="flex:1;min-height:0;">
             <div class="two-col" style="flex:1;min-height:0;">
               <div class="img-box" style="flex:1;">
-                <img src="Docs/img/tpu-ici-vs-nvlink.svg" alt="ICI vs NVLink 토폴로지">
+                <img src="img/tpu-ici-vs-nvlink.svg" alt="ICI vs NVLink 토폴로지">
               </div>
               <div class="card">
                 <div class="card-title">ICI vs NVLink — 상호연결 비교</div>
@@ -1881,7 +1881,7 @@ body.doc-mode #doc-mode-content {
           <p class="doc-p">Amdahl's Law에 따르면 병렬화 가능 비율이 높을수록 병렬 처리의 이점이 커집니다. 행렬 곱셈은 99%+ 병렬화가 가능하므로 GPU의 수천 개 코어가 극적인 성능 향상을 제공합니다.</p>
         </div>
         <div class="img-box">
-          <img src="Docs/img/cpu-vs-gpu-cores.svg" alt="CPU vs GPU 코어 비교">
+          <img src="img/cpu-vs-gpu-cores.svg" alt="CPU vs GPU 코어 비교">
         </div>
       </div>
       <div class="callout">Roofline Model: 연산 강도(FLOPs/byte)가 하드웨어 능선보다 낮으면 Memory-bound → LLM 추론이 여기에 해당</div>
@@ -1890,8 +1890,8 @@ body.doc-mode #doc-mode-content {
       <div class="doc-section-num">Section 02</div>
       <h2 class="doc-h2">CPU — 범용의 강자, AI의 조력자</h2>
       <div class="three-col" style="margin-bottom:16px;">
-        <div class="img-box"><img src="Docs/img/cpu-cache-hierarchy.svg" alt="CPU Cache Hierarchy"></div>
-        <div class="img-box"><img src="Docs/img/cpu-amx-tile.svg" alt="CPU AMX Tile"></div>
+        <div class="img-box"><img src="img/cpu-cache-hierarchy.svg" alt="CPU Cache Hierarchy"></div>
+        <div class="img-box"><img src="img/cpu-amx-tile.svg" alt="CPU AMX Tile"></div>
         <div>
           <p class="doc-p" style="font-size:15px;">CPU는 복잡한 제어 흐름, Branch Prediction, Out-of-Order Execution이 강점입니다. Intel Sapphire Rapids의 AMX(Advanced Matrix Extensions)는 2D Tile 레지스터로 최대 4 TOPS INT8 행렬 연산을 지원합니다.</p>
         </div>
@@ -1907,12 +1907,12 @@ body.doc-mode #doc-mode-content {
           <p class="doc-p">Hopper 아키텍처의 FP8 Tensor Core는 3,958 TFLOPS를 제공하며, HBM3 메모리가 3.35 TB/s 대역폭을 지원합니다. Flash Attention V3는 HBM 접근을 최소화해 레이턴시를 3× 줄입니다.</p>
         </div>
         <div style="display:flex;flex-direction:column;gap:12px;">
-          <div class="img-box"><img src="Docs/img/gpu-warp-latency-hiding.svg" alt="Warp Latency Hiding"></div>
-          <div class="img-box"><img src="Docs/img/gpu-flash-attention.svg" alt="Flash Attention"></div>
+          <div class="img-box"><img src="img/gpu-warp-latency-hiding.svg" alt="Warp Latency Hiding"></div>
+          <div class="img-box"><img src="img/gpu-flash-attention.svg" alt="Flash Attention"></div>
         </div>
       </div>
       <div class="two-col" style="margin-bottom:12px;">
-        <div class="img-box"><img src="Docs/img/gpu-tensor-core-generations.svg" alt="Tensor Core 세대"></div>
+        <div class="img-box"><img src="img/gpu-tensor-core-generations.svg" alt="Tensor Core 세대"></div>
         <div class="callout amber" style="height:fit-content;align-self:center;">LLM 추론은 Compute-bound가 아닌 <strong>Memory-bound</strong> → 메모리 대역폭이 성능의 핵심</div>
       </div>
     </div>
@@ -1920,8 +1920,8 @@ body.doc-mode #doc-mode-content {
       <div class="doc-section-num">Section 04</div>
       <h2 class="doc-h2">NPU — 추론 효율의 극한</h2>
       <div class="two-col" style="margin-bottom:16px;">
-        <div class="img-box"><img src="Docs/img/npu-systolic-array.svg" alt="NPU Systolic Array"></div>
-        <div class="img-box"><img src="Docs/img/npu-unified-memory.svg" alt="NPU Unified Memory"></div>
+        <div class="img-box"><img src="img/npu-systolic-array.svg" alt="NPU Systolic Array"></div>
+        <div class="img-box"><img src="img/npu-unified-memory.svg" alt="NPU Unified Memory"></div>
       </div>
       <p class="doc-p">NPU는 INT8/INT4 전용 하드웨어로 엣지 추론에 특화됩니다. Apple M4 Neural Engine은 38 TOPS를 약 3W로 처리하며, TOPS/W 기준으로 H100보다 10배 이상 효율적입니다. Unified Memory 아키텍처는 CPU-GPU-NPU 간 데이터 복사 오버헤드를 제거합니다.</p>
       <div class="callout green">FP32 → INT4 양자화: 메모리 8× 절감. Llama 3.2 3B INT4 모델 = 1.8GB → M4 MacBook에서 실행 가능</div>
@@ -1930,8 +1930,8 @@ body.doc-mode #doc-mode-content {
       <div class="doc-section-num">Section 05</div>
       <h2 class="doc-h2">TPU — Google이 직접 만든 이유</h2>
       <div class="two-col" style="margin-bottom:16px;">
-        <div class="img-box"><img src="Docs/img/tpu-systolic-dataflow.svg" alt="TPU Systolic Dataflow"></div>
-        <div class="img-box"><img src="Docs/img/tpu-ici-vs-nvlink.svg" alt="ICI vs NVLink"></div>
+        <div class="img-box"><img src="img/tpu-systolic-dataflow.svg" alt="TPU Systolic Dataflow"></div>
+        <div class="img-box"><img src="img/tpu-ici-vs-nvlink.svg" alt="ICI vs NVLink"></div>
       </div>
       <p class="doc-p">2015년 추론 전용 TPU v1(92 TOPS) 이후, TPU v5p는 459 TFLOPS BF16으로 성장했습니다. 4,096칩이 3D 토러스 ICI로 직결되는 Pod 구조가 초대형 모델 학습을 가능하게 합니다.</p>
       <div class="callout amber"><strong>트레이드오프:</strong> XLA 컴파일러 의존 → 범용성 낮음 vs PyTorch 대비 특화 워크로드에서 2-3× 성능 우위</div>

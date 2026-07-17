@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>데이터베이스 완전 정리 — SQL · NoSQL · 그리고 그 너머</title>
 <script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<link rel="stylesheet" href="assets/fonts.css">
-<link rel="stylesheet" href="assets/dark.css">
-<script src="assets/app.js" defer></script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
 <style>
 /* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
 :root {
@@ -414,7 +414,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
 
   <figure>
-    <img src="Docs/img/db-history-timeline.svg" alt="데이터베이스 진화 타임라인">
+    <img src="img/db-history-timeline.svg" alt="데이터베이스 진화 타임라인">
     <figcaption>DB 진화의 3시대 — 각 시대를 지배한 가치가 다르다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -451,7 +451,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   <strong>연결하려는 시도는 시작됐지만, 해답은 아니었다.</strong></p>
 
   <figure>
-    <img src="Docs/img/db-prehistory.svg" alt="파일 시대의 문제와 계층형·네트워크형·관계형 DB의 진화">
+    <img src="img/db-prehistory.svg" alt="파일 시대의 문제와 계층형·네트워크형·관계형 DB의 진화">
     <figcaption>파일의 혼란 → 트리 → 그물 → 표. 1970년 Codd의 "표로 저장하자"는 단순한 아이디어가 승리했다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -531,7 +531,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   해법은 수천 대의 값싼 서버에 데이터를 나눠 담는 것(scale-out)인데, 문제는 <strong>RDBMS의 JOIN과 ACID가 여러 서버에 걸쳐서는 극도로 느리고 어렵다</strong>는 점이었다.</p>
 
   <figure>
-    <img src="Docs/img/db-scaleup-vs-scaleout.svg" alt="Scale-Up vs Scale-Out">
+    <img src="img/db-scaleup-vs-scaleout.svg" alt="Scale-Up vs Scale-Out">
     <figcaption>확장 전략의 분기점 — 이 그림 하나가 NoSQL 탄생의 이유다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -546,7 +546,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   <strong>둘만</strong> 온전히 가질 수 있다. 네트워크 장애(P)는 현실에서 피할 수 없으므로, 실질적 선택은 <strong>CP vs AP</strong>다.</p>
 
   <figure>
-    <img src="Docs/img/db-cap-theorem.svg" alt="CAP 정리">
+    <img src="img/db-cap-theorem.svg" alt="CAP 정리">
     <figcaption>CAP 삼각형 — 각 DB가 어느 변에 서 있는지가 그 DB의 성격을 결정한다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -580,7 +580,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
 
   <figure>
-    <img src="Docs/img/db-nosql-models.svg" alt="NoSQL 4대 데이터 모델">
+    <img src="img/db-nosql-models.svg" alt="NoSQL 4대 데이터 모델">
     <figcaption>4가지 데이터 모델 비교 — 각자 "잘하는 질문"이 완전히 다르다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -597,7 +597,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   Redis는 여기에 <strong>인메모리(RAM)</strong>라는 무기를 더해 <strong>마이크로초~밀리초 응답</strong>을 실현한다 — 디스크 DB 대비 100~1,000배.</p>
 
   <figure>
-    <img src="Docs/img/db-redis-cache.svg" alt="Redis Cache-Aside 패턴">
+    <img src="img/db-redis-cache.svg" alt="Redis Cache-Aside 패턴">
     <figcaption>Cache-Aside 패턴 — "MySQL이 본 저장소, Redis가 그 앞의 방패"는 웹 서비스의 표준 구성 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -663,7 +663,7 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
   노드를 추가하면 용량·처리량이 <strong>선형으로 증가</strong>한다. LSM-Tree 저장 구조 덕에 <strong>쓰기 성능이 압도적</strong>이다.</p>
 
   <figure>
-    <img src="Docs/img/db-cassandra-ring.svg" alt="Cassandra 링 아키텍처">
+    <img src="img/db-cassandra-ring.svg" alt="Cassandra 링 아키텍처">
     <figcaption>마스터리스 링 + 튜닝 가능한 일관성 — AP 진영의 대표 아키텍처 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -692,7 +692,7 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
   (<strong>Index-Free Adjacency</strong>), 관계를 따라가는 비용이 <strong>전체 데이터 크기와 무관</strong>하다 — RDBMS의 자기 JOIN과 결정적으로 다른 점.</p>
 
   <figure>
-    <img src="Docs/img/db-graph-vs-join.svg" alt="Graph DB vs RDBMS JOIN">
+    <img src="img/db-graph-vs-join.svg" alt="Graph DB vs RDBMS JOIN">
     <figcaption>"친구의 친구" 문제 — 관계 깊이가 깊어질수록 격차는 수십~수백 배로 벌어진다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -724,7 +724,7 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
 
   <h3><span class="num">G</span>OLTP vs OLAP — 행 저장과 열 저장</h3>
   <figure>
-    <img src="Docs/img/db-row-vs-column.svg" alt="행 저장 vs 열 저장">
+    <img src="img/db-row-vs-column.svg" alt="행 저장 vs 열 저장">
     <figcaption>같은 테이블, 다른 물리 배치 — 거래 처리와 분석이 서로 다른 DB를 쓰는 이유 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -763,7 +763,7 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
   아래는 전형적인 이커머스의 실제 구성이다.</p>
 
   <figure>
-    <img src="Docs/img/db-polyglot.svg" alt="Polyglot Persistence 아키텍처">
+    <img src="img/db-polyglot.svg" alt="Polyglot Persistence 아키텍처">
     <figcaption>요청의 성격에 따라 서로 다른 DB로 — 원본(MySQL)의 변경은 CDC/Kafka로 파생 저장소에 전파 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -795,7 +795,7 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
   2006년 <strong>Amazon S3</strong>가 이 문제를 정면으로 해결했다 — <strong>"파일 저장을 서버에서 떼어내라."</strong></p>
 
   <figure>
-    <img src="Docs/img/db-object-storage.svg" alt="서버 직접 저장 vs S3 객체 스토리지">
+    <img src="img/db-object-storage.svg" alt="서버 직접 저장 vs S3 객체 스토리지">
     <figcaption>파일을 "경로"가 아니라 "객체"로 보는 발상의 전환이 무제한 확장을 가능하게 했다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -824,7 +824,7 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
   그리고 모든 파일이 공개여선 안 되므로, 접근 권한이 함께 설계된다.</p>
 
   <figure>
-    <img src="Docs/img/db-cdn-presigned.svg" alt="CDN 엣지 서버와 Presigned URL">
+    <img src="img/db-cdn-presigned.svg" alt="CDN 엣지 서버와 Presigned URL">
     <figcaption>전달(CDN)과 접근 제어(Public·Private·Presigned URL)까지가 스토리지 시스템의 완성이다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -838,7 +838,7 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
   <p class="body">인스타그램에 사진을 올리는 순간부터 다른 사용자 화면에 뜨기까지, DB와 스토리지가 어떻게 역할을 나누는지 따라가 보자.</p>
 
   <figure>
-    <img src="Docs/img/db-upload-flow.svg" alt="사진 업로드부터 조회까지 7단계 흐름">
+    <img src="img/db-upload-flow.svg" alt="사진 업로드부터 조회까지 7단계 흐름">
     <figcaption>업로드 5단계 + 조회 2단계 — DB에는 URL만, 파일은 스토리지에, 전달은 CDN이 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -876,7 +876,7 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
   그래서 2020년 <strong>Supabase</strong>가 등장한다 — <em>"Firebase처럼 편하게, 그런데 제대로 된 SQL(PostgreSQL)로."</em></p>
 
   <figure>
-    <img src="Docs/img/db-baas-supabase.svg" alt="조립식 클라우드 vs Supabase 통합 스택">
+    <img src="img/db-baas-supabase.svg" alt="조립식 클라우드 vs Supabase 통합 스택">
     <figcaption>서비스를 하나씩 조립하던 시대 → 필요한 것들이 처음부터 연결돼 있는 시대 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -971,7 +971,7 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
 
 <footer style="border-top:1px solid var(--border); padding-top:24px; color:var(--text-muted); font-size:12.5px; text-align:center; margin-bottom:40px;">
   Knowledge DB · 데이터베이스 완전 정리 — SQL · NoSQL · NewSQL · 전문 DB · 스토리지(S3·CDN) · BaaS(Supabase)<br>
-  Hyundai-Inspired Design System v1.0 · 도식: Docs/img/db-*.svg (14종) · §1A·§6·§7은 유튜브 강의 "뿌리강의 3강 — DB와 스토리지" 내용을 반영해 보강
+  Hyundai-Inspired Design System v1.0 · 도식: img/db-*.svg (14종) · §1A·§6·§7은 유튜브 강의 "뿌리강의 3강 — DB와 스토리지" 내용을 반영해 보강
 </footer>
 
 </main>

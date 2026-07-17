@@ -50,7 +50,7 @@
 }
 
 /* SVG 다이어그램은 라이트 배경 전제로 그려져 있음 → 밝은 매트 위에 표시 */
-:root[data-theme="dark"] img[src*="Docs/img/"] {
+:root[data-theme="dark"] img[src*="img/"] {
   background: #F5F1E8;
   border-radius: 10px;
   padding: 6px;

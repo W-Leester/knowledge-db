@@ -25,35 +25,43 @@ npx serve   # 로컬 서버 — index.html은 docs.json을 fetch하므로 file:/
 
 문서 목록 렌더링(index.html), 검색, 다운로드할 자산 목록, 버전 갱신 감지가 전부 `docs.json` 하나에서 나온다. 각 항목: `id`(파일명에서 .html 뗀 것 — localStorage 키로도 사용), `file`, `version`(내용 수정 시 수동 +1), `assets`(문서가 참조하는 SVG 전부).
 
+### 디렉토리 구조
+
+- 루트 = 앱 셸: `index.html`, `docs.json`, `manifest.webmanifest`, `assets/`, `icons/` (Phase 3에서 `sw.js` 추가 예정 — SW 스코프 때문에 루트 필수)
+- `docs/` = 지식 문서 HTML + `docs/img/`(문서용 SVG)
+- `planning/` = 기획·설계 문서 (앱 소스 아님, 아래 참조)
+
 ### 문서 페이지 구조
 
-각 문서(`*.html`)는 루트에 있는 자립적 HTML이며, 원본을 재작성하지 않고 head에 공통 3요소만 주입한다:
+각 문서(`docs/*.html`)는 자립적 HTML이며, 원본을 재작성하지 않고 head에 공통 3요소만 주입한다:
 
 1. FOUC 방지 인라인 스니펫 (localStorage `kdb-theme` 읽어 `data-theme` 즉시 설정)
-2. `assets/fonts.css` + `assets/dark.css` 링크
-3. `assets/app.js` (defer) — 테마 3단 토글(시스템/라이트/다크), ⌂ 홈 버튼, 읽던 위치 저장·이어읽기 토스트, 최근 문서 기록을 플로팅 UI로 주입
+2. `../assets/fonts.css` + `../assets/dark.css` 링크
+3. `../assets/app.js` (defer) — 테마 3단 토글(시스템/라이트/다크), ⌂ 홈 버튼, 읽던 위치 저장·이어읽기 토스트, 최근 문서 기록을 플로팅 UI로 주입
+
+문서 내 이미지 참조는 `img/…`(문서 기준 상대경로), docs.json의 `assets` 배열은 `docs/img/…`(사이트 루트 기준)로 적는다.
 
 ### 디자인 시스템
 
-전 문서가 동일한 CSS 변수 토큰(`--bg-primary`, `--navy-900` 등, Hyundai-inspired)을 쓴다 — `design-system.html` 참조. 다크모드는 `assets/dark.css`가 `:root[data-theme="dark"]`에서 이 변수들만 오버라이드하는 방식이므로, 새 문서도 반드시 같은 토큰을 사용해야 한다. 문서 이미지는 `Docs/img/*.svg`.
+전 문서가 동일한 CSS 변수 토큰(`--bg-primary`, `--navy-900` 등, Hyundai-inspired)을 쓴다 — `docs/design-system.html` 참조. 다크모드는 `assets/dark.css`가 `:root[data-theme="dark"]`에서 이 변수들만 오버라이드하는 방식이므로, 새 문서도 반드시 같은 토큰을 사용해야 한다.
 
 ### 클라이언트 저장소
 
 localStorage 키는 `kdb-` 접두사: `kdb-theme`, `kdb-pos:{docId}`, `kdb-recent`, `kdb-dl-ver:{docId}`. Cache Storage(Phase 3 예정): `kdb-shell-v{n}`, `kdb-docs`.
 
-### KnowledgeDB_App/ 폴더
+### planning/ 폴더
 
-앱의 소스가 아니라 기획·설계 문서다. 실제 소스는 저장소 루트에 있다.
+앱의 소스가 아니라 기획·설계 문서다 (구 `KnowledgeDB_App/`, 2026-07-17 개명).
 
 - `Tasks.md` — **살아있는 작업 체크리스트.** 작업 시작 전 여기서 현재 Phase를 확인하고, 완료하면 체크 표시로 갱신한다.
-- `docs/05_설계문서.md` — 아키텍처의 "어떻게" (SW 캐싱 전략, 다운로드 버튼, 검색 설계 등 미구현 Phase 포함)
+- `docs/05_설계문서.md` — 아키텍처의 "어떻게" (SW 캐싱 전략, 다운로드 버튼, 검색 설계 등 미구현 Phase 포함). 단, 3장의 디렉토리 트리는 구조 개편 전 기준.
 - `docs/01~04` — 요구사항(FR/NFR 번호의 출처), 기술 비교, 로드맵
 
 ## 운영 워크플로
 
 이 저장소는 여러 PC에서 사용한다. **작업 시작 전 `git pull`, 작업 완료 후 커밋·push**를 기본 리듬으로 한다.
 
-**새 문서 추가**: ① 루트에 HTML 작성 (디자인 토큰 + 반응형 + head 3요소 포함) ② `docs.json`에 항목 추가 (assets에 참조 SVG 전부 나열) ③ `index.html`의 `<noscript>` 폴백 목록에도 링크 추가 ④ push
+**새 문서 추가**: ① `docs/`에 HTML 작성 (디자인 토큰 + 반응형 + head 3요소 포함, SVG는 `docs/img/`) ② `docs.json`에 항목 추가 (`file`은 `docs/….html`, assets에 참조 SVG 전부 나열) ③ `index.html`의 `<noscript>` 폴백 목록에도 링크 추가 ④ push
 
 **기존 문서 수정**: HTML 수정 → `docs.json`의 해당 `version` +1 → push
 

@@ -62,7 +62,7 @@
     if (!isHome) {
       var home = document.createElement('a');
       home.className = 'kdb-btn';
-      home.href = './';
+      home.href = '../'; /* 문서는 docs/ 아래, 홈은 사이트 루트 */
       home.title = '문서 목록으로';
       home.textContent = '⌂';
       wrap.appendChild(home);
