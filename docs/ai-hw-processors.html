@@ -912,6 +912,8 @@ body.doc-mode #doc-mode-content {
 
 /* ===== RESPONSIVE — 모바일 문서 모드 ===== */
 @media (max-width: 900px) {
+  .tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tbl-scroll > table { min-width: 540px; }
   body.doc-mode #doc-mode-content {
     grid-template-columns: 1fr;
     padding: 64px 12px 90px;
@@ -1304,7 +1306,7 @@ body.doc-mode #doc-mode-content {
                 </ul>
               </div>
               <div>
-                <table class="comp-table">
+                <div class="tbl-scroll"><table class="comp-table">
                   <thead>
                     <tr><th></th><th>GPU (H100)</th><th>NPU (M4)</th></tr>
                   </thead>
@@ -1315,7 +1317,7 @@ body.doc-mode #doc-mode-content {
                     <tr><td>메모리</td><td>80GB HBM3</td><td>최대 128GB 통합</td></tr>
                     <tr><td>정밀도</td><td>FP8~FP64</td><td>INT4~INT16</td></tr>
                   </tbody>
-                </table>
+                </table></div>
               </div>
             </div>
           </div>
@@ -1477,7 +1479,7 @@ body.doc-mode #doc-mode-content {
               </label>
             </div>
 
-            <table class="comp-table" style="font-size:14px;">
+            <div class="tbl-scroll"><table class="comp-table" style="font-size:14px;">
               <thead>
                 <tr>
                   <th></th>
@@ -1495,7 +1497,7 @@ body.doc-mode #doc-mode-content {
                 <tr><td>유연성</td><td>★★★</td><td>★★★</td><td>★</td><td>★</td></tr>
                 <tr><td>비용</td><td>★★</td><td>★</td><td>★★★</td><td>★★</td></tr>
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
       </div>
@@ -1939,7 +1941,7 @@ body.doc-mode #doc-mode-content {
     <div class="doc-section" id="ds-6">
       <div class="doc-section-num">Section 06</div>
       <h2 class="doc-h2">4대 프로세서 비교</h2>
-      <table class="comp-table" style="margin-bottom:16px;">
+      <div class="tbl-scroll"><table class="comp-table" style="margin-bottom:16px;">
         <thead>
           <tr><th></th><th>CPU</th><th>GPU</th><th>NPU</th><th>TPU</th></tr>
         </thead>
@@ -1951,7 +1953,7 @@ body.doc-mode #doc-mode-content {
           <tr><td>유연성</td><td>★★★</td><td>★★★</td><td>★</td><td>★</td></tr>
           <tr><td>비용</td><td>★★</td><td>★</td><td>★★★</td><td>★★</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
     <div class="doc-section" id="ds-7">
       <div class="doc-section-num">Section 07</div>
@@ -2000,7 +2002,7 @@ body.doc-mode #doc-mode-content {
       <div class="doc-section-num">Section 09</div>
       <h2 class="doc-h2">4대 프로세서 — 연산 방식 비교</h2>
       <div class="callout" style="margin-bottom:16px;">CPU: 소수 강력 코어 OoO 파이프라인 · GPU: 대규모 SIMT Warp 스케줄링 · NPU: Systolic 대각 파형 INT8 특화 · TPU: Weight-Stationary MXU 대규모 GEMM</div>
-      <table class="comp-table" style="margin-bottom:16px;">
+      <div class="tbl-scroll"><table class="comp-table" style="margin-bottom:16px;">
         <thead><tr><th>지표</th><th>CPU</th><th>GPU</th><th>NPU</th><th>TPU</th></tr></thead>
         <tbody>
           <tr><td>연산 모델</td><td>MIMD · OoO</td><td>SIMT · Warp</td><td>Systolic (대각)</td><td>Systolic (열 고정)</td></tr>
@@ -2010,7 +2012,7 @@ body.doc-mode #doc-mode-content {
           <tr><td>학습 처리량</td><td>보조 역할</td><td>3,958 TFLOPS</td><td>미지원</td><td>459 TFLOPS</td></tr>
           <tr><td>추론 효율</td><td>저속</td><td>고속</td><td>초고효율</td><td>고효율</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
   </div>
 </div>

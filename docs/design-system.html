@@ -397,6 +397,8 @@ h3:first-child { margin-top: 0; }
 #backdrop.show { display: block; }
 
 @media (max-width: 900px) {
+  .tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tbl-scroll > table { min-width: 540px; }
   #menu-btn { display: flex; }
   #sidebar {
     position: fixed; left: 0; top: 0; height: 100vh; width: 250px;
@@ -618,7 +620,7 @@ h3:first-child { margin-top: 0; }
     <h3>데이터 테이블 Table</h3>
     <div class="component-demo">
       <div class="demo-label">Comparison Table</div>
-      <table class="ds-table">
+      <div class="tbl-scroll"><table class="ds-table">
         <thead>
           <tr>
             <th>프로세서</th>
@@ -635,7 +637,7 @@ h3:first-child { margin-top: 0; }
           <tr><td>NPU</td><td>Apple M4 NE</td><td>✗</td><td>★★★</td><td>20</td><td>$3.5K</td></tr>
           <tr><td>TPU</td><td>TPU v5p</td><td>★★★</td><td>★★</td><td>450</td><td>Cloud only</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
 
     <!-- Tabs -->

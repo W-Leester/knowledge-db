@@ -6,6 +6,11 @@
    → 토큰은 양쪽 모두 견딜 수 있는 중간 블루로 올리고,
      사이드바처럼 큰 배경면은 아래 개별 셀렉터에서 딥 네이비로 되돌린다. */
 
+/* 브라우저(Android Chrome/Samsung Internet)의 "웹 콘텐츠 자동 다크" 강제 반전 차단:
+   페이지가 스스로 라이트/다크를 제공한다고 선언해야 SVG·배경색을 브라우저가 뒤집지 않는다 */
+:root { color-scheme: only light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+
 :root[data-theme="dark"] {
   --bg-primary: #0F1520;
   --bg-secondary: #171F2B;

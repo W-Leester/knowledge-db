@@ -586,6 +586,8 @@ body.doc-mode #toc-sidebar { display: block; }
    RESPONSIVE (doc mode)
 ═══════════════════════════════════════════════════ */
 @media (max-width: 900px) {
+  .tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tbl-scroll > table { min-width: 540px; }
   #toc-sidebar { display: none !important; }
   .two-col { grid-template-columns: 1fr; }
   .glass-cards { grid-template-columns: 1fr; }
@@ -902,7 +904,7 @@ body.doc-mode #toc-sidebar { display: block; }
     </div>
     <!-- Right -->
     <div style="display:flex; flex-direction:column; gap:10px; min-height:0;">
-      <table class="comp-table" style="font-size:11px;">
+      <div class="tbl-scroll"><table class="comp-table" style="font-size:11px;">
         <thead>
           <tr>
             <th>항목</th>
@@ -919,7 +921,7 @@ body.doc-mode #toc-sidebar { display: block; }
           <tr><td>PMIC</td><td>외장</td><td>DIMM 내장</td><td>DIMM 내장</td></tr>
           <tr class="highlight"><td>AI 서버 활용</td><td>구세대</td><td>현재 주력</td><td>2024~ 확대</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <!-- Tabs -->
       <div class="tab-container" style="flex:none;">
         <div class="tab-list">
@@ -1102,14 +1104,14 @@ body.doc-mode #toc-sidebar { display: block; }
           <div class="sub">GB HBM3e</div>
         </div>
       </div>
-      <table class="comp-table" style="font-size:10px;">
+      <div class="tbl-scroll"><table class="comp-table" style="font-size:10px;">
         <thead><tr><th>항목</th><th>H100 HBM3</th><th>H200 HBM3e</th><th>B200 HBM3e</th></tr></thead>
         <tbody>
           <tr><td>용량</td><td>80 GB</td><td>141 GB</td><td>192 GB</td></tr>
           <tr><td>대역폭</td><td>3.35 TB/s</td><td>4.8 TB/s</td><td>8.0 TB/s</td></tr>
           <tr class="highlight"><td>스택 수</td><td>5</td><td>6</td><td>8</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
     <!-- col2 -->
     <div style="display:flex; flex-direction:column; gap:10px; min-height:0;">

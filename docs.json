@@ -9,7 +9,7 @@
       "icon": "🗄",
       "gradient": ["#002C5F", "#1A5CB5"],
       "tags": ["RDBMS", "NoSQL", "S3·CDN", "Supabase"],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/db-history-timeline.svg",
         "docs/img/db-prehistory.svg",
@@ -36,7 +36,7 @@
       "icon": "🌱",
       "gradient": ["#0D1B2E", "#00AA6C"],
       "tags": ["git", "remote", "잔디"],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/git-four-areas.svg",
         "docs/img/git-grass-conditions.svg"
@@ -51,7 +51,7 @@
       "icon": "⚙️",
       "gradient": ["#003F8A", "#00AA6C"],
       "tags": ["CPU", "GPU", "NPU", "TPU"],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/cpu-vs-gpu-cores.svg",
         "docs/img/cpu-cache-hierarchy.svg",
@@ -74,7 +74,7 @@
       "icon": "🧠",
       "gradient": ["#1A5CB5", "#6B21A8"],
       "tags": ["DDR5", "HBM3e", "KV-Cache"],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/mem-roofline-model.svg",
         "docs/img/mem-dram-cell.svg",
@@ -95,7 +95,7 @@
       "icon": "🎨",
       "gradient": ["#E8962A", "#DC2626"],
       "tags": ["Colors", "Typography", "Components"],
-      "version": 1,
+      "version": 2,
       "assets": []
     }
   ]
