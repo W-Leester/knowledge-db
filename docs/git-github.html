@@ -191,6 +191,7 @@ figure img { display: block; width: 100%; height: auto; border-radius: var(--rad
 figure img:hover { opacity: .92; }
 figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
 figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
 /* ─── Code block ─── */
 pre.code {
@@ -284,6 +285,9 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
   .stat-card .stat-value { font-size: 28px; }
   figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
   figure figcaption { font-size: 11.5px; }
   table.ds { font-size: 12.5px; min-width: 600px; }
   table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
@@ -384,7 +388,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   네 번째(원격)로 넘어가는 것은 오직 <span class="mono">push</span>뿐이다.</p>
 
   <figure>
-    <img src="img/git-four-areas.svg" alt="git의 네 공간: 작업 폴더, 스테이징, 로컬 저장소, 원격 저장소">
+    <div class="fig-scroll"><img src="img/git-four-areas.svg" alt="git의 네 공간: 작업 폴더, 스테이징, 로컬 저장소, 원격 저장소"></div>
     <figcaption>add·commit은 내 컴퓨터 안에서 끝난다 — 원격과 통신하는 명령은 push·pull·fetch뿐 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
@@ -559,7 +563,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   아래 세 조건을 <u>모두</u> 만족해야 한다.</p>
 
   <figure>
-    <img src="img/git-grass-conditions.svg" alt="잔디가 심기는 3가지 조건: 이메일 일치, 기본 브랜치, push 완료">
+    <div class="fig-scroll"><img src="img/git-grass-conditions.svg" alt="잔디가 심기는 3가지 조건: 이메일 일치, 기본 브랜치, push 완료"></div>
     <figcaption>이메일 · 브랜치 · push — 셋 중 하나라도 어긋나면 커밋해도 잔디는 0칸 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 

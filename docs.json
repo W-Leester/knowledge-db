@@ -17,7 +17,7 @@
         "S3·CDN",
         "Supabase"
       ],
-      "version": 3,
+      "version": 4,
       "assets": [
         "docs/img/db-history-timeline.svg",
         "docs/img/db-prehistory.svg",
@@ -51,7 +51,7 @@
         "remote",
         "잔디"
       ],
-      "version": 3,
+      "version": 4,
       "assets": [
         "docs/img/git-four-areas.svg",
         "docs/img/git-grass-conditions.svg"
@@ -74,7 +74,7 @@
         "NPU",
         "TPU"
       ],
-      "version": 2,
+      "version": 3,
       "assets": [
         "docs/img/cpu-vs-gpu-cores.svg",
         "docs/img/cpu-cache-hierarchy.svg",
@@ -104,7 +104,7 @@
         "HBM3e",
         "KV-Cache"
       ],
-      "version": 2,
+      "version": 3,
       "assets": [
         "docs/img/mem-roofline-model.svg",
         "docs/img/mem-dram-cell.svg",

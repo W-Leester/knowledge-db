@@ -588,6 +588,8 @@ body.doc-mode #toc-sidebar { display: block; }
 @media (max-width: 900px) {
   .tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .tbl-scroll > table { min-width: 540px; }
+  #doc-content .doc-section { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  #doc-content img { min-width: 640px; max-width: none !important; }   /* 도식 축소 대신 가로 스크롤 */
   #toc-sidebar { display: none !important; }
   .two-col { grid-template-columns: 1fr; }
   .glass-cards { grid-template-columns: 1fr; }

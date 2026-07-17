@@ -914,6 +914,8 @@ body.doc-mode #doc-mode-content {
 @media (max-width: 900px) {
   .tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .tbl-scroll > table { min-width: 540px; }
+  .img-box { overflow-x: auto; -webkit-overflow-scrolling: touch; justify-content: flex-start; height: auto !important; }
+  .img-box img { min-width: 640px; width: auto; height: auto; max-height: none; }   /* 도식 축소 대신 가로 스크롤 */
   body.doc-mode #doc-mode-content {
     grid-template-columns: 1fr;
     padding: 64px 12px 90px;
