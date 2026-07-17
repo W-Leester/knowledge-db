@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="garrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="470" fill="#FAF7F2"/>
+
+  <!-- 잔디 그리드 예시 -->
+  <text x="40" y="46" font-size="19" font-weight="800" fill="#002C5F">🌱 잔디 = 지난 1년의 기여 활동 히트맵 (진할수록 그날 활동이 많음)</text>
+  <g transform="translate(40,64)">
+    <!-- 7행 x 26열 미니 그리드 -->
+    <g fill="#E4E0D5">
+      <rect x="0" y="0" width="820" height="120" fill="none"/>
+    </g>
+    <!-- 잔디 셀: 행(row)=요일, 열=주 -->
+    <g>
+      <!-- 자동 배치 대신 대표 패턴 수동 배치 -->
+      <g fill="#E4E0D5">
+        <rect x="0"   y="0"  width="14" height="14" rx="3"/><rect x="0"   y="17" width="14" height="14" rx="3"/><rect x="0"   y="34" width="14" height="14" rx="3"/><rect x="0"   y="51" width="14" height="14" rx="3"/><rect x="0"   y="68" width="14" height="14" rx="3"/><rect x="0"   y="85" width="14" height="14" rx="3"/><rect x="0"   y="102" width="14" height="14" rx="3"/>
+        <rect x="17"  y="0"  width="14" height="14" rx="3"/><rect x="17"  y="34" width="14" height="14" rx="3"/><rect x="17"  y="51" width="14" height="14" rx="3"/><rect x="17"  y="85" width="14" height="14" rx="3"/><rect x="17"  y="102" width="14" height="14" rx="3"/>
+        <rect x="34"  y="0"  width="14" height="14" rx="3"/><rect x="34"  y="17" width="14" height="14" rx="3"/><rect x="34"  y="68" width="14" height="14" rx="3"/><rect x="34"  y="102" width="14" height="14" rx="3"/>
+        <rect x="51"  y="17" width="14" height="14" rx="3"/><rect x="51"  y="34" width="14" height="14" rx="3"/><rect x="51"  y="51" width="14" height="14" rx="3"/><rect x="51"  y="68" width="14" height="14" rx="3"/><rect x="51"  y="85" width="14" height="14" rx="3"/>
+        <rect x="68"  y="0"  width="14" height="14" rx="3"/><rect x="68"  y="51" width="14" height="14" rx="3"/><rect x="68"  y="102" width="14" height="14" rx="3"/>
+      </g>
+      <g fill="#A7E3CC">
+        <rect x="17"  y="17" width="14" height="14" rx="3"/><rect x="34"  y="34" width="14" height="14" rx="3"/><rect x="34"  y="51" width="14" height="14" rx="3"/><rect x="51"  y="0"  width="14" height="14" rx="3"/><rect x="68"  y="17" width="14" height="14" rx="3"/><rect x="68"  y="85" width="14" height="14" rx="3"/>
+      </g>
+      <g fill="#00AA6C">
+        <rect x="17"  y="68" width="14" height="14" rx="3"/><rect x="34"  y="85" width="14" height="14" rx="3"/><rect x="51"  y="102" width="14" height="14" rx="3"/><rect x="68"  y="34" width="14" height="14" rx="3"/>
+      </g>
+      <g fill="#065F46">
+        <rect x="68"  y="68" width="14" height="14" rx="3"/>
+      </g>
+      <!-- 나머지 열은 연한 반복 패턴 -->
+      <g fill="#E4E0D5">
+        <rect x="85" y="0" width="14" height="14" rx="3"/><rect x="85" y="17" width="14" height="14" rx="3"/><rect x="85" y="51" width="14" height="14" rx="3"/><rect x="85" y="85" width="14" height="14" rx="3"/>
+        <rect x="102" y="17" width="14" height="14" rx="3"/><rect x="102" y="34" width="14" height="14" rx="3"/><rect x="102" y="68" width="14" height="14" rx="3"/><rect x="102" y="102" width="14" height="14" rx="3"/>
+      </g>
+      <g fill="#A7E3CC">
+        <rect x="85" y="34" width="14" height="14" rx="3"/><rect x="85" y="68" width="14" height="14" rx="3"/><rect x="102" y="0" width="14" height="14" rx="3"/><rect x="102" y="51" width="14" height="14" rx="3"/>
+      </g>
+      <g fill="#00AA6C">
+        <rect x="85" y="102" width="14" height="14" rx="3"/><rect x="102" y="85" width="14" height="14" rx="3"/>
+      </g>
+    </g>
+    <text x="140" y="66" font-size="14" fill="#8A8A8A">… GitHub 프로필의 그 초록색 격자.</text>
+    <text x="140" y="90" font-size="14" fill="#8A8A8A">하루에 조건을 만족하는 활동이 1건이라도 있으면 그날 칸에 잔디가 심긴다.</text>
+  </g>
+
+  <!-- 조건 3개 -->
+  <text x="40" y="238" font-size="19" font-weight="800" fill="#002C5F">커밋이 잔디로 인정되는 3가지 조건 (모두 만족해야 함)</text>
+
+  <rect x="40" y="258" width="252" height="118" rx="12" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
+  <text x="166" y="290" font-size="16" font-weight="800" fill="#065F46" text-anchor="middle">① 이메일 일치</text>
+  <text x="166" y="316" font-size="13.5" fill="#555555" text-anchor="middle">커밋의 author 이메일이</text>
+  <text x="166" y="336" font-size="13.5" fill="#555555" text-anchor="middle">GitHub 계정에 등록된</text>
+  <text x="166" y="356" font-size="13.5" fill="#555555" text-anchor="middle">이메일이어야 함</text>
+
+  <rect x="316" y="258" width="252" height="118" rx="12" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
+  <text x="442" y="290" font-size="16" font-weight="800" fill="#065F46" text-anchor="middle">② 기본 브랜치</text>
+  <text x="442" y="316" font-size="13.5" fill="#555555" text-anchor="middle">main 등 기본 브랜치</text>
+  <text x="442" y="336" font-size="13.5" fill="#555555" text-anchor="middle">(또는 gh-pages)에</text>
+  <text x="442" y="356" font-size="13.5" fill="#555555" text-anchor="middle">올라간 커밋이어야 함</text>
+
+  <rect x="592" y="258" width="252" height="118" rx="12" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
+  <text x="718" y="290" font-size="16" font-weight="800" fill="#065F46" text-anchor="middle">③ push 완료 + fork 아님</text>
+  <text x="718" y="316" font-size="13.5" fill="#555555" text-anchor="middle">로컬에만 있는 커밋은 0.</text>
+  <text x="718" y="336" font-size="13.5" fill="#555555" text-anchor="middle">GitHub에 올라가야 세고,</text>
+  <text x="718" y="356" font-size="13.5" fill="#555555" text-anchor="middle">fork 저장소 커밋은 제외</text>
+
+  <!-- 결과 -->
+  <line x1="442" y1="380" x2="442" y2="404" stroke="#00AA6C" stroke-width="3" marker-end="url(#garrow)"/>
+  <rect x="272" y="410" width="340" height="42" rx="21" fill="#00AA6C"/>
+  <text x="442" y="437" font-size="16.5" font-weight="800" fill="#FFFFFF" text-anchor="middle">🌱 잔디 1칸 — 날짜는 커밋 시각(로컬 시간) 기준</text>
+</svg>

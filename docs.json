@@ -28,6 +28,21 @@
       ]
     },
     {
+      "id": "git-github",
+      "title": "Git & GitHub 정리",
+      "desc": "로컬 저장소와 원격 연결의 실체, 일상 명령어, 그리고 잔디심기",
+      "file": "docs/git-github.html",
+      "group": "Software · Dev",
+      "icon": "🌱",
+      "gradient": ["#0D1B2E", "#00AA6C"],
+      "tags": ["git", "remote", "잔디"],
+      "version": 1,
+      "assets": [
+        "docs/img/git-four-areas.svg",
+        "docs/img/git-grass-conditions.svg"
+      ]
+    },
+    {
       "id": "ai-hw-processors",
       "title": "AI 하드웨어 — 프로세서",
       "desc": "CPU · GPU · NPU · TPU 아키텍처 완전 분해",

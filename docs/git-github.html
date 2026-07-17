@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git &amp; GitHub 정리 — 로컬 저장소, 원격 연결, 그리고 잔디</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, var(--navy-900) 55%, #065F46 100%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--green)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; }
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #lightbox { padding: 10px; }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>Git &amp; GitHub<br>정리</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#spaces">1. Git의 공간 구조</a>
+    <a href="#remote">2. GitHub 연결의 실체</a>
+    <a href="#r-connect" class="sub">2-1. 연결을 만든 명령 2개</a>
+    <a href="#r-manage" class="sub">2-2. 끊기 · 재연결 · 확인</a>
+    <a href="#daily">3. 일상 명령어</a>
+    <a href="#grass">4. 잔디심기</a>
+    <a href="#thisrepo">5. 이 저장소의 워크플로</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Developer Workflow · Version Control</div>
+  <h1>Git &amp; GitHub 정리<br><span class="thin">로컬 저장소 · 원격 연결 · 그리고 잔디</span></h1>
+  <p class="sub">"커밋은 로컬에서만 하고 있었는데, 이제 이 폴더는 GitHub에 무조건 연결된 건가?" —
+  이 질문 하나에서 출발해, git과 GitHub의 관계, 원격 연결(remote)의 실체, 매일 쓰는 명령어,
+  그리고 잔디(contribution graph)가 심기는 정확한 조건까지 한 문서로 정리한다.</p>
+  <div class="tags">
+    <span class="tag">git</span><span class="tag">remote</span><span class="tag">origin</span>
+    <span class="tag">push / pull</span><span class="tag">contribution graph</span><span class="tag">🌱</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — git은 도구, GitHub는 서비스</h2>
+    <p>이 구분 하나만 잡으면 나머지는 전부 따라온다</p>
+  </div>
+
+  <p class="body"><strong>git</strong>은 내 컴퓨터에 설치된 <strong>버전 관리 도구</strong>다. 커밋·이력·브랜치는 전부
+  프로젝트 폴더 안의 숨겨진 <span class="mono">.git/</span> 폴더에 저장되며, 인터넷 없이 완전하게 동작한다.
+  <strong>GitHub</strong>는 그 저장소의 <strong>사본을 올려두는 웹 서비스</strong>다. 백업·다른 기기와의 동기화·공유·정적 호스팅(Pages)을 제공하지만,
+  git 입장에서는 여러 "원격 저장소(remote)" 중 하나일 뿐이다.</p>
+
+  <div class="card-grid g4">
+    <div class="stat-card"><div class="stat-value">.git/</div><div class="stat-label">커밋 이력 전체가 사는 곳<br>(이 폴더가 곧 저장소)</div></div>
+    <div class="stat-card"><div class="stat-value">0회</div><div class="stat-label">commit 시 네트워크 통신<br>(커밋은 100% 로컬)</div></div>
+    <div class="stat-card"><div class="stat-value">3개</div><div class="stat-label">원격과 통신하는 명령<br>push · pull · fetch</div></div>
+    <div class="stat-card"><div class="stat-value">1줄</div><div class="stat-label">연결을 끊는 명령<br><span class="mono">git remote remove</span></div></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>이 문서를 관통하는 한 문장 —</strong> GitHub "연결"은 자동 동기화가 아니라
+    <u>.git/config에 주소 몇 줄을 적어둔 것</u>이다. 커밋만 하면 아무것도 올라가지 않고,
+    <span class="mono">push</span>를 실행하는 그 순간에만 전송된다. 예전처럼 로컬 커밋만 하는 습관은 연결된 상태에서도 그대로 유효하다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. SPACES ═══════════ -->
+<section id="spaces">
+  <div class="section-header">
+    <div class="eyebrow">Local First</div>
+    <h2>1. Git의 공간 구조 — 커밋은 어디까지 가는가</h2>
+    <p>작업 폴더 → 스테이징 → 로컬 저장소, 그리고 인터넷 건너의 원격</p>
+  </div>
+
+  <p class="body">git을 쓸 때 파일은 네 공간을 오간다. 앞의 셋은 전부 <strong>내 컴퓨터 안</strong>이고,
+  네 번째(원격)로 넘어가는 것은 오직 <span class="mono">push</span>뿐이다.</p>
+
+  <figure>
+    <img src="img/git-four-areas.svg" alt="git의 네 공간: 작업 폴더, 스테이징, 로컬 저장소, 원격 저장소">
+    <figcaption>add·commit은 내 컴퓨터 안에서 끝난다 — 원격과 통신하는 명령은 push·pull·fetch뿐 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">공간</th><th style="width:180px">들어가는 명령</th><th>무엇이 있는 곳인가</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">작업 폴더</td><td class="mono">(파일 편집)</td><td>지금 보고 편집하는 실제 파일들. git이 변경을 감지하는 대상.</td></tr>
+        <tr><td class="hl">스테이징</td><td class="mono">git add</td><td>"다음 커밋에 포함할 변경분"의 대기석. 커밋 단위를 다듬는 곳.</td></tr>
+        <tr><td class="hl">로컬 저장소</td><td class="mono">git commit</td><td><span class="mono">.git/</span> 안의 커밋 이력. <strong>여기까지가 예전부터 하던 "로컬 git"의 전부다.</strong></td></tr>
+        <tr><td class="hl">원격 (GitHub)</td><td class="mono">git push</td><td>GitHub 서버에 있는 저장소 사본. push한 만큼만 반영된다.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <details class="acc">
+    <summary>fetch와 pull은 뭐가 다른가?</summary>
+    <div class="acc-body">
+      <p><span class="mono">git fetch</span>는 원격의 새 커밋을 <strong>가져와서 보기만</strong> 한다(내 작업 폴더는 그대로).
+      <span class="mono">git pull</span>은 <span class="mono">fetch + merge</span>, 즉 가져온 커밋을 <strong>내 브랜치에 합치는 것까지</strong> 한 번에 한다.
+      일상적으로는 pull이면 충분하고, "다른 PC에서 뭐가 올라왔는지 구경만 하고 싶을 때" fetch를 쓴다.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ═══════════ 2. REMOTE ═══════════ -->
+<section id="remote">
+  <div class="section-header">
+    <div class="eyebrow">Remote = Address Book</div>
+    <h2>2. GitHub 연결의 실체 — "무조건 연결"이 아니다</h2>
+    <p>remote는 .git/config에 적힌 주소 몇 줄일 뿐이다</p>
+  </div>
+
+  <p class="body">"이 폴더는 이제 GitHub와 무조건 연결된 건가?"에 대한 정확한 답:
+  <strong>연결이라기보다 주소 등록이다.</strong> <span class="mono">origin</span>이라는 이름으로
+  GitHub 저장소의 URL이 <span class="mono">.git/config</span> 파일에 저장되어 있고,
+  push/pull을 실행할 때만 그 주소로 통신한다. 실제로 이 저장소의 <span class="mono">.git/config</span>에는 이렇게 적혀 있다:</p>
+
+  <pre class="code"><span class="title-bar">.git/config — "연결"의 실체 전부</span><span class="c"># origin이라는 이름의 원격 저장소 주소</span>
+[remote <span class="s">"origin"</span>]
+    url = <span class="s">https://github.com/W-Leester/knowledge-db.git</span>
+    fetch = +refs/heads/*:refs/remotes/origin/*
+
+<span class="c"># 로컬 main 브랜치가 origin의 main을 "추적"한다는 설정</span>
+<span class="c"># → 이 덕분에 그냥 git push / git pull만 쳐도 목적지를 안다</span>
+[branch <span class="s">"main"</span>]
+    remote = origin
+    merge = refs/heads/main</pre>
+
+  <div class="callout green">
+    <span class="icon">✅</span>
+    <div><strong>즉, 예전 습관은 깨지지 않았다.</strong> 로컬에서 커밋만 쌓으면 GitHub에는 아무 일도 일어나지 않는다.
+    연결됐다고 해서 저장·커밋이 자동으로 업로드되는 일은 절대 없다 — git에는 그런 기능 자체가 없다.</div>
+  </div>
+
+  <h3 id="r-connect"><span class="num">A</span>이 연결을 만든 명령 2개</h3>
+  <p class="body">이 저장소가 GitHub와 이어진 것은 딱 두 명령의 결과다 (Phase 0.5에서 실행됨):</p>
+
+  <pre class="code"><span class="title-bar">연결이 만들어진 과정</span><span class="c"># ① "origin"이라는 이름으로 GitHub 주소를 등록 (config에 몇 줄 추가될 뿐)</span>
+<span class="k">git remote add</span> origin https://github.com/W-Leester/knowledge-db.git
+
+<span class="c"># ② 첫 push + -u(--set-upstream): 로컬 main이 origin/main을 추적하도록 설정</span>
+<span class="c">#    → 이후로는 git push / git pull만 쳐도 됨</span>
+<span class="k">git push -u</span> origin main</pre>
+
+  <h3 id="r-manage"><span class="num">B</span>끊기 · 재연결 · 확인</h3>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">하고 싶은 것</th><th style="width:320px">명령</th><th>결과</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">현재 연결 확인</td><td class="mono">git remote -v</td><td>등록된 원격 이름과 주소 목록. 아무것도 안 나오면 순수 로컬 저장소.</td></tr>
+        <tr><td class="hl">연결 끊기</td><td class="mono">git remote remove origin</td><td>주소 등록만 삭제. <strong>커밋 이력·파일은 전부 그대로</strong> — 완전한 로컬 저장소로 복귀.</td></tr>
+        <tr><td class="hl">다시 연결</td><td class="mono">git remote add origin &lt;URL&gt;<br>git push -u origin main</td><td>주소 재등록 + 추적 설정. 위 A의 두 명령 그대로.</td></tr>
+        <tr><td class="hl">주소만 변경</td><td class="mono">git remote set-url origin &lt;URL&gt;</td><td>저장소 이름 변경·계정 이전 시 주소만 갱신.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">⚠️</span>
+    <div><strong>끊어도 GitHub 서버의 사본은 남는다.</strong> <span class="mono">git remote remove</span>는 내 쪽 주소록만 지우는 것.
+    GitHub에 이미 push된 사본까지 없애려면 GitHub 웹사이트 → 저장소 Settings → Danger Zone에서 저장소를 직접 삭제해야 한다.</div>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">📌</span>
+    <div><strong>단, 이 저장소(knowledge-db)에서 연결은 곧 서비스다.</strong> 폰에서 보는 PWA가
+    GitHub Pages(= push된 파일을 그대로 호스팅)로 배포되는 구조라, 연결을 끊으면 문서 수정이 폰에 반영될 길이 없어진다.
+    여러 PC 간 동기화 통로이기도 하므로 이 저장소만큼은 연결 유지가 맞다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 3. DAILY ═══════════ -->
+<section id="daily">
+  <div class="section-header">
+    <div class="eyebrow">Daily Commands</div>
+    <h2>3. 일상 명령어 — 매일 쓰는 것만 추리면 열 개 남짓</h2>
+    <p>하루의 리듬 하나 + 상황별 명령어 사전</p>
+  </div>
+
+  <h3><span class="num">A</span>하루의 리듬 (여러 PC를 쓸 때의 표준 사이클)</h3>
+
+  <pre class="code"><span class="title-bar">자리에 앉아서 → 일 끝날 때까지</span><span class="c"># ① 시작: 다른 PC에서 올린 커밋을 먼저 받는다 (충돌 예방의 90%)</span>
+<span class="k">git pull</span>
+
+<span class="c"># ② 작업하며 수시로: 뭐가 바뀌었나</span>
+<span class="k">git status</span>
+<span class="k">git diff</span>
+
+<span class="c"># ③ 마무리: 담고 → 기록하고 → 올린다</span>
+<span class="k">git add</span> -A
+<span class="k">git commit</span> -m <span class="s">"문서: DB 문서에 벡터 DB 섹션 추가"</span>
+<span class="k">git push</span></pre>
+
+  <div class="callout navy">
+    <span class="icon">💡</span>
+    <div><strong>혼자, 한 PC에서만 쓴다면</strong> ①의 pull은 생략해도 된다 — 원격을 바꾸는 주체가 나뿐이라 어긋날 일이 없다.
+    반대로 <strong>PC가 두 대 이상이면 pull부터가 규칙</strong>이다. 깜빡하고 커밋했다가 push가 거부되면 그때
+    <span class="mono">git pull --rebase</span>로 수습하면 된다 (§5 참조).</div>
+  </div>
+
+  <h3><span class="num">B</span>상황별 명령어 사전</h3>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:110px">분류</th><th style="width:290px">명령</th><th>설명</th></tr></thead>
+      <tbody>
+        <tr><td class="hl" rowspan="4">조회</td><td class="mono">git status</td><td>현재 상태 요약 — 수정된 파일, 스테이징 여부, 원격과의 차이. 가장 자주 치는 명령.</td></tr>
+        <tr><td class="mono">git log --oneline --graph</td><td>커밋 이력을 한 줄씩 그래프로. <span class="mono">-10</span>을 붙이면 최근 10개만.</td></tr>
+        <tr><td class="mono">git diff</td><td>아직 add하지 않은 변경 내용. <span class="mono">--staged</span>를 붙이면 add된 것만.</td></tr>
+        <tr><td class="mono">git remote -v</td><td>연결된 원격 저장소 확인.</td></tr>
+        <tr><td class="hl" rowspan="3">기록</td><td class="mono">git add -A</td><td>모든 변경을 스테이징. 파일 지정은 <span class="mono">git add 파일명</span>.</td></tr>
+        <tr><td class="mono">git commit -m "메시지"</td><td>스테이징된 것을 커밋으로 기록. 메시지는 "무엇을 왜"가 보이게.</td></tr>
+        <tr><td class="mono">git commit --amend</td><td>직전 커밋에 빠뜨린 것 합치기 / 메시지 수정. <strong>push 전에만</strong> 쓸 것.</td></tr>
+        <tr><td class="hl" rowspan="3">동기화</td><td class="mono">git pull</td><td>원격의 새 커밋을 받아 합침 (fetch + merge).</td></tr>
+        <tr><td class="mono">git push</td><td>내 커밋을 원격에 올림. Pages 저장소라면 이게 곧 배포.</td></tr>
+        <tr><td class="mono">git fetch</td><td>원격 상태를 받아오기만 (합치지 않음). 구경용.</td></tr>
+        <tr><td class="hl" rowspan="3">되돌리기</td><td class="mono">git restore 파일명</td><td>파일의 수정 내용을 버리고 마지막 커밋 상태로. <strong>수정분이 사라지니 주의.</strong></td></tr>
+        <tr><td class="mono">git restore --staged 파일명</td><td>add 취소 (파일 내용은 그대로, 스테이징에서만 뺌).</td></tr>
+        <tr><td class="mono">git revert 커밋해시</td><td>"그 커밋을 취소하는 새 커밋"을 만듦. 이력이 보존돼서 push 후에도 안전.</td></tr>
+        <tr><td class="hl" rowspan="2">임시 보관</td><td class="mono">git stash</td><td>하던 작업을 임시 선반에 치워두고 작업 폴더를 깨끗하게 (pull 전에 유용).</td></tr>
+        <tr><td class="mono">git stash pop</td><td>선반에 둔 작업을 다시 꺼내옴.</td></tr>
+        <tr><td class="hl" rowspan="2">브랜치</td><td class="mono">git switch -c 이름</td><td>새 브랜치를 만들며 이동 (실험용 작업 공간 분리).</td></tr>
+        <tr><td class="mono">git merge 이름</td><td>해당 브랜치의 커밋을 현재 브랜치로 합침.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <details class="acc">
+    <summary>reset은 왜 표에 없나? — reset vs revert</summary>
+    <div class="acc-body">
+      <p><span class="mono">git reset --hard</span>는 커밋 자체를 이력에서 지워버린다. 로컬에만 있는 커밋이면 괜찮지만,
+      <strong>이미 push한 커밋을 reset하면</strong> 원격과 이력이 갈라져서 다른 PC와 충돌 지옥이 열린다.
+      push 이후의 되돌리기는 항상 <span class="mono">revert</span>(취소 커밋 추가)를 쓰는 게 안전하다.
+      같은 이유로 <span class="mono">--amend</span>도 push 전 커밋에만 쓴다.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ═══════════ 4. GRASS ═══════════ -->
+<section id="grass">
+  <div class="section-header">
+    <div class="eyebrow">Contribution Graph</div>
+    <h2>4. 잔디심기 — 초록 칸이 채워지는 정확한 조건</h2>
+    <p>커밋했는데 잔디가 안 심기는 데는 항상 이유가 있다</p>
+  </div>
+
+  <p class="body">GitHub 프로필의 초록 격자(contribution graph), 속칭 <strong>잔디</strong>는 지난 1년간의
+  기여 활동을 날짜별로 보여주는 히트맵이다. 커밋 외에도 이슈·PR 생성, 코드 리뷰 등이 집계되지만,
+  개인 프로젝트에서는 사실상 <strong>커밋이 잔디의 전부</strong>다. 그런데 커밋이라고 다 잔디가 되는 게 아니다 —
+  아래 세 조건을 <u>모두</u> 만족해야 한다.</p>
+
+  <figure>
+    <img src="img/git-grass-conditions.svg" alt="잔디가 심기는 3가지 조건: 이메일 일치, 기본 브랜치, push 완료">
+    <figcaption>이메일 · 브랜치 · push — 셋 중 하나라도 어긋나면 커밋해도 잔디는 0칸 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <h3><span class="num">A</span>잔디가 안 심기는 흔한 원인 4가지</h3>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:210px">원인</th><th>설명과 해결</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① 이메일 불일치</td><td>커밋에 기록된 author 이메일이 GitHub 계정에 등록된 이메일과 다르면, GitHub는 그 커밋이 "누구 것인지" 몰라서 잔디로 세지 않는다.
+        <span class="mono">git config --global user.email</span>로 확인하고, GitHub → Settings → Emails의 주소와 맞출 것.</td></tr>
+        <tr><td class="hl">② 기본 브랜치가 아님</td><td>잔디는 저장소의 <strong>기본 브랜치(보통 main)</strong>와 gh-pages에 올라간 커밋만 센다.
+        작업 브랜치에 쌓은 커밋은 main에 merge되는 시점에 잔디로 잡힌다.</td></tr>
+        <tr><td class="hl">③ push하지 않음</td><td>로컬에만 있는 커밋은 GitHub가 존재 자체를 모른다. push한 날이 아니라 <strong>커밋한 날짜(author date, 로컬 시간대)</strong> 기준으로,
+        push되는 순간 소급해서 심긴다.</td></tr>
+        <tr><td class="hl">④ fork 저장소</td><td>fork에 한 커밋은 잔디로 세지 않는다. 원본 저장소에 merge되어야 집계된다.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🧪</span>
+    <div><strong>실제 사례 — 바로 이 저장소에서 일어났던 일:</strong> 이 Mac에 <span class="mono">user.email</span>이 설정되어 있지 않아,
+    첫 커밋이 자동 생성된 <span class="mono">leester@Leesterui-Macmini.local</span>이라는 가짜 주소로 기록됐다.
+    그대로 push했다면 커밋은 올라가도 <strong>잔디는 심기지 않았을 것</strong>이다.
+    <span class="mono">git config --global user.email</span>을 계정 이메일로 설정하고
+    <span class="mono">git commit --amend --reset-author</span>로 author를 고친 뒤 push해서 해결했다.</div>
+  </div>
+
+  <h3><span class="num">B</span>알아두면 좋은 잔디 규칙</h3>
+
+  <div class="card-grid">
+    <div class="card"><h4>🕐 날짜 기준</h4><p>커밋의 author date(커밋을 만든 로컬 시각) 기준. 밤 11시 59분 커밋을 다음날 push해도 잔디는 커밋한 날에 심긴다.</p></div>
+    <div class="card"><h4>🔒 비공개 저장소</h4><p>private 저장소의 잔디는 기본으로 남에게 안 보인다. 프로필 → Contribution settings → "Private contributions"를 켜면 초록 칸만 표시된다(내용은 비공개 유지).</p></div>
+    <div class="card"><h4>📊 횟수 = 진하기</h4><p>하루 커밋 수가 많을수록 칸이 진해진다. 단, 잔디는 "꾸준함"의 지표일 뿐 커밋을 쪼개서 부풀리는 건 의미가 없다.</p></div>
+  </div>
+
+  <pre class="code"><span class="title-bar">잔디 사전 점검 — 커밋 전에 30초</span><span class="c"># 지금 이 PC의 커밋 author 확인</span>
+<span class="k">git config</span> --global user.name    <span class="c"># → W-Leester</span>
+<span class="k">git config</span> --global user.email   <span class="c"># → GitHub 계정에 등록된 이메일과 일치해야 함</span>
+
+<span class="c"># 최근 커밋들이 어떤 author로 기록됐는지 확인</span>
+<span class="k">git log</span> --format=<span class="s">'%h %an &lt;%ae&gt; %s'</span> -5</pre>
+</section>
+
+<!-- ═══════════ 5. THIS REPO ═══════════ -->
+<section id="thisrepo">
+  <div class="section-header">
+    <div class="eyebrow">knowledge-db</div>
+    <h2>5. 이 저장소의 워크플로 — push가 곧 배포다</h2>
+    <p>일반 저장소와 다른 점 하나: 원격이 백업이 아니라 서비스라는 것</p>
+  </div>
+
+  <p class="body">이 저장소는 <span class="mono">main</span>에 push하면 GitHub Pages가 파일을 그대로
+  <strong>https://w-leester.github.io/knowledge-db/</strong> 에 배포한다. 빌드 단계가 없으므로
+  <strong>push = 배포 = 폰의 PWA에 반영</strong>이다. 그래서 다른 저장소보다 push의 무게가 약간 더 있다 —
+  로컬 검증(모바일 뷰 확인) 후에 push하는 습관이 좋다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:230px">문제 상황</th><th>해결</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">push가 거부됨<br><span class="mono" style="font-weight:400">(rejected: fetch first)</span></td><td>다른 PC에서 먼저 push한 커밋이 있는 것. <span class="mono">git pull --rebase</span>로 원격 커밋을 받아 내 커밋을 그 위에 다시 얹은 뒤 push.</td></tr>
+        <tr><td class="hl">인증 실패<br><span class="mono" style="font-weight:400">(could not read Username)</span></td><td>이 PC에 GitHub 자격 증명이 없는 것. <span class="mono">gh auth login</span> 한 번이면 이후 자동 (GitHub.com → HTTPS → 브라우저 로그인).</td></tr>
+        <tr><td class="hl">author가 이상하게 기록됨</td><td><span class="mono">git config --global user.name / user.email</span> 설정 후, push 전이라면 <span class="mono">git commit --amend --reset-author</span>로 직전 커밋 수정.</td></tr>
+        <tr><td class="hl">새 PC 세팅</td><td>① <span class="mono">git clone https://github.com/W-Leester/knowledge-db.git</span> ② user.name/email 설정 ③ <span class="mono">gh auth login</span> — 끝.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🌱</span>
+    <div><strong>보너스 —</strong> 이 저장소는 잔디 3조건을 자연 충족한다: 기본 브랜치(main)에 직접 커밋하고,
+    작업이 끝나면 push하는 구조이므로, author 이메일만 맞으면 <strong>문서를 정리하는 날마다 잔디가 심긴다.</strong>
+    지식 정리가 곧 잔디 농사다.</div>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/git-*.svg (2종) · 2026-07-17 "이 폴더는 GitHub와 무조건 연결된 건가?"라는 질문에서 출발해 작성
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>
