@@ -7,9 +7,17 @@
       "file": "docs/database-systems.html",
       "group": "Software · Data",
       "icon": "🗄",
-      "gradient": ["#002C5F", "#1A5CB5"],
-      "tags": ["RDBMS", "NoSQL", "S3·CDN", "Supabase"],
-      "version": 2,
+      "gradient": [
+        "#002C5F",
+        "#1A5CB5"
+      ],
+      "tags": [
+        "RDBMS",
+        "NoSQL",
+        "S3·CDN",
+        "Supabase"
+      ],
+      "version": 3,
       "assets": [
         "docs/img/db-history-timeline.svg",
         "docs/img/db-prehistory.svg",
@@ -34,9 +42,16 @@
       "file": "docs/git-github.html",
       "group": "Software · Dev",
       "icon": "🌱",
-      "gradient": ["#0D1B2E", "#00AA6C"],
-      "tags": ["git", "remote", "잔디"],
-      "version": 2,
+      "gradient": [
+        "#0D1B2E",
+        "#00AA6C"
+      ],
+      "tags": [
+        "git",
+        "remote",
+        "잔디"
+      ],
+      "version": 3,
       "assets": [
         "docs/img/git-four-areas.svg",
         "docs/img/git-grass-conditions.svg"
@@ -49,8 +64,16 @@
       "file": "docs/ai-hw-processors.html",
       "group": "AI Hardware",
       "icon": "⚙️",
-      "gradient": ["#003F8A", "#00AA6C"],
-      "tags": ["CPU", "GPU", "NPU", "TPU"],
+      "gradient": [
+        "#003F8A",
+        "#00AA6C"
+      ],
+      "tags": [
+        "CPU",
+        "GPU",
+        "NPU",
+        "TPU"
+      ],
       "version": 2,
       "assets": [
         "docs/img/cpu-vs-gpu-cores.svg",
@@ -72,8 +95,15 @@
       "file": "docs/ai-hw-memory.html",
       "group": "AI Hardware",
       "icon": "🧠",
-      "gradient": ["#1A5CB5", "#6B21A8"],
-      "tags": ["DDR5", "HBM3e", "KV-Cache"],
+      "gradient": [
+        "#1A5CB5",
+        "#6B21A8"
+      ],
+      "tags": [
+        "DDR5",
+        "HBM3e",
+        "KV-Cache"
+      ],
       "version": 2,
       "assets": [
         "docs/img/mem-roofline-model.svg",
@@ -93,8 +123,15 @@
       "file": "docs/design-system.html",
       "group": "Design",
       "icon": "🎨",
-      "gradient": ["#E8962A", "#DC2626"],
-      "tags": ["Colors", "Typography", "Components"],
+      "gradient": [
+        "#E8962A",
+        "#DC2626"
+      ],
+      "tags": [
+        "Colors",
+        "Typography",
+        "Components"
+      ],
       "version": 2,
       "assets": []
     }
