@@ -695,14 +695,37 @@ npm install <span class="k">&amp;&amp;</span> npm run build      <span class="c"
 
   <div class="tbl-wrap">
     <table class="ds">
-      <thead><tr><th style="width:170px">유형</th><th style="width:200px">예</th><th>데이터·실행 위치</th></tr></thead>
+      <thead><tr><th style="width:150px">유형</th><th style="width:170px">서버</th><th>하는 일</th></tr></thead>
       <tbody>
-        <tr><td class="hl">완전 로컬형</td><td class="mono">filesystem · sqlite · memory</td><td>프로세스도 데이터도 내 컴퓨터에서 끝. 비행기 모드에서도 동작 — 프라이버시 관점의 이상형.</td></tr>
-        <tr><td class="hl">로컬 실행 + 외부 API형</td><td class="mono">github · fetch · brave-search</td><td>프로세스는 로컬이지만 <strong>하는 일이 외부 API 호출</strong>이라 인터넷·API 키가 필요하고, 요청 내용은 해당 서비스로 나간다.</td></tr>
-        <tr><td class="hl">원격 호스팅형</td><td><span class="mono">"url": "https://…"</span>로 등록하는 SaaS 제공 MCP</td><td>서버 자체가 남의 컴퓨터에서 돈다(HTTP 방식). 소스가 공개돼 있다면 클론해서 E 방식으로 로컬화할 수 있지만, 비공개면 불가.</td></tr>
+        <tr><td class="hl" rowspan="6">완전 로컬형<br><span style="font-weight:400;font-size:11.5px;color:var(--text-muted)">비행기 모드에서도 동작<br>프라이버시의 이상형</span></td>
+            <td class="mono">filesystem</td><td>지정 폴더의 파일 읽기·쓰기·검색·이동. 가장 기본이 되는 서버.</td></tr>
+        <tr><td class="mono">sqlite</td><td>로컬 SQLite 파일에 SQL 질의, 스키마 탐색 — "내 데이터에게 질문하기".</td></tr>
+        <tr><td class="mono">git</td><td>로컬 저장소의 log·diff·상태 조회와 커밋 (push 전까지는 완전 로컬 — git 문서 §1 그대로).</td></tr>
+        <tr><td class="mono">memory</td><td>대화에서 배운 사실을 지식 그래프로 저장 — 세션이 끝나도 기억 유지.</td></tr>
+        <tr><td class="mono">time</td><td>시간대 변환·날짜 계산. LLM이 유난히 약한 영역을 정확한 계산으로 보완.</td></tr>
+        <tr><td class="mono">sequential-thinking</td><td>복잡한 문제를 단계별 사고로 풀도록 돕는 사고 보조 도구 (외부 자원 접근 없음).</td></tr>
+        <tr><td class="hl" rowspan="6">로컬 실행<br>+ 외부 API형<br><span style="font-weight:400;font-size:11.5px;color:var(--text-muted)">프로세스는 로컬,<br>일은 외부 호출 (키 필요)</span></td>
+            <td class="mono">fetch</td><td>웹페이지를 가져와 마크다운으로 변환 (3-B에서 추적한 그 서버).</td></tr>
+        <tr><td class="mono">brave-search · tavily</td><td>웹 검색 — 질의가 검색 서비스로 나간다. API 키 필요 (완전 로컬을 원하면 SearXNG).</td></tr>
+        <tr><td class="mono">github</td><td>이슈·PR·저장소 조회와 생성. GitHub API 호출이라 PAT 토큰 필요.</td></tr>
+        <tr><td class="mono">slack</td><td>채널 메시지 읽기·전송 — 팀 커뮤니케이션을 에이전트가 대신.</td></tr>
+        <tr><td class="mono">notion</td><td>Notion 페이지·데이터베이스 조회와 편집.</td></tr>
+        <tr><td class="mono">google-maps</td><td>장소 검색·경로·거리 계산.</td></tr>
+        <tr><td class="hl" rowspan="2">경계 사례<br><span style="font-weight:400;font-size:11.5px;color:var(--text-muted)">"무엇에 연결하느냐"가<br>유형을 결정</span></td>
+            <td class="mono">playwright</td><td>브라우저 자동화 — 프로세스·브라우저는 로컬이지만, 방문하는 사이트로는 당연히 나간다.</td></tr>
+        <tr><td class="mono">postgres</td><td>연결 문자열이 <span class="mono">localhost</span>면 완전 로컬, 클라우드 DB면 외부 통신 — 설정이 유형을 가른다.</td></tr>
+        <tr><td class="hl" rowspan="5">원격 호스팅형<br><span style="font-weight:400;font-size:11.5px;color:var(--text-muted)">"url"로 등록 · 설치 불필요<br>OAuth 로그인 · 감사 불가</span></td>
+            <td class="mono">GitHub (원격판)</td><td>같은 GitHub 기능을 서버 설치 없이 — SaaS가 호스팅하고 OAuth로 로그인.</td></tr>
+        <tr><td class="mono">Linear</td><td>이슈 트래커 조회·생성 — 개발 팀의 작업 관리를 에이전트로.</td></tr>
+        <tr><td class="mono">Sentry</td><td>서비스 에러·스택트레이스 조회 — "어젯밤 왜 터졌어?"를 대화로.</td></tr>
+        <tr><td class="mono">Atlassian</td><td>Jira 이슈·Confluence 문서 접근.</td></tr>
+        <tr><td class="mono">Cloudflare</td><td>DNS·Workers 등 인프라 설정을 대화로 관리.</td></tr>
       </tbody>
     </table>
   </div>
+
+  <p class="body">원격 호스팅형은 서버 자체가 남의 컴퓨터에서 돈다(HTTP 방식). 설치·업데이트가 필요 없고 항상 최신이라는 장점이 있지만,
+  인터넷이 필수이고 소스가 비공개면 코드 감사가 불가능하다 — 공개돼 있다면 클론해서 E 방식으로 로컬화할 수 있다.</p>
 
   <div class="callout amber">
     <span class="icon">🧭</span>
