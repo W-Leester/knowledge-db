@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 710" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="ta2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="tg2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+    <marker id="tr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/>
+    </marker>
+    <marker id="tp2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E8962A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="710" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="19" font-weight="800" fill="#002C5F" text-anchor="middle">실전 추적 — "이 기사 요약해줘" 한 마디에 fetch MCP가 겪는 전체 여정</text>
+
+  <!-- 배우 4명 -->
+  <rect x="30" y="52" width="190" height="58" rx="11" fill="#002C5F"/>
+  <text x="125" y="77" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">🧠 로컬 Qwen</text>
+  <text x="125" y="98" font-size="11.5" fill="#8A9BB5" text-anchor="middle">(Ollama · 판단만 담당)</text>
+
+  <rect x="250" y="52" width="190" height="58" rx="11" fill="#1A5CB5"/>
+  <text x="345" y="77" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">🏠 호스트 (Cline)</text>
+  <text x="345" y="98" font-size="11.5" fill="#D6E3F5" text-anchor="middle">에이전트 루프 + MCP 클라이언트</text>
+
+  <rect x="470" y="52" width="190" height="58" rx="11" fill="#065F46"/>
+  <text x="565" y="77" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">🧰 fetch 서버</text>
+  <text x="565" y="98" font-size="11.5" fill="#A7E3CC" text-anchor="middle">자식 프로세스 (uvx로 실행됨)</text>
+
+  <rect x="690" y="52" width="180" height="58" rx="11" fill="#B45309"/>
+  <text x="780" y="77" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">🌐 example.com</text>
+  <text x="780" y="98" font-size="11.5" fill="#FEF3E2" text-anchor="middle">외부 웹 서버</text>
+
+  <line x1="125" y1="110" x2="125" y2="650" stroke="#B5AFA5" stroke-width="2" stroke-dasharray="5 5"/>
+  <line x1="345" y1="110" x2="345" y2="650" stroke="#B5AFA5" stroke-width="2" stroke-dasharray="5 5"/>
+  <line x1="565" y1="110" x2="565" y2="650" stroke="#B5AFA5" stroke-width="2" stroke-dasharray="5 5"/>
+  <line x1="780" y1="110" x2="780" y2="650" stroke="#B5AFA5" stroke-width="2" stroke-dasharray="5 5"/>
+
+  <!-- 부팅 밴드 -->
+  <rect x="240" y="126" width="440" height="140" rx="10" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="252" y="148" font-size="13" font-weight="800" fill="#8A8A8A">㉮ 부팅 — Cline 시작 시 1회 (모델·인터넷 관여 없음)</text>
+
+  <line x1="355" y1="172" x2="561" y2="172" stroke="#003F8A" stroke-width="2.2" marker-end="url(#ta2)"/>
+  <text x="458" y="164" font-size="12.5" font-weight="700" fill="#003F8A" text-anchor="middle">② spawn: uvx mcp-server-fetch + 파이프 연결</text>
+
+  <line x1="355" y1="200" x2="561" y2="200" stroke="#003F8A" stroke-width="2" marker-end="url(#ta2)"/>
+  <line x1="561" y1="216" x2="355" y2="216" stroke="#003F8A" stroke-width="2" marker-end="url(#ta2)"/>
+  <text x="458" y="194" font-size="12.5" font-weight="700" fill="#003F8A" text-anchor="middle">③ initialize 인사 ↔</text>
+
+  <line x1="355" y1="244" x2="561" y2="244" stroke="#00AA6C" stroke-width="2" marker-end="url(#tg2)"/>
+  <line x1="561" y1="258" x2="355" y2="258" stroke="#00AA6C" stroke-width="2" marker-end="url(#tg2)"/>
+  <text x="458" y="238" font-size="12.5" font-weight="700" fill="#065F46" text-anchor="middle">④ tools/list ↔ fetch 도구 스키마 확보</text>
+
+  <!-- 질문 밴드 -->
+  <rect x="255" y="282" width="180" height="40" rx="20" fill="#E8962A"/>
+  <text x="345" y="307" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">💬 "이 기사 요약해줘"</text>
+
+  <!-- 5-1 -->
+  <line x1="335" y1="348" x2="129" y2="348" stroke="#003F8A" stroke-width="2.2" marker-end="url(#ta2)"/>
+  <text x="232" y="340" font-size="12.5" font-weight="700" fill="#003F8A" text-anchor="middle">⑤-1 대화 + 도구 목록</text>
+
+  <!-- 5-2 -->
+  <line x1="129" y1="384" x2="335" y2="384" stroke="#E8962A" stroke-width="2.2" marker-end="url(#tp2)"/>
+  <text x="232" y="376" font-size="12.5" font-weight="700" fill="#B45309" text-anchor="middle">⑤-2 tool_call:</text>
+  <text x="232" y="404" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle" font-family="'JetBrains Mono', monospace">fetch(url=…)</text>
+
+  <!-- 5-3 -->
+  <line x1="355" y1="432" x2="561" y2="432" stroke="#00AA6C" stroke-width="2.2" marker-end="url(#tg2)"/>
+  <text x="458" y="424" font-size="12.5" font-weight="700" fill="#065F46" text-anchor="middle">⑤-3 tools/call (JSON-RPC, stdin)</text>
+
+  <!-- 5-4 -->
+  <line x1="575" y1="472" x2="776" y2="472" stroke="#DC2626" stroke-width="2.6" marker-end="url(#tr2)"/>
+  <text x="675" y="462" font-size="12.5" font-weight="800" fill="#DC2626" text-anchor="middle">⑤-4 HTTPS GET /news</text>
+  <text x="675" y="490" font-size="11" fill="#DC2626" text-anchor="middle">★ 데이터가 밖으로 나가는 유일한 구간</text>
+
+  <!-- 5-5 -->
+  <line x1="776" y1="512" x2="575" y2="512" stroke="#B45309" stroke-width="2.2" marker-end="url(#tp2)"/>
+  <text x="675" y="530" font-size="12" font-weight="700" fill="#B45309" text-anchor="middle">⑤-5 200 OK + HTML</text>
+
+  <!-- 가공 노트 -->
+  <rect x="480" y="540" width="170" height="36" rx="8" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="565" y="563" font-size="11.5" font-weight="700" fill="#065F46" text-anchor="middle">HTML→마크다운, 5000자 절단</text>
+
+  <!-- 5-6 -->
+  <line x1="561" y1="596" x2="355" y2="596" stroke="#00AA6C" stroke-width="2.2" marker-end="url(#tg2)"/>
+  <text x="458" y="588" font-size="12.5" font-weight="700" fill="#065F46" text-anchor="middle">⑤-6 결과 (stdout)</text>
+
+  <!-- 5-7 -->
+  <line x1="335" y1="624" x2="129" y2="624" stroke="#003F8A" stroke-width="2.2" marker-end="url(#ta2)"/>
+  <text x="232" y="616" font-size="12.5" font-weight="700" fill="#003F8A" text-anchor="middle">⑤-7 role:"tool" 재주입</text>
+
+  <!-- 최종 -->
+  <line x1="129" y1="648" x2="335" y2="648" stroke="#00AA6C" stroke-width="2.6" marker-end="url(#tg2)"/>
+  <text x="232" y="666" font-size="12.5" font-weight="800" fill="#065F46" text-anchor="middle">✅ 요약 답변 (부족하면 ⑤-2로 반복)</text>
+
+  <rect x="30" y="678" width="840" height="26" rx="8" fill="#E8EEF7"/>
+  <text x="450" y="696" font-size="13" font-weight="700" fill="#002C5F" text-anchor="middle">질문·대화·모델 추론은 전부 내 컴퓨터 안 — 밖으로 나간 것은 ⑤-4의 GET 요청 하나뿐이다</text>
+</svg>

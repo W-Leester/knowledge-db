@@ -318,7 +318,8 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#b-loop" class="sub">2-2. 루프 완성 (전체 코드)</a>
     <a href="#mcp">3. MCP — 도구를 수집하는 표준</a>
     <a href="#m-stdio" class="sub">3-1. 로컬 서버의 동작 원리</a>
-    <a href="#m-source" class="sub">3-2. 소스로 직접 실행</a>
+    <a href="#m-trace" class="sub">3-2. 실전 추적 — fetch의 여정</a>
+    <a href="#m-source" class="sub">3-3. 소스로 직접 실행</a>
     <a href="#recipes">4. 기능별 레시피</a>
     <a href="#r-rag" class="sub">4-1. RAG — 내 문서 지식</a>
     <a href="#stack">5. 전체 스택 조립</a>
@@ -559,7 +560,43 @@ messages = [
     모델이 보는 것은 여전히 평범한 도구 목록이고, MCP는 하네스와 도구 사이의 배선 규격이다.</div>
   </div>
 
-  <h3><span class="num">B</span>Cline에 도구 꽂기 — 이미 쓰고 있는 호스트부터</h3>
+  <h3 id="m-trace"><span class="num">B</span>따라가 보기 — "이 기사 요약해줘" 한 마디의 전체 여정</h3>
+
+  <p class="body">A의 6단계를 실제 서버 하나로 끝까지 추적해 보자. 설정에
+  <span class="mono">"fetch": { "command": "uvx", "args": ["mcp-server-fetch"] }</span>를 등록해 두고,
+  Cline에게 <strong>"이 기사 요약해줘: https://example.com/news"</strong>라고 입력하는 상황이다.
+  등장인물은 넷 — 판단하는 모델(Qwen), 중계하는 호스트(Cline), 실행하는 fetch 서버, 그리고 외부의 웹 서버:</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/llm-mcp-fetch-trace.svg" alt="fetch MCP 실전 추적 시퀀스 — 부팅부터 요약 답변까지"></div>
+    <figcaption>㉮ 부팅(1회)은 호스트↔서버만의 일, ⑤의 실전 연쇄에서 모델과 인터넷이 합류한다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">단계</th><th style="width:170px">구간</th><th>일어나는 일</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">② spawn</td><td>호스트 → OS</td><td>uvx가 mcp-server-fetch 패키지를 캐시에 받고 파이썬 자식 프로세스로 실행. stdin/stdout 파이프 자동 연결. 서버는 <strong>stdin을 읽으며 대기</strong>할 뿐 아무 일도 하지 않는다 (<span class="mono">ps</span>로 보면 Cline 아래 매달린 python 프로세스).</td></tr>
+        <tr><td class="hl">③ initialize</td><td>호스트 ↔ 서버</td><td>프로토콜 버전·능력 교환. fetch 서버는 <span class="mono">"capabilities": {"tools": {}}</span> — "나는 도구 제공 서버"라고 선언. TLS 핸드셰이크처럼 "본론 전 조건 합의".</td></tr>
+        <tr><td class="hl">④ tools/list</td><td>호스트 ↔ 서버</td><td>서버가 도구 <span class="mono">fetch</span> 하나를 스키마와 함께 반환 — 인자는 <span class="mono">url</span>(필수), <span class="mono">max_length</span>(기본 5000), <span class="mono">start_index</span>(이어 읽기), <span class="mono">raw</span>. 호스트가 이를 모델용 도구 목록에 합류시킨다. <strong>여기까지가 세션당 1회.</strong></td></tr>
+        <tr><td class="hl">⑤-1·2 판단</td><td>호스트 ↔ 모델</td><td>대화+도구 목록을 받은 Qwen이 답변 대신 <span class="mono">fetch(url="https://example.com/news")</span> tool_call을 출력. 모델이 한 일은 이 JSON 텍스트 생성뿐.</td></tr>
+        <tr><td class="hl">⑤-3 중계</td><td>호스트 → 서버</td><td>호스트가 tool_call을 <span class="mono">tools/call</span> JSON-RPC로 번역해 파이프(stdin)에 쓴다.</td></tr>
+        <tr><td class="hl">⑤-4·5 실행</td><td>서버 → 인터넷</td><td><strong>데이터가 컴퓨터 밖으로 나가는 유일한 구간.</strong> fetch 서버가 example.com에 실제 HTTPS 요청 — 네트워크 문서 그대로 DNS 조회 → TCP+TLS → GET → 200+HTML 수신.</td></tr>
+        <tr><td class="hl">⑤-5′ 가공</td><td>서버 내부</td><td>HTML에서 메뉴·광고를 걷어내고 마크다운으로 변환, max_length(5000자)에서 절단 — §2에서 직접 구현했던 "결과 절단"을 서버가 대신해 준다.</td></tr>
+        <tr><td class="hl">⑤-6·7 회신</td><td>서버 → 호스트 → 모델</td><td>결과가 stdout → 호스트가 <span class="mono">role: "tool"</span> 메시지로 대화에 붙여 다시 Qwen에게. 내용이 잘렸으면 모델이 <span class="mono">start_index=5000</span>으로 재호출(⑤ 반복), 충분하면 요약을 출력하며 종료.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🧭</span>
+    <div><strong>역할 분담 한 줄 정리 —</strong> ②는 운영체제(프로세스·파이프), ③④는 MCP 프로토콜(합의·목록, 세션당 1회),
+    ⑤는 반복되는 실전(모델의 판단 → 호스트의 중계 → 서버의 실행). 그리고 fetch가 좋은 예인 이유:
+    프로세스는 완전히 로컬이지만 ⑤-4에서 요청이 인터넷으로 나가는, <u>"로컬 실행 ≠ 로컬 통신"(아래 F)의 전형</u>이기 때문이다.
+    질문·대화·모델 추론은 끝까지 내 컴퓨터를 떠나지 않았다.</div>
+  </div>
+
+  <h3><span class="num">C</span>Cline에 도구 꽂기 — 이미 쓰고 있는 호스트부터</h3>
 
   <p class="body">Cline은 MCP 호스트라서, 설정에 서버를 등록하면 <strong>로컬 Qwen이 그 도구들을 바로 쓴다</strong>.
   Cline의 MCP 설정(마켓플레이스 또는 <span class="mono">cline_mcp_settings.json</span>)에 이렇게 추가하면:</p>
@@ -593,7 +630,7 @@ messages = [
     </table>
   </div>
 
-  <h3><span class="num">C</span>자작 MCP 서버 — 내 도구도 표준 플러그로</h3>
+  <h3><span class="num">D</span>자작 MCP 서버 — 내 도구도 표준 플러그로</h3>
 
   <p class="body">직접 만든 도구도 MCP 서버로 포장하면 모든 호스트에서 재사용된다.
   파이썬 <span class="mono">FastMCP</span>로는 데코레이터 하나면 끝 — 예를 들어 이 Knowledge DB를 검색하는 도구:</p>
@@ -624,7 +661,7 @@ ROOT = Path.home() / <span class="s">"Desktop/Dev/knowledge-db"</span>
 <span class="k">if</span> __name__ == <span class="s">"__main__"</span>:
     mcp.run()   <span class="c"># 호스트 설정에 {"command":"python","args":["my_kdb_server.py"]} 등록</span></pre>
 
-  <h3 id="m-source"><span class="num">D</span>소스코드로 직접 실행하기 — npx가 하는 일을 내 손으로</h3>
+  <h3 id="m-source"><span class="num">E</span>소스코드로 직접 실행하기 — npx가 하는 일을 내 손으로</h3>
 
   <p class="body">A에서 봤듯 npx는 "다운로드 후 실행"을 대신해줄 뿐이므로, <strong>소스를 직접 받아 실행해도 완전히 동일하게 동작한다</strong>.
   공식 서버 모음(<span class="mono">github.com/modelcontextprotocol/servers</span>)을 예로 들면:</p>
@@ -643,14 +680,14 @@ npm install <span class="k">&amp;&amp;</span> npm run build      <span class="c"
   }
 }
 <span class="c">// Python 서버라면: {"command": "python", "args": ["server.py"]} 또는 uv run —</span>
-<span class="c">// C(자작 서버)의 등록 방식과 완전히 같다. 자작이든 클론이든 "소스로 도는 로컬 서버"일 뿐.</span></pre>
+<span class="c">// D(자작 서버)의 등록 방식과 완전히 같다. 자작이든 클론이든 "소스로 도는 로컬 서버"일 뿐.</span></pre>
 
   <p class="body">소스 실행이 주는 것 세 가지: ① <strong>커스터마이징</strong> — 코드를 열어 도구를 추가·수정할 수 있다
   (예: filesystem 서버에 "읽기 전용 모드" 강제). ② <strong>감사(audit)</strong> — 도구 = 권한(§6)이므로,
   실행 전에 이 코드가 무엇을 하는지 직접 확인할 수 있다. ③ <strong>고정</strong> — npx가 매번 버전을 확인하는
   지연이 없고, 검증한 버전이 몰래 바뀌지 않는다.</p>
 
-  <h3><span class="num">E</span>경계선 두 가지 — "로컬"이라는 말의 함정</h3>
+  <h3><span class="num">F</span>경계선 두 가지 — "로컬"이라는 말의 함정</h3>
 
   <p class="body">여기까지 읽으면 "MCP 서버 = 전부 내 컴퓨터"로 느껴지지만, 두 가지 경계는 구분해야 한다.
   첫째, <strong>서버가 로컬이라고 통신까지 로컬인 것은 아니다</strong> — 서버가 "무엇을 감싸는가"에 따라 데이터가 밖으로 나갈 수 있다.
@@ -662,7 +699,7 @@ npm install <span class="k">&amp;&amp;</span> npm run build      <span class="c"
       <tbody>
         <tr><td class="hl">완전 로컬형</td><td class="mono">filesystem · sqlite · memory</td><td>프로세스도 데이터도 내 컴퓨터에서 끝. 비행기 모드에서도 동작 — 프라이버시 관점의 이상형.</td></tr>
         <tr><td class="hl">로컬 실행 + 외부 API형</td><td class="mono">github · fetch · brave-search</td><td>프로세스는 로컬이지만 <strong>하는 일이 외부 API 호출</strong>이라 인터넷·API 키가 필요하고, 요청 내용은 해당 서비스로 나간다.</td></tr>
-        <tr><td class="hl">원격 호스팅형</td><td><span class="mono">"url": "https://…"</span>로 등록하는 SaaS 제공 MCP</td><td>서버 자체가 남의 컴퓨터에서 돈다(HTTP 방식). 소스가 공개돼 있다면 클론해서 D 방식으로 로컬화할 수 있지만, 비공개면 불가.</td></tr>
+        <tr><td class="hl">원격 호스팅형</td><td><span class="mono">"url": "https://…"</span>로 등록하는 SaaS 제공 MCP</td><td>서버 자체가 남의 컴퓨터에서 돈다(HTTP 방식). 소스가 공개돼 있다면 클론해서 E 방식으로 로컬화할 수 있지만, 비공개면 불가.</td></tr>
       </tbody>
     </table>
   </div>
@@ -797,7 +834,7 @@ npm install <span class="k">&amp;&amp;</span> npm run build      <span class="c"
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/llm-*.svg (5종) · 네트워크 문서(REST·API)와 DB 문서(pgvector·벡터 DB)에서 이어지는 응용편
+  Hyundai-Inspired Design System v1.0 · 도식: img/llm-*.svg (6종) · 네트워크 문서(REST·API)와 DB 문서(pgvector·벡터 DB)에서 이어지는 응용편
 </footer>
 
 </main>

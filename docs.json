@@ -97,11 +97,12 @@
         "MCP",
         "RAG"
       ],
-      "version": 2,
+      "version": 3,
       "assets": [
         "docs/img/llm-agent-loop.svg",
         "docs/img/llm-mcp-architecture.svg",
         "docs/img/llm-mcp-stdio-flow.svg",
+        "docs/img/llm-mcp-fetch-trace.svg",
         "docs/img/llm-rag-pipeline.svg",
         "docs/img/llm-local-stack.svg"
       ]
