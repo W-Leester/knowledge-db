@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="470" fill="#FAF7F2"/>
+  <text x="450" y="40" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">HTTP의 진화 — 같은 도로에서 차선을 늘려온 역사</text>
+
+  <!-- HTTP/1.1 -->
+  <rect x="30" y="70" width="264" height="310" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
+  <rect x="30" y="70" width="264" height="52" rx="14" fill="#8A8A8A"/>
+  <rect x="30" y="108" width="264" height="14" fill="#8A8A8A"/>
+  <text x="162" y="103" font-size="18" font-weight="800" fill="#FFFFFF" text-anchor="middle">HTTP/1.1 (1997)</text>
+  <text x="162" y="150" font-size="14" fill="#555555" text-anchor="middle">연결 1개 = 한 번에 요청 1개</text>
+  <!-- 파이프 1개에 순차 블록 -->
+  <rect x="60" y="170" width="204" height="44" rx="8" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.5"/>
+  <rect x="66" y="178" width="56" height="28" rx="5" fill="#1A5CB5"/>
+  <rect x="128" y="178" width="56" height="28" rx="5" fill="#5B8DD9"/>
+  <rect x="190" y="178" width="56" height="28" rx="5" fill="#85ACE8"/>
+  <text x="94" y="197" font-size="12.5" fill="#FFF" text-anchor="middle" font-weight="700">HTML</text>
+  <text x="156" y="197" font-size="12.5" fill="#FFF" text-anchor="middle" font-weight="700">CSS</text>
+  <text x="218" y="197" font-size="12.5" fill="#FFF" text-anchor="middle" font-weight="700">JS</text>
+  <text x="162" y="242" font-size="13.5" fill="#DC2626" text-anchor="middle" font-weight="700">앞 요청이 끝나야 다음 차례</text>
+  <text x="162" y="264" font-size="13.5" fill="#DC2626" text-anchor="middle" font-weight="700">(Head-of-Line 블로킹)</text>
+  <text x="162" y="300" font-size="13.5" fill="#555555" text-anchor="middle">해결책: 연결을 6개씩 열어서</text>
+  <text x="162" y="322" font-size="13.5" fill="#555555" text-anchor="middle">병렬 다운로드 (브라우저 꼼수)</text>
+  <text x="162" y="358" font-size="13" fill="#8A8A8A" text-anchor="middle">텍스트 기반 프로토콜</text>
+
+  <!-- HTTP/2 -->
+  <rect x="318" y="70" width="264" height="310" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <rect x="318" y="70" width="264" height="52" rx="14" fill="#003F8A"/>
+  <rect x="318" y="108" width="264" height="14" fill="#003F8A"/>
+  <text x="450" y="103" font-size="18" font-weight="800" fill="#FFFFFF" text-anchor="middle">HTTP/2 (2015)</text>
+  <text x="450" y="150" font-size="14" fill="#555555" text-anchor="middle">연결 1개에 스트림 여러 개 동시에</text>
+  <!-- 멀티플렉싱: 한 파이프에 섞인 블록 -->
+  <rect x="348" y="170" width="204" height="44" rx="8" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.5"/>
+  <rect x="354" y="178" width="28" height="28" rx="5" fill="#1A5CB5"/>
+  <rect x="386" y="178" width="28" height="28" rx="5" fill="#00AA6C"/>
+  <rect x="418" y="178" width="28" height="28" rx="5" fill="#E8962A"/>
+  <rect x="450" y="178" width="28" height="28" rx="5" fill="#1A5CB5"/>
+  <rect x="482" y="178" width="28" height="28" rx="5" fill="#00AA6C"/>
+  <rect x="514" y="178" width="28" height="28" rx="5" fill="#E8962A"/>
+  <text x="450" y="242" font-size="13.5" fill="#065F46" text-anchor="middle" font-weight="700">멀티플렉싱 — 조각을 섞어 보내고</text>
+  <text x="450" y="264" font-size="13.5" fill="#065F46" text-anchor="middle" font-weight="700">받는 쪽에서 재조립</text>
+  <text x="450" y="300" font-size="13.5" fill="#555555" text-anchor="middle">헤더 압축(HPACK) · 바이너리 프레임</text>
+  <text x="450" y="322" font-size="13.5" fill="#555555" text-anchor="middle">남은 문제: TCP가 패킷 잃으면</text>
+  <text x="450" y="344" font-size="13.5" fill="#DC2626" text-anchor="middle" font-weight="700">전체 스트림이 함께 멈춤</text>
+
+  <!-- HTTP/3 -->
+  <rect x="606" y="70" width="264" height="310" rx="14" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
+  <rect x="606" y="70" width="264" height="52" rx="14" fill="#065F46"/>
+  <rect x="606" y="108" width="264" height="14" fill="#065F46"/>
+  <text x="738" y="103" font-size="18" font-weight="800" fill="#FFFFFF" text-anchor="middle">HTTP/3 (2022)</text>
+  <text x="738" y="150" font-size="14" fill="#555555" text-anchor="middle">TCP를 버리고 QUIC(UDP 기반)으로</text>
+  <!-- 독립 파이프 3개 -->
+  <rect x="636" y="168" width="204" height="24" rx="6" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5"/>
+  <rect x="636" y="198" width="204" height="24" rx="6" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5"/>
+  <rect x="636" y="228" width="204" height="24" rx="6" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5"/>
+  <rect x="642" y="172" width="40" height="16" rx="4" fill="#00AA6C"/>
+  <rect x="642" y="202" width="64" height="16" rx="4" fill="#1A5CB5"/>
+  <rect x="642" y="232" width="52" height="16" rx="4" fill="#E8962A"/>
+  <text x="738" y="278" font-size="13.5" fill="#065F46" text-anchor="middle" font-weight="700">스트림이 완전 독립 — 하나가</text>
+  <text x="738" y="300" font-size="13.5" fill="#065F46" text-anchor="middle" font-weight="700">패킷을 잃어도 나머지는 계속</text>
+  <text x="738" y="336" font-size="13.5" fill="#555555" text-anchor="middle">연결 수립 0~1왕복 (더 빠른 시작)</text>
+  <text x="738" y="358" font-size="13.5" fill="#555555" text-anchor="middle">TLS 1.3 암호화 내장 · IP 바뀌어도 유지</text>
+
+  <!-- 하단 요약 -->
+  <rect x="30" y="404" width="840" height="40" rx="10" fill="#E8EEF7"/>
+  <text x="450" y="430" font-size="15" font-weight="700" fill="#002C5F" text-anchor="middle">요청·응답·헤더·상태코드 등 HTTP의 "문법"은 그대로 — 바뀐 것은 실어 나르는 방식이다</text>
+</svg>

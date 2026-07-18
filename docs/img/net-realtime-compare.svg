@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="ra" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1A5CB5"/>
+    </marker>
+    <marker id="rg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+  <rect width="900" height="560" fill="#FAF7F2"/>
+  <text x="450" y="38" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">실시간 통신의 진화 — "서버가 먼저 말을 걸 수 없다"는 문제를 푸는 4가지 방법</text>
+  <text x="130" y="72" font-size="14" font-weight="700" fill="#8A8A8A">클라이언트 →|→ 서버 방향 시간축</text>
+
+  <!-- ① 폴링 -->
+  <rect x="30" y="90" width="840" height="100" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="50" y="120" font-size="16" font-weight="800" fill="#002C5F">① 폴링 (Polling)</text>
+  <text x="50" y="143" font-size="13.5" fill="#555555">"새 소식 있어?" 를 주기적으로 반복</text>
+  <g stroke-width="2.2">
+    <line x1="380" y1="115" x2="450" y2="115" stroke="#1A5CB5" marker-end="url(#ra)"/>
+    <line x1="450" y1="130" x2="380" y2="130" stroke="#8A8A8A" marker-end="url(#ra)"/>
+    <line x1="500" y1="115" x2="570" y2="115" stroke="#1A5CB5" marker-end="url(#ra)"/>
+    <line x1="570" y1="130" x2="500" y2="130" stroke="#8A8A8A" marker-end="url(#ra)"/>
+    <line x1="620" y1="115" x2="690" y2="115" stroke="#1A5CB5" marker-end="url(#ra)"/>
+    <line x1="690" y1="130" x2="620" y2="130" stroke="#00AA6C" marker-end="url(#rg)"/>
+  </g>
+  <text x="415" y="105" font-size="12" fill="#8A8A8A" text-anchor="middle">있어?/없어</text>
+  <text x="535" y="105" font-size="12" fill="#8A8A8A" text-anchor="middle">있어?/없어</text>
+  <text x="655" y="105" font-size="12" fill="#065F46" text-anchor="middle" font-weight="700">있어?/있다!</text>
+  <text x="380" y="172" font-size="13" fill="#DC2626" font-weight="700">단순하지만 빈 요청 낭비 + 주기만큼 지연</text>
+
+  <!-- ② 롱폴링 -->
+  <rect x="30" y="206" width="840" height="100" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="50" y="236" font-size="16" font-weight="800" fill="#002C5F">② 롱폴링 (Long Polling)</text>
+  <text x="50" y="259" font-size="13.5" fill="#555555">물어보고 답이 생길 때까지 기다림</text>
+  <line x1="380" y1="235" x2="450" y2="235" stroke="#1A5CB5" stroke-width="2.2" marker-end="url(#ra)"/>
+  <rect x="452" y="226" width="180" height="18" rx="9" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="542" y="240" font-size="12" fill="#B45309" text-anchor="middle" font-weight="700">서버가 붙잡고 대기…</text>
+  <line x1="634" y1="250" x2="380" y2="250" stroke="#00AA6C" stroke-width="2.2" marker-end="url(#rg)"/>
+  <text x="507" y="268" font-size="12" fill="#065F46" font-weight="700" text-anchor="middle">이벤트 발생 즉시 응답 → 다시 물어봄</text>
+  <text x="380" y="290" font-size="13" fill="#555555">지연은 해결, 연결을 계속 다시 맺는 비용은 여전</text>
+
+  <!-- ③ SSE -->
+  <rect x="30" y="322" width="840" height="100" rx="12" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="50" y="352" font-size="16" font-weight="800" fill="#002C5F">③ SSE (Server-Sent Events)</text>
+  <text x="50" y="375" font-size="13.5" fill="#555555">한 번 연결하면 서버가 계속 흘려보냄</text>
+  <line x1="380" y1="348" x2="440" y2="348" stroke="#1A5CB5" stroke-width="2.2" marker-end="url(#ra)"/>
+  <text x="410" y="338" font-size="12" fill="#8A8A8A" text-anchor="middle">1회 연결</text>
+  <g stroke="#00AA6C" stroke-width="2.2">
+    <line x1="480" y1="360" x2="420" y2="360" marker-end="url(#rg)"/>
+    <line x1="560" y1="360" x2="500" y2="360" marker-end="url(#rg)"/>
+    <line x1="680" y1="360" x2="620" y2="360" marker-end="url(#rg)"/>
+  </g>
+  <text x="560" y="382" font-size="12.5" fill="#065F46" font-weight="700" text-anchor="middle">서버 → 클라이언트 단방향 스트림 (뉴스 피드·알림·AI 응답 스트리밍)</text>
+  <text x="380" y="406" font-size="13" fill="#555555">HTTP 그대로라 단순 · 단방향이 한계</text>
+
+  <!-- ④ WebSocket -->
+  <rect x="30" y="438" width="840" height="100" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="50" y="468" font-size="16" font-weight="800" fill="#065F46">④ WebSocket</text>
+  <text x="50" y="491" font-size="13.5" fill="#555555">HTTP로 악수 후 전용 양방향 통로로 전환</text>
+  <line x1="380" y1="462" x2="440" y2="462" stroke="#1A5CB5" stroke-width="2.2" marker-end="url(#ra)"/>
+  <text x="412" y="452" font-size="12" fill="#8A8A8A" text-anchor="middle">101 업그레이드</text>
+  <rect x="452" y="452" width="300" height="22" rx="11" fill="#00AA6C"/>
+  <text x="602" y="468" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="800">⇄ 상시 연결 — 양쪽 모두 아무 때나 전송</text>
+  <text x="602" y="500" font-size="12.5" fill="#065F46" text-anchor="middle" font-weight="700">채팅 · 게임 · 협업 편집 · 실시간 시세 (Supabase Realtime도 이것)</text>
+  <text x="380" y="524" font-size="13" fill="#555555">가장 강력, 대신 연결 관리(끊김·재접속)는 직접 챙겨야</text>
+</svg>

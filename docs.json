@@ -17,7 +17,7 @@
         "S3·CDN",
         "Supabase"
       ],
-      "version": 4,
+      "version": 5,
       "assets": [
         "docs/img/db-history-timeline.svg",
         "docs/img/db-prehistory.svg",
@@ -51,10 +51,34 @@
         "remote",
         "잔디"
       ],
-      "version": 4,
+      "version": 5,
       "assets": [
         "docs/img/git-four-areas.svg",
         "docs/img/git-grass-conditions.svg"
+      ]
+    },
+    {
+      "id": "network-comm",
+      "title": "네트워크 통신 정리",
+      "desc": "IP·TCP·DNS부터 HTTP·HTTPS·REST, 그리고 WebSocket 실시간까지",
+      "file": "docs/network-comm.html",
+      "group": "Software · Dev",
+      "icon": "🌐",
+      "gradient": [
+        "#003F8A",
+        "#6B21A8"
+      ],
+      "tags": [
+        "HTTP",
+        "REST",
+        "WebSocket"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/net-layers.svg",
+        "docs/img/net-http-evolution.svg",
+        "docs/img/net-tls-handshake.svg",
+        "docs/img/net-realtime-compare.svg"
       ]
     },
     {

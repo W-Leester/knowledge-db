@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="ta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="tg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+  <rect width="900" height="460" fill="#FAF7F2"/>
+  <text x="450" y="40" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">🔒 TLS 핸드셰이크 — 암호화 통신이 시작되기까지</text>
+
+  <!-- 좌우 배우 -->
+  <rect x="40" y="70" width="180" height="58" rx="12" fill="#1A5CB5"/>
+  <text x="130" y="98" font-size="17" font-weight="800" fill="#FFFFFF" text-anchor="middle">💻 브라우저</text>
+  <text x="130" y="119" font-size="13" fill="#D6E3F5" text-anchor="middle">(클라이언트)</text>
+  <rect x="680" y="70" width="180" height="58" rx="12" fill="#002C5F"/>
+  <text x="770" y="98" font-size="17" font-weight="800" fill="#FFFFFF" text-anchor="middle">🖥 서버</text>
+  <text x="770" y="119" font-size="13" fill="#C7D5EA" text-anchor="middle">(github.io)</text>
+
+  <line x1="130" y1="128" x2="130" y2="440" stroke="#B5AFA5" stroke-width="2" stroke-dasharray="5 5"/>
+  <line x1="770" y1="128" x2="770" y2="440" stroke="#B5AFA5" stroke-width="2" stroke-dasharray="5 5"/>
+
+  <!-- ① ClientHello -->
+  <line x1="145" y1="168" x2="755" y2="168" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ta)"/>
+  <text x="450" y="158" font-size="15" font-weight="800" fill="#003F8A" text-anchor="middle">① "안녕! 나 이런 암호 방식들 쓸 수 있어" (ClientHello)</text>
+
+  <!-- ② 인증서 -->
+  <line x1="755" y1="228" x2="145" y2="228" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ta)"/>
+  <text x="450" y="218" font-size="15" font-weight="800" fill="#003F8A" text-anchor="middle">② "이 방식으로 하자. 그리고 이게 내 인증서야" (+공개키)</text>
+
+  <!-- ③ 검증 박스 -->
+  <rect x="60" y="252" width="330" height="60" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="78" y="277" font-size="14" font-weight="800" fill="#B45309">③ 인증서 검증 — "진짜 github.io 맞아?"</text>
+  <text x="78" y="299" font-size="13.5" fill="#555555">신뢰하는 인증기관(CA)의 서명인지 확인</text>
+
+  <!-- ④ 키 교환 -->
+  <line x1="145" y1="352" x2="755" y2="352" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ta)"/>
+  <text x="450" y="342" font-size="15" font-weight="800" fill="#003F8A" text-anchor="middle">④ 공개키로 잠근 "우리 둘만의 비밀 재료" 전달 → 양쪽이 같은 대칭키 생성</text>
+
+  <!-- ⑤ 암호화 통신 -->
+  <rect x="145" y="384" width="610" height="46" rx="23" fill="#00AA6C"/>
+  <text x="450" y="413" font-size="16" font-weight="800" fill="#FFFFFF" text-anchor="middle">⑤ 이후 모든 통신은 대칭키로 암호화 🔒 (도청·변조·사칭 차단)</text>
+
+  <!-- 사이드 노트 -->
+  <text x="450" y="452" font-size="13" fill="#8A8A8A" text-anchor="middle">비대칭키(느림)는 "열쇠 전달"에만, 대칭키(빠름)는 "실제 대화"에 — 두 방식의 조합</text>
+</svg>

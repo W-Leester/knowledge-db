@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="na" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="500" fill="#FAF7F2"/>
+
+  <!-- 좌: 계층 스택 (택배 비유) -->
+  <text x="40" y="44" font-size="19" font-weight="800" fill="#002C5F">📦 통신의 3계층 — 택배에 비유하면</text>
+
+  <rect x="40" y="66" width="360" height="86" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="60" y="100" font-size="17" font-weight="800" fill="#002C5F">HTTP <tspan font-weight="500" fill="#555555">— 상자 안의 내용물</tspan></text>
+  <text x="60" y="128" font-size="14" fill="#555555">"무엇을 주고받는가" — 요청·응답의 형식과 의미</text>
+
+  <rect x="40" y="162" width="360" height="110" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="60" y="196" font-size="17" font-weight="800" fill="#002C5F">TCP / UDP <tspan font-weight="500" fill="#555555">— 배송 방식</tspan></text>
+  <text x="60" y="224" font-size="14" fill="#555555">TCP: 등기우편 — 순서 보장·수령 확인·재전송</text>
+  <text x="60" y="248" font-size="14" fill="#555555">UDP: 엽서 — 빠르지만 분실해도 그만 (영상통화 등)</text>
+
+  <rect x="40" y="282" width="360" height="86" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="60" y="316" font-size="17" font-weight="800" fill="#002C5F">IP <tspan font-weight="500" fill="#555555">— 주소 체계와 도로망</tspan></text>
+  <text x="60" y="344" font-size="14" fill="#555555">"어느 컴퓨터로 보내는가" — 패킷을 목적지까지 운반</text>
+
+  <rect x="40" y="392" width="360" height="76" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="60" y="422" font-size="15" font-weight="700" fill="#003F8A">＋ DNS = 주소록 <tspan font-weight="500" fill="#555555">(도메인 → IP)</tspan></text>
+  <text x="60" y="448" font-size="15" font-weight="700" fill="#003F8A">＋ 포트 = 호수 <tspan font-weight="500" fill="#555555">(80=HTTP · 443=HTTPS)</tspan></text>
+
+  <!-- 우: 주소창 입력 후 일어나는 일 -->
+  <text x="480" y="44" font-size="19" font-weight="800" fill="#002C5F">⏱ 주소창에 입력 후 일어나는 일</text>
+
+  <g font-size="14.5">
+    <rect x="480" y="66" width="380" height="66" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+    <text x="500" y="93" font-weight="800" fill="#1A5CB5">① DNS 조회</text>
+    <text x="500" y="117" fill="#555555">w-leester.github.io → 185.199.108.153</text>
+
+    <rect x="480" y="150" width="380" height="66" rx="10" fill="#FFFFFF" stroke="#E8962A" stroke-width="2"/>
+    <text x="500" y="177" font-weight="800" fill="#B45309">② TCP 연결 수립</text>
+    <text x="500" y="201" fill="#555555">3-way 핸드셰이크 — "들려?" "들려, 너는?" "응!"</text>
+
+    <rect x="480" y="234" width="380" height="66" rx="10" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2"/>
+    <text x="500" y="261" font-weight="800" fill="#6B21A8">③ TLS 핸드셰이크 (https인 경우)</text>
+    <text x="500" y="285" fill="#555555">인증서 확인 + 암호키 합의 → 이후 전부 암호화</text>
+
+    <rect x="480" y="318" width="380" height="66" rx="10" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
+    <text x="500" y="345" font-weight="800" fill="#065F46">④ HTTP 요청 → 응답</text>
+    <text x="500" y="369" fill="#555555">GET /index.html → 200 OK + HTML 본문</text>
+
+    <rect x="480" y="402" width="380" height="66" rx="10" fill="#002C5F"/>
+    <text x="500" y="429" font-weight="800" fill="#FFFFFF">⑤ 렌더링 + 추가 요청들</text>
+    <text x="500" y="453" fill="#C7D5EA">HTML이 참조하는 CSS·JS·이미지 각각 반복</text>
+  </g>
+
+  <line x1="670" y1="132" x2="670" y2="148" stroke="#003F8A" stroke-width="2.5" marker-end="url(#na)"/>
+  <line x1="670" y1="216" x2="670" y2="232" stroke="#003F8A" stroke-width="2.5" marker-end="url(#na)"/>
+  <line x1="670" y1="300" x2="670" y2="316" stroke="#003F8A" stroke-width="2.5" marker-end="url(#na)"/>
+  <line x1="670" y1="384" x2="670" y2="400" stroke="#003F8A" stroke-width="2.5" marker-end="url(#na)"/>
+</svg>
