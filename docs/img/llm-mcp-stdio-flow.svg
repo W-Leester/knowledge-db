@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="fg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+    <marker id="fr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="36" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">로컬 MCP 서버의 일생 — 네트워크가 아니라 "자식 프로세스 + 파이프"</text>
+
+  <!-- 배우 -->
+  <rect x="50" y="60" width="240" height="60" rx="12" fill="#1A5CB5"/>
+  <text x="170" y="86" font-size="16" font-weight="800" fill="#FFF" text-anchor="middle">🏠 호스트 (Cline 등)</text>
+  <text x="170" y="108" font-size="12.5" fill="#D6E3F5" text-anchor="middle">안에 MCP 클라이언트</text>
+
+  <rect x="610" y="60" width="240" height="60" rx="12" fill="#002C5F"/>
+  <text x="730" y="86" font-size="16" font-weight="800" fill="#FFF" text-anchor="middle">🧰 MCP 서버 프로세스</text>
+  <text x="730" y="108" font-size="12.5" fill="#C7D5EA" text-anchor="middle">호스트가 직접 켜는 자식 프로세스</text>
+
+  <line x1="170" y1="120" x2="170" y2="590" stroke="#B5AFA5" stroke-width="2" stroke-dasharray="5 5"/>
+  <line x1="730" y1="120" x2="730" y2="560" stroke="#B5AFA5" stroke-width="2" stroke-dasharray="5 5"/>
+
+  <!-- ① 설정 읽기 -->
+  <rect x="60" y="140" width="220" height="54" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="170" y="163" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">① mcp.json 읽기</text>
+  <text x="170" y="184" font-size="12" fill="#555555" text-anchor="middle">"command": "npx" … 발견</text>
+
+  <!-- ② spawn -->
+  <line x1="290" y1="222" x2="726" y2="222" stroke="#003F8A" stroke-width="2.5" marker-end="url(#fa)"/>
+  <text x="500" y="212" font-size="14" font-weight="800" fill="#003F8A" text-anchor="middle">② 프로세스 실행(spawn) — npx가 패키지를 받아 로컬에서 시작</text>
+  <text x="500" y="240" font-size="12.5" fill="#8A8A8A" text-anchor="middle">stdin·stdout 파이프가 자동으로 연결됨 (포트 없음!)</text>
+
+  <!-- ③ initialize -->
+  <line x1="180" y1="278" x2="720" y2="278" stroke="#003F8A" stroke-width="2.2" marker-end="url(#fa)"/>
+  <line x1="720" y1="300" x2="180" y2="300" stroke="#003F8A" stroke-width="2.2" marker-end="url(#fa)"/>
+  <text x="450" y="268" font-size="13.5" font-weight="800" fill="#003F8A" text-anchor="middle">③ initialize 핸드셰이크 (JSON-RPC) — 버전·능력 교환</text>
+
+  <!-- ④ tools/list -->
+  <line x1="180" y1="342" x2="720" y2="342" stroke="#00AA6C" stroke-width="2.2" marker-end="url(#fg)"/>
+  <text x="450" y="332" font-size="13.5" font-weight="800" fill="#065F46" text-anchor="middle">④ tools/list — "무슨 도구 있어?"</text>
+  <line x1="720" y1="364" x2="180" y2="364" stroke="#00AA6C" stroke-width="2.2" marker-end="url(#fg)"/>
+  <text x="450" y="386" font-size="12.5" fill="#065F46" text-anchor="middle" font-weight="700">← 도구 목록 + JSON Schema → 호스트가 모델의 도구 목록에 합류시킴</text>
+
+  <!-- ⑤ tools/call -->
+  <rect x="60" y="408" width="220" height="54" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="170" y="431" font-size="13.5" font-weight="800" fill="#B45309" text-anchor="middle">모델이 tool_call 출력</text>
+  <text x="170" y="452" font-size="12" fill="#555555" text-anchor="middle">(§1의 에이전트 루프)</text>
+
+  <line x1="180" y1="490" x2="720" y2="490" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#fg)"/>
+  <text x="450" y="480" font-size="13.5" font-weight="800" fill="#065F46" text-anchor="middle">⑤ tools/call — stdin으로 JSON-RPC 요청 → 서버가 실제 실행</text>
+  <line x1="720" y1="512" x2="180" y2="512" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#fg)"/>
+  <text x="450" y="534" font-size="12.5" fill="#065F46" text-anchor="middle" font-weight="700">← stdout으로 결과 → 호스트가 모델에게 재주입</text>
+
+  <!-- ⑥ 종료 -->
+  <line x1="290" y1="566" x2="726" y2="558" stroke="#DC2626" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#fr)"/>
+  <text x="500" y="554" font-size="13" font-weight="800" fill="#DC2626" text-anchor="middle">⑥ 호스트 종료 → 자식 프로세스도 함께 종료</text>
+
+  <!-- 하단 -->
+  <rect x="50" y="584" width="800" height="0" fill="none"/>
+  <text x="450" y="608" font-size="14" font-weight="700" fill="#002C5F" text-anchor="middle">핵심: localhost 포트조차 쓰지 않는다 — 운영체제의 파이프로 JSON을 주고받는 순수 로컬 IPC다</text>
+</svg>

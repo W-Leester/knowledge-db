@@ -317,6 +317,8 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#b-fetch" class="sub">2-1. web_fetch 도구 구현</a>
     <a href="#b-loop" class="sub">2-2. 루프 완성 (전체 코드)</a>
     <a href="#mcp">3. MCP — 도구를 수집하는 표준</a>
+    <a href="#m-stdio" class="sub">3-1. 로컬 서버의 동작 원리</a>
+    <a href="#m-source" class="sub">3-2. 소스로 직접 실행</a>
     <a href="#recipes">4. 기능별 레시피</a>
     <a href="#r-rag" class="sub">4-1. RAG — 내 문서 지식</a>
     <a href="#stack">5. 전체 스택 조립</a>
@@ -519,7 +521,45 @@ messages = [
     <figcaption>호스트(하네스) 안의 MCP 클라이언트가 여러 서버의 도구를 모아 모델에게 제공한다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
-  <h3><span class="num">A</span>Cline에 도구 꽂기 — 이미 쓰고 있는 호스트부터</h3>
+  <h3 id="m-stdio"><span class="num">A</span>로컬 MCP 서버의 실체 — "원격 서비스"가 아니라 자식 프로세스다</h3>
+
+  <p class="body">mcp.json의 <span class="mono">"command": "npx", "args": [...]</span>를 보고
+  "어딘가의 서버에 접속하나 보다"라고 생각하기 쉽지만, 실제로는 정반대다.
+  이 설정의 뜻은 <strong>"이 명령을 실행해서 프로그램을 내 컴퓨터에 자식 프로세스로 띄우고,
+  그 프로세스의 표준입출력(stdin/stdout)과 JSON으로 대화하라"</strong>이다.
+  npx는 npm 패키지를 내려받아 실행하는 실행기일 뿐이고(uvx는 Python판),
+  띄워진 서버는 <u>네트워크 소켓도, localhost 포트도 쓰지 않는다</u> —
+  운영체제의 파이프를 통한 순수 로컬 IPC(프로세스 간 통신)다. 전체 수명은 아래 6단계다:</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/llm-mcp-stdio-flow.svg" alt="로컬 MCP 서버의 stdio 동작 흐름 6단계"></div>
+    <figcaption>호스트가 켜고(②), 도구 목록을 받아두고(④), 호출을 중계하고(⑤), 끌 때 같이 끈다(⑥) · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">파이프 위를 실제로 오가는 것은 <strong>JSON-RPC</strong>라는 요청-응답 형식이다.
+  네트워크 문서의 REST와 비유하면 — "HTTP 대신 파이프를 쓰는 API"인 셈:</p>
+
+  <pre class="code"><span class="title-bar">stdin/stdout 위를 흐르는 실제 대화 (요약) — →는 호스트→서버, ←는 응답</span><span class="c"># ③ 인사: 프로토콜 버전과 능력 교환</span>
+→ {<span class="f">"jsonrpc"</span>:<span class="s">"2.0"</span>, <span class="f">"method"</span>:<span class="s">"initialize"</span>, <span class="f">"params"</span>:{<span class="f">"protocolVersion"</span>:<span class="s">"2025-06-18"</span>, ...}}
+← {<span class="f">"result"</span>:{<span class="f">"capabilities"</span>:{<span class="f">"tools"</span>:{}}, <span class="f">"serverInfo"</span>:{<span class="f">"name"</span>:<span class="s">"filesystem"</span>}}}
+
+<span class="c"># ④ 도구 목록 수집 — §1의 "도구 스키마"가 여기서 온다</span>
+→ {<span class="f">"method"</span>:<span class="s">"tools/list"</span>}
+← {<span class="f">"result"</span>:{<span class="f">"tools"</span>:[{<span class="f">"name"</span>:<span class="s">"read_file"</span>, <span class="f">"inputSchema"</span>:{<span class="f">"properties"</span>:{<span class="f">"path"</span>:...}}}, ...]}}
+
+<span class="c"># ⑤ 모델이 tool_call을 출력할 때마다 — 호스트가 중계</span>
+→ {<span class="f">"method"</span>:<span class="s">"tools/call"</span>, <span class="f">"params"</span>:{<span class="f">"name"</span>:<span class="s">"read_file"</span>, <span class="f">"arguments"</span>:{<span class="f">"path"</span>:<span class="s">"README.md"</span>}}}
+← {<span class="f">"result"</span>:{<span class="f">"content"</span>:[{<span class="f">"type"</span>:<span class="s">"text"</span>, <span class="f">"text"</span>:<span class="s">"# KnowledgeDB App…"</span>}]}}</pre>
+
+  <div class="callout navy">
+    <span class="icon">🔍</span>
+    <div><strong>§1과 이어 붙이면 —</strong> MCP는 §1 에이전트 루프의 "도구 목록 만들기"와 "도구 실행하기"를
+    표준화한 것뿐이다. 호스트는 ④에서 받은 스키마를 모델에게 전달하고, 모델이 tool_call을 내면
+    ⑤의 <span class="mono">tools/call</span>로 번역해 서버에 넘긴다. 즉 <u>모델은 MCP의 존재를 모른다</u> —
+    모델이 보는 것은 여전히 평범한 도구 목록이고, MCP는 하네스와 도구 사이의 배선 규격이다.</div>
+  </div>
+
+  <h3><span class="num">B</span>Cline에 도구 꽂기 — 이미 쓰고 있는 호스트부터</h3>
 
   <p class="body">Cline은 MCP 호스트라서, 설정에 서버를 등록하면 <strong>로컬 Qwen이 그 도구들을 바로 쓴다</strong>.
   Cline의 MCP 설정(마켓플레이스 또는 <span class="mono">cline_mcp_settings.json</span>)에 이렇게 추가하면:</p>
@@ -553,7 +593,7 @@ messages = [
     </table>
   </div>
 
-  <h3><span class="num">B</span>자작 MCP 서버 — 내 도구도 표준 플러그로</h3>
+  <h3><span class="num">C</span>자작 MCP 서버 — 내 도구도 표준 플러그로</h3>
 
   <p class="body">직접 만든 도구도 MCP 서버로 포장하면 모든 호스트에서 재사용된다.
   파이썬 <span class="mono">FastMCP</span>로는 데코레이터 하나면 끝 — 예를 들어 이 Knowledge DB를 검색하는 도구:</p>
@@ -583,6 +623,56 @@ ROOT = Path.home() / <span class="s">"Desktop/Dev/knowledge-db"</span>
 
 <span class="k">if</span> __name__ == <span class="s">"__main__"</span>:
     mcp.run()   <span class="c"># 호스트 설정에 {"command":"python","args":["my_kdb_server.py"]} 등록</span></pre>
+
+  <h3 id="m-source"><span class="num">D</span>소스코드로 직접 실행하기 — npx가 하는 일을 내 손으로</h3>
+
+  <p class="body">A에서 봤듯 npx는 "다운로드 후 실행"을 대신해줄 뿐이므로, <strong>소스를 직접 받아 실행해도 완전히 동일하게 동작한다</strong>.
+  공식 서버 모음(<span class="mono">github.com/modelcontextprotocol/servers</span>)을 예로 들면:</p>
+
+  <pre class="code"><span class="title-bar">소스로 받아서 빌드 (TypeScript 서버의 경우)</span><span class="k">git clone</span> https://github.com/modelcontextprotocol/servers.git
+<span class="k">cd</span> servers/src/filesystem
+npm install <span class="k">&amp;&amp;</span> npm run build      <span class="c"># → dist/index.js 생성. Python 서버라면 이 단계 없이 uv run</span></pre>
+
+  <pre class="code"><span class="title-bar">mcp 설정 — npx 대신 빌드 결과물을 직접 지정</span>{
+  <span class="f">"mcpServers"</span>: {
+    <span class="f">"filesystem"</span>: {
+      <span class="f">"command"</span>: <span class="s">"node"</span>,
+      <span class="f">"args"</span>: [<span class="s">"/Users/leester/Desktop/Dev/servers/src/filesystem/dist/index.js"</span>,
+               <span class="s">"/Users/leester/Desktop/Dev"</span>]
+    }
+  }
+}
+<span class="c">// Python 서버라면: {"command": "python", "args": ["server.py"]} 또는 uv run —</span>
+<span class="c">// C(자작 서버)의 등록 방식과 완전히 같다. 자작이든 클론이든 "소스로 도는 로컬 서버"일 뿐.</span></pre>
+
+  <p class="body">소스 실행이 주는 것 세 가지: ① <strong>커스터마이징</strong> — 코드를 열어 도구를 추가·수정할 수 있다
+  (예: filesystem 서버에 "읽기 전용 모드" 강제). ② <strong>감사(audit)</strong> — 도구 = 권한(§6)이므로,
+  실행 전에 이 코드가 무엇을 하는지 직접 확인할 수 있다. ③ <strong>고정</strong> — npx가 매번 버전을 확인하는
+  지연이 없고, 검증한 버전이 몰래 바뀌지 않는다.</p>
+
+  <h3><span class="num">E</span>경계선 두 가지 — "로컬"이라는 말의 함정</h3>
+
+  <p class="body">여기까지 읽으면 "MCP 서버 = 전부 내 컴퓨터"로 느껴지지만, 두 가지 경계는 구분해야 한다.
+  첫째, <strong>서버가 로컬이라고 통신까지 로컬인 것은 아니다</strong> — 서버가 "무엇을 감싸는가"에 따라 데이터가 밖으로 나갈 수 있다.
+  둘째, 애초에 <strong>내 컴퓨터에서 실행되지 않는 원격 호스팅형 MCP</strong>도 존재한다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">유형</th><th style="width:200px">예</th><th>데이터·실행 위치</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">완전 로컬형</td><td class="mono">filesystem · sqlite · memory</td><td>프로세스도 데이터도 내 컴퓨터에서 끝. 비행기 모드에서도 동작 — 프라이버시 관점의 이상형.</td></tr>
+        <tr><td class="hl">로컬 실행 + 외부 API형</td><td class="mono">github · fetch · brave-search</td><td>프로세스는 로컬이지만 <strong>하는 일이 외부 API 호출</strong>이라 인터넷·API 키가 필요하고, 요청 내용은 해당 서비스로 나간다.</td></tr>
+        <tr><td class="hl">원격 호스팅형</td><td><span class="mono">"url": "https://…"</span>로 등록하는 SaaS 제공 MCP</td><td>서버 자체가 남의 컴퓨터에서 돈다(HTTP 방식). 소스가 공개돼 있다면 클론해서 D 방식으로 로컬화할 수 있지만, 비공개면 불가.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🧭</span>
+    <div><strong>판별법 —</strong> 설정에 <span class="mono">"command"</span>가 있으면 로컬 실행(stdio),
+    <span class="mono">"url"</span>이 있으면 원격(HTTP)이다. 그리고 로컬 실행형이라도 API 키를 요구한다면
+    "외부와 통신하는 서버"라는 신호다 — 민감한 데이터를 다루는 세션이라면 완전 로컬형 도구만으로 구성하자.</div>
+  </div>
 
   <div class="callout navy">
     <span class="icon">🔁</span>
@@ -707,7 +797,7 @@ ROOT = Path.home() / <span class="s">"Desktop/Dev/knowledge-db"</span>
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/llm-*.svg (4종) · 네트워크 문서(REST·API)와 DB 문서(pgvector·벡터 DB)에서 이어지는 응용편
+  Hyundai-Inspired Design System v1.0 · 도식: img/llm-*.svg (5종) · 네트워크 문서(REST·API)와 DB 문서(pgvector·벡터 DB)에서 이어지는 응용편
 </footer>
 
 </main>
