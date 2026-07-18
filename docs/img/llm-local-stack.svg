@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="sa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="540" fill="#FAF7F2"/>
+  <text x="450" y="38" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">추천 로컬 스택 — 전부 내 컴퓨터 안에서 도는 미니 클라우드</text>
+
+  <!-- L1: 추론 서버 -->
+  <rect x="40" y="66" width="820" height="96" rx="14" fill="#002C5F"/>
+  <text x="70" y="106" font-size="16.5" font-weight="800" fill="#FFF">① 추론 서버 — 모델을 API로</text>
+  <text x="70" y="134" font-size="13.5" fill="#C7D5EA">Ollama · LM Studio · llama.cpp → OpenAI 호환 API (localhost:11434 등)</text>
+  <rect x="620" y="84" width="210" height="60" rx="10" fill="rgba(255,255,255,.12)"/>
+  <text x="725" y="110" font-size="14.5" font-weight="800" fill="#7FD1A8" text-anchor="middle">Qwen3-30B-A3B</text>
+  <text x="725" y="132" font-size="12" fill="#C7D5EA" text-anchor="middle">MoE — 활성 3B라 빠름</text>
+
+  <!-- L2: 소비자들 -->
+  <rect x="40" y="192" width="820" height="130" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="70" y="228" font-size="16.5" font-weight="800" fill="#002C5F">② 하네스들 — 같은 API를 나눠 쓰는 소비자</text>
+  <rect x="70" y="246" width="240" height="56" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="190" y="270" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">💬 Open WebUI</text>
+  <text x="190" y="292" font-size="12" fill="#555555" text-anchor="middle">챗 UI + RAG + 웹검색 내장</text>
+  <rect x="330" y="246" width="240" height="56" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="450" y="270" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">🖥 Cline (VS Code)</text>
+  <text x="450" y="292" font-size="12" fill="#555555" text-anchor="middle">에이전트 코딩</text>
+  <rect x="590" y="246" width="240" height="56" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="710" y="270" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">🐍 자작 파이썬 루프</text>
+  <text x="710" y="292" font-size="12" fill="#555555" text-anchor="middle">자동화 스크립트·배치 작업</text>
+
+  <!-- L3: 도구층 -->
+  <rect x="40" y="352" width="820" height="96" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="70" y="388" font-size="16.5" font-weight="800" fill="#065F46">③ 도구층 — MCP 서버 + 자작 함수</text>
+  <text x="70" y="416" font-size="13.5" fill="#555555">filesystem · fetch · playwright · github · sqlite · 검색(SearXNG) · 임베딩+벡터DB(RAG) · 코드 샌드박스</text>
+
+  <!-- L4: 외부 세계 -->
+  <rect x="40" y="478" width="820" height="44" rx="12" fill="#FAF7F2" stroke="#B5AFA5" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="450" y="506" font-size="14" font-weight="700" fill="#8A8A8A" text-anchor="middle">④ 실제 세계 — 파일시스템 · 웹 · 브라우저 · DB · GitHub (도구가 닿는 곳)</text>
+
+  <!-- 화살표 -->
+  <line x1="450" y1="162" x2="450" y2="188" stroke="#003F8A" stroke-width="3" marker-end="url(#sa)"/>
+  <line x1="450" y1="322" x2="450" y2="348" stroke="#003F8A" stroke-width="3" marker-end="url(#sa)"/>
+  <line x1="450" y1="448" x2="450" y2="474" stroke="#003F8A" stroke-width="3" marker-end="url(#sa)"/>
+</svg>

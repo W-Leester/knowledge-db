@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="la" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="lg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+    <marker id="lr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E8962A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="520" fill="#FAF7F2"/>
+  <text x="450" y="40" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">에이전트 루프 — "기능"은 모델이 아니라 이 반복문에 있다</text>
+
+  <!-- 사용자 -->
+  <rect x="30" y="80" width="150" height="64" rx="12" fill="#1A5CB5"/>
+  <text x="105" y="108" font-size="16" font-weight="800" fill="#FFF" text-anchor="middle">🙋 사용자</text>
+  <text x="105" y="130" font-size="12.5" fill="#D6E3F5" text-anchor="middle">"어제 환율 알려줘"</text>
+
+  <!-- 하네스 -->
+  <rect x="240" y="66" width="400" height="390" rx="16" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="440" y="98" font-size="17" font-weight="800" fill="#002C5F" text-anchor="middle">⚙️ 하네스 (내가 짜는 반복문)</text>
+
+  <rect x="270" y="116" width="340" height="66" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="440" y="143" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">① 메시지 + 도구 목록(JSON Schema) 전달</text>
+  <text x="440" y="167" font-size="13" fill="#555555" text-anchor="middle">"web_fetch, search 같은 도구를 쓸 수 있어"</text>
+
+  <rect x="270" y="200" width="340" height="66" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="440" y="227" font-size="14.5" font-weight="800" fill="#B45309" text-anchor="middle">② 응답 검사 — tool_call이 있는가?</text>
+  <text x="440" y="251" font-size="13" fill="#555555" text-anchor="middle">없으면 → 최종 답변으로 종료</text>
+
+  <rect x="270" y="284" width="340" height="66" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="440" y="311" font-size="14.5" font-weight="800" fill="#065F46" text-anchor="middle">③ 도구 실행 (모델이 아니라 내 코드가!)</text>
+  <text x="440" y="335" font-size="13" fill="#555555" text-anchor="middle">web_fetch(url=...) → 결과 텍스트</text>
+
+  <rect x="270" y="368" width="340" height="66" rx="10" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="440" y="395" font-size="14.5" font-weight="800" fill="#6B21A8" text-anchor="middle">④ 결과를 대화에 붙여 다시 ①로</text>
+  <text x="440" y="419" font-size="13" fill="#555555" text-anchor="middle">role: "tool" 메시지로 재주입 → 루프 반복</text>
+
+  <!-- LLM -->
+  <rect x="700" y="180" width="170" height="150" rx="14" fill="#002C5F"/>
+  <text x="785" y="230" font-size="18" font-weight="800" fill="#FFF" text-anchor="middle">🧠 로컬 LLM</text>
+  <text x="785" y="256" font-size="13" fill="#C7D5EA" text-anchor="middle">(Qwen3 등)</text>
+  <text x="785" y="288" font-size="12.5" fill="#8A9BB5" text-anchor="middle">하는 일: 텍스트 출력뿐</text>
+  <text x="785" y="308" font-size="12.5" fill="#8A9BB5" text-anchor="middle">실행 능력 없음</text>
+
+  <!-- 화살표들 -->
+  <line x1="180" y1="112" x2="236" y2="112" stroke="#003F8A" stroke-width="2.5" marker-end="url(#la)"/>
+  <line x1="610" y1="149" x2="700" y2="220" stroke="#003F8A" stroke-width="2.5" marker-end="url(#la)"/>
+  <text x="672" y="168" font-size="12.5" fill="#003F8A" font-weight="700">요청</text>
+  <line x1="700" y1="280" x2="610" y2="233" stroke="#E8962A" stroke-width="2.5" marker-end="url(#lr)"/>
+  <text x="662" y="292" font-size="12.5" fill="#B45309" font-weight="700">tool_call 또는 답변</text>
+  <path d="M 270 401 C 200 401 200 149 264 149" fill="none" stroke="#6B21A8" stroke-width="2.5" marker-end="url(#la)"/>
+  <text x="205" y="285" font-size="12.5" fill="#6B21A8" font-weight="700" transform="rotate(-90 205 285)" text-anchor="middle">반복 (loop)</text>
+
+  <!-- 최종 답 -->
+  <line x1="440" y1="456" x2="440" y2="478" stroke="#00AA6C" stroke-width="3" marker-end="url(#lg)"/>
+  <rect x="290" y="482" width="300" height="0" fill="none"/>
+  <text x="440" y="504" font-size="15.5" font-weight="800" fill="#065F46" text-anchor="middle">✅ tool_call이 없으면 → 최종 답변을 사용자에게</text>
+</svg>

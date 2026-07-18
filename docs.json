@@ -82,6 +82,30 @@
       ]
     },
     {
+      "id": "local-llm-agent",
+      "title": "로컬 LLM 에이전트",
+      "desc": "도구 호출·MCP·RAG로 내 컴퓨터의 Qwen에게 날개 달기",
+      "file": "docs/local-llm-agent.html",
+      "group": "AI · LLM",
+      "icon": "🤖",
+      "gradient": [
+        "#065F46",
+        "#1A5CB5"
+      ],
+      "tags": [
+        "Agent",
+        "MCP",
+        "RAG"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/llm-agent-loop.svg",
+        "docs/img/llm-mcp-architecture.svg",
+        "docs/img/llm-rag-pipeline.svg",
+        "docs/img/llm-local-stack.svg"
+      ]
+    },
+    {
       "id": "ai-hw-processors",
       "title": "AI 하드웨어 — 프로세서",
       "desc": "CPU · GPU · NPU · TPU 아키텍처 완전 분해",

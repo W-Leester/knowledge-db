@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="ga" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="gg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+  <rect width="900" height="480" fill="#FAF7F2"/>
+  <text x="450" y="38" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">RAG — "내 문서를 아는 것처럼" 만드는 검색 증강 파이프라인</text>
+
+  <!-- 사전 준비 (인덱싱) -->
+  <rect x="30" y="66" width="840" height="150" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="55" y="96" font-size="15.5" font-weight="800" fill="#8A8A8A">㉮ 사전 준비 (한 번만) — 인덱싱</text>
+
+  <rect x="55" y="112" width="160" height="80" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="135" y="144" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">📚 내 문서들</text>
+  <text x="135" y="168" font-size="12.5" fill="#555555" text-anchor="middle">PDF·MD·HTML·노트</text>
+
+  <rect x="255" y="112" width="160" height="80" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="335" y="144" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">✂️ 청크로 분할</text>
+  <text x="335" y="168" font-size="12.5" fill="#555555" text-anchor="middle">문단 단위 500~1000자</text>
+
+  <rect x="455" y="112" width="180" height="80" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="545" y="144" font-size="14.5" font-weight="800" fill="#B45309" text-anchor="middle">🧮 임베딩 모델</text>
+  <text x="545" y="168" font-size="12.5" fill="#555555" text-anchor="middle">텍스트 → 의미 좌표(벡터)</text>
+
+  <rect x="675" y="112" width="170" height="80" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="760" y="144" font-size="14.5" font-weight="800" fill="#065F46" text-anchor="middle">🗄 벡터 DB</text>
+  <text x="760" y="168" font-size="12.5" fill="#555555" text-anchor="middle">Chroma·Qdrant 등</text>
+
+  <line x1="215" y1="152" x2="251" y2="152" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ga)"/>
+  <line x1="415" y1="152" x2="451" y2="152" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ga)"/>
+  <line x1="635" y1="152" x2="671" y2="152" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ga)"/>
+
+  <!-- 질문 시 -->
+  <rect x="30" y="240" width="840" height="150" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="55" y="270" font-size="15.5" font-weight="800" fill="#003F8A">㉯ 질문할 때마다 — 검색 + 증강</text>
+
+  <rect x="55" y="286" width="160" height="80" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="135" y="318" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">❓ 질문</text>
+  <text x="135" y="342" font-size="12.5" fill="#555555" text-anchor="middle">"HBM이 뭐였지?"</text>
+
+  <rect x="255" y="286" width="180" height="80" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="345" y="312" font-size="14" font-weight="800" fill="#B45309" text-anchor="middle">같은 임베딩 모델로</text>
+  <text x="345" y="334" font-size="14" font-weight="800" fill="#B45309" text-anchor="middle">질문도 벡터화</text>
+  <text x="345" y="356" font-size="12" fill="#555555" text-anchor="middle">→ 벡터 DB에서 유사도 검색</text>
+
+  <rect x="475" y="286" width="170" height="80" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="560" y="312" font-size="14" font-weight="800" fill="#065F46" text-anchor="middle">🔍 가장 가까운</text>
+  <text x="560" y="334" font-size="14" font-weight="800" fill="#065F46" text-anchor="middle">청크 3~5개</text>
+  <text x="560" y="356" font-size="12" fill="#555555" text-anchor="middle">관련 문단만 추출</text>
+
+  <rect x="685" y="286" width="160" height="80" rx="10" fill="#002C5F"/>
+  <text x="765" y="314" font-size="14.5" font-weight="800" fill="#FFF" text-anchor="middle">🧠 LLM</text>
+  <text x="765" y="338" font-size="12" fill="#C7D5EA" text-anchor="middle">질문 + 찾은 문단을</text>
+  <text x="765" y="356" font-size="12" fill="#C7D5EA" text-anchor="middle">함께 넣어 답 생성</text>
+
+  <line x1="215" y1="326" x2="251" y2="326" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ga)"/>
+  <line x1="435" y1="326" x2="471" y2="326" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ga)"/>
+  <line x1="645" y1="326" x2="681" y2="326" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ga)"/>
+  <line x1="760" y1="196" x2="500" y2="286" stroke="#00AA6C" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#gg)"/>
+
+  <!-- 하단 -->
+  <rect x="30" y="414" width="840" height="44" rx="12" fill="#E8EEF7"/>
+  <text x="450" y="442" font-size="14.5" font-weight="700" fill="#002C5F" text-anchor="middle">모델을 재학습하지 않는다 — 답변 직전에 "관련 자료를 찾아 옆에 놓아주는" 것뿐. 그래서 문서 추가·수정이 즉시 반영된다</text>
+</svg>

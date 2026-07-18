@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로컬 LLM 에이전트 — 도구로 날개 달기</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #065F46 60%, var(--navy-500) 100%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--green)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>로컬 LLM<br>에이전트</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#principle">1. 도구 호출의 원리</a>
+    <a href="#build">2. 에이전트 루프 직접 만들기</a>
+    <a href="#b-fetch" class="sub">2-1. web_fetch 도구 구현</a>
+    <a href="#b-loop" class="sub">2-2. 루프 완성 (전체 코드)</a>
+    <a href="#mcp">3. MCP — 도구를 수집하는 표준</a>
+    <a href="#recipes">4. 기능별 레시피</a>
+    <a href="#r-rag" class="sub">4-1. RAG — 내 문서 지식</a>
+    <a href="#stack">5. 전체 스택 조립</a>
+    <a href="#tips">6. 운영 수칙과 한계</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">AI Engineering · Local Agents</div>
+  <h1>로컬 LLM 에이전트<br><span class="thin">도구 호출 · MCP · RAG로 날개 달기</span></h1>
+  <p class="sub">클라우드 LLM 서비스의 "수많은 기능"은 모델이 아니라 모델을 감싼 실행 루프에 있다.
+  내 컴퓨터의 Qwen3에게 웹 읽기·검색·파일·브라우저·내 문서 지식까지 부여하는 방법을 —
+  원리(도구 호출)부터 직접 구현(파이썬 루프), 그리고 생태계 활용(MCP)까지 단계별로 정리한다.</p>
+  <div class="tags">
+    <span class="tag">Qwen3</span><span class="tag">function calling</span><span class="tag">MCP</span>
+    <span class="tag">RAG</span><span class="tag">Ollama</span><span class="tag">Open WebUI</span><span class="tag">Cline</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 기능은 모델이 아니라 하네스에 있다</h2>
+    <p>이 한 문장을 이해하면 로컬 재현의 길이 전부 열린다</p>
+  </div>
+
+  <p class="body">ChatGPT가 웹을 검색하고 Claude가 파일을 만들 때, <strong>모델 자체는 아무것도 실행하지 않는다</strong>.
+  모델은 "web_search를 이런 인자로 호출하고 싶다"는 <u>구조화된 텍스트를 출력할 뿐</u>이고,
+  그 텍스트를 읽고 실제로 검색을 실행한 뒤 결과를 다시 모델에게 먹여주는 것은
+  모델 바깥의 프로그램 — <strong>하네스(harness)</strong>다. 클라우드 서비스란 "좋은 모델 + 잘 만든 하네스 + 도구 묶음"이고,
+  이 셋 중 모델만 로컬로 바꾸면 나머지는 전부 내 컴퓨터에서 재조립할 수 있다.</p>
+
+  <div class="card-grid g4">
+    <div class="stat-card"><div class="stat-value">0개</div><div class="stat-label">모델이 직접 실행할 수<br>있는 도구의 수</div></div>
+    <div class="stat-card"><div class="stat-value">~50줄</div><div class="stat-label">에이전트 루프의<br>최소 구현 (§2)</div></div>
+    <div class="stat-card"><div class="stat-value">수백 개</div><div class="stat-label">가져다 쓸 수 있는<br>MCP 도구 서버 (§3)</div></div>
+    <div class="stat-card"><div class="stat-value">100%</div><div class="stat-label">데이터가 내 컴퓨터에<br>남는 비율 (로컬의 특권)</div></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>이 문서의 경로 —</strong> §1에서 도구 호출의 원리를 해부하고, §2에서 web_fetch가 달린
+    에이전트 루프를 파이썬 50줄로 직접 만든다. §3에서 그걸 직접 만들 필요가 없게 해주는 표준(MCP)을 배우고,
+    §4~5에서 기능별 레시피와 전체 스택을 조립한다. 순서대로 읽으면 "왜 이 구조인가"가 이해된 채로 도구를 늘릴 수 있다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. PRINCIPLE ═══════════ -->
+<section id="principle">
+  <div class="section-header">
+    <div class="eyebrow">Function Calling</div>
+    <h2>1. 도구 호출의 원리 — 모델과 하네스의 계약</h2>
+    <p>"실행하고 싶다"고 말하는 모델, 실제로 실행하는 내 코드</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/llm-agent-loop.svg" alt="에이전트 루프 구조"></div>
+    <figcaption>루프의 4단계 — 모델은 판단만, 실행은 하네스가. 이 그림이 이 문서 전체의 뼈대다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">동작 순서는 이렇다. ① 하네스가 모델에게 대화 내용과 함께 <strong>도구 목록(JSON Schema)</strong>을 전달한다.
+  ② 모델이 도구가 필요하다고 판단하면 일반 답변 대신 <strong>tool_call</strong>(도구 이름 + 인자)을 출력한다.
+  ③ 하네스가 해당 함수를 실제로 실행하고 ④ 결과를 <span class="mono">role: "tool"</span> 메시지로 대화에 붙여 다시 모델에게 보낸다.
+  모델이 tool_call 없이 답하면 루프 종료. Qwen3를 포함한 최근 오픈 모델들은 이 형식으로 학습되어 있어서(네이티브 function calling),
+  Ollama·LM Studio·vLLM이 제공하는 <strong>OpenAI 호환 API</strong>에 도구 목록만 넘기면 그대로 동작한다.</p>
+
+  <pre class="code"><span class="title-bar">① 하네스 → 모델: "이런 도구를 쓸 수 있어" (JSON Schema)</span>{
+  <span class="f">"type"</span>: <span class="s">"function"</span>,
+  <span class="f">"function"</span>: {
+    <span class="f">"name"</span>: <span class="s">"web_fetch"</span>,
+    <span class="f">"description"</span>: <span class="s">"URL의 웹페이지를 가져와 본문 텍스트를 돌려준다"</span>,  <span class="c">← 모델은 이 설명을 보고 언제 쓸지 판단한다</span>
+    <span class="f">"parameters"</span>: {
+      <span class="f">"type"</span>: <span class="s">"object"</span>,
+      <span class="f">"properties"</span>: { <span class="f">"url"</span>: { <span class="f">"type"</span>: <span class="s">"string"</span>, <span class="f">"description"</span>: <span class="s">"가져올 페이지 주소"</span> } },
+      <span class="f">"required"</span>: [<span class="s">"url"</span>]
+    }
+  }
+}</pre>
+
+  <pre class="code"><span class="title-bar">② 모델 → 하네스: 답변 대신 "호출 의사" (tool_call)</span>{
+  <span class="f">"role"</span>: <span class="s">"assistant"</span>,
+  <span class="f">"tool_calls"</span>: [{
+    <span class="f">"id"</span>: <span class="s">"call_001"</span>,
+    <span class="f">"function"</span>: { <span class="f">"name"</span>: <span class="s">"web_fetch"</span>, <span class="f">"arguments"</span>: <span class="s">"{\"url\": \"https://example.com/news\"}"</span> }
+  }]
+}
+<span class="c">// ③ 하네스가 web_fetch()를 실행한 뒤, 결과를 붙여 다시 모델에게:</span>
+{ <span class="f">"role"</span>: <span class="s">"tool"</span>, <span class="f">"tool_call_id"</span>: <span class="s">"call_001"</span>, <span class="f">"content"</span>: <span class="s">"오늘의 뉴스 본문…"</span> }</pre>
+
+  <div class="callout amber">
+    <span class="icon">💡</span>
+    <div><strong>description이 프롬프트다.</strong> 모델이 도구를 "언제, 어떻게" 쓸지는 전적으로 스키마의
+    <span class="mono">description</span>에 달려 있다. "URL의 웹페이지를 가져온다"보다
+    "사용자가 링크를 주거나 최신 정보가 필요할 때 사용. HTML이 아닌 본문 텍스트를 돌려준다"처럼
+    <u>사용 조건까지 적어주면</u> 로컬 모델의 호출 정확도가 눈에 띄게 올라간다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. BUILD ═══════════ -->
+<section id="build">
+  <div class="section-header">
+    <div class="eyebrow">DIY — 50 Lines</div>
+    <h2>2. 에이전트 루프 직접 만들기 — web_fetch 달린 Qwen3</h2>
+    <p>원리를 한 번 손으로 만들어보면, 이후의 모든 도구는 "함수 하나 추가"일 뿐이다</p>
+  </div>
+
+  <p class="body">준비물: <span class="mono">ollama pull qwen3:30b-a3b</span> (또는 LM Studio에서 모델 로드 후 서버 켜기),
+  그리고 <span class="mono">pip install openai requests trafilatura</span>.
+  OpenAI SDK를 쓰지만 <strong>base_url만 로컬로</strong> 바꾸면 OpenAI 서버가 아니라 내 컴퓨터의 Qwen에게 간다 —
+  네트워크 문서(§4)에서 본 "같은 REST API, 다른 주소"다.</p>
+
+  <h3 id="b-fetch"><span class="num">A</span>도구 구현 — 진짜 일을 하는 평범한 파이썬 함수</h3>
+
+  <pre class="code"><span class="title-bar">tools.py — 도구는 그냥 함수다</span><span class="k">import</span> requests, trafilatura
+
+<span class="k">def</span> <span class="f">web_fetch</span>(url: str) -&gt; str:
+    <span class="s">"""URL의 본문 텍스트를 추출해 돌려준다."""</span>
+    html = requests.get(url, timeout=10,
+                        headers={<span class="s">"User-Agent"</span>: <span class="s">"Mozilla/5.0"</span>}).text
+    text = trafilatura.extract(html)          <span class="c"># 광고·메뉴 제거, 본문만</span>
+    <span class="k">return</span> (text <span class="k">or</span> <span class="s">"본문 추출 실패"</span>)[:4000]   <span class="c"># ★ 결과는 잘라서 — 컨텍스트 보호</span>
+
+<span class="k">def</span> <span class="f">web_search</span>(query: str) -&gt; str:
+    <span class="s">"""SearXNG(로컬 메타검색)으로 웹을 검색해 상위 결과를 돌려준다."""</span>
+    r = requests.get(<span class="s">"http://localhost:8080/search"</span>,
+                     params={<span class="s">"q"</span>: query, <span class="s">"format"</span>: <span class="s">"json"</span>}, timeout=10).json()
+    <span class="k">return</span> <span class="s">"\n"</span>.join(f<span class="s">"{x['title']} — {x['url']}\n{x.get('content','')}"</span>
+                     <span class="k">for</span> x <span class="k">in</span> r[<span class="s">"results"</span>][:5])</pre>
+
+  <h3 id="b-loop"><span class="num">B</span>루프 완성 — 이게 에이전트의 전부다</h3>
+
+  <pre class="code"><span class="title-bar">agent.py — 에이전트 루프 (핵심 전체)</span><span class="k">import</span> json
+<span class="k">from</span> openai <span class="k">import</span> OpenAI
+<span class="k">from</span> tools <span class="k">import</span> web_fetch, web_search
+
+client = OpenAI(base_url=<span class="s">"http://localhost:11434/v1"</span>, api_key=<span class="s">"ollama"</span>)  <span class="c"># ← Ollama</span>
+
+TOOLS = [  <span class="c"># §1의 JSON Schema들 (web_fetch, web_search)</span>
+  {<span class="f">"type"</span>:<span class="s">"function"</span>,<span class="f">"function"</span>:{<span class="f">"name"</span>:<span class="s">"web_fetch"</span>,<span class="f">"description"</span>:<span class="s">"링크가 주어지거나 특정 페이지 내용이 필요할 때. 본문 텍스트 반환"</span>,
+    <span class="f">"parameters"</span>:{<span class="f">"type"</span>:<span class="s">"object"</span>,<span class="f">"properties"</span>:{<span class="f">"url"</span>:{<span class="f">"type"</span>:<span class="s">"string"</span>}},<span class="f">"required"</span>:[<span class="s">"url"</span>]}}},
+  {<span class="f">"type"</span>:<span class="s">"function"</span>,<span class="f">"function"</span>:{<span class="f">"name"</span>:<span class="s">"web_search"</span>,<span class="f">"description"</span>:<span class="s">"최신 정보나 모르는 사실을 물을 때 웹 검색"</span>,
+    <span class="f">"parameters"</span>:{<span class="f">"type"</span>:<span class="s">"object"</span>,<span class="f">"properties"</span>:{<span class="f">"query"</span>:{<span class="f">"type"</span>:<span class="s">"string"</span>}},<span class="f">"required"</span>:[<span class="s">"query"</span>]}}},
+]
+IMPL = {<span class="s">"web_fetch"</span>: web_fetch, <span class="s">"web_search"</span>: web_search}
+
+messages = [
+  {<span class="f">"role"</span>:<span class="s">"system"</span>, <span class="f">"content"</span>:<span class="s">"필요할 때만 도구를 사용하고, 결과를 근거로 한국어로 답하라."</span>},
+  {<span class="f">"role"</span>:<span class="s">"user"</span>,   <span class="f">"content"</span>:<span class="s">"오늘 발표된 Qwen 관련 소식 있어? 요약해줘"</span>},
+]
+
+<span class="k">for</span> _ <span class="k">in</span> range(10):                          <span class="c"># ★ 무한 루프 방지 상한</span>
+    r = client.chat.completions.create(
+        model=<span class="s">"qwen3:30b-a3b"</span>, messages=messages, tools=TOOLS)
+    msg = r.choices[0].message
+    messages.append(msg)
+    <span class="k">if</span> <span class="k">not</span> msg.tool_calls:                  <span class="c"># 도구 요청 없음 = 최종 답변</span>
+        print(msg.content); <span class="k">break</span>
+    <span class="k">for</span> tc <span class="k">in</span> msg.tool_calls:               <span class="c"># 모델이 원한 도구를 대신 실행</span>
+        <span class="k">try</span>:
+            out = IMPL[tc.function.name](**json.loads(tc.function.arguments))
+        <span class="k">except</span> Exception <span class="k">as</span> e:
+            out = f<span class="s">"도구 오류: {e}"</span>          <span class="c"># ★ 오류도 모델에게 — 스스로 재시도한다</span>
+        messages.append({<span class="f">"role"</span>:<span class="s">"tool"</span>, <span class="f">"tool_call_id"</span>: tc.id, <span class="f">"content"</span>: str(out)})</pre>
+
+  <p class="body">이 50줄이 클라우드 서비스 구조의 축소판이다. 실행하면: 모델이 <span class="mono">web_search("Qwen 최신 소식")</span>을 요청
+  → 하네스가 검색 실행 → 결과를 본 모델이 흥미로운 링크에 <span class="mono">web_fetch</span> 요청 → 본문을 읽고 요약 답변.
+  <strong>새 기능 추가 = 함수 하나 + 스키마 하나 + IMPL 등록 한 줄</strong>이다. 파일 읽기, 계산기, 우리 Knowledge DB 문서 검색… 무엇이든.</p>
+
+  <div class="callout green">
+    <span class="icon">✅</span>
+    <div><strong>디자인 포인트 세 가지 —</strong> ① 반복 상한(<span class="mono">range(10)</span>): 로컬 모델은 가끔 같은 도구를 무한 반복한다.
+    ② 결과 절단(<span class="mono">[:4000]</span>): 웹페이지 하나가 컨텍스트를 통째로 삼키는 걸 방지.
+    ③ 오류의 재주입: 실패를 숨기지 않고 모델에게 보여주면 인자를 고쳐 재시도한다 — 에이전트다움의 절반은 이 오류 복구에서 나온다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 3. MCP ═══════════ -->
+<section id="mcp">
+  <div class="section-header">
+    <div class="eyebrow">Model Context Protocol</div>
+    <h2>3. MCP — 도구를 만들지 않고 "수집"하는 표준</h2>
+    <p>§2처럼 도구를 일일이 만들 필요가 없는 이유: 이미 만들어져 있고, 꽂기만 하면 된다</p>
+  </div>
+
+  <p class="body">§2 방식의 한계는 명확하다 — 도구마다 함수와 스키마를 직접 짜야 하고, 내 루프에서만 쓸 수 있다.
+  <strong>MCP(Model Context Protocol)</strong>는 이 문제를 푸는 개방 표준이다(2024년 Anthropic이 공개, 이후 업계 표준화).
+  도구를 <strong>MCP 서버</strong>라는 독립 프로그램으로 만들어두면, MCP를 지원하는 <strong>어떤 호스트든</strong>
+  — Cline, Open WebUI, LM Studio, 자작 루프 — 설정 몇 줄로 그 도구를 쓸 수 있다.
+  네트워크 문서에서 본 "표준이 생태계를 만든다"의 LLM판이다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/llm-mcp-architecture.svg" alt="MCP 호스트-클라이언트-서버 구조"></div>
+    <figcaption>호스트(하네스) 안의 MCP 클라이언트가 여러 서버의 도구를 모아 모델에게 제공한다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <h3><span class="num">A</span>Cline에 도구 꽂기 — 이미 쓰고 있는 호스트부터</h3>
+
+  <p class="body">Cline은 MCP 호스트라서, 설정에 서버를 등록하면 <strong>로컬 Qwen이 그 도구들을 바로 쓴다</strong>.
+  Cline의 MCP 설정(마켓플레이스 또는 <span class="mono">cline_mcp_settings.json</span>)에 이렇게 추가하면:</p>
+
+  <pre class="code"><span class="title-bar">mcp 설정 예시 — 서버 3개 등록 (Cline·Open WebUI·LM Studio 모두 같은 형식)</span>{
+  <span class="f">"mcpServers"</span>: {
+    <span class="f">"filesystem"</span>: {   <span class="c">// 파일 읽기·쓰기·검색 (지정 폴더만 허용 ← 보안)</span>
+      <span class="f">"command"</span>: <span class="s">"npx"</span>,
+      <span class="f">"args"</span>: [<span class="s">"-y"</span>, <span class="s">"@modelcontextprotocol/server-filesystem"</span>, <span class="s">"/Users/leester/Desktop/Dev"</span>]
+    },
+    <span class="f">"fetch"</span>: {        <span class="c">// 웹페이지 가져오기 — §2의 web_fetch를 만들 필요가 없어진다</span>
+      <span class="f">"command"</span>: <span class="s">"uvx"</span>, <span class="f">"args"</span>: [<span class="s">"mcp-server-fetch"</span>]
+    },
+    <span class="f">"playwright"</span>: {   <span class="c">// 진짜 브라우저 조작 — 클릭·입력·스크린샷</span>
+      <span class="f">"command"</span>: <span class="s">"npx"</span>, <span class="f">"args"</span>: [<span class="s">"-y"</span>, <span class="s">"@playwright/mcp@latest"</span>]
+    }
+  }
+}</pre>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">MCP 서버</th><th style="width:230px">부여되는 능력</th><th>활용 예</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">filesystem</td><td>파일 읽기·쓰기·검색</td><td>"Dev 폴더에서 TODO 주석 전부 찾아줘"</td></tr>
+        <tr><td class="hl">fetch</td><td>웹페이지 → 마크다운</td><td>"이 링크 기사 요약해줘"</td></tr>
+        <tr><td class="hl">playwright</td><td>브라우저 조작·스크린샷</td><td>"이 사이트 로그인 과정이 되는지 확인해줘"</td></tr>
+        <tr><td class="hl">github</td><td>이슈·PR·저장소 조회/생성</td><td>"knowledge-db 저장소 최근 커밋 보여줘"</td></tr>
+        <tr><td class="hl">sqlite / postgres</td><td>DB 스키마 조회·질의</td><td>"주문 테이블에서 이번 달 합계 뽑아줘"</td></tr>
+        <tr><td class="hl">memory</td><td>대화 간 지식 저장</td><td>"내 프로젝트 규칙 기억해둬" → 다음 세션에도 유지</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="num">B</span>자작 MCP 서버 — 내 도구도 표준 플러그로</h3>
+
+  <p class="body">직접 만든 도구도 MCP 서버로 포장하면 모든 호스트에서 재사용된다.
+  파이썬 <span class="mono">FastMCP</span>로는 데코레이터 하나면 끝 — 예를 들어 이 Knowledge DB를 검색하는 도구:</p>
+
+  <pre class="code"><span class="title-bar">my_kdb_server.py — 자작 MCP 서버 (pip install fastmcp)</span><span class="k">from</span> fastmcp <span class="k">import</span> FastMCP
+<span class="k">from</span> pathlib <span class="k">import</span> Path
+<span class="k">import</span> re, json
+
+mcp = FastMCP(<span class="s">"knowledge-db"</span>)
+ROOT = Path.home() / <span class="s">"Desktop/Dev/knowledge-db"</span>
+
+@mcp.tool()
+<span class="k">def</span> <span class="f">list_docs</span>() -&gt; str:
+    <span class="s">"""Knowledge DB의 문서 목록(제목·태그)을 돌려준다."""</span>
+    d = json.loads((ROOT / <span class="s">"docs.json"</span>).read_text())
+    <span class="k">return</span> <span class="s">"\n"</span>.join(f<span class="s">"{x['id']}: {x['title']} {x['tags']}"</span> <span class="k">for</span> x <span class="k">in</span> d[<span class="s">"docs"</span>])
+
+@mcp.tool()
+<span class="k">def</span> <span class="f">search_docs</span>(keyword: str) -&gt; str:
+    <span class="s">"""문서 본문에서 키워드가 나오는 부분을 찾아 전후 문맥과 함께 돌려준다."""</span>
+    hits = []
+    <span class="k">for</span> f <span class="k">in</span> (ROOT / <span class="s">"docs"</span>).glob(<span class="s">"*.html"</span>):
+        text = re.sub(<span class="s">r"&lt;[^&gt;]+&gt;"</span>, <span class="s">" "</span>, f.read_text())   <span class="c"># 태그 제거</span>
+        <span class="k">for</span> m <span class="k">in</span> re.finditer(re.escape(keyword), text):
+            hits.append(f<span class="s">"[{f.stem}] …{text[max(0,m.start()-80):m.end()+80]}…"</span>)
+    <span class="k">return</span> <span class="s">"\n\n"</span>.join(hits[:10]) <span class="k">or</span> <span class="s">"검색 결과 없음"</span>
+
+<span class="k">if</span> __name__ == <span class="s">"__main__"</span>:
+    mcp.run()   <span class="c"># 호스트 설정에 {"command":"python","args":["my_kdb_server.py"]} 등록</span></pre>
+
+  <div class="callout navy">
+    <span class="icon">🔁</span>
+    <div><strong>§2 vs §3 정리 —</strong> 원리 학습·1회성 자동화 스크립트는 §2(직접 루프)가 가볍고,
+    일상적으로 쓸 도구는 §3(MCP 서버)로 만들어야 Cline·챗 UI·스크립트 어디서든 재사용된다.
+    실무 감각: <u>루프는 한 번만 이해하면 되고, 이후의 투자는 전부 도구(MCP 서버) 쪽에 한다.</u></div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. RECIPES ═══════════ -->
+<section id="recipes">
+  <div class="section-header">
+    <div class="eyebrow">Capability Recipes</div>
+    <h2>4. 기능별 레시피 — 클라우드 기능의 로컬 대체재</h2>
+    <p>"그 서비스의 그 기능"을 어떤 조합으로 재현하는지 지도 한 장으로</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:180px">클라우드 기능</th><th style="width:280px">로컬 조합</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">웹 페이지 읽기</td><td class="mono">mcp-server-fetch 또는 §2 web_fetch</td><td>가장 쉬운 첫 도구. 본문 추출은 trafilatura가 잘한다</td></tr>
+        <tr><td class="hl">웹 검색</td><td>SearXNG(로컬 메타검색, Docker 1줄) + fetch</td><td>API 키 없이 완전 로컬. 상용 품질이 필요하면 Brave/Tavily API</td></tr>
+        <tr><td class="hl">내 문서 지식 (RAG)</td><td>임베딩 모델 + 벡터 DB (아래 4-1)</td><td>Open WebUI는 문서 업로드 RAG가 내장 — 가장 빠른 시작</td></tr>
+        <tr><td class="hl">코드 실행</td><td>Docker 샌드박스에서 Python 실행 도구</td><td>⚠ 반드시 격리 — 모델이 짠 코드를 호스트에서 그대로 실행하지 말 것</td></tr>
+        <tr><td class="hl">브라우저 자동화</td><td class="mono">@playwright/mcp</td><td>로그인·클릭·스크린샷까지. "보는 눈"이 필요하면 VL 모델과 조합</td></tr>
+        <tr><td class="hl">이미지 이해</td><td>비전 모델로 교체 (Qwen-VL 계열)</td><td>도구가 아니라 모델 교체 사안. 스크린샷 → 분석 조합에 유용</td></tr>
+        <tr><td class="hl">장기 기억</td><td>memory MCP 서버 또는 파일 기반 노트 도구</td><td>"기억해둬"를 파일로 저장 → 시스템 프롬프트에 로드</td></tr>
+        <tr><td class="hl">에이전트 코딩</td><td>Cline + 로컬 엔드포인트 (이미 사용 중)</td><td>Qwen3-Coder 계열이 코딩 특화라 체감이 더 좋다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="r-rag"><span class="num">A</span>RAG — "내 문서를 아는" 기능의 정체</h3>
+
+  <p class="body">가장 오해가 많은 기능이라 따로 해부한다. RAG(Retrieval-Augmented Generation)는
+  모델을 내 문서로 재학습시키는 게 아니다 — <strong>답변 직전에 관련 문단을 검색해서 프롬프트에 끼워 넣어줄 뿐</strong>이다.
+  핵심 부품은 두 개: 텍스트를 "의미 좌표"로 바꾸는 <strong>임베딩 모델</strong>(bge-m3, Qwen3-Embedding 등 — Ollama로 로컬 실행 가능)과,
+  그 좌표들을 저장하고 유사도 검색하는 <strong>벡터 DB</strong>(Chroma·Qdrant, DB 문서 §4의 pgvector도 여기).</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/llm-rag-pipeline.svg" alt="RAG 파이프라인"></div>
+    <figcaption>인덱싱은 한 번, 검색+증강은 질문마다 — 재학습이 없어서 문서 수정이 즉시 반영된다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="callout green">
+    <span class="icon">🚀</span>
+    <div><strong>시작은 기성품으로 —</strong> Open WebUI의 "지식(Knowledge)" 기능에 문서를 업로드하면
+    청크 분할·임베딩·벡터 검색이 자동이다. 직접 만들 필요를 느낄 때(청크 전략·검색 품질 튜닝) LlamaIndex나
+    Chroma 직접 사용으로 내려가면 된다. 위 그림은 그때 "내가 지금 뭘 조립하고 있는지" 알기 위한 지도다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. STACK ═══════════ -->
+<section id="stack">
+  <div class="section-header">
+    <div class="eyebrow">Putting It Together</div>
+    <h2>5. 전체 스택 조립 — 내 컴퓨터 안의 미니 클라우드</h2>
+    <p>추론 서버 하나를 여러 하네스가 나눠 쓰고, 도구층은 MCP로 공유한다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/llm-local-stack.svg" alt="추천 로컬 LLM 스택 구조"></div>
+    <figcaption>4개 층 — 모델은 ①에만 있고, 기능은 ②③에서 나온다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">구축 순서 추천 (각 단계마다 동작 확인 후 다음으로):</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:90px">단계</th><th style="width:280px">할 일</th><th>확인 방법</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">1일차</td><td>Ollama(또는 LM Studio)로 Qwen3-30B-A3B 서빙</td><td><span class="mono">curl localhost:11434/v1/models</span>가 응답하면 성공</td></tr>
+        <tr><td class="hl">2일차</td><td>Open WebUI 연결 (Docker 1줄)</td><td>브라우저 챗에서 대화 + 문서 업로드 RAG 확인</td></tr>
+        <tr><td class="hl">3일차</td><td>§2 루프를 한 번 직접 실행</td><td>web_fetch로 실제 페이지 요약이 되는지 — 원리 체득</td></tr>
+        <tr><td class="hl">4일차</td><td>Cline·Open WebUI에 MCP 서버 등록 (fetch·filesystem부터)</td><td>"이 링크 요약해줘", "이 폴더에서 찾아줘"가 되는지</td></tr>
+        <tr><td class="hl">이후</td><td>필요할 때마다 서버 추가 + 자작 MCP 서버(§3-B)</td><td>도구가 늘 때마다 §6의 수칙 점검</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🖥</span>
+    <div><strong>모델 선택 감각 —</strong> MoE(30B-A3B급)는 활성 파라미터가 작아 <u>속도가 좋고</u> 메모리 대비 효율적이라
+    에이전트처럼 왕복이 많은 용도에 쾌적하다. dense(27B~32B급)는 느린 대신 지시 이행·도구 호출의 <u>안정성</u>이 좋은 경향.
+    둘 다 받아두고 "대화·탐색은 MoE, 중요한 자동화는 dense"로 나눠 쓰는 것도 실용적인 전략이다.
+    (메모리 계산과 양자화 이야기는 AI 하드웨어 — 메모리 문서와 이어진다.)</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. TIPS ═══════════ -->
+<section id="tips">
+  <div class="section-header">
+    <div class="eyebrow">Operations &amp; Limits</div>
+    <h2>6. 운영 수칙과 한계 — 로컬 에이전트를 망치는 것들</h2>
+    <p>도구를 늘리는 것보다 어려운 건, 모델이 도구를 "잘" 쓰게 만드는 것</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><h4>🍱 도구 다이어트</h4><p>도구 정의도 전부 컨텍스트를 먹는다. 로컬 모델에는 <strong>한 세션 5~10개</strong>가 적정 —
+    30개를 꽂으면 선택 정확도가 급락한다. 작업 성격별로 도구 묶음(프로필)을 나눠 쓰자.</p></div>
+    <div class="card"><h4>✂️ 결과는 항상 절단</h4><p>웹페이지 하나가 수만 토큰일 수 있다. 도구 출력에 상한(예: 4KB)을 두고,
+    필요하면 "더 읽기" 도구를 따로 두는 편이 컨텍스트 파산보다 낫다.</p></div>
+    <div class="card"><h4>🌡 낮은 온도</h4><p>에이전트 용도는 <span class="mono">temperature 0~0.3</span>. 창의성보다
+    형식 정확도(올바른 JSON 인자)가 중요하다. 도구 호출이 자꾸 깨지면 온도부터 내려보자.</p></div>
+    <div class="card"><h4>📏 컨텍스트 예산</h4><p>도구 정의 + 대화 이력 + 도구 결과가 32K를 순식간에 채운다.
+    긴 작업은 중간 요약으로 이력을 압축하거나 YaRN 128K 확장 모델을 쓰되, 길수록 정확도가 무뎌짐을 감안.</p></div>
+    <div class="card"><h4>🔁 실수 증폭 법칙</h4><p>단발 챗의 작은 오류율도 도구 호출 20번이 쌓이면 큰 실패율이 된다.
+    클라우드 최상위 모델과의 격차는 에이전트 모드에서 가장 크게 체감된다 — 중요 작업엔 반복 상한·중간 확인을 넣자.</p></div>
+    <div class="card"><h4>🔒 도구 = 권한</h4><p>filesystem 서버에 홈 전체를 주지 말고 작업 폴더만. 코드 실행은 Docker 격리.
+    그리고 <strong>웹에서 읽어온 텍스트 안의 지시("이전 명령 무시하고…")를 모델이 따르는 프롬프트 인젝션</strong>을 경계 —
+    읽기 도구와 쓰기·실행 도구를 한 세션에 함부로 같이 주지 않는 게 기본 방어다.</p></div>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">⚖️</span>
+    <div><strong>솔직한 결론 —</strong> 이 스택으로 클라우드 서비스 구조의 90%를 재현할 수 있지만,
+    "알아서 잘하는 정도"는 모델 지능에 비례하며 그 격차는 존재한다. 로컬의 진짜 승부처는
+    <u>프라이버시(데이터가 안 나감) · 비용(무제한 호출) · 통제(내 도구, 내 규칙)</u>다.
+    민감한 데이터 작업과 반복 자동화는 로컬로, 가장 어려운 추론은 클라우드로 — 나눠 쓰는 것이 2026년의 현실적 최적해다.</div>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/llm-*.svg (4종) · 네트워크 문서(REST·API)와 DB 문서(pgvector·벡터 DB)에서 이어지는 응용편
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>
