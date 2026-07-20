@@ -329,6 +329,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#silicon">3. Apple Silicon 하드웨어</a>
     <a href="#s-soc" class="sub">3-1. SoC와 통합 메모리</a>
     <a href="#s-power" class="sub">3-2. 전력 효율의 정체</a>
+    <a href="#s-llm" class="sub">3-3. 로컬 LLM 구동 관점</a>
     <a href="#windows">4. Windows가 유리한 영역</a>
     <a href="#choose">5. 결론 — 선택 가이드</a>
   </nav>
@@ -627,6 +628,96 @@ cat app.log | <span class="k">grep</span> <span class="s">"ERROR"</span> | <span
     <u>"성능 수치"보다 "작업 흐름이 끊기지 않는 경험"</u>이 실제 선호의 이유다.</div>
   </div>
 
+  <h3 id="s-llm"><span class="num">C</span>로컬 LLM 구동 — 통합 메모리가 만드는 가장 큰 실익</h3>
+
+  <p class="body">Apple Silicon의 구조적 장점이 <strong>가장 극적으로 드러나는 용도</strong>가 로컬 LLM이다.
+  앞선 「로컬 LLM 에이전트」 문서에서 다룬 스택을 실제로 굴릴 때, 하드웨어가 정하는 한계는 딱 두 가지 —
+  <strong>메모리 용량</strong>이 "이 모델이 돌아가는가"를, <strong>메모리 대역폭</strong>이 "쓸 만한 속도인가"를 결정한다.
+  이 두 축으로 플랫폼들을 배치하면 지형이 한눈에 보인다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/os-llm-two-walls.svg" alt="로컬 LLM의 두 제약: 메모리 용량과 대역폭에 따른 플랫폼 위치"></div>
+    <figcaption>대부분의 노트북은 둘 중 하나의 벽에 막힌다 — 통합 메모리형 Mac은 두 축을 동시에 확보한다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <h4 style="font-size:15px;font-weight:700;color:var(--navy-900);margin:var(--sp-6) 0 var(--sp-3)">벽 ① 용량 — "돌아가는가"를 결정한다</h4>
+
+  <p class="body">LLM을 실행하려면 <strong>모델 가중치 전체가 메모리에 올라가야</strong> 한다. 필요량은 단순한 곱셈이다:</p>
+
+  <pre class="code"><span class="title-bar">필요 메모리 계산 — 이 계산만 할 줄 알면 "이 모델 되나?"에 스스로 답할 수 있다</span><span class="c"># 모델 가중치 = 파라미터 수 × 파라미터당 바이트</span>
+FP16(16비트)  : 파라미터 수 × 2 바이트   <span class="c">→ 70B 모델 = 약 140GB  (개인 장비로는 사실상 불가)</span>
+8비트 양자화   : 파라미터 수 × 1 바이트   <span class="c">→ 70B 모델 = 약 70GB</span>
+4비트 양자화   : 파라미터 수 × 0.5 바이트 <span class="c">→ 70B 모델 = 약 35GB   (가장 흔한 실사용 구성)</span>
+
+<span class="c"># 여기에 더해지는 것들</span>
++ KV 캐시      <span class="c">: 대화가 길어질수록 증가 (긴 문맥에서는 수 GB~수십 GB)</span>
++ OS·앱 사용분  <span class="c">: 실사용 여유 8GB 이상은 남겨둘 것</span>
+
+<span class="c"># 실전 어림값 — "쓸 수 있는 메모리 = 모델 크기 + 30% 여유"</span></pre>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:180px">장비 구성</th><th style="width:190px">GPU가 쓸 수 있는 메모리</th><th>현실적으로 가능한 모델</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">일반 노트북 (내장 그래픽)</td><td>시스템 RAM 일부 공유 (8~16GB)</td><td>7~8B급 소형 모델까지. 간단한 요약·분류용.</td></tr>
+        <tr><td class="hl">노트북 외장 GPU</td><td>VRAM 8~16GB (고정)</td><td>속도는 빠르지만 <strong>용량이 벽</strong> — 14B 안팎이 한계. 초과분을 시스템 RAM으로 넘기면 속도가 급락한다.</td></tr>
+        <tr><td class="hl">데스크톱 GPU</td><td>VRAM 24~32GB</td><td>32B급 쾌적, 70B는 4비트로 빠듯하거나 GPU 2장 필요. <strong>학습·파인튜닝이 가능한 유일한 선택</strong>(§4-A).</td></tr>
+        <tr><td class="hl">통합 메모리형 APU (윈도우)</td><td>시스템 메모리의 상당 부분<br>(설정·펌웨어에 따라 제한)</td><td>용량은 확보되지만 대역폭이 중간이라 큰 모델일수록 체감 속도가 아쉽다.</td></tr>
+        <tr><td class="hl">Apple Silicon Pro/Max/Ultra</td><td>통합 메모리 대부분<br>(64GB·128GB 구성 시)</td><td><strong>70B~120B급까지 노트북에서 로드 가능</strong> — 다른 휴대 장비로는 어려운 영역.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 style="font-size:15px;font-weight:700;color:var(--navy-900);margin:var(--sp-6) 0 var(--sp-3)">벽 ② 대역폭 — "얼마나 빠른가"를 결정한다</h4>
+
+  <p class="body">여기가 많은 사람이 놓치는 지점이다. LLM이 토큰 하나를 생성할 때마다
+  <strong>모델 가중치 전체를 메모리에서 한 번씩 읽어야</strong> 한다. 즉 텍스트 생성 속도는 연산 성능(TFLOPS)이 아니라
+  <u>메모리를 얼마나 빨리 읽느냐</u>에 지배된다 — 「AI 하드웨어 — 메모리」 문서의 <strong>메모리 바운드</strong>가 바로 이것이다.
+  그래서 아주 거친 상한 추정이 가능하다:</p>
+
+  <pre class="code"><span class="title-bar">토큰 생성 속도의 이론적 상한 — 실제는 이보다 낮지만 비교에는 충분하다</span>초당 토큰 수 ≈ 메모리 대역폭(GB/s) ÷ 모델 크기(GB)
+
+<span class="c"># 같은 모델(4비트 70B ≈ 35GB)을 서로 다른 대역폭에서 돌린다면</span>
+대역폭 120 GB/s  →  120 ÷ 35 ≈ <span class="k">3.4 토큰/초</span>   <span class="c">한 글자씩 뚝뚝 — 실사용 곤란</span>
+대역폭 256 GB/s  →  256 ÷ 35 ≈ <span class="k">7.3 토큰/초</span>   <span class="c">읽을 만하지만 답답함</span>
+대역폭 550 GB/s  →  550 ÷ 35 ≈ <span class="k">15.7 토큰/초</span>  <span class="c">사람이 읽는 속도 — 쾌적</span>
+
+<span class="c"># 핵심: 대역폭이 2배면 토큰 속도도 대략 2배. 연산 성능보다 이쪽이 지배적이다.</span></pre>
+
+  <div class="callout green">
+    <span class="icon">🧠</span>
+    <div><strong>왜 Mac이 로컬 LLM에서 유리한가, 한 문장으로 —</strong>
+    노트북 외장 GPU는 <u>빠르지만 용량이 작고</u>(큰 모델을 아예 못 올림), 저가 통합형은 <u>용량은 되지만 느리다</u>.
+    Apple Silicon의 Max/Ultra급은 <strong>넓은 메모리 버스로 대역폭을 확보하면서 통합 메모리로 용량까지 동시에 주는</strong>
+    드문 조합이라, "휴대 가능한 장비에서 70B급을 쓸 만한 속도로"라는 조건을 만족하는 거의 유일한 선택지가 된다.</div>
+  </div>
+
+  <h4 style="font-size:15px;font-weight:700;color:var(--navy-900);margin:var(--sp-6) 0 var(--sp-3)">그래서 실제 작업 흐름에서는</h4>
+
+  <div class="card-grid">
+    <div class="card"><h4>✅ 추론 · 에이전트</h4><p>큰 모델을 로드해 코딩 에이전트(Cline)·문서 분석·RAG를 돌리는 용도에 강하다.
+    여러 에이전트를 동시에 띄워도 메모리 여유가 있고, 전력 효율 덕에 <strong>배터리로도 오래 굴린다</strong>.</p></div>
+    <div class="card"><h4>✅ 긴 문맥 처리</h4><p>KV 캐시가 커지는 긴 문서·대용량 RAG에서 메모리 여유가 그대로 이점이 된다.
+    VRAM 16GB 장비가 문맥 길이에서 먼저 막히는 지점을 넘어간다.</p></div>
+    <div class="card"><h4>❌ 학습 · 파인튜닝</h4><p>CUDA 생태계 부재로 사실상 불가에 가깝다. LoRA 정도의 경량 튜닝은 가능해도
+    <strong>본격 학습은 NVIDIA GPU가 정답</strong>(§4-A). 이 경계는 앞으로도 쉽게 바뀌지 않는다.</p></div>
+    <div class="card"><h4>⚠️ 구매 시 결정된다</h4><p>메모리는 나중에 못 늘린다(§3-A). 로컬 LLM이 목적이라면
+    <strong>메모리 용량을 최우선</strong>으로, 그다음 칩 등급(대역폭)을 본다 — 같은 용량이라도 Pro보다 Max가 대역폭이 넓다.</p></div>
+    <div class="card"><h4>🔧 소프트웨어 성숙도</h4><p>Ollama·LM Studio·llama.cpp가 Apple Silicon에 잘 최적화돼 있고,
+    애플의 <strong>MLX</strong> 프레임워크로 최적화된 모델 배포도 활발하다. 설정 난이도가 낮은 편.</p></div>
+    <div class="card"><h4>💡 대안도 고려할 것</h4><p>윈도우 진영의 통합 메모리형 APU도 "용량 확보" 관점에서 매력적이고,
+    <strong>데스크톱 GPU + 원격 접속</strong>은 속도·학습 능력 면에서 더 나은 선택일 수 있다.
+    노트북 한 대로 전부 해결할 필요는 없다.</p></div>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">📐</span>
+    <div><strong>수치를 읽을 때 주의 —</strong> 칩 세대마다 대역폭·메모리 구성이 바뀌고,
+    마케팅 수치(TOPS·TFLOPS)는 정밀도 기준(INT8/FP16)과 합산 범위(NPU만/CPU+GPU+NPU)가 제각각이라 직접 비교가 어렵다.
+    <u>로컬 LLM 목적이라면 TOPS보다 ① 쓸 수 있는 메모리 용량 ② 메모리 대역폭 두 숫자를 먼저 확인하라</u> —
+    이 문서의 수치들도 원리를 보이기 위한 개략치이므로, 구매 시점에 해당 모델의 실제 스펙을 확인하는 것이 좋다.</div>
+  </div>
+
   <details class="acc">
     <summary>공정한 비교를 위해 — Apple Silicon이 못 하는 것</summary>
     <div class="acc-body">
@@ -729,7 +820,7 @@ cat app.log | <span class="k">grep</span> <span class="s">"ERROR"</span> | <span
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/os-*.svg (5종) · git 문서(터미널·명령어)와 AI 하드웨어 문서(통합 메모리)에서 이어지는 환경편
+  Hyundai-Inspired Design System v1.0 · 도식: img/os-*.svg (6종) · git 문서(터미널·명령어)·AI 하드웨어 문서(메모리 바운드)·로컬 LLM 문서와 이어지는 환경편
 </footer>
 
 </main>

@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">로컬 LLM을 가로막는 두 개의 벽 — 용량과 대역폭</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">"돌아가는가"는 메모리 용량이, "쓸 만한 속도인가"는 메모리 대역폭이 결정한다</text>
+
+  <!-- 축 -->
+  <line x1="120" y1="470" x2="830" y2="470" stroke="#8A8A8A" stroke-width="2"/>
+  <line x1="120" y1="470" x2="120" y2="90" stroke="#8A8A8A" stroke-width="2"/>
+  <text x="475" y="500" font-size="13.5" font-weight="700" fill="#555555" text-anchor="middle">메모리 대역폭 (GB/s) → 토큰 생성 속도</text>
+  <text x="58" y="280" font-size="13.5" font-weight="700" fill="#555555" text-anchor="middle" transform="rotate(-90 58 280)">GPU가 쓸 수 있는 메모리 (GB) → 모델 크기</text>
+
+  <!-- 눈금 -->
+  <text x="120" y="490" font-size="11.5" fill="#8A8A8A" text-anchor="middle">100</text>
+  <text x="300" y="490" font-size="11.5" fill="#8A8A8A" text-anchor="middle">300</text>
+  <text x="480" y="490" font-size="11.5" fill="#8A8A8A" text-anchor="middle">600</text>
+  <text x="660" y="490" font-size="11.5" fill="#8A8A8A" text-anchor="middle">1000</text>
+  <text x="820" y="490" font-size="11.5" fill="#8A8A8A" text-anchor="middle">3000+</text>
+  <text x="106" y="474" font-size="11.5" fill="#8A8A8A" text-anchor="end">8</text>
+  <text x="106" y="392" font-size="11.5" fill="#8A8A8A" text-anchor="end">24</text>
+  <text x="106" y="300" font-size="11.5" fill="#8A8A8A" text-anchor="end">64</text>
+  <text x="106" y="208" font-size="11.5" fill="#8A8A8A" text-anchor="end">96</text>
+  <text x="106" y="130" font-size="11.5" fill="#8A8A8A" text-anchor="end">128</text>
+
+  <!-- 용량의 벽 (수평 밴드) -->
+  <rect x="120" y="404" width="710" height="66" fill="#FEE2E2" opacity=".55"/>
+  <line x1="120" y1="404" x2="830" y2="404" stroke="#DC2626" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="126" y="396" font-size="12.5" font-weight="800" fill="#DC2626">🧱 용량의 벽 — 이 아래는 큰 모델이 아예 안 올라간다</text>
+
+  <!-- 대역폭의 벽 (수직 밴드) -->
+  <rect x="120" y="90" width="120" height="380" fill="#FEF3E2" opacity=".6"/>
+  <line x1="240" y1="90" x2="240" y2="470" stroke="#E8962A" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="130" y="110" font-size="12.5" font-weight="800" fill="#B45309">🐢 대역폭의 벽</text>
+  <text x="130" y="128" font-size="11.5" fill="#B45309">읽기 속도가 느려</text>
+  <text x="130" y="145" font-size="11.5" fill="#B45309">토큰이 뚝뚝 끊긴다</text>
+
+  <!-- 이상 영역 -->
+  <rect x="440" y="120" width="390" height="180" fill="#E6F7F1" opacity=".5" rx="10"/>
+  <text x="635" y="146" font-size="13" font-weight="800" fill="#065F46" text-anchor="middle">✨ 이상적 영역 — 크게, 그리고 빠르게</text>
+
+  <!-- 데이터 포인트 -->
+  <!-- 일반 노트북 iGPU (120GB/s, 8~16GB 공유) -->
+  <circle cx="140" cy="440" r="9" fill="#8A8A8A"/>
+  <text x="158" y="436" font-size="12.5" font-weight="700" fill="#555555">일반 노트북 (내장 그래픽)</text>
+  <text x="158" y="454" font-size="11" fill="#8A8A8A">~120GB/s · 공유 8~16GB → 7B 소형 모델까지</text>
+
+  <!-- 노트북 외장 GPU (576GB/s, 16GB) -->
+  <circle cx="465" cy="428" r="9" fill="#065F46"/>
+  <text x="482" y="424" font-size="12.5" font-weight="700" fill="#065F46">노트북 외장 GPU (16GB급)</text>
+  <text x="482" y="442" font-size="11" fill="#8A8A8A">빠르지만 용량이 벽 — 큰 모델은 못 올린다</text>
+
+  <!-- 데스크톱 GPU (1008GB/s, 24GB) -->
+  <circle cx="665" cy="392" r="10" fill="#065F46"/>
+  <text x="682" y="378" font-size="12.5" font-weight="700" fill="#065F46">데스크톱 GPU (24~32GB)</text>
+  <text x="682" y="396" font-size="11" fill="#8A8A8A">가장 빠름 · 학습(CUDA) 가능 · 용량은 제한적</text>
+
+  <!-- 통합 APU (256GB/s, 96GB) -->
+  <circle cx="272" cy="208" r="10" fill="#B45309"/>
+  <text x="290" y="204" font-size="12.5" font-weight="700" fill="#B45309">통합 메모리형 APU (윈도우)</text>
+  <text x="290" y="222" font-size="11" fill="#8A8A8A">용량은 확보 · 대역폭이 중간 → 큰 모델이 느리게 돈다</text>
+
+  <!-- Apple Silicon Max (500~600GB/s, 96~128GB) -->
+  <circle cx="470" cy="170" r="12" fill="#1A5CB5"/>
+  <text x="490" y="166" font-size="13" font-weight="800" fill="#1A5CB5">Apple Silicon Max/Ultra (64~128GB)</text>
+  <text x="490" y="185" font-size="11.5" fill="#555555">용량과 대역폭을 동시에 — 노트북에서 70B+ 구동</text>
+
+  <!-- 데이터센터 GPU -->
+  <circle cx="812" cy="232" r="10" fill="#6B21A8"/>
+  <text x="800" y="228" font-size="12.5" font-weight="700" fill="#6B21A8" text-anchor="end">데이터센터 GPU (H100급)</text>
+  <text x="800" y="246" font-size="11" fill="#8A8A8A" text-anchor="end">다른 리그 — 개인 장비의 비교 대상 아님</text>
+
+  <!-- 하단 설명 -->
+  <rect x="30" y="516" width="410" height="86" rx="12" fill="#FFFFFF" stroke="#DC2626" stroke-width="2"/>
+  <text x="52" y="542" font-size="14" font-weight="800" fill="#DC2626">🧱 용량 = "돌아가는가"</text>
+  <text x="52" y="564" font-size="12" fill="#555555">필요 메모리 ≈ 파라미터 수 × 정밀도 바이트 + KV 캐시</text>
+  <text x="52" y="584" font-size="12" fill="#555555">예: 70B를 4비트로 양자화 → 약 35GB + 여유분</text>
+
+  <rect x="460" y="516" width="410" height="86" rx="12" fill="#FFFFFF" stroke="#E8962A" stroke-width="2"/>
+  <text x="482" y="542" font-size="14" font-weight="800" fill="#B45309">🐢 대역폭 = "얼마나 빠른가"</text>
+  <text x="482" y="564" font-size="12" fill="#555555">토큰마다 모델 전체를 읽는다 → 속도는 대역폭에 비례</text>
+  <text x="482" y="584" font-size="12" fill="#555555">대략적 상한 ≈ 대역폭 ÷ 모델 용량 = 초당 토큰 수</text>
+
+  <text x="450" y="614" font-size="11" fill="#8A8A8A" text-anchor="middle">※ 위치는 세대·구성에 따라 달라지는 개략치 — 구매 시점에 실제 스펙 확인 필요</text>
+</svg>

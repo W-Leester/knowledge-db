@@ -121,14 +121,16 @@
       "tags": [
         "Unix",
         "터미널",
-        "Apple Silicon"
+        "Apple Silicon",
+        "로컬 LLM"
       ],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/os-unix-lineage.svg",
         "docs/img/os-dev-deploy-gap.svg",
         "docs/img/os-apple-silicon-soc.svg",
         "docs/img/os-cpu-efficiency.svg",
+        "docs/img/os-llm-two-walls.svg",
         "docs/img/os-windows-strengths.svg"
       ]
     },
