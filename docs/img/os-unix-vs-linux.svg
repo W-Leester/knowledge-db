@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="va" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="vo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E8962A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">Unix와 Linux — 본가의 혈통 vs 설계도만 보고 새로 지은 집</text>
+
+  <!-- 중앙: POSIX 설계도 -->
+  <rect x="360" y="200" width="180" height="86" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="450" y="230" font-size="15" font-weight="800" fill="#B45309" text-anchor="middle">📐 POSIX 표준</text>
+  <text x="450" y="252" font-size="11.5" fill="#555555" text-anchor="middle">"유닉스라면 이렇게 동작한다"</text>
+  <text x="450" y="270" font-size="11.5" fill="#555555" text-anchor="middle">공개된 설계 규격</text>
+
+  <!-- 좌: Unix 본가 -->
+  <rect x="40" y="66" width="280" height="70" rx="12" fill="#002C5F"/>
+  <text x="180" y="94" font-size="16" font-weight="800" fill="#FFF" text-anchor="middle">🏛 Unix 본가 (1969)</text>
+  <text x="180" y="118" font-size="11.5" fill="#8A9BB5" text-anchor="middle">벨 연구소 · 실제 소스코드가 라이선스로 상속됨</text>
+
+  <line x1="180" y1="136" x2="180" y2="166" stroke="#003F8A" stroke-width="2.5" marker-end="url(#va)"/>
+
+  <rect x="40" y="170" width="280" height="118" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="180" y="198" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">코드를 물려받은 자손들</text>
+  <text x="180" y="222" font-size="12.5" fill="#555555" text-anchor="middle">BSD (버클리) → macOS 🎖️</text>
+  <text x="180" y="244" font-size="12.5" fill="#555555" text-anchor="middle">상용 유닉스: Solaris · AIX · HP-UX</text>
+  <text x="180" y="270" font-size="11.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">= 진짜 "혈통" — 족보가 이어진다</text>
+
+  <!-- 설계도 참조 화살표 -->
+  <line x1="356" y1="243" x2="324" y2="243" stroke="#E8962A" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#vo)"/>
+  <text x="340" y="230" font-size="10.5" fill="#B45309" text-anchor="middle">표준화</text>
+
+  <!-- 우: Linux -->
+  <rect x="580" y="66" width="280" height="70" rx="12" fill="#065F46"/>
+  <text x="720" y="94" font-size="16" font-weight="800" fill="#FFF" text-anchor="middle">🏗 Linux (1991)</text>
+  <text x="720" y="118" font-size="11.5" fill="#A7E3CC" text-anchor="middle">리누스 토르발스 · Unix 코드 0줄</text>
+
+  <line x1="720" y1="136" x2="720" y2="166" stroke="#003F8A" stroke-width="2.5" marker-end="url(#va)"/>
+
+  <rect x="580" y="170" width="280" height="118" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="720" y="198" font-size="14.5" font-weight="800" fill="#065F46" text-anchor="middle">설계도(POSIX)만 보고 재구현</text>
+  <text x="720" y="222" font-size="12.5" fill="#555555" text-anchor="middle">커널: 새 코드 · 도구: GNU 프로젝트</text>
+  <text x="720" y="244" font-size="12.5" fill="#555555" text-anchor="middle">무료 + 오픈소스(GPL) + 아무 PC나</text>
+  <text x="720" y="270" font-size="11.5" font-weight="700" fill="#00AA6C" text-anchor="middle">= "Unix-like" — 족보 없이 같은 문법</text>
+
+  <line x1="544" y1="243" x2="576" y2="243" stroke="#E8962A" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#vo)"/>
+  <text x="560" y="230" font-size="10.5" fill="#B45309" text-anchor="middle">참조</text>
+
+  <!-- 반전 밴드 -->
+  <rect x="40" y="316" width="820" height="122" rx="14" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="62" y="346" font-size="15" font-weight="800" fill="#6B21A8">🔄 역사의 반전 — 족보와 왕좌가 따로 갔다</text>
+  <text x="62" y="374" font-size="12.5" fill="#555555">· "UNIX"는 상표이기도 하다 — Open Group의 표준 시험을 통과해야 공식 명칭 사용 가능</text>
+  <text x="62" y="398" font-size="12.5" fill="#555555">· <tspan font-weight="700" fill="#1A5CB5">macOS = 인증받은 정식 UNIX 🎖️</tspan> · <tspan font-weight="700" fill="#065F46">Linux = 인증 없는 "Unix-like"</tspan> — 그런데 서버 세계를 지배하는 건 Linux</text>
+  <text x="62" y="422" font-size="12.5" fill="#555555">· 비싸고 하드웨어에 종속됐던 상용 유닉스들은 무료·개방·범용 PC의 Linux에 밀려 대부분 몰락 (→ 다음 절 "서버가 리눅스인 이유"의 전사)</text>
+
+  <!-- 하단: 같은 표준 다른 구현 -->
+  <rect x="40" y="462" width="820" height="118" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <text x="62" y="492" font-size="15" font-weight="800" fill="#DC2626">⚠️ 실무에 남는 흔적 — "같은 표준, 다른 구현"</text>
+  <text x="62" y="520" font-size="12.5" fill="#555555">POSIX가 보장하는 공통 문법 위에서, 명령어의 세부 구현이 갈린다:</text>
+  <text x="62" y="544" font-size="12.5" fill="#555555">· macOS의 <tspan font-family="'JetBrains Mono', monospace" font-size="11.5">sed·date·grep</tspan> = <tspan font-weight="700" fill="#1A5CB5">BSD 구현</tspan> (혈통 쪽) · Linux의 것 = <tspan font-weight="700" fill="#065F46">GNU 구현</tspan> (재구현 쪽)</text>
+  <text x="62" y="568" font-size="12.5" font-weight="700" fill="#DC2626">· 그래서 리눅스용 스크립트가 맥에서 미묘하게 안 돌 때 — "버그"가 아니라 "BSD/GNU 차이"다</text>
+
+  <text x="450" y="614" font-size="14" font-weight="700" fill="#002C5F" text-anchor="middle">한 줄 요약: Unix는 원조이자 상표, Linux는 철학을 무료로 재구현해 왕좌를 이어받은 후계자</text>
+</svg>
