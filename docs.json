@@ -124,10 +124,11 @@
         "Apple Silicon",
         "로컬 LLM"
       ],
-      "version": 2,
+      "version": 3,
       "assets": [
         "docs/img/os-unix-lineage.svg",
         "docs/img/os-dev-deploy-gap.svg",
+        "docs/img/os-why-linux-servers.svg",
         "docs/img/os-apple-silicon-soc.svg",
         "docs/img/os-cpu-efficiency.svg",
         "docs/img/os-llm-two-walls.svg",
