@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="560" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">Windows가 이기는 영역 — "맥이 못 하는 일"은 분명히 존재한다</text>
+
+  <!-- ① CUDA -->
+  <rect x="30" y="56" width="272" height="232" rx="14" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2.5"/>
+  <rect x="30" y="56" width="272" height="44" rx="14" fill="#065F46"/>
+  <rect x="30" y="86" width="272" height="14" fill="#065F46"/>
+  <text x="166" y="85" font-size="15.5" font-weight="800" fill="#FFF" text-anchor="middle">① AI 학습 · CUDA</text>
+
+  <text x="52" y="126" font-size="12.5" font-weight="700" fill="#065F46">NVIDIA GPU 독점 생태계</text>
+  <rect x="52" y="136" width="228" height="30" rx="7" fill="#E6F7F1"/>
+  <text x="166" y="156" font-size="12" fill="#555555" text-anchor="middle">PyTorch·TensorFlow의 표준 경로</text>
+  <rect x="52" y="172" width="228" height="30" rx="7" fill="#E6F7F1"/>
+  <text x="166" y="192" font-size="12" fill="#555555" text-anchor="middle">RTX 5090 등 고성능 그래픽카드</text>
+  <rect x="52" y="208" width="228" height="30" rx="7" fill="#E6F7F1"/>
+  <text x="166" y="228" font-size="12" fill="#555555" text-anchor="middle">모델 학습·파인튜닝 속도 압도</text>
+
+  <rect x="52" y="246" width="228" height="30" rx="7" fill="#FEE2E2"/>
+  <text x="166" y="266" font-size="11.5" font-weight="700" fill="#DC2626" text-anchor="middle">🍎 맥은 CUDA 사용 불가</text>
+
+  <!-- ② 게임 -->
+  <rect x="314" y="56" width="272" height="232" rx="14" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2.5"/>
+  <rect x="314" y="56" width="272" height="44" rx="14" fill="#6B21A8"/>
+  <rect x="314" y="86" width="272" height="14" fill="#6B21A8"/>
+  <text x="450" y="85" font-size="15.5" font-weight="800" fill="#FFF" text-anchor="middle">② 게임 개발 · 플레이</text>
+
+  <text x="336" y="126" font-size="12.5" font-weight="700" fill="#6B21A8">DirectX가 사실상 표준</text>
+  <rect x="336" y="136" width="228" height="30" rx="7" fill="#F3E8FF"/>
+  <text x="450" y="156" font-size="12" fill="#555555" text-anchor="middle">언리얼·유니티 주 타깃 플랫폼</text>
+  <rect x="336" y="172" width="228" height="30" rx="7" fill="#F3E8FF"/>
+  <text x="450" y="192" font-size="12" fill="#555555" text-anchor="middle">콘솔(Xbox·PS) 개발 도구 연계</text>
+  <rect x="336" y="208" width="228" height="30" rx="7" fill="#F3E8FF"/>
+  <text x="450" y="228" font-size="12" fill="#555555" text-anchor="middle">VR·안티치트 등 주변 생태계</text>
+
+  <rect x="336" y="246" width="228" height="30" rx="7" fill="#FEE2E2"/>
+  <text x="450" y="266" font-size="11.5" font-weight="700" fill="#DC2626" text-anchor="middle">🍎 맥은 출시 게임 자체가 적다</text>
+
+  <!-- ③ 엔터프라이즈 -->
+  <rect x="598" y="56" width="272" height="232" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2.5"/>
+  <rect x="598" y="56" width="272" height="44" rx="14" fill="#003F8A"/>
+  <rect x="598" y="86" width="272" height="14" fill="#003F8A"/>
+  <text x="734" y="85" font-size="15.5" font-weight="800" fill="#FFF" text-anchor="middle">③ 기업·산업 소프트웨어</text>
+
+  <text x="620" y="126" font-size="12.5" font-weight="700" fill="#003F8A">Windows 전용이 많은 분야</text>
+  <rect x="620" y="136" width="228" height="30" rx="7" fill="#E8EEF7"/>
+  <text x="734" y="156" font-size="12" fill="#555555" text-anchor="middle">.NET · C# · WPF 데스크톱 앱</text>
+  <rect x="620" y="172" width="228" height="30" rx="7" fill="#E8EEF7"/>
+  <text x="734" y="192" font-size="12" fill="#555555" text-anchor="middle">CAD·설계·의료·금융 전용 SW</text>
+  <rect x="620" y="208" width="228" height="30" rx="7" fill="#E8EEF7"/>
+  <text x="734" y="228" font-size="12" fill="#555555" text-anchor="middle">사내 시스템·그룹웨어·액티브X 잔재</text>
+
+  <rect x="620" y="246" width="228" height="30" rx="7" fill="#FEE2E2"/>
+  <text x="734" y="266" font-size="11.5" font-weight="700" fill="#DC2626" text-anchor="middle">🍎 대체 불가한 경우가 흔함</text>
+
+  <!-- 하단: 가성비 + WSL -->
+  <rect x="30" y="308" width="410" height="150" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="52" y="338" font-size="15.5" font-weight="800" fill="#B45309">④ 가격과 선택의 자유</text>
+  <text x="52" y="364" font-size="12.5" fill="#555555">· 같은 예산이면 더 높은 사양 (RAM·SSD·GPU)</text>
+  <text x="52" y="386" font-size="12.5" fill="#555555">· 부품 교체·업그레이드 가능 — 오래 쓰며 개선</text>
+  <text x="52" y="408" font-size="12.5" fill="#555555">· 제조사·폼팩터 선택지가 압도적으로 넓다</text>
+  <text x="52" y="432" font-size="12.5" font-weight="700" fill="#B45309">· 맥은 구매 시점의 메모리 용량이 수명 내내 고정</text>
+
+  <rect x="460" y="308" width="410" height="150" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="482" y="338" font-size="15.5" font-weight="800" fill="#065F46">⑤ WSL2 — 격차를 좁힌 결정적 카드</text>
+  <text x="482" y="364" font-size="12.5" fill="#555555">· 윈도우 안에서 진짜 리눅스 커널이 돌아간다</text>
+  <text x="482" y="386" font-size="12.5" fill="#555555">· bash·apt·Docker를 네이티브에 가깝게 사용</text>
+  <text x="482" y="408" font-size="12.5" fill="#555555">· CUDA도 WSL에서 사용 가능 → AI 개발에 유리</text>
+  <text x="482" y="432" font-size="12.5" font-weight="700" fill="#065F46">· "Windows + WSL2"는 이제 현실적인 개발 환경이다</text>
+
+  <!-- 결론 밴드 -->
+  <rect x="30" y="478" width="840" height="62" rx="14" fill="#002C5F"/>
+  <text x="450" y="504" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">결론 — "무엇을 만드는가"가 정답을 정한다</text>
+  <text x="450" y="528" font-size="12.5" fill="#C7D5EA" text-anchor="middle">웹·서버·모바일·범용 개발 → macOS 유리 　|　 AI 학습·게임·닷넷·산업 SW → Windows 유리</text>
+</svg>

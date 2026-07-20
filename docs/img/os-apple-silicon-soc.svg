@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 580" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+  <rect width="900" height="580" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">Apple Silicon의 핵심 — "부품을 잇는" 구조에서 "한 덩어리" 구조로</text>
+
+  <!-- 왼쪽: 전통 PC -->
+  <rect x="30" y="58" width="410" height="440" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
+  <text x="235" y="88" font-size="16.5" font-weight="800" fill="#8A8A8A" text-anchor="middle">전통 PC (Intel/AMD + 외장 GPU)</text>
+  <text x="235" y="110" font-size="12.5" fill="#8A8A8A" text-anchor="middle">각 부품이 따로 존재하고 버스로 연결된다</text>
+
+  <rect x="60" y="128" width="160" height="80" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="140" y="160" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">CPU</text>
+  <text x="140" y="182" font-size="11.5" fill="#555555" text-anchor="middle">자체 캐시</text>
+
+  <rect x="250" y="128" width="160" height="80" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="330" y="160" font-size="14.5" font-weight="800" fill="#065F46" text-anchor="middle">GPU</text>
+  <text x="330" y="182" font-size="11.5" fill="#555555" text-anchor="middle">전용 VRAM 보유</text>
+
+  <rect x="60" y="248" width="160" height="70" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="140" y="276" font-size="13.5" font-weight="800" fill="#B45309" text-anchor="middle">시스템 RAM</text>
+  <text x="140" y="298" font-size="11.5" fill="#555555" text-anchor="middle">DDR5 (CPU 전용)</text>
+
+  <rect x="250" y="248" width="160" height="70" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="330" y="276" font-size="13.5" font-weight="800" fill="#B45309" text-anchor="middle">VRAM</text>
+  <text x="330" y="298" font-size="11.5" fill="#555555" text-anchor="middle">GDDR (GPU 전용)</text>
+
+  <line x1="140" y1="208" x2="140" y2="244" stroke="#8A8A8A" stroke-width="2"/>
+  <line x1="330" y1="208" x2="330" y2="244" stroke="#8A8A8A" stroke-width="2"/>
+
+  <!-- 복사 경로 강조 -->
+  <path d="M 140 330 L 140 356 L 330 356 L 330 330" fill="none" stroke="#DC2626" stroke-width="2.5" marker-end="url(#pa)"/>
+  <rect x="95" y="364" width="280" height="56" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <text x="235" y="388" font-size="13.5" font-weight="800" fill="#DC2626" text-anchor="middle">🐢 PCIe 복사 병목</text>
+  <text x="235" y="408" font-size="11.5" fill="#555555" text-anchor="middle">GPU가 데이터를 쓰려면 RAM→VRAM 복사 필수</text>
+
+  <text x="235" y="446" font-size="12.5" fill="#555555" text-anchor="middle">부품 간 거리가 멀다 = 전력 소모·지연 증가</text>
+  <text x="235" y="468" font-size="12.5" fill="#555555" text-anchor="middle">대신 GPU·RAM 교체와 확장은 자유롭다</text>
+  <text x="235" y="488" font-size="12.5" font-weight="700" fill="#065F46" text-anchor="middle">✔ 조립·업그레이드의 유연성</text>
+
+  <!-- 오른쪽: Apple Silicon -->
+  <rect x="460" y="58" width="410" height="440" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="665" y="88" font-size="16.5" font-weight="800" fill="#002C5F" text-anchor="middle">Apple Silicon (SoC)</text>
+  <text x="665" y="110" font-size="12.5" fill="#555555" text-anchor="middle">모든 것이 하나의 칩 패키지 안에</text>
+
+  <!-- SoC 패키지 박스 -->
+  <rect x="484" y="126" width="362" height="240" rx="14" fill="#0D1B2E"/>
+  <text x="665" y="150" font-size="13" font-weight="700" fill="#8A9BB5" text-anchor="middle">— 단일 패키지 —</text>
+
+  <rect x="502" y="164" width="105" height="56" rx="8" fill="#1A5CB5"/>
+  <text x="554" y="188" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">CPU</text>
+  <text x="554" y="207" font-size="10.5" fill="#D6E3F5" text-anchor="middle">P코어+E코어</text>
+
+  <rect x="614" y="164" width="105" height="56" rx="8" fill="#00AA6C"/>
+  <text x="666" y="188" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">GPU</text>
+  <text x="666" y="207" font-size="10.5" fill="#D9F5EA" text-anchor="middle">내장 그래픽</text>
+
+  <rect x="726" y="164" width="105" height="56" rx="8" fill="#6B21A8"/>
+  <text x="778" y="188" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">Neural</text>
+  <text x="778" y="207" font-size="10.5" fill="#E9D5FF" text-anchor="middle">Engine (NPU)</text>
+
+  <rect x="502" y="240" width="329" height="66" rx="10" fill="#E8962A"/>
+  <text x="666" y="266" font-size="14.5" font-weight="800" fill="#FFF" text-anchor="middle">🧠 통합 메모리 (Unified Memory)</text>
+  <text x="666" y="288" font-size="11.5" fill="#FFF3E0" text-anchor="middle">LPDDR — CPU·GPU·NPU가 같은 메모리를 함께 본다</text>
+
+  <line x1="554" y1="220" x2="554" y2="236" stroke="#E8962A" stroke-width="2.5"/>
+  <line x1="666" y1="220" x2="666" y2="236" stroke="#E8962A" stroke-width="2.5"/>
+  <line x1="778" y1="220" x2="778" y2="236" stroke="#E8962A" stroke-width="2.5"/>
+
+  <rect x="502" y="320" width="329" height="34" rx="8" fill="rgba(255,255,255,.12)"/>
+  <text x="666" y="343" font-size="12" font-weight="700" fill="#7FD1A8" text-anchor="middle">⚡ 복사 없음(Zero-copy) — 메모리 주소만 넘기면 끝</text>
+
+  <rect x="484" y="378" width="362" height="46" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="665" y="400" font-size="12.5" font-weight="700" fill="#065F46" text-anchor="middle">거리가 짧다 → 전력 소모 급감 · 지연 감소</text>
+  <text x="665" y="417" font-size="11.5" fill="#555555" text-anchor="middle">배선을 오가는 데 쓰이던 전력이 그대로 절약된다</text>
+
+  <text x="665" y="448" font-size="12.5" fill="#555555" text-anchor="middle">64GB를 사면 GPU도 최대 그만큼 쓸 수 있다</text>
+  <text x="665" y="468" font-size="12.5" font-weight="700" fill="#065F46" text-anchor="middle">✔ 대형 로컬 LLM 구동에 결정적</text>
+  <text x="665" y="488" font-size="12.5" font-weight="700" fill="#DC2626" text-anchor="middle">✘ 대신 메모리·GPU 교체 불가 (구매 시 확정)</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="514" width="840" height="44" rx="12" fill="#E8EEF7"/>
+  <text x="450" y="542" font-size="14.5" font-weight="700" fill="#002C5F" text-anchor="middle">핵심 트레이드오프 — 통합은 "효율·대역폭"을 주고 "확장성"을 가져간다</text>
+</svg>

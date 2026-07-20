@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="560" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">전력 효율의 정체 — 왜 팬이 안 돌고 배터리가 오래 가는가</text>
+
+  <!-- ① 하이브리드 코어 -->
+  <rect x="30" y="56" width="410" height="212" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="52" y="84" font-size="15.5" font-weight="800" fill="#002C5F">① 성능코어 + 효율코어 (하이브리드)</text>
+  <text x="52" y="106" font-size="12.5" fill="#555555">무거운 일은 P코어, 자잘한 일은 E코어가 나눠 맡는다</text>
+
+  <rect x="55" y="120" width="170" height="60" rx="9" fill="#1A5CB5"/>
+  <text x="140" y="144" font-size="13.5" font-weight="800" fill="#FFF" text-anchor="middle">P코어 (성능)</text>
+  <text x="140" y="164" font-size="11" fill="#D6E3F5" text-anchor="middle">빌드·컴파일 담당</text>
+
+  <rect x="245" y="120" width="170" height="60" rx="9" fill="#00AA6C"/>
+  <text x="330" y="144" font-size="13.5" font-weight="800" fill="#FFF" text-anchor="middle">E코어 (효율)</text>
+  <text x="330" y="164" font-size="11" fill="#D9F5EA" text-anchor="middle">백그라운드·대기 담당</text>
+
+  <text x="55" y="204" font-size="12" fill="#555555">· 메일 동기화·알림 같은 일에 큰 코어를 깨우지 않는다</text>
+  <text x="55" y="224" font-size="12" fill="#555555">· E코어는 P코어의 약 1/10 전력으로 동작</text>
+  <text x="55" y="246" font-size="12" font-weight="700" fill="#065F46">→ "아무것도 안 할 때 거의 안 먹는" 상태가 기본값</text>
+
+  <!-- ② 전용 가속기 -->
+  <rect x="460" y="56" width="410" height="212" rx="14" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="482" y="84" font-size="15.5" font-weight="800" fill="#6B21A8">② 전용 가속기 (하드웨어 블록)</text>
+  <text x="482" y="106" font-size="12.5" fill="#555555">자주 하는 작업은 전용 회로가 대신 처리한다</text>
+
+  <rect x="485" y="120" width="120" height="52" rx="9" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="545" y="142" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">미디어 엔진</text>
+  <text x="545" y="161" font-size="10.5" fill="#555555" text-anchor="middle">영상 인코딩·디코딩</text>
+
+  <rect x="617" y="120" width="110" height="52" rx="9" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="672" y="142" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">Neural Engine</text>
+  <text x="672" y="161" font-size="10.5" fill="#555555" text-anchor="middle">AI 추론</text>
+
+  <rect x="739" y="120" width="106" height="52" rx="9" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="792" y="142" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">암호화 엔진</text>
+  <text x="792" y="161" font-size="10.5" fill="#555555" text-anchor="middle">디스크 암복호</text>
+
+  <text x="482" y="196" font-size="12" fill="#555555">· 범용 CPU로 소프트웨어 처리하면 전력을 수십 배 쓴다</text>
+  <text x="482" y="216" font-size="12" fill="#555555">· 영상 편집·화상회의에서 체감 차이가 가장 크다</text>
+  <text x="482" y="240" font-size="12" font-weight="700" fill="#6B21A8">→ "칩이 빨라서"가 아니라 "그 일 전용 회로가 있어서" 빠르다</text>
+
+  <!-- ③ 성능/전력 곡선 -->
+  <rect x="30" y="288" width="840" height="230" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
+  <text x="52" y="316" font-size="15.5" font-weight="800" fill="#002C5F">③ 같은 성능을 훨씬 적은 전력으로 (성능/와트)</text>
+  <text x="846" y="316" font-size="12" fill="#8A8A8A" text-anchor="end">※ 개념 곡선 — 정확한 수치가 아니라 경향</text>
+
+  <!-- 축 -->
+  <line x1="120" y1="470" x2="800" y2="470" stroke="#8A8A8A" stroke-width="2"/>
+  <line x1="120" y1="470" x2="120" y2="336" stroke="#8A8A8A" stroke-width="2"/>
+  <text x="460" y="496" font-size="12.5" font-weight="700" fill="#555555" text-anchor="middle">소비 전력 (W) →</text>
+  <text x="60" y="404" font-size="12.5" font-weight="700" fill="#555555" text-anchor="middle" transform="rotate(-90 60 404)">성능 →</text>
+
+  <!-- Apple Silicon 곡선: 저전력에서 급상승 후 평탄 -->
+  <path d="M 120 470 C 170 380 210 352 300 344 C 420 336 560 334 700 332" fill="none" stroke="#1A5CB5" stroke-width="3.5"/>
+  <circle cx="300" cy="344" r="6" fill="#1A5CB5"/>
+  <text x="300" y="326" font-size="12" font-weight="800" fill="#1A5CB5" text-anchor="middle">Apple Silicon</text>
+
+  <!-- x86 곡선: 완만하게 올라가 고전력에서 도달 -->
+  <path d="M 120 470 C 250 452 380 430 520 400 C 620 378 680 356 760 344" fill="none" stroke="#DC2626" stroke-width="3.5" stroke-dasharray="8 5"/>
+  <circle cx="760" cy="344" r="6" fill="#DC2626"/>
+  <text x="672" y="438" font-size="12" font-weight="800" fill="#DC2626" text-anchor="middle">x86 (고성능 지향)</text>
+
+  <!-- 보조선 -->
+  <line x1="300" y1="344" x2="300" y2="470" stroke="#1A5CB5" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="760" y1="344" x2="760" y2="470" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="300" y1="344" x2="760" y2="344" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="530" y="364" font-size="12" font-weight="700" fill="#8A8A8A" text-anchor="middle">↕ 비슷한 성능 구간</text>
+  <text x="300" y="490" font-size="12" font-weight="700" fill="#1A5CB5" text-anchor="middle">낮은 전력</text>
+  <text x="760" y="490" font-size="12" font-weight="700" fill="#DC2626" text-anchor="middle">높은 전력</text>
+
+  <rect x="30" y="528" width="840" height="0" fill="none"/>
+  <text x="450" y="546" font-size="14.5" font-weight="700" fill="#002C5F" text-anchor="middle">노트북에서의 의미: 배터리로도 성능이 유지되고, 팬 소음·발열이 적고, 전원 없이 오래 일할 수 있다</text>
+</svg>
