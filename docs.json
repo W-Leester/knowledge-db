@@ -152,7 +152,7 @@
         "Subagent",
         "Harness"
       ],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/cx-extension-map.svg",
         "docs/img/cx-context-loading.svg",
