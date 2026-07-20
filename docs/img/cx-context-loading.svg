@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="ca2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="540" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">컨텍스트 창에 "언제" 실리는가 — 3단계 로딩 계층</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">컨텍스트 = 한정된 책상. 모든 확장 메커니즘은 결국 "책상에 뭘 언제 올릴까"의 답이다</text>
+
+  <!-- 1열: 항상 -->
+  <rect x="30" y="86" width="272" height="300" rx="14" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.5"/>
+  <rect x="30" y="86" width="272" height="48" rx="14" fill="#DC2626"/>
+  <rect x="30" y="120" width="272" height="14" fill="#DC2626"/>
+  <text x="166" y="117" font-size="15.5" font-weight="800" fill="#FFF" text-anchor="middle">① 항상 로드 (매 세션)</text>
+
+  <rect x="52" y="152" width="228" height="46" rx="8" fill="#FEE2E2"/>
+  <text x="166" y="172" font-size="12.5" font-weight="700" fill="#DC2626" text-anchor="middle">CLAUDE.md (전 계층)</text>
+  <text x="166" y="190" font-size="10.5" fill="#555555" text-anchor="middle">개인 전역 + 프로젝트 + 로컬</text>
+
+  <rect x="52" y="206" width="228" height="46" rx="8" fill="#FEE2E2"/>
+  <text x="166" y="226" font-size="12.5" font-weight="700" fill="#DC2626" text-anchor="middle">MEMORY.md 인덱스</text>
+  <text x="166" y="244" font-size="10.5" fill="#555555" text-anchor="middle">Auto Memory의 목차 부분만</text>
+
+  <rect x="52" y="260" width="228" height="46" rx="8" fill="#FEE2E2"/>
+  <text x="166" y="280" font-size="12.5" font-weight="700" fill="#DC2626" text-anchor="middle">도구 목록 + Skill 설명 한 줄들</text>
+  <text x="166" y="298" font-size="10.5" fill="#555555" text-anchor="middle">MCP 도구 스키마 · description만</text>
+
+  <text x="166" y="336" font-size="11.5" font-weight="700" fill="#DC2626" text-anchor="middle">비용을 매번 지불 → 짧게!</text>
+  <text x="166" y="356" font-size="10.5" fill="#8A8A8A" text-anchor="middle">(CLAUDE.md 200줄 이하 권장)</text>
+
+  <!-- 2열: 조건부 -->
+  <rect x="314" y="86" width="272" height="300" rx="14" fill="#FFFFFF" stroke="#E8962A" stroke-width="2.5"/>
+  <rect x="314" y="86" width="272" height="48" rx="14" fill="#E8962A"/>
+  <rect x="314" y="120" width="272" height="14" fill="#E8962A"/>
+  <text x="450" y="117" font-size="15.5" font-weight="800" fill="#FFF" text-anchor="middle">② 조건부 로드 (상황 맞을 때)</text>
+
+  <rect x="336" y="152" width="228" height="46" rx="8" fill="#FEF3E2"/>
+  <text x="450" y="172" font-size="12.5" font-weight="700" fill="#B45309" text-anchor="middle">.claude/rules/*.md</text>
+  <text x="450" y="190" font-size="10.5" fill="#555555" text-anchor="middle">지정 경로의 파일을 다룰 때만</text>
+
+  <rect x="336" y="206" width="228" height="46" rx="8" fill="#FEF3E2"/>
+  <text x="450" y="226" font-size="12.5" font-weight="700" fill="#B45309" text-anchor="middle">하위 폴더의 CLAUDE.md</text>
+  <text x="450" y="244" font-size="10.5" fill="#555555" text-anchor="middle">그 폴더 파일을 읽을 때 로드</text>
+
+  <rect x="336" y="260" width="228" height="46" rx="8" fill="#FEF3E2"/>
+  <text x="450" y="280" font-size="12.5" font-weight="700" fill="#B45309" text-anchor="middle">Auto Memory 상세 파일</text>
+  <text x="450" y="298" font-size="10.5" fill="#555555" text-anchor="middle">인덱스 보고 필요하면 열어봄</text>
+
+  <text x="450" y="336" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle">관련 있을 때만 비용 지불</text>
+  <text x="450" y="356" font-size="10.5" fill="#8A8A8A" text-anchor="middle">"긴 규칙은 이 층으로 내려보내라"</text>
+
+  <!-- 3열: 호출 시 -->
+  <rect x="598" y="86" width="272" height="300" rx="14" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2.5"/>
+  <rect x="598" y="86" width="272" height="48" rx="14" fill="#065F46"/>
+  <rect x="598" y="120" width="272" height="14" fill="#065F46"/>
+  <text x="734" y="117" font-size="15.5" font-weight="800" fill="#FFF" text-anchor="middle">③ 호출 시에만 로드</text>
+
+  <rect x="620" y="152" width="228" height="46" rx="8" fill="#E6F7F1"/>
+  <text x="734" y="172" font-size="12.5" font-weight="700" fill="#065F46" text-anchor="middle">Skill 본문</text>
+  <text x="734" y="190" font-size="10.5" fill="#555555" text-anchor="middle">/이름 호출·자동 트리거 순간에</text>
+
+  <rect x="620" y="206" width="228" height="46" rx="8" fill="#E6F7F1"/>
+  <text x="734" y="226" font-size="12.5" font-weight="700" fill="#065F46" text-anchor="middle">MCP 리소스 (@참조)</text>
+  <text x="734" y="244" font-size="10.5" fill="#555555" text-anchor="middle">멘션한 것만 가져옴</text>
+
+  <rect x="620" y="260" width="228" height="46" rx="8" fill="#E6F7F1"/>
+  <text x="734" y="280" font-size="12.5" font-weight="700" fill="#065F46" text-anchor="middle">Subagent 작업 내용</text>
+  <text x="734" y="298" font-size="10.5" fill="#555555" text-anchor="middle">아예 딴 방 — 요약만 돌아옴</text>
+
+  <text x="734" y="336" font-size="11.5" font-weight="700" fill="#065F46" text-anchor="middle">아무리 길어도 평소 비용 0</text>
+  <text x="734" y="356" font-size="10.5" fill="#8A8A8A" text-anchor="middle">"점진적 공개(Progressive Disclosure)"</text>
+
+  <!-- 하단 게이지 -->
+  <rect x="30" y="412" width="840" height="108" rx="14" fill="#0D1B2E"/>
+  <text x="62" y="444" font-size="14.5" font-weight="800" fill="#FFF">📏 컨텍스트 예산 감각 — 책상 위 공간 배분</text>
+  <rect x="62" y="462" width="776" height="26" rx="13" fill="rgba(255,255,255,.1)"/>
+  <rect x="62" y="462" width="140" height="26" rx="13" fill="#DC2626"/>
+  <rect x="210" y="462" width="120" height="26" fill="#E8962A"/>
+  <rect x="338" y="462" width="500" height="26" rx="13" fill="#00AA6C"/>
+  <text x="132" y="480" font-size="11.5" font-weight="700" fill="#FFF" text-anchor="middle">① 상시 (고정비)</text>
+  <text x="270" y="480" font-size="11.5" font-weight="700" fill="#FFF" text-anchor="middle">② 조건부</text>
+  <text x="588" y="480" font-size="11.5" font-weight="700" fill="#FFF" text-anchor="middle">③ 실제 작업 공간 — 이게 넓을수록 긴 작업을 잘한다</text>
+  <text x="450" y="512" font-size="12" fill="#C7D5EA" text-anchor="middle">①이 비대하면 ③이 좁아진다 — "항상 로드"에 넣을지 말지가 모든 설계의 첫 질문인 이유</text>
+</svg>

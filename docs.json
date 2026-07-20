@@ -82,32 +82,6 @@
       ]
     },
     {
-      "id": "local-llm-agent",
-      "title": "로컬 LLM 에이전트",
-      "desc": "도구 호출·MCP·RAG로 내 컴퓨터의 Qwen에게 날개 달기",
-      "file": "docs/local-llm-agent.html",
-      "group": "AI · LLM",
-      "icon": "🤖",
-      "gradient": [
-        "#065F46",
-        "#1A5CB5"
-      ],
-      "tags": [
-        "Agent",
-        "MCP",
-        "RAG"
-      ],
-      "version": 4,
-      "assets": [
-        "docs/img/llm-agent-loop.svg",
-        "docs/img/llm-mcp-architecture.svg",
-        "docs/img/llm-mcp-stdio-flow.svg",
-        "docs/img/llm-mcp-fetch-trace.svg",
-        "docs/img/llm-rag-pipeline.svg",
-        "docs/img/llm-local-stack.svg"
-      ]
-    },
-    {
       "id": "dev-os-comparison",
       "title": "개발 환경으로서의 OS",
       "desc": "Unix 혈통·터미널·Apple Silicon, 그리고 Windows가 이기는 영역",
@@ -134,6 +108,58 @@
         "docs/img/os-cpu-efficiency.svg",
         "docs/img/os-llm-two-walls.svg",
         "docs/img/os-windows-strengths.svg"
+      ]
+    },
+    {
+      "id": "local-llm-agent",
+      "title": "로컬 LLM 에이전트",
+      "desc": "도구 호출·MCP·RAG로 내 컴퓨터의 Qwen에게 날개 달기",
+      "file": "docs/local-llm-agent.html",
+      "group": "AI · LLM",
+      "icon": "🤖",
+      "gradient": [
+        "#065F46",
+        "#1A5CB5"
+      ],
+      "tags": [
+        "Agent",
+        "MCP",
+        "RAG"
+      ],
+      "version": 4,
+      "assets": [
+        "docs/img/llm-agent-loop.svg",
+        "docs/img/llm-mcp-architecture.svg",
+        "docs/img/llm-mcp-stdio-flow.svg",
+        "docs/img/llm-mcp-fetch-trace.svg",
+        "docs/img/llm-rag-pipeline.svg",
+        "docs/img/llm-local-stack.svg"
+      ]
+    },
+    {
+      "id": "claude-extensions",
+      "title": "클로드 확장하기",
+      "desc": "Skills·Subagents·MCP·Hooks, 그리고 하네스·루프 엔지니어링",
+      "file": "docs/claude-extensions.html",
+      "group": "AI · LLM",
+      "icon": "🧩",
+      "gradient": [
+        "#4C1D95",
+        "#1A5CB5"
+      ],
+      "tags": [
+        "Skills",
+        "Subagent",
+        "Harness"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/cx-extension-map.svg",
+        "docs/img/cx-context-loading.svg",
+        "docs/img/cx-subagent-context.svg",
+        "docs/img/cx-hooks-lifecycle.svg",
+        "docs/img/cx-harness-evolution.svg",
+        "docs/img/cx-loop-patterns.svg"
       ]
     },
     {

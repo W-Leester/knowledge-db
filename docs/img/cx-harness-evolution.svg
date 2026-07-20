@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="ea2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="500" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">레버가 이동한다 — 프롬프트에서 컨텍스트로, 그리고 하네스로</text>
+
+  <!-- 1단계 -->
+  <rect x="30" y="70" width="264" height="230" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
+  <rect x="30" y="70" width="264" height="46" rx="14" fill="#8A8A8A"/>
+  <rect x="30" y="102" width="264" height="14" fill="#8A8A8A"/>
+  <text x="162" y="100" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">① 프롬프트 엔지니어링</text>
+  <text x="162" y="140" font-size="12" fill="#8A8A8A" text-anchor="middle">~2023 · 챗봇 시대</text>
+  <text x="52" y="170" font-size="12.5" fill="#555555">· 질문 한 번을 "잘 쓰는" 기술</text>
+  <text x="52" y="194" font-size="12.5" fill="#555555">· 역할 부여, 예시 제공, 단계 유도</text>
+  <text x="52" y="218" font-size="12.5" fill="#555555">· 단위: 문장</text>
+  <text x="162" y="256" font-size="12" font-weight="700" fill="#8A8A8A" text-anchor="middle">한계: 한 번의 응답까지만</text>
+  <text x="162" y="278" font-size="12" font-weight="700" fill="#8A8A8A" text-anchor="middle">통제할 수 있다</text>
+
+  <!-- 2단계 -->
+  <rect x="318" y="70" width="264" height="230" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <rect x="318" y="70" width="264" height="46" rx="14" fill="#1A5CB5"/>
+  <rect x="318" y="102" width="264" height="14" fill="#1A5CB5"/>
+  <text x="450" y="100" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">② 컨텍스트 엔지니어링</text>
+  <text x="450" y="140" font-size="12" fill="#8A8A8A" text-anchor="middle">~2025 · RAG·긴 문맥 시대</text>
+  <text x="340" y="170" font-size="12.5" fill="#555555">· 창에 "무엇을 넣고 뺄지" 관리</text>
+  <text x="340" y="194" font-size="12.5" fill="#555555">· 검색·요약·메모리·점진적 공개</text>
+  <text x="340" y="218" font-size="12.5" fill="#555555">· 단위: 컨텍스트 창</text>
+  <text x="450" y="256" font-size="12" font-weight="700" fill="#1A5CB5" text-anchor="middle">한계: 창 안이 완벽해도</text>
+  <text x="450" y="278" font-size="12" font-weight="700" fill="#1A5CB5" text-anchor="middle">행동의 품질은 보장 못 한다</text>
+
+  <!-- 3단계 -->
+  <rect x="606" y="70" width="264" height="230" rx="14" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2.5"/>
+  <rect x="606" y="70" width="264" height="46" rx="14" fill="#065F46"/>
+  <rect x="606" y="102" width="264" height="14" fill="#065F46"/>
+  <text x="738" y="100" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">③ 하네스 엔지니어링</text>
+  <text x="738" y="140" font-size="12" fill="#8A8A8A" text-anchor="middle">현재 · 에이전트 시대</text>
+  <text x="628" y="170" font-size="12.5" fill="#555555">· 모델 밖 시스템 전체를 설계</text>
+  <text x="628" y="194" font-size="12.5" fill="#555555">· 도구·권한·검증·피드백·환경</text>
+  <text x="628" y="218" font-size="12.5" fill="#555555">· 단위: 작업 전체 (수백 턴)</text>
+  <text x="738" y="256" font-size="12" font-weight="700" fill="#065F46" text-anchor="middle">목표: 모델이 평범한 판단을 해도</text>
+  <text x="738" y="278" font-size="12" font-weight="700" fill="#065F46" text-anchor="middle">시스템이 좋은 결과로 이끈다</text>
+
+  <line x1="294" y1="185" x2="314" y2="185" stroke="#003F8A" stroke-width="3" marker-end="url(#ea2)"/>
+  <line x1="582" y1="185" x2="602" y2="185" stroke="#003F8A" stroke-width="3" marker-end="url(#ea2)"/>
+
+  <!-- 포함 관계 -->
+  <text x="450" y="332" font-size="12.5" fill="#8A8A8A" text-anchor="middle">각 단계는 이전 단계를 대체하는 게 아니라 포함한다 — 하네스 안에 컨텍스트 관리가, 그 안에 좋은 프롬프트가 있다</text>
+
+  <!-- 하단: 같은 문제의식 -->
+  <rect x="30" y="356" width="840" height="120" rx="14" fill="#002C5F"/>
+  <text x="62" y="388" font-size="14.5" font-weight="800" fill="#FFF">💡 왜 이 이동이 일어났나 — 모델 성능이 좋아질수록 병목은 "모델 밖"으로 나온다</text>
+  <text x="62" y="416" font-size="12.5" fill="#C7D5EA">· 같은 모델인데 하네스에 따라 성과가 몇 배씩 갈린다는 것이 에이전트 벤치마크들에서 반복 확인됨</text>
+  <text x="62" y="440" font-size="12.5" fill="#C7D5EA">· 로컬 LLM 문서의 결론과 동일 — "기능은 모델이 아니라 하네스에 있다"의 산업적 확장판</text>
+  <text x="62" y="464" font-size="12.5" font-weight="700" fill="#7FD1A8">· Claude Code의 확장 축 전부(도구·훅·서브에이전트·메모리)가 곧 하네스 엔지니어링의 조절 손잡이들이다</text>
+</svg>

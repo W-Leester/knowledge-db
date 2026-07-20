@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="xa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="560" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">클로드 확장의 지도 — 하나의 하네스, 다섯 개의 확장 축</text>
+
+  <!-- 중앙: 하네스 -->
+  <rect x="315" y="196" width="270" height="150" rx="16" fill="#002C5F"/>
+  <text x="450" y="230" font-size="16.5" font-weight="800" fill="#FFF" text-anchor="middle">⚙️ Claude Code = 하네스</text>
+  <text x="450" y="256" font-size="12.5" fill="#C7D5EA" text-anchor="middle">에이전트 루프 (판단→도구→결과→반복)</text>
+  <rect x="345" y="274" width="210" height="52" rx="10" fill="rgba(255,255,255,.12)"/>
+  <text x="450" y="296" font-size="13.5" font-weight="800" fill="#7FD1A8" text-anchor="middle">🧠 모델 (Claude)</text>
+  <text x="450" y="316" font-size="11" fill="#8A9BB5" text-anchor="middle">판단만 담당 — 나머지는 전부 확장 지점</text>
+
+  <!-- TL: CLAUDE.md -->
+  <rect x="40" y="66" width="230" height="96" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="155" y="94" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">📌 지시 — CLAUDE.md</text>
+  <text x="155" y="116" font-size="11.5" fill="#555555" text-anchor="middle">"항상 알아야 할 것"</text>
+  <text x="155" y="134" font-size="11.5" fill="#555555" text-anchor="middle">매 세션 자동 로드 · 짧게 유지</text>
+  <text x="155" y="152" font-size="10.5" fill="#8A8A8A" text-anchor="middle">+ rules(경로 조건부) · Auto Memory</text>
+
+  <!-- TR: Skills -->
+  <rect x="630" y="66" width="230" height="96" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="745" y="94" font-size="14.5" font-weight="800" fill="#B45309" text-anchor="middle">📖 절차 — Skills</text>
+  <text x="745" y="116" font-size="11.5" fill="#555555" text-anchor="middle">"필요할 때만 펴보는 매뉴얼"</text>
+  <text x="745" y="134" font-size="11.5" fill="#555555" text-anchor="middle">/이름 호출 또는 자동 트리거</text>
+  <text x="745" y="152" font-size="10.5" fill="#8A8A8A" text-anchor="middle">호출 시에만 본문 로드 (점진적 공개)</text>
+
+  <!-- L: Subagents -->
+  <rect x="40" y="250" width="230" height="100" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="155" y="278" font-size="14.5" font-weight="800" fill="#6B21A8" text-anchor="middle">👥 노동력 — Subagents</text>
+  <text x="155" y="300" font-size="11.5" fill="#555555" text-anchor="middle">"별도 두뇌에게 위임"</text>
+  <text x="155" y="318" font-size="11.5" fill="#555555" text-anchor="middle">독립 컨텍스트 · 도구 화이트리스트</text>
+  <text x="155" y="338" font-size="10.5" fill="#8A8A8A" text-anchor="middle">요약만 반환 · 병렬 실행 가능</text>
+
+  <!-- R: MCP -->
+  <rect x="630" y="250" width="230" height="100" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="745" y="278" font-size="14.5" font-weight="800" fill="#065F46" text-anchor="middle">🔌 능력 — MCP</text>
+  <text x="745" y="300" font-size="11.5" fill="#555555" text-anchor="middle">"할 수 있는 일 추가"</text>
+  <text x="745" y="318" font-size="11.5" fill="#555555" text-anchor="middle">외부 도구·데이터 표준 연결</text>
+  <text x="745" y="338" font-size="10.5" fill="#8A8A8A" text-anchor="middle">stdio/HTTP · 스코프 3종</text>
+
+  <!-- B: Hooks -->
+  <rect x="315" y="392" width="270" height="88" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <text x="450" y="420" font-size="14.5" font-weight="800" fill="#DC2626" text-anchor="middle">🪝 강제 — Hooks</text>
+  <text x="450" y="442" font-size="11.5" fill="#555555" text-anchor="middle">"판단과 무관하게 반드시 실행"</text>
+  <text x="450" y="462" font-size="10.5" fill="#8A8A8A" text-anchor="middle">이벤트(도구 실행 전/후 등)에 걸린 스크립트</text>
+
+  <!-- 연결선 -->
+  <line x1="270" y1="130" x2="330" y2="200" stroke="#003F8A" stroke-width="2.2" marker-end="url(#xa)"/>
+  <line x1="630" y1="130" x2="570" y2="200" stroke="#003F8A" stroke-width="2.2" marker-end="url(#xa)"/>
+  <line x1="270" y1="300" x2="311" y2="285" stroke="#003F8A" stroke-width="2.2" marker-end="url(#xa)"/>
+  <line x1="630" y1="300" x2="589" y2="285" stroke="#003F8A" stroke-width="2.2" marker-end="url(#xa)"/>
+  <line x1="450" y1="388" x2="450" y2="350" stroke="#DC2626" stroke-width="2.2" marker-end="url(#xa)"/>
+
+  <!-- Plugin 밴드 -->
+  <rect x="40" y="500" width="820" height="44" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="528" font-size="14" font-weight="800" fill="#FFF" text-anchor="middle">📦 Plugins — 위 다섯 가지를 한 폴더에 묶어 배포하는 패키지 (마켓플레이스로 설치·공유)</text>
+</svg>

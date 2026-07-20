@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="ha2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="500" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">Hooks — 세션 라이프사이클의 길목마다 걸어두는 자동 장치</text>
+
+  <!-- 상단 타임라인 -->
+  <rect x="30" y="70" width="150" height="56" rx="10" fill="#002C5F"/>
+  <text x="105" y="103" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">세션 시작</text>
+  <circle cx="220" cy="98" r="16" fill="#E8962A"/>
+  <text x="220" y="104" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">🪝</text>
+  <text x="220" y="140" font-size="10.5" font-weight="700" fill="#B45309" text-anchor="middle">SessionStart</text>
+  <text x="220" y="156" font-size="9.5" fill="#8A8A8A" text-anchor="middle">환경 준비 등</text>
+
+  <rect x="270" y="70" width="170" height="56" rx="10" fill="#1A5CB5"/>
+  <text x="355" y="96" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">사용자 입력</text>
+  <text x="355" y="116" font-size="10" fill="#D6E3F5" text-anchor="middle">프롬프트 제출</text>
+  <circle cx="480" cy="98" r="16" fill="#E8962A"/>
+  <text x="480" y="104" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">🪝</text>
+  <text x="480" y="140" font-size="10.5" font-weight="700" fill="#B45309" text-anchor="middle">UserPromptSubmit</text>
+  <text x="480" y="156" font-size="9.5" fill="#8A8A8A" text-anchor="middle">컨텍스트 주입·검열</text>
+
+  <rect x="530" y="70" width="170" height="56" rx="10" fill="#1A5CB5"/>
+  <text x="615" y="96" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">응답 완료</text>
+  <text x="615" y="116" font-size="10" fill="#D6E3F5" text-anchor="middle">턴 종료 (Stop)</text>
+  <rect x="740" y="70" width="130" height="56" rx="10" fill="#002C5F"/>
+  <text x="805" y="103" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">세션 종료</text>
+
+  <line x1="180" y1="98" x2="200" y2="98" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ha2)"/>
+  <line x1="240" y1="98" x2="266" y2="98" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ha2)"/>
+  <line x1="440" y1="98" x2="460" y2="98" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ha2)"/>
+  <line x1="500" y1="98" x2="526" y2="98" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ha2)"/>
+  <line x1="700" y1="98" x2="736" y2="98" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ha2)"/>
+
+  <!-- 중앙: 에이전트 루프 확대 -->
+  <rect x="80" y="190" width="740" height="200" rx="16" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="450" y="220" font-size="15" font-weight="800" fill="#002C5F" text-anchor="middle">🔍 확대: 턴 내부의 에이전트 루프 — 도구 호출마다 훅 2개가 감싼다</text>
+
+  <rect x="110" y="248" width="150" height="72" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="185" y="278" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">🧠 Claude 판단</text>
+  <text x="185" y="300" font-size="10.5" fill="#555555" text-anchor="middle">"파일을 수정하자"</text>
+
+  <rect x="310" y="240" width="120" height="88" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="370" y="268" font-size="13" font-weight="800" fill="#DC2626" text-anchor="middle">🪝 PreToolUse</text>
+  <text x="370" y="290" font-size="10.5" fill="#555555" text-anchor="middle">실행 전 검사</text>
+  <text x="370" y="310" font-size="10.5" font-weight="700" fill="#DC2626" text-anchor="middle">🛑 차단 가능!</text>
+
+  <rect x="480" y="248" width="140" height="72" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="550" y="278" font-size="13" font-weight="800" fill="#065F46" text-anchor="middle">⚙️ 도구 실행</text>
+  <text x="550" y="300" font-size="10.5" fill="#555555" text-anchor="middle">Edit · Bash · MCP…</text>
+
+  <rect x="670" y="240" width="120" height="88" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="730" y="268" font-size="13" font-weight="800" fill="#B45309" text-anchor="middle">🪝 PostToolUse</text>
+  <text x="730" y="290" font-size="10.5" fill="#555555" text-anchor="middle">실행 후 후처리</text>
+  <text x="730" y="310" font-size="10.5" fill="#555555" text-anchor="middle">자동 lint·포맷팅</text>
+
+  <line x1="260" y1="284" x2="306" y2="284" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ha2)"/>
+  <line x1="430" y1="284" x2="476" y2="284" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ha2)"/>
+  <line x1="620" y1="284" x2="666" y2="284" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ha2)"/>
+  <path d="M 730 328 C 730 368 185 368 185 324" fill="none" stroke="#8A8A8A" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ha2)"/>
+  <text x="450" y="380" font-size="11.5" fill="#8A8A8A" text-anchor="middle">결과를 보고 다음 판단 — 루프 반복</text>
+
+  <!-- 하단 대비 -->
+  <rect x="30" y="414" width="410" height="70" rx="12" fill="#E8EEF7"/>
+  <text x="235" y="442" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">나머지 확장들 = 확률적</text>
+  <text x="235" y="466" font-size="11.5" fill="#555555" text-anchor="middle">"모델이 알아서 잘 따르길" — 대체로 따르지만 보장은 없다</text>
+  <rect x="460" y="414" width="410" height="70" rx="12" fill="#FEE2E2"/>
+  <text x="665" y="442" font-size="13.5" font-weight="800" fill="#DC2626" text-anchor="middle">Hooks = 결정론적</text>
+  <text x="665" y="466" font-size="11.5" fill="#555555" text-anchor="middle">이벤트가 발생하면 무조건 실행 — "반드시"가 필요하면 여기에</text>
+</svg>
