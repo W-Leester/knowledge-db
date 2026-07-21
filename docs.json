@@ -152,14 +152,15 @@
         "Subagent",
         "Harness"
       ],
-      "version": 2,
+      "version": 3,
       "assets": [
         "docs/img/cx-extension-map.svg",
         "docs/img/cx-context-loading.svg",
         "docs/img/cx-subagent-context.svg",
         "docs/img/cx-hooks-lifecycle.svg",
         "docs/img/cx-harness-evolution.svg",
-        "docs/img/cx-loop-patterns.svg"
+        "docs/img/cx-loop-patterns.svg",
+        "docs/img/cx-recursive-loop.svg"
       ]
     },
     {
