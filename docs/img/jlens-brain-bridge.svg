@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="bb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/>
+    </marker>
+    <marker id="bg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E8962A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">두 개의 워크스페이스 — 뇌의 "점화"와 모델의 "J-space"</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">※ 구조적 유비(analogy)일 뿐, 같은 것이라는 주장이 아니다</text>
+
+  <!-- 좌: 뇌 -->
+  <rect x="30" y="78" width="380" height="450" rx="16" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="220" y="108" font-size="16" font-weight="800" fill="#DC2626" text-anchor="middle">🧠 뇌 — 글로벌 뉴런 워크스페이스(GNW)</text>
+  <text x="220" y="130" font-size="11.5" fill="#8A8A8A" text-anchor="middle">Dehaene · Changeux의 의식적 접근 모델</text>
+
+  <rect x="55" y="146" width="330" height="60" rx="10" fill="#EDEAE4"/>
+  <text x="220" y="170" font-size="13" font-weight="700" fill="#555555" text-anchor="middle">① 감각 피질의 국소 처리</text>
+  <text x="220" y="192" font-size="11.5" fill="#8A8A8A" text-anchor="middle">약한 자극은 여기서 끝 — 행동엔 영향, 보고는 불가(무의식)</text>
+
+  <line x1="220" y1="210" x2="220" y2="234" stroke="#DC2626" stroke-width="2.5" marker-end="url(#bb)"/>
+  <text x="290" y="228" font-size="11" fill="#DC2626" font-weight="700">문턱 초과 시</text>
+
+  <rect x="55" y="238" width="330" height="86" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <text x="220" y="266" font-size="14.5" font-weight="800" fill="#DC2626" text-anchor="middle">② 점화(ignition) — 전부 아니면 전무</text>
+  <text x="220" y="290" font-size="11.5" fill="#555555" text-anchor="middle">전전두엽·두정엽의 장거리 뉴런들이 갑자기 동기화</text>
+  <text x="220" y="310" font-size="11.5" fill="#555555" text-anchor="middle">비선형적·급격한 전환 (서서히가 아니라 툭 켜진다)</text>
+
+  <line x1="150" y1="328" x2="120" y2="352" stroke="#DC2626" stroke-width="2.2" marker-end="url(#bb)"/>
+  <line x1="220" y1="328" x2="220" y2="352" stroke="#DC2626" stroke-width="2.2" marker-end="url(#bb)"/>
+  <line x1="290" y1="328" x2="320" y2="352" stroke="#DC2626" stroke-width="2.2" marker-end="url(#bb)"/>
+
+  <rect x="55" y="356" width="330" height="60" rx="10" fill="#FFF5F5"/>
+  <text x="220" y="380" font-size="13" font-weight="700" fill="#DC2626" text-anchor="middle">③ 뇌 전체로 방송(broadcast)</text>
+  <text x="220" y="402" font-size="11.5" fill="#555555" text-anchor="middle">기억·언어·주의·운동 등 다른 처리기들이 동시에 접근</text>
+
+  <rect x="55" y="430" width="330" height="76" rx="10" fill="#0D1B2E"/>
+  <text x="220" y="458" font-size="13.5" font-weight="800" fill="#FFF" text-anchor="middle">④ 보고 가능 = "의식했다"</text>
+  <text x="220" y="480" font-size="11.5" fill="#C7D5EA" text-anchor="middle">이제서야 말로 설명하고, 기억하고, 계획에 쓸 수 있다</text>
+  <text x="220" y="498" font-size="11" fill="#8A9BB5" text-anchor="middle">워크스페이스에 오르지 못한 처리는 영원히 어둠 속</text>
+
+  <!-- 우: 모델 -->
+  <rect x="490" y="78" width="380" height="450" rx="16" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="680" y="108" font-size="16" font-weight="800" fill="#6B21A8" text-anchor="middle">🤖 모델 — J-space</text>
+  <text x="680" y="130" font-size="11.5" fill="#8A8A8A" text-anchor="middle">Jacobian Lens가 드러낸 언어화 가능 공간</text>
+
+  <rect x="515" y="146" width="330" height="60" rx="10" fill="#EDEAE4"/>
+  <text x="680" y="170" font-size="13" font-weight="700" fill="#555555" text-anchor="middle">① 초반 계층의 국소 계산</text>
+  <text x="680" y="192" font-size="11.5" fill="#8A8A8A" text-anchor="middle">대부분은 여기서 끝 — 출력엔 영향, 보고는 불가(어두운 바다)</text>
+
+  <line x1="680" y1="210" x2="680" y2="234" stroke="#6B21A8" stroke-width="2.5" marker-end="url(#bg)"/>
+  <text x="756" y="228" font-size="11" fill="#6B21A8" font-weight="700">중간 계층에서</text>
+
+  <rect x="515" y="238" width="330" height="86" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="680" y="266" font-size="14.5" font-weight="800" fill="#6B21A8" text-anchor="middle">② J-space — 저차원 병목</text>
+  <text x="680" y="290" font-size="11.5" fill="#555555" text-anchor="middle">활성화 분산의 ≤~10%인 작은 부분공간에 개념이 모인다</text>
+  <text x="680" y="310" font-size="11.5" fill="#555555" text-anchor="middle">중간 계층에만 존재 (초·후반에는 안 나타남)</text>
+
+  <line x1="610" y1="328" x2="580" y2="352" stroke="#6B21A8" stroke-width="2.2" marker-end="url(#bg)"/>
+  <line x1="680" y1="328" x2="680" y2="352" stroke="#6B21A8" stroke-width="2.2" marker-end="url(#bg)"/>
+  <line x1="750" y1="328" x2="780" y2="352" stroke="#6B21A8" stroke-width="2.2" marker-end="url(#bg)"/>
+
+  <rect x="515" y="356" width="330" height="60" rx="10" fill="#FAF5FF"/>
+  <text x="680" y="380" font-size="13" font-weight="700" fill="#6B21A8" text-anchor="middle">③ 하류 계산으로 광범위 공급</text>
+  <text x="680" y="402" font-size="11.5" fill="#555555" text-anchor="middle">단일 회로가 아니라 수많은 후속 연산이 이 방향들을 참조</text>
+
+  <rect x="515" y="430" width="330" height="76" rx="10" fill="#0D1B2E"/>
+  <text x="680" y="458" font-size="13.5" font-weight="800" fill="#FFF" text-anchor="middle">④ 언어화 가능 = "말할 수 있다"</text>
+  <text x="680" y="480" font-size="11.5" fill="#C7D5EA" text-anchor="middle">모델이 보고하고, 조작하고, 추론에 쓸 수 있는 것들</text>
+  <text x="680" y="498" font-size="11" fill="#8A9BB5" text-anchor="middle">J-space 밖의 표현은 행동을 구동해도 보고되지 않는다</text>
+
+  <!-- 하단 대응 -->
+  <rect x="30" y="546" width="840" height="60" rx="12" fill="#E8EEF7"/>
+  <text x="450" y="572" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">대응: 감각 국소처리↔초반 계층 · 점화↔J-space 진입 · 뇌 방송↔하류 공급 · 의식적 보고↔언어화</text>
+  <text x="450" y="594" font-size="12" fill="#555555" text-anchor="middle">결정적 차이: 뇌의 점화는 시간축의 사건(툭 켜짐)이고, J-space는 계층 구조상의 공간이다 — 시간 vs 깊이</text>
+</svg>

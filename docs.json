@@ -166,7 +166,7 @@
     {
       "id": "paper-jlens",
       "title": "논문 — Jacobian Lens",
-      "desc": "Anthropic의 J-lens와 J-space: 모델이 말하기 전의 생각을 읽는 법, 그리고 로컬 적용",
+      "desc": "Anthropic의 J-lens와 J-space, 뇌 신경과학과의 대응, 그리고 로컬 적용",
       "file": "docs/paper-jlens.html",
       "group": "논문",
       "icon": "🔬",
@@ -177,13 +177,15 @@
       "tags": [
         "Interpretability",
         "J-Space",
-        "Anthropic"
+        "신경과학"
       ],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/jlens-lineage.svg",
         "docs/img/jlens-jspace.svg",
-        "docs/img/jlens-practical.svg"
+        "docs/img/jlens-practical.svg",
+        "docs/img/jlens-brain-bridge.svg",
+        "docs/img/jlens-brain-regions.svg"
       ]
     },
     {

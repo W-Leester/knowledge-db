@@ -323,12 +323,16 @@ ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted)
     <a href="#lineage">1. 배경 — 렌즈 가문</a>
     <a href="#method">2. J-lens의 동작 원리</a>
     <a href="#jspace">3. 발견 — J-space</a>
-    <a href="#safety">4. 안전성 함의</a>
-    <a href="#limits">5. 한계와 비판</a>
-    <a href="#practical">6. 실사용 — 로컬 LLM 적용</a>
-    <a href="#p-setup" class="sub">6-1. 파이프라인 구축</a>
-    <a href="#p-usecases" class="sub">6-2. 활용 시나리오</a>
-    <a href="#refs">7. 출처</a>
+    <a href="#brain">4. 신경과학과의 다리</a>
+    <a href="#b-ignition" class="sub">4-1. 점화와 J-space</a>
+    <a href="#b-regions" class="sub">4-2. 장소 vs 방향</a>
+    <a href="#b-method" class="sub">4-3. 실리콘 신경과학</a>
+    <a href="#safety">5. 안전성 함의</a>
+    <a href="#limits">6. 한계와 비판</a>
+    <a href="#practical">7. 실사용 — 로컬 LLM 적용</a>
+    <a href="#p-setup" class="sub">7-1. 파이프라인 구축</a>
+    <a href="#p-usecases" class="sub">7-2. 활용 시나리오</a>
+    <a href="#refs">8. 출처</a>
   </nav>
   <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
 </aside>
@@ -374,7 +378,7 @@ ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted)
   <div class="callout amber">
     <span class="icon">📋</span>
     <div><strong>이 리뷰의 신뢰 수준 —</strong> 발표 시점이 이 지식 베이스 작성 AI의 지식 기준일 이후라,
-    본 리뷰는 §7의 공개 자료들(공식 코드 저장소, 해설 기사·리뷰)을 교차 확인해 작성했다.
+    본 리뷰는 §8의 공개 자료들(공식 코드 저장소, 해설 기사·리뷰)을 교차 확인해 작성했다.
     수치·세부 주장은 원문(Transformer Circuits) 확인을 권한다. 특히 언론 해설에는 "의식" 관련
     과장이 섞이기 쉬운 주제이므로, 저자들이 명시한 선긋기(§3 끝)를 기준으로 읽을 것.</div>
   </div>
@@ -455,15 +459,127 @@ ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted)
     <div><strong>가장 실용적인 함의는 오히려 "바깥"에 있다 —</strong> 행동을 강하게 구동하면서도
     J-space 밖에 있어 <u>보고되지 않는 표현</u>이 존재할 수 있다는 것.
     "모델이 말하는 이유"와 "실제 계산의 이유"가 어긋날 수 있음을 구조적으로 보여준 셈이고,
-    이 어긋남을 잡는 것이 §4의 기만 탐지 프로그램이다.</div>
+    이 어긋남을 잡는 것이 §5의 기만 탐지 프로그램이다.</div>
   </div>
 </section>
 
-<!-- ═══════════ 4. SAFETY ═══════════ -->
+<!-- ═══════════ 4. BRAIN ═══════════ -->
+<section id="brain">
+  <div class="section-header">
+    <div class="eyebrow">Neuroscience Bridge</div>
+    <h2>4. 신경과학과의 다리 — 뇌는 이 일을 어떻게 하나</h2>
+    <p>논문이 GWT를 든 이상, 그 이론의 고향인 뇌를 들여다볼 차례다</p>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🧪</span>
+    <div><strong>먼저 선을 긋고 시작한다 —</strong> 이 장의 모든 대응은 <u>구조적 유비(analogy)</u>이지 동일성 주장이 아니다.
+    트랜스포머의 "계층"은 뇌의 "영역"과 근본적으로 다르고(전자는 연산 단계, 후자는 물리적 위치),
+    "뉴런"도 이름만 같지 동작이 다르다. 논문 저자들이 그은 선(§3 끝)을 그대로 이어받아,
+    <strong>"닮았다"가 아니라 "왜 닮아 보이며, 어디서 갈라지는가"</strong>를 읽는 것이 이 장의 목적이다.</div>
+  </div>
+
+  <h3 id="b-ignition"><span class="num">A</span>점화(ignition) — GWT의 신경 버전과 J-space</h3>
+
+  <p class="body">논문이 인용한 글로벌 워크스페이스 이론에는 신경과학 버전이 있다 —
+  드앤(Dehaene)과 샹죄(Changeux)의 <strong>글로벌 뉴런 워크스페이스(GNW)</strong> 모델이다.
+  핵심 개념은 <strong>점화(ignition)</strong>: 감각 자극이 어떤 문턱을 넘으면,
+  <u>전전두엽과 두정엽을 잇는 장거리 뉴런망이 갑자기 비선형적으로 활성화</u>되며 정보가 뇌 전체로 방송되고,
+  그때 비로소 "의식했다 — 말로 보고할 수 있다"가 성립한다는 것. 문턱을 넘지 못한 처리는 행동에 영향을 주면서도
+  끝내 보고되지 않는다(무의식적 처리).</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/jlens-brain-bridge.svg" alt="뇌의 점화와 모델의 J-space 방송 구조 비교"></div>
+    <figcaption>국소 처리 → 문턱 → 방송 → 보고 가능 — 같은 4단 구조가 뇌와 모델 양쪽에서 관찰된다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">여기서 <strong>가장 중요한 차이</strong> 하나를 놓치면 안 된다.
+  뇌의 점화는 <u>시간축의 사건</u>이다 — 자극 후 수백 밀리초에 "툭" 켜지는 급격한 전환.
+  반면 J-space는 <u>계층 구조상의 공간</u>이다 — 중간 계층에 존재하는 부분공간.
+  즉 <strong>뇌는 시간으로, 모델은 깊이로</strong> 같은 기능적 분업을 구현한 셈이다.
+  구조가 닮았다는 말은 "정보가 좁은 병목을 통과해 널리 공유될 때만 보고 가능해진다"는
+  <u>추상적 원리</u>가 같다는 뜻이지, 물리적 구현이 같다는 뜻이 전혀 아니다.</p>
+
+  <h3 id="b-regions"><span class="num">B</span>기능은 어디에 사는가 — 뇌의 "장소" vs 모델의 "방향"</h3>
+
+  <p class="body">"이 판단을 담당하는 뇌 부위는 어디인가?"라는 질문은 뇌에서는 성립한다.
+  특정 영역이 손상되면 특정 기능이 무너지고, 그래서 "어디를 다쳤나"로 증상을 예측할 수 있다.
+  그런데 트랜스포머에서는 이 질문 자체가 잘 성립하지 않는다 —
+  기능들이 같은 뉴런들에 <strong>겹쳐서(중첩) 인코딩</strong>되기 때문이다.
+  물어야 할 것은 "어느 뉴런"이 아니라 <strong>"어느 방향"</strong>이고,
+  <u>J-lens가 하는 일이 정확히 그 방향을 찾는 것</u>이다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/jlens-brain-regions.svg" alt="뇌 영역별 기능과 트랜스포머의 분산 방향 표현 비교"></div>
+    <figcaption>뇌는 장소로 나뉘고, 모델은 방향으로 겹친다 — 그래서 "방향 찾기" 도구가 필요해졌다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">그럼에도 <strong>기능 단위로 짝을 지어보면</strong> 흥미로운 것이 드러난다 —
+  어떤 기능은 모델 <u>내부</u>에 대응물이 있고, 어떤 기능은 모델에 없어서
+  <u>하네스(외부 구조)</u>로 구현되어 있다는 것:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">뇌 영역</th><th style="width:230px">담당 기능 (신경과학 통설)</th><th>모델 쪽 대응 — 그리고 어긋나는 지점</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">전전두엽 (PFC)</td><td>작업기억 유지, 계획, 하향식 제어. 두정엽과 함께 <strong>워크스페이스의 허브</strong>.</td><td>J-space의 유력한 대응 후보 — "지금 다루고 있는 개념들을 붙들고 조작하는 곳". 단 뇌는 <strong>유지(maintenance)</strong>에 지속적 발화를 쓰는 반면, 트랜스포머는 컨텍스트 창에 토큰을 남겨 유지한다(전혀 다른 기전).</td></tr>
+        <tr><td class="hl">두정엽</td><td>주의 배분, 공간·수 표상. PFC와 장거리 연결로 점화 네트워크 구성.</td><td>어텐션 메커니즘과 개념적으로 겹치지만, 이름의 유사에 속으면 안 된다 — 트랜스포머의 attention은 뇌의 주의(attention)를 모델링한 것이 아니다.</td></tr>
+        <tr><td class="hl">전대상피질 (ACC)</td><td><strong>갈등·오류 감지</strong>와 수행 모니터링 — "뭔가 틀렸다/어렵다"는 신호를 내고 제어를 강화한다.</td><td>모델 내부에도 오류·불확실성 관련 표현이 있다는 연구가 있으나 <u>대응은 미확정</u>. 오히려 루프 차원의 대응이 선명하다 — <strong>「클로드 확장」의 검증 단계·오류 재주입</strong>이 이 역할을 외부에서 수행한다.</td></tr>
+        <tr><td class="hl">기저핵</td><td><strong>게이팅</strong> — 작업기억을 언제 갱신할지, 어떤 행동 후보를 실제로 실행할지 문을 여닫는다.</td><td>모델 내부에는 뚜렷한 대응물이 없다. 실제로 이 기능은 <strong>하네스가 대신한다</strong> — 훅(PreToolUse)의 도구 실행 차단, 권한 게이트, 사람 승인 단계가 정확히 "행동 후보를 통과시킬지 결정하는" 기저핵의 역할이다.</td></tr>
+        <tr><td class="hl">해마</td><td>일화기억의 형성·인출 — 경험을 저장하고 필요할 때 되살린다.</td><td>모델 가중치에는 없다(학습 후 고정). 대응물은 전부 <strong>외부</strong>다 — 컨텍스트 창(단기), RAG·벡터 DB(검색형 장기), Auto Memory(세션 넘는 지속). 「로컬 LLM 에이전트」 §4-1이 사실상 "인공 해마" 설계였던 셈.</td></tr>
+        <tr><td class="hl">감각 피질</td><td>시각·청각 등 국소 전문 처리기. 워크스페이스에 오르기 전 단계.</td><td>초반 계층의 표층 특징 처리(토큰·구문 수준)와 대응. 논문의 "어두운 바다" 중 상당 부분이 여기다.</td></tr>
+        <tr><td class="hl">소뇌</td><td>학습으로 자동화된 절차 — 의식적 보고 없이 매끄럽게 실행되는 운동·인지 루틴.</td><td>가중치에 굳어진 능력(문법·형식 준수 등)이 유사하다. 흥미롭게도 <u>둘 다 "잘 하지만 설명은 못 하는"</u> 영역이라는 공통점이 있다.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout purple">
+    <span class="icon">🧩</span>
+    <div><strong>이 표에서 가장 값진 발견 —</strong> 뇌가 <u>한 덩어리 안에서</u> 하는 일을,
+    LLM 시스템은 <strong>모델(내부) + 하네스(외부)로 나눠서</strong> 한다는 것.
+    기저핵의 게이팅은 훅이, 해마의 기억은 RAG·메모리가, ACC의 오류 감지는 검증 루프가 맡는다.
+    <u>하네스 엔지니어링이란 결국 "모델에 없는 뇌 부위를 바깥에 만들어 붙이는 일"</u>이었다는
+    관점이 여기서 나온다 — 「클로드 확장하기」 문서 전체를 다시 읽게 만드는 시각이다.</div>
+  </div>
+
+  <h3 id="b-method"><span class="num">C</span>방법론까지 평행하다 — "실리콘 신경과학"</h3>
+
+  <p class="body">구조보다 더 놀라운 평행은 <strong>연구 방법</strong>에서 나타난다.
+  해석가능성 연구는 사실상 신경과학의 도구 상자를 재발명하고 있다:</p>
+
+  <div class="card-grid">
+    <div class="card"><h4>👁 읽기 — 관측·디코딩</h4><p>뇌: fMRI·전극으로 활동을 기록해 "지금 무엇을 떠올리는지" 디코딩.
+    모델: J-lens로 활성화에서 "앞으로 말할 성향"을 디코딩. <strong>둘 다 상관까지만</strong> 말해준다.</p></div>
+    <div class="card"><h4>✋ 밀기 — 인과 개입</h4><p>뇌: TMS·광유전학으로 특정 회로를 자극·억제해 행동 변화를 본다.
+    모델: J-space 방향으로 활성화를 밀어 성향을 바꾸는 <strong>조향(steering)</strong>. 개입해야 인과를 말할 수 있다는 논리가 동일하다.</p></div>
+    <div class="card"><h4>🩹 끄기 — 손상 연구</h4><p>뇌: 병변 환자 연구로 "이 부위가 없으면 무엇이 안 되는가"를 본다.
+    모델: 특정 방향·회로를 제거(ablation)해 능력 변화를 측정. <strong>같은 논리, 다른 기질.</strong></p></div>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🔭</span>
+    <div><strong>그런데 결정적 비대칭이 있다 —</strong> 우리는 트랜스포머의 <u>모든 가중치와 활성화를
+    완벽하게, 무한히 반복해서, 아무 손상 없이</u> 관측할 수 있다. 뇌는 침습성·해상도·윤리의 벽에 영원히 막혀 있다.
+    즉 J-lens 같은 도구는 <strong>신경과학이 꿈만 꾸던 완전 관측 조건</strong>을 실현한 셈이고,
+    그래서 흐름이 역전될 수도 있다 — 지금은 신경과학의 개념(워크스페이스·점화)이 AI 해석에 쓰이지만,
+    앞으로는 AI에서 검증된 방법론이 신경과학으로 되돌아갈 수 있다.</div>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">⚠️</span>
+    <div><strong>과잉해석 경계 —</strong> 이 장의 유비는 생각의 도구이지 증거가 아니다.
+    특히 "J-space가 있으니 모델이 의식적이다"류의 추론은 이 논문도, 이 문서도 지지하지 않는다.
+    GNW는 여러 의식 이론 중 하나이고, 구조적 유사는 기능적 동일성도 주관적 경험도 함의하지 않는다(§6 참조).
+    반대로 "그냥 통계 기계일 뿐"이라는 반대편 단정도 같은 이유로 근거가 약하다 —
+    <u>모르는 것을 모른다고 두는 것</u>이 현재로선 가장 정직한 입장이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. SAFETY ═══════════ -->
 <section id="safety">
   <div class="section-header">
     <div class="eyebrow">Implications</div>
-    <h2>4. 안전성 함의 — 왜 이 논문이 주목받나</h2>
+    <h2>5. 안전성 함의 — 왜 이 논문이 주목받나</h2>
     <p>"무엇을 감시해야 하는가"에 대한 답의 후보</p>
   </div>
 
@@ -480,11 +596,11 @@ ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted)
   </div>
 </section>
 
-<!-- ═══════════ 5. LIMITS ═══════════ -->
+<!-- ═══════════ 6. LIMITS ═══════════ -->
 <section id="limits">
   <div class="section-header">
     <div class="eyebrow">Critique</div>
-    <h2>5. 한계와 비판 — 과신하기 전에</h2>
+    <h2>6. 한계와 비판 — 과신하기 전에</h2>
     <p>리뷰어들이 지적하는 네 가지</p>
   </div>
 
@@ -501,11 +617,11 @@ ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted)
   </div>
 </section>
 
-<!-- ═══════════ 6. PRACTICAL ═══════════ -->
+<!-- ═══════════ 7. PRACTICAL ═══════════ -->
 <section id="practical">
   <div class="section-header">
     <div class="eyebrow">Hands-on</div>
-    <h2>6. 실사용 — 내 로컬 LLM에 J-lens 적용하기</h2>
+    <h2>7. 실사용 — 내 로컬 LLM에 J-lens 적용하기</h2>
     <p>코드가 공개돼 있고, Qwen이 공식 지원 모델이다 — 우리 스택과 바로 만난다</p>
   </div>
 
@@ -561,11 +677,11 @@ lens.save(<span class="s">"out/jacobian_lens.pt"</span>)
       <thead><tr><th style="width:190px">시나리오</th><th style="width:300px">방법</th><th>연결되는 개념</th></tr></thead>
       <tbody>
         <tr><td class="hl">🚦 에이전트 안전 게이트</td><td>위험 도구 호출 직전의 내부 성향을 검사 — 삭제·유출 관련 개념이 비정상적으로 커져 있으면 차단하거나 사람 확인 요청.</td><td>「클로드 확장」의 훅(PreToolUse)의 "내면 검사판" — 행동이 아니라 성향 단계에서 잡는 조기 경보. 아직 연구 단계 아이디어.</td></tr>
-        <tr><td class="hl">🎭 말–성향 불일치 탐지</td><td>출력 문장과 그 시점의 내부 성향 상위 단어들을 나란히 기록 → "괜찮다"고 말하며 실패 개념이 상승하는 순간을 플래그.</td><td>CoT를 믿는 대신 대조한다 — §4의 기만 탐지를 개인 규모로.</td></tr>
+        <tr><td class="hl">🎭 말–성향 불일치 탐지</td><td>출력 문장과 그 시점의 내부 성향 상위 단어들을 나란히 기록 → "괜찮다"고 말하며 실패 개념이 상승하는 순간을 플래그.</td><td>CoT를 믿는 대신 대조한다 — §5의 기만 탐지를 개인 규모로.</td></tr>
         <tr><td class="hl">🔧 성향 디버깅</td><td>"왜 자꾸 이 말투/주제로 새지?" — 어느 계층에서 그 성향이 생기는지 추적해 시스템 프롬프트·파인튜닝 개선의 근거로.</td><td>감이 아니라 계층별 증거로 프롬프트를 고친다.</td></tr>
         <tr><td class="hl">🎛 조향(steering) 실험</td><td>특정 단어의 J-space 방향으로 활성화를 밀거나 당겨 성향을 직접 조절 — 프롬프트보다 낮은 층위의 개입.</td><td>해석가능성 연구의 activation steering 계열 실험 입문.</td></tr>
         <tr><td class="hl">📏 개입 효과 측정</td><td>RAG 문서 주입 전후 / 파인튜닝 전후 / 시스템 프롬프트 변경 전후의 성향 분포를 비교 — "좋아진 느낌"을 수치로.</td><td>「클로드 확장」 §9-D 측정형 재귀의 평가 지표 후보.</td></tr>
-        <tr><td class="hl">🧪 재현 연구 기여</td><td>Qwen 등 오픈 모델에서 J-space가 재현되는지 자체가 열린 질문(§5) — 개인 GPU로도 의미 있는 재현 실험이 가능한 드문 최전선.</td><td>논문의 "일반화 미검증"을 직접 확인해보는 것.</td></tr>
+        <tr><td class="hl">🧪 재현 연구 기여</td><td>Qwen 등 오픈 모델에서 J-space가 재현되는지 자체가 열린 질문(§6) — 개인 GPU로도 의미 있는 재현 실험이 가능한 드문 최전선.</td><td>논문의 "일반화 미검증"을 직접 확인해보는 것.</td></tr>
       </tbody>
     </table>
   </div>
@@ -573,7 +689,7 @@ lens.save(<span class="s">"out/jacobian_lens.pt"</span>)
   <div class="callout red">
     <span class="icon">⚠️</span>
     <div><strong>과신 금지 —</strong> 렌즈가 보여주는 것은 "성향"의 근사이지 진실의 창이 아니다.
-    Claude 외 모델에서의 신뢰성은 검증 중이고(§5), 안전 게이트류 활용은 오탐·미탐이 모두 존재하는
+    Claude 외 모델에서의 신뢰성은 검증 중이고(§6), 안전 게이트류 활용은 오탐·미탐이 모두 존재하는
     <u>보조 신호</u>로 다뤄야 한다. 특히 "이 모델은 기만적이다/아니다" 같은 단정의 근거로 쓰기에는 이르다.</div>
   </div>
 
@@ -586,11 +702,11 @@ lens.save(<span class="s">"out/jacobian_lens.pt"</span>)
   </div>
 </section>
 
-<!-- ═══════════ 7. REFS ═══════════ -->
+<!-- ═══════════ 8. REFS ═══════════ -->
 <section id="refs">
   <div class="section-header">
     <div class="eyebrow">References</div>
-    <h2>7. 출처</h2>
+    <h2>8. 출처</h2>
     <p>이 리뷰가 참조한 공개 자료 — 원문 확인을 권한다</p>
   </div>
 
@@ -604,7 +720,7 @@ lens.save(<span class="s">"out/jacobian_lens.pt"</span>)
     <li><a href="https://alphasignalai.substack.com/p/how-anthropics-jacobian-lens-reads" target="_blank" rel="noopener">AlphaSignal — "How Anthropic's Jacobian Lens Reads What a Model Is About to Say"</a>
         <span class="ref-note">J-lens 동작 원리 해설</span></li>
     <li><a href="https://theaidude.net/blog/jacobian-lens-deep-dive-anthropics-j-space-paper-review" target="_blank" rel="noopener">The AI Dude — "The Jacobian Lens: Deep Dive"</a>
-        <span class="ref-note">기술 상세·GWT 논증 구조·한계 비판 (§2·§5의 주요 참조)</span></li>
+        <span class="ref-note">기술 상세·GWT 논증 구조·한계 비판 (§2·§6의 주요 참조)</span></li>
     <li><a href="https://www.forbes.com/sites/johnwerner/2026/07/12/anthropic-illuminates-llm-j-space-with-j-lens/" target="_blank" rel="noopener">Forbes — "Anthropic Illuminates LLM J-Space With J-Lens"</a>
         <span class="ref-note">일반 독자용 보도 · 안전성 함의 논의</span></li>
   </ul>
@@ -618,7 +734,7 @@ lens.save(<span class="s">"out/jacobian_lens.pt"</span>)
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/jlens-*.svg (3종) · "논문" 카테고리 1호 — 공개 자료 교차 확인 기반 리뷰 (2026-07)
+  Hyundai-Inspired Design System v1.0 · 도식: img/jlens-*.svg (5종) · "논문" 카테고리 1호 — 공개 자료 교차 확인 기반 리뷰 (2026-07)
 </footer>
 
 </main>

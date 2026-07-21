@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="660" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">기능은 어디에 사는가 — 뇌는 "장소", 트랜스포머는 "방향"</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">※ 뇌 그림은 위치를 나타내는 모식도이며 해부학적으로 정밀하지 않다</text>
+
+  <!-- 좌: 뇌 모식도 -->
+  <rect x="30" y="76" width="420" height="380" rx="16" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="240" y="106" font-size="15.5" font-weight="800" fill="#DC2626" text-anchor="middle">🧠 뇌 — 기능이 물리적 위치에 나뉜다</text>
+
+  <!-- 대뇌 -->
+  <ellipse cx="235" cy="255" rx="165" ry="110" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <!-- 소뇌 -->
+  <ellipse cx="345" cy="345" rx="58" ry="34" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="345" y="350" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle">소뇌</text>
+  <!-- 뇌간 -->
+  <rect x="255" y="330" width="26" height="52" rx="12" fill="#EDEAE4" stroke="#B5AFA5" stroke-width="1.5"/>
+
+  <!-- 영역 마커들 -->
+  <circle cx="110" cy="228" r="15" fill="#002C5F"/>
+  <text x="110" y="233" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">1</text>
+  <text x="96" y="200" font-size="12" font-weight="700" fill="#002C5F" text-anchor="middle">전전두엽</text>
+
+  <circle cx="196" cy="196" r="15" fill="#6B21A8"/>
+  <text x="196" y="201" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">2</text>
+  <text x="186" y="170" font-size="12" font-weight="700" fill="#6B21A8" text-anchor="middle">전대상피질</text>
+
+  <circle cx="290" cy="180" r="15" fill="#1A5CB5"/>
+  <text x="290" y="185" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">3</text>
+  <text x="300" y="156" font-size="12" font-weight="700" fill="#1A5CB5" text-anchor="middle">두정엽</text>
+
+  <circle cx="212" cy="268" r="15" fill="#00AA6C"/>
+  <text x="212" y="273" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">4</text>
+  <text x="196" y="300" font-size="12" font-weight="700" fill="#065F46" text-anchor="middle">기저핵</text>
+
+  <circle cx="288" cy="292" r="15" fill="#E8962A"/>
+  <text x="288" y="297" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">5</text>
+  <text x="316" y="316" font-size="12" font-weight="700" fill="#B45309" text-anchor="middle">해마</text>
+
+  <circle cx="366" cy="228" r="15" fill="#8A8A8A"/>
+  <text x="366" y="233" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">6</text>
+  <text x="378" y="202" font-size="12" font-weight="700" fill="#555555" text-anchor="middle">감각 피질</text>
+
+  <text x="240" y="404" font-size="12.5" font-weight="700" fill="#DC2626" text-anchor="middle">손상되면 그 기능이 특정적으로 무너진다</text>
+  <text x="240" y="426" font-size="11.5" fill="#8A8A8A" text-anchor="middle">→ "어디를 다쳤나"로 증상을 예측할 수 있다</text>
+
+  <!-- 우: 트랜스포머 -->
+  <rect x="480" y="76" width="390" height="380" rx="16" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="675" y="106" font-size="15.5" font-weight="800" fill="#6B21A8" text-anchor="middle">🤖 트랜스포머 — 기능이 방향으로 퍼진다</text>
+
+  <!-- 계층 스택 -->
+  <rect x="516" y="126" width="150" height="34" rx="7" fill="#EDEAE4"/>
+  <text x="591" y="148" font-size="11.5" fill="#555555" text-anchor="middle">계층 N (출력)</text>
+  <rect x="516" y="166" width="150" height="34" rx="7" fill="#EDEAE4"/>
+  <text x="591" y="188" font-size="11.5" fill="#555555" text-anchor="middle">…</text>
+  <rect x="516" y="206" width="150" height="52" rx="7" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="591" y="228" font-size="12" font-weight="800" fill="#6B21A8" text-anchor="middle">중간 계층</text>
+  <text x="591" y="248" font-size="10.5" fill="#6B21A8" text-anchor="middle">(J-space가 사는 곳)</text>
+  <rect x="516" y="264" width="150" height="34" rx="7" fill="#EDEAE4"/>
+  <text x="591" y="286" font-size="11.5" fill="#555555" text-anchor="middle">…</text>
+  <rect x="516" y="304" width="150" height="34" rx="7" fill="#EDEAE4"/>
+  <text x="591" y="326" font-size="11.5" fill="#555555" text-anchor="middle">계층 1 (입력)</text>
+
+  <!-- 방향 벡터들 -->
+  <g stroke-width="2.5" fill="none">
+    <line x1="690" y1="150" x2="760" y2="130" stroke="#002C5F"/>
+    <line x1="690" y1="180" x2="765" y2="180" stroke="#6B21A8"/>
+    <line x1="690" y1="212" x2="758" y2="238" stroke="#1A5CB5"/>
+    <line x1="690" y1="244" x2="762" y2="290" stroke="#00AA6C"/>
+  </g>
+  <circle cx="690" cy="196" r="7" fill="#8A8A8A"/>
+  <text x="700" y="216" font-size="10.5" fill="#8A8A8A">같은 활성화 벡터</text>
+
+  <text x="790" y="134" font-size="11" font-weight="700" fill="#002C5F">계획 방향</text>
+  <text x="790" y="184" font-size="11" font-weight="700" fill="#6B21A8">오류감지 방향</text>
+  <text x="790" y="242" font-size="11" font-weight="700" fill="#1A5CB5">주의 방향</text>
+  <text x="790" y="294" font-size="11" font-weight="700" fill="#065F46">선택 방향</text>
+
+  <text x="675" y="376" font-size="12.5" font-weight="700" fill="#6B21A8" text-anchor="middle">기능들이 같은 뉴런들에 겹쳐 인코딩된다(중첩)</text>
+  <text x="675" y="398" font-size="11.5" fill="#8A8A8A" text-anchor="middle">→ "어느 뉴런"이 아니라 "어느 방향"을 물어야 한다</text>
+  <text x="675" y="426" font-size="11.5" font-weight="700" fill="#DC2626" text-anchor="middle">그래서 J-lens 같은 "방향 찾기" 도구가 필요해졌다</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="476" width="840" height="164" rx="14" fill="#0D1B2E"/>
+  <text x="62" y="508" font-size="15" font-weight="800" fill="#FFF">🔬 방법론까지 평행하다 — 해석가능성은 "실리콘 신경과학"이 되어간다</text>
+  <rect x="62" y="526" width="250" height="96" rx="10" fill="rgba(255,255,255,.08)"/>
+  <text x="187" y="552" font-size="12.5" font-weight="800" fill="#7FD1A8" text-anchor="middle">읽기 (관측)</text>
+  <text x="187" y="576" font-size="11" fill="#C7D5EA" text-anchor="middle">뇌: fMRI·전극으로 표상 디코딩</text>
+  <text x="187" y="596" font-size="11" fill="#C7D5EA" text-anchor="middle">모델: J-lens로 성향 읽기</text>
+  <text x="187" y="614" font-size="10.5" fill="#8A9BB5" text-anchor="middle">→ 둘 다 "상관"까지만 말해준다</text>
+  <rect x="325" y="526" width="250" height="96" rx="10" fill="rgba(255,255,255,.08)"/>
+  <text x="450" y="552" font-size="12.5" font-weight="800" fill="#E8962A" text-anchor="middle">밀기 (인과 개입)</text>
+  <text x="450" y="576" font-size="11" fill="#C7D5EA" text-anchor="middle">뇌: TMS·광유전학으로 회로 자극</text>
+  <text x="450" y="596" font-size="11" fill="#C7D5EA" text-anchor="middle">모델: 활성화 조향(steering)</text>
+  <text x="450" y="614" font-size="10.5" fill="#8A9BB5" text-anchor="middle">→ 개입해야 인과를 말할 수 있다</text>
+  <rect x="588" y="526" width="250" height="96" rx="10" fill="rgba(255,255,255,.08)"/>
+  <text x="713" y="552" font-size="12.5" font-weight="800" fill="#5B8DD9" text-anchor="middle">결정적 비대칭</text>
+  <text x="713" y="576" font-size="11" fill="#C7D5EA" text-anchor="middle">뇌: 침습성·해상도·윤리의 한계</text>
+  <text x="713" y="596" font-size="11" fill="#C7D5EA" text-anchor="middle">모델: 전 가중치·활성화 완전 관측</text>
+  <text x="713" y="614" font-size="10.5" font-weight="700" fill="#7FD1A8" text-anchor="middle">→ 신경과학이 꿈꾸던 조건</text>
+</svg>
