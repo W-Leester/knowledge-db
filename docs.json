@@ -164,6 +164,29 @@
       ]
     },
     {
+      "id": "paper-jlens",
+      "title": "논문 — Jacobian Lens",
+      "desc": "Anthropic의 J-lens와 J-space: 모델이 말하기 전의 생각을 읽는 법, 그리고 로컬 적용",
+      "file": "docs/paper-jlens.html",
+      "group": "논문",
+      "icon": "🔬",
+      "gradient": [
+        "#6B21A8",
+        "#DC2626"
+      ],
+      "tags": [
+        "Interpretability",
+        "J-Space",
+        "Anthropic"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/jlens-lineage.svg",
+        "docs/img/jlens-jspace.svg",
+        "docs/img/jlens-practical.svg"
+      ]
+    },
+    {
       "id": "ai-hw-processors",
       "title": "AI 하드웨어 — 프로세서",
       "desc": "CPU · GPU · NPU · TPU 아키텍처 완전 분해",

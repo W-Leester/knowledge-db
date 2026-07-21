@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="jb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E8962A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="560" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">J-space — 거대한 계산의 바다 위, 작은 "말할 수 있는" 작업 공간</text>
+
+  <!-- 모델 단면: 바다 -->
+  <rect x="40" y="66" width="560" height="400" rx="16" fill="#0D1B2E"/>
+  <text x="320" y="98" font-size="14.5" font-weight="800" fill="#8A9BB5" text-anchor="middle">🌊 활성화 공간의 대부분 — "어두운 바다"</text>
+  <text x="320" y="122" font-size="12" fill="#8A9BB5" text-anchor="middle">모델 스스로 서술도, 접근도 못 하는 계산들 (분산의 ~90%)</text>
+
+  <!-- 계층 표시 -->
+  <text x="62" y="160" font-size="11" fill="#5B8DD9">← 초반 계층</text>
+  <text x="62" y="290" font-size="11" fill="#5B8DD9">← 중간 계층</text>
+  <text x="62" y="430" font-size="11" fill="#5B8DD9">← 후반 계층</text>
+
+  <!-- J-space 밝은 영역 (중간 계층) -->
+  <ellipse cx="330" cy="285" rx="180" ry="75" fill="#E8962A" opacity=".92"/>
+  <text x="330" y="266" font-size="15.5" font-weight="800" fill="#FFF" text-anchor="middle">✨ J-space (중간 계층에만 존재)</text>
+  <text x="330" y="290" font-size="12" fill="#FFF" text-anchor="middle">활성화 분산의 ≤~10% — 작은 부분공간</text>
+  <text x="330" y="312" font-size="12" font-weight="700" fill="#FFF" text-anchor="middle">보고하고 · 조작하고 · 추론에 쓸 수 있는 개념들</text>
+
+  <!-- 방송 화살표 -->
+  <line x1="420" y1="330" x2="500" y2="400" stroke="#E8962A" stroke-width="2.5" marker-end="url(#jb)"/>
+  <line x1="330" y1="360" x2="330" y2="420" stroke="#E8962A" stroke-width="2.5" marker-end="url(#jb)"/>
+  <line x1="240" y1="330" x2="160" y2="400" stroke="#E8962A" stroke-width="2.5" marker-end="url(#jb)"/>
+  <text x="330" y="448" font-size="12" font-weight="700" fill="#E8962A" text-anchor="middle">📡 광범위 방송 — 수많은 하류 계산에 공급된다</text>
+
+  <!-- 숨은 표현 경고 -->
+  <circle cx="150" cy="200" r="8" fill="#DC2626"/>
+  <text x="168" y="196" font-size="11.5" fill="#FEE2E2">행동을 구동하지만 보고되지 않는 표현</text>
+  <text x="168" y="214" font-size="11" fill="#8A9BB5">— J-space 바깥에 존재할 수 있음 (기만 탐지의 표적)</text>
+
+  <!-- GWT 체크리스트 -->
+  <rect x="630" y="66" width="240" height="400" rx="14" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="750" y="98" font-size="14.5" font-weight="800" fill="#6B21A8" text-anchor="middle">🧠 글로벌 워크스페이스</text>
+  <text x="750" y="120" font-size="14.5" font-weight="800" fill="#6B21A8" text-anchor="middle">이론(GWT)과의 일치</text>
+  <text x="750" y="144" font-size="11" fill="#8A8A8A" text-anchor="middle">인지과학의 의식 구조 이론 —</text>
+  <text x="750" y="162" font-size="11" fill="#8A8A8A" text-anchor="middle">그 세 가지 구조적 예측이 관찰됨</text>
+
+  <rect x="650" y="180" width="200" height="76" rx="10" fill="#F3E8FF"/>
+  <text x="750" y="206" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">✓ 저차원 병목</text>
+  <text x="750" y="228" font-size="11" fill="#555555" text-anchor="middle">전체 용량보다 훨씬 작은</text>
+  <text x="750" y="246" font-size="11" fill="#555555" text-anchor="middle">제한된 작업 공간</text>
+
+  <rect x="650" y="266" width="200" height="76" rx="10" fill="#F3E8FF"/>
+  <text x="750" y="292" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">✓ 광범위 방송</text>
+  <text x="750" y="314" font-size="11" fill="#555555" text-anchor="middle">한 곳의 정보가 수많은</text>
+  <text x="750" y="332" font-size="11" fill="#555555" text-anchor="middle">하류 계산으로 전파</text>
+
+  <rect x="650" y="352" width="200" height="76" rx="10" fill="#F3E8FF"/>
+  <text x="750" y="378" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">✓ 보고 가능성</text>
+  <text x="750" y="400" font-size="11" fill="#555555" text-anchor="middle">이 공간의 내용만 모델이</text>
+  <text x="750" y="418" font-size="11" fill="#555555" text-anchor="middle">말로 표현할 수 있음</text>
+
+  <text x="750" y="452" font-size="10.5" fill="#DC2626" text-anchor="middle" font-weight="700">※ 저자들: "의식 주장이 아니다"</text>
+
+  <!-- 하단 -->
+  <rect x="40" y="486" width="830" height="54" rx="12" fill="#E8EEF7"/>
+  <text x="455" y="510" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">안전성 함의: 전체 네트워크가 아니라 이 작은 병목만 감시하면 된다는 가능성 —</text>
+  <text x="455" y="530" font-size="12.5" fill="#555555" text-anchor="middle">단, 감시되는 공간 "밖"으로 나쁜 추론을 숨기는 적대적 학습이 가능한지는 미검증</text>
+</svg>

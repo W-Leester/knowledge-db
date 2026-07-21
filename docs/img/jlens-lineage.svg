@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="ja" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="470" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">"렌즈" 가문 — 모델의 속을 사람 말로 읽으려는 시도의 계보</text>
+
+  <!-- Logit Lens -->
+  <rect x="30" y="66" width="264" height="270" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
+  <rect x="30" y="66" width="264" height="46" rx="14" fill="#8A8A8A"/>
+  <rect x="30" y="98" width="264" height="14" fill="#8A8A8A"/>
+  <text x="162" y="96" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">Logit Lens (2020)</text>
+  <text x="162" y="136" font-size="12.5" font-weight="700" fill="#555555" text-anchor="middle">읽는 것: 계층별 "다음 토큰" 성향</text>
+  <text x="52" y="166" font-size="12" fill="#555555">중간 계층의 활성화를 최종 출력</text>
+  <text x="52" y="188" font-size="12" fill="#555555">사전(언임베딩)으로 그냥 투영해 본다</text>
+  <text x="52" y="216" font-size="12" fill="#555555">→ "몇 층째에서 이미 답을</text>
+  <text x="52" y="238" font-size="12" fill="#555555">   알고 있었나"를 볼 수 있음</text>
+  <text x="162" y="278" font-size="11.5" font-weight="700" fill="#DC2626" text-anchor="middle">한계: 초·중반 계층에서는</text>
+  <text x="162" y="298" font-size="11.5" font-weight="700" fill="#DC2626" text-anchor="middle">투영이 부정확 (좌표계가 다름)</text>
+
+  <!-- Tuned Lens -->
+  <rect x="318" y="66" width="264" height="270" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <rect x="318" y="66" width="264" height="46" rx="14" fill="#1A5CB5"/>
+  <rect x="318" y="98" width="264" height="14" fill="#1A5CB5"/>
+  <text x="450" y="96" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">Tuned Lens (2023)</text>
+  <text x="450" y="136" font-size="12.5" font-weight="700" fill="#555555" text-anchor="middle">읽는 것: 보정된 "다음 토큰" 성향</text>
+  <text x="340" y="166" font-size="12" fill="#555555">계층마다 작은 변환기를 학습시켜</text>
+  <text x="340" y="188" font-size="12" fill="#555555">각 층의 좌표계를 출력 좌표계로 번역</text>
+  <text x="340" y="216" font-size="12" fill="#555555">→ 전 계층에서 안정적으로</text>
+  <text x="340" y="238" font-size="12" fill="#555555">   "지금까지의 생각"을 읽음</text>
+  <text x="450" y="278" font-size="11.5" font-weight="700" fill="#DC2626" text-anchor="middle">한계: 여전히 "바로 다음 토큰"</text>
+  <text x="450" y="298" font-size="11.5" font-weight="700" fill="#DC2626" text-anchor="middle">이라는 좁은 창으로만 본다</text>
+
+  <!-- J-Lens -->
+  <rect x="606" y="66" width="264" height="270" rx="14" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2.5"/>
+  <rect x="606" y="66" width="264" height="46" rx="14" fill="#6B21A8"/>
+  <rect x="606" y="98" width="264" height="14" fill="#6B21A8"/>
+  <text x="738" y="96" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">Jacobian Lens (2026)</text>
+  <text x="738" y="136" font-size="12.5" font-weight="700" fill="#6B21A8" text-anchor="middle">읽는 것: "앞으로 말할 성향" 전체</text>
+  <text x="628" y="166" font-size="12" fill="#555555">각 어휘 단어에 대해 — 내부 활성화를</text>
+  <text x="628" y="188" font-size="12" fill="#555555">어느 방향으로 밀면 그 단어를 미래에</text>
+  <text x="628" y="210" font-size="12" fill="#555555">말할 확률이 커지는지(자코비안 민감도)</text>
+  <text x="628" y="238" font-size="12" font-weight="700" fill="#065F46">→ 말하기 전에, 말하려는 개념을</text>
+  <text x="628" y="260" font-size="12" font-weight="700" fill="#065F46">   미리 읽는다 (disposition)</text>
+  <text x="738" y="298" font-size="11.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">부산물: J-space의 발견 →</text>
+
+  <line x1="294" y1="200" x2="314" y2="200" stroke="#003F8A" stroke-width="3" marker-end="url(#ja)"/>
+  <line x1="582" y1="200" x2="602" y2="200" stroke="#003F8A" stroke-width="3" marker-end="url(#ja)"/>
+
+  <!-- 하단 -->
+  <rect x="30" y="366" width="840" height="76" rx="14" fill="#002C5F"/>
+  <text x="450" y="398" font-size="14.5" font-weight="800" fill="#FFF" text-anchor="middle">세 렌즈의 공통 질문: "모델의 내부 상태를 사람의 언어로 읽을 수 없을까?"</text>
+  <text x="450" y="426" font-size="12.5" fill="#C7D5EA" text-anchor="middle">J-lens의 도약 — "다음 한 단어"가 아니라 "이 대화가 향하는 곳"을 읽는 것으로 시야를 넓혔다</text>
+</svg>

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>논문 리뷰 — Jacobian Lens: 모델이 말하기 전의 생각을 읽다</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #6B21A8 60%, var(--red) 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--purple)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB · 논문</h2>
+    <p>Jacobian Lens<br>리뷰</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 논문 개요</a>
+    <a href="#lineage">1. 배경 — 렌즈 가문</a>
+    <a href="#method">2. J-lens의 동작 원리</a>
+    <a href="#jspace">3. 발견 — J-space</a>
+    <a href="#safety">4. 안전성 함의</a>
+    <a href="#limits">5. 한계와 비판</a>
+    <a href="#practical">6. 실사용 — 로컬 LLM 적용</a>
+    <a href="#p-setup" class="sub">6-1. 파이프라인 구축</a>
+    <a href="#p-usecases" class="sub">6-2. 활용 시나리오</a>
+    <a href="#refs">7. 출처</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Paper Review · Interpretability</div>
+  <h1>Jacobian Lens<br><span class="thin">모델이 말하기 전의 생각을 읽다 — J-space의 발견</span></h1>
+  <p class="sub">Anthropic이 2026년 7월 공개한 해석가능성 연구. 모델 내부의 "앞으로 말할 성향"을 읽는
+  새 렌즈(J-lens)로, 언어화 가능한 개념들이 모이는 작은 작업 공간(J-space)을 발견했다.
+  논문의 내용과 함의, 그리고 오픈소스로 공개된 이 도구를 로컬 LLM에 적용하는 방법까지 정리한다.</p>
+  <div class="tags">
+    <span class="tag">interpretability</span><span class="tag">J-lens</span><span class="tag">J-space</span>
+    <span class="tag">Global Workspace</span><span class="tag">Anthropic</span><span class="tag">open source</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Paper Card</div>
+    <h2>0. 논문 개요</h2>
+    <p>세 줄 요약과 서지 정보 — 그리고 이 리뷰의 신뢰 수준</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:110px">항목</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">제목</td><td><em>Verbalizable Representations Form a Global Workspace in Language Models</em></td></tr>
+        <tr><td class="hl">발표</td><td>2026-07-06 · Transformer Circuits Thread (Anthropic 해석가능성 팀의 발표 채널)</td></tr>
+        <tr><td class="hl">저자</td><td>Wes Gurnee, Nicholas Sofroniew, Jack Lindsey 외 13인 (Anthropic)</td></tr>
+        <tr><td class="hl">코드</td><td><span class="mono">github.com/anthropics/jacobian-lens</span> — Apache 2.0, 오픈소스 (참조 구현)</td></tr>
+        <tr><td class="hl">세 줄 요약</td><td>① 내부 활성화를 건드렸을 때 "미래 발화"가 어떻게 변하는지(자코비안)로 모델의 <strong>말할 성향</strong>을 읽는 렌즈를 만들었다. ② 그 렌즈로 보니, 모델이 말로 표현할 수 있는 개념들은 <strong>중간 계층의 작은 부분공간(J-space)</strong>에 모여 있었다. ③ 이 구조는 인지과학의 글로벌 워크스페이스 이론과 놀랍도록 닮아 있고, AI 안전 모니터링의 새 표적이 된다.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">📋</span>
+    <div><strong>이 리뷰의 신뢰 수준 —</strong> 발표 시점이 이 지식 베이스 작성 AI의 지식 기준일 이후라,
+    본 리뷰는 §7의 공개 자료들(공식 코드 저장소, 해설 기사·리뷰)을 교차 확인해 작성했다.
+    수치·세부 주장은 원문(Transformer Circuits) 확인을 권한다. 특히 언론 해설에는 "의식" 관련
+    과장이 섞이기 쉬운 주제이므로, 저자들이 명시한 선긋기(§3 끝)를 기준으로 읽을 것.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. LINEAGE ═══════════ -->
+<section id="lineage">
+  <div class="section-header">
+    <div class="eyebrow">Background</div>
+    <h2>1. 배경 — "렌즈" 가문의 문제의식</h2>
+    <p>모델의 속을 사람 말로 읽으려는 6년의 시도</p>
+  </div>
+
+  <p class="body">트랜스포머의 내부는 수만 차원의 숫자 덩어리(활성화)다. 해석가능성 연구의 오랜 꿈은
+  이 숫자들을 <strong>사람이 읽을 수 있는 언어로 번역</strong>하는 것이고, "렌즈"는 그 대표 계보다.
+  <strong>Logit lens</strong>(2020)는 중간 계층 활성화를 출력 사전으로 투영해 "몇 층째에서 이미 답을 알았나"를 보여줬고,
+  <strong>Tuned lens</strong>는 계층별 번역기를 학습시켜 정확도를 높였다. 그러나 둘 다
+  <u>"바로 다음 토큰"이라는 좁은 창</u>으로만 내부를 봤다 — 모델이 대화 전체에 걸쳐 품고 있는 "주제·의도" 수준의 성향은 읽지 못했다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/jlens-lineage.svg" alt="Logit lens, Tuned lens, Jacobian lens 계보 비교"></div>
+    <figcaption>다음 토큰(2020) → 보정된 다음 토큰(2023) → 미래 발화 성향 전체(2026) — 렌즈의 시야가 넓어져 온 궤적 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════ 2. METHOD ═══════════ -->
+<section id="method">
+  <div class="section-header">
+    <div class="eyebrow">Method</div>
+    <h2>2. J-lens의 동작 원리 — 민감도로 성향을 읽는다</h2>
+    <p>자코비안 = "내부를 이렇게 밀면 출력이 어떻게 변하는가"의 지도</p>
+  </div>
+
+  <p class="body"><strong>자코비안(Jacobian)</strong>은 수학에서 "출력이 입력의 변화에 얼마나, 어느 방향으로 민감한가"를
+  담는 편미분 행렬이다. J-lens는 이것을 모델 내부에 적용한다 —
+  <strong>"내부 활성화를 어느 방향으로 살짝 밀면, 특정 단어를 <u>미래에 말할</u> 확률이 가장 크게 올라가는가?"</strong>
+  이 질문에 답하면, 어휘의 각 단어마다 그 단어에 대응하는 내부 방향이 얻어진다.
+  지금 어떤 활성화 상태가 주어졌을 때 그 방향들과의 정렬을 읽으면, <u>모델이 아직 말하지 않은,
+  그러나 말하려는 성향(disposition)</u>이 단어 목록으로 나온다.</p>
+
+  <div class="card-grid">
+    <div class="card"><h4>🔬 기존 렌즈와의 결정적 차이</h4><p>logit/tuned lens는 "다음 토큰 예측"을 읽는다.
+    J-lens는 <strong>"앞으로의 대화에서 말할 성향"</strong>을 읽는다 — 시야가 한 토큰에서 대화 전체로 넓어졌다.</p></div>
+    <div class="card"><h4>⚙️ 학습이 필요하다</h4><p>tuned lens처럼 렌즈 자체를 데이터로 학습시킨다.
+    공개 구현 기준 프롬프트 100~1,000개 규모면 사용 가능한 품질 — 개인 GPU로도 닿는 범위다(§6).</p></div>
+    <div class="card"><h4>🧭 "언어화 가능"의 조작적 정의</h4><p>이 논문의 개념적 기여: "모델이 보고할 수 있는 표현"을
+    막연한 말이 아니라 <strong>측정 가능한 기준</strong>(성향 변화와의 일치)으로 정의했다 — 그래서 J-space 탐색이 가능해졌다.</p></div>
+  </div>
+</section>
+
+<!-- ═══════════ 3. J-SPACE ═══════════ -->
+<section id="jspace">
+  <div class="section-header">
+    <div class="eyebrow">Key Finding</div>
+    <h2>3. 발견 — J-space, 모델 안의 작은 작업 공간</h2>
+    <p>말할 수 있는 것들은 한곳에 모여 있었다</p>
+  </div>
+
+  <p class="body">J-lens로 Claude 내부를 조사한 결과가 이 논문의 심장이다:
+  언어화 가능한 개념들은 활성화 공간 전체에 흩어져 있지 않고, <strong>중간 계층의 작고 조밀한 부분공간</strong>
+  — 보도 기준 활성화 분산의 약 10% 이하 — 에 모여 있었다. 연구진은 이를 <strong>J-space</strong>라 불렀다.
+  이 공간의 내용은 모델이 보고하고, 조작하고, 추론에 쓸 수 있다. 그 바깥의 훨씬 거대한 계산은
+  모델 스스로 서술도 접근도 하지 못한다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/jlens-jspace.svg" alt="J-space 구조와 글로벌 워크스페이스 이론의 세 특성"></div>
+    <figcaption>어두운 계산의 바다 위 작은 밝은 공간 — 그리고 GWT의 세 가지 구조적 예측과의 일치 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">흥미로운 것은 이 구조가 인지과학의 <strong>글로벌 워크스페이스 이론(GWT)</strong> —
+  "의식이란 제한된 용량의 작업 공간이 정보를 뇌 전체에 방송하는 구조"라는 이론 — 의 세 가지 구조적 예측
+  (저차원 병목 · 광범위 방송 · 보고 가능성)과 일치한다는 점이다. 다만 저자들은 선을 분명히 그었다:
+  <u>이것은 정보 라우팅 구조에 관한 발견이지, 경험이나 의식에 관한 주장이 아니다.</u>
+  GWT는 여러 의식 이론 중 하나일 뿐이고, 구조의 유사가 곧 동일성은 아니다.</p>
+
+  <div class="callout purple">
+    <span class="icon">🎭</span>
+    <div><strong>가장 실용적인 함의는 오히려 "바깥"에 있다 —</strong> 행동을 강하게 구동하면서도
+    J-space 밖에 있어 <u>보고되지 않는 표현</u>이 존재할 수 있다는 것.
+    "모델이 말하는 이유"와 "실제 계산의 이유"가 어긋날 수 있음을 구조적으로 보여준 셈이고,
+    이 어긋남을 잡는 것이 §4의 기만 탐지 프로그램이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. SAFETY ═══════════ -->
+<section id="safety">
+  <div class="section-header">
+    <div class="eyebrow">Implications</div>
+    <h2>4. 안전성 함의 — 왜 이 논문이 주목받나</h2>
+    <p>"무엇을 감시해야 하는가"에 대한 답의 후보</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:190px">문제</th><th>J-lens/J-space가 여는 가능성</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">CoT 신실성</td><td>모델이 말로 쓰는 "생각의 사슬"이 실제 계산의 기록인지, 그럴듯한 사후 설명인지 — 내부 성향과 대조해 검증할 도구가 생겼다.</td></tr>
+        <tr><td class="hl">기만 탐지</td><td>출력은 "문제없습니다"인데 내부 성향은 오류·회피 개념으로 기울어 있는 순간 — <strong>말과 속마음의 불일치</strong>를 포착하는 틀.</td></tr>
+        <tr><td class="hl">모니터링 확장성</td><td>수만 차원 전체가 아니라 <strong>작은 병목(J-space)만 감시</strong>하면 된다면, 실시간 안전 모니터링의 계산 비용이 현실화된다.</td></tr>
+        <tr><td class="hl">행동 형성</td><td>부수 실험: 윤리 원칙을 <u>말로 표현하게</u> 훈련했더니, 말하라고 하지 않은 상황의 행동까지 개선 — "무엇을 말하게 만드는가가 무엇을 조용히 추론하는가도 바꾼다"는 함의.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════ 5. LIMITS ═══════════ -->
+<section id="limits">
+  <div class="section-header">
+    <div class="eyebrow">Critique</div>
+    <h2>5. 한계와 비판 — 과신하기 전에</h2>
+    <p>리뷰어들이 지적하는 네 가지</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:190px">지적</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">방법론적 순환성</td><td>"언어화 가능"을 J-lens로 정의해 놓고, 그렇게 찾은 공간이 GWT(보고 가능성 포함)와 일치한다고 논증하는 구조 — 정의와 결론이 맞물려 있다는 비판.</td></tr>
+        <tr><td class="hl">상관 ≠ 구현</td><td>GWT의 세 특성과 구조가 닮았다는 것은 시사적이지만, 트랜스포머가 "신경 워크스페이스를 구현한다"는 증거는 아니다.</td></tr>
+        <tr><td class="hl">일반화 미검증</td><td>주 결과는 Claude 기반 — 다른 모델·규모·훈련 방식에서 재현되는지가 열려 있다. 오픈소스 공개가 바로 이 재현을 위한 것.</td></tr>
+        <tr><td class="hl">적대적 은닉</td><td>감시가 J-space에 집중된다면, 나쁜 추론을 <u>감시되는 공간 밖으로 숨기도록</u> 학습될 수 있는가? — 미검증. 안전 도구의 고전적 군비경쟁 문제.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════ 6. PRACTICAL ═══════════ -->
+<section id="practical">
+  <div class="section-header">
+    <div class="eyebrow">Hands-on</div>
+    <h2>6. 실사용 — 내 로컬 LLM에 J-lens 적용하기</h2>
+    <p>코드가 공개돼 있고, Qwen이 공식 지원 모델이다 — 우리 스택과 바로 만난다</p>
+  </div>
+
+  <p class="body">이 논문이 특별한 실용적 이유: <strong>도구가 오픈소스(Apache 2.0)이고,
+  공개 구현이 명시적으로 Qwen을 지원</strong>하며, HuggingFace의 디코더 트랜스포머라면 이식 가능하다.
+  즉 「로컬 LLM 에이전트」 문서에서 구축한 바로 그 모델의 속을 들여다볼 수 있다.
+  단, 시작 전에 전제 조건부터 — 이것이 가장 중요한 현실 정보다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:200px">전제 조건</th><th>이유와 현실</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">내부 활성화 접근 필요</td><td>J-lens는 활성화를 읽고 미분해야 한다 → <strong>API 뒤의 클라우드 모델에는 적용 불가</strong> (Claude·GPT의 내부는 각 사만 볼 수 있다 — 오픈 가중치 모델의 고유한 특권이다).</td></tr>
+        <tr><td class="hl">PyTorch + HuggingFace 경로</td><td>공개 구현은 HF Transformers 기반. <strong>Ollama·LM Studio의 GGUF 스택으로는 불가</strong> — 추론 최적화 포맷이라 활성화·미분을 노출하지 않는다. 같은 Qwen이라도 HF 가중치로 별도 로드해야 한다.</td></tr>
+        <tr><td class="hl">GPU (CUDA 기준)</td><td>렌즈 학습은 모델 역전파가 병목 — 공개 코드는 CUDA 전제. Mac(MPS)은 코드 수정이 필요하고 느리다. 30B급보다는 <strong>7B~14B급으로 실험 시작</strong>이 현실적.</td></tr>
+        <tr><td class="hl">추론 스택과 분리</td><td>일상 에이전트(Ollama)와 별개의 <strong>연구용 사이드 파이프라인</strong>으로 운용하는 것이 맞다 — 매 추론에 렌즈를 끼우기엔 비용이 크다.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="p-setup"><span class="num">A</span>파이프라인 구축 — 공개 코드 기준 3단계</h3>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/jlens-practical.svg" alt="로컬 J-lens 파이프라인과 활용 4갈래"></div>
+    <figcaption>모델 준비 → 렌즈 확보 → 성향 읽기, 그리고 활용 4갈래 — Ollama 불가 주의 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <pre class="code"><span class="title-bar">공개 구현 사용 예 — 성향 읽기 (github.com/anthropics/jacobian-lens 기준)</span><span class="k">pip install</span> -e .                              <span class="c"># 저장소 클론 후 설치</span>
+
+<span class="k">import</span> transformers, jlens
+
+hf  = transformers.AutoModelForCausalLM.from_pretrained(<span class="s">"Qwen/모델명"</span>).cuda()
+tok = transformers.AutoTokenizer.from_pretrained(<span class="s">"Qwen/모델명"</span>)
+model = jlens.from_hf(hf, tok)                <span class="c"># HF 모델을 jlens용으로 감싼다</span>
+
+lens = jlens.JacobianLens.from_pretrained(<span class="s">"org/lens-repo"</span>, filename=<span class="s">"model/lens.pt"</span>)
+lens_logits, model_logits, _ = lens.apply(
+    model, <span class="s">"Fact: The currency used in the country shaped like a boot is"</span>,
+    positions=[-2])                           <span class="c"># 이 위치의 내부 상태를 읽는다</span>
+
+<span class="k">for</span> layer, logits <span class="k">in</span> sorted(lens_logits.items()):
+    print(layer, [tok.decode([t]) <span class="k">for</span> t <span class="k">in</span> logits[0].topk(5).indices])
+<span class="c"># → 계층별로 "앞으로 말할 성향" 상위 단어들이 출력된다 (예: 중간 계층부터 'lira', 'euro'…)</span></pre>
+
+  <pre class="code"><span class="title-bar">내 모델 전용 렌즈를 직접 학습 — 프롬프트 100~1,000개면 시작 가능</span>lens = jlens.fit(model, prompts=my_prompts, checkpoint_path=<span class="s">"out/ckpt.pt"</span>)
+lens.save(<span class="s">"out/jacobian_lens.pt"</span>)
+<span class="c"># 병목은 모델 역전파 — 여러 GPU 슬라이스에서 나눠 학습 후 merge()로 병합 가능</span></pre>
+
+  <h3 id="p-usecases"><span class="num">B</span>활용 시나리오 — 성향을 읽어서 무엇을 하나</h3>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:190px">시나리오</th><th style="width:300px">방법</th><th>연결되는 개념</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">🚦 에이전트 안전 게이트</td><td>위험 도구 호출 직전의 내부 성향을 검사 — 삭제·유출 관련 개념이 비정상적으로 커져 있으면 차단하거나 사람 확인 요청.</td><td>「클로드 확장」의 훅(PreToolUse)의 "내면 검사판" — 행동이 아니라 성향 단계에서 잡는 조기 경보. 아직 연구 단계 아이디어.</td></tr>
+        <tr><td class="hl">🎭 말–성향 불일치 탐지</td><td>출력 문장과 그 시점의 내부 성향 상위 단어들을 나란히 기록 → "괜찮다"고 말하며 실패 개념이 상승하는 순간을 플래그.</td><td>CoT를 믿는 대신 대조한다 — §4의 기만 탐지를 개인 규모로.</td></tr>
+        <tr><td class="hl">🔧 성향 디버깅</td><td>"왜 자꾸 이 말투/주제로 새지?" — 어느 계층에서 그 성향이 생기는지 추적해 시스템 프롬프트·파인튜닝 개선의 근거로.</td><td>감이 아니라 계층별 증거로 프롬프트를 고친다.</td></tr>
+        <tr><td class="hl">🎛 조향(steering) 실험</td><td>특정 단어의 J-space 방향으로 활성화를 밀거나 당겨 성향을 직접 조절 — 프롬프트보다 낮은 층위의 개입.</td><td>해석가능성 연구의 activation steering 계열 실험 입문.</td></tr>
+        <tr><td class="hl">📏 개입 효과 측정</td><td>RAG 문서 주입 전후 / 파인튜닝 전후 / 시스템 프롬프트 변경 전후의 성향 분포를 비교 — "좋아진 느낌"을 수치로.</td><td>「클로드 확장」 §9-D 측정형 재귀의 평가 지표 후보.</td></tr>
+        <tr><td class="hl">🧪 재현 연구 기여</td><td>Qwen 등 오픈 모델에서 J-space가 재현되는지 자체가 열린 질문(§5) — 개인 GPU로도 의미 있는 재현 실험이 가능한 드문 최전선.</td><td>논문의 "일반화 미검증"을 직접 확인해보는 것.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">⚠️</span>
+    <div><strong>과신 금지 —</strong> 렌즈가 보여주는 것은 "성향"의 근사이지 진실의 창이 아니다.
+    Claude 외 모델에서의 신뢰성은 검증 중이고(§5), 안전 게이트류 활용은 오탐·미탐이 모두 존재하는
+    <u>보조 신호</u>로 다뤄야 한다. 특히 "이 모델은 기만적이다/아니다" 같은 단정의 근거로 쓰기에는 이르다.</div>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🔭</span>
+    <div><strong>큰 그림 —</strong> 지금까지 이 지식 베이스의 로컬 LLM 문서들은 모델을 <u>밖에서</u> 다루는 법
+    (하네스·도구·루프)이었다. J-lens는 처음으로 <u>안을 들여다보는</u> 도구다.
+    오픈 가중치 모델의 진짜 특권은 무제한 호출이 아니라 — <strong>내부를 열어볼 권리</strong>라는 것을
+    이 논문이 보여준다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 7. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">References</div>
+    <h2>7. 출처</h2>
+    <p>이 리뷰가 참조한 공개 자료 — 원문 확인을 권한다</p>
+  </div>
+
+  <ul class="refs">
+    <li><a href="https://transformer-circuits.pub/" target="_blank" rel="noopener">Transformer Circuits Thread — 논문 원문 발표 채널</a>
+        <span class="ref-note">"Verbalizable Representations Form a Global Workspace in Language Models" (2026-07-06, Gurnee · Sofroniew · Lindsey 외)</span></li>
+    <li><a href="https://github.com/anthropics/jacobian-lens" target="_blank" rel="noopener">anthropics/jacobian-lens — 공식 오픈소스 구현</a>
+        <span class="ref-note">Apache 2.0 · PyTorch/HuggingFace 기반 · Qwen 예시 포함 · walkthrough.ipynb 튜토리얼 (§6의 코드 출처)</span></li>
+    <li><a href="https://aiweekly.co/alerts/anthropic-maps-a-global-workspace-inside-claudes-mid-layers" target="_blank" rel="noopener">AI Weekly — "Anthropic maps a global workspace inside Claude's mid-layers"</a>
+        <span class="ref-note">논문 요지·수치(J-space ≤~10% 분산, 중간 계층) 보도</span></li>
+    <li><a href="https://alphasignalai.substack.com/p/how-anthropics-jacobian-lens-reads" target="_blank" rel="noopener">AlphaSignal — "How Anthropic's Jacobian Lens Reads What a Model Is About to Say"</a>
+        <span class="ref-note">J-lens 동작 원리 해설</span></li>
+    <li><a href="https://theaidude.net/blog/jacobian-lens-deep-dive-anthropics-j-space-paper-review" target="_blank" rel="noopener">The AI Dude — "The Jacobian Lens: Deep Dive"</a>
+        <span class="ref-note">기술 상세·GWT 논증 구조·한계 비판 (§2·§5의 주요 참조)</span></li>
+    <li><a href="https://www.forbes.com/sites/johnwerner/2026/07/12/anthropic-illuminates-llm-j-space-with-j-lens/" target="_blank" rel="noopener">Forbes — "Anthropic Illuminates LLM J-Space With J-Lens"</a>
+        <span class="ref-note">일반 독자용 보도 · 안전성 함의 논의</span></li>
+  </ul>
+
+  <div class="callout navy">
+    <span class="icon">📚</span>
+    <div><strong>함께 읽으면 좋은 문서 —</strong> 「로컬 LLM 에이전트」(이 도구를 적용할 모델 스택),
+    「클로드 확장하기」 §9(안전 게이트·측정형 재귀와의 연결),
+    「AI 하드웨어 — 프로세서/메모리」(렌즈 학습의 GPU 요구사항을 이해하는 기반).</div>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/jlens-*.svg (3종) · "논문" 카테고리 1호 — 공개 자료 교차 확인 기반 리뷰 (2026-07)
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>
