@@ -54,6 +54,28 @@ header h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
 header p { font-size: 13.5px; color: rgba(255,255,255,.72); max-width: 560px; }
 header .wave { position: absolute; right: -40px; bottom: -50px; opacity: .15; pointer-events: none; }
 
+/* ── 검색바 (FR-08) — 항상 네이비 헤더 위라 라이트/다크 공통 스타일 ── */
+.search-wrap { position: relative; max-width: 560px; margin-top: 20px; }
+.search-ico { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,.6); pointer-events: none; }
+#search {
+  width: 100%; padding: 11px 42px 11px 41px;
+  border-radius: 100px; border: 1px solid rgba(255,255,255,.28);
+  background: rgba(255,255,255,.14); color: #fff;
+  font-size: 14px; font-family: inherit; outline: none;
+  transition: background .2s, border-color .2s;
+}
+#search::placeholder { color: rgba(255,255,255,.55); }
+#search:focus { background: rgba(255,255,255,.22); border-color: rgba(255,255,255,.55); }
+#search::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+#search-clear {
+  position: absolute; right: 7px; top: 50%; transform: translateY(-50%);
+  width: 28px; height: 28px; border-radius: 50%; border: none; cursor: pointer;
+  background: rgba(255,255,255,.2); color: #fff; font-size: 13px; line-height: 1;
+}
+#search-clear:hover { background: rgba(255,255,255,.32); }
+.hide { display: none !important; }
+#search-empty { padding: 26px 4px; font-size: 13.5px; color: var(--text-secondary); }
+
 main { max-width: 760px; margin: 0 auto; padding: 24px 16px 60px; }
 
 .group-label {
@@ -105,6 +127,11 @@ footer { text-align: center; font-size: 11.5px; color: var(--text-muted); paddin
   <h1>내 지식 문서함</h1>
   <p>공부한 내용을 인터랙티브 HTML 문서로 정리하는 개인 지식 베이스.
   폰에서는 브라우저 메뉴의 "홈 화면에 추가"로 앱처럼 쓸 수 있다.</p>
+  <div class="search-wrap">
+    <svg class="search-ico" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/></svg>
+    <input id="search" type="search" enterkeyhint="search" autocomplete="off" placeholder="문서 검색 — 제목 · 설명 · 태그" aria-label="문서 검색">
+    <button id="search-clear" class="hide" aria-label="검색어 지우기">✕</button>
+  </div>
 </header>
 
 <main id="doc-list">
@@ -124,6 +151,7 @@ footer { text-align: center; font-size: 11.5px; color: var(--text-muted); paddin
     <a class="doc-card" href="docs/ai-hw-memory.html"><div class="doc-body"><h2>AI 하드웨어 — 메모리</h2></div></a>
     <a class="doc-card" href="docs/design-system.html"><div class="doc-body"><h2>디자인 시스템 v1.0</h2></div></a>
   </noscript>
+  <p id="search-empty" class="hide">검색어와 일치하는 문서가 없습니다 — 다른 키워드로 시도해 보세요.</p>
 </main>
 
 <script>
@@ -136,6 +164,8 @@ footer { text-align: center; font-size: 11.5px; color: var(--text-muted); paddin
 
     const frag = document.createDocumentFragment();
     let currentGroup = null;
+    const groups = [];   // 검색 필터용: [{ label, cards: [{el, text}] }]
+    let g = null;
 
     for (const d of docs) {
       if (d.group !== currentGroup) {
@@ -144,6 +174,8 @@ footer { text-align: center; font-size: 11.5px; color: var(--text-muted); paddin
         label.className = 'group-label';
         label.textContent = d.group;
         frag.appendChild(label);
+        g = { label, cards: [] };
+        groups.push(g);
       }
 
       const card = document.createElement('a');
@@ -175,8 +207,45 @@ footer { text-align: center; font-size: 11.5px; color: var(--text-muted); paddin
         '<svg class="arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7,4 12,9 7,14"/></svg>');
       card.prepend(icon, body);
       frag.appendChild(card);
+      g.cards.push({ el: card, text: (d.title + ' ' + d.desc + ' ' + d.tags.join(' ') + ' ' + d.group + ' ' + d.id).toLowerCase() });
     }
     main.appendChild(frag);
+
+    // ── 검색 (FR-08): docs.json의 title/desc/tags를 클라이언트에서 필터 ──
+    const input = document.getElementById('search');
+    const clearBtn = document.getElementById('search-clear');
+    const emptyMsg = document.getElementById('search-empty');
+
+    function applyFilter() {
+      const terms = input.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      let shown = 0;
+      for (const grp of groups) {
+        let groupShown = 0;
+        for (const c of grp.cards) {
+          const hit = terms.every(t => c.text.includes(t));   // 여러 단어 = AND 검색
+          c.el.classList.toggle('hide', !hit);
+          if (hit) groupShown++;
+        }
+        grp.label.classList.toggle('hide', groupShown === 0);
+        shown += groupShown;
+      }
+      emptyMsg.classList.toggle('hide', shown > 0);
+    }
+
+    input.addEventListener('input', () => {
+      clearBtn.classList.toggle('hide', !input.value);
+      applyFilter();
+    });
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      clearBtn.classList.add('hide');
+      applyFilter();
+      input.focus();
+    });
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { input.value = ''; clearBtn.classList.add('hide'); applyFilter(); }
+      if (e.key === 'Enter') input.blur();   // 모바일: 키보드 닫고 결과 확인
+    });
   } catch (e) {
     // fetch 실패 (오프라인 첫 방문, file:// 로컬 열기 등) — 안내만 표시
     main.insertAdjacentHTML('beforeend',
