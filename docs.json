@@ -38,7 +38,7 @@
     {
       "id": "git-github",
       "title": "Git & GitHub 정리",
-      "desc": "로컬 저장소와 원격 연결의 실체, 일상 명령어, 그리고 잔디심기",
+      "desc": "로컬 저장소와 원격 연결의 실체, 일상 명령어, PR과 gh CLI, 그리고 잔디심기",
       "file": "docs/git-github.html",
       "group": "Software · Dev",
       "icon": "🌱",
@@ -49,12 +49,14 @@
       "tags": [
         "git",
         "remote",
+        "PR·gh",
         "잔디"
       ],
-      "version": 5,
+      "version": 6,
       "assets": [
         "docs/img/git-four-areas.svg",
-        "docs/img/git-grass-conditions.svg"
+        "docs/img/git-grass-conditions.svg",
+        "docs/img/git-pr-flow.svg"
       ]
     },
     {

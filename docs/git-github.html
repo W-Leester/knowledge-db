@@ -326,7 +326,10 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#r-manage" class="sub">2-2. 끊기 · 재연결 · 확인</a>
     <a href="#daily">3. 일상 명령어</a>
     <a href="#grass">4. 잔디심기</a>
-    <a href="#thisrepo">5. 이 저장소의 워크플로</a>
+    <a href="#pr">5. Pull Request와 gh CLI</a>
+    <a href="#pr-what" class="sub">5-1. PR의 실제 흐름</a>
+    <a href="#pr-gh" class="sub">5-2. gh CLI 리모컨</a>
+    <a href="#thisrepo">6. 이 저장소의 워크플로</a>
   </nav>
   <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
 </aside>
@@ -344,7 +347,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   그리고 잔디(contribution graph)가 심기는 정확한 조건까지 한 문서로 정리한다.</p>
   <div class="tags">
     <span class="tag">git</span><span class="tag">remote</span><span class="tag">origin</span>
-    <span class="tag">push / pull</span><span class="tag">contribution graph</span><span class="tag">🌱</span>
+    <span class="tag">push / pull</span><span class="tag">pull request</span><span class="tag">gh CLI</span><span class="tag">contribution graph</span><span class="tag">🌱</span>
   </div>
 </div>
 
@@ -508,7 +511,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <span class="icon">💡</span>
     <div><strong>혼자, 한 PC에서만 쓴다면</strong> ①의 pull은 생략해도 된다 — 원격을 바꾸는 주체가 나뿐이라 어긋날 일이 없다.
     반대로 <strong>PC가 두 대 이상이면 pull부터가 규칙</strong>이다. 깜빡하고 커밋했다가 push가 거부되면 그때
-    <span class="mono">git pull --rebase</span>로 수습하면 된다 (§5 참조).</div>
+    <span class="mono">git pull --rebase</span>로 수습하면 된다 (§6 참조).</div>
   </div>
 
   <h3><span class="num">B</span>상황별 명령어 사전</h3>
@@ -609,11 +612,129 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <span class="k">git log</span> --format=<span class="s">'%h %an &lt;%ae&gt; %s'</span> -5</pre>
 </section>
 
-<!-- ═══════════ 5. THIS REPO ═══════════ -->
+<!-- ═══════════ 5. PULL REQUEST & GH CLI ═══════════ -->
+<section id="pr">
+  <div class="section-header">
+    <div class="eyebrow">Pull Request · GitHub CLI</div>
+    <h2>5. Pull Request와 gh CLI — 이름은 비슷해도 층위가 다르다</h2>
+    <p>git pull은 명령어, Pull Request는 웹 기능 — 그리고 그 웹 기능의 터미널 리모컨 gh</p>
+  </div>
+
+  <p class="body">"pull"이라는 단어 때문에 헷갈리기 쉽지만, <span class="mono">git pull</span>과
+  <strong>Pull Request(PR)</strong>는 완전히 다른 층위의 개념이다.
+  <span class="mono">git pull</span>은 내 컴퓨터의 git이 실행하는 <strong>명령어</strong>로,
+  원격의 새 커밋을 받아 즉시 내 브랜치에 합친다(fetch + merge).
+  반면 PR은 <strong>git에 존재하지 않는다</strong> — GitHub라는 웹 서비스가 제공하는 <strong>협업 절차</strong>로,
+  "내 브랜치의 변경사항을 main에 합쳐 주세요"라고 <u>요청</u>하는 것이다.
+  요청만으로는 아무 코드도 합쳐지지 않고, 리뷰·토론을 거쳐 누군가 Merge 버튼을 눌러야 비로소 병합된다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px"></th><th>git pull</th><th>Pull Request</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">정체</td><td>git 명령어 (내 PC의 git이 실행)</td><td>GitHub 등 호스팅 서비스의 협업 기능</td></tr>
+        <tr><td class="hl">하는 일</td><td>원격의 새 커밋을 받아 즉시 내 로컬에 병합</td><td>병합을 <strong>요청</strong>하고 리뷰를 거침</td></tr>
+        <tr><td class="hl">방향</td><td>원격 → 내 로컬</td><td>내 브랜치 → 대상 브랜치 (승인 후)</td></tr>
+        <tr><td class="hl">실행 즉시 병합?</td><td>예</td><td>아니오 — Merge 버튼을 눌러야 병합</td></tr>
+        <tr><td class="hl">필요한 것</td><td>원격 주소만 (인증 불필요, 공개 저장소 기준)</td><td>GitHub 계정 + 브라우저 또는 gh CLI</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🔤</span>
+    <div><strong>왜 이름이 "pull" request인가 —</strong> 관점이 반대라서다. 요청을 <u>받는 쪽</u>(main 관리자) 입장에서
+    "내 변경사항을 당신이 <strong>pull 해 가 주세요</strong>"라는 뜻. 단어의 어원은 같은 동작인데 쓰는 주체가 다르다.
+    GitLab은 같은 기능을 <strong>Merge Request</strong>라고 부르는데, 서비스마다 이름이 다르다는 것 자체가
+    git 표준 명령어가 아니라는 증거다.</div>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/git-pr-flow.svg" alt="Pull Request의 흐름: 로컬 브랜치를 push하면 git의 역할은 끝나고, PR 생성·리뷰·Merge는 GitHub 안에서 일어난다. 브라우저와 gh CLI는 같은 API를 호출하는 두 리모컨이다"></div>
+    <figcaption>git이 하는 일은 push에서 끝난다 — PR은 GitHub 안에서만 존재하고, 브라우저와 gh CLI는 그것을 조작하는 두 리모컨이다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <h3 id="pr-what"><span class="num">A</span>PR의 실제 흐름 — git의 역할은 push에서 끝난다</h3>
+
+  <p class="body">전체 흐름을 따라가 보면 git과 GitHub의 경계가 명확해진다.
+  ①~②는 로컬 git의 영역이고, ③~④부터는 순수하게 GitHub 웹 서비스의 영역이다.</p>
+
+  <pre class="code"><span class="title-bar">브랜치 작업 → PR → Merge까지</span><span class="c"># ①~② git의 영역 — 내 컴퓨터의 git이 처리</span>
+<span class="k">git switch -c</span> my-feature            <span class="c"># 브랜치를 만들어 작업·커밋</span>
+<span class="k">git push -u</span> origin my-feature       <span class="c"># 브랜치를 GitHub에 올림 — git의 역할은 여기까지</span>
+
+<span class="c"># ③~④ GitHub의 영역 — 웹사이트 버튼 또는 gh CLI</span>
+<span class="c"># (웹) "Compare &amp; pull request" 버튼 → 제목·설명 작성 → 리뷰 → Merge 버튼</span>
+<span class="k">gh pr create</span> --title <span class="s">"제목"</span> --body <span class="s">"설명"</span>   <span class="c"># 같은 일을 터미널에서</span>
+<span class="k">gh pr merge</span> 12                                <span class="c"># 12번 PR 병합 (권한이 있을 때)</span></pre>
+
+  <div class="callout green">
+    <span class="icon">✅</span>
+    <div><strong>이 저장소(knowledge-db)에 PR이 등장하지 않는 이유 —</strong> PR은 여러 사람이 main을 보호하면서
+    협업할 때 쓰는 절차다. 혼자 main에 직접 커밋·push하는 이 저장소에서는 PR 단계가 통째로 생략되고,
+    일상 도구는 <span class="mono">git pull</span>과 <span class="mono">git push</span>뿐이다.</div>
+  </div>
+
+  <h3 id="pr-gh"><span class="num">B</span>gh CLI — GitHub를 조작하는 터미널 리모컨</h3>
+
+  <p class="body"><span class="mono">gh</span>는 GitHub가 만든 <strong>git과는 별개의 공식 CLI 도구</strong>다.
+  웹사이트에서 버튼으로 하던 일(PR·이슈·릴리스·Actions…)을 터미널에서 <strong>GitHub API 호출</strong>로 대신한다.
+  <span class="mono">gh pr create</span>를 실행하는 순간 일어나는 일은 웹에서 "Create pull request" 버튼을 누르는 것과
+  완전히 동일하고, 결과물(PR 페이지)도 똑같이 GitHub 웹사이트에 생긴다.
+  AI 코딩 에이전트가 터미널만으로 PR을 만들 수 있는 것도 바로 이 도구 덕분이다.</p>
+
+  <pre class="code"><span class="title-bar">설치와 인증 — 최초 1회</span><span class="c"># 설치 (macOS는 Homebrew)</span>
+<span class="k">brew install</span> gh
+
+<span class="c"># GitHub 계정 인증 — 브라우저가 열리며 로그인 (GitHub.com → HTTPS → 브라우저)</span>
+<span class="k">gh auth login</span>
+
+<span class="c"># 인증 상태 확인</span>
+<span class="k">gh auth status</span></pre>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:110px">분류</th><th style="width:280px">명령</th><th>설명</th></tr></thead>
+      <tbody>
+        <tr><td class="hl" rowspan="5">Pull Request</td><td class="mono">gh pr create</td><td>현재 브랜치로 PR 생성. <span class="mono">--title</span> <span class="mono">--body</span> 생략 시 대화형으로 물어봄.</td></tr>
+        <tr><td class="mono">gh pr list</td><td>열려 있는 PR 목록.</td></tr>
+        <tr><td class="mono">gh pr view 3</td><td>3번 PR의 제목·설명·리뷰 상태 보기. <span class="mono">--web</span>이면 브라우저로 염.</td></tr>
+        <tr><td class="mono">gh pr diff 3</td><td>3번 PR의 변경 내용(diff) 보기.</td></tr>
+        <tr><td class="mono">gh pr merge 3</td><td>3번 PR 병합. Merge 버튼과 동일.</td></tr>
+        <tr><td class="hl" rowspan="2">저장소</td><td class="mono">gh repo create</td><td>GitHub에 새 저장소 생성 (웹사이트 안 가도 됨).</td></tr>
+        <tr><td class="mono">gh repo clone 이름</td><td><span class="mono">git clone</span> + 인증을 한 번에.</td></tr>
+        <tr><td class="hl" rowspan="2">이슈</td><td class="mono">gh issue list</td><td>이슈 목록.</td></tr>
+        <tr><td class="mono">gh issue create</td><td>이슈 생성.</td></tr>
+        <tr><td class="hl" rowspan="2">기타</td><td class="mono">gh run list</td><td>GitHub Actions 실행 이력 (Pages 배포 상태도 여기서 확인 가능).</td></tr>
+        <tr><td class="mono">gh browse</td><td>현재 저장소의 GitHub 페이지를 브라우저로 염.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">📌</span>
+    <div><strong>gh ≠ git.</strong> <span class="mono">git pull</span>·<span class="mono">push</span>는 여전히 git의 몫이고,
+    gh는 그 위의 웹 서비스 기능을 조작할 뿐이다. 구분법은 인증이다 —
+    git은 원격 주소만 알면 되지만(push 시 자격 증명만 필요), gh의 모든 명령은 <strong>GitHub 계정 인증이 전제</strong>다.
+    반대로 gh가 없어도 git은 완전하게 동작한다.</div>
+  </div>
+
+  <details class="acc">
+    <summary>이 저장소에서 gh가 이미 쓰인 곳</summary>
+    <div class="acc-body">
+      <p>§6의 "인증 실패" 해결책이 바로 <span class="mono">gh auth login</span>이다.
+      gh로 인증하면 git의 HTTPS push/pull 자격 증명까지 함께 관리해 주기 때문에,
+      PR을 안 쓰는 이 저장소에서도 gh는 <strong>인증 도우미</strong>로서 유용하다.
+      새 PC 세팅 때 <span class="mono">gh auth login</span> 한 번이면 이후의 push가 전부 자동 인증된다.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ═══════════ 6. THIS REPO ═══════════ -->
 <section id="thisrepo">
   <div class="section-header">
     <div class="eyebrow">knowledge-db</div>
-    <h2>5. 이 저장소의 워크플로 — push가 곧 배포다</h2>
+    <h2>6. 이 저장소의 워크플로 — push가 곧 배포다</h2>
     <p>일반 저장소와 다른 점 하나: 원격이 백업이 아니라 서비스라는 것</p>
   </div>
 
@@ -643,7 +764,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/git-*.svg (2종) · 2026-07-17 "이 폴더는 GitHub와 무조건 연결된 건가?"라는 질문에서 출발해 작성
+  Hyundai-Inspired Design System v1.0 · 도식: img/git-*.svg (3종) · 2026-07-17 "이 폴더는 GitHub와 무조건 연결된 건가?"라는 질문에서 출발해 작성 · 2026-07-22 §5 Pull Request와 gh CLI 추가
 </footer>
 
 </main>

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="arrowG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+    <marker id="arrowA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E8962A"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="480" fill="#FAF7F2"/>
+
+  <!-- 로컬 컨테이너 -->
+  <rect x="18" y="52" width="272" height="200" rx="16" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="40" y="86" font-size="18" font-weight="800" fill="#002C5F">💻 내 컴퓨터 (로컬)</text>
+  <text x="40" y="109" font-size="13" fill="#8A8A8A">브랜치를 만들어 커밋을 쌓는다</text>
+
+  <rect x="42" y="128" width="224" height="96" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="154" y="162" font-size="15.5" font-weight="800" fill="#002C5F" text-anchor="middle" font-family="'JetBrains Mono', monospace">my-feature</text>
+  <text x="154" y="186" font-size="13" fill="#555555" text-anchor="middle">브랜치에서 작업</text>
+  <text x="154" y="208" font-size="12.5" fill="#8A8A8A" text-anchor="middle" font-family="'JetBrains Mono', monospace">commit ● ● ●</text>
+
+  <!-- 인터넷 경계 -->
+  <line x1="322" y1="60" x2="322" y2="300" stroke="#B5AFA5" stroke-width="2" stroke-dasharray="4 6"/>
+  <text x="322" y="42" font-size="13.5" font-weight="700" fill="#8A8A8A" text-anchor="middle">🌐 인터넷</text>
+
+  <!-- GitHub 컨테이너 -->
+  <rect x="354" y="52" width="528" height="252" rx="14" fill="#002C5F"/>
+  <text x="378" y="86" font-size="18" font-weight="800" fill="#FFFFFF">GitHub (웹 서비스)</text>
+  <text x="378" y="109" font-size="13" fill="#8A9BB5">Pull Request는 이 안에서만 존재하는 기능이다</text>
+
+  <!-- push된 브랜치 사본 -->
+  <rect x="378" y="130" width="130" height="92" rx="10" fill="#E8EEF7"/>
+  <text x="443" y="166" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle" font-family="'JetBrains Mono', monospace">my-feature</text>
+  <text x="443" y="192" font-size="12.5" fill="#555555" text-anchor="middle">push된 사본</text>
+
+  <!-- Pull Request -->
+  <rect x="556" y="122" width="152" height="108" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="632" y="152" font-size="15" font-weight="800" fill="#B45309" text-anchor="middle">Pull Request</text>
+  <text x="632" y="175" font-size="12.5" fill="#555555" text-anchor="middle">리뷰 · 토론 · CI</text>
+  <text x="632" y="197" font-size="12" fill="#8A8A8A" text-anchor="middle">"합쳐 주세요"라는 요청일 뿐</text>
+  <text x="632" y="214" font-size="12" fill="#8A8A8A" text-anchor="middle">아직 병합 아님</text>
+
+  <!-- main -->
+  <rect x="746" y="130" width="112" height="92" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="802" y="166" font-size="15" font-weight="800" fill="#065F46" text-anchor="middle" font-family="'JetBrains Mono', monospace">main</text>
+  <text x="802" y="190" font-size="12" fill="#555555" text-anchor="middle">Merge 후에만</text>
+  <text x="802" y="207" font-size="12" fill="#555555" text-anchor="middle">반영된다</text>
+
+  <!-- push 화살표 (로컬 → GitHub) -->
+  <line x1="266" y1="176" x2="374" y2="176" stroke="#00AA6C" stroke-width="3" marker-end="url(#arrowG)"/>
+  <text x="318" y="163" font-size="13.5" font-weight="800" fill="#00AA6C" text-anchor="middle" font-family="'JetBrains Mono', monospace">git push</text>
+
+  <!-- 브랜치 → PR -->
+  <line x1="508" y1="176" x2="552" y2="176" stroke="#E8962A" stroke-width="2.5" marker-end="url(#arrowA)"/>
+  <text x="531" y="163" font-size="12" font-weight="700" fill="#E8962A" text-anchor="middle">생성</text>
+
+  <!-- PR → main -->
+  <line x1="712" y1="176" x2="742" y2="176" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#arrowG)"/>
+  <text x="727" y="163" font-size="12" font-weight="700" fill="#7FD1A8" text-anchor="middle">Merge</text>
+
+  <!-- 리모컨 2개 -->
+  <rect x="354" y="340" width="244" height="76" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
+  <text x="476" y="372" font-size="15" font-weight="800" fill="#002C5F" text-anchor="middle">🌐 브라우저</text>
+  <text x="476" y="396" font-size="12" fill="#8A8A8A" text-anchor="middle">"New pull request" 버튼 클릭</text>
+
+  <rect x="636" y="340" width="244" height="76" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
+  <text x="758" y="372" font-size="15" font-weight="800" fill="#002C5F" text-anchor="middle">⌨️ gh CLI</text>
+  <text x="758" y="396" font-size="12" fill="#8A8A8A" text-anchor="middle" font-family="'JetBrains Mono', monospace">gh pr create · gh pr merge</text>
+
+  <!-- 리모컨 → GitHub 화살표 -->
+  <line x1="476" y1="336" x2="476" y2="310" stroke="#003F8A" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <line x1="758" y1="336" x2="758" y2="310" stroke="#003F8A" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="617" y="330" font-size="12.5" font-weight="600" fill="#8A8A8A" text-anchor="middle">같은 GitHub API 호출 — 하는 일은 동일</text>
+
+  <!-- 하단 요약 -->
+  <rect x="18" y="444" width="864" height="34" rx="10" fill="#E8EEF7"/>
+  <text x="450" y="466" font-size="14.5" font-weight="700" fill="#002C5F" text-anchor="middle">PR은 명령어가 아니라 GitHub의 웹 기능 — 브라우저와 gh CLI는 같은 요청을 보내는 두 개의 리모컨이다</text>
+</svg>
