@@ -166,6 +166,31 @@
       ]
     },
     {
+      "id": "physical-ai",
+      "title": "피지컬 AI",
+      "desc": "몸을 얻은 지능 — VLA·휴머노이드·sim-to-real, 그리고 $100 로봇팔로 시작하기",
+      "file": "docs/physical-ai.html",
+      "group": "AI · Physical",
+      "icon": "🦾",
+      "gradient": [
+        "#0D1B2E",
+        "#065F46"
+      ],
+      "tags": [
+        "Embodied AI",
+        "VLA",
+        "Humanoid"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/phys-digital-vs-physical.svg",
+        "docs/img/phys-three-computers.svg",
+        "docs/img/phys-vla-dual.svg",
+        "docs/img/phys-sim-to-real.svg",
+        "docs/img/phys-dev-stack.svg"
+      ]
+    },
+    {
       "id": "paper-jlens",
       "title": "논문 — Jacobian Lens",
       "desc": "Anthropic의 J-lens와 J-space, 뇌 신경과학과의 대응, 그리고 로컬 적용",

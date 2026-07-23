@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="pg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+  <rect width="900" height="500" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">디지털 AI vs 피지컬 AI — 텍스트를 다루는 뇌 vs 세상을 다루는 몸</text>
+
+  <!-- 좌: 디지털 AI -->
+  <rect x="30" y="66" width="380" height="380" rx="16" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="220" y="98" font-size="16" font-weight="800" fill="#002C5F" text-anchor="middle">💬 디지털 AI (LLM·챗봇)</text>
+  <text x="220" y="120" font-size="12" fill="#8A8A8A" text-anchor="middle">비트의 세계 안에서 완결된다</text>
+
+  <rect x="80" y="146" width="260" height="52" rx="10" fill="#E8EEF7"/>
+  <text x="210" y="170" font-size="13" font-weight="700" fill="#002C5F" text-anchor="middle">입력: 텍스트·이미지 (디지털)</text>
+  <text x="210" y="188" font-size="11" fill="#555555" text-anchor="middle">"이 코드 고쳐줘"</text>
+
+  <line x1="210" y1="200" x2="210" y2="224" stroke="#003F8A" stroke-width="2.5" marker-end="url(#pa)"/>
+
+  <rect x="80" y="228" width="260" height="66" rx="10" fill="#002C5F"/>
+  <text x="210" y="256" font-size="14" font-weight="800" fill="#FFF" text-anchor="middle">🧠 모델 추론</text>
+  <text x="210" y="278" font-size="11.5" fill="#C7D5EA" text-anchor="middle">토큰 예측 — 시간에 쫓기지 않는다</text>
+
+  <line x1="210" y1="296" x2="210" y2="320" stroke="#003F8A" stroke-width="2.5" marker-end="url(#pa)"/>
+
+  <rect x="80" y="324" width="260" height="52" rx="10" fill="#E8EEF7"/>
+  <text x="210" y="348" font-size="13" font-weight="700" fill="#002C5F" text-anchor="middle">출력: 텍스트 (디지털)</text>
+  <text x="210" y="366" font-size="11" fill="#555555" text-anchor="middle">틀리면 되돌리기 쉽다 (Ctrl+Z)</text>
+
+  <text x="220" y="410" font-size="12.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">특징: 열린 루프 · 실수 비용 낮음</text>
+  <text x="220" y="430" font-size="11.5" fill="#8A8A8A" text-anchor="middle">물리 법칙·실시간·안전을 신경 쓸 필요 없음</text>
+
+  <!-- 우: 피지컬 AI -->
+  <rect x="490" y="66" width="380" height="380" rx="16" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="680" y="98" font-size="16" font-weight="800" fill="#065F46" text-anchor="middle">🤖 피지컬 AI (로봇·자율주행)</text>
+  <text x="680" y="120" font-size="12" fill="#8A8A8A" text-anchor="middle">현실 세계와 닫힌 고리로 맞물린다</text>
+
+  <!-- 폐루프 -->
+  <rect x="560" y="142" width="240" height="46" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="680" y="164" font-size="13" font-weight="800" fill="#065F46" text-anchor="middle">👁 인식 (감각)</text>
+  <text x="680" y="181" font-size="10.5" fill="#555555" text-anchor="middle">카메라·라이다·힘/촉각 센서</text>
+
+  <rect x="560" y="222" width="240" height="46" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="680" y="244" font-size="13" font-weight="800" fill="#B45309" text-anchor="middle">🧠 사고 (정책)</text>
+  <text x="680" y="261" font-size="10.5" fill="#555555" text-anchor="middle">무엇을 할지 결정 (VLA 모델)</text>
+
+  <rect x="560" y="302" width="240" height="46" rx="10" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="680" y="324" font-size="13" font-weight="800" fill="#6B21A8" text-anchor="middle">🦾 구동 (행동)</text>
+  <text x="680" y="341" font-size="10.5" fill="#555555" text-anchor="middle">모터·액추에이터로 물리적 동작</text>
+
+  <line x1="680" y1="188" x2="680" y2="220" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#pg)"/>
+  <line x1="680" y1="268" x2="680" y2="300" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#pg)"/>
+  <!-- 폐루프 귀환 -->
+  <path d="M 556 325 C 520 325 520 165 556 165" fill="none" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#pg)"/>
+  <text x="512" y="248" font-size="11" font-weight="700" fill="#065F46" text-anchor="middle" transform="rotate(-90 512 248)">세상이 바뀜 → 다시 인식</text>
+
+  <text x="680" y="392" font-size="12.5" font-weight="700" fill="#065F46" text-anchor="middle">특징: 닫힌 루프 · 실수 비용 높음</text>
+  <text x="680" y="412" font-size="11.5" fill="#8A8A8A" text-anchor="middle">물리 법칙·실시간(ms)·안전이 전부 제약</text>
+  <text x="680" y="432" font-size="11.5" fill="#DC2626" text-anchor="middle">떨어진 컵은 Ctrl+Z가 안 된다</text>
+</svg>

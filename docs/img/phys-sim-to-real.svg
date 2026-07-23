@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="sr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="470" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">Sim-to-Real — 가상에서 배우고 현실로 건너간다</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">현실 학습은 느리고·비싸고·위험하다 → 시뮬에서 수백만 번 연습하고 실물로 이전</text>
+
+  <!-- 시뮬 학습 -->
+  <rect x="30" y="86" width="250" height="150" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="155" y="116" font-size="15" font-weight="800" fill="#065F46" text-anchor="middle">① 시뮬레이션에서 학습</text>
+  <text x="155" y="142" font-size="11.5" fill="#555555" text-anchor="middle">Isaac Lab · MuJoCo · Genesis</text>
+  <text x="155" y="164" font-size="11.5" fill="#555555" text-anchor="middle">수천 개 로봇을 병렬로 —</text>
+  <text x="155" y="184" font-size="11.5" fill="#555555" text-anchor="middle">현실 1년치를 몇 시간에 압축</text>
+  <text x="155" y="212" font-size="11" fill="#8A8A8A" text-anchor="middle">강화학습(RL)의 안전한 놀이터</text>
+
+  <!-- 도메인 랜덤화 -->
+  <rect x="325" y="86" width="250" height="150" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="450" y="116" font-size="15" font-weight="800" fill="#B45309" text-anchor="middle">② 도메인 랜덤화</text>
+  <text x="450" y="142" font-size="11.5" fill="#555555" text-anchor="middle">시뮬의 조명·마찰·무게·색을</text>
+  <text x="450" y="162" font-size="11.5" fill="#555555" text-anchor="middle">무작위로 마구 흔든다</text>
+  <text x="450" y="188" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle">→ "어떤 환경에도 강건하게"</text>
+  <text x="450" y="212" font-size="11" fill="#8A8A8A" text-anchor="middle">현실도 그 변형 중 하나로 보이게</text>
+
+  <!-- 실물 -->
+  <rect x="620" y="86" width="250" height="150" rx="14" fill="#002C5F"/>
+  <text x="745" y="116" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">③ 실물 이전 + 미세조정</text>
+  <text x="745" y="142" font-size="11.5" fill="#C7D5EA" text-anchor="middle">시뮬에서 배운 정책을 실제</text>
+  <text x="745" y="162" font-size="11.5" fill="#C7D5EA" text-anchor="middle">로봇에 올리고, 소량의 현실</text>
+  <text x="745" y="182" font-size="11.5" fill="#C7D5EA" text-anchor="middle">데이터로 마지막 간극을 메움</text>
+  <text x="745" y="212" font-size="11" fill="#8A9BB5" text-anchor="middle">"reality gap"을 좁히는 단계</text>
+
+  <line x1="280" y1="161" x2="321" y2="161" stroke="#003F8A" stroke-width="2.5" marker-end="url(#sr)"/>
+  <line x1="575" y1="161" x2="616" y2="161" stroke="#003F8A" stroke-width="2.5" marker-end="url(#sr)"/>
+
+  <!-- 월드 모델 보강 -->
+  <rect x="30" y="262" width="840" height="86" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="52" y="290" font-size="14.5" font-weight="800" fill="#6B21A8">🌍 월드 모델(World Model)이 데이터 공장을 증폭한다 — 예: NVIDIA Cosmos</text>
+  <text x="52" y="316" font-size="12.5" fill="#555555">인터넷 규모의 영상으로 "물리 세계가 어떻게 흘러가는가"를 학습한 생성 모델. 한 장면에서 수많은 변형 영상을</text>
+  <text x="52" y="338" font-size="12.5" fill="#555555">합성해 학습 데이터를 무한히 불린다 — 시뮬레이터(정확한 물리) + 월드 모델(사실적 다양성)의 결합이 최신 흐름.</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="366" width="840" height="80" rx="14" fill="#0D1B2E"/>
+  <text x="450" y="396" font-size="14" font-weight="800" fill="#FFF" text-anchor="middle">핵심 딜레마: "reality gap" — 시뮬은 결코 현실과 완전히 같지 않다</text>
+  <text x="450" y="422" font-size="12.5" fill="#C7D5EA" text-anchor="middle">마찰·센서 노이즈·부품 개체차… 시뮬에서 완벽하던 정책이 실물에서 미끄러진다. 이 간극을 좁히는 게 분야의 핵심 난제.</text>
+  <text x="450" y="440" font-size="11.5" fill="#8A9BB5" text-anchor="middle">「클로드 확장」의 검증 루프처럼 — 실물 테스트가 루프 안에 있어야 한다</text>
+</svg>

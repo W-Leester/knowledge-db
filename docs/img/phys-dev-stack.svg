@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="ds" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="560" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">개인이 시작하는 피지컬 AI — 저비용 진입 경로</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">$100 로봇팔 하나로 "수집 → 학습 → 실행"의 전 과정을 손으로 겪을 수 있다</text>
+
+  <!-- 4단계 파이프라인 -->
+  <rect x="30" y="84" width="200" height="150" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="130" y="112" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">① 하드웨어</text>
+  <text x="130" y="138" font-size="12" fill="#555555" text-anchor="middle">SO-101 로봇팔</text>
+  <text x="130" y="158" font-size="11.5" fill="#555555" text-anchor="middle">3D 프린트 + 서보</text>
+  <text x="130" y="182" font-size="17" font-weight="800" fill="#1A5CB5" text-anchor="middle">약 $100~</text>
+  <text x="130" y="206" font-size="10.5" fill="#8A8A8A" text-anchor="middle">완제품·관세 시 최대 ~$500</text>
+  <text x="130" y="224" font-size="10.5" fill="#8A8A8A" text-anchor="middle">※ 가격은 확인 필요</text>
+
+  <rect x="250" y="84" width="200" height="150" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="350" y="112" font-size="14.5" font-weight="800" fill="#065F46" text-anchor="middle">② 데이터 수집</text>
+  <text x="350" y="138" font-size="12" fill="#555555" text-anchor="middle">텔레오퍼레이션</text>
+  <text x="350" y="158" font-size="11.5" fill="#555555" text-anchor="middle">리더 팔로 팔로워 팔을</text>
+  <text x="350" y="176" font-size="11.5" fill="#555555" text-anchor="middle">직접 조종해 시연 녹화</text>
+  <text x="350" y="202" font-size="11" fill="#8A8A8A" text-anchor="middle">"컵 집어 옮기기"를</text>
+  <text x="350" y="220" font-size="11" fill="#8A8A8A" text-anchor="middle">수십~수백 번 반복</text>
+
+  <rect x="470" y="84" width="200" height="150" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="570" y="112" font-size="14.5" font-weight="800" fill="#B45309" text-anchor="middle">③ 학습</text>
+  <text x="570" y="138" font-size="12" fill="#555555" text-anchor="middle">LeRobot (Hugging Face)</text>
+  <text x="570" y="158" font-size="11.5" fill="#555555" text-anchor="middle">모방학습으로 정책 훈련</text>
+  <text x="570" y="176" font-size="11.5" fill="#555555" text-anchor="middle">또는 사전학습 VLA 파인튜닝</text>
+  <text x="570" y="202" font-size="11" fill="#8A8A8A" text-anchor="middle">RTX GPU 한 장이면 충분</text>
+  <text x="570" y="220" font-size="11" fill="#8A8A8A" text-anchor="middle">(작은 태스크 기준)</text>
+
+  <rect x="690" y="84" width="180" height="150" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="780" y="112" font-size="14.5" font-weight="800" fill="#6B21A8" text-anchor="middle">④ 실행·평가</text>
+  <text x="780" y="138" font-size="12" fill="#555555" text-anchor="middle">학습된 정책을</text>
+  <text x="780" y="158" font-size="11.5" fill="#555555" text-anchor="middle">실물 팔에서 자율 실행</text>
+  <text x="780" y="182" font-size="11.5" fill="#555555" text-anchor="middle">성공률 보고 데이터</text>
+  <text x="780" y="200" font-size="11.5" fill="#555555" text-anchor="middle">더 모아 재학습</text>
+  <text x="780" y="222" font-size="10.5" font-weight="700" fill="#6B21A8" text-anchor="middle">→ ②로 루프</text>
+
+  <line x1="230" y1="159" x2="246" y2="159" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ds)"/>
+  <line x1="450" y1="159" x2="466" y2="159" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ds)"/>
+  <line x1="670" y1="159" x2="686" y2="159" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ds)"/>
+
+  <!-- 시뮬 경로 -->
+  <rect x="30" y="262" width="840" height="88" rx="14" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
+  <text x="52" y="290" font-size="14.5" font-weight="800" fill="#065F46">🎮 실물 없이 시작하는 길 — 시뮬레이터 (0원, GPU만 있으면)</text>
+  <text x="52" y="316" font-size="12" fill="#555555">· <tspan font-weight="700" fill="#002C5F">MuJoCo / MJX</tspan>: 접촉 물리 RL의 표준, JAX 가속 — "2026년 취미 강화학습의 기본값" · <tspan font-weight="700" fill="#002C5F">Genesis</tspan>: 다물리 생성형 시뮬</text>
+  <text x="52" y="338" font-size="12" fill="#555555">· <tspan font-weight="700" fill="#002C5F">NVIDIA Isaac Lab</tspan>: RTX GPU로 수천 로봇 병렬 학습 (오픈소스) → 배운 정책을 실물 SO-101로 sim-to-real</text>
+
+  <!-- 학습 레벨 -->
+  <text x="450" y="386" font-size="15" font-weight="800" fill="#002C5F" text-anchor="middle">현실적인 단계 밟기</text>
+  <rect x="60" y="404" width="380" height="130" rx="12" fill="#FAF7F2" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="80" y="430" font-size="13" font-weight="800" fill="#065F46">🟢 지금 손댈 수 있는 것</text>
+  <text x="80" y="453" font-size="11.5" fill="#555555">· SO-101 + LeRobot로 픽앤플레이스 모방학습</text>
+  <text x="80" y="473" font-size="11.5" fill="#555555">· MuJoCo에서 RL로 도달·잡기 학습</text>
+  <text x="80" y="493" font-size="11.5" fill="#555555">· 사전학습 VLA(OpenVLA·π0)를 내 태스크에 파인튜닝</text>
+  <text x="80" y="515" font-size="11" fill="#8A8A8A">→ 「로컬 LLM」의 파인튜닝·데이터 수집 감각이 그대로</text>
+
+  <rect x="460" y="404" width="380" height="130" rx="12" fill="#FAF7F2" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="480" y="430" font-size="13" font-weight="800" fill="#B45309">🟡 진입 장벽이 큰 것 (팀·자본 영역)</text>
+  <text x="480" y="453" font-size="11.5" fill="#555555">· 두 발 보행 휴머노이드 전신 제어</text>
+  <text x="480" y="473" font-size="11.5" fill="#555555">· 안전이 걸린 실환경 배치 (사람 곁에서)</text>
+  <text x="480" y="493" font-size="11.5" fill="#555555">· 파운데이션 모델 사전학습 (막대한 데이터·GPU)</text>
+  <text x="480" y="515" font-size="11" fill="#8A8A8A">→ 개인은 "팔·탁상 태스크"에서 시작하는 게 정석</text>
+</svg>
