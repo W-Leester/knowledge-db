@@ -128,12 +128,13 @@
         "자동화",
         "AppleScript"
       ],
-      "version": 2,
+      "version": 3,
       "assets": [
         "docs/img/com-what.svg",
         "docs/img/com-how.svg",
         "docs/img/com-api-layers.svg",
         "docs/img/com-automation.svg",
+        "docs/img/com-performance.svg",
         "docs/img/com-apple-events.svg",
         "docs/img/com-win-vs-mac.svg"
       ]
