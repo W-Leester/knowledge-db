@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="520" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">OLE Automation — 스크립트 언어가 COM을 부리는 통로</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">IDispatch 인터페이스 = "이름으로 함수를 부르는" 창구. 그래서 파이썬·파워셸도 컴파일 없이 엑셀을 조종한다</text>
+
+  <!-- 스크립트 언어들 -->
+  <rect x="30" y="88" width="220" height="330" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="140" y="116" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">스크립트 (내가 짜는 것)</text>
+
+  <rect x="52" y="136" width="176" height="58" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="140" y="158" font-size="12.5" font-weight="700" fill="#002C5F" text-anchor="middle">🐍 Python (pywin32)</text>
+  <text x="140" y="178" font-size="9.5" fill="#555555" text-anchor="middle" font-family="'JetBrains Mono', monospace">win32com.client.Dispatch(...)</text>
+
+  <rect x="52" y="204" width="176" height="58" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="140" y="226" font-size="12.5" font-weight="700" fill="#002C5F" text-anchor="middle">⚡ PowerShell</text>
+  <text x="140" y="246" font-size="9.5" fill="#555555" text-anchor="middle" font-family="'JetBrains Mono', monospace">New-Object -ComObject ...</text>
+
+  <rect x="52" y="272" width="176" height="58" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="140" y="294" font-size="12.5" font-weight="700" fill="#002C5F" text-anchor="middle">🟦 C# (dynamic / Interop)</text>
+  <text x="140" y="314" font-size="9.5" fill="#555555" text-anchor="middle" font-family="'JetBrains Mono', monospace">Type.GetTypeFromProgID(...)</text>
+
+  <rect x="52" y="340" width="176" height="58" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="140" y="362" font-size="12.5" font-weight="700" fill="#002C5F" text-anchor="middle">📜 VBScript / JScript</text>
+  <text x="140" y="382" font-size="9.5" fill="#555555" text-anchor="middle" font-family="'JetBrains Mono', monospace">CreateObject("...")</text>
+
+  <!-- IDispatch 창구 -->
+  <rect x="330" y="180" width="200" height="146" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
+  <text x="430" y="212" font-size="15" font-weight="800" fill="#B45309" text-anchor="middle">🎫 IDispatch</text>
+  <text x="430" y="236" font-size="11.5" fill="#555555" text-anchor="middle">"이름 → 함수 번호" 변환</text>
+  <text x="430" y="256" font-size="11.5" fill="#555555" text-anchor="middle">GetIDsOfNames + Invoke</text>
+  <text x="430" y="282" font-size="11" fill="#8A8A8A" text-anchor="middle">덕분에 미리 컴파일 안 해도</text>
+  <text x="430" y="300" font-size="11" fill="#8A8A8A" text-anchor="middle">런타임에 함수를 찾아 호출</text>
+  <text x="430" y="316" font-size="10.5" fill="#B45309" text-anchor="middle" font-weight="700">= "늦은 바인딩(late binding)"</text>
+
+  <!-- 대상 앱들 -->
+  <rect x="620" y="88" width="250" height="330" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="745" y="116" font-size="14.5" font-weight="800" fill="#065F46" text-anchor="middle">자동화 대상 (COM 서버)</text>
+  <g font-size="12" fill="#555555">
+    <rect x="642" y="132" width="206" height="38" rx="8" fill="#FFFFFF"/>
+    <text x="745" y="156" text-anchor="middle" font-weight="600">📊 Excel · Word · Outlook · PowerPoint</text>
+    <rect x="642" y="178" width="206" height="38" rx="8" fill="#FFFFFF"/>
+    <text x="745" y="202" text-anchor="middle" font-weight="600">📁 Shell.Application (탐색기·파일)</text>
+    <rect x="642" y="224" width="206" height="38" rx="8" fill="#FFFFFF"/>
+    <text x="745" y="248" text-anchor="middle" font-weight="600">🗂 Scripting.FileSystemObject</text>
+    <rect x="642" y="270" width="206" height="38" rx="8" fill="#FFFFFF"/>
+    <text x="745" y="294" text-anchor="middle" font-weight="600">🖥 WScript.Shell (실행·레지스트리)</text>
+    <rect x="642" y="316" width="206" height="38" rx="8" fill="#FFFFFF"/>
+    <text x="745" y="340" text-anchor="middle" font-weight="600">🔧 WMI (시스템·하드웨어 관리)</text>
+    <rect x="642" y="362" width="206" height="38" rx="8" fill="#FFFFFF"/>
+    <text x="745" y="386" text-anchor="middle" font-weight="600">📅 Task Scheduler · 그 외 수백 종</text>
+  </g>
+
+  <line x1="250" y1="253" x2="326" y2="253" stroke="#003F8A" stroke-width="2.5" marker-end="url(#aa)"/>
+  <line x1="530" y1="253" x2="616" y2="253" stroke="#003F8A" stroke-width="2.5" marker-end="url(#aa)"/>
+
+  <!-- 하단 경고 -->
+  <rect x="30" y="438" width="840" height="66" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="52" y="466" font-size="13" font-weight="800" fill="#DC2626">⚠️ 흔한 함정: "엑셀.exe가 작업관리자에 계속 남아요"</text>
+  <text x="52" y="490" font-size="11.5" fill="#555555">참조 세기(Release)가 끝까지 안 풀리면 프로세스가 안 죽는다. Quit() 명시 호출 + 객체 참조 정리 + (파이썬은) gc를 챙길 것.</text>
+</svg>

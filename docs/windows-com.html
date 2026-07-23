@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Windows COM과 macOS 자동화 — 프로그램을 부리는 두 방식</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, var(--navy-700) 50%, #6B21A8 120%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>Windows COM<br>과 맥의 자동화</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#what">1. COM이란 무엇인가</a>
+    <a href="#how">2. 어떻게 작동하나</a>
+    <a href="#h-find" class="sub">2-1. 찾아 실행하는 4단계</a>
+    <a href="#h-thread" class="sub">2-2. 프로세스·스레드 함정</a>
+    <a href="#dev">3. 개발에 쓰는 법</a>
+    <a href="#d-dispatch" class="sub">3-1. OLE Automation</a>
+    <a href="#d-recipes" class="sub">3-2. 실전 코드 레시피</a>
+    <a href="#mac">4. macOS의 상응물</a>
+    <a href="#m-events" class="sub">4-1. Apple Events</a>
+    <a href="#m-more" class="sub">4-2. 접근성·XPC·노코드</a>
+    <a href="#compare">5. Windows vs Mac 비교</a>
+    <a href="#refs">6. 출처·더 읽을거리</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Windows Internals · Automation</div>
+  <h1>Windows COM과 맥의 자동화<br><span class="thin">프로그램이 프로그램을 부리는 두 가지 방식</span></h1>
+  <p class="sub">바이브코딩으로 윈도우 편의 프로그램을 만들다 보면 COM으로 엑셀·탐색기·시스템을 자동화하는 길이 열린다.
+  COM이 무엇이고, 어떻게 작동하며, 개발에서 어떻게 쓰는지 — 그리고 macOS에서 그에 상응하는 것(Apple Events·접근성)은
+  무엇이고 왜 철학이 다른지까지, 윈도우와 맥 개발의 차이를 한 문서로 정리한다.</p>
+  <div class="tags">
+    <span class="tag">COM</span><span class="tag">OLE Automation</span><span class="tag">IDispatch</span>
+    <span class="tag">pywin32</span><span class="tag">Apple Events</span><span class="tag">AppleScript</span><span class="tag">JXA</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 프로그램이 다른 프로그램을 부린다</h2>
+    <p>바이브코딩으로 편의 프로그램을 만들 때, 자동화의 문을 여는 두 가지 열쇠</p>
+  </div>
+
+  <p class="body">윈도우에서 "엑셀을 열어 데이터를 채우고 저장", "탐색기로 파일을 정리", "시스템 정보를 긁어오기" 같은 자동화를 하다 보면
+  반드시 만나는 것이 <strong>COM(Component Object Model)</strong>이다. COM은 <u>프로그램(또는 부품)들이 언어·구현과 무관하게
+  서로의 기능을 호출할 수 있게 하는 윈도우의 근본 표준</u>이고, 우리가 파이썬·파워셸로 엑셀을 조종할 수 있는 것도 전부 COM 덕분이다.
+  이 문서는 COM이 무엇이고(§1), 어떻게 작동하며(§2), 개발에서 어떻게 쓰는지(§3)를 정리하고 —
+  <strong>macOS에서 같은 일을 하려면 무엇을 쓰는지(§4)</strong>와 두 세계의 철학 차이(§5)까지 이어간다.</p>
+
+  <div class="card-grid g4">
+    <div class="stat-card"><div class="stat-value">1993</div><div class="stat-label">COM 등장<br>지금도 윈도우의 뼈대</div></div>
+    <div class="stat-card"><div class="stat-value">IDispatch</div><div class="stat-label">스크립트가 COM을 부리는 창구<br>(파이썬·파워셸)</div></div>
+    <div class="stat-card"><div class="stat-value">수백 종</div><div class="stat-label">자동화 가능한 COM 서버<br>(Office·셸·WMI…)</div></div>
+    <div class="stat-card"><div class="stat-value">Apple Events</div><div class="stat-label">macOS의 상응물<br>(§4)</div></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>이 문서를 관통하는 한 문장 —</strong> 윈도우는 <u>"재사용 가능한 객체(컴포넌트)를 시스템에 노출"</u>하는 방식으로,
+    맥은 <u>"앱에게 높은 수준의 명령을 메시지로 보내는"</u> 방식으로 자동화를 푼다. 목적은 같지만 사고방식이 다르며,
+    이 차이를 이해하는 것이 두 OS에서 자동화 프로그램을 만드는 감각의 핵심이다.</div>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🔗</span>
+    <div><strong>이미 배운 개념과 이어진다 —</strong> 네트워크 문서의 <u>REST</u>("HTTP만 지키면 언어 무관하게 프로그램끼리 대화"),
+    로컬 LLM 문서의 <u>MCP</u>("표준 인터페이스로 도구를 꽂는다")와 COM은 <strong>같은 정신</strong>이다 —
+    "약속(인터페이스)만 지키면 내부는 자유롭게." COM은 그걸 <u>한 PC 안, 바이너리 레벨</u>에서 30년 전에 먼저 한 것이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. WHAT ═══════════ -->
+<section id="what">
+  <div class="section-header">
+    <div class="eyebrow">What Is COM</div>
+    <h2>1. COM이란 무엇인가 — "인터페이스라는 약속"</h2>
+    <p>언어·구현이 달라도 서로 호출하게 만드는 이진(binary) 표준</p>
+  </div>
+
+  <p class="body">보통 A 프로그램이 B의 코드를 쓰려면 같은 언어로 컴파일하거나 소스를 공유해야 한다.
+  COM은 그 벽을 없앤다 — <strong>"이런 함수들을 제공한다"는 인터페이스(약속)만 지키면,
+  내부 구현·언어·컴파일러가 무엇이든 서로 호출</strong>할 수 있다. 약속이 언어 위가 아니라
+  <u>컴파일된 바이너리 레벨(ABI)</u>에 있기 때문에, C++로 만든 엑셀 엔진을 파이썬이 그대로 부린다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/com-what.svg" alt="COM 인터페이스 계약: 클라이언트, 인터페이스, 컴포넌트"></div>
+    <figcaption>클라이언트는 인터페이스(계약)로만 대화한다 — 컴포넌트의 내부 구현은 완전히 숨겨진다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:180px">개념</th><th>뜻</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">인터페이스</td><td>컴포넌트가 노출하는 함수 목록(약속). 이것으로만 대화하고 내부는 숨긴다. 이름은 관례상 <span class="mono">I</span>로 시작(IUnknown, IDispatch…).</td></tr>
+        <tr><td class="hl">IUnknown</td><td>모든 COM 객체의 기본 인터페이스. ① <span class="mono">QueryInterface</span>(이 객체가 다른 인터페이스도 지원하나 물어보기) ② <span class="mono">AddRef</span>/<span class="mono">Release</span>(참조 세기로 수명 관리).</td></tr>
+        <tr><td class="hl">참조 세기</td><td>객체를 몇 곳이 붙들고 있는지 세다가 0이 되면 스스로 소멸. COM의 수동 메모리 관리 방식 — <strong>이게 안 풀리면 엑셀.exe가 안 죽는다</strong>(§3).</td></tr>
+        <tr><td class="hl">GUID / CLSID / IID</td><td>전역 고유 식별자(128비트). 클래스에 붙으면 <span class="mono">CLSID</span>, 인터페이스에 붙으면 <span class="mono">IID</span>. 이름 충돌 없이 세상의 모든 COM 요소를 구분.</td></tr>
+        <tr><td class="hl">ProgID</td><td>사람이 읽는 이름(<span class="mono">"Excel.Application"</span>). 레지스트리에서 CLSID로 번역된다 — 우리가 코드에 쓰는 것이 이것.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🏛</span>
+    <div><strong>이름은 낯설어도 곳곳에 있다 —</strong> OLE(워드 안에 엑셀 표 끼우기), ActiveX, 탐색기 우클릭 메뉴(셸 확장),
+    DirectX, 그리고 파이썬으로 엑셀 자동화하는 것까지 전부 COM이다. 현대 윈도우 앱 API의 기반인 <strong>WinRT</strong>도 COM을 확장한 것 —
+    죽은 기술이 아니라 지금도 윈도우 밑바닥을 떠받친다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. HOW ═══════════ -->
+<section id="how">
+  <div class="section-header">
+    <div class="eyebrow">How It Works</div>
+    <h2>2. 어떻게 작동하나 — 이름에서 실행까지</h2>
+    <p>"Excel.Application" 한 줄이 실제로 무슨 일을 일으키는가</p>
+  </div>
+
+  <h3 id="h-find"><span class="num">A</span>컴포넌트를 찾아 실행하는 4단계</h3>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/com-how.svg" alt="COM 객체 생성 4단계와 in-process/out-of-process, 마샬링, 아파트먼트"></div>
+    <figcaption>ProgID → 레지스트리에서 CLSID·파일 찾기 → 서버 로드 → 인터페이스 반환 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">파이썬에서 <span class="mono">Dispatch("Excel.Application")</span> 한 줄을 부르면:
+  ① 이름(ProgID)으로 요청하고 ② 윈도우가 <strong>레지스트리</strong>에서 그 이름의 CLSID(GUID)와, 그걸 만드는 파일이 어디 있는지 찾고
+  ③ 그 서버를 로드·실행하고(엑셀.exe가 뜬다) ④ 객체를 가리키는 <strong>인터페이스 포인터</strong>를 돌려준다.
+  이때 서버는 두 종류다 — <strong>In-Process(DLL)</strong>는 내 프로그램과 같은 메모리에서 돌아 빠르고,
+  <strong>Out-of-Process(EXE)</strong>는 엑셀처럼 별도 프로세스로 돌아(자동화 대부분이 이쪽) 경계를 넘는 대행이 필요하다.</p>
+
+  <div class="callout navy">
+    <span class="icon">📦</span>
+    <div><strong>마샬링(Marshaling) —</strong> 프로세스·스레드 경계를 넘을 때 함수 호출과 인자를 "포장해서 배송"하는 자동 계층.
+    네트워크 문서의 "직렬화 후 전송"과 같은 발상이라, <u>내 코드는 로컬 함수 호출처럼</u> 쓰면 COM이 알아서 경계를 넘겨준다.
+    참고로 이를 네트워크 너머로 확장한 것이 <strong>DCOM</strong>(다른 컴퓨터의 COM 객체 호출)이다.</div>
+  </div>
+
+  <h3 id="h-thread"><span class="num">B</span>프로세스·스레드 함정 — 자동화 개발자를 무는 것</h3>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:180px">함정</th><th>내용과 대처</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">🧵 아파트먼트(STA/MTA)</td><td>엑셀 같은 자동화 객체는 대개 <strong>STA</strong>(단일 스레드 아파트먼트)라, 만든 스레드에서만 안전하게 호출된다. 멀티스레드 앱에서 다른 스레드가 함부로 부르면 깨진다. 스레드마다 <span class="mono">CoInitialize()</span> 호출 + 스레드 모델을 반드시 챙길 것.</td></tr>
+        <tr><td class="hl">👻 좀비 프로세스</td><td>"엑셀.exe가 작업관리자에 계속 남아요" — 참조 세기(Release)가 끝까지 안 풀린 것. <span class="mono">app.Quit()</span> 명시 호출 + 잡은 객체 참조를 모두 정리(파이썬은 <span class="mono">del</span>·gc)해야 프로세스가 죽는다.</td></tr>
+        <tr><td class="hl">🔢 32/64비트</td><td>32비트 COM 서버는 32비트 프로세스에서, 64비트는 64비트에서 로드된다. 파이썬 비트와 대상 컴포넌트 비트가 어긋나면 "클래스를 등록할 수 없음" 오류. 특히 오래된 드라이버·ActiveX에서 흔하다.</td></tr>
+        <tr><td class="hl">🔐 권한(UAC)</td><td>관리자 권한이 필요한 COM 서버는 승격되지 않은 프로세스에서 접근이 막힐 수 있다. WMI 일부·시스템 컴포넌트에서 발생.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════ 3. DEV ═══════════ -->
+<section id="dev">
+  <div class="section-header">
+    <div class="eyebrow">Using It</div>
+    <h2>3. 개발에 쓰는 법 — 스크립트로 COM 부리기</h2>
+    <p>컴파일 없이도 파이썬·파워셸 한 줄로 엑셀이 열린다 — 그 원리와 실전 코드</p>
+  </div>
+
+  <h3 id="d-dispatch"><span class="num">A</span>OLE Automation과 IDispatch — 스크립트가 COM을 만나는 지점</h3>
+
+  <p class="body">C++로 COM을 쓰려면 인터페이스를 미리 컴파일해야 한다(빠른 바인딩). 하지만 파이썬·파워셸 같은 스크립트 언어는
+  컴파일이 없다. 이걸 가능하게 하는 것이 <strong>IDispatch</strong> 인터페이스다 —
+  <u>"이름으로 함수를 찾아 런타임에 호출"</u>(늦은 바인딩)하게 해주는 창구. 이 위에 세운 규약이
+  <strong>OLE Automation</strong>이고, 덕분에 스크립트가 엑셀의 <span class="mono">Range("A1").Value = 10</span> 같은 걸
+  그대로 부릴 수 있다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/com-automation.svg" alt="OLE Automation: 스크립트 언어들이 IDispatch를 통해 COM 서버를 조종"></div>
+    <figcaption>파이썬·파워셸·C#이 IDispatch를 통해 Office·셸·WMI 등 수백 종의 COM 서버를 조종한다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <h3 id="d-recipes"><span class="num">B</span>실전 코드 레시피 — 바로 쓰는 자동화</h3>
+
+  <pre class="code"><span class="title-bar">Python (pywin32) — 엑셀 자동화의 정석 (좀비 프로세스 방지 포함)</span><span class="k">import</span> win32com.client <span class="k">as</span> win32
+<span class="k">import</span> pythoncom
+
+pythoncom.CoInitialize()                        <span class="c"># ★ 스레드에서 COM 초기화</span>
+excel = win32.Dispatch(<span class="s">"Excel.Application"</span>)     <span class="c"># ProgID로 엑셀 실행 (out-of-process)</span>
+excel.Visible = <span class="k">False</span>                          <span class="c"># 창 안 띄우고 백그라운드로</span>
+<span class="k">try</span>:
+    wb = excel.Workbooks.Add()
+    ws = wb.Worksheets(1)
+    ws.Range(<span class="s">"A1"</span>).Value = <span class="s">"안녕"</span>              <span class="c"># 객체 모델을 점(.)으로 파고든다</span>
+    ws.Range(<span class="s">"A2"</span>).Value = 42
+    wb.SaveAs(<span class="s">r"C:\temp\out.xlsx"</span>)
+<span class="k">finally</span>:
+    wb.Close(SaveChanges=<span class="k">False</span>)
+    excel.Quit()                                <span class="c"># ★ 명시적 종료 — 안 하면 엑셀.exe 좀비</span>
+    <span class="k">del</span> ws, wb, excel                          <span class="c"># ★ 참조 정리</span>
+    pythoncom.CoUninitialize()</pre>
+
+  <pre class="code"><span class="title-bar">PowerShell — COM 객체를 다루는 가장 간결한 길</span><span class="c"># 탐색기로 폴더 열기 (Shell.Application)</span>
+$shell = <span class="k">New-Object</span> -ComObject Shell.Application
+$shell.Open(<span class="s">"C:\Users"</span>)
+
+<span class="c"># 아웃룩으로 메일 초안 만들기</span>
+$ol = <span class="k">New-Object</span> -ComObject Outlook.Application
+$mail = $ol.CreateItem(0)
+$mail.To = <span class="s">"someone@example.com"</span>; $mail.Subject = <span class="s">"자동 보고"</span>; $mail.Display()
+
+<span class="c"># 다 쓰면 해제 (좀비 방지)</span>
+[System.Runtime.Interopservices.Marshal]::ReleaseComObject($ol) | Out-Null</pre>
+
+  <pre class="code"><span class="title-bar">WMI — COM 기반 시스템 관리 (하드웨어·프로세스·서비스 조회)</span><span class="c"># PowerShell: 디스크 여유 공간, 실행 중 프로세스, 설치 앱 등 시스템 정보를 긁는다</span>
+Get-CimInstance Win32_LogicalDisk | <span class="k">Select</span> DeviceID, FreeSpace, Size
+Get-CimInstance Win32_Process   | <span class="k">Where</span> { $_.Name -eq <span class="s">"chrome.exe"</span> }
+<span class="c"># WMI는 시스템을 COM 객체로 노출한 거대한 자동화 표면 — 편의 프로그램의 보물창고</span></pre>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:210px">자주 쓰는 COM 서버</th><th>ProgID</th><th>무엇에</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Office</td><td class="mono">Excel/Word/Outlook.Application</td><td>문서·메일·일정 자동 생성·가공</td></tr>
+        <tr><td class="hl">셸·탐색기</td><td class="mono">Shell.Application</td><td>폴더 열기, 특수 폴더 경로, 압축 등</td></tr>
+        <tr><td class="hl">파일 시스템</td><td class="mono">Scripting.FileSystemObject</td><td>파일·폴더 조작(고전적 방식)</td></tr>
+        <tr><td class="hl">셸 실행·환경</td><td class="mono">WScript.Shell</td><td>프로그램 실행, 환경변수, 레지스트리, 바로가기</td></tr>
+        <tr><td class="hl">시스템 관리</td><td class="mono">WbemScripting (WMI)</td><td>하드웨어·프로세스·서비스·이벤트 조회/제어</td></tr>
+        <tr><td class="hl">작업 예약</td><td class="mono">Schedule.Service</td><td>작업 스케줄러 자동 등록</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">💡</span>
+    <div><strong>바이브코딩 실전 팁 —</strong> COM 객체 모델은 방대해서 외울 수 없다. 전략은 둘 —
+    ① <u>매크로 기록</u>: 엑셀·워드에서 "매크로 기록"을 켜고 손으로 작업하면 VBA 코드가 나오는데, 그게 곧 COM 객체 경로다(파이썬으로 옮기면 됨).
+    ② <u>AI에게 물어보기</u>: "pywin32로 엑셀 특정 범위 서식 지정" 같은 걸 물으면 정확한 객체 경로를 준다.
+    COM은 학습 자료가 30년치라 AI가 특히 잘 안다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. MAC ═══════════ -->
+<section id="mac">
+  <div class="section-header">
+    <div class="eyebrow">The macOS Side</div>
+    <h2>4. macOS의 상응물 — "앱에게 명령을 보낸다"</h2>
+    <p>맥에는 COM이 없다. 대신 발상이 다른 자동화 체계가 있다</p>
+  </div>
+
+  <h3 id="m-events"><span class="num">A</span>Apple Events — 맥 자동화의 심장</h3>
+
+  <p class="body">macOS의 COM 대응물은 <strong>Apple Events</strong>다. 하지만 발상이 다르다 —
+  COM이 "재사용 객체를 노출"한다면, Apple Events는 <strong>"앱에게 높은 수준의 명령을 편지처럼 보낸다"</strong>.
+  "이 메일을 보관하라", "이 파일을 휴지통으로"처럼 <u>의도를 통째로</u> 전달한다.
+  각 앱은 자신이 알아듣는 명령 어휘(동사·명사)를 <span class="mono">.sdef</span>(스크립트 정의) 파일로 품고 있다 — COM의 타입 라이브러리 격이다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/com-apple-events.svg" alt="macOS Apple Events 아키텍처: 스크립트, Apple Event, 대상 앱, 접근성"></div>
+    <figcaption>AppleScript·JXA·Swift가 Apple Event 메시지로 앱을 조종한다 — API 없는 앱은 접근성으로 우회 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <pre class="code"><span class="title-bar">AppleScript — 맥 자동화의 고전 (COM의 pywin32 자리)</span><span class="c">-- Finder에게 "휴지통 비우라"고 지시</span>
+<span class="k">tell</span> application <span class="s">"Finder"</span>
+    empty trash
+<span class="k">end tell</span>
+
+<span class="c">-- Mail로 메일 초안 만들기 (엑셀 대신 Numbers·Mail 등이 대상)</span>
+<span class="k">tell</span> application <span class="s">"Mail"</span>
+    <span class="k">set</span> msg <span class="k">to</span> make new outgoing message with properties {subject:<span class="s">"자동 보고"</span>, visible:true}
+    <span class="k">tell</span> msg <span class="k">to</span> make new to recipient at end with properties {address:<span class="s">"someone@example.com"</span>}
+<span class="k">end tell</span></pre>
+
+  <pre class="code"><span class="title-bar">JXA (JavaScript for Automation) — 같은 일을 JS 문법으로</span><span class="c">// osascript -l JavaScript 로 실행하거나 스크립트 에디터에서</span>
+<span class="k">const</span> Finder = Application(<span class="s">'Finder'</span>)
+<span class="k">const</span> Safari = Application(<span class="s">'Safari'</span>)
+Safari.activate()
+Safari.documents[0].url()                  <span class="c">// 현재 사파리 탭 URL 읽기</span>
+
+<span class="c">// 터미널에서 한 줄로: osascript -e 'tell app "Finder" to empty trash'</span></pre>
+
+  <h3 id="m-more"><span class="num">B</span>그 밖의 길 — 접근성 · Scripting Bridge · 노코드</h3>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:180px">방법</th><th>무엇에 쓰나 — 그리고 Windows 대응</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Scripting Bridge</td><td>Objective-C·Swift에서 앱의 <span class="mono">.sdef</span>로부터 타입을 생성해 네이티브 코드로 앱 제어. Windows의 "타입 라이브러리로 빠른 바인딩" 대응.</td></tr>
+        <tr><td class="hl">osascript (CLI)</td><td>터미널·셸에서 AppleScript/JXA를 한 줄로 실행. 파워셸 <span class="mono">-ComObject</span> 원라이너의 맥 버전.</td></tr>
+        <tr><td class="hl">접근성 API<br>(AXUIElement)</td><td><strong>스크립트를 지원 안 하는 앱</strong>의 버튼·필드를 직접 조작(GUI 강제 제어). Windows의 <strong>UI Automation</strong>에 해당 — 최후 수단.</td></tr>
+        <tr><td class="hl">py-appscript / PyObjC</td><td>파이썬에서 Apple Events·Cocoa 접근. pywin32의 맥 짝.</td></tr>
+        <tr><td class="hl">Shortcuts · Automator</td><td>코드 없이 GUI로 자동화 조립. Windows의 <strong>Power Automate</strong> 대응(노코드).</td></tr>
+        <tr><td class="hl">XPC</td><td>내 앱이 자기 컴포넌트끼리 안전하게 통신하는 현대 IPC. Windows에서 앱 내부 컴포넌트를 COM/WinRT로 나누는 것에 대응(앱 자동화가 아니라 앱 아키텍처).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">🔐</span>
+    <div><strong>맥의 결정적 차이 — 권한을 강하게 묻는다.</strong> 한 앱(또는 스크립트)이 다른 앱을 제어하려 하면
+    macOS가 <u>"○○이 △△을 제어하려 합니다" 허용 창(TCC)</u>을 띄운다. 접근성 API도 시스템 설정에서 별도 권한을 켜야 한다.
+    윈도우 COM이 전통적으로 "기본 허용"에 가까웠던 것과 정반대 — <strong>맥은 보안이 기본값</strong>이라, 자동화 배포 시 이 권한 안내를 반드시 설계에 넣어야 한다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. COMPARE ═══════════ -->
+<section id="compare">
+  <div class="section-header">
+    <div class="eyebrow">Windows vs macOS</div>
+    <h2>5. 두 세계 비교 — 부품 조립 vs 비서에게 지시</h2>
+    <p>같은 자동화, 다른 사고방식 — 그리고 목적별 대응표</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/com-win-vs-mac.svg" alt="Windows COM과 macOS Apple Events의 철학 비교"></div>
+    <figcaption>윈도우는 컴포넌트를 노출·조립, 맥은 앱에게 명령을 지시 — 등록·보안 방식도 대조된다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">축</th><th>Windows (COM)</th><th>macOS (Apple Events)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">비유</td><td>부품을 꺼내 직접 조립</td><td>비서에게 할 일을 지시</td></tr>
+        <tr><td class="hl">단위</td><td>세밀한 객체·인터페이스(Range, Worksheet)</td><td>앱 중심의 동사·명사(명령)</td></tr>
+        <tr><td class="hl">등록</td><td>레지스트리(중앙 집중) — 설치가 곧 등록</td><td>앱 번들이 .sdef를 품음(분산) — 중앙 레지스트리 없음</td></tr>
+        <tr><td class="hl">타입 정의</td><td>타입 라이브러리(.tlb) · ProgID</td><td>스크립트 정의(.sdef)</td></tr>
+        <tr><td class="hl">스크립트 창구</td><td>IDispatch (pywin32·PowerShell)</td><td>Apple Event (AppleScript·JXA·osascript)</td></tr>
+        <tr><td class="hl">API 없을 때</td><td>UI Automation · SendMessage</td><td>접근성 API(AXUIElement)</td></tr>
+        <tr><td class="hl">노코드</td><td>Power Automate</td><td>Shortcuts · Automator</td></tr>
+        <tr><td class="hl">보안</td><td>전통적으로 느슨(UAC로 강화 중)</td><td>권한을 강하게 물음(TCC 기본)</td></tr>
+        <tr><td class="hl">범위</td><td>앱 자동화 + 시스템 컴포넌트(WMI·셸)까지</td><td>스크립트 지원 앱 중심 + 접근성 우회</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="num">A</span>"이걸 하고 싶다 → 어떻게" 대응표</h3>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:220px">하고 싶은 것</th><th>Windows</th><th>macOS</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">스프레드시트 자동 생성·가공</td><td>Excel COM (pywin32)</td><td>Numbers를 AppleScript/JXA로 (또는 <span class="mono">openpyxl</span>로 파일 직접)</td></tr>
+        <tr><td class="hl">메일 자동 발송</td><td>Outlook COM</td><td>Mail을 AppleScript로</td></tr>
+        <tr><td class="hl">파일·폴더 일괄 정리</td><td>Shell.Application / FSO</td><td>Finder를 AppleScript로 (또는 그냥 셸 <span class="mono">mv</span>·파이썬)</td></tr>
+        <tr><td class="hl">브라우저 조종</td><td>WebBrowser COM(구식) / UIA</td><td>Safari를 JXA로</td></tr>
+        <tr><td class="hl">시스템 정보 긁기</td><td>WMI (COM)</td><td><span class="mono">system_profiler</span>·<span class="mono">defaults</span>·셸</td></tr>
+        <tr><td class="hl">API 없는 앱 버튼 누르기</td><td>UI Automation</td><td>접근성 API(AXUIElement)</td></tr>
+        <tr><td class="hl">코드 없이 자동화</td><td>Power Automate</td><td>Shortcuts / Automator</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🌉</span>
+    <div><strong>양쪽 다 되는 "제3의 길" —</strong> OS 고유 자동화가 부담스러우면, <u>플랫폼 독립적 방법</u>이 종종 더 낫다:
+    파일 포맷을 직접 다루기(엑셀 대신 <span class="mono">openpyxl</span>·CSV), <strong>CLI 도구</strong>, 그리고
+    로컬 LLM 문서에서 본 <strong>MCP 서버</strong>로 감싸기. "OS API로 앱을 조종" vs "표준 포맷·프로토콜로 우회" 중
+    유지보수가 쉬운 쪽을 고르는 감각이 바이브코딩에서 특히 중요하다.</div>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">📌</span>
+    <div><strong>「개발 환경으로서의 OS」와 이어진다 —</strong> 그 문서가 "왜 개발자가 맥을 쓰나"(Unix 혈통·터미널)를 다뤘다면,
+    이 문서는 <u>그 반대편</u> — 윈도우가 <strong>앱·시스템 자동화에서 오히려 풍부한 표면(COM)</strong>을 가진다는 점을 보여준다.
+    맥은 Unix 셸이 강하고, 윈도우는 COM 자동화가 강하다 — 두 강점을 알면 "어느 OS에서 무엇을 만들지" 판단이 선다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">References</div>
+    <h2>6. 출처 · 더 읽을거리</h2>
+    <p>공식 문서 위주 — 실제 개발 시 참조</p>
+  </div>
+
+  <ul class="refs">
+    <li><a href="https://learn.microsoft.com/en-us/windows/win32/com/component-object-model--com--portal" target="_blank" rel="noopener">Microsoft Learn — Component Object Model (COM) 포털</a>
+        <span class="ref-note">COM·IUnknown·인터페이스·마샬링·아파트먼트 등 §1·§2의 1차 출처</span></li>
+    <li><a href="https://learn.microsoft.com/en-us/windows/win32/automation/automation-portal" target="_blank" rel="noopener">Microsoft Learn — OLE Automation / IDispatch</a>
+        <span class="ref-note">§3-A. 스크립트가 COM을 부리는 늦은 바인딩 규약</span></li>
+    <li><a href="https://mhammond.github.io/pywin32/" target="_blank" rel="noopener">pywin32 — Python for Windows Extensions</a>
+        <span class="ref-note">§3-B. win32com으로 COM 자동화하는 파이썬 라이브러리</span></li>
+    <li><a href="https://learn.microsoft.com/en-us/windows/win32/wmisdk/wmi-start-page" target="_blank" rel="noopener">Microsoft Learn — WMI (Windows Management Instrumentation)</a>
+        <span class="ref-note">§3-B. 시스템을 COM 객체로 노출한 관리 표면</span></li>
+    <li><a href="https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptX/AppleScriptX.html" target="_blank" rel="noopener">Apple Developer — AppleScript / Apple Events 개요</a>
+        <span class="ref-note">§4-A. macOS 앱 간 자동화 메시징 (일부 아카이브 문서)</span></li>
+    <li><a href="https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/" target="_blank" rel="noopener">Apple — Mac Automation Scripting Guide (AppleScript·JXA)</a>
+        <span class="ref-note">§4. JXA 문법과 스크립팅 사전(.sdef) 사용법</span></li>
+    <li><a href="https://developer.apple.com/documentation/scriptingbridge" target="_blank" rel="noopener">Apple Developer — Scripting Bridge</a>
+        <span class="ref-note">§4-B. Obj-C·Swift에서 앱을 네이티브로 제어</span></li>
+    <li><a href="https://learn.microsoft.com/en-us/windows/win32/winauto/entry-uiauto-win32" target="_blank" rel="noopener">Microsoft Learn — UI Automation / Apple — Accessibility(AXUIElement)</a>
+        <span class="ref-note">§4-B. API 없는 앱을 GUI로 강제 제어하는 양쪽 수단</span></li>
+  </ul>
+
+  <div class="callout navy">
+    <span class="icon">📚</span>
+    <div><strong>함께 읽으면 좋은 문서 —</strong> 「개발 환경으로서의 OS」(맥 vs 윈도우 개발 차이의 큰 그림),
+    「네트워크 통신 정리」(REST·인터페이스 계약의 원리),
+    「로컬 LLM 에이전트」(MCP — 자동화를 표준 인터페이스로 감싸기),
+    「클로드 확장하기」(Hooks·자동화의 결정론적 실행).</div>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/com-*.svg (5종) · 「개발 환경으로서의 OS」의 자매편 — 윈도우·맥 자동화의 실전
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>

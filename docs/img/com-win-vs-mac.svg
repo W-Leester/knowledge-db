@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="500" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">두 철학 — Windows는 "컴포넌트를 노출", macOS는 "앱에게 명령"</text>
+
+  <!-- Windows 쪽 -->
+  <rect x="30" y="66" width="405" height="330" rx="16" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="232" y="98" font-size="16" font-weight="800" fill="#002C5F" text-anchor="middle">🪟 Windows — COM 세계</text>
+  <text x="232" y="120" font-size="12" fill="#8A8A8A" text-anchor="middle">"재사용 가능한 객체를 시스템 전역에 등록"</text>
+
+  <rect x="52" y="138" width="361" height="52" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="70" y="160" font-size="12.5" font-weight="800" fill="#002C5F">단위: 세밀한 객체·인터페이스</text>
+  <text x="70" y="180" font-size="11" fill="#555555">Range, Worksheet처럼 잘게 쪼갠 객체 모델을 직접 조작</text>
+
+  <rect x="52" y="200" width="361" height="52" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="70" y="222" font-size="12.5" font-weight="800" fill="#002C5F">등록: 레지스트리(중앙 집중)</text>
+  <text x="70" y="242" font-size="11" fill="#555555">CLSID→파일 매핑이 레지스트리에. 설치가 곧 등록</text>
+
+  <rect x="52" y="262" width="361" height="52" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="70" y="284" font-size="12.5" font-weight="800" fill="#002C5F">범위: 앱 자동화 + 시스템 컴포넌트</text>
+  <text x="70" y="304" font-size="11" fill="#555555">Office부터 WMI·셸까지 — OS 기능 상당수가 COM</text>
+
+  <rect x="52" y="324" width="361" height="52" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="70" y="346" font-size="12.5" font-weight="800" fill="#002C5F">보안: 전통적으로 느슨 (강해지는 중)</text>
+  <text x="70" y="366" font-size="11" fill="#555555">기본 허용에 가까웠음 → UAC 등으로 점차 통제 강화</text>
+
+  <!-- macOS 쪽 -->
+  <rect x="465" y="66" width="405" height="330" rx="16" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="667" y="98" font-size="16" font-weight="800" fill="#065F46" text-anchor="middle">🍎 macOS — Apple Events 세계</text>
+  <text x="667" y="120" font-size="12" fill="#8A8A8A" text-anchor="middle">"앱에게 높은 수준의 명령을 메시지로 보낸다"</text>
+
+  <rect x="487" y="138" width="361" height="52" rx="9" fill="#FFFFFF" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="505" y="160" font-size="12.5" font-weight="800" fill="#065F46">단위: 앱 중심의 동사·명사(명령)</text>
+  <text x="505" y="180" font-size="11" fill="#555555">"이 메일을 보관하라"처럼 의도를 통째로 전달</text>
+
+  <rect x="487" y="200" width="361" height="52" rx="9" fill="#FFFFFF" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="505" y="222" font-size="12.5" font-weight="800" fill="#065F46">등록: 앱 번들 자체 (분산)</text>
+  <text x="505" y="242" font-size="11" fill="#555555">각 앱이 .sdef 사전을 품고 있음. 중앙 레지스트리 없음</text>
+
+  <rect x="487" y="262" width="361" height="52" rx="9" fill="#FFFFFF" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="505" y="284" font-size="12.5" font-weight="800" fill="#065F46">범위: 스크립트 가능 앱 + 접근성</text>
+  <text x="505" y="304" font-size="11" fill="#555555">앱이 지원해야 조종 가능. 안 되면 접근성 API로 우회</text>
+
+  <rect x="487" y="324" width="361" height="52" rx="9" fill="#FFFFFF" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="505" y="346" font-size="12.5" font-weight="800" fill="#065F46">보안: 권한을 강하게 묻는다 (기본값)</text>
+  <text x="505" y="366" font-size="11" fill="#555555">앱 제어·접근성마다 사용자 허용(TCC) 필수</text>
+
+  <!-- 하단 요약 -->
+  <rect x="30" y="418" width="840" height="66" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="446" font-size="14" font-weight="800" fill="#FFF" text-anchor="middle">한 줄로: 윈도우는 "부품을 꺼내 조립", 맥은 "비서에게 지시" — 둘 다 되지만 사고방식이 다르다</text>
+  <text x="450" y="470" font-size="12" fill="#C7D5EA" text-anchor="middle">그래서 윈도우 자동화 코드는 객체를 세밀히 만지고, 맥 자동화 코드는 앱 사전의 명령어를 배워 지시한다</text>
+</svg>

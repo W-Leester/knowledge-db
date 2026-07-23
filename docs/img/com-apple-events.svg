@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="ea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="520" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">macOS의 상응물 — Apple Events: "앱에게 명령 메시지를 보낸다"</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">COM이 "객체를 노출"한다면, 맥은 "앱에게 높은 수준의 명령을 편지처럼 보낸다" — 발상이 다르다</text>
+
+  <!-- 스크립트 언어 -->
+  <rect x="30" y="86" width="220" height="330" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="140" y="114" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">스크립트 (내가 짜는 것)</text>
+
+  <rect x="52" y="132" width="176" height="56" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="140" y="154" font-size="12.5" font-weight="700" fill="#002C5F" text-anchor="middle">🍎 AppleScript</text>
+  <text x="140" y="174" font-size="9.5" fill="#555555" text-anchor="middle" font-family="'JetBrains Mono', monospace">tell app "Finder" to ...</text>
+
+  <rect x="52" y="198" width="176" height="56" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="140" y="220" font-size="12.5" font-weight="700" fill="#002C5F" text-anchor="middle">🟨 JXA (JavaScript)</text>
+  <text x="140" y="240" font-size="9.5" fill="#555555" text-anchor="middle" font-family="'JetBrains Mono', monospace">Application('Finder')...</text>
+
+  <rect x="52" y="264" width="176" height="56" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="140" y="286" font-size="12.5" font-weight="700" fill="#002C5F" text-anchor="middle">🐍 Python / Swift</text>
+  <text x="140" y="306" font-size="9.5" fill="#555555" text-anchor="middle" font-family="'JetBrains Mono', monospace">ScriptingBridge · py-appscript</text>
+
+  <rect x="52" y="330" width="176" height="56" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="140" y="352" font-size="12.5" font-weight="700" fill="#002C5F" text-anchor="middle">⌨️ osascript (CLI)</text>
+  <text x="140" y="372" font-size="9.5" fill="#555555" text-anchor="middle" font-family="'JetBrains Mono', monospace">터미널·셸에서 실행</text>
+
+  <!-- Apple Event 계층 -->
+  <rect x="330" y="150" width="200" height="200" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
+  <text x="430" y="180" font-size="14.5" font-weight="800" fill="#B45309" text-anchor="middle">✉️ Apple Event</text>
+  <text x="430" y="202" font-size="11" fill="#555555" text-anchor="middle">OS가 전달하는 앱 간</text>
+  <text x="430" y="220" font-size="11" fill="#555555" text-anchor="middle">고수준 명령 메시지 (IPC)</text>
+  <rect x="352" y="238" width="156" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="430" y="260" font-size="11" fill="#B45309" text-anchor="middle" font-weight="700">동사 + 명사</text>
+  <text x="430" y="276" font-size="9.5" fill="#8A8A8A" text-anchor="middle">"열어라(파일을)"</text>
+  <text x="430" y="304" font-size="10.5" fill="#555555" text-anchor="middle">각 앱의 어휘(사전)는</text>
+  <text x="430" y="322" font-size="10.5" fill="#555555" text-anchor="middle">.sdef에 정의</text>
+  <text x="430" y="340" font-size="9.5" fill="#8A8A8A" text-anchor="middle">(COM의 타입 라이브러리 격)</text>
+
+  <!-- 대상 앱 -->
+  <rect x="620" y="150" width="250" height="120" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="745" y="180" font-size="14" font-weight="800" fill="#065F46" text-anchor="middle">대상 앱 (스크립트 가능)</text>
+  <text x="745" y="204" font-size="11.5" fill="#555555" text-anchor="middle">Finder · Mail · Safari · Notes ·</text>
+  <text x="745" y="224" font-size="11.5" fill="#555555" text-anchor="middle">Music · Keynote · Terminal…</text>
+  <text x="745" y="250" font-size="10.5" fill="#8A8A8A" text-anchor="middle">앱이 "스크립트 사전"을 제공해야 조종 가능</text>
+
+  <line x1="250" y1="255" x2="326" y2="240" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ea)"/>
+  <line x1="530" y1="220" x2="616" y2="210" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ea)"/>
+
+  <!-- 접근성 대안 -->
+  <rect x="620" y="290" width="250" height="126" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="745" y="318" font-size="13" font-weight="800" fill="#6B21A8" text-anchor="middle">🖱 API 없는 앱이라면?</text>
+  <text x="745" y="342" font-size="11" fill="#555555" text-anchor="middle">접근성 API (AXUIElement)로</text>
+  <text x="745" y="360" font-size="11" fill="#555555" text-anchor="middle">버튼·필드를 직접 조작</text>
+  <text x="745" y="384" font-size="10.5" fill="#8A8A8A" text-anchor="middle">Windows의 UI Automation에 해당</text>
+  <text x="745" y="402" font-size="10.5" fill="#8A8A8A" text-anchor="middle">(GUI 강제 제어 — 최후 수단)</text>
+
+  <!-- 하단 권한 경고 -->
+  <rect x="30" y="438" width="840" height="66" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="52" y="466" font-size="13" font-weight="800" fill="#B45309">🔐 결정적 차이: macOS는 권한을 강하게 묻는다</text>
+  <text x="52" y="490" font-size="11.5" fill="#555555">한 앱이 다른 앱을 제어하려 하면 "○○이 △△을 제어하려 합니다" 허용 창(TCC)이 뜬다. 접근성도 별도 권한 필요 — 보안이 기본값.</text>
+</svg>

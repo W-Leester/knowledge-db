@@ -113,6 +113,31 @@
       ]
     },
     {
+      "id": "windows-com",
+      "title": "Windows COM과 맥 자동화",
+      "desc": "COM으로 엑셀·시스템 자동화, 그리고 macOS의 Apple Events·접근성 — 두 OS 개발 차이",
+      "file": "docs/windows-com.html",
+      "group": "Software · Dev",
+      "icon": "🪟",
+      "gradient": [
+        "#0D1B2E",
+        "#6B21A8"
+      ],
+      "tags": [
+        "COM",
+        "자동화",
+        "AppleScript"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/com-what.svg",
+        "docs/img/com-how.svg",
+        "docs/img/com-automation.svg",
+        "docs/img/com-apple-events.svg",
+        "docs/img/com-win-vs-mac.svg"
+      ]
+    },
+    {
       "id": "local-llm-agent",
       "title": "로컬 LLM 에이전트",
       "desc": "도구 호출·MCP·RAG로 내 컴퓨터의 Qwen에게 날개 달기",
