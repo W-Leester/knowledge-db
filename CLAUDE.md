@@ -57,12 +57,29 @@ localStorage 키는 `kdb-` 접두사: `kdb-theme`, `kdb-pos:{docId}`, `kdb-recen
 - `docs/05_설계문서.md` — 아키텍처의 "어떻게" (SW 캐싱 전략, 다운로드 버튼, 검색 설계 등 미구현 Phase 포함). 단, 3장의 디렉토리 트리는 구조 개편 전 기준.
 - `docs/01~04` — 요구사항(FR/NFR 번호의 출처), 기술 비교, 로드맵
 
+## 문서 저작 규칙 (반복 실수 방지 — 전부 실제로 겪은 것)
+
+**새 문서는 복제로 시작한다.** 백지에서 쓰지 말고 기존 `docs/*.html`을 복제해 시작한다 — 공통 셸(디자인 토큰·사이드바·hero·카드·callout·표·figure·코드블록·아코디언·라이트박스·진행바·모바일 드로어·반응형 `@media`)이 약 250줄로 전 문서가 동일하다. 교체하는 것은 본문(hero 카피·섹션·footer)과 hero 그라데이션 색뿐.
+
+**모바일 함정 3종** (각각 실제 버그였음):
+- `body`가 flex인 문서는 `main`에 `min-width: 0` 필수 — 없으면 내부 스크롤 컨테이너가 페이지를 밀어 가로 오버플로 발생.
+- 도식·표는 축소하지 말고 **가로 스크롤**: SVG는 `.fig-scroll`로 감싸고 모바일 `@media`에서 `.fig-scroll img { min-width: 660px }`. 표는 `table.ds { min-width: 600px }`, 모바일에서 `th { width: auto !important }`, 마지막 열 `min-width: 240px`, `word-break: keep-all`(한국어 어절 단위).
+- Android 브라우저의 강제 다크 반전은 `dark.css`의 `color-scheme` 선언으로 차단됨 — 건드리지 말 것.
+
+**SVG 저작.** 처음부터 모바일 가독 기준으로 그린다: viewBox 폭 ~900, 본문 글자 ≥13.5px. (다 그린 뒤 글자만 키우면 요소가 겹친다.) `font-family`는 SVG 안에 인라인. 밝은 배경 전제로 그린다 — 다크모드에서 `dark.css`가 `img[src*="img/"]`에 밝은 매트를 자동으로 깐다.
+
+**섹션 삽입 시** 세 곳을 함께 갱신: 사이드바 TOC · 섹션 번호(및 소절 A/B/C…) · 본문 상호 참조(`§N`). 하나라도 놓치면 목차와 본문이 어긋난다.
+
+**최신 정보·수치.** 지식 기준일 이후일 수 있는 것(신규 모델 스펙·논문·가격)은 웹 검색으로 확인하고, 검증 못 한 수치는 "개략치·확인 필요"로 표기한다. 세대마다 바뀌는 수치(대역폭·TOPS 등)는 하드코딩 금지. 문서끼리는 적극적으로 상호 링크한다.
+
 ## 운영 워크플로
 
 이 저장소는 여러 PC에서 사용한다. **작업 시작 전 `git pull`, 작업 완료 후 커밋·push**를 기본 리듬으로 한다.
 
-**새 문서 추가**: ① `docs/`에 HTML 작성 (디자인 토큰 + 반응형 + head 3요소 포함, SVG는 `docs/img/`) ② `docs.json`에 항목 추가 (`file`은 `docs/….html`, assets에 참조 SVG 전부 나열) ③ `index.html`의 `<noscript>` 폴백 목록에도 링크 추가 ④ push
+**새 문서 추가** (아래를 모두 해야 "완료"): ① 기존 문서 복제 → `docs/`에 작성 (SVG는 `docs/img/`) ② `docs.json`에 항목 추가 — `file`은 `docs/….html`, assets에 참조 SVG 전부 나열, **같은 `group`끼리 인접 배치**(홈 화면이 순회하며 라벨을 찍으므로 떨어져 있으면 라벨 중복 표시) ③ `index.html`의 `<noscript>` 폴백 목록에 링크 추가 ④ 로컬 검증(아래) ⑤ 커밋·push
 
-**기존 문서 수정**: HTML 수정 → `docs.json`의 해당 `version` +1 → push
+**기존 문서 수정** (아래를 모두 해야 "완료"): HTML 수정 → `docs.json`의 해당 `version` +1 → 로컬 검증 → 커밋·push
 
-docs.json 갱신 누락이 이 구조의 유일한 휴먼에러 지점이므로 문서 작업 시 반드시 함께 확인한다.
+**로컬 검증** (push 전): ① `docs.json`이 참조하는 `file`·`assets`가 전부 실존하는지 ② 새/수정 SVG의 XML 유효성 ③ 헤드리스 크롬 360px 렌더로 가로 오버플로 없는지(`scrollWidth == innerWidth`). 검증 스크립트가 아직 없으므로 필요 시 임시로 조합해 돌린다 (`scripts/verify.sh`로 굳히면 좋음).
+
+docs.json 갱신 누락과 `<noscript>` 누락이 이 구조의 반복 휴먼에러 지점이므로 문서 작업 시 반드시 함께 확인한다.
