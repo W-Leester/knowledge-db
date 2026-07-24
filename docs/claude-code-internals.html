@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code 내부 해부 — 하네스는 어떻게 LLM을 부리는가</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, #0D1B2E 0%, #002C5F 45%, #B45309 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+.badge-purple { background: var(--purple-light); color: var(--purple); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--purple)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>Claude Code<br>내부 해부</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#map">1. 아키텍처 지도</a>
+    <a href="#loop">2. 에이전트 루프 (심장)</a>
+    <a href="#tools">3. 도구 시스템</a>
+    <a href="#perm">4. 권한·훅·안전 게이트</a>
+    <a href="#context">5. 컨텍스트 관리·압축</a>
+    <a href="#memory">6. 영속 메모리</a>
+    <a href="#subagent">7. 서브에이전트·멀티에이전트</a>
+    <a href="#assembly">8. 컨텍스트 조립 (프롬프트)</a>
+    <a href="#skills">9. 스킬·커맨드</a>
+    <a href="#blueprint">10. 로컬 하네스 청사진</a>
+    <a href="#refs">11. 출처·주의</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Reverse Engineering · Agent Harness</div>
+  <h1>Claude Code 내부 해부<br><span class="thin">하네스는 어떻게 LLM을 부리는가 — 로컬 이식을 위한 청사진</span></h1>
+  <p class="sub">2026년 유출된 Claude Code 소스(~1,900 파일 / 51만 줄)를 분석해, "모델을 어떻게 부리고, 무엇을 보여주고,
+  무엇을 못 하게 하는가"의 실제 구현을 해부한다. 에이전트 루프·도구·권한·컨텍스트 압축·메모리·서브에이전트를
+  구조 중심으로 정리하고, 로컬 LLM 하네스로 재현하는 사다리까지 — 「클로드 확장하기」의 개념이 여기서 소스로 검증된다.</p>
+  <div class="tags">
+    <span class="tag">agent loop</span><span class="tag">tool system</span><span class="tag">compaction</span>
+    <span class="tag">memory</span><span class="tag">subagent</span><span class="tag">permission</span><span class="tag">harness</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 51만 줄 중 모델은 0줄</h2>
+    <p>「클로드 확장하기」가 개념이었다면, 이 문서는 그 개념의 실제 소스 검증이다</p>
+  </div>
+
+  <p class="body">이 문서는 <strong>2026년 3월 유출된 Claude Code CLI 소스</strong>(약 1,900개 파일, 51만+ 줄, TypeScript/Bun/Ink)를
+  하네스 관점으로 분석한 것이다. 핵심 통찰은 하나다 — <strong>51만 줄 중 "모델"은 0줄이다.</strong>
+  모델(Claude)은 API 너머에 있고, 이 방대한 코드는 전부 <u>"모델을 어떻게 부르고(에이전트 루프), 무엇을 보여주고(컨텍스트 조립),
+  무엇을 할 수 있게 하고(도구), 무엇을 못 하게 하고(권한), 창이 차면 어떻게 버티는가(압축)"</u>의 구현이다.
+  「로컬 LLM 에이전트」·「클로드 확장하기」에서 다룬 하네스·루프 엔지니어링이 <strong>실제 프로덕션 소스로 어떻게 생겼는지</strong>를
+  확인하고, 그것을 로컬 LLM으로 축소 재현하는 청사진(§10)을 얻는 것이 목적이다.</p>
+
+  <div class="card-grid g4">
+    <div class="stat-card"><div class="stat-value">~1,900</div><div class="stat-label">파일 (51만+ 줄)<br>대부분 하네스 코드</div></div>
+    <div class="stat-card"><div class="stat-value">while</div><div class="stat-label">에이전트 루프의 실체<br>async generator (§2)</div></div>
+    <div class="stat-card"><div class="stat-value">3겹</div><div class="stat-label">컨텍스트 압축 방어선<br>(§5) — 로컬 이식 핵심</div></div>
+    <div class="stat-card"><div class="stat-value">0줄</div><div class="stat-label">이 코드 안의 모델<br>(전부 "모델 바깥")</div></div>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">⚖️</span>
+    <div><strong>출처와 취급에 대한 명시 —</strong> 이 소스는 유출된 독점 코드다(2026-03-31, npm sourcemap 노출).
+    이 문서는 <u>아키텍처·개념 분석</u>이며 독점 프롬프트 원문이나 대량 코드를 복제하지 않는다 —
+    하네스 이식에는 "무엇이 어떻게 배치돼 있는가"의 구조가 오히려 더 유용하다.
+    분석 대상 폴더는 이 지식 베이스의 <span class="mono">.gitignore</span>에 추가해 <strong>공개 저장소에 커밋되지 않도록</strong> 조치했다.
+    각 섹션의 파일 경로는 로컬에서 직접 확인하기 위한 참조다.</div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>읽는 법 —</strong> §2~9는 각 서브시스템의 "실제 구현"을 다루고, 모든 섹션은
+    <u>"로컬 하네스에 필요한 것"</u>으로 끝난다. 급하면 §2(루프) → §5(압축) → §10(청사진)만 읽어도
+    로컬 하네스의 뼈대가 잡힌다. 나머지는 그 위에 붙여 나가는 순서다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. MAP ═══════════ -->
+<section id="map">
+  <div class="section-header">
+    <div class="eyebrow">Architecture Map</div>
+    <h2>1. 아키텍처 지도 — 계층으로 보는 51만 줄</h2>
+    <p>전체를 먼저 — 어디가 "모델을 부리는 심장"이고 어디가 로컬에서 버릴 부분인가</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/cc-architecture.svg" alt="Claude Code 계층 아키텍처: UI, 오케스트레이션, 확장, 서비스, 모델"></div>
+    <figcaption>UI·오케스트레이션·확장·서비스 4계층 — 로컬 이식은 서비스의 API만 바꾸고 오케스트레이션을 축소 재현 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">계층</th><th style="width:250px">대표 디렉토리</th><th>역할 — 로컬 이식 시</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">🖥 UI</td><td class="mono">components/(~140)·ink/·screens/·vim/·voice/</td><td>터미널 대화 화면·입력·진행 표시. <strong>로컬은 최소화/생략</strong> 가능.</td></tr>
+        <tr><td class="hl">⚙️ 오케스트레이션</td><td class="mono">query.ts·Tool.ts·context.ts·compact/·Task.ts·permissions/</td><td><strong>하네스의 심장.</strong> 이식의 핵심 — §2~8이 전부 여기.</td></tr>
+        <tr><td class="hl">🧩 확장</td><td class="mono">skills/·commands/(~50)·mcp/(~23)·plugins/·memdir/</td><td>스킬·커맨드·MCP·플러그인·영속 메모리. 「클로드 확장하기」의 그 개념들.</td></tr>
+        <tr><td class="hl">🔌 서비스</td><td class="mono">services/api/·oauth/·lsp/·remote/·bridge/</td><td>API 인증·요청, IDE 연동 등. <strong>여기의 API 호출만 Ollama로 교체</strong>.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🔑</span>
+    <div><strong>이식의 실체를 한 줄로 —</strong> 로컬 LLM 하네스를 만든다는 것은
+    <u>서비스 계층의 "Anthropic API 호출"을 "Ollama/llama.cpp 호출"로 바꾸고, 오케스트레이션 계층을 필요한 만큼 축소 재현</u>하는 일이다.
+    UI·bridge·remote·oauth는 대부분 버려도 되고, 확장(스킬·MCP)은 나중에 붙인다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. LOOP ═══════════ -->
+<section id="loop">
+  <div class="section-header">
+    <div class="eyebrow">The Heart</div>
+    <h2>2. 에이전트 루프 — query.ts의 queryLoop()</h2>
+    <p>놀랄 만큼 단순한 골격, 그리고 그 주위를 감싼 두꺼운 회복 로직</p>
+  </div>
+
+  <p class="body">에이전트의 심장은 <span class="mono">query.ts</span>의 <span class="mono">queryLoop()</span>다 —
+  재귀가 아니라 <strong>하나의 <span class="mono">async function*</span>(async generator) 안의 <span class="mono">while(true)</span> 루프</strong>다.
+  각 반복이 "API 왕복 1회 + 그에 딸린 도구 실행"이고, 루프 상태는 <span class="mono">State</span> 객체 하나(messages·turnCount·toolUseContext·budgetTracker…)에 담겨
+  <span class="mono">continue</span>할 때마다 <span class="mono">state = {...새 messages}</span>로 갱신된다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/cc-agent-loop.svg" alt="queryLoop 한 턴의 6단계 흐름과 State, 프리페치"></div>
+    <figcaption>한 턴 = 컨텍스트 조립 → 압축 체크 → API 호출 → tool_use 분기 → 도구 실행 → 결과 재주입 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">단계</th><th>실제 동작 (query.ts)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">종료 판정의 핵심</td><td><strong>응답에 <span class="mono">tool_use</span> 블록이 있는가</strong>가 루프를 한 번 더 돌지 결정하는 유일한 신호. (주석에 "<span class="mono">stop_reason==='tool_use'</span>는 신뢰 불가라 블록 존재 여부로 직접 판단"이라 명시)</td></tr>
+        <tr><td class="hl">결과 재주입</td><td>도구 결과는 전부 <span class="mono">{type:'tool_result', tool_use_id, content, is_error?}</span> 형태의 <strong>user 메시지</strong>로 변환돼 히스토리 뒤에 append → 그대로 다시 API로. 성공·실패·검증오류·중단 모두 같은 구조(<span class="mono">is_error</span>만 다름).</td></tr>
+        <tr><td class="hl">고아 방지</td><td>모든 <span class="mono">tool_use</span>에는 대응 <span class="mono">tool_result</span>가 반드시 있어야 함(API 규약). 에러·중단·폴백 경로마다 <span class="mono">yieldMissingToolResultBlocks()</span>로 빈 결과를 채움 — <strong>하네스에서 가장 흔히 터지는 400 에러 지점.</strong></td></tr>
+        <tr><td class="hl">병렬 도구 실행</td><td>연속된 읽기전용(concurrency-safe) 도구는 한 배치로 병렬(기본 상한 10), 그 외는 순차. 단 <strong>모델이 요청한 순서는 유지</strong>.</td></tr>
+        <tr><td class="hl">종료 조건들</td><td>tool_use 없음(완료)·abort·스톱훅 차단·<span class="mono">maxTurns</span> 초과·프롬프트 초과·모델 에러 — 전부 <span class="mono">return {reason}</span>으로 빠져나가며 이 reason이 최종 반환값.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">💡</span>
+    <div><strong>가장 중요한 발견 —</strong> query.ts가 68KB나 되는 이유는 루프 자체가 아니라 그 주위의
+    <u>회복 로직</u>(압축·모델 폴백·abort·스톱훅·토큰 예산·고아 방지·프리페치) 때문이다.
+    루프의 본질은 「로컬 LLM 에이전트」 §2에서 만든 50줄과 <strong>개념적으로 동일</strong>하다 —
+    "assistant + tool_result를 append하고 tool_use가 안 나올 때까지 반복". 하네스는 이 골격부터 세우고 회복 로직을 점진적으로 붙이면 된다.</div>
+  </div>
+
+  <p class="body"><strong>하네스에 필요한 것:</strong> 메시지 히스토리 배열 · while 루프 · tool_use 추출 · tool_result 변환·재주입 ·
+  입력검증 실패도 결과로 반환 · 고아 방지 · abort · maxTurns 상한. (§10에 우선순위 정리.)</p>
+</section>
+
+<!-- ═══════════ 3. TOOLS ═══════════ -->
+<section id="tools">
+  <div class="section-header">
+    <div class="eyebrow">Tool System</div>
+    <h2>3. 도구 시스템 — 노출·실행·정책의 분리</h2>
+    <p>도구 하나가 담는 것, 그리고 40여 종을 다루는 법</p>
+  </div>
+
+  <p class="body">모든 도구는 <span class="mono">Tool.ts</span>의 <span class="mono">Tool&lt;Input,Output&gt;</span> 타입으로 정의되며,
+  <strong>모델에게 노출되는 부분과 실제 실행 부분, 그리고 안전 정책이 필드로 분리</strong>돼 있다.
+  <span class="mono">buildTool()</span> 팩토리가 누락된 메서드에 <u>fail-closed 기본값</u>(읽기전용 아님·파괴적 아님으로 가정)을 채운다 —
+  "모르면 위험한 쪽으로"가 설계 원칙이다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/cc-tool-permission.svg" alt="도구 하나의 해부와 권한 게이트 6단계 파이프라인"></div>
+    <figcaption>왼쪽: 도구의 3부분(노출·실행·정책) · 오른쪽: 실행 전 권한 게이트 (§4에서 상세) · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">구성</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">모델 노출</td><td><span class="mono">name</span> · <span class="mono">inputSchema</span>(Zod→JSON Schema) · <span class="mono">description()</span>(권한·다른 도구 목록을 받아 <strong>동적으로</strong> 생성 — 설명이 곧 프롬프트) · <span class="mono">searchHint</span>.</td></tr>
+        <tr><td class="hl">실행 (호스트만)</td><td><span class="mono">call(args, ctx, canUseTool, onProgress)</span> → <span class="mono">ToolResult</span>. 결과를 <span class="mono">mapToolResultToToolResultBlockParam</span>으로 API 형식 변환. 실제 셸·파일·API 작업이 여기.</td></tr>
+        <tr><td class="hl">정책 서술</td><td><span class="mono">isReadOnly</span>·<span class="mono">isDestructive</span>·<span class="mono">isConcurrencySafe</span>·<span class="mono">checkPermissions</span> — 안전 게이트와 병렬 판정이 참조.</td></tr>
+        <tr><td class="hl">지연 로딩</td><td>도구가 많으면(특히 MCP 다수) <span class="mono">shouldDefer</span>로 <strong>이름만</strong> 노출하고, 모델이 <span class="mono">ToolSearch</span>로 검색해야 실제 스키마가 로드됨(<span class="mono">tool_reference</span> 블록). 토큰 폭발 방지.</td></tr>
+        <tr><td class="hl">MCP 통합</td><td>외부 MCP 서버의 <span class="mono">tools/list</span>를 받아 <span class="mono">mcp__server__tool</span> 이름으로 래핑, <strong>서버가 준 JSON Schema를 그대로</strong> 사용. 도구 힌트(<span class="mono">readOnlyHint</span> 등)로 안전 분류 파생.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧰</span>
+    <div><strong>하네스에 필요한 것 —</strong> 최소 도구 인터페이스는 <span class="mono">{ name, inputSchema, description, run, + 정책 메서드 }</span>.
+    핵심은 ① <u>모델 노출용(name/schema/description)과 실행용(run)의 분리</u>, ② <u>fail-closed 기본값을 주입하는 팩토리</u>,
+    ③ <u>입력 검증 실패를 tool_result(is_error)로 모델에 되돌리기</u>(모델이 유효한 입력을 자주 못 만들기 때문). 도구가 많아지면 ToolSearch식 지연 로딩.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. PERMISSION ═══════════ -->
+<section id="perm">
+  <div class="section-header">
+    <div class="eyebrow">Safety Gates</div>
+    <h2>4. 권한·훅·안전 게이트 — "안 하면 사고인 것"을 막는 법</h2>
+    <p>도구 실행 전, 순서가 곧 우선순위인 6단계 파이프라인</p>
+  </div>
+
+  <p class="body">모든 도구 실행 전 <span class="mono">hasPermissionsToUseTool</span>이 <strong>순서가 곧 우선순위</strong>인 파이프라인을 통과시킨다.
+  결과는 <span class="mono">allow / deny / ask</span> 셋. 위 도식(§3)의 오른쪽이 이 흐름이다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">단계</th><th>판정</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① deny 룰</td><td>도구/명령이 거부 목록이면 즉시 거부 — <strong>무엇보다 우선, bypass로도 못 뚫음.</strong></td></tr>
+        <tr><td class="hl">② ask 룰</td><td>항상 물어봐야 하는 도구/명령.</td></tr>
+        <tr><td class="hl">③ 도구별 checkPermissions</td><td>Bash 서브커맨드처럼 도구 고유 로직(명령을 AST로 파싱해 서브커맨드별 판정).</td></tr>
+        <tr><td class="hl">④ safetyCheck (bypass 면역)</td><td><span class="mono">.git/</span>·<span class="mono">.claude/</span>·셸 설정 등 민감 경로 쓰기는 <strong>bypass·훅 allow를 모두 무시하고 반드시 확인</strong> — 최후의 안전선.</td></tr>
+        <tr><td class="hl">⑤ 권한 모드</td><td><span class="mono">bypass</span>면 여기서 허용 / <span class="mono">allow</span> 룰이면 허용.</td></tr>
+        <tr><td class="hl">⑥ 남으면</td><td>사용자에게 물음. (무인 <span class="mono">auto</span> 모드면 별도 AI 분류기가 위험 판정 + 연속 거부 한도 + fail-closed 폴백.)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body"><strong>훅(Hooks)</strong>은 28종 이벤트(<span class="mono">PreToolUse</span>·<span class="mono">PostToolUse</span>·<span class="mono">SessionStart</span>·<span class="mono">Stop</span>·<span class="mono">PreCompact</span>…)에 걸리며,
+  PreToolUse 훅은 ③ 앞에 끼어들어 allow·deny·입력변형을 할 수 있다. 결정적 규칙:
+  <strong>훅은 권한을 완화할 수 있지만, deny 룰과 safetyCheck는 훅으로도 못 뚫는다</strong>(<span class="mono">resolveHookPermissionDecision</span>이 훅 allow 후에도 deny 룰을 재확인). 훅은 셸/HTTP/LLM/에이전트 형이 있고, 셸 훅은 stdin JSON → stdout/exit로 응답한다.</p>
+
+  <div class="callout red">
+    <span class="icon">🛡</span>
+    <div><strong>하네스에 필요한 것 —</strong> ① <u>정적 deny/allow 룰</u>(도구·명령 prefix 단위, deny는 무조건 우선),
+    ② <u>경로 safetyCheck</u>(민감 경로 쓰기는 "면역"으로 항상 확인), ③ <u>모드 스위치</u>(default/acceptEdits/bypass, 헤드리스는 auto-deny),
+    ④ <u>PreToolUse 훅 확장점</u>(단 deny·safetyCheck는 못 완화). 이것이 「클로드 확장하기」 §9의 "훅으로 원천 차단"이 소스에서 구현된 모습이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. CONTEXT ═══════════ -->
+<section id="context">
+  <div class="section-header">
+    <div class="eyebrow">Context Management</div>
+    <h2>5. 컨텍스트 관리·압축 — 작은 창에서 긴 작업을 잇는 법</h2>
+    <p>로컬 LLM 하네스에 가장 이식 가치가 높은 부분</p>
+  </div>
+
+  <p class="body">컨텍스트 압력을 <strong>세 겹으로, 싼 것부터</strong> 다룬다. 로컬 모델은 컨텍스트가 작으므로 이 부분이 특히 중요하다.
+  임계치는 <span class="mono">유효창 = 컨텍스트창 − 출력예약(~20K) − 버퍼(~13K)</span> 공식으로 잡고, 매 턴 토큰을 재서 넘으면 발화한다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/cc-compaction.svg" alt="컨텍스트 압축 3겹: microcompact, full compaction, persistent memory"></div>
+    <figcaption>microcompact(도구결과 clear) → full summary(9섹션) → 영속 메모리 — 싼 것부터 무거운 것 순 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">방어선</th><th>메커니즘</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① Microcompact</td><td><strong>LLM 호출 없음.</strong> 오래된 <span class="mono">tool_result</span>만 잘라냄(재현 가능한 도구 화이트리스트: Read·Bash·Grep·Web…). 사용자·어시스턴트 텍스트는 절대 안 건드림. 매 요청 전 실행하는 저비용 축소.</td></tr>
+        <tr><td class="hl">② Full Compaction</td><td>별도 LLM 호출로 대화 전체를 <strong>9섹션 구조화 요약</strong>. 핵심 설계: (a) <span class="mono">&lt;analysis&gt;</span> 스크래치패드 후 <span class="mono">&lt;summary&gt;</span>만 남김, (b) "모든 사용자 메시지"와 "다음 단계를 직전 작업 그대로 인용"으로 <u>의도 드리프트 방지</u>, (c) 원본 트랜스크립트를 디스크에 남기고 <strong>경로를 첨부</strong>, (d) 압축 직후 <strong>최근 읽은 파일 top-N 재주입</strong>.</td></tr>
+        <tr><td class="hl">③ 영속 메모리</td><td>세션을 넘는 파일 저장(§6). 인덱스만 상시 로드 + 주문형 회상.</td></tr>
+        <tr><td class="hl">토큰 추정</td><td>정확한 API 카운트를 쓰되 불가하면 <span class="mono">char/4</span> rough estimate + <strong>보수 패딩(과대추정 편향)</strong>. 이미지/문서는 고정값(2000)으로 과대추정 방어. "압축이 늦어 창을 넘기는 것보다 일찍 도는 게 안전."</td></tr>
+        <tr><td class="hl">서킷 브레이커</td><td>연속 압축 실패 N회(기본 3)면 중단 — 회복 불가 세션이 매 턴 API를 두들기는 사고 방지(주석에 실제 사고 기록 있음).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">📉</span>
+    <div><strong>하네스에 필요한 것 —</strong> 큰 창을 가진 로컬 모델이라도 긴 작업엔 필수다.
+    ① 토큰 회계 + 계층적 임계치(로컬 토크나이저 또는 char/4 + 패딩), ② <u>microcompact 먼저</u>(옛 도구결과 clear — 가장 효과 큰 저비용 수단),
+    ③ full 요약은 <strong>9섹션 프롬프트 구조와 "원본 경로 첨부 + 최근 파일 재주입"이 그대로 베낄 가치</strong>, ④ 무엇을 버리든 <u>tool_use/tool_result 쌍을 쪼개지 않게 API-round 단위로</u>.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. MEMORY ═══════════ -->
+<section id="memory">
+  <div class="section-header">
+    <div class="eyebrow">Persistent Memory</div>
+    <h2>6. 영속 메모리 (memdir) — 컨텍스트 밖으로 외부화</h2>
+    <p>작은 창일수록 필수 — 전체 이력 대신 "인덱스 + 주문형 회상"</p>
+  </div>
+
+  <p class="body"><span class="mono">~/.claude/projects/&lt;프로젝트&gt;/memory/</span> 디렉토리 기반의 파일 메모리다.
+  <strong><span class="mono">MEMORY.md</span>(인덱스)만 항상 시스템 프롬프트에 로드</strong>(최대 200줄/25KB, 한 줄 포인터만),
+  실제 내용은 주제별 토픽 파일에 두고 필요할 때 회상한다. <u>이 지식 베이스의 Auto Memory가 바로 이 메커니즘</u>이다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">요소</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">4-타입 분류</td><td><span class="mono">user</span>(사용자 역할·선호) · <span class="mono">feedback</span>(작업 방식 지시, Why/How 구조) · <span class="mono">project</span>(코드에서 유도 불가한 결정·사정) · <span class="mono">reference</span>(외부 시스템 포인터).</td></tr>
+        <tr><td class="hl">저장 안 하는 것</td><td>코드에서 유도 가능한 것(패턴·경로·아키텍처), git 히스토리, 디버깅 레시피, CLAUDE.md에 이미 있는 것, 일시적 작업 상태.</td></tr>
+        <tr><td class="hl">자동 추출</td><td>매 작업 끝(모델이 도구 없이 최종 응답할 때) <strong>background fork</strong>로 "미래에 유용한 사실"만 추출. read-only Bash + auto-memory 경로 내 쓰기만 허용. 커서 기반 증분.</td></tr>
+        <tr><td class="hl">회상</td><td>MEMORY.md에 없는 토픽은 필요시 <strong>작은 모델이 relevance 선택</strong>(매니페스트 주고 "확실히 유용할 파일 최대 5개").</td></tr>
+        <tr><td class="hl">드리프트 방어</td><td>"메모리가 파일/함수를 언급해도 그건 <u>작성 시점의 주장</u>일 뿐" — 추천 전 실제 존재를 grep/확인하도록 지시.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🌱</span>
+    <div><strong>하네스에 필요한 것 —</strong> 작은 창일수록 <u>전체 이력을 컨텍스트에 담지 말고</u> "인덱스(항상) + 주문형 회상"으로.
+    매 작업 끝에 값싼 background 추출로 학습을 파일화하고, 다음 세션은 인덱스만 로드. 드리프트 방어 규칙(파일 존재 재확인)을 시스템 프롬프트에 넣기 —
+    요약·메모리 의존도가 높은 작은 창에서 특히 중요하다. 「클로드 확장하기」 §9-D의 재귀 루프가 소스에서 구현된 모습이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 7. SUBAGENT ═══════════ -->
+<section id="subagent">
+  <div class="section-header">
+    <div class="eyebrow">Subagents</div>
+    <h2>7. 서브에이전트·멀티에이전트 — 결과만 회수하는 격리</h2>
+    <p>컨텍스트 오염 방지의 실제 구현 — 모델·인프라 무관하게 가장 먼저 베낄 것</p>
+  </div>
+
+  <p class="body">무거운 작업은 <span class="mono">AgentTool</span>로 <strong>별도 컨텍스트의 서브에이전트</strong>에 위임한다.
+  핵심은 <span class="mono">runAgent.ts</span> — 서브에이전트는 <u>자체 메시지 배열·자체 <span class="mono">query</span> 루프</u>로 격리 실행되고,
+  부모는 전체 transcript를 보지 않고 <strong>마지막 텍스트 메시지 하나만</strong> 도구 결과로 회수한다.
+  transcript는 디스크에만 저장된다("The result is not visible to the user, transcript recorded to sidechain").</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">개념</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">fresh vs fork</td><td><span class="mono">subagent_type</span> 지정 = <strong>fresh</strong>(빈 컨텍스트 — 프롬프트에 배경을 다 넣어야) · 생략 = <strong>fork</strong>(부모 컨텍스트+캐시 상속, 도구 노이즈만 격리).</td></tr>
+        <tr><td class="hl">병렬</td><td>한 assistant 응답에 여러 tool_use → 동시 실행. <span class="mono">run_in_background</span>면 백그라운드 태스크로 돌고 완료 시 <strong>알림 메시지 주입</strong>(폴링 금지).</td></tr>
+        <tr><td class="hl">토큰 절약</td><td>읽기전용 탐색 에이전트(Explore/Plan)는 CLAUDE.md·git status를 <strong>빼서</strong> 토큰 절약(주석: "34M+ Explore 스폰에서 주당 5-15 Gtok 절감").</td></tr>
+        <tr><td class="hl">내장 에이전트</td><td>general-purpose·explore(읽기전용 탐색)·plan·verification(적대적 검증, PASS/FAIL 판정)·claude-code-guide 등. 각자 툴 allow/deny·모델·권한모드를 프론트매터로.</td></tr>
+        <tr><td class="hl">coordinator/swarm</td><td>메인을 <strong>오케스트레이터</strong>로 바꿔 직접 편집 대신 워커 스폰/계속(SendMessage)/중지만. 원칙: "understanding은 위임 금지 — 파일:라인 담은 spec을 직접 작성해 전달." swarm은 같은 프로세스 내 팀원들이 서로 대화.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">👥</span>
+    <div><strong>하네스에 필요한 것 —</strong> 이게 <u>모델·인프라 무관하게 가장 우선 베낄 요소</u>다.
+    도구 하나(<span class="mono">AgentTool</span>)로 노출하되, 서브에이전트는 <strong>자체 메시지 배열·자체 루프로 격리 실행하고 결과 텍스트 1개만 부모에 반환</strong>.
+    전체 transcript는 부모 컨텍스트에 넣지 말고 디스크 로그로. 이 문서 자체가 그 실례다 — 이 분석은 4개 서브에이전트가 각 서브시스템을 격리 분석하고 요약만 반환한 결과다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 8. ASSEMBLY ═══════════ -->
+<section id="assembly">
+  <div class="section-header">
+    <div class="eyebrow">Context Assembly</div>
+    <h2>8. 컨텍스트 조립 — 매 요청의 세 조각</h2>
+    <p>"변동성 낮은 것 앞, 높은 것 뒤" — 캐시 프리픽스의 청사진</p>
+  </div>
+
+  <p class="body">매 API 요청은 <strong>세 조각</strong>으로 조립된다. 이 순서가 프롬프트 캐시의 안정적 프리픽스를 만들고,
+  <u>로컬 하네스가 그대로 베낄 청사진</u>이다(캐시가 없어도 llama.cpp KV 재사용에 이득).</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/cc-context-assembly.svg" alt="컨텍스트 조립 3조각: system 필드, userContext prepend, 실제 대화"></div>
+    <figcaption>system(정적→동적→git append) + userContext(CLAUDE.md·날짜 prepend) + 실제 대화 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">조각</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① system 필드</td><td><strong>정적 섹션</strong>(정체성 → 시스템 규약 → 작업 철학 → 위험 액션 → 툴 사용 → 톤 → 간결성 — 세션 무관, 절대 안 바뀜) → <strong>경계 마커</strong> → <strong>동적 섹션</strong>(메모리·환경정보·MCP 지침·스킬 지침) → 끝에 <strong>systemContext를 "key:value"로 append</strong>(git 상태 스냅샷, "갱신 안 됨" 라벨 필수).</td></tr>
+        <tr><td class="hl">② 첫 user 메시지</td><td><span class="mono">&lt;system-reminder&gt;</span>로 감싼 <strong>userContext</strong> — CLAUDE.md 계층 병합본(enterprise→user→project→local) + 오늘 날짜 + "관련 있을 때만 참고" 경고. <u>이 문서함에서 매 세션 뜨는 "# currentDate" 블록이 이것의 산출물.</u></td></tr>
+        <tr><td class="hl">③ 실제 대화</td><td>user/assistant/tool_use/tool_result — 에이전트 루프가 여기에 계속 append(§2).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout purple">
+    <span class="icon">🔑</span>
+    <div><strong>하네스에 필요한 것 —</strong> 핵심 원칙은 <strong>"변동성 낮은 것 앞, 높은 것 뒤"</strong>.
+    자주 바뀌는 값(MCP 목록·토큰 예산)은 캐시를 깨므로 별도 어태치먼트로 뺀다.
+    CLAUDE.md 계층 병합(cwd에서 상위로 walk) + git 스냅샷 + 날짜를 이 순서로 = 하네스의 "프로젝트 인식"의 전부.
+    시스템 프롬프트는 Claude 특성에 최적화돼 있으니, 약한 로컬 모델엔 <u>단순화 + 파서 레벨 가드로 보완</u>.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 9. SKILLS ═══════════ -->
+<section id="skills">
+  <div class="section-header">
+    <div class="eyebrow">Skills &amp; Commands</div>
+    <h2>9. 스킬·커맨드 시스템 — 통합된 Command 모델</h2>
+    <p>수백 개를 토큰 폭발 없이 다루는 progressive disclosure</p>
+  </div>
+
+  <p class="body">스킬과 커맨드는 <strong>같은 <span class="mono">Command</span> 타입</strong>으로 통합돼 있다 —
+  <span class="mono">type:'prompt'</span>(프롬프트로 확장, 스킬 포함) vs <span class="mono">type:'local'</span>(코드/UI 직접 실행: <span class="mono">/clear</span>·<span class="mono">/model</span>).
+  사용자의 <span class="mono">/name</span>은 사실 <span class="mono">SkillTool</span> 발동의 shorthand다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">개념</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Progressive disclosure</td><td>3단 노출 — ① <strong>상시</strong>: 프론트매터만(name+description+whenToUse) ② <strong>발동 시</strong>: <span class="mono">SKILL.md</span> 본문 전체 로드 ③ <strong>참조 파일</strong>: 본문 안에서 필요할 때만 Read. 수백 스킬을 토큰 폭발 없이 다루는 열쇠.</td></tr>
+        <tr><td class="hl">발동 규칙</td><td>매칭되는 스킬이 있으면 <strong>다른 응답 생성 전에 먼저 호출</strong>(blocking). <span class="mono">disable-model-invocation</span>이면 사용자만 발동. 이미 로드됐으면 재호출 금지.</td></tr>
+        <tr><td class="hl">커맨드 등록</td><td><span class="mono">getCommands(cwd)</span>가 내장 + 파일 기반(사용자/프로젝트/플러그인) + MCP 커맨드를 로드·필터(빌드 플래그·구독·환경 조건).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📖</span>
+    <div><strong>하네스에 필요한 것 —</strong> 스킬·커맨드를 하나의 <span class="mono">Command</span> 추상으로 통합하고,
+    <strong>progressive disclosure</strong>(프론트매터만 상시, 본문은 발동 시)를 구현하는 것이 핵심. 발동 툴은 <span class="mono">{skill, args}</span> 스키마,
+    "매칭되면 먼저 호출"을 blocking 규칙으로. 참조 파일은 디스크에 두고 base dir만 알려 온디맨드 Read. 「클로드 확장하기」 §2-B의 그 메커니즘이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 10. BLUEPRINT ═══════════ -->
+<section id="blueprint">
+  <div class="section-header">
+    <div class="eyebrow">The Blueprint</div>
+    <h2>10. 로컬 LLM 하네스 청사진 — 종합</h2>
+    <p>필수부터 붙여 나가는 사다리 — 이 문서 전체의 결론</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/cc-harness-blueprint.svg" alt="로컬 하네스 구축 사다리: 필수, 권장, 규모별 요소"></div>
+    <figcaption>필수(도는 에이전트) → 권장(실용) → 규모(긴 작업·작은 창) 순으로 쌓는다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">우선순위</th><th style="width:280px">요소</th><th>Claude Code 대응</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">🟢 필수</td><td>메시지 히스토리 · while 루프 · 도구 레지스트리 · tool_result 재주입 · 입력검증→결과 · 고아 방지 · abort · maxTurns</td><td><span class="mono">query.ts / Tool.ts / toolExecution.ts</span></td></tr>
+        <tr><td class="hl">🔵 권장</td><td>컨텍스트 조립(정적→동적+CLAUDE.md) · 스트리밍 파서 · 권한 게이트(deny+safetyCheck+모드) · 재시도/폴백 · 병렬 도구 · PreToolUse 훅</td><td><span class="mono">context.ts / permissions.ts / hooks.ts</span></td></tr>
+        <tr><td class="hl">🟡 규모</td><td>압축 3겹 · 토큰 회계 · 영속 메모리(memdir) · 서브에이전트 격리 · 스킬 progressive disclosure · 코디네이터</td><td><span class="mono">compact/ · memdir/ · AgentTool/ · skills/</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🎯</span>
+    <div><strong>실전 순서 —</strong> ① 「로컬 LLM 에이전트」 §2의 50줄 루프로 <u>필수</u>를 세운다(이미 만든 것).
+    ② 컨텍스트 조립(§8)과 권한 게이트(§4)를 붙여 <u>실용 하네스</u>로.
+    ③ 긴 작업이 깨지기 시작하면 <strong>압축 3겹(§5)과 서브에이전트 격리(§7)</strong>를 — 이 둘이 가장 큰 효과.
+    ④ 마지막에 메모리·스킬·코디네이터. <u>로컬 모델은 약하므로 blocking 규칙·병렬 호출이 안 먹힐 수 있으니, 프롬프트를 단순화하고 파서 레벨 가드(형식 강제·재시도)로 보완</u>하라.</div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>세 문서를 관통하는 결론 —</strong> 「로컬 LLM 에이전트」: "기능은 하네스에 있다" →
+    「클로드 확장하기」: "하네스의 확장 지점들과 그 조율(하네스·루프 엔지니어링)" →
+    이 문서: <strong>"실제 프로덕션 하네스는 이렇게 생겼고, 로컬로 이렇게 축소한다"</strong>.
+    개념 → 실천 → 소스 검증의 3부작이 여기서 닫힌다. 남은 것은 만드는 일뿐이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 11. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">References &amp; Notes</div>
+    <h2>11. 출처 · 주의</h2>
+    <p>분석 근거와 취급 원칙</p>
+  </div>
+
+  <ul class="refs">
+    <li><span style="color:var(--navy-500);font-weight:600">분석 대상: 유출 Claude Code 소스 (로컬)</span>
+        <span class="ref-note">2026-03-31 npm sourcemap을 통해 노출된 <span class="mono">src/</span> (~1,900 파일). 본 문서는 로컬 사본의 아키텍처 분석이며, 이 지식 베이스에는 소스를 포함하지 않는다(.gitignore 처리).</span></li>
+    <li><a href="https://docs.claude.com/en/docs/claude-code" target="_blank" rel="noopener">Claude Code 공식 문서 (Anthropic)</a>
+        <span class="ref-note">공개된 기능·개념(스킬·훅·MCP·서브에이전트)의 1차 출처. 내부 구현은 유출 소스로, 공개 개념은 이쪽으로 교차 확인 권장.</span></li>
+    <li><a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">Model Context Protocol (MCP)</a>
+        <span class="ref-note">§3 MCP 통합의 표준 명세.</span></li>
+  </ul>
+
+  <div class="callout amber">
+    <span class="icon">⚠️</span>
+    <div><strong>취급 원칙 —</strong> 이 문서는 유출된 독점 소스의 <u>아키텍처·개념 분석</u>이다.
+    독점 시스템 프롬프트 원문과 대량 코드는 의도적으로 복제하지 않았다 — 하네스 이식에는 구조 이해가 더 유용하며,
+    특정 섹션의 실제 문구가 필요하면 로컬 소스의 해당 파일·라인을 직접 확인하는 것이 맞다.
+    유출 소스 자체를 재배포하거나 공개 저장소에 올리지 말 것.</div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📚</span>
+    <div><strong>함께 읽으면 좋은 문서 —</strong> 「로컬 LLM 에이전트」(50줄 에이전트 루프 — 이 문서의 §2·§10 출발점),
+    「클로드 확장하기」(개념판 — 하네스·루프·재귀 엔지니어링),
+    「네트워크 통신 정리」(스트리밍·JSON-RPC), 「AI 하드웨어 — 메모리」(로컬 모델 구동 기반).</div>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/cc-*.svg (6종) · 유출 소스의 아키텍처 분석 (소스 원문 미포함) · 「클로드 확장하기」의 소스 검증판
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>

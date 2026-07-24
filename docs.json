@@ -193,6 +193,32 @@
       ]
     },
     {
+      "id": "claude-code-internals",
+      "title": "Claude Code 내부 해부",
+      "desc": "유출 소스로 본 에이전트 하네스 — 루프·도구·권한·압축·메모리, 그리고 로컬 이식 청사진",
+      "file": "docs/claude-code-internals.html",
+      "group": "AI · LLM",
+      "icon": "🔩",
+      "gradient": [
+        "#0D1B2E",
+        "#B45309"
+      ],
+      "tags": [
+        "Harness",
+        "Agent Loop",
+        "Reverse Eng"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/cc-architecture.svg",
+        "docs/img/cc-agent-loop.svg",
+        "docs/img/cc-tool-permission.svg",
+        "docs/img/cc-compaction.svg",
+        "docs/img/cc-context-assembly.svg",
+        "docs/img/cc-harness-blueprint.svg"
+      ]
+    },
+    {
       "id": "physical-ai",
       "title": "피지컬 AI",
       "desc": "몸을 얻은 지능 — VLA·휴머노이드·sim-to-real, 그리고 $100 로봇팔로 시작하기",

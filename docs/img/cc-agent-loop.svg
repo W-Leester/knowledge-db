@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="cla" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="clg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">에이전트 루프의 실제 — query.ts의 queryLoop() 한 턴</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">while(true) async generator — 매 반복이 "모델 호출 1회 + 도구 실행"이고, State가 턴을 넘어 이어진다</text>
+
+  <!-- State 박스 (왼쪽 세로) -->
+  <rect x="30" y="86" width="180" height="470" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="120" y="114" font-size="13.5" font-weight="800" fill="#6B21A8" text-anchor="middle">🗃 State (턴 간 유지)</text>
+  <g font-size="10.5" fill="#555555">
+    <text x="48" y="142">· messages (대화 이력)</text>
+    <text x="48" y="164">· turnCount</text>
+    <text x="48" y="186">· toolUseContext</text>
+    <text x="48" y="208">· autoCompactTracking</text>
+    <text x="48" y="230">· budgetTracker</text>
+    <text x="48" y="252">  (토큰 예산)</text>
+    <text x="48" y="274">· stopHookActive</text>
+    <text x="48" y="296">· transition</text>
+  </g>
+  <text x="120" y="332" font-size="11" font-weight="700" fill="#6B21A8" text-anchor="middle">매 반복 시작 시</text>
+  <text x="120" y="350" font-size="11" font-weight="700" fill="#6B21A8" text-anchor="middle">destructure해서 읽음</text>
+  <rect x="48" y="372" width="144" height="76" rx="9" fill="#FFFFFF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="120" y="396" font-size="11.5" font-weight="800" fill="#6B21A8" text-anchor="middle">⚡ 프리페치</text>
+  <text x="120" y="416" font-size="10" fill="#555555" text-anchor="middle">메모리·스킬 발견을</text>
+  <text x="120" y="432" font-size="10" fill="#555555" text-anchor="middle">모델 스트리밍 중</text>
+  <text x="120" y="448" font-size="10" fill="#555555" text-anchor="middle">병렬로 미리 수행</text>
+  <text x="120" y="482" font-size="10.5" fill="#8A8A8A" text-anchor="middle">"틈새 시간에 미리"</text>
+  <text x="120" y="500" font-size="10.5" fill="#8A8A8A" text-anchor="middle">— 지연 숨김 최적화</text>
+  <text x="120" y="534" font-size="10.5" fill="#6B21A8" text-anchor="middle" font-weight="700">= 로컬 하네스의</text>
+  <text x="120" y="550" font-size="10.5" fill="#6B21A8" text-anchor="middle" font-weight="700">"고급" 요소</text>
+
+  <!-- 루프 6단계 (오른쪽) -->
+  <!-- 1 컨텍스트 조립 -->
+  <rect x="250" y="92" width="290" height="52" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="395" y="114" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">① 컨텍스트 조립</text>
+  <text x="395" y="133" font-size="10.5" fill="#555555" text-anchor="middle">시스템 프롬프트 + 환경 + 도구목록 + 메모리 + 이력</text>
+
+  <!-- 2 자동 압축 체크 -->
+  <rect x="250" y="158" width="290" height="52" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <text x="395" y="180" font-size="13" font-weight="800" fill="#DC2626" text-anchor="middle">② 토큰 임계치 체크 → 필요시 압축</text>
+  <text x="395" y="199" font-size="10.5" fill="#555555" text-anchor="middle">컨텍스트가 차면 autoCompact로 이력 요약 (§압축)</text>
+
+  <!-- 3 API 호출 -->
+  <rect x="250" y="224" width="290" height="52" rx="10" fill="#002C5F"/>
+  <text x="395" y="246" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">③ 모델 API 호출 (스트리밍)</text>
+  <text x="395" y="265" font-size="10.5" fill="#C7D5EA" text-anchor="middle">stream_request_start → 토큰이 흘러들어옴 · thinking 지원</text>
+
+  <!-- 4 응답 분기 -->
+  <rect x="250" y="290" width="290" height="52" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="395" y="312" font-size="13" font-weight="800" fill="#B45309" text-anchor="middle">④ 응답에 tool_use가 있나?</text>
+  <text x="395" y="331" font-size="10.5" fill="#555555" text-anchor="middle">없으면 → 최종 답변, 루프 종료 (terminal 반환)</text>
+
+  <!-- 5 도구 실행 -->
+  <rect x="250" y="356" width="290" height="52" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="395" y="378" font-size="13" font-weight="800" fill="#065F46" text-anchor="middle">⑤ 권한 확인 → 도구 실행 (병렬)</text>
+  <text x="395" y="397" font-size="10.5" fill="#555555" text-anchor="middle">canUseTool 게이트 통과 후 실행 · 실패도 결과로</text>
+
+  <!-- 6 결과 재주입 -->
+  <rect x="250" y="422" width="290" height="52" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="395" y="444" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">⑥ 결과를 messages에 추가 → turnCount++</text>
+  <text x="395" y="463" font-size="10.5" fill="#555555" text-anchor="middle">state = {...} 갱신하고 continue</text>
+
+  <line x1="395" y1="144" x2="395" y2="156" stroke="#003F8A" stroke-width="2.2" marker-end="url(#cla)"/>
+  <line x1="395" y1="210" x2="395" y2="222" stroke="#003F8A" stroke-width="2.2" marker-end="url(#cla)"/>
+  <line x1="395" y1="276" x2="395" y2="288" stroke="#003F8A" stroke-width="2.2" marker-end="url(#cla)"/>
+  <line x1="395" y1="342" x2="395" y2="354" stroke="#003F8A" stroke-width="2.2" marker-end="url(#cla)"/>
+  <line x1="395" y1="408" x2="395" y2="420" stroke="#003F8A" stroke-width="2.2" marker-end="url(#cla)"/>
+
+  <!-- 반복 화살표 -->
+  <path d="M 540 448 C 590 448 590 118 543 118" fill="none" stroke="#00AA6C" stroke-width="3" marker-end="url(#clg)"/>
+  <text x="610" y="285" font-size="12.5" font-weight="800" fill="#065F46" transform="rotate(90 610 285)" text-anchor="middle">반복 (while true)</text>
+
+  <!-- 종료 -->
+  <line x1="540" y1="316" x2="640" y2="316" stroke="#DC2626" stroke-width="2.5" marker-end="url(#cla)"/>
+  <rect x="650" y="292" width="210" height="52" rx="10" fill="#0D1B2E"/>
+  <text x="755" y="314" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">✅ 최종 답변</text>
+  <text x="755" y="333" font-size="10.5" fill="#8A9BB5" text-anchor="middle">maxTurns 상한도 있음</text>
+
+  <!-- 하단 -->
+  <rect x="650" y="380" width="210" height="176" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="755" y="406" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">「로컬 LLM」 §2와 비교</text>
+  <text x="755" y="430" font-size="10.5" fill="#555555" text-anchor="middle">우리가 만든 50줄 루프와</text>
+  <text x="755" y="446" font-size="10.5" fill="#555555" text-anchor="middle">골격은 동일:</text>
+  <text x="755" y="468" font-size="10.5" fill="#065F46" text-anchor="middle" font-weight="700">판단→도구→결과→반복</text>
+  <text x="755" y="492" font-size="10.5" fill="#555555" text-anchor="middle">차이는 그 주위의</text>
+  <text x="755" y="508" font-size="10.5" fill="#555555" text-anchor="middle">압축·프리페치·예산·</text>
+  <text x="755" y="524" font-size="10.5" fill="#555555" text-anchor="middle">권한·State 관리</text>
+  <text x="755" y="546" font-size="10" fill="#8A8A8A" text-anchor="middle">= "프로덕션 하네스"의 두께</text>
+</svg>

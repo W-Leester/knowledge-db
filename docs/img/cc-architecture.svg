@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="600" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">Claude Code 아키텍처 지도 — ~1,900 파일 / 51만 줄의 하네스</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">TypeScript · Bun 런타임 · React+Ink(터미널 UI) — 모델은 API로 부르고, 나머지 전부가 이 코드</text>
+
+  <!-- UI 층 -->
+  <rect x="30" y="78" width="840" height="66" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="52" y="104" font-size="14" font-weight="800" fill="#002C5F">🖥 UI 계층 — components/ (~140) · ink/ · screens/ · keybindings/ · vim/ · voice/</text>
+  <text x="52" y="128" font-size="11.5" fill="#555555">터미널 대화 화면, 입력창, 권한 프롬프트, 도구 진행 표시 — 하네스의 "표정" (로컬 재현 시 최소화 가능)</text>
+
+  <!-- 오케스트레이션 층 (핵심) -->
+  <rect x="30" y="156" width="840" height="150" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="450" y="182" font-size="15" font-weight="800" fill="#B45309" text-anchor="middle">⚙️ 오케스트레이션 계층 — 하네스의 심장 (로컬 이식의 핵심)</text>
+  <rect x="50" y="196" width="255" height="46" rx="9" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="177" y="216" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">query.ts / QueryEngine.ts</text>
+  <text x="177" y="234" font-size="10.5" fill="#555555" text-anchor="middle">에이전트 루프 · API 호출 · 스트리밍</text>
+  <rect x="322" y="196" width="255" height="46" rx="9" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="449" y="216" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">Tool.ts / tools.ts</text>
+  <text x="449" y="234" font-size="10.5" fill="#555555" text-anchor="middle">도구 정의·등록·실행 (~40종)</text>
+  <rect x="594" y="196" width="256" height="46" rx="9" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="722" y="216" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">context.ts</text>
+  <text x="722" y="234" font-size="10.5" fill="#555555" text-anchor="middle">시스템·유저 컨텍스트 조립</text>
+  <rect x="50" y="250" width="255" height="46" rx="9" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="177" y="270" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">services/compact/ (~11)</text>
+  <text x="177" y="288" font-size="10.5" fill="#555555" text-anchor="middle">컨텍스트 압축 · micro-compact</text>
+  <rect x="322" y="250" width="255" height="46" rx="9" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="449" y="270" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">Task.ts · coordinator/ · swarm/</text>
+  <text x="449" y="288" font-size="10.5" fill="#555555" text-anchor="middle">서브에이전트 · 멀티에이전트</text>
+  <rect x="594" y="250" width="256" height="46" rx="9" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="722" y="270" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">permissions/ · hooks/</text>
+  <text x="722" y="288" font-size="10.5" fill="#555555" text-anchor="middle">권한 게이트 · 이벤트 훅</text>
+
+  <!-- 확장 층 -->
+  <rect x="30" y="318" width="840" height="66" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="52" y="344" font-size="14" font-weight="800" fill="#065F46">🧩 확장 계층 — skills/ · commands/(~50) · services/mcp/(~23) · plugins/ · memdir/(영속 메모리)</text>
+  <text x="52" y="368" font-size="11.5" fill="#555555">스킬(점진 공개) · 슬래시 커맨드 · MCP 서버 연결 · 플러그인 · 세션 넘는 기억 — 「클로드 확장하기」 문서의 그 개념들</text>
+
+  <!-- 서비스/인프라 층 -->
+  <rect x="30" y="396" width="840" height="66" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="52" y="422" font-size="14" font-weight="800" fill="#6B21A8">🔌 서비스·인프라 — services/api/(Anthropic 클라이언트) · oauth/ · lsp/ · remote/ · bridge/(IDE) · analytics/</text>
+  <text x="52" y="446" font-size="11.5" fill="#555555">API 인증·요청, 언어서버, 원격 세션, VS Code/JetBrains 연동 — 로컬 하네스에선 API 부분만 "Ollama로 교체"하면 된다</text>
+
+  <!-- 모델 (외부) -->
+  <rect x="300" y="482" width="300" height="60" rx="30" fill="#002C5F"/>
+  <text x="450" y="510" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">🧠 Claude 모델 (Anthropic API)</text>
+  <text x="450" y="530" font-size="11" fill="#8A9BB5" text-anchor="middle">판단만 담당 — 위의 모든 계층이 "모델 바깥의 하네스"다</text>
+
+  <text x="450" y="568" font-size="12.5" font-weight="700" fill="#8A8A8A" text-anchor="middle">핵심 통찰: 51만 줄 중 모델은 0줄 — 전부 "모델을 어떻게 부리고, 무엇을 보여주고, 무엇을 못 하게 하는가"의 코드다</text>
+  <text x="450" y="590" font-size="11.5" fill="#B45309" text-anchor="middle">→ 로컬 LLM 이식이란: 서비스 계층의 API 호출만 바꾸고, 오케스트레이션 계층을 축소 재현하는 일</text>
+</svg>
