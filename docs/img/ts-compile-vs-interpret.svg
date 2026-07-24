@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="cva" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">컴파일 vs 인터프리터 — 왜 C는 미리 번역하고 Python은 바로 실행하나</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">CPU는 기계어(0·1)만 안다 — 사람이 쓴 코드를 언제·어떻게 기계어로 바꾸느냐의 차이</text>
+
+  <!-- 컴파일 방식 -->
+  <rect x="30" y="80" width="405" height="240" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="232" y="108" font-size="15" font-weight="800" fill="#DC2626" text-anchor="middle">🏭 컴파일 방식 (C · C++ · Rust · Go)</text>
+  <text x="232" y="128" font-size="11" fill="#8A8A8A" text-anchor="middle">"실행 전에 통째로 기계어로 번역해둔다"</text>
+
+  <rect x="52" y="146" width="110" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="107" y="166" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">내 코드</text>
+  <text x="107" y="182" font-size="9.5" fill="#8A8A8A" text-anchor="middle">.c / .rs</text>
+  <rect x="196" y="146" width="120" height="44" rx="8" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="256" y="166" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">컴파일러</text>
+  <text x="256" y="182" font-size="9" fill="#8A8A8A" text-anchor="middle">한 번 번역(빌드)</text>
+  <rect x="350" y="146" width="62" height="44" rx="8" fill="#0D1B2E"/>
+  <text x="381" y="166" font-size="10.5" font-weight="700" fill="#7FD1A8" text-anchor="middle">실행</text>
+  <text x="381" y="182" font-size="9" fill="#8A9BB5" text-anchor="middle">파일</text>
+  <line x1="162" y1="168" x2="192" y2="168" stroke="#003F8A" stroke-width="2" marker-end="url(#cva)"/>
+  <line x1="316" y1="168" x2="346" y2="168" stroke="#003F8A" stroke-width="2" marker-end="url(#cva)"/>
+
+  <line x1="381" y1="200" x2="381" y2="222" stroke="#DC2626" stroke-width="2.2" marker-end="url(#cva)"/>
+  <rect x="290" y="226" width="122" height="40" rx="8" fill="#DC2626"/>
+  <text x="351" y="251" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">🖥 CPU 직접 실행</text>
+
+  <text x="52" y="290" font-size="11.5" fill="#555555">✅ 실행이 빠름 (이미 기계어)</text>
+  <text x="52" y="308" font-size="11.5" fill="#DC2626">❌ 고칠 때마다 빌드 대기 · OS/CPU별로 따로</text>
+
+  <!-- 인터프리터 방식 -->
+  <rect x="465" y="80" width="405" height="240" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="667" y="108" font-size="15" font-weight="800" fill="#065F46" text-anchor="middle">🎙 인터프리터 방식 (Python · JS · TS)</text>
+  <text x="667" y="128" font-size="11" fill="#8A8A8A" text-anchor="middle">"런타임이 한 줄씩 읽으며 즉석 실행"</text>
+
+  <rect x="487" y="146" width="110" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="542" y="166" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">내 코드</text>
+  <text x="542" y="182" font-size="9.5" fill="#8A8A8A" text-anchor="middle">.py / .js</text>
+  <rect x="631" y="146" width="150" height="44" rx="8" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="706" y="166" font-size="11.5" font-weight="800" fill="#065F46" text-anchor="middle">런타임(인터프리터)</text>
+  <text x="706" y="182" font-size="9" fill="#8A8A8A" text-anchor="middle">읽으며 바로 실행</text>
+  <line x1="597" y1="168" x2="627" y2="168" stroke="#003F8A" stroke-width="2" marker-end="url(#cva)"/>
+
+  <line x1="706" y1="200" x2="706" y2="222" stroke="#00AA6C" stroke-width="2.2" marker-end="url(#cva)"/>
+  <rect x="615" y="226" width="182" height="40" rx="8" fill="#065F46"/>
+  <text x="706" y="251" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">🖥 런타임이 CPU에 대신 전달</text>
+
+  <text x="487" y="290" font-size="11.5" fill="#555555">✅ 빌드 없이 즉시 실행 · 어느 OS든 런타임만 있으면</text>
+  <text x="487" y="308" font-size="11.5" fill="#B45309">❌ 실행이 상대적으로 느림 (매번 해석)</text>
+
+  <!-- TS 특수 케이스 -->
+  <rect x="30" y="336" width="840" height="90" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="52" y="364" font-size="14" font-weight="800" fill="#002C5F">🔤 TypeScript는 "가벼운 컴파일 + 인터프리터"의 중간</text>
+  <text x="52" y="388" font-size="12" fill="#555555">TS는 실행 전에 <strong>타입을 검사하고 JavaScript로 변환</strong>(트랜스파일)된다. 단 기계어가 아니라 JS로 바뀔 뿐 —</text>
+  <text x="52" y="408" font-size="12" fill="#555555">그 JS를 다시 런타임(Node·Bun)이 실행한다. Bun처럼 이 변환을 <strong>즉석에서</strong> 해주면 체감상 "즉시 실행"이 된다.</text>
+
+  <!-- JIT / VM -->
+  <rect x="30" y="442" width="410" height="96" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="52" y="470" font-size="13.5" font-weight="800" fill="#B45309">⚡ JIT — 둘의 장점 합치기</text>
+  <text x="52" y="492" font-size="11" fill="#555555">현대 JS 엔진·Java·C#는 실행 중 자주 쓰는 부분을</text>
+  <text x="52" y="510" font-size="11" fill="#555555">그때그때 기계어로 컴파일(Just-In-Time)해 가속.</text>
+  <text x="52" y="528" font-size="10.5" fill="#8A8A8A">"인터프리터의 편함 + 컴파일의 속도"를 절충</text>
+
+  <rect x="460" y="442" width="410" height="96" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="482" y="470" font-size="13.5" font-weight="800" fill="#6B21A8">☕ 가상머신(VM) — Java · C#</text>
+  <text x="482" y="492" font-size="11" fill="#555555">먼저 "바이트코드"(중간 언어)로 컴파일한 뒤,</text>
+  <text x="482" y="510" font-size="11" fill="#555555">가상머신(JVM·CLR)이 그걸 실행. "한 번 짜서</text>
+  <text x="482" y="528" font-size="10.5" fill="#8A8A8A">어디서나" — OS 무관 + JIT로 빠름</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="554" width="840" height="52" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="580" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">핵심: "번역을 언제 하느냐"의 스펙트럼 — 미리 전부(컴파일) ↔ 실행하며 즉석(인터프리터), 그 사이에 JIT·VM</text>
+  <text x="450" y="598" font-size="11" fill="#8A9BB5" text-anchor="middle">빠른 실행이 필요하면 앞쪽, 빠른 개발이 필요하면 뒤쪽 — §1 저울의 트레이드오프 그대로</text>
+</svg>

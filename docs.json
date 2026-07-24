@@ -155,12 +155,13 @@
         "TypeScript",
         "Python"
       ],
-      "version": 2,
+      "version": 3,
       "assets": [
         "docs/img/ts-decision-axes.svg",
         "docs/img/ts-popularity.svg",
         "docs/img/ts-by-usecase.svg",
         "docs/img/ts-runtime-framework.svg",
+        "docs/img/ts-compile-vs-interpret.svg",
         "docs/img/ts-layered-stack.svg"
       ]
     },

@@ -333,7 +333,8 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#usecase">4. 무엇을 만들 때 무엇을</a>
     <a href="#frameworks">5. 프레임워크·런타임 층</a>
     <a href="#f-what" class="sub">5-A. 런타임·프레임워크란</a>
-    <a href="#f-choices" class="sub">5-B. 주요 선택지</a>
+    <a href="#f-run" class="sub">5-B. 코드가 실행되는 방식</a>
+    <a href="#f-choices" class="sub">5-C. 주요 선택지</a>
     <a href="#layers">6. 층으로 역할 분담</a>
     <a href="#checklist">7. 스택 고르기 체크리스트</a>
     <a href="#refs">8. 출처</a>
@@ -577,7 +578,54 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     유명한 표현으로 <em>"우리를 부르지 마세요, 우리가 당신을 부를게요(헐리우드 원칙)"</em>. 프레임워크가 큰 흐름을 정하고 나는 빈칸만 메운다.</div>
   </div>
 
-  <h3 id="f-choices"><span class="num">B</span>주요 선택지 (2026)</h3>
+  <h3 id="f-run"><span class="num">B</span>코드가 실행되는 방식 — 왜 C는 컴파일하고 Python은 바로 도나</h3>
+
+  <p class="body">왜 어떤 언어는 "빌드(컴파일)"가 필요하고 어떤 언어는 저장하면 즉시 도는가? 답의 출발점은 하나다 —
+  <strong>CPU는 사람이 쓴 코드를 못 읽는다.</strong> CPU가 아는 건 오직 <u>기계어(0과 1의 명령)</u>뿐이라,
+  사람의 코드를 언젠가는 기계어로 <u>번역</u>해야 한다. <strong>그 번역을 "언제" 하느냐</strong>가 컴파일과 인터프리터를 가른다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/ts-compile-vs-interpret.svg" alt="컴파일 방식과 인터프리터 방식, TypeScript 트랜스파일, JIT, 가상머신 비교"></div>
+    <figcaption>미리 전부 번역(컴파일) ↔ 실행하며 즉석 번역(인터프리터), 그 사이에 JIT·가상머신 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body"><strong>컴파일 방식(C·C++·Rust·Go)</strong>은 <u>실행 전에 코드 전체를 미리 기계어로 번역</u>해 실행 파일을 만든다(이 과정이 "빌드").
+  실행할 땐 이미 기계어라 CPU가 곧장 돌리므로 <strong>가장 빠르다</strong>. 대신 고칠 때마다 다시 빌드해야 하고(수 초~수 분),
+  기계어는 OS·CPU마다 달라 <u>맥용·윈도우용을 따로</u> 만들어야 한다.</p>
+
+  <p class="body"><strong>인터프리터 방식(Python·JavaScript)</strong>은 미리 번역하지 않는다. 대신 <strong>런타임(§5-A)이 코드를 한 줄씩 읽으며 즉석에서 실행</strong>한다 —
+  통역사가 문장을 실시간으로 옮기듯. 그래서 <u>빌드 없이 저장하면 바로 돌고</u>, 런타임만 깔려 있으면 어느 OS든 같은 코드가 실행된다.
+  대신 매번 해석하므로 <u>실행이 상대적으로 느리다</u>. "즉시 실행"의 정체는 <strong>컴파일이 없는 게 아니라, 런타임이 실행 순간에 대신 처리</strong>하는 것이다.</p>
+
+  <div class="callout amber">
+    <span class="icon">🔤</span>
+    <div><strong>그럼 TypeScript는? — "가벼운 컴파일"이 있다.</strong> TS는 실행 전에 <u>타입을 검사하고 JavaScript로 변환</u>(트랜스파일)된다.
+    단 기계어가 아니라 <strong>JS로 바뀔 뿐</strong>이고, 그 JS를 다시 런타임(Node·Bun)이 실행한다. Bun처럼 이 변환을 <u>실행 순간 즉석에서</u> 해주면
+    사람 눈엔 "빌드 없이 즉시 실행"으로 보인다 — 「Claude Code 내부」가 Bun을 택한 이유가 이 "TS를 바로 실행"이다.</div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">방식</th><th style="width:180px">번역 시점</th><th>대표 언어 · 특징</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">컴파일 (AOT)</td><td>실행 <strong>전</strong>에 전부</td><td>C·C++·Rust·Go — 실행 최고속, 빌드 대기·OS별 빌드 필요</td></tr>
+        <tr><td class="hl">인터프리터</td><td>실행 <strong>중</strong> 한 줄씩</td><td>Python·(순수)JS — 즉시 실행·이식 쉬움, 실행 느림</td></tr>
+        <tr><td class="hl">트랜스파일</td><td>실행 전 <strong>다른 언어로</strong></td><td>TypeScript→JavaScript — 타입 검사 후 JS로 (기계어 아님)</td></tr>
+        <tr><td class="hl">JIT</td><td>실행 <strong>중</strong> 자주 쓰는 부분만</td><td>현대 JS 엔진·일부 Python — 인터프리터의 편함 + 부분 컴파일 속도</td></tr>
+        <tr><td class="hl">가상머신(VM)</td><td>바이트코드로 컴파일 후 VM이 실행</td><td>Java(JVM)·C#(CLR) — "한 번 짜서 어디서나" + JIT로 빠름</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">⚖️</span>
+    <div><strong>결국 §1 저울의 트레이드오프다 —</strong> "번역을 언제 하느냐"는 <u>실행 속도 vs 개발 편함</u>의 스펙트럼이다.
+    미리 다 번역(컴파일)하면 실행이 빠르지만 고칠 때 느리고, 실행하며 번역(인터프리터)하면 개발이 편하지만 실행이 느리다.
+    <strong>JIT·가상머신은 그 중간</strong>을 노린 절충이다. 「Claude Code 내부」의 성능 코어(C++)와 오케스트레이션(TS)이 다른 방식을 쓰는 것도
+    각 층의 병목(실행 속도 vs 개발 속도)이 다르기 때문이다.</div>
+  </div>
+
+  <h3 id="f-choices"><span class="num">C</span>주요 선택지 (2026)</h3>
 
   <p class="body">이제 층별 대표 선택지를 보자 — 새 프로젝트는 보통 <strong>언어 → 런타임 → 프레임워크</strong> 순으로 좁혀간다:</p>
 
@@ -690,7 +738,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/ts-*.svg (5종) · 2025~2026 지표 기반(개략치, 확인 필요) · 「Claude Code 내부 해부」에서 이어지는 확장편
+  Hyundai-Inspired Design System v1.0 · 도식: img/ts-*.svg (6종) · 2025~2026 지표 기반(개략치, 확인 필요) · 「Claude Code 내부 해부」에서 이어지는 확장편
 </footer>
 
 </main>
