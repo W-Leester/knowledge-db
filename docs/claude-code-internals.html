@@ -329,6 +329,8 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
     <a href="#map">1. 아키텍처 지도</a>
+    <a href="#m-catalog" class="sub">1-A. 서브시스템 카탈로그</a>
+    <a href="#m-tools" class="sub">1-B. 도구·커맨드 목록</a>
     <a href="#loop">2. 에이전트 루프 (심장)</a>
     <a href="#tools">3. 도구 시스템</a>
     <a href="#perm">4. 권한·훅·안전 게이트</a>
@@ -431,6 +433,83 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <div><strong>이식의 실체를 한 줄로 —</strong> 로컬 LLM 하네스를 만든다는 것은
     <u>서비스 계층의 "Anthropic API 호출"을 "Ollama/llama.cpp 호출"로 바꾸고, 오케스트레이션 계층을 필요한 만큼 축소 재현</u>하는 일이다.
     UI·bridge·remote·oauth는 대부분 버려도 되고, 확장(스킬·MCP)은 나중에 붙인다.</div>
+  </div>
+
+  <h3 id="m-catalog"><span class="num">A</span>서브시스템 전체 카탈로그 — 이 소스에 뭐가 들어있나</h3>
+
+  <p class="body">51만 줄의 서브시스템을 한 표로 정리하면 이렇다. <strong>하네스 관련성</strong> 열이 로컬 이식 우선순위다 —
+  🔴 필수(먼저 재현) · 🟡 규모 커지면 · ⚪ 로컬은 대부분 생략:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">서브시스템</th><th style="width:230px">역할</th><th style="width:170px">대표 파일/디렉토리</th><th>하네스 관련성</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">에이전트 루프</td><td>한 턴 실행 — API 호출·스트리밍·tool_use 처리·종료 판정</td><td class="mono">query.ts · QueryEngine.ts</td><td>🔴 필수 (§2)</td></tr>
+        <tr><td class="hl">도구 시스템</td><td>~40종 도구 정의·등록·실행, 노출/실행/정책 분리</td><td class="mono">Tool.ts · tools.ts · tools/</td><td>🔴 필수 (§3)</td></tr>
+        <tr><td class="hl">컨텍스트 조립</td><td>시스템 프롬프트 + CLAUDE.md + git·날짜를 매 요청에</td><td class="mono">context.ts · utils/api.ts</td><td>🔴 필수 (§8)</td></tr>
+        <tr><td class="hl">권한 시스템</td><td>실행 전 6단계 게이트, safetyCheck bypass 면역</td><td class="mono">utils/permissions/</td><td>🔴 필수 (§4)</td></tr>
+        <tr><td class="hl">컨텍스트 압축</td><td>micro/full 압축·토큰 추정 — 창이 차면 요약</td><td class="mono">services/compact/(~11)</td><td>🟡 규모 (§5)</td></tr>
+        <tr><td class="hl">영속 메모리</td><td>세션 넘는 파일 메모리, 자동 추출·회상</td><td class="mono">memdir/ · extractMemories/</td><td>🟡 규모 (§6)</td></tr>
+        <tr><td class="hl">서브에이전트</td><td>별도 컨텍스트 위임, 결과만 회수 (AgentTool)</td><td class="mono">tools/AgentTool/ · Task.ts</td><td>🟡 규모 (§7)</td></tr>
+        <tr><td class="hl">멀티에이전트</td><td>코디네이터(오케스트레이터)·swarm(팀)</td><td class="mono">coordinator/ · utils/swarm/</td><td>🟡 규모 (§7)</td></tr>
+        <tr><td class="hl">훅(Hooks)</td><td>28종 이벤트(PreToolUse 등)에 셸/HTTP/LLM 훅</td><td class="mono">utils/hooks/</td><td>🟡 규모 (§4)</td></tr>
+        <tr><td class="hl">스킬 시스템</td><td>progressive disclosure(프론트매터만 상시)</td><td class="mono">skills/ · tools/SkillTool/</td><td>🟡 규모 (§9)</td></tr>
+        <tr><td class="hl">커맨드 시스템</td><td>~90개 슬래시 커맨드 등록·실행</td><td class="mono">commands.ts · commands/</td><td>🟡 규모 (§9)</td></tr>
+        <tr><td class="hl">MCP</td><td>외부 서버 도구 연결·등록·호출</td><td class="mono">services/mcp/(~23)</td><td>🟡 규모 (§3)</td></tr>
+        <tr><td class="hl">플러그인</td><td>스킬·에이전트·훅·MCP를 묶어 배포</td><td class="mono">utils/plugins/(~44)</td><td>⚪ 선택</td></tr>
+        <tr><td class="hl">모델 라우팅</td><td>main/subagent/compact별 모델 분기·폴백</td><td class="mono">utils/model/(~16)</td><td>🟡 규모</td></tr>
+        <tr><td class="hl">API 계층</td><td>Anthropic 클라이언트·스트리밍·재시도</td><td class="mono">services/api/(~20)</td><td>🔴 <strong>여기만 교체</strong></td></tr>
+        <tr><td class="hl">인증</td><td>OAuth 2.0 로그인 흐름</td><td class="mono">services/oauth/</td><td>⚪ 로컬 불필요</td></tr>
+        <tr><td class="hl">UI (터미널)</td><td>대화 화면·입력창·진행 표시 (React+Ink)</td><td class="mono">components/(~140) · ink/</td><td>⚪ 최소화</td></tr>
+        <tr><td class="hl">IDE 브릿지</td><td>VS Code·JetBrains 양방향 연동</td><td class="mono">bridge/</td><td>⚪ 로컬 불필요</td></tr>
+        <tr><td class="hl">원격·서버</td><td>원격 세션·서버 모드·모바일/데스크톱 핸드오프</td><td class="mono">remote/ · server/</td><td>⚪ 로컬 불필요</td></tr>
+        <tr><td class="hl">LSP</td><td>언어 서버 연동(진단·정의 이동)</td><td class="mono">services/lsp/ · tools/LSPTool/</td><td>⚪ 선택</td></tr>
+        <tr><td class="hl">부가 입력</td><td>Vim 모드·음성 입력·키바인딩</td><td class="mono">vim/ · voice/ · keybindings/</td><td>⚪ 로컬 불필요</td></tr>
+        <tr><td class="hl">분석·설정</td><td>피처 플래그·텔레메트리·설정 마이그레이션</td><td class="mono">services/analytics/ · utils/settings/</td><td>⚪ 선택</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="m-tools"><span class="num">B</span>도구·커맨드 목록 — "무엇을 할 수 있나"</h3>
+
+  <p class="body">모델이 실제로 호출하는 <strong>도구 ~40종</strong>과, 사용자가 <span class="mono">/</span>로 부르는 <strong>커맨드 ~90종</strong>이다.
+  로컬 하네스는 이 중 파일·셸·검색·웹·에이전트 몇 개로 시작하면 충분하다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">도구 분류</th><th>도구 (모델이 호출)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">📁 파일</td><td class="mono">FileReadTool · FileWriteTool · FileEditTool · NotebookEditTool · GlobTool · GrepTool</td></tr>
+        <tr><td class="hl">💻 실행</td><td class="mono">BashTool · PowerShellTool · REPLTool</td></tr>
+        <tr><td class="hl">🌐 웹</td><td class="mono">WebFetchTool · WebSearchTool</td></tr>
+        <tr><td class="hl">👥 에이전트</td><td class="mono">AgentTool · SendMessageTool · TeamCreateTool · TeamDeleteTool</td></tr>
+        <tr><td class="hl">📋 태스크</td><td class="mono">TaskCreate/Update/Get/List/Output/StopTool · TodoWriteTool</td></tr>
+        <tr><td class="hl">🧩 확장</td><td class="mono">SkillTool · MCPTool · McpAuthTool · List/ReadMcpResourceTool · ToolSearchTool · LSPTool</td></tr>
+        <tr><td class="hl">🔀 모드</td><td class="mono">EnterPlanMode/ExitPlanModeTool · EnterWorktree/ExitWorktreeTool</td></tr>
+        <tr><td class="hl">⚙️ 기타</td><td class="mono">AskUserQuestionTool · ConfigTool · BriefTool · SleepTool · SyntheticOutputTool · ScheduleCronTool · RemoteTriggerTool</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">커맨드 분류</th><th>슬래시 커맨드 (사용자가 호출)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">git·코드</td><td class="mono">/commit · /commit-push-pr · /review · /security-review · /diff · /pr_comments · /bughunter · /autofix-pr</td></tr>
+        <tr><td class="hl">세션·컨텍스트</td><td class="mono">/compact · /clear · /context · /ctx_viz · /resume · /rewind · /export · /share · /summary</td></tr>
+        <tr><td class="hl">설정</td><td class="mono">/config · /model · /effort · /theme · /vim · /keybindings · /output-style · /permissions · /hooks</td></tr>
+        <tr><td class="hl">확장 관리</td><td class="mono">/mcp · /skills · /plugin · /agents · /memory · /tasks · /install-github-app · /install-slack-app</td></tr>
+        <tr><td class="hl">진단·계정</td><td class="mono">/doctor · /cost · /usage · /stats · /status · /login · /logout · /feedback · /privacy-settings</td></tr>
+        <tr><td class="hl">모드·기타</td><td class="mono">/plan · /ultraplan · /fast · /sandbox-toggle · /desktop · /mobile · /voice · /chrome · /init</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🎯</span>
+    <div><strong>초보자용 요약 —</strong> 위 두 표에서 <u>🔴 표시된 5개(에이전트 루프·도구·컨텍스트 조립·권한·API 계층)</u>가
+    로컬 하네스의 최소 뼈대다. 도구는 <span class="mono">FileRead/Write/Edit·Bash·Grep·WebFetch·Agent</span> 정도면 시작할 수 있고,
+    나머지 🟡·⚪는 필요해질 때 붙이면 된다. "무엇이 있나"(이 표) → "어떻게 작동하나"(§2~9) → "어떻게 이식하나"(§10~11) 순으로 읽으면 된다.</div>
   </div>
 </section>
 
