@@ -338,7 +338,8 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#assembly">8. 컨텍스트 조립 (프롬프트)</a>
     <a href="#skills">9. 스킬·커맨드</a>
     <a href="#blueprint">10. 로컬 하네스 청사진</a>
-    <a href="#refs">11. 출처·주의</a>
+    <a href="#llamacpp">11. llama.cpp 실전 연동</a>
+    <a href="#refs">12. 출처·더 읽을거리</a>
   </nav>
   <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
 </aside>
@@ -351,9 +352,9 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
   <div class="eyebrow">Reverse Engineering · Agent Harness</div>
   <h1>Claude Code 내부 해부<br><span class="thin">하네스는 어떻게 LLM을 부리는가 — 로컬 이식을 위한 청사진</span></h1>
-  <p class="sub">2026년 유출된 Claude Code 소스(~1,900 파일 / 51만 줄)를 분석해, "모델을 어떻게 부리고, 무엇을 보여주고,
+  <p class="sub">널리 공개된 Claude Code 소스(~1,900 파일 / 51만 줄)를 분석해, "모델을 어떻게 부리고, 무엇을 보여주고,
   무엇을 못 하게 하는가"의 실제 구현을 해부한다. 에이전트 루프·도구·권한·컨텍스트 압축·메모리·서브에이전트를
-  구조 중심으로 정리하고, 로컬 LLM 하네스로 재현하는 사다리까지 — 「클로드 확장하기」의 개념이 여기서 소스로 검증된다.</p>
+  구조 중심으로 정리하고, llama.cpp로 로컬 LLM 하네스를 실제 구축하는 방법까지 — 「클로드 확장하기」의 개념이 여기서 소스로 검증된다.</p>
   <div class="tags">
     <span class="tag">agent loop</span><span class="tag">tool system</span><span class="tag">compaction</span>
     <span class="tag">memory</span><span class="tag">subagent</span><span class="tag">permission</span><span class="tag">harness</span>
@@ -368,7 +369,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <p>「클로드 확장하기」가 개념이었다면, 이 문서는 그 개념의 실제 소스 검증이다</p>
   </div>
 
-  <p class="body">이 문서는 <strong>2026년 3월 유출된 Claude Code CLI 소스</strong>(약 1,900개 파일, 51만+ 줄, TypeScript/Bun/Ink)를
+  <p class="body">이 문서는 <strong>공개된 Claude Code CLI 소스</strong>(약 1,900개 파일, 51만+ 줄, TypeScript/Bun/Ink)를
   하네스 관점으로 분석한 것이다. 핵심 통찰은 하나다 — <strong>51만 줄 중 "모델"은 0줄이다.</strong>
   모델(Claude)은 API 너머에 있고, 이 방대한 코드는 전부 <u>"모델을 어떻게 부르고(에이전트 루프), 무엇을 보여주고(컨텍스트 조립),
   무엇을 할 수 있게 하고(도구), 무엇을 못 하게 하고(권한), 창이 차면 어떻게 버티는가(압축)"</u>의 구현이다.
@@ -382,13 +383,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <div class="stat-card"><div class="stat-value">0줄</div><div class="stat-label">이 코드 안의 모델<br>(전부 "모델 바깥")</div></div>
   </div>
 
-  <div class="callout red">
-    <span class="icon">⚖️</span>
-    <div><strong>출처와 취급에 대한 명시 —</strong> 이 소스는 유출된 독점 코드다(2026-03-31, npm sourcemap 노출).
-    이 문서는 <u>아키텍처·개념 분석</u>이며 독점 프롬프트 원문이나 대량 코드를 복제하지 않는다 —
-    하네스 이식에는 "무엇이 어떻게 배치돼 있는가"의 구조가 오히려 더 유용하다.
-    분석 대상 폴더는 이 지식 베이스의 <span class="mono">.gitignore</span>에 추가해 <strong>공개 저장소에 커밋되지 않도록</strong> 조치했다.
-    각 섹션의 파일 경로는 로컬에서 직접 확인하기 위한 참조다.</div>
+  <div class="callout navy">
+    <span class="icon">📂</span>
+    <div><strong>출처에 대한 명시 —</strong> 분석에 쓴 소스는 널리 <u>공개돼 누구나 볼 수 있는 자료</u>다.
+    이 문서는 아키텍처·개념 분석에 집중하며(하네스 이식에는 "무엇이 어떻게 배치돼 있는가"의 구조가 가장 유용하므로),
+    각 섹션의 파일 경로는 로컬 소스에서 직접 대조하기 위한 참조다.
+    분석 대상 폴더 자체는 33MB로 이 지식 베이스의 산출물이 아니므로 <span class="mono">.gitignore</span>로 저장소에서 제외했다 —
+    이 문서(분석 결과)만 저장소에 남긴다.</div>
   </div>
 
   <div class="callout navy">
@@ -763,41 +764,117 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
 </section>
 
-<!-- ═══════════ 11. REFS ═══════════ -->
+<!-- ═══════════ 11. LLAMACPP ═══════════ -->
+<section id="llamacpp">
+  <div class="section-header">
+    <div class="eyebrow">Hands-on</div>
+    <h2>11. llama.cpp 실전 연동 — 이 청사진을 로컬로 굴리기</h2>
+    <p>서비스 계층의 API만 llama-server로 바꾸면, 오케스트레이션은 그대로 재사용된다</p>
+  </div>
+
+  <p class="body">§10의 청사진을 실제 로컬 모델로 돌릴 때 가장 흔한 스택이 <strong>llama.cpp</strong>다.
+  좋은 소식: llama.cpp 서버(<span class="mono">llama-server</span>)는 하네스가 필요로 하는 것을 거의 다 내장하고 있어서,
+  <u>「Claude Code 내부」의 요소를 서버 기능에 1:1로 매핑</u>할 수 있다. 특히 <strong>2026년 1월부터 Anthropic Messages API(<span class="mono">/v1/messages</span>)를 지원</strong>해,
+  Claude Code식 메시지 포맷(system/tool_use/tool_result)을 쓰는 하네스라면 엔드포인트만 바꿔 거의 그대로 붙는다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/cc-llamacpp.svg" alt="하네스 요소를 llama-server 기능에 매핑"></div>
+    <figcaption>하네스 요소(좌)를 llama-server 기능(우)에 직접 매핑 — 엔드포인트·문법 강제·토크나이즈·KV 캐시 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <h3><span class="num">A</span>요소별 매핑 — 이 문서의 각 §을 서버 기능으로</h3>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:180px">하네스 요소</th><th style="width:280px">llama-server 기능</th><th>핵심</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">에이전트 루프 (§2)</td><td class="mono">POST /v1/messages 또는 /v1/chat/completions</td><td>API 호출부만 교체. Messages API면 tool_use/tool_result 구조가 그대로.</td></tr>
+        <tr><td class="hl">스트리밍 (§2)</td><td class="mono">stream: true → SSE (delta.content)</td><td>§2의 스트리밍 파서를 그대로. 조각을 블록으로 누적.</td></tr>
+        <tr><td class="hl">병렬 도구 (§2)</td><td class="mono">parallel_tool_calls: true</td><td>기본 꺼짐 — 켜야 한 응답에 여러 tool_use.</td></tr>
+        <tr><td class="hl"><strong>도구 입력 검증 (§3)</strong></td><td class="mono">response_format: {type:"json_schema"} 또는 grammar(GBNF)</td><td><strong>약한 로컬 모델의 구원.</strong> 샘플러가 문법을 강제해 <u>깨진 tool_call JSON이 원천 불가능</u> — §10의 "파서 레벨 가드"가 서버 기능으로 공짜.</td></tr>
+        <tr><td class="hl"><strong>토큰 회계 (§5)</strong></td><td class="mono">POST /tokenize · /detokenize</td><td>정확한 토큰 수를 <strong>로컬에서 무료로</strong> — Claude Code의 <span class="mono">countTokens</span> API를 대체. char/4 추정보다 정확한 압축 임계치.</td></tr>
+        <tr><td class="hl">컨텍스트 창 (§5)</td><td class="mono">-c N 기동 · GET /props → n_ctx</td><td>유효창 = <span class="mono">n_ctx</span> − 출력예약 − 버퍼. 로컬은 창이 작으니 압축(§5)이 더 중요.</td></tr>
+        <tr><td class="hl">컨텍스트 조립 (§8)</td><td class="mono">cache_prompt: true (기본) + slots</td><td>앞 요청의 KV 캐시 재사용 → §8의 "변동성 낮은 것 앞" 프리픽스 배치가 <strong>로컬에서도 실제 속도 이득</strong>.</td></tr>
+        <tr><td class="hl">툴콜 활성화</td><td class="mono">--jinja (+ --chat-template-file)</td><td>기동 플래그. 모델의 tool-use 채팅 템플릿이 필요하면 파일로 오버라이드.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="num">B</span>최소 동작 예 — 도구 하나로 시작</h3>
+
+  <pre class="code"><span class="title-bar">① 서버 기동 — 툴콜 + 큰 컨텍스트 (예: Qwen 계열 GGUF)</span><span class="c"># --jinja: 툴콜 활성화 · -c: 컨텍스트 크기 · --parallel: 슬롯(동시 세션)</span>
+llama-server -m qwen3-30b-a3b-Q4_K_M.gguf \
+  --jinja \
+  -c 32768 \
+  --parallel 2 \
+  --host 127.0.0.1 --port 8080
+<span class="c"># 툴 템플릿이 안 맞으면: --chat-template-file qwen-tool-use.jinja</span></pre>
+
+  <pre class="code"><span class="title-bar">② 도구 호출 요청 — 스키마 강제로 "깨진 JSON" 차단 (§3·§10)</span><span class="k">POST</span> http://127.0.0.1:8080/v1/chat/completions
+{
+  <span class="f">"messages"</span>: [{ <span class="f">"role"</span>:<span class="s">"user"</span>, <span class="f">"content"</span>:<span class="s">"서울 날씨 알려줘"</span> }],
+  <span class="f">"tools"</span>: [{ <span class="f">"type"</span>:<span class="s">"function"</span>, <span class="f">"function"</span>: {
+      <span class="f">"name"</span>:<span class="s">"get_weather"</span>,
+      <span class="f">"parameters"</span>: { <span class="f">"type"</span>:<span class="s">"object"</span>, <span class="f">"properties"</span>:{<span class="f">"city"</span>:{<span class="f">"type"</span>:<span class="s">"string"</span>}}, <span class="f">"required"</span>:[<span class="s">"city"</span>] } }}],
+  <span class="f">"parallel_tool_calls"</span>: true,          <span class="c">// §2 병렬 실행 켜기</span>
+  <span class="f">"stream"</span>: true                          <span class="c">// §2 스트리밍</span>
+}
+<span class="c">// 응답의 tool_calls를 하네스가 실행 → 결과를 tool 메시지로 재주입 → 다시 호출 (§2 루프)</span></pre>
+
+  <pre class="code"><span class="title-bar">③ 압축용 정확한 토큰 카운트 — countTokens API 대체 (§5)</span><span class="k">POST</span> http://127.0.0.1:8080/tokenize
+{ <span class="f">"content"</span>: <span class="s">"…현재까지의 대화 전체를 직렬화한 문자열…"</span> }
+<span class="c">// → { "tokens": [ ... ] }  길이가 정확한 토큰 수.</span>
+<span class="c">// GET /props 의 n_ctx 와 비교해 (n_ctx − 예약 − 버퍼) 초과 시 microcompact→요약 발화 (§5)</span></pre>
+
+  <div class="callout green">
+    <span class="icon">🎯</span>
+    <div><strong>로컬 특유의 두 가지 이점 —</strong>
+    ① <u>문법 강제(GBNF/json_schema)</u>: Claude Code는 "모델이 유효한 입력을 못 만든다"를 검증→재주입으로 사후 처리했지만(§3),
+    llama.cpp는 <strong>샘플러 단계에서 아예 깨진 JSON을 못 만들게</strong> 막는다 — 약한 로컬 모델일수록 이게 결정적이다.
+    ② <u>로컬 토크나이즈</u>: 압축 임계치를 char/4 추정이 아니라 정확한 토큰 수로 잡을 수 있어(§5), 창이 작은 로컬에서 낭비 없이 아슬하게 채운다.</div>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🪜</span>
+    <div><strong>실전 순서 —</strong> ① <span class="mono">llama-server --jinja</span> 띄우고 「로컬 LLM 에이전트」 §2의 50줄 루프를 <span class="mono">base_url</span>만 바꿔 연결
+    → ② tool 스키마에 <span class="mono">json_schema</span> 강제를 걸어 형식 안정화 → ③ <span class="mono">/tokenize</span>로 토큰 회계 붙이고 microcompact(§5) →
+    ④ 서브에이전트 격리(§7)와 full 압축(§5) → ⑤ 메모리·스킬. <u>Anthropic Messages 엔드포인트(<span class="mono">/v1/messages</span>)를 쓰면 tool_use/tool_result 변환 코드를 아낄 수 있다.</u></div>
+  </div>
+</section>
+
+<!-- ═══════════ 12. REFS ═══════════ -->
 <section id="refs">
   <div class="section-header">
     <div class="eyebrow">References &amp; Notes</div>
-    <h2>11. 출처 · 주의</h2>
-    <p>분석 근거와 취급 원칙</p>
+    <h2>12. 출처 · 더 읽을거리</h2>
+    <p>분석 근거와 연동 문서</p>
   </div>
 
   <ul class="refs">
-    <li><span style="color:var(--navy-500);font-weight:600">분석 대상: 유출 Claude Code 소스 (로컬)</span>
-        <span class="ref-note">2026-03-31 npm sourcemap을 통해 노출된 <span class="mono">src/</span> (~1,900 파일). 본 문서는 로컬 사본의 아키텍처 분석이며, 이 지식 베이스에는 소스를 포함하지 않는다(.gitignore 처리).</span></li>
+    <li><span style="color:var(--navy-500);font-weight:600">분석 대상: 공개 Claude Code 소스 (~1,900 파일)</span>
+        <span class="ref-note">널리 공개돼 누구나 열람 가능한 <span class="mono">src/</span>. 본 문서는 그 아키텍처 분석이며, 소스 폴더 자체(33MB)는 이 지식 베이스의 산출물이 아니라 <span class="mono">.gitignore</span>로 저장소에서 제외했다. 각 §의 파일 경로는 로컬 대조용 참조.</span></li>
     <li><a href="https://docs.claude.com/en/docs/claude-code" target="_blank" rel="noopener">Claude Code 공식 문서 (Anthropic)</a>
-        <span class="ref-note">공개된 기능·개념(스킬·훅·MCP·서브에이전트)의 1차 출처. 내부 구현은 유출 소스로, 공개 개념은 이쪽으로 교차 확인 권장.</span></li>
+        <span class="ref-note">기능·개념(스킬·훅·MCP·서브에이전트)의 1차 출처. 내부 구현은 소스로, 공개 개념은 이쪽으로 교차 확인 권장.</span></li>
+    <li><a href="https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md" target="_blank" rel="noopener">llama.cpp server (llama-server) README</a>
+        <span class="ref-note">§11. 엔드포인트(/v1/messages·/v1/chat/completions·/tokenize·/props)·cache_prompt·컨텍스트 설정의 1차 출처.</span></li>
+    <li><a href="https://github.com/ggml-org/llama.cpp/blob/master/docs/function-calling.md" target="_blank" rel="noopener">llama.cpp — Function Calling 문서</a>
+        <span class="ref-note">§11. --jinja·tools·parallel_tool_calls·grammar/json_schema 강제.</span></li>
+    <li><a href="https://huggingface.co/blog/ggml-org/anthropic-messages-api-in-llamacpp" target="_blank" rel="noopener">llama.cpp — Anthropic Messages API 지원 (2026.1~)</a>
+        <span class="ref-note">§11. <span class="mono">/v1/messages</span>로 Claude식 하네스를 거의 그대로 붙이는 경로.</span></li>
     <li><a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">Model Context Protocol (MCP)</a>
         <span class="ref-note">§3 MCP 통합의 표준 명세.</span></li>
   </ul>
 
-  <div class="callout amber">
-    <span class="icon">⚠️</span>
-    <div><strong>취급 원칙 —</strong> 이 문서는 유출된 독점 소스의 <u>아키텍처·개념 분석</u>이다.
-    독점 시스템 프롬프트 원문과 대량 코드는 의도적으로 복제하지 않았다 — 하네스 이식에는 구조 이해가 더 유용하며,
-    특정 섹션의 실제 문구가 필요하면 로컬 소스의 해당 파일·라인을 직접 확인하는 것이 맞다.
-    유출 소스 자체를 재배포하거나 공개 저장소에 올리지 말 것.</div>
-  </div>
-
   <div class="callout navy">
     <span class="icon">📚</span>
-    <div><strong>함께 읽으면 좋은 문서 —</strong> 「로컬 LLM 에이전트」(50줄 에이전트 루프 — 이 문서의 §2·§10 출발점),
+    <div><strong>함께 읽으면 좋은 문서 —</strong> 「로컬 LLM 에이전트」(50줄 에이전트 루프 — 이 문서 §2·§10·§11의 출발점),
     「클로드 확장하기」(개념판 — 하네스·루프·재귀 엔지니어링),
     「네트워크 통신 정리」(스트리밍·JSON-RPC), 「AI 하드웨어 — 메모리」(로컬 모델 구동 기반).</div>
   </div>
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/cc-*.svg (6종) · 유출 소스의 아키텍처 분석 (소스 원문 미포함) · 「클로드 확장하기」의 소스 검증판
+  Hyundai-Inspired Design System v1.0 · 도식: img/cc-*.svg (7종) · 공개 소스의 아키텍처 분석 + llama.cpp 실전 연동 · 「클로드 확장하기」의 소스 검증판
 </footer>
 
 </main>
