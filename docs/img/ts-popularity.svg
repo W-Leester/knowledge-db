@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="500" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">"가장 인기 있는 언어"는 무엇으로 재느냐에 따라 다르다</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">2025~2026 지표 — 순위표를 볼 땐 "무엇을 측정했나"를 먼저 봐야 한다</text>
+
+  <!-- 4개 측정 방법 -->
+  <rect x="30" y="82" width="405" height="170" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="232" y="110" font-size="14.5" font-weight="800" fill="#B45309" text-anchor="middle">📋 개발자 설문 (누가 쓰나)</text>
+  <text x="232" y="132" font-size="11.5" fill="#8A8A8A" text-anchor="middle">Stack Overflow 2025</text>
+  <rect x="52" y="146" width="361" height="30" rx="7" fill="#FFFFFF"/>
+  <text x="66" y="166" font-size="13" font-weight="800" fill="#B45309">🥇 JavaScript (66%)</text>
+  <text x="360" y="166" font-size="10.5" fill="#8A8A8A" text-anchor="end">2011년 이래 1위</text>
+  <text x="66" y="196" font-size="11" fill="#555555">뒤이어 HTML/CSS · SQL · Python</text>
+  <text x="66" y="218" font-size="11" fill="#555555">Python이 최대 상승(+7%p) — AI·데이터 붐</text>
+  <text x="66" y="240" font-size="10.5" fill="#8A8A8A">"실제로 많이 쓴다"의 지표</text>
+
+  <rect x="465" y="82" width="405" height="170" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="667" y="110" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">💻 커밋 수 (뭘로 짜나)</text>
+  <text x="667" y="132" font-size="11.5" fill="#8A8A8A" text-anchor="middle">GitHub 2025</text>
+  <rect x="487" y="146" width="361" height="30" rx="7" fill="#FFFFFF"/>
+  <text x="501" y="166" font-size="13" font-weight="800" fill="#002C5F">🥇 TypeScript</text>
+  <text x="795" y="166" font-size="10.5" fill="#8A8A8A" text-anchor="end">2025.8 JS 추월</text>
+  <text x="501" y="196" font-size="11" fill="#555555">월 260만+ 기여자 · 전년比 +66%</text>
+  <text x="501" y="218" font-size="11" fill="#555555">JS에 타입을 더한 것이 대세가 됨</text>
+  <text x="501" y="240" font-size="10.5" fill="#8A8A8A">"실제로 코드를 얼마나 쓰나"의 지표</text>
+
+  <rect x="30" y="264" width="405" height="170" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="232" y="292" font-size="14.5" font-weight="800" fill="#065F46" text-anchor="middle">🔍 검색·관심 (뭘 배우나)</text>
+  <text x="232" y="314" font-size="11.5" fill="#8A8A8A" text-anchor="middle">TIOBE 2026.2</text>
+  <rect x="52" y="328" width="361" height="30" rx="7" fill="#FFFFFF"/>
+  <text x="66" y="348" font-size="13" font-weight="800" fill="#065F46">🥇 Python (21.8%)</text>
+  <text x="360" y="348" font-size="10.5" fill="#8A8A8A" text-anchor="end">2위 C와 10%p+ 격차</text>
+  <text x="66" y="378" font-size="11" fill="#555555">25년 지표 역사상 최대 격차</text>
+  <text x="66" y="400" font-size="11" fill="#555555">AI·데이터·입문 언어로 검색 폭증</text>
+  <text x="66" y="422" font-size="10.5" fill="#8A8A8A">"관심·학습 열기"의 지표</text>
+
+  <rect x="465" y="264" width="405" height="170" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="667" y="292" font-size="14.5" font-weight="800" fill="#6B21A8" text-anchor="middle">💰 급여·선망 (값이 나가나)</text>
+  <text x="667" y="314" font-size="11.5" fill="#8A8A8A" text-anchor="middle">Stack Overflow 2025</text>
+  <rect x="487" y="328" width="361" height="30" rx="7" fill="#FFFFFF"/>
+  <text x="501" y="348" font-size="13" font-weight="800" fill="#6B21A8">🥇 Rust (가장 선망 72%)</text>
+  <text x="501" y="378" font-size="11" fill="#555555">2022년 이후 사용자 2배 · Go는 급여 +19%</text>
+  <text x="501" y="400" font-size="11" fill="#555555">희소·고난도 = 높은 몸값</text>
+  <text x="501" y="422" font-size="10.5" fill="#8A8A8A">"전문성·희소성"의 지표</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="454" width="840" height="34" rx="8" fill="#0D1B2E"/>
+  <text x="450" y="476" font-size="13" font-weight="700" fill="#FFF" text-anchor="middle">즉 "1위 언어"는 하나가 아니다 — 많이 쓰는 건 JS, 코드량은 TS, 관심은 Python, 몸값은 Rust</text>
+</svg>

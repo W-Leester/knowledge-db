@@ -140,6 +140,30 @@
       ]
     },
     {
+      "id": "tech-stack",
+      "title": "기술 스택 고르기",
+      "desc": "언어·프레임워크 지형도 — 빠른 언어가 답이 아닌 이유, 용도별 선택 기준",
+      "file": "docs/tech-stack.html",
+      "group": "Software · Dev",
+      "icon": "🧰",
+      "gradient": [
+        "#0D1B2E",
+        "#E8962A"
+      ],
+      "tags": [
+        "언어 선택",
+        "TypeScript",
+        "Python"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/ts-decision-axes.svg",
+        "docs/img/ts-popularity.svg",
+        "docs/img/ts-by-usecase.svg",
+        "docs/img/ts-layered-stack.svg"
+      ]
+    },
+    {
       "id": "local-llm-agent",
       "title": "로컬 LLM 에이전트",
       "desc": "도구 호출·MCP·RAG로 내 컴퓨터의 Qwen에게 날개 달기",

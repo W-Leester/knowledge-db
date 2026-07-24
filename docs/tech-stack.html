@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기술 스택 고르기 — 언어·프레임워크 지형도</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #065F46 55%, #E8962A 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>기술 스택<br>고르기</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#axes">1. 선택의 기준 — 5개의 저울</a>
+    <a href="#popularity">2. 인기 지형 — 측정법마다 다르다</a>
+    <a href="#languages">3. 주요 언어별 강점·쓰임새</a>
+    <a href="#usecase">4. 무엇을 만들 때 무엇을</a>
+    <a href="#frameworks">5. 프레임워크·런타임 층</a>
+    <a href="#layers">6. 층으로 역할 분담</a>
+    <a href="#checklist">7. 스택 고르기 체크리스트</a>
+    <a href="#refs">8. 출처</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Software Engineering · Tech Stack</div>
+  <h1>기술 스택 고르기<br><span class="thin">언어·프레임워크 지형도 — "빠른 언어가 항상 정답이 아니다"</span></h1>
+  <p class="sub">"C++이 빠른데 왜 Claude Code는 TypeScript로 만들었을까?"라는 질문에서 출발한다.
+  스택 선택을 좌우하는 5개의 저울, 2025~2026 언어 인기 지형(측정법마다 다르다), 주요 언어별 강점과 쓰임새,
+  그리고 "무엇을 만들 때 무엇을 쓰는가"까지 — 초보자가 스택을 고르는 판단 기준을 한 문서로 정리한다.</p>
+  <div class="tags">
+    <span class="tag">JavaScript·TS</span><span class="tag">Python</span><span class="tag">Rust</span>
+    <span class="tag">Go</span><span class="tag">C·C++</span><span class="tag">React</span><span class="tag">트레이드오프</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 빠른 언어가 항상 정답은 아니다</h2>
+    <p>「Claude Code 내부 해부」에서 나온 질문에서 출발한다</p>
+  </div>
+
+  <p class="body">"C++이나 Rust가 더 빠른데, 왜 Claude Code는 TypeScript로 만들었을까?" —
+  이 질문의 답에 소프트웨어 스택 선택의 핵심이 다 들어있다. 결론부터: <strong>대부분의 프로그램에서 병목은 "실행 속도"가 아니라 다른 데 있고,
+  병목이 아닌 걸 최적화하는 건 의미가 없기 때문</strong>이다. 에이전트 CLI의 병목은 <u>모델 응답 대기(수 초~수십 초)</u>라,
+  프로그램 자체가 100배 빨라져도 체감은 그대로다(「AI 하드웨어」의 "메모리 바운드"와 같은 원리).
+  그렇다면 남는 경쟁 축은 <strong>개발 속도·안전성·생태계·인력</strong>이고, 여기선 TypeScript/Python 계열이 앞선다.
+  이 문서는 그 판단 기준과 2026년 언어 지형을 정리한다.</p>
+
+  <div class="card-grid g4">
+    <div class="stat-card"><div class="stat-value">5축</div><div class="stat-label">선택의 저울<br>성능·개발·안전·생태계·인력</div></div>
+    <div class="stat-card"><div class="stat-value">4개</div><div class="stat-label">"1위 언어"<br>측정법마다 다름 (§2)</div></div>
+    <div class="stat-card"><div class="stat-value">병목?</div><div class="stat-label">첫 질문은 "뭐가 빠른가"가<br>아니라 "병목이 어디냐"</div></div>
+    <div class="stat-card"><div class="stat-value">층</div><div class="stat-label">실무는 한 언어가 아니라<br>층마다 다른 언어 (§6)</div></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>이 문서를 관통하는 한 문장 —</strong> <u>언어에 절대적 우열은 없다.</u>
+    "가장 좋은 언어"가 아니라 "이 일의 병목과 제약에 맞는 언어"를 고르는 것이 스택 설계다.
+    그래서 실무는 한 언어로 다 하지 않고 — <strong>성능이 병목인 밑단은 빠른 언어(C++/Rust), 기능을 빠르게 조립하는 윗단은 편한 언어(TS/Python)</strong> — 층으로 나눈다.</div>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">📅</span>
+    <div><strong>신선도 주의 —</strong> 언어·프레임워크 인기는 빠르게 변한다. 아래 수치는 2025~2026 설문·지표(Stack Overflow·GitHub·TIOBE 등)를
+    조사 시점 기준이며, 순위 자체보다 <u>"각 언어가 어디서 강한가"의 구조</u>를 읽는 데 쓰는 것이 좋다. 세부 수치는 §8 출처로 최신 확인 권장.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. AXES ═══════════ -->
+<section id="axes">
+  <div class="section-header">
+    <div class="eyebrow">The Trade-offs</div>
+    <h2>1. 선택의 기준 — 5개의 저울</h2>
+    <p>먼저 "이 프로그램의 병목이 어디인가"를 묻는다</p>
+  </div>
+
+  <p class="body">스택 선택은 하나의 값(속도)을 최대화하는 문제가 아니라, <strong>여러 축을 저울질하는</strong> 문제다.
+  그리고 그 저울의 무게는 <u>"이 프로그램의 병목이 어디냐"</u>가 정한다 — 병목이 아닌 축은 아무리 좋아도 소용없다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/ts-decision-axes.svg" alt="스택 선택의 5개 축: 실행 성능, 개발 속도, 안전성, 생태계, 인력"></div>
+    <figcaption>실행 성능·개발 속도·안전성·생태계·인력 — 병목이 어디냐가 각 저울의 무게를 정한다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">저울</th><th style="width:200px">무엇을 묻나</th><th>강한 언어 — 그리고 언제 중요한가</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">⚡ 실행 성능</td><td>얼마나 빨리 도는가·메모리</td><td>C·C++·Rust·Zig. <strong>단, 연산이 진짜 병목일 때만 의미</strong> — 대기(네트워크·모델·디스크)가 병목이면 거의 무관.</td></tr>
+        <tr><td class="hl">🚀 개발 속도</td><td>얼마나 빨리 만들고 고치나</td><td>Python·JS/TS. 컴파일 대기 없이 즉시 실행 → 매주 바뀌는 제품에서 진짜 경쟁력.</td></tr>
+        <tr><td class="hl">🛡 안전성</td><td>버그를 미리 얼마나 막나</td><td>Rust(컴파일이 메모리 버그를 막음), GC 언어(JS·Python·Go — 메모리 버그 자체가 없음). C·C++은 빠르지만 위험.</td></tr>
+        <tr><td class="hl">📦 생태계</td><td>필요한 라이브러리가 있나</td><td>Python(AI·데이터), JS/TS(웹·도구)가 압도적. "바퀴를 다시 발명" 안 해도 되는 정도.</td></tr>
+        <tr><td class="hl">👥 인력</td><td>쓸 사람이 많은가</td><td>JS/TS·Python 개발자가 가장 많음 → 팀 키우기·유지보수 쉬움. Rust·C++ 시스템 개발자는 적고 비쌈.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🎯</span>
+    <div><strong>Claude Code로 검증 —</strong> 에이전트 CLI는 <u>모델 대기가 99%인 "네트워크·모델 바운드"</u>라 실행 성능 저울이 거의 0이다.
+    그래서 나머지 네 축(개발 속도·안전·생태계·인력)에서 앞선 <strong>TypeScript</strong>가 합리적이었다.
+    반대로 <u>추론엔진(llama.cpp)은 연산이 진짜 병목</u>이라 C++이 정답이다 — 같은 제품 안에서도 병목이 다르면 언어가 다르다(§6).</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. POPULARITY ═══════════ -->
+<section id="popularity">
+  <div class="section-header">
+    <div class="eyebrow">The Landscape</div>
+    <h2>2. 인기 지형 — "1위 언어"는 측정법마다 다르다</h2>
+    <p>순위표를 볼 땐 "무엇을 측정했나"를 먼저 봐야 한다</p>
+  </div>
+
+  <p class="body">"가장 인기 있는 언어"를 물으면 답이 하나가 아니다 — <strong>무엇으로 재느냐에 따라 1위가 달라진다.</strong>
+  이걸 알면 상충하는 순위표들에 휘둘리지 않는다:</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/ts-popularity.svg" alt="측정 방법별 1위 언어: 설문 JS, 커밋 TS, 검색 Python, 급여 Rust"></div>
+    <figcaption>많이 쓰는 건 JS(설문), 코드량은 TS(커밋), 관심은 Python(검색), 몸값은 Rust(급여) · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">측정 방법</th><th style="width:150px">1위</th><th>의미 — 그리고 읽는 법</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">📋 개발자 설문</td><td><strong>JavaScript</strong> (66%)</td><td>"실제로 많이 쓴다". 2011년 이래 1위(Stack Overflow). HTML/CSS·SQL·Python이 뒤따르고, <strong>Python이 최대 상승(+7%p)</strong> — AI·데이터 붐.</td></tr>
+        <tr><td class="hl">💻 커밋 수</td><td><strong>TypeScript</strong></td><td>"코드를 얼마나 쓰나". 2025년 8월 GitHub에서 JS 추월, 월 260만+ 기여자(+66%). JS에 타입을 더한 것이 대세가 됨.</td></tr>
+        <tr><td class="hl">🔍 검색·관심</td><td><strong>Python</strong> (21.8%)</td><td>"관심·학습 열기". TIOBE 지수 1위, 2위 C와 10%p+ 격차(지표 25년 역사상 최대). AI·데이터·입문 언어로 검색 폭증.</td></tr>
+        <tr><td class="hl">💰 급여·선망</td><td><strong>Rust</strong> (선망 72%)</td><td>"전문성·희소성". 가장 선망받는 언어, 2022년 이후 사용자 2배. Go도 급여 프리미엄(+19%). 희소·고난도 = 높은 몸값.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📊</span>
+    <div><strong>핵심 —</strong> 이 넷은 모순이 아니라 <u>서로 다른 질문에 대한 답</u>이다.
+    "취업 잘 되는 언어"(설문·인력)와 "몸값 높은 언어"(급여·희소성)는 다르고, "많이 쓰이는 언어"와 "배우고 싶은 언어"도 다르다.
+    순위표를 볼 때 <strong>"이건 무엇을 잰 건가"</strong>를 먼저 확인하는 습관이 지형을 정확히 읽게 한다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 3. LANGUAGES ═══════════ -->
+<section id="languages">
+  <div class="section-header">
+    <div class="eyebrow">Language by Language</div>
+    <h2>3. 주요 언어별 강점·쓰임새</h2>
+    <p>각 언어가 "무엇 때문에 존재하고 어디서 빛나는가"</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">언어</th><th style="width:210px">한 줄 정체</th><th>강점·주 쓰임새</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">JavaScript</td><td>브라우저의 유일한 언어</td><td>웹 프론트엔드의 사실상 독점. 서버(Node)·도구까지 확장. 생태계·인력 최대. 「네트워크」 문서의 <span class="mono">fetch</span>가 이것.</td></tr>
+        <tr><td class="hl">TypeScript</td><td>타입 붙은 JavaScript</td><td>JS의 유연함 + 정적 안전. 대규모 코드에서 리팩터링·실수 방지. <strong>Claude Code가 이걸로</strong>. 2025년 커밋 1위.</td></tr>
+        <tr><td class="hl">Python</td><td>읽기 쉬운 만능 언어</td><td><strong>AI·데이터의 표준</strong>(PyTorch·pandas). 스크립트·자동화·백엔드(FastAPI)·교육. 밑단은 C/C++로 가속. 로컬 LLM 하네스에 최적.</td></tr>
+        <tr><td class="hl">Rust</td><td>안전한 시스템 언어</td><td>C++급 속도 + 컴파일이 메모리 버그를 <u>원천 차단</u>. 시스템·인프라·성능 코어. 가장 선망받지만 학습 난이도 높음.</td></tr>
+        <tr><td class="hl">Go</td><td>단순한 서버 언어</td><td>동시성(고루틴)이 쉽고 문법이 간결. 클라우드 인프라(Docker·k8s가 Go). 컴파일 빠름. 배우기 쉬움.</td></tr>
+        <tr><td class="hl">C / C++</td><td>하드웨어에 가장 가까운</td><td>OS·게임엔진·DB·<strong>추론엔진(llama.cpp)</strong>. 밀리초·메모리가 병목인 곳. 방대한 자산, 대신 메모리 관리 위험.</td></tr>
+        <tr><td class="hl">Java / Kotlin</td><td>기업 서버의 강자</td><td>대규모 백엔드·안드로이드. JVM 위에서 안정적. Kotlin은 Java의 현대판(안드로이드 공식).</td></tr>
+        <tr><td class="hl">C#</td><td>마이크로소프트의 언어</td><td>.NET 생태계·기업 앱·게임(Unity). 「Windows COM」 문서의 그 세계와 연결.</td></tr>
+        <tr><td class="hl">Swift</td><td>애플의 언어</td><td>iOS·macOS 네이티브 앱. 안전·현대적 문법. 애플 생태계 전용에 가까움.</td></tr>
+        <tr><td class="hl">SQL</td><td>데이터를 다루는 언어</td><td>DB와 대화하는 표준. 어떤 언어를 쓰든 거의 필수라 설문 상위권 고정(「데이터베이스」 문서).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">💡</span>
+    <div><strong>읽는 법 —</strong> 각 언어는 특정 문제를 풀려고 태어났다 — JS는 브라우저, Python은 과학 계산, Rust는 "빠르면서 안전하게", Go는 "구글의 대규모 서버를 단순하게".
+    그 <u>탄생 배경</u>을 알면 "왜 그 분야에서 강한지"가 자연히 설명된다. 언어 이름을 외우기보다 <strong>"이 언어는 무엇 때문에 존재하나"</strong>를 잡는 게 낫다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. USECASE ═══════════ -->
+<section id="usecase">
+  <div class="section-header">
+    <div class="eyebrow">By Use Case</div>
+    <h2>4. 무엇을 만들 때 무엇을 — 용도별 지도</h2>
+    <p>"내가 만들려는 것"에서 거꾸로 언어를 고른다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/ts-by-usecase.svg" alt="용도별 언어 추천: 웹·AI·시스템·서버·모바일·스크립트"></div>
+    <figcaption>브라우저면 JS, AI면 Python, 성능 병목이면 Rust/C++, 나머지 서버는 취향·팀 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">만들려는 것</th><th style="width:200px">기본값</th><th>이유·대안</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">🌐 웹 프론트엔드</td><td>JavaScript / TypeScript</td><td>브라우저가 유일하게 아는 언어라 선택지가 사실상 JS 계열뿐. 대규모면 TS.</td></tr>
+        <tr><td class="hl">🤖 AI · 데이터</td><td>Python</td><td>PyTorch·pandas 생태계 독점. 속도 필요한 밑단만 C++/CUDA. "파이썬으로 실험, C++로 가속".</td></tr>
+        <tr><td class="hl">⚙️ 시스템·고성능</td><td>Rust / C / C++ / Zig</td><td>OS·게임엔진·DB·추론엔진 — 밀리초·메모리가 진짜 병목인 곳. 신규는 Rust 선호.</td></tr>
+        <tr><td class="hl">🖥 서버(백엔드)</td><td>다양 (정답 없음)</td><td>JS/TS(Node·Bun)·Python(FastAPI)·Go(동시성)·Java/Kotlin(대기업)·C#(.NET). 팀·취향·규모로 결정.</td></tr>
+        <tr><td class="hl">📱 모바일 앱</td><td>플랫폼별</td><td>iOS=Swift, Android=Kotlin. 크로스플랫폼은 React Native·Flutter(Dart) — "한 번 짜서 양쪽" vs "네이티브 성능" 트레이드오프.</td></tr>
+        <tr><td class="hl">🔧 스크립트·자동화</td><td>Python · Bash · JS</td><td>짧게 짜서 바로 실행. 윈도우는 PowerShell(「COM」 문서). 성능보다 "빨리 짜고 버리기" — 바이브코딩의 홈그라운드.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════ 5. FRAMEWORKS ═══════════ -->
+<section id="frameworks">
+  <div class="section-header">
+    <div class="eyebrow">Frameworks &amp; Runtimes</div>
+    <h2>5. 프레임워크·런타임 층 — 언어 위의 선택</h2>
+    <p>언어를 골랐으면 그 위의 도구도 고른다</p>
+  </div>
+
+  <p class="body">언어만으로는 부족하다. 그 위에 <strong>프레임워크</strong>(반복 작업을 대신해주는 뼈대)와
+  <strong>런타임</strong>(코드를 실행하는 엔진)을 고른다. 2026년 현재 주요 선택지:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">층</th><th style="width:200px">대표</th><th>성격 (조사 시점)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">웹 프론트</td><td><strong>React</strong> · Vue · Svelte</td><td>React가 여전히 선두(전문 개발자 ~40%). Next.js가 React 기반 풀스택 표준. Claude Code의 터미널 UI도 React(Ink).</td></tr>
+        <tr><td class="hl">JS 런타임</td><td>Node · <strong>Bun</strong> · Deno</td><td>Node가 안전한 기본값(npm 호환·LTS). Bun·Deno는 속도·개발경험으로 도전 — <strong>Claude Code는 Bun</strong>(TS 바로 실행·빠른 시작).</td></tr>
+        <tr><td class="hl">Python 백엔드</td><td><strong>FastAPI</strong> · Django · Flask</td><td>FastAPI 급성장(비동기·AI API·스트리밍에 강함, ~38%). Django는 여전히 최대(풀스택·성숙). 로컬 LLM API 서버에 FastAPI가 흔함.</td></tr>
+        <tr><td class="hl">AI/ML</td><td><strong>PyTorch</strong> · TensorFlow</td><td>PyTorch가 연구 주도. TensorFlow는 모바일·엣지 배포(TFLite)에서 우위. 로컬 추론은 llama.cpp·Ollama(「로컬 LLM」 문서).</td></tr>
+        <tr><td class="hl">엣지·경량 서버</td><td>Hono · Fastify</td><td>Express의 자리를 잠식 — Cloudflare Workers·Vercel Edge 등 엣지 런타임에서 가벼움·속도.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧩</span>
+    <div><strong>프레임워크의 본질 —</strong> 「로컬 LLM 에이전트」의 하네스, 「Claude Code 내부」의 오케스트레이션과 같은 발상이다 —
+    <u>반복되는 뼈대는 프레임워크가 제공하고, 나는 내 로직만</u> 얹는다. 언어가 "무엇으로 말하나"라면 프레임워크는 "어떤 뼈대 위에서 짓나"다.
+    새 프로젝트에서 <strong>언어 → 런타임 → 프레임워크</strong> 순으로 좁혀가면 선택이 정리된다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. LAYERS ═══════════ -->
+<section id="layers">
+  <div class="section-header">
+    <div class="eyebrow">Layered Reality</div>
+    <h2>6. 층으로 역할 분담 — "한 언어로 다"가 아니다</h2>
+    <p>"C++이 빠른데 왜 TS를?"의 최종 답</p>
+  </div>
+
+  <p class="body">실무의 진짜 모습은 "최고의 언어 하나로 전부"가 아니라 <strong>층마다 병목이 다르니 언어도 다르게</strong>다.
+  같은 제품 안에서도 밑단과 윗단이 원하는 게 다르다:</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/ts-layered-stack.svg" alt="3층 스택: UI(TS), 오케스트레이션(TS/Python), 성능 코어(C++/Rust)"></div>
+    <figcaption>UI·오케스트레이션은 편한 언어(빠른 개발), 성능 코어는 저수준 언어(진짜 병목) · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:180px">층</th><th style="width:200px">언어</th><th>왜 그 언어</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">🖥 UI·앱</td><td>JS/TS · React</td><td>자주 바뀌고 사람이 봄 — 개발 속도·생태계가 중요, 성능은 병목 아님.</td></tr>
+        <tr><td class="hl">⚙️ 오케스트레이션</td><td>TS(Claude Code) · Python(로컬 하네스)</td><td>밑단을 부르고 흐름을 관리 — 매주 바뀌므로 빠른 개발 언어가 유리.</td></tr>
+        <tr><td class="hl">🔩 성능 코어</td><td>C++(llama.cpp) · Rust · Zig · CUDA</td><td>진짜 병목 — 밀리초·메모리 전쟁. Bun 내부도 Zig, 파이썬 AI 라이브러리 밑단도 C/C++.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🔑</span>
+    <div><strong>내가 만들 로컬 LLM 하네스도 똑같다 —</strong> 추론은 <span class="mono">llama.cpp</span>(C++, 성능 병목이 진짜),
+    그 위 하네스는 편한 언어(파이썬 등, 빠른 개발). 「Claude Code 내부」 §11에서 "서비스 계층의 API만 바꾸고 오케스트레이션은 편하게"라고 한 게
+    바로 이 층 분담이다. <u>"빠른 언어 vs 편한 언어"는 양자택일이 아니라 층으로 공존</u>한다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 7. CHECKLIST ═══════════ -->
+<section id="checklist">
+  <div class="section-header">
+    <div class="eyebrow">Checklist</div>
+    <h2>7. 스택 고르기 체크리스트</h2>
+    <p>새 프로젝트에서 언어·스택을 정할 때 물어볼 것</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><h4>1️⃣ 병목이 어디인가</h4><p>연산이 병목? → 저수준 언어 고려. 대기(네트워크·모델·IO)가 병목? → 성능 저울 무시하고 개발 속도 우선. <strong>이 질문이 첫 번째.</strong></p></div>
+    <div class="card"><h4>2️⃣ 플랫폼이 강제하나</h4><p>브라우저면 JS, iOS면 Swift, 안드로이드면 Kotlin — 선택지가 이미 정해진 경우가 많다. 강제가 있으면 거기서 시작.</p></div>
+    <div class="card"><h4>3️⃣ 생태계가 있나</h4><p>AI면 Python(PyTorch), 웹이면 JS(React) — 라이브러리가 몰려 있는 언어를 거스르면 고생한다. "그 분야의 기본값"을 먼저 본다.</p></div>
+    <div class="card"><h4>4️⃣ 팀·나는 뭘 아나</h4><p>혼자·소규모면 아는 언어가 가장 빠르다. 팀이면 인력 구하기 쉬운 언어. 배움이 목적이면 반대로 새 언어도 좋다.</p></div>
+    <div class="card"><h4>5️⃣ 얼마나 오래 갈 코드인가</h4><p>버리는 스크립트면 Python·Bash로 빨리. 오래 유지할 대형이면 타입 안전(TS·Rust)이 나중을 구한다.</p></div>
+    <div class="card"><h4>6️⃣ 한 언어일 필요 없다</h4><p>밑단(성능)과 윗단(기능)을 나눠도 된다(§6). "전부 한 언어로"라는 강박을 버리면 선택이 쉬워진다.</p></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>초보자를 위한 한 줄 —</strong> 처음이라면 고민을 줄여라:
+    <u>웹을 하고 싶으면 JavaScript/TypeScript, AI·자동화를 하고 싶으면 Python</u>으로 시작하면 대부분의 길이 열린다.
+    이 둘이 생태계·인력·자료가 가장 풍부해서, 막혔을 때 답을 찾기도 가장 쉽다. 나머지 언어는 "이게 필요한 이유"가 생겼을 때 배우면 된다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 8. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">References</div>
+    <h2>8. 출처</h2>
+    <p>2025~2026 지표 — 빠르게 변하므로 최신 확인 권장</p>
+  </div>
+
+  <ul class="refs">
+    <li><a href="https://survey.stackoverflow.co/2025/" target="_blank" rel="noopener">Stack Overflow Developer Survey 2025</a>
+        <span class="ref-note">§2. 개발자 사용률(JS 66% 1위)·선망(Rust 72%)·프레임워크(React ~40%)의 1차 출처.</span></li>
+    <li><a href="https://www.tiobe.com/tiobe-index/" target="_blank" rel="noopener">TIOBE Index</a>
+        <span class="ref-note">§2. 검색 기반 인기 지수 — Python 1위(2026.2, 21.8%).</span></li>
+    <li><a href="https://github.blog/news-insights/octoverse/" target="_blank" rel="noopener">GitHub Octoverse (커밋·기여자 통계)</a>
+        <span class="ref-note">§2. TypeScript가 2025년 커밋 1위로 JS 추월.</span></li>
+    <li><a href="https://www.jetbrains.com/lp/devecosystem-2024/" target="_blank" rel="noopener">JetBrains Developer Ecosystem Survey</a>
+        <span class="ref-note">§5. Python 프레임워크(Django·FastAPI) 채택률 등.</span></li>
+  </ul>
+
+  <div class="callout navy">
+    <span class="icon">📚</span>
+    <div><strong>함께 읽으면 좋은 문서 —</strong> 「Claude Code 내부 해부」(왜 TS/Bun을 썼나 — 이 문서의 출발점),
+    「개발 환경으로서의 OS」(개발 환경 선택), 「데이터베이스」(SQL과 데이터 계층),
+    「로컬 LLM 에이전트」·「AI 하드웨어」(Python+C++ 층 분담의 실제).</div>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/ts-*.svg (4종) · 2025~2026 지표 기반(개략치, 확인 필요) · 「Claude Code 내부 해부」에서 이어지는 확장편
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>
