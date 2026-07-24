@@ -339,6 +339,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#skills">9. 스킬·커맨드</a>
     <a href="#blueprint">10. 로컬 하네스 청사진</a>
     <a href="#llamacpp">11. llama.cpp 실전 연동</a>
+    <a href="#l-dialects" class="sub">11-A. 두 방언과 어댑터</a>
     <a href="#refs">12. 출처·더 읽을거리</a>
   </nav>
   <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
@@ -782,7 +783,61 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <figcaption>하네스 요소(좌)를 llama-server 기능(우)에 직접 매핑 — 엔드포인트·문법 강제·토크나이즈·KV 캐시 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
-  <h3><span class="num">A</span>요소별 매핑 — 이 문서의 각 §을 서버 기능으로</h3>
+  <h3 id="l-dialects"><span class="num">A</span>왜 "엔드포인트만 바꾸면" 되는가 — 두 방언과 어댑터</h3>
+
+  <p class="body">"거의 그대로 붙는다"가 왜 큰 의미인지 이해하려면, <strong>LLM API 메시지 형식이 두 방언으로 갈라져 있다</strong>는 걸 알아야 한다.
+  같은 일(대화 + 도구 호출)을 하지만 JSON 생김새가 다르다 — <strong>OpenAI 방언</strong>(<span class="mono">/v1/chat/completions</span>, 업계 공용어)과
+  <strong>Anthropic 방언</strong>(<span class="mono">/v1/messages</span>, Claude의 형식)이다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/cc-two-dialects.svg" alt="OpenAI 방언과 Anthropic 방언 비교, 어댑터 있음/없음 두 경로"></div>
+    <figcaption>같은 도구 호출도 두 방언은 JSON이 다르다 — 서버가 Anthropic을 알면 번역 계층이 통째로 사라진다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">차이점</th><th>OpenAI 방언</th><th>Anthropic 방언 (하네스가 쓰는 것)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">content 형태</td><td>보통 문자열</td><td><strong>블록의 배열</strong>(<span class="mono">text·tool_use·tool_result·thinking·image</span>가 각 블록)</td></tr>
+        <tr><td class="hl">system 위치</td><td><span class="mono">messages</span> 배열 안의 <span class="mono">role:"system"</span></td><td><strong>별도 최상위 <span class="mono">system</span> 필드</strong></td></tr>
+        <tr><td class="hl">도구 호출</td><td><span class="mono">tool_calls</span> (function·arguments 문자열)</td><td><span class="mono">tool_use</span> 블록 (name·input 객체)</td></tr>
+        <tr><td class="hl">도구 결과</td><td><span class="mono">role:"tool"</span> 메시지</td><td><span class="mono">role:"user"</span> 안의 <span class="mono">tool_result</span> 블록</td></tr>
+        <tr><td class="hl">thinking</td><td>대응물 없음</td><td><span class="mono">thinking</span> 블록으로 별도 관리(서명까지)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">우리가 §2~9에서 분석한 그 하네스는 <strong>철저히 Anthropic 방언으로 짜여 있다</strong> —
+  <span class="mono">tool_use</span> 블록 추출, <span class="mono">tool_result</span>를 <span class="mono">role:"user"</span>로 재주입,
+  <span class="mono">thinking</span> 서명 보존, content가 블록 배열이라는 전제가 코드 전체에 깔려 있다.
+  그래서 이 하네스를 로컬로 옮길 때 두 갈래가 생긴다:</p>
+
+  <div class="card-grid g2">
+    <div class="card"><h4>🔄 길 A — 어댑터 필요 (이전)</h4><p>서버가 OpenAI 방언만 알면, 하네스와 서버 사이에 <strong>양방향 번역 계층</strong>을 직접 짜야 한다:
+    system 필드를 messages 안으로, tool_use→tool_calls, tool_result→role:tool, content 배열→문자열 평탄화…
+    특히 <strong>thinking 블록은 대응물이 없어</strong> 별도 처리. §2의 <u>tool_use↔tool_result 짝 맞추기</u>와 스트리밍 델타 재조립에서 버그 나기 쉬운 지점이다.</p></div>
+    <div class="card"><h4>✅ 길 B — 어댑터 불필요 (2026.1~)</h4><p>llama.cpp가 <span class="mono">/v1/messages</span>로 <strong>Anthropic 방언을 그대로 알아듣는다</strong>.
+    하네스가 이미 그 언어로 말하니 <u>번역 계층이 통째로 필요 없다</u>. 바꾸는 건 딱 한 줄 —
+    <span class="mono">base_url</span>을 <span class="mono">api.anthropic.com</span>에서 <span class="mono">localhost:8080</span>으로. tool_use·tool_result·system·블록·스트리밍이 양쪽 다 같은 언어라 그대로 흐른다.</p></div>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🈯</span>
+    <div><strong>「네트워크 통신」의 관점으로 —</strong> API 포맷은 "언어"이고 하네스는 그 언어로 말하는 사람이다.
+    Anthropic 지원 이전엔 하네스("Anthropic어")와 서버("OpenAI어") 사이에 <u>통역사(어댑터)</u>가 필요했다.
+    이제 서버가 "Anthropic어도 할 줄 알게" 되면서 <strong>통역사 없이 바로 대화</strong>한다 — 언어 장벽이 사라진 것.</div>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">⚖️</span>
+    <div><strong>"그대로"가 아니라 "거의"인 이유 —</strong> 포맷이 같아도 <u>모델 지능은 다르다</u>.
+    형식이 잘 전달돼도 로컬 모델(Qwen 등)이 Claude만큼 도구를 잘 쓴다는 보장은 없다(§10의 "약한 모델 보완").
+    또 thinking 모드·프롬프트 캐싱 힌트 같은 Anthropic 고유 파라미터는 로컬 구현이 부분적일 수 있고,
+    채팅 템플릿(<span class="mono">--jinja</span>)이 모델의 tool-use 형식과 맞아야 도구 호출이 제대로 파싱된다.
+    <strong>사라지는 것은 "형식 변환 비용"이지 "모델 격차"가 아니다.</strong></div>
+  </div>
+
+  <h3><span class="num">B</span>요소별 매핑 — 이 문서의 각 §을 서버 기능으로</h3>
 
   <div class="tbl-wrap">
     <table class="ds">
@@ -800,7 +855,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     </table>
   </div>
 
-  <h3><span class="num">B</span>최소 동작 예 — 도구 하나로 시작</h3>
+  <h3><span class="num">C</span>최소 동작 예 — 도구 하나로 시작</h3>
 
   <pre class="code"><span class="title-bar">① 서버 기동 — 툴콜 + 큰 컨텍스트 (예: Qwen 계열 GGUF)</span><span class="c"># --jinja: 툴콜 활성화 · -c: 컨텍스트 크기 · --parallel: 슬롯(동시 세션)</span>
 llama-server -m qwen3-30b-a3b-Q4_K_M.gguf \
@@ -874,7 +929,7 @@ llama-server -m qwen3-30b-a3b-Q4_K_M.gguf \
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/cc-*.svg (7종) · 공개 소스의 아키텍처 분석 + llama.cpp 실전 연동 · 「클로드 확장하기」의 소스 검증판
+  Hyundai-Inspired Design System v1.0 · 도식: img/cc-*.svg (8종) · 공개 소스의 아키텍처 분석 + llama.cpp 실전 연동 · 「클로드 확장하기」의 소스 검증판
 </footer>
 
 </main>

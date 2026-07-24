@@ -208,7 +208,7 @@
         "Agent Loop",
         "Reverse Eng"
       ],
-      "version": 2,
+      "version": 3,
       "assets": [
         "docs/img/cc-architecture.svg",
         "docs/img/cc-agent-loop.svg",
@@ -216,7 +216,8 @@
         "docs/img/cc-compaction.svg",
         "docs/img/cc-context-assembly.svg",
         "docs/img/cc-harness-blueprint.svg",
-        "docs/img/cc-llamacpp.svg"
+        "docs/img/cc-llamacpp.svg",
+        "docs/img/cc-two-dialects.svg"
       ]
     },
     {
