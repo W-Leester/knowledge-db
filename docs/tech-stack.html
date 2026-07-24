@@ -332,6 +332,8 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#languages">3. 주요 언어별 강점·쓰임새</a>
     <a href="#usecase">4. 무엇을 만들 때 무엇을</a>
     <a href="#frameworks">5. 프레임워크·런타임 층</a>
+    <a href="#f-what" class="sub">5-A. 런타임·프레임워크란</a>
+    <a href="#f-choices" class="sub">5-B. 주요 선택지</a>
     <a href="#layers">6. 층으로 역할 분담</a>
     <a href="#checklist">7. 스택 고르기 체크리스트</a>
     <a href="#refs">8. 출처</a>
@@ -534,8 +536,50 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <p>언어를 골랐으면 그 위의 도구도 고른다</p>
   </div>
 
-  <p class="body">언어만으로는 부족하다. 그 위에 <strong>프레임워크</strong>(반복 작업을 대신해주는 뼈대)와
-  <strong>런타임</strong>(코드를 실행하는 엔진)을 고른다. 2026년 현재 주요 선택지:</p>
+  <p class="body">언어만으로는 부족하다. 그 위에 <strong>런타임</strong>과 <strong>프레임워크</strong>를 고른다.
+  둘이 뭔지부터 확실히 잡고 넘어가자 — 초보자가 가장 자주 헷갈리는 지점이다.</p>
+
+  <h3 id="f-what"><span class="num">A</span>런타임과 프레임워크가 무엇인가</h3>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/ts-runtime-framework.svg" alt="언어·런타임·프레임워크·내 코드 4층과 라이브러리 vs 프레임워크 비교"></div>
+    <figcaption>언어(규칙) → 런타임(실행 엔진) → 프레임워크(뼈대) → 내 코드 — 그리고 라이브러리와의 차이 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body"><strong>런타임(Runtime)</strong>은 <u>코드를 실제로 실행하는 엔진</u>이다. 언어는 "문법·규칙"일 뿐이고,
+  그 규칙대로 쓰인 코드를 읽어 진짜로 동작시키는 프로그램이 런타임이다. 예를 들어 JavaScript라는 <em>언어</em>는
+  <strong>브라우저</strong>가 실행하기도 하고, 서버에서는 <strong>Node·Bun·Deno</strong>라는 런타임이 실행한다 —
+  같은 언어라도 어느 런타임에서 도느냐에 따라 속도·기능이 달라진다(「Claude Code 내부」가 Bun을 쓴 이유가 이것).
+  Python은 <span class="mono">CPython</span>이라는 인터프리터가, Java·C#는 <strong>가상머신</strong>(JVM·CLR)이 실행한다.
+  반면 C++·Rust는 미리 <u>기계어로 컴파일</u>해 별도 런타임 없이 바로 도는 쪽이다(§6의 성능 코어가 여기).</p>
+
+  <p class="body"><strong>프레임워크(Framework)</strong>는 <u>미리 지어진 뼈대·구조</u>다. 웹 서버든 앱이든 매번 똑같이 필요한 것들
+  (요청 처리·라우팅·화면 갱신·데이터 연결…)을 프레임워크가 골조로 제공하고, 나는 <strong>그 빈칸에 내 로직만 채운다.</strong>
+  집으로 치면 골조와 배관 규격이 이미 서 있고 나는 방 인테리어만 하는 셈이라, <u>매번 바닥부터 짓지 않아 빠르고 안정적</u>이다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:120px">개념</th><th style="width:190px">한 줄 정의</th><th>예 · 비유</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">언어</td><td>문법·어휘의 규칙</td><td>JavaScript · Python · Rust — "어떤 말로 지시하나"</td></tr>
+        <tr><td class="hl">런타임</td><td>그 코드를 실제 실행하는 엔진</td><td>Node · Bun · CPython · JVM — "말을 알아듣고 움직이는 일꾼"</td></tr>
+        <tr><td class="hl">프레임워크</td><td>미리 지어진 뼈대·구조</td><td>React · FastAPI · Django — "이미 세워진 골조"</td></tr>
+        <tr><td class="hl">라이브러리</td><td>필요할 때 꺼내 쓰는 도구</td><td>날짜 계산·차트 그리기 등 — "도구상자"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🔀</span>
+    <div><strong>라이브러리 vs 프레임워크 — "누가 누구를 부르나"</strong>가 결정적 차이다.
+    <u>라이브러리는 <strong>내가</strong> 필요할 때 부른다</u>(도구상자에서 연장을 꺼내듯 — 주도권이 내 코드에).
+    <u>프레임워크는 <strong>프레임워크가</strong> 내 코드를 부른다</u>(골조가 흐름을 쥐고, 내 코드는 정해진 자리를 채움 — "제어의 역전").
+    유명한 표현으로 <em>"우리를 부르지 마세요, 우리가 당신을 부를게요(헐리우드 원칙)"</em>. 프레임워크가 큰 흐름을 정하고 나는 빈칸만 메운다.</div>
+  </div>
+
+  <h3 id="f-choices"><span class="num">B</span>주요 선택지 (2026)</h3>
+
+  <p class="body">이제 층별 대표 선택지를 보자 — 새 프로젝트는 보통 <strong>언어 → 런타임 → 프레임워크</strong> 순으로 좁혀간다:</p>
 
   <div class="tbl-wrap">
     <table class="ds">
@@ -646,7 +690,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/ts-*.svg (4종) · 2025~2026 지표 기반(개략치, 확인 필요) · 「Claude Code 내부 해부」에서 이어지는 확장편
+  Hyundai-Inspired Design System v1.0 · 도식: img/ts-*.svg (5종) · 2025~2026 지표 기반(개략치, 확인 필요) · 「Claude Code 내부 해부」에서 이어지는 확장편
 </footer>
 
 </main>

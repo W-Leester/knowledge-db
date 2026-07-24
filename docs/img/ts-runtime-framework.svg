@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="rfa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="rfg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">언어 · 런타임 · 프레임워크 — 무엇이 무엇인가</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">언어는 "규칙", 런타임은 "실행하는 엔진", 프레임워크는 "미리 지어진 뼈대"</text>
+
+  <!-- 4단 스택 -->
+  <rect x="60" y="82" width="380" height="66" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="250" y="108" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">① 언어 (Language)</text>
+  <text x="250" y="130" font-size="11.5" fill="#555555" text-anchor="middle">문법·어휘의 규칙 — JavaScript · Python · Rust</text>
+
+  <rect x="60" y="160" width="380" height="66" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="250" y="186" font-size="14.5" font-weight="800" fill="#B45309" text-anchor="middle">② 런타임 (Runtime)</text>
+  <text x="250" y="208" font-size="11.5" fill="#555555" text-anchor="middle">그 규칙대로 실제 실행하는 엔진 — Node · Bun · CPython</text>
+
+  <rect x="60" y="238" width="380" height="66" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="250" y="264" font-size="14.5" font-weight="800" fill="#065F46" text-anchor="middle">③ 프레임워크 (Framework)</text>
+  <text x="250" y="286" font-size="11.5" fill="#555555" text-anchor="middle">미리 지어진 뼈대·규칙 — React · FastAPI · Django</text>
+
+  <rect x="60" y="316" width="380" height="66" rx="10" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="250" y="342" font-size="14.5" font-weight="800" fill="#6B21A8" text-anchor="middle">④ 내 코드</text>
+  <text x="250" y="364" font-size="11.5" fill="#555555" text-anchor="middle">뼈대 위에 내 로직·화면만 얹는다</text>
+
+  <line x1="250" y1="148" x2="250" y2="158" stroke="#003F8A" stroke-width="2.2" marker-end="url(#rfa)"/>
+  <line x1="250" y1="226" x2="250" y2="236" stroke="#003F8A" stroke-width="2.2" marker-end="url(#rfa)"/>
+  <line x1="250" y1="304" x2="250" y2="314" stroke="#003F8A" stroke-width="2.2" marker-end="url(#rfa)"/>
+
+  <!-- 비유 (오른쪽) -->
+  <rect x="470" y="82" width="370" height="300" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="655" y="110" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">🏠 집 짓기로 비유하면</text>
+  <text x="490" y="146" font-size="12.5" fill="#555555"><tspan font-weight="800" fill="#1A5CB5">언어</tspan> = 어떤 말로 지시하나 (한국어·영어)</text>
+  <text x="490" y="184" font-size="12.5" fill="#555555"><tspan font-weight="800" fill="#B45309">런타임</tspan> = 그 말을 알아듣고 실제로</text>
+  <text x="510" y="204" font-size="12.5" fill="#555555">움직이는 일꾼·기계</text>
+  <text x="490" y="242" font-size="12.5" fill="#555555"><tspan font-weight="800" fill="#065F46">프레임워크</tspan> = 이미 세워진 골조 +</text>
+  <text x="510" y="262" font-size="12.5" fill="#555555">배관·전기 규격 (구조가 정해짐)</text>
+  <text x="490" y="300" font-size="12.5" fill="#555555"><tspan font-weight="800" fill="#6B21A8">내 코드</tspan> = 그 안에서 방을 꾸미는 것</text>
+  <text x="490" y="338" font-size="11.5" fill="#8A8A8A">→ 골조를 매번 새로 안 지어도 되니</text>
+  <text x="510" y="356" font-size="11.5" fill="#8A8A8A">빨리·안정적으로 완성</text>
+
+  <!-- 라이브러리 vs 프레임워크 -->
+  <text x="450" y="418" font-size="15.5" font-weight="800" fill="#002C5F" text-anchor="middle">헷갈리는 것: 라이브러리 vs 프레임워크 — "누가 누구를 부르나"</text>
+
+  <rect x="60" y="436" width="380" height="130" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="250" y="462" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">📚 라이브러리 = 도구상자</text>
+  <rect x="90" y="476" width="140" height="34" rx="7" fill="#FFFFFF"/>
+  <text x="160" y="498" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">내 코드</text>
+  <rect x="270" y="476" width="140" height="34" rx="7" fill="#FFFFFF"/>
+  <text x="340" y="498" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">라이브러리</text>
+  <line x1="230" y1="493" x2="266" y2="493" stroke="#1A5CB5" stroke-width="2.5" marker-end="url(#rfa)"/>
+  <text x="250" y="534" font-size="11.5" fill="#555555" text-anchor="middle"><strong>내가</strong> 필요할 때 <strong>부른다</strong></text>
+  <text x="250" y="554" font-size="10.5" fill="#8A8A8A" text-anchor="middle">주도권이 내 코드에 있음</text>
+
+  <rect x="460" y="436" width="380" height="130" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="650" y="462" font-size="13.5" font-weight="800" fill="#065F46" text-anchor="middle">🏗 프레임워크 = 골조</text>
+  <rect x="490" y="476" width="140" height="34" rx="7" fill="#FFFFFF"/>
+  <text x="560" y="498" font-size="11.5" font-weight="700" fill="#065F46" text-anchor="middle">프레임워크</text>
+  <rect x="670" y="476" width="140" height="34" rx="7" fill="#FFFFFF"/>
+  <text x="740" y="498" font-size="11.5" font-weight="700" fill="#065F46" text-anchor="middle">내 코드</text>
+  <line x1="630" y1="493" x2="666" y2="493" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#rfg)"/>
+  <text x="650" y="534" font-size="11.5" fill="#555555" text-anchor="middle"><strong>프레임워크가</strong> 내 코드를 <strong>부른다</strong></text>
+  <text x="650" y="554" font-size="10.5" fill="#8A8A8A" text-anchor="middle">"제어의 역전" — 주도권이 뼈대에</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="582" width="840" height="34" rx="8" fill="#0D1B2E"/>
+  <text x="450" y="604" font-size="12.5" font-weight="700" fill="#FFF" text-anchor="middle">"헐리우드 원칙: 우리를 부르지 마세요, 우리가 당신을 부를게요" — 프레임워크가 흐름을 쥐고 내 코드는 빈칸을 채운다</text>
+</svg>
