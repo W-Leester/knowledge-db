@@ -208,7 +208,7 @@
         "Agent Loop",
         "Reverse Eng"
       ],
-      "version": 3,
+      "version": 4,
       "assets": [
         "docs/img/cc-architecture.svg",
         "docs/img/cc-agent-loop.svg",

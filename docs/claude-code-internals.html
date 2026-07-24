@@ -794,15 +794,21 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <figcaption>같은 도구 호출도 두 방언은 JSON이 다르다 — 서버가 Anthropic을 알면 번역 계층이 통째로 사라진다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
+  <p class="body">두 방언의 차이, 그리고 <strong>서버가 OpenAI만 알 때 어댑터가 매번 해야 하는 변환</strong>까지 한 표로 모으면 이렇다 —
+  마지막 열이 비어 있을수록 "그대로 붙는다"에 가깝다:</p>
+
   <div class="tbl-wrap">
     <table class="ds">
-      <thead><tr><th style="width:150px">차이점</th><th>OpenAI 방언</th><th>Anthropic 방언 (하네스가 쓰는 것)</th></tr></thead>
+      <thead><tr><th style="width:120px">항목</th><th style="width:230px">🟦 OpenAI 방언<br><span style="font-weight:400;font-size:11px;color:var(--text-muted)">/v1/chat/completions</span></th><th style="width:250px">🟪 Anthropic 방언 (하네스가 쓰는 것)<br><span style="font-weight:400;font-size:11px;color:var(--text-muted)">/v1/messages</span></th><th>🔄 길 A 어댑터가 해야 하는 변환</th></tr></thead>
       <tbody>
-        <tr><td class="hl">content 형태</td><td>보통 문자열</td><td><strong>블록의 배열</strong>(<span class="mono">text·tool_use·tool_result·thinking·image</span>가 각 블록)</td></tr>
-        <tr><td class="hl">system 위치</td><td><span class="mono">messages</span> 배열 안의 <span class="mono">role:"system"</span></td><td><strong>별도 최상위 <span class="mono">system</span> 필드</strong></td></tr>
-        <tr><td class="hl">도구 호출</td><td><span class="mono">tool_calls</span> (function·arguments 문자열)</td><td><span class="mono">tool_use</span> 블록 (name·input 객체)</td></tr>
-        <tr><td class="hl">도구 결과</td><td><span class="mono">role:"tool"</span> 메시지</td><td><span class="mono">role:"user"</span> 안의 <span class="mono">tool_result</span> 블록</td></tr>
-        <tr><td class="hl">thinking</td><td>대응물 없음</td><td><span class="mono">thinking</span> 블록으로 별도 관리(서명까지)</td></tr>
+        <tr><td class="hl">content 형태</td><td>보통 문자열</td><td><strong>블록의 배열</strong>(<span class="mono">text·tool_use·tool_result·thinking·image</span>)</td><td>블록 배열 ↔ 문자열 평탄화/재구성</td></tr>
+        <tr><td class="hl">system 위치</td><td><span class="mono">messages</span> 안의 <span class="mono">role:"system"</span></td><td><strong>별도 최상위 <span class="mono">system</span> 필드</strong></td><td>system 필드 ↔ messages 안으로 이동</td></tr>
+        <tr><td class="hl">도구 호출</td><td><span class="mono">tool_calls</span> (arguments가 <strong>문자열</strong>)</td><td><span class="mono">tool_use</span> 블록 (input이 <strong>객체</strong>)</td><td>tool_use ↔ tool_calls + 문자열/객체 변환</td></tr>
+        <tr><td class="hl">도구 결과</td><td><span class="mono">role:"tool"</span> 메시지</td><td><span class="mono">role:"user"</span> 안의 <span class="mono">tool_result</span> 블록</td><td>role:"tool" ↔ user 안 tool_result 블록</td></tr>
+        <tr><td class="hl">도구 결과 연결</td><td><span class="mono">tool_call_id</span></td><td><span class="mono">tool_use_id</span></td><td>id 필드명 매핑 (짝 안 맞으면 400 에러)</td></tr>
+        <tr><td class="hl">thinking</td><td>대응물 없음</td><td><span class="mono">thinking</span> 블록 (서명 포함)</td><td class="hl" style="color:var(--red)">대응 불가 — 별도 처리/손실</td></tr>
+        <tr><td class="hl">스트리밍</td><td>SSE <span class="mono">delta.content</span></td><td>SSE 블록별 이벤트 (<span class="mono">input_json_delta</span> 등)</td><td>이벤트 형태 재조립 (버그 다발)</td></tr>
+        <tr><td class="hl">연결 방법</td><td colspan="3" style="text-align:center"><strong>길 A</strong>(OpenAI만): 위 변환을 다 해주는 어댑터 필요 &nbsp;·&nbsp; <strong style="color:var(--green)">길 B</strong>(Anthropic 지원, 2026.1~): <span class="mono">base_url</span> 한 줄만 → 마지막 열 전부 불필요</td></tr>
       </tbody>
     </table>
   </div>
