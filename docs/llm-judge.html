@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM-as-a-Judge & Evals — AI의 출력을 AI가 채점한다</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #6B21A8 55%, #1A5CB5 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>LLM-as-a-Judge<br>& Evals</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#why">1. 왜 필요한가</a>
+    <a href="#modes">2. 세 가지 판정 방식</a>
+    <a href="#lifecycle">3. 서비스 전 주기에서의 활용</a>
+    <a href="#lc-dev" class="sub">3-A. 개발 — eval 파이프라인</a>
+    <a href="#lc-ship" class="sub">3-B. 배포 — A/B·모델 선정</a>
+    <a href="#lc-ops" class="sub">3-C. 운영 — 감시·가드레일</a>
+    <a href="#biases">4. 편향과 대처법</a>
+    <a href="#prompt">5. 심판 프롬프트 실전 작성</a>
+    <a href="#local">6. 로컬 LLM에서의 활용</a>
+    <a href="#tools">7. 도구·벤치마크 생태계</a>
+    <a href="#checklist">8. 체크리스트</a>
+    <a href="#refs">9. 출처</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">AI · LLM · Quality Engineering</div>
+  <h1>LLM-as-a-Judge & Evals<br><span class="thin">AI의 출력을 AI가 채점한다 — LLM 서비스 품질 관리의 표준</span></h1>
+  <p class="sub">요약·글쓰기·챗봇 답변에는 "정답이 하나"가 없어서 기존 자동 지표로는 품질을 잴 수 없고, 사람이 다 보기엔 느리고 비싸다.
+  그래서 평가 자체를 강한 LLM에게 시킨다 — 이것이 LLM-as-a-Judge다. 세 가지 판정 방식부터
+  개발(회귀 테스트)·배포(A/B)·운영(가드레일) 전 주기 활용, 심판의 편향과 대처, 로컬 LLM 루프에 꽂는 법까지 정리한다.</p>
+  <div class="tags">
+    <span class="tag">LLM Judge</span><span class="tag">Evals</span><span class="tag">쌍대 비교</span>
+    <span class="tag">가드레일</span><span class="tag">RAG 검증</span><span class="tag">루프 엔지니어링</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 평가 없이는 개선도 없다</h2>
+    <p>LLM 서비스를 진지하게 운영하면서 eval 없이 가는 경우는 거의 없다</p>
+  </div>
+
+  <p class="body">코드를 고치면 테스트를 돌려서 망가진 게 없는지 확인한다. 그런데 <strong>프롬프트를 고치면 무엇으로 확인하나?</strong>
+  LLM의 출력은 정답이 하나가 아니라서 <code>assert</code> 문으로 검사할 수 없다. 이 빈자리를 채우는 것이
+  <strong>LLM-as-a-Judge</strong>(LLM 심판) — <u>AI의 출력물을 사람 대신 다른 LLM이 기준표에 따라 평가하게 하는 기법</u>이다.
+  강한 모델의 판정이 사람 평가자와 약 80% 일치한다는 연구(§9, 개략치)가 나온 뒤로,
+  모델 벤치마크(Chatbot Arena)부터 실서비스 품질 관리까지 사실상의 표준이 됐다.</p>
+
+  <div class="card-grid g4">
+    <div class="stat-card"><div class="stat-value">~80%</div><div class="stat-label">사람 평가와의 일치율<br>(사람끼리 일치율과 비슷)</div></div>
+    <div class="stat-card"><div class="stat-value">3방식</div><div class="stat-label">단독 채점 · 쌍대 비교<br>· 기준 대조 (§2)</div></div>
+    <div class="stat-card"><div class="stat-value">전 주기</div><div class="stat-label">개발 → 배포 → 운영<br>같은 인프라 재사용 (§3)</div></div>
+    <div class="stat-card"><div class="stat-value">4편향</div><div class="stat-label">위치·장황함·자기편애<br>·비일관 — 전부 상쇄 가능 (§4)</div></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>이 문서의 위치 —</strong> 「로컬 LLM 에이전트」의 루프에 "검증자"를 꽂는 방법(§6),
+    「Claude Code 내부 해부」에서 본 다중 에이전트의 판정 패턴, 그리고 클라우드 LLM으로 서비스를 만들 때의
+    품질 관리 인프라(§3)가 전부 이 한 가지 기법 위에 서 있다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. WHY ═══════════ -->
+<section id="why">
+  <div class="section-header">
+    <div class="eyebrow">Problem</div>
+    <h2>1. 왜 필요한가 — 정답 없는 출력의 채점 문제</h2>
+    <p>사람은 느리고, 전통 지표는 못 재고, 그래서 심판이 필요하다</p>
+  </div>
+
+  <p class="body">분류 모델은 "맞았나/틀렸나"로 채점하면 된다. 그러나 LLM이 주로 하는 일 — 요약, 글쓰기, 코드 리뷰, 상담 답변 —은
+  <strong>좋은 답이 무수히 많고 나쁜 답도 무수히 많다</strong>. 단어가 얼마나 겹치는지 세는 전통 지표(BLEU·ROUGE)는
+  표현만 달라도 좋은 답을 나쁘다고 하고, 그럴듯한 헛소리에 점수를 준다. 사람 평가는 정확하지만
+  <u>건당 수 분·인건비·확장 불가</u>라는 벽에 부딪힌다 — 프롬프트를 하루 세 번 고치는 개발 속도를 사람 평가가 따라갈 수 없다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/lj-concept.svg" alt="사람 평가, 전통 자동 지표, LLM Judge 세 가지 평가 방법 비교"></div>
+    <figcaption>셋을 층으로 쓴다 — 일상 반복은 judge, 정답 있는 부분은 전통 지표, 사람은 "심판의 심판" · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">돌파구는 2023년 MT-Bench/Chatbot Arena 논문(§9)이 열었다. <strong>GPT-4급 모델에게 채점을 시켰더니
+  사람 평가자와의 일치율이 사람 평가자끼리의 일치율과 비슷한 ~80% 수준</strong>으로 나온 것이다.
+  "사람만큼 정확한데 수천 배 빠르고 싼 평가자"가 생긴 셈이고, 이때부터 LLM judge는
+  벤치마크의 도구를 넘어 <u>서비스 개발의 일상 인프라</u>가 됐다.</p>
+
+  <div class="callout amber">
+    <span class="icon">⚠️</span>
+    <div><strong>단, 심판은 "대체"가 아니라 "증폭기"다 —</strong> judge가 사람을 완전히 대체하는 게 아니다.
+    사람의 판단 기준을 기준표(rubric)에 압축해 넣고, judge가 그 기준을 수천 건에 <u>확장 적용</u>하는 구조다.
+    그래서 기준표가 엉성하면 judge도 엉성하게 채점한다(§5). 그리고 주기적으로 표본을 뽑아
+    judge 판정과 사람 판정의 일치율을 재는 것으로 심판 자체를 검증해야 한다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. MODES ═══════════ -->
+<section id="modes">
+  <div class="section-header">
+    <div class="eyebrow">Mechanics</div>
+    <h2>2. 세 가지 판정 방식</h2>
+    <p>무엇을 알고 싶으냐에 따라 묻는 방식이 다르다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/lj-three-modes.svg" alt="단독 채점, 쌍대 비교, 기준 대조 세 가지 판정 방식"></div>
+    <figcaption>"기준을 통과하나?"는 단독 채점, "어느 쪽이 나은가?"는 쌍대 비교, "정답이 있나?"면 기준 대조 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">방식</th><th style="width:200px">심판에게 주는 것</th><th>언제 쓰나</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">단독 채점</td><td>답변 1개 + 기준표</td><td>품질 모니터링, 합격/불합격 가드레일, 회귀 테스트의 점수화. 절대 점수는 흔들리므로 기준표 필수</td></tr>
+        <tr><td class="hl">쌍대 비교</td><td>답변 2개 (A vs B)</td><td>모델·프롬프트 A/B 테스트, 리더보드. 상대 비교라 점수보다 안정적 — "나아졌나?"에 가장 강함</td></tr>
+        <tr><td class="hl">기준 대조</td><td>답변 + 모범답안</td><td>정답 있는 평가셋(QA·요약 검증), RAG 근거 대조. 기준이 있어 가장 정확·일관적</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">셋 모두에 통하는 원칙이 하나 있다: <strong>점수만 뱉게 하지 말고 판정 근거(reasoning)를 먼저 쓰게 하라.</strong>
+  "근거를 쓴 뒤 점수를 내라"는 지시만으로 판정 정확도가 올라가고(G-Eval 계열, §9), 그 근거는
+  나중에 <u>왜 떨어졌는지 디버깅하는 자료</u>이자 재생성 루프의 피드백(§6)이 된다.</p>
+</section>
+
+<!-- ═══════════ 3. LIFECYCLE ═══════════ -->
+<section id="lifecycle">
+  <div class="section-header">
+    <div class="eyebrow">In Production</div>
+    <h2>3. 서비스 전 주기에서의 활용</h2>
+    <p>개발 → 배포 → 운영, 코드의 테스트·CI·모니터링에 정확히 대응한다</p>
+  </div>
+
+  <p class="body">클라우드 LLM으로 실서비스를 만들 때 judge가 진가를 발휘한다. 핵심 그림은 하나다 —
+  <strong>기준표 + 평가셋 + 채점기</strong>라는 같은 인프라가 개발에선 <u>배포 전 차단막</u>, 배포에선 <u>저울</u>,
+  운영에선 <u>감시탑과 안전망</u>으로 재사용된다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/lj-lifecycle.svg" alt="개발 eval 파이프라인, 배포 A/B 테스트, 운영 모니터링·가드레일에서의 judge 활용"></div>
+    <figcaption>한 번 구축한 judge 인프라가 전 주기를 덮는다 — 가드레일만 지연시간에 민감하다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <h3 id="lc-dev"><span class="num">A</span>개발 — eval 파이프라인은 LLM의 회귀 테스트다</h3>
+
+  <p class="body">프롬프트를 수정하거나 모델을 교체할 때 "좋아진 것 같은데?"라는 감으로 배포할 수는 없다.
+  <strong>대표 입력 100~500건을 모은 평가셋</strong>을 만들고, 변경할 때마다 전건을 다시 실행해 judge가 채점한다.
+  평균 점수가 떨어지면 배포를 차단한다 — 코드의 회귀 테스트와 완전히 같은 역할이다.</p>
+
+  <pre class="code"><span class="title-bar">EVAL 회귀 테스트 — 개념 흐름 (CI에 끼우는 형태)</span><span class="c"># 1. 평가셋: 대표 질문 + (있다면) 모범답안·참고문서</span>
+evalset = load("evalset.jsonl")        <span class="c"># 300건 — 실사용 로그에서 채집 + 까다로운 케이스 수동 추가</span>
+
+<span class="c"># 2. 변경된 프롬프트로 전건 생성</span>
+answers = [my_service(x.question) <span class="k">for</span> x <span class="k">in</span> evalset]
+
+<span class="c"># 3. judge 채점 (기준표는 §5, 병렬 호출로 수 분 내 완료)</span>
+scores = [judge(x.question, a, rubric) <span class="k">for</span> x, a <span class="k">in</span> zip(evalset, answers)]
+
+<span class="c"># 4. 이전 버전과 비교 — 하락이면 병합 차단</span>
+<span class="k">if</span> mean(scores) &lt; baseline - 0.2:  <span class="f">fail_ci</span>(<span class="s">"품질 회귀: 8.2 → 7.6"</span>)</pre>
+
+  <div class="callout red">
+    <span class="icon">🕳</span>
+    <div><strong>이게 없으면 생기는 일 —</strong> 프롬프트 한 줄을 고쳐서 케이스 10개를 살렸는데,
+    멀쩡하던 다른 케이스 30개가 <u>조용히</u> 망가진다. 코드와 달리 컴파일 에러도 예외도 없어서,
+    사용자 항의가 들어올 때까지 아무도 모른다. eval은 이 침묵의 회귀를 잡는 유일한 장치다.</div>
+  </div>
+
+  <h3 id="lc-ship"><span class="num">B</span>배포 — A/B 테스트와 "선수는 싸게, 심판은 강하게"</h3>
+
+  <p class="body">"우리 서비스엔 Haiku급이면 충분한가, Sonnet급이 필요한가?"를 정할 때 쌍대 비교를 쓴다.
+  두 후보의 답변을 평가셋 전건에 대해 생성하고 judge가 대량 판정 — <strong>품질 차이가 미미하면 싼 모델로 전환</strong>해서
+  API 비용을 수 배 절감하는 결정을 데이터로 내린다. 프롬프트 v1 vs v2, RAG 유무 비교도 같은 틀이다.</p>
+
+  <p class="body">여기서 흔한 구성이 <strong>"선수는 싼 모델, 심판은 강한 모델"</strong>이다. 생성은 매 요청마다 일어나지만
+  판정은 개발·배포 시점과 표본에만 일어나므로, 심판에 비싼 모델을 써도 총비용에서 차지하는 몫이 작다.
+  약한 모델의 출력을 강한 모델의 기준으로 끌어올리는 지렛대인 셈이다.</p>
+
+  <h3 id="lc-ops"><span class="num">C</span>운영 — 표본 감시와 응답 직전 가드레일</h3>
+
+  <p class="body"><strong>표본 감시:</strong> 실 트래픽의 일부(예: 5%)를 비동기로 채점해 대시보드에 품질 추세를 그린다.
+  모델 제공사가 모델을 조용히 업데이트했거나, 특정 유형의 질문에서 품질이 미끄러질 때 사용자보다 먼저 알게 된다.</p>
+
+  <p class="body"><strong>가드레일:</strong> 중요한 서비스는 답변을 내보내기 <u>전에</u> judge를 통과시킨다 —
+  "정책 위반인가? 개인정보를 노출하나? 근거 없는 주장인가?" 불합격이면 재생성하거나 안전한 폴백 답변으로 대체한다.
+  RAG 서비스의 <strong>근거성(groundedness) 검사</strong>가 대표 사례다: "이 답변의 주장이 검색된 문서에 실제로 있는가"를
+  기준 대조(§2)로 판정해 환각을 차단한다.</p>
+
+  <div class="callout amber">
+    <span class="icon">⏱</span>
+    <div><strong>가드레일만 지연시간이 문제다 —</strong> 회귀 테스트·A/B·표본 감시는 전부 비동기·배치라 강한 모델을 써도 되지만,
+    가드레일은 사용자가 기다리는 경로에 있다. 빠른 모델 + 짧은 기준표(합/불 하나만) + 필요하면 스트리밍과 병행 판정으로
+    지연을 수백 ms 수준에 묶는다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. BIASES ═══════════ -->
+<section id="biases">
+  <div class="section-header">
+    <div class="eyebrow">Pitfalls</div>
+    <h2>4. 편향과 대처법 — 심판도 LLM이다</h2>
+    <p>편향은 "없앨" 수 없고 "설계로 상쇄"한다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/lj-biases.svg" alt="위치 편향, 장황함 편향, 자기 편애, 채점 비일관성과 각각의 대처법"></div>
+    <figcaption>4대 편향 전부 기계적 대처가 존재한다 — 그리고 사람 일치율로 심판 자체를 주기 검증 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">편향</th><th style="width:250px">증상</th><th>대처</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">위치 편향</td><td>쌍대 비교에서 먼저 나온 답을 선호</td><td>(A,B)·(B,A) 순서를 뒤집어 2회 판정, 두 번 다 이긴 쪽만 승자. 엇갈리면 무승부</td></tr>
+        <tr><td class="hl">장황함 편향</td><td>내용이 같아도 길고 그럴듯한 답에 후한 점수</td><td>기준표에 "길이는 기준이 아니다" 명시. 벤치마크는 길이 보정 승률(AlpacaEval 2) 사용</td></tr>
+        <tr><td class="hl">자기 편애</td><td>자기(같은 모델·같은 회사 문체)가 쓴 답을 선호</td><td>심판과 선수를 다른 회사 모델로. 중요 판정은 복수 심판 다수결(패널)</td></tr>
+        <tr><td class="hl">채점 비일관성</td><td>같은 답도 물을 때마다 점수가 흔들림</td><td>점수 앵커가 있는 기준표(§5) + temperature 0 + 중요 판정은 3~5회 평균·다수결</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout purple">
+    <span class="icon">⚖️</span>
+    <div><strong>심판의 심판 —</strong> 대처를 다 해도 judge가 옳다는 보장은 없다. 그래서 운영 중인 judge는
+    주기적으로(예: 분기마다) 표본 100~200건을 사람이 직접 채점해 <u>judge와의 일치율</u>을 잰다.
+    일치율이 떨어지면 기준표를 고치거나 심판 모델을 교체한다 — 테스트 코드도 가끔은 테스트해야 하는 것과 같다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. PROMPT ═══════════ -->
+<section id="prompt">
+  <div class="section-header">
+    <div class="eyebrow">Hands-on</div>
+    <h2>5. 심판 프롬프트 실전 작성</h2>
+    <p>judge의 품질은 기준표(rubric)의 품질이다</p>
+  </div>
+
+  <p class="body">"이 답변을 1~10점으로 채점해줘"는 최악의 judge 프롬프트다 — 기준이 없으면 점수는 그날의 기분이다.
+  좋은 심판 프롬프트의 요소는 넷이다: <strong>① 역할과 평가 대상 명시 ② 점수 앵커가 있는 기준표
+  ③ 편향 차단 지시 ④ 근거 먼저, 구조화된 출력(JSON)은 마지막</strong>.</p>
+
+  <pre class="code"><span class="title-bar">심판 프롬프트 템플릿 — 단독 채점 (고객지원 답변 예시)</span>당신은 고객지원 답변의 품질 심판이다. 아래 기준표로만 채점하라.
+
+[기준표]
+1. 정확성 (1~5)
+   5 = 모든 사실이 참고 문서와 일치   3 = 사소한 부정확  1 = 핵심 사실 오류·날조
+2. 완결성 (1~5)
+   5 = 질문의 모든 부분에 답함        3 = 일부 누락      1 = 질문과 동떨어짐
+3. 안전성 (pass/fail)
+   개인정보 노출, 환불 정책 위반 약속, 법률·의료 단정이 있으면 fail
+
+[주의] 답변의 길이는 평가 기준이 아니다. 길다고 가점하지 마라.
+
+[질문] {question}
+[답변] {answer}
+[참고 문서] {context}
+
+먼저 각 항목의 판정 근거를 한 줄씩 쓰고, 마지막 줄에 JSON만 출력하라:
+{"accuracy": n, "completeness": n, "safety": "pass|fail", "reason": "한 줄 요약"}</pre>
+
+  <div class="card-grid">
+    <div class="card"><h4>🎯 점수 앵커</h4><p>"5점 = 무엇, 3점 = 무엇, 1점 = 무엇"을 말로 정의한다. 앵커가 없는 숫자 척도는 판마다 흔들린다. 척도는 1~5면 충분 — 10점 척도는 구분력이 안 나온다.</p></div>
+    <div class="card"><h4>📎 few-shot 판례</h4><p>"이런 답변은 2점(이유)" 예시를 2~3개 넣으면 일관성이 크게 오른다. 판례가 쌓이면 기준표가 애매했던 지점이 드러난다 — 그때 기준표를 개정한다.</p></div>
+    <div class="card"><h4>🧾 근거 → 점수 순서</h4><p>점수를 먼저 뱉으면 근거는 사후 합리화가 된다. 근거를 먼저 쓰게 하면 판정 자체가 정확해지고(G-Eval 계열), 디버깅·재생성 피드백 자료도 얻는다.</p></div>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">✂️</span>
+    <div><strong>기준은 잘게 쪼갤수록 좋다 —</strong> "전반적 품질 1~10" 하나보다 "정확성/완결성/안전성"처럼
+    한 번에 한 가지만 묻는 판정 여러 개가 훨씬 일관적이다. 극단적으로는 전부 pass/fail 이진 판정으로 쪼개는 설계도 흔하다 —
+    이진 판정은 점수 편차 문제가 아예 없다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. LOCAL ═══════════ -->
+<section id="local">
+  <div class="section-header">
+    <div class="eyebrow">Local LLM</div>
+    <h2>6. 로컬 LLM에서의 활용 — 루프의 검증자</h2>
+    <p>「로컬 LLM 에이전트」의 루프에 심판을 꽂으면 스스로 재시도하는 구조가 된다</p>
+  </div>
+
+  <p class="body">로컬 환경에서는 judge가 "품질 인프라"보다 <strong>"루프 안의 검증자"</strong> 역할로 먼저 쓰인다.
+  생성 모델의 출력을 judge가 판정하고, 불합격이면 <u>판정 근거를 피드백으로 첨부해 재생성</u> —
+  약한 로컬 모델도 이 루프 하나로 결과물이 눈에 띄게 안정된다. 루프 엔지니어링(「클로드 확장하기」)의
+  핵심 부품이 바로 이 자리다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/lj-local-loop.svg" alt="로컬 LLM 생성-판정-재시도 루프와 세 가지 선수·심판 구성"></div>
+    <figcaption>재시도 상한 필수(무한 루프 방지) — 판정 로그는 쌓아서 평가셋으로 재활용 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">llama.cpp 서버라면 「Claude Code 내부 해부」 §11에서 본 <span class="mono">response_format: json_schema</span>로
+  판정 출력을 <strong>문법 수준에서 강제</strong>할 수 있다 — 클라우드 API 없이도 "JSON이 안 나와서 파싱 실패"가 원천 차단된다.</p>
+
+  <pre class="code"><span class="title-bar">llama.cpp 서버로 judge 호출 — 판정 JSON을 스키마로 강제</span>curl http://localhost:8080/v1/chat/completions -d '{
+  <span class="f">"messages"</span>: [
+    {<span class="f">"role"</span>: <span class="s">"system"</span>, <span class="f">"content"</span>: <span class="s">"당신은 품질 심판이다. 기준표: …(§5 템플릿)"</span>},
+    {<span class="f">"role"</span>: <span class="s">"user"</span>,   <span class="f">"content"</span>: <span class="s">"[질문]…\n[답변]…\n판정하라."</span>}
+  ],
+  <span class="f">"temperature"</span>: 0,                          <span class="c">← 판정은 항상 0 (일관성)</span>
+  <span class="f">"response_format"</span>: {
+    <span class="f">"type"</span>: <span class="s">"json_schema"</span>,
+    <span class="f">"json_schema"</span>: { <span class="f">"schema"</span>: {
+      <span class="f">"type"</span>: <span class="s">"object"</span>,
+      <span class="f">"properties"</span>: {
+        <span class="f">"pass"</span>:   {<span class="f">"type"</span>: <span class="s">"boolean"</span>},
+        <span class="f">"reason"</span>: {<span class="f">"type"</span>: <span class="s">"string"</span>}
+      },
+      <span class="f">"required"</span>: [<span class="s">"pass"</span>, <span class="s">"reason"</span>]
+    }}
+  }
+}'</pre>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:190px">구성</th><th style="width:170px">비용 / 요구사양</th><th>특징 · 주의점</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① 한 모델이 선수+심판 겸업</td><td>공짜 · VRAM 그대로</td><td>같은 로컬 모델을 프롬프트만 바꿔 심판으로. 자기 편애(§4) 있음 — 역할·기준표를 강하게 분리하고 이진 판정 위주로</td></tr>
+        <tr><td class="hl">② 로컬 2모델 — 큰 심판·작은 선수</td><td>공짜 · VRAM 여유 필요</td><td>예: 30B급이 심판, 7B급이 선수. 편향 완화와 품질의 균형이 가장 좋음</td></tr>
+        <tr><td class="hl">③ 선수 로컬 · 심판만 클라우드</td><td>소액 (판정 호출만)</td><td>판정은 생성보다 훨씬 드물어 비용 미미. 심판 품질 최고 — 평가셋 채점 등 중요 판정에 추천</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">♻️</span>
+    <div><strong>판정 로그는 버리지 마라 —</strong> 루프에서 쌓이는 (입력, 출력, 판정, 근거) 기록이 그대로
+    <u>평가셋의 원석</u>이다. 불합격 사례만 모아도 "우리 모델이 어디서 넘어지는가" 지도가 되고,
+    나중에 파인튜닝용 선호 데이터(좋은 답/나쁜 답 쌍)로도 쓸 수 있다 — RLAIF(§9)가 바로 이 구조다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 7. TOOLS ═══════════ -->
+<section id="tools">
+  <div class="section-header">
+    <div class="eyebrow">Ecosystem</div>
+    <h2>7. 도구·벤치마크 생태계</h2>
+    <p>직접 만들어도 되지만, 바퀴는 이미 많다</p>
+  </div>
+
+  <p class="body">judge 한 번 호출은 API 요청 하나지만, <u>평가셋 관리 + 버전별 점수 추적 + 회귀 비교 + 대시보드</u>까지 붙이면
+  일이 커진다. 이 구조를 미리 만들어둔 도구들이 있다 — 전부 "judge를 어떻게 부릴 것인가"를 제품화한 것이다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">도구</th><th style="width:170px">형태</th><th>특기</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">promptfoo</td><td>오픈소스 CLI</td><td>설정 파일로 프롬프트×모델 매트릭스 회귀 테스트. CI 연동이 간단해 §3-A 입문용으로 가장 무난</td></tr>
+        <tr><td class="hl">Langfuse</td><td>오픈소스 (자가호스팅 가능)</td><td>트레이싱(관측) + 평가 + 데이터셋. 로컬·자체 서버 선호 시 1순위</td></tr>
+        <tr><td class="hl">LangSmith</td><td>SaaS (LangChain)</td><td>추적·평가셋·judge 채점 통합. LangChain 스택이면 자연스러운 선택</td></tr>
+        <tr><td class="hl">Braintrust</td><td>SaaS</td><td>eval 전용 플랫폼 — 실험 비교·점수 추적 UI가 강점</td></tr>
+        <tr><td class="hl">Ragas</td><td>오픈소스 라이브러리</td><td>RAG 특화 지표(근거성·문맥 적합성·답변 관련성)를 judge로 계산</td></tr>
+        <tr><td class="hl">DeepEval</td><td>오픈소스 라이브러리</td><td>pytest 스타일로 LLM 테스트 작성 — 개발자 워크플로에 밀착</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">공개 벤치마크</th><th style="width:170px">판정 방식</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Chatbot Arena</td><td>쌍대 비교 (사람 투표)</td><td>익명 두 모델의 답을 사람이 고름 → Elo 순위. judge 연구의 기준 데이터이기도</td></tr>
+        <tr><td class="hl">MT-Bench</td><td>단독 채점 (GPT-4 judge)</td><td>다회전 대화 80문항 — LLM judge 방법론을 정립한 벤치마크</td></tr>
+        <tr><td class="hl">AlpacaEval 2</td><td>쌍대 비교 (judge)</td><td>장황함 편향에 대응한 길이 보정 승률 도입</td></tr>
+        <tr><td class="hl">Arena-Hard</td><td>쌍대 비교 (judge)</td><td>Arena 실전 질의에서 추린 고난도 문항 — 상위 모델 변별용</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🧪</span>
+    <div><strong>시작은 도구 없이도 된다 —</strong> JSONL 평가셋 하나 + §5 템플릿 + 반복 호출 스크립트면
+    eval 파이프라인의 8할이 완성이다. 점수 추적이 귀찮아지는 시점(주 단위로 비교할 버전이 쌓일 때)에 도구를 붙이면 된다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 8. CHECKLIST ═══════════ -->
+<section id="checklist">
+  <div class="section-header">
+    <div class="eyebrow">Checklist</div>
+    <h2>8. 체크리스트 — judge 도입 순서</h2>
+    <p>작게 시작해서 전 주기로 넓힌다</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><h4>1️⃣ 평가셋부터 만든다</h4><p>실사용 로그에서 대표 입력 50건 + 과거에 실패했던 까다로운 케이스. 이것 없이는 아무것도 잴 수 없다. 이후 계속 추가.</p></div>
+    <div class="card"><h4>2️⃣ 기준표를 앵커로 쓴다</h4><p>"몇 점 = 무엇"을 말로 정의(§5). 가능하면 이진 판정으로 쪼갠다. 길이 무관 명시.</p></div>
+    <div class="card"><h4>3️⃣ 근거 → 점수 순서 + JSON</h4><p>근거 먼저 쓰게 하고 마지막에 구조화 출력. temperature 0.</p></div>
+    <div class="card"><h4>4️⃣ 편향 대처를 기본값으로</h4><p>쌍대 비교는 순서 뒤집어 2회. 심판은 선수와 다른 모델. 중요 판정은 다수결(§4).</p></div>
+    <div class="card"><h4>5️⃣ CI에 끼운다</h4><p>프롬프트·모델 변경 시 평가셋 자동 실행 → 점수 하락이면 차단(§3-A). 이때부터 "감"이 아니라 "데이터"로 배포한다.</p></div>
+    <div class="card"><h4>6️⃣ 심판을 주기 검증한다</h4><p>분기마다 표본을 사람이 채점해 judge 일치율 확인. 판정 로그는 평가셋·선호 데이터로 재활용(§6).</p></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>한 줄 요약 —</strong> LLM 서비스의 품질 관리는 "좋은 프롬프트 쓰기"가 아니라
+    <u>"품질을 측정 가능하게 만들기"</u>에서 시작한다. 평가셋 + 기준표 + judge, 이 세 가지가 그 최소 단위다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 9. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">References</div>
+    <h2>9. 출처</h2>
+    <p>수치(일치율 등)는 논문 시점 기준 개략치 — 모델 세대에 따라 달라진다</p>
+  </div>
+
+  <ul class="refs">
+    <li><a href="https://arxiv.org/abs/2306.05685" target="_blank" rel="noopener">Zheng et al. (2023) — Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena</a>
+        <span class="ref-note">§1·§4. LLM judge 방법론을 정립한 논문 — 사람과의 ~80% 일치, 위치·장황함·자기 편애 편향의 1차 출처.</span></li>
+    <li><a href="https://arxiv.org/abs/2303.16634" target="_blank" rel="noopener">Liu et al. (2023) — G-Eval: NLG Evaluation using GPT-4</a>
+        <span class="ref-note">§2·§5. 근거(사고 사슬)를 먼저 쓰게 하는 채점 기법의 대표 논문.</span></li>
+    <li><a href="https://arxiv.org/abs/2212.08073" target="_blank" rel="noopener">Bai et al. (2022) — Constitutional AI (Anthropic)</a>
+        <span class="ref-note">§6. AI 피드백으로 학습 신호를 만드는 RLAIF의 원형 — "판정 로그 → 학습 데이터" 경로의 근거.</span></li>
+    <li><a href="https://arxiv.org/abs/2404.04475" target="_blank" rel="noopener">Dubois et al. (2024) — Length-Controlled AlpacaEval</a>
+        <span class="ref-note">§4·§7. 장황함 편향을 길이 보정 승률로 상쇄한 벤치마크 개정판.</span></li>
+    <li><a href="https://lmarena.ai/" target="_blank" rel="noopener">LMArena (Chatbot Arena)</a>
+        <span class="ref-note">§7. 쌍대 비교(사람 투표) 기반 공개 리더보드.</span></li>
+    <li><a href="https://www.promptfoo.dev/" target="_blank" rel="noopener">promptfoo</a> · <a href="https://langfuse.com/" target="_blank" rel="noopener">Langfuse</a> · <a href="https://docs.ragas.io/" target="_blank" rel="noopener">Ragas</a>
+        <span class="ref-note">§7. 오픈소스 eval 도구 — 각 공식 문서.</span></li>
+  </ul>
+
+  <div class="callout navy">
+    <span class="icon">📚</span>
+    <div><strong>함께 읽으면 좋은 문서 —</strong> 「로컬 LLM 에이전트」(루프에 judge를 꽂는 실제 환경 — llama.cpp·도구 호출),
+    「Claude Code 내부 해부」(§11 json_schema 강제 출력 — §6 코드의 기반), 「클로드 확장하기」(루프·하네스 엔지니어링 — judge가 그 검증자 부품),
+    「기술 스택 고르기」(§1 "병목이 어디냐" — 심판 모델 선택에도 같은 저울).</div>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/lj-*.svg (5종) · 일치율 등 수치는 논문 시점 개략치 · 「로컬 LLM 에이전트」·「클로드 확장하기」에서 이어지는 품질 편
+</footer>
+
+</main>
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>

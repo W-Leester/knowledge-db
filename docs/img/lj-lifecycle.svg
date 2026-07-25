@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="lca" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="lcr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+  <rect width="900" height="600" fill="#FAF7F2"/>
+  <text x="450" y="36" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">서비스 전 주기의 LLM Judge — 개발 · 배포 · 운영</text>
+  <text x="450" y="60" font-size="13" fill="#8A8A8A" text-anchor="middle">코드의 테스트·CI·모니터링에 해당하는 것을 LLM 품질에 대해 구축한다</text>
+
+  <!-- 단계 헤더 -->
+  <rect x="30" y="84" width="270" height="44" rx="10" fill="#1A5CB5"/>
+  <text x="165" y="112" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">🛠 개발 — eval 파이프라인</text>
+  <rect x="315" y="84" width="270" height="44" rx="10" fill="#065F46"/>
+  <text x="450" y="112" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">🚀 배포 — A/B·모델 선정</text>
+  <rect x="600" y="84" width="270" height="44" rx="10" fill="#B45309"/>
+  <text x="735" y="112" font-size="15" font-weight="800" fill="#FFF" text-anchor="middle">📡 운영 — 감시·가드레일</text>
+
+  <!-- 개발 열 -->
+  <rect x="30" y="142" width="270" height="250" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <rect x="52" y="160" width="226" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="165" y="178" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">프롬프트 수정 · 모델 교체</text>
+  <text x="165" y="195" font-size="10" fill="#8A8A8A" text-anchor="middle">변경 발생</text>
+  <line x1="165" y1="204" x2="165" y2="222" stroke="#003F8A" stroke-width="2" marker-end="url(#lca)"/>
+  <rect x="52" y="226" width="226" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="165" y="244" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">평가셋 100~500건 일괄 실행</text>
+  <text x="165" y="261" font-size="10" fill="#8A8A8A" text-anchor="middle">대표 입력 + 까다로운 케이스</text>
+  <line x1="165" y1="270" x2="165" y2="288" stroke="#003F8A" stroke-width="2" marker-end="url(#lca)"/>
+  <rect x="52" y="292" width="226" height="44" rx="8" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="165" y="310" font-size="11.5" font-weight="800" fill="#6B21A8" text-anchor="middle">⚖️ Judge 전건 채점</text>
+  <text x="165" y="327" font-size="10" fill="#8A8A8A" text-anchor="middle">이전 버전 점수와 비교</text>
+  <line x1="165" y1="336" x2="165" y2="354" stroke="#003F8A" stroke-width="2" marker-end="url(#lca)"/>
+  <text x="165" y="376" font-size="12" font-weight="800" fill="#065F46" text-anchor="middle">개선 → 병합 / 하락 → 차단</text>
+
+  <text x="165" y="416" font-size="11" fill="#8A8A8A" text-anchor="middle">= 코드의 회귀 테스트와 동일 역할</text>
+
+  <!-- 배포 열 -->
+  <rect x="315" y="142" width="270" height="250" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <rect x="337" y="160" width="107" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="390" y="178" font-size="11" font-weight="700" fill="#002C5F" text-anchor="middle">후보 A</text>
+  <text x="390" y="195" font-size="9.5" fill="#8A8A8A" text-anchor="middle">예: Haiku·프롬프트v1</text>
+  <rect x="456" y="160" width="107" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="509" y="178" font-size="11" font-weight="700" fill="#002C5F" text-anchor="middle">후보 B</text>
+  <text x="509" y="195" font-size="9.5" fill="#8A8A8A" text-anchor="middle">예: Sonnet·프롬프트v2</text>
+  <line x1="450" y1="204" x2="450" y2="222" stroke="#003F8A" stroke-width="2" marker-end="url(#lca)"/>
+  <rect x="337" y="226" width="226" height="44" rx="8" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="450" y="244" font-size="11.5" font-weight="800" fill="#6B21A8" text-anchor="middle">⚖️ 쌍대 비교 대량 판정</text>
+  <text x="450" y="261" font-size="10" fill="#8A8A8A" text-anchor="middle">순서 뒤집어 2회 (위치 편향 대비)</text>
+  <line x1="450" y1="270" x2="450" y2="288" stroke="#003F8A" stroke-width="2" marker-end="url(#lca)"/>
+  <rect x="337" y="292" width="226" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="450" y="310" font-size="11.5" font-weight="700" fill="#065F46" text-anchor="middle">품질 차이 미미 → 싼 쪽 채택</text>
+  <text x="450" y="327" font-size="10" fill="#8A8A8A" text-anchor="middle">비용 수 배 절감되는 지점</text>
+
+  <text x="450" y="366" font-size="11.5" font-weight="700" fill="#065F46" text-anchor="middle">💡 선수는 싼 모델, 심판은 강한 모델</text>
+  <text x="450" y="384" font-size="10" fill="#8A8A8A" text-anchor="middle">심판 호출은 훨씬 드물어 비용 부담 적음</text>
+  <text x="450" y="416" font-size="11" fill="#8A8A8A" text-anchor="middle">= 데이터 기반 모델 선정</text>
+
+  <!-- 운영 열 -->
+  <rect x="600" y="142" width="270" height="250" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <rect x="622" y="160" width="226" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="735" y="178" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">실 트래픽 표본 채점 (예: 5%)</text>
+  <text x="735" y="195" font-size="10" fill="#8A8A8A" text-anchor="middle">대시보드로 품질 추세 감시</text>
+  <line x1="735" y1="204" x2="735" y2="222" stroke="#003F8A" stroke-width="2" marker-end="url(#lca)"/>
+  <rect x="622" y="226" width="226" height="44" rx="8" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="735" y="244" font-size="11.5" font-weight="800" fill="#6B21A8" text-anchor="middle">⚖️ 응답 직전 가드레일</text>
+  <text x="735" y="261" font-size="10" fill="#8A8A8A" text-anchor="middle">정책 위반? 근거 없는 주장?</text>
+  <line x1="700" y1="270" x2="660" y2="292" stroke="#003F8A" stroke-width="2" marker-end="url(#lca)"/>
+  <line x1="770" y1="270" x2="810" y2="292" stroke="#DC2626" stroke-width="2" marker-end="url(#lcr)"/>
+  <rect x="622" y="296" width="100" height="40" rx="8" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="672" y="320" font-size="11" font-weight="800" fill="#065F46" text-anchor="middle">통과 → 발송</text>
+  <rect x="748" y="296" width="100" height="40" rx="8" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="798" y="313" font-size="10.5" font-weight="800" fill="#DC2626" text-anchor="middle">차단 → 재생성</text>
+  <text x="798" y="328" font-size="9.5" fill="#8A8A8A" text-anchor="middle">또는 폴백 답변</text>
+
+  <text x="735" y="366" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle">RAG: "검색 문서에 근거 있나" 판정</text>
+  <text x="735" y="384" font-size="10" fill="#8A8A8A" text-anchor="middle">환각(groundedness) 검사의 표준형</text>
+  <text x="735" y="416" font-size="11" fill="#8A8A8A" text-anchor="middle">= 모니터링 + 최후의 안전망</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="446" width="840" height="64" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="474" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">같은 judge 인프라(기준표 + 평가셋 + 채점기)가 세 단계에서 재사용된다 — 한 번 구축하면 전 주기가 덮인다</text>
+  <text x="450" y="496" font-size="11.5" fill="#8A9BB5" text-anchor="middle">개발에선 배포 전 차단막, 배포에선 저울, 운영에선 감시탑 — 코드의 테스트·CI·APM에 정확히 대응</text>
+
+  <rect x="30" y="524" width="840" height="52" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="450" y="546" font-size="12" font-weight="700" fill="#002C5F" text-anchor="middle">⏱ 가드레일만 지연시간에 민감(사용자가 기다림) — 빠른 모델·짧은 기준표 사용,</text>
+  <text x="450" y="565" font-size="12" fill="#555555" text-anchor="middle">나머지(회귀 테스트·A/B·표본 감시)는 비동기·배치라 강한 모델을 써도 된다</text>
+</svg>

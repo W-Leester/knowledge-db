@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="560" fill="#FAF7F2"/>
+  <text x="450" y="36" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">Judge의 4대 편향과 대처법</text>
+  <text x="450" y="60" font-size="13" fill="#8A8A8A" text-anchor="middle">심판도 LLM이다 — 알려진 편향은 전부 기계적으로 상쇄할 수 있다</text>
+
+  <!-- 위치 편향 -->
+  <rect x="30" y="84" width="410" height="200" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <text x="52" y="116" font-size="15" font-weight="800" fill="#DC2626">1️⃣ 위치 편향 (Position Bias)</text>
+  <text x="52" y="142" font-size="12" fill="#555555">쌍대 비교에서 <tspan font-weight="700">먼저 제시된 답</tspan>을 선호하는 경향.</text>
+  <text x="52" y="162" font-size="12" fill="#555555">A·B 순서만 바꿔도 승자가 뒤집히곤 한다.</text>
+  <rect x="52" y="180" width="366" height="82" rx="10" fill="#FFFFFF"/>
+  <text x="70" y="206" font-size="12" font-weight="800" fill="#065F46">🛡 대처: 순서를 뒤집어 2회 판정</text>
+  <text x="70" y="228" font-size="11.5" fill="#555555">(A,B)와 (B,A) 모두 물어서 두 번 다 이긴 쪽만 승자.</text>
+  <text x="70" y="248" font-size="11.5" fill="#555555">엇갈리면 무승부 처리.</text>
+
+  <!-- 장황함 편향 -->
+  <rect x="460" y="84" width="410" height="200" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="482" y="116" font-size="15" font-weight="800" fill="#B45309">2️⃣ 장황함 편향 (Verbosity Bias)</text>
+  <text x="482" y="142" font-size="12" fill="#555555"><tspan font-weight="700">길고 그럴듯한 답</tspan>에 후한 점수.</text>
+  <text x="482" y="162" font-size="12" fill="#555555">내용이 같아도 긴 쪽이 이기는 경향.</text>
+  <rect x="482" y="180" width="366" height="82" rx="10" fill="#FFFFFF"/>
+  <text x="500" y="206" font-size="12" font-weight="800" fill="#065F46">🛡 대처: 기준표에 명시 + 길이 보정</text>
+  <text x="500" y="228" font-size="11.5" fill="#555555">"길이는 평가 기준이 아니다, 간결함을 우대하라" 명시.</text>
+  <text x="500" y="248" font-size="11.5" fill="#555555">AlpacaEval 2처럼 길이 보정 승률을 쓰기도 한다.</text>
+
+  <!-- 자기 편애 -->
+  <rect x="30" y="304" width="410" height="200" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="52" y="336" font-size="15" font-weight="800" fill="#6B21A8">3️⃣ 자기 편애 (Self-preference)</text>
+  <text x="52" y="362" font-size="12" fill="#555555"><tspan font-weight="700">자기(같은 모델)가 쓴 답변</tspan>을 알아보고 선호.</text>
+  <text x="52" y="382" font-size="12" fill="#555555">같은 회사 모델 문체에도 후해질 수 있다.</text>
+  <rect x="52" y="400" width="366" height="82" rx="10" fill="#FFFFFF"/>
+  <text x="70" y="426" font-size="12" font-weight="800" fill="#065F46">🛡 대처: 심판과 선수를 다른 모델로</text>
+  <text x="70" y="448" font-size="11.5" fill="#555555">생성이 Claude면 심판은 GPT·Gemini 등 타사로.</text>
+  <text x="70" y="468" font-size="11.5" fill="#555555">중요한 판정은 여러 심판의 다수결(패널)로.</text>
+
+  <!-- 일관성 -->
+  <rect x="460" y="304" width="410" height="200" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="482" y="336" font-size="15" font-weight="800" fill="#002C5F">4️⃣ 채점 비일관성 (Inconsistency)</text>
+  <text x="482" y="362" font-size="12" fill="#555555">같은 답도 <tspan font-weight="700">물을 때마다 점수가 흔들린다</tspan>.</text>
+  <text x="482" y="382" font-size="12" fill="#555555">특히 기준 없는 1~10점 채점에서 심하다.</text>
+  <rect x="482" y="400" width="366" height="82" rx="10" fill="#FFFFFF"/>
+  <text x="500" y="426" font-size="12" font-weight="800" fill="#065F46">🛡 대처: 기준표 구체화 + 복수 채점</text>
+  <text x="500" y="448" font-size="11.5" fill="#555555">점수마다 "무엇이면 몇 점"을 정의(앵커) + temperature 0.</text>
+  <text x="500" y="468" font-size="11.5" fill="#555555">중요 판정은 3~5회 채점해 평균·다수결.</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="524" width="840" height="0" fill="none"/>
+  <text x="450" y="540" font-size="12.5" font-weight="700" fill="#002C5F" text-anchor="middle">공통 원리: 편향은 "없앨" 수 없고 "설계로 상쇄"한다 — 그리고 주기적으로 사람 판정과의 일치율로 심판 자체를 검증한다</text>
+</svg>

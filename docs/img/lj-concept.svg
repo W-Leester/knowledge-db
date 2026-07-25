@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="560" fill="#FAF7F2"/>
+  <text x="450" y="36" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">LLM 출력은 누가 채점하나 — 세 가지 평가 방법</text>
+  <text x="450" y="60" font-size="13" fill="#8A8A8A" text-anchor="middle">요약·글쓰기·챗봇 답변엔 "정답이 하나"가 없다 — 품질을 잴 자가 필요하다</text>
+
+  <!-- 문제 상자 -->
+  <rect x="250" y="84" width="400" height="72" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="114" font-size="14" font-weight="800" fill="#FFF" text-anchor="middle">"이 답변, 좋은 답변인가?"</text>
+  <text x="450" y="138" font-size="11.5" fill="#8A9BB5" text-anchor="middle">주관적 품질 — 정확도 같은 단일 숫자로 환원 안 됨</text>
+
+  <line x1="330" y1="156" x2="180" y2="196" stroke="#8A8A8A" stroke-width="2"/>
+  <line x1="450" y1="156" x2="450" y2="196" stroke="#8A8A8A" stroke-width="2"/>
+  <line x1="570" y1="156" x2="720" y2="196" stroke="#8A8A8A" stroke-width="2"/>
+
+  <!-- 방법 1: 사람 -->
+  <rect x="30" y="200" width="270" height="230" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
+  <text x="165" y="232" font-size="15" font-weight="800" fill="#555555" text-anchor="middle">👤 사람 평가</text>
+  <text x="165" y="254" font-size="11" fill="#8A8A8A" text-anchor="middle">전문가·크라우드가 직접 채점</text>
+  <text x="50" y="288" font-size="12" fill="#065F46">✅ 가장 정확한 기준점</text>
+  <text x="50" y="312" font-size="12" fill="#DC2626">❌ 느리다 (건당 수 분)</text>
+  <text x="50" y="336" font-size="12" fill="#DC2626">❌ 비싸다 (사람 인건비)</text>
+  <text x="50" y="360" font-size="12" fill="#DC2626">❌ 확장 불가 — 매 배포마다</text>
+  <text x="64" y="378" font-size="12" fill="#DC2626">수천 건 재평가 불가능</text>
+  <text x="50" y="410" font-size="11" fill="#8A8A8A">→ "최종 기준"으로만 아껴 쓴다</text>
+
+  <!-- 방법 2: 전통 지표 -->
+  <rect x="315" y="200" width="270" height="230" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
+  <text x="450" y="232" font-size="15" font-weight="800" fill="#555555" text-anchor="middle">📏 전통 자동 지표</text>
+  <text x="450" y="254" font-size="11" fill="#8A8A8A" text-anchor="middle">정확도 · BLEU · ROUGE 등</text>
+  <text x="335" y="288" font-size="12" fill="#065F46">✅ 빠르고 공짜, 재현 가능</text>
+  <text x="335" y="312" font-size="12" fill="#DC2626">❌ 정답이 하나일 때만 유효</text>
+  <text x="335" y="336" font-size="12" fill="#DC2626">❌ 단어 겹침 ≠ 품질</text>
+  <text x="349" y="354" font-size="11" fill="#8A8A8A">(표현이 달라도 좋은 답 존재)</text>
+  <text x="335" y="382" font-size="12" fill="#DC2626">❌ 문체·논리·안전성 측정 불가</text>
+  <text x="335" y="410" font-size="11" fill="#8A8A8A">→ 분류·추출 등 좁은 과제 전용</text>
+
+  <!-- 방법 3: LLM Judge -->
+  <rect x="600" y="200" width="270" height="230" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="735" y="232" font-size="15" font-weight="800" fill="#6B21A8" text-anchor="middle">⚖️ LLM-as-a-Judge</text>
+  <text x="735" y="254" font-size="11" fill="#8A8A8A" text-anchor="middle">강한 LLM이 기준표로 채점</text>
+  <text x="620" y="288" font-size="12" fill="#065F46">✅ 사람 평가와 ~80% 일치</text>
+  <text x="634" y="306" font-size="10.5" fill="#8A8A8A">(사람끼리 일치율과 비슷한 수준)</text>
+  <text x="620" y="332" font-size="12" fill="#065F46">✅ 빠르고 싸고 무한 확장</text>
+  <text x="620" y="356" font-size="12" fill="#065F46">✅ 주관적 품질도 채점 가능</text>
+  <text x="620" y="382" font-size="12" fill="#B45309">⚠️ 자체 편향 있음 (§4)</text>
+  <text x="620" y="410" font-size="11" fill="#8A8A8A">→ 일상 평가의 주력으로</text>
+
+  <!-- 하단 결론 -->
+  <rect x="30" y="454" width="840" height="84" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="450" y="484" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">실무 조합: 셋을 층으로 쓴다</text>
+  <text x="450" y="508" font-size="12" fill="#555555" text-anchor="middle">일상 반복 평가는 LLM judge가 (수천 건, 매 배포) · 정답 있는 부분은 전통 지표로 (싸고 확실)</text>
+  <text x="450" y="528" font-size="12" fill="#555555" text-anchor="middle">사람은 judge 자체를 검증하는 "심판의 심판"으로 — 주기적으로 표본을 뽑아 judge와 사람 판정의 일치율을 확인</text>
+</svg>

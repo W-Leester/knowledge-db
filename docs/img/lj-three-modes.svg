@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="tma" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6B21A8"/>
+    </marker>
+  </defs>
+  <rect width="900" height="540" fill="#FAF7F2"/>
+  <text x="450" y="36" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">LLM Judge의 세 가지 판정 방식</text>
+  <text x="450" y="60" font-size="13" fill="#8A8A8A" text-anchor="middle">무엇을 알고 싶으냐에 따라 묻는 방식이 다르다</text>
+
+  <!-- 1. 단독 채점 -->
+  <rect x="30" y="84" width="270" height="330" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="165" y="116" font-size="15" font-weight="800" fill="#002C5F" text-anchor="middle">1️⃣ 단독 채점</text>
+  <text x="165" y="136" font-size="10.5" fill="#8A8A8A" text-anchor="middle">Pointwise / Direct Scoring</text>
+
+  <rect x="60" y="152" width="210" height="40" rx="8" fill="#FFFFFF"/>
+  <text x="165" y="177" font-size="12" font-weight="700" fill="#002C5F" text-anchor="middle">답변 하나</text>
+  <line x1="165" y1="192" x2="165" y2="212" stroke="#6B21A8" stroke-width="2.2" marker-end="url(#tma)"/>
+  <rect x="60" y="216" width="210" height="52" rx="8" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="165" y="238" font-size="12" font-weight="800" fill="#6B21A8" text-anchor="middle">⚖️ 기준표(rubric)대로</text>
+  <text x="165" y="256" font-size="11" fill="#555555" text-anchor="middle">항목별 1~5점 채점</text>
+  <line x1="165" y1="268" x2="165" y2="288" stroke="#6B21A8" stroke-width="2.2" marker-end="url(#tma)"/>
+  <rect x="60" y="292" width="210" height="40" rx="8" fill="#0D1B2E"/>
+  <text x="165" y="317" font-size="12" font-weight="800" fill="#7FD1A8" text-anchor="middle">점수 + 판정 근거</text>
+
+  <text x="50" y="360" font-size="11.5" fill="#555555">쓰임: 품질 모니터링, 회귀 테스트,</text>
+  <text x="50" y="378" font-size="11.5" fill="#555555">가드레일 (합격/불합격)</text>
+  <text x="50" y="400" font-size="10.5" fill="#B45309">⚠️ 절대 점수는 흔들림 — 기준표 필수</text>
+
+  <!-- 2. 쌍대 비교 -->
+  <rect x="315" y="84" width="270" height="330" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="450" y="116" font-size="15" font-weight="800" fill="#065F46" text-anchor="middle">2️⃣ 쌍대 비교</text>
+  <text x="450" y="136" font-size="10.5" fill="#8A8A8A" text-anchor="middle">Pairwise Comparison</text>
+
+  <rect x="345" y="152" width="97" height="40" rx="8" fill="#FFFFFF"/>
+  <text x="393" y="177" font-size="12" font-weight="700" fill="#002C5F" text-anchor="middle">답변 A</text>
+  <rect x="458" y="152" width="97" height="40" rx="8" fill="#FFFFFF"/>
+  <text x="506" y="177" font-size="12" font-weight="700" fill="#002C5F" text-anchor="middle">답변 B</text>
+  <line x1="450" y1="192" x2="450" y2="212" stroke="#6B21A8" stroke-width="2.2" marker-end="url(#tma)"/>
+  <rect x="345" y="216" width="210" height="52" rx="8" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="450" y="238" font-size="12" font-weight="800" fill="#6B21A8" text-anchor="middle">⚖️ 어느 쪽이 나은가?</text>
+  <text x="450" y="256" font-size="11" fill="#555555" text-anchor="middle">A승 / B승 / 무승부</text>
+  <line x1="450" y1="268" x2="450" y2="288" stroke="#6B21A8" stroke-width="2.2" marker-end="url(#tma)"/>
+  <rect x="345" y="292" width="210" height="40" rx="8" fill="#0D1B2E"/>
+  <text x="450" y="317" font-size="12" font-weight="800" fill="#7FD1A8" text-anchor="middle">승률 → 순위</text>
+
+  <text x="335" y="360" font-size="11.5" fill="#555555">쓰임: 모델·프롬프트 A/B 테스트,</text>
+  <text x="335" y="378" font-size="11.5" fill="#555555">Chatbot Arena 리더보드</text>
+  <text x="335" y="400" font-size="10.5" fill="#065F46">✅ 상대 비교라 절대 점수보다 안정적</text>
+
+  <!-- 3. 기준 대조 -->
+  <rect x="600" y="84" width="270" height="330" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="735" y="116" font-size="15" font-weight="800" fill="#B45309" text-anchor="middle">3️⃣ 기준 대조</text>
+  <text x="735" y="136" font-size="10.5" fill="#8A8A8A" text-anchor="middle">Reference-guided</text>
+
+  <rect x="630" y="152" width="97" height="40" rx="8" fill="#FFFFFF"/>
+  <text x="678" y="170" font-size="11" font-weight="700" fill="#002C5F" text-anchor="middle">답변</text>
+  <text x="678" y="185" font-size="9.5" fill="#8A8A8A" text-anchor="middle">평가 대상</text>
+  <rect x="743" y="152" width="97" height="40" rx="8" fill="#FFF7E6" stroke="#E8962A" stroke-width="1.2"/>
+  <text x="791" y="170" font-size="11" font-weight="700" fill="#B45309" text-anchor="middle">모범답안</text>
+  <text x="791" y="185" font-size="9.5" fill="#8A8A8A" text-anchor="middle">reference</text>
+  <line x1="735" y1="192" x2="735" y2="212" stroke="#6B21A8" stroke-width="2.2" marker-end="url(#tma)"/>
+  <rect x="630" y="216" width="210" height="52" rx="8" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="735" y="238" font-size="12" font-weight="800" fill="#6B21A8" text-anchor="middle">⚖️ 핵심 내용이 일치하나?</text>
+  <text x="735" y="256" font-size="11" fill="#555555" text-anchor="middle">누락·왜곡·추가 검사</text>
+  <line x1="735" y1="268" x2="735" y2="288" stroke="#6B21A8" stroke-width="2.2" marker-end="url(#tma)"/>
+  <rect x="630" y="292" width="210" height="40" rx="8" fill="#0D1B2E"/>
+  <text x="735" y="317" font-size="12" font-weight="800" fill="#7FD1A8" text-anchor="middle">정오 판정</text>
+
+  <text x="620" y="360" font-size="11.5" fill="#555555">쓰임: 정답 있는 평가셋, QA·요약</text>
+  <text x="620" y="378" font-size="11.5" fill="#555555">검증, RAG 근거 대조</text>
+  <text x="620" y="400" font-size="10.5" fill="#065F46">✅ 기준이 있어 가장 정확·일관적</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="438" width="840" height="80" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="466" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">고르는 법: "지금보다 나아졌나?"는 쌍대 비교 · "기준을 통과하나?"는 단독 채점 · "정답이 있나?"면 기준 대조</text>
+  <text x="450" y="490" font-size="11.5" fill="#8A9BB5" text-anchor="middle">쌍대 비교는 순서를 바꿔 2회 판정(위치 편향 대비, §4) · 단독 채점은 기준표 없이 쓰면 점수가 크게 흔들린다</text>
+  <text x="450" y="508" font-size="11.5" fill="#8A9BB5" text-anchor="middle">셋 다 "점수만"이 아니라 판정 근거(reasoning)를 함께 출력시키는 것이 정확도를 올린다</text>
+</svg>

@@ -247,6 +247,31 @@
       ]
     },
     {
+      "id": "llm-judge",
+      "title": "LLM-as-a-Judge & Evals",
+      "desc": "AI의 출력을 AI가 채점한다 — eval 회귀 테스트·A/B·가드레일, 그리고 로컬 루프의 검증자",
+      "file": "docs/llm-judge.html",
+      "group": "AI · LLM",
+      "icon": "⚖️",
+      "gradient": [
+        "#0D1B2E",
+        "#6B21A8"
+      ],
+      "tags": [
+        "LLM Judge",
+        "Evals",
+        "가드레일"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/lj-concept.svg",
+        "docs/img/lj-three-modes.svg",
+        "docs/img/lj-lifecycle.svg",
+        "docs/img/lj-biases.svg",
+        "docs/img/lj-local-loop.svg"
+      ]
+    },
+    {
       "id": "physical-ai",
       "title": "피지컬 AI",
       "desc": "몸을 얻은 지능 — VLA·휴머노이드·sim-to-real, 그리고 $100 로봇팔로 시작하기",
