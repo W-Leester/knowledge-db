@@ -287,7 +287,7 @@
         "Hermes",
         "상주형 에이전트"
       ],
-      "version": 3,
+      "version": 4,
       "assets": [
         "docs/img/ra-evolution.svg",
         "docs/img/ra-architecture.svg",

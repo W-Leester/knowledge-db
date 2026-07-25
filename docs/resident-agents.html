@@ -329,7 +329,9 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#overview">0. 한눈에 보기</a>
     <a href="#what">1. 상주형 에이전트란</a>
     <a href="#arch">2. 공통 아키텍처</a>
-    <a href="#players">3. 두 주자 — OpenClaw · Hermes</a>
+    <a href="#players">3. 주자들 — 양강과 생태계</a>
+    <a href="#pl-two" class="sub">3-A·B. OpenClaw · Hermes</a>
+    <a href="#pl-family" class="sub">3-C. Claw 패밀리·상용 대응물</a>
     <a href="#compare">4. 다른 AI 서비스와의 비교</a>
     <a href="#cmp-map" class="sub">4-A. 지형도 — 두 축으로 보기</a>
     <a href="#cmp-table" class="sub">4-B. 항목별 대비교</a>
@@ -465,11 +467,11 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <section id="players">
   <div class="section-header">
     <div class="eyebrow">The Players</div>
-    <h2>3. 두 주자 — OpenClaw와 Hermes Agent</h2>
+    <h2>3. 주자들 — 양강 OpenClaw·Hermes, 그리고 뒤따르는 생태계</h2>
     <p>같은 카테고리, 다른 성격 — 통합의 폭 vs 학습의 깊이</p>
   </div>
 
-  <h3><span class="num">A</span>OpenClaw — 주말 프로젝트에서 역대급 오픈소스로</h3>
+  <h3 id="pl-two"><span class="num">A</span>OpenClaw — 주말 프로젝트에서 역대급 오픈소스로</h3>
 
   <p class="body">PSPDFKit 창업자 Peter Steinberger가 2025년 11월, AI 응답을 메신저로 중계하는 주말 프로젝트(Clawdbot)로 시작했다.
   몇 차례 개명을 거쳐 2026년 1월 30일 OpenClaw로 자리잡았고, 반년 만에 GitHub 스타 30만을 넘기며(개략치, 빠르게 변함)
@@ -507,6 +509,47 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     Claude Code 생태계(skills·CLAUDE.md·권한 모드)에서 검증된 것들의 차용·확장이다. 실제로 두 프로젝트 모두
     코딩 에이전트의 하네스 설계를 "생활 전반"으로 일반화한 것이라고 소개된다. 개념 계보는
     「Claude Code 내부 해부」 → 이 문서 순으로 읽으면 선명해진다.</div>
+  </div>
+
+  <h3 id="pl-family"><span class="num">C</span>그 외 생태계 — Claw 패밀리와 상용 대응물 (2026.07 스냅샷)</h3>
+
+  <p class="body">양강의 폭발은 곧바로 생태계를 낳았다. 특히 OpenClaw 주변에는 <strong>"Claw 패밀리"</strong>라 불리는
+  경량 구현체들이 쏟아졌는데, 흥미로운 점은 이들이 포크(코드 복사)가 아니라 <u>"OpenClaw가 틀렸다고 생각하는 지점"을
+  각자 다르게 걸고 밑바닥부터 다시 쓴 독립 구현</u>이라는 것이다 — 8주 만에 주요 4종이 합계 스타 11만+를 모았다(개략치).
+  경쟁 구도도 굳지 않았다: 2026년 6월에는 OpenRouter 사용량 집계에서 Hermes가 OpenClaw를 역전(일 224B vs 186B 토큰,
+  개략치)했다는 보도가 나왔다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">프로젝트 (개략 규모)</th><th style="width:120px">언어</th><th>거는 것 — 무엇을 다르게 하나</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">nanobot (~36K★)</td><td>Python</td><td>파이썬 생태계 친화 — AI 도구 대부분이 파이썬이므로 확장·개조가 쉽다</td></tr>
+        <tr><td class="hl">ZeroClaw (~29K★)</td><td>Rust</td><td>극단적 경량 — 바이너리 ~3.4MB, 기동 10ms, 메모리 ~8MB(OpenClaw의 1/194). 라즈베리파이에서도 여유. 단 리포 운영 상태에 부침이 있었다는 보도 — 도입 전 확인</td></tr>
+        <tr><td class="hl">PicoClaw (~26K★)</td><td>Go</td><td>단일 바이너리 배포·저사양 — Go 특유의 간편한 크로스 컴파일</td></tr>
+        <tr><td class="hl">NanoClaw (~25K★)</td><td>TypeScript</td><td>컨테이너 격리 우선 — "가장 안전한 자가호스팅" 평. 구조가 단순해 자기 것을 만드는 베이스로 인기(포크 비율 OpenClaw의 1.76배)</td></tr>
+        <tr><td class="hl">IronClaw 외 다수</td><td>—</td><td>WASM 샌드박스 보안(IronClaw), 그 외 TrustClaw·MoClaw·NullClaw·Moltis·OpenViking 등 수십 종 — 커뮤니티가 "claw craziness"라 부르는 난립기</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body"><strong>상용·대기업 대응물</strong>도 같은 그림(상시·개인화·행동)을 제품화하는 중이다 —
+  Manus(클라우드 자율 에이전트), Perplexity Computer, Lindy(호스티드 비서) 등이 대안 목록에 오르내린다.
+  차이는 §4에서 정리한 그대로다: <u>설치·운영이 사라지는 대신, 실행 환경이 남의 인프라이고 기억·자동화가 그 서비스에 갇힌다</u>.</p>
+
+  <div class="callout amber">
+    <span class="icon">🧩</span>
+    <div><strong>헷갈리기 쉬운 것 — 프레임워크는 다른 카테고리다.</strong> 검색하면 LangGraph·CrewAI·AutoGen·Dify 같은
+    이름도 "대안"으로 나오지만, 이들은 <u>에이전트를 만드는 라이브러리/빌더</u>지 설치하면 비서가 되는 완제품이 아니다.
+    "집(상주형 완제품)"과 "목재와 공구(프레임워크)"의 차이 — 후자는 「로컬 LLM 에이전트」의 영역이다.</div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>고르는 감각 —</strong> 그냥 쓰고 싶다면 여전히 양강(생태계의 OpenClaw, 학습·안정성의 Hermes).
+    라즈베리파이급 초저사양이면 ZeroClaw·PicoClaw 계열, 보안 격리 최우선이면 NanoClaw·IronClaw 계열,
+    내 것을 만들 베이스로는 nanobot(Python)·NanoClaw(TS). 단 <u>경량 구현체 대부분은 실전 검증이 부족</u>하고
+    "난립이 역량을 분산시킨다"는 지적도 있으니, 이 표는 지형 파악용으로 쓰고 도입 시점의 리포 상태를 직접 확인할 것 —
+    이 판은 몇 주 단위로 바뀐다.</div>
   </div>
 </section>
 
@@ -949,6 +992,10 @@ hermes gateway setup  <span class="c"># 메신저 채널 연동 (선택)</span><
         <span class="ref-note">§5. 법률 자료 자가호스팅·이력서 스크리닝·커뮤니티 봇 등 실사용 사례의 1차 출처.</span></li>
     <li><a href="https://composio.dev/content/openclaw-vs-hermes-agent" target="_blank" rel="noopener">Composio — OpenClaw vs Hermes 하네스 비교</a>
         <span class="ref-note">§5. WhatsApp 고객 응대 데스크·GitHub 트렌드 브리핑 등 활용 패턴 보고.</span></li>
+    <li><a href="https://ossinsight.io/blog/the-openclaw-forks-wave-2026" target="_blank" rel="noopener">OSS Insight — 116K Stars in 8 Weeks: Four Teams Rewrote OpenClaw</a>
+        <span class="ref-note">§3-C. nanobot·ZeroClaw·PicoClaw·NanoClaw 4대 재구현의 규모·언어·설계 비교 데이터.</span></li>
+    <li><a href="https://evoailabs.medium.com/openclaw-nanobot-picoclaw-ironclaw-and-zeroclaw-this-claw-craziness-is-continuing-87c72456e6dc" target="_blank" rel="noopener">evoailabs — This *Claw Craziness Is Continuing</a>
+        <span class="ref-note">§3-C. Claw 패밀리 난립기의 커뮤니티 시각과 각 구현체 성격.</span></li>
   </ul>
 
   <div class="callout navy">
