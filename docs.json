@@ -287,14 +287,15 @@
         "Hermes",
         "상주형 에이전트"
       ],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/ra-evolution.svg",
         "docs/img/ra-architecture.svg",
         "docs/img/ra-landscape.svg",
         "docs/img/ra-day-flow.svg",
         "docs/img/ra-self-improve.svg",
-        "docs/img/ra-security.svg"
+        "docs/img/ra-security.svg",
+        "docs/img/ra-hardware.svg"
       ]
     },
     {

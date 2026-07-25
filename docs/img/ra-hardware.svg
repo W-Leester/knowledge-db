@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 680" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="rha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="680" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">무엇 위에 상주시키나 — 갈림길은 "LLM을 어디서 돌리느냐"</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">하네스 자체는 깃털처럼 가볍다 — 무거워지는 건 로컬 LLM을 얹는 순간이다</text>
+
+  <!-- 분기점 -->
+  <rect x="330" y="76" width="240" height="48" rx="24" fill="#0D1B2E"/>
+  <text x="450" y="106" font-size="13.5" font-weight="800" fill="#FFF" text-anchor="middle">모델을 어디서 돌리나?</text>
+  <line x1="360" y1="124" x2="230" y2="152" stroke="#003F8A" stroke-width="2.2" marker-end="url(#rha)"/>
+  <line x1="540" y1="124" x2="670" y2="152" stroke="#003F8A" stroke-width="2.2" marker-end="url(#rha)"/>
+  <text x="255" y="144" font-size="11.5" font-weight="800" fill="#1A5CB5">클라우드 API·구독</text>
+  <text x="580" y="144" font-size="11.5" font-weight="800" fill="#9F1239">로컬 LLM까지 같은 기기에</text>
+
+  <!-- 왼쪽: 클라우드 경로 -->
+  <rect x="30" y="158" width="410" height="222" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="235" y="186" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">☁️ 클라우드 LLM — 하네스만 상주</text>
+  <text x="235" y="208" font-size="11.5" fill="#555555" text-anchor="middle">게이트웨이+루프 프로세스뿐 — RAM 몇 GB면 충분</text>
+  <rect x="52" y="222" width="366" height="40" rx="8" fill="#FFFFFF"/>
+  <text x="235" y="247" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">라즈베리파이 · N100 미니PC · 저가 VPS · 구형 노트북 전부 OK</text>
+  <text x="52" y="290" font-size="12" font-weight="800" fill="#1A5CB5">성능 대신 이 셋이 기준이 된다:</text>
+  <text x="52" y="314" font-size="11.5" fill="#555555">① 대기 전력 — 24시간 켜두므로 idle W가 곧 요금</text>
+  <text x="52" y="336" font-size="11.5" fill="#555555">② 무소음 — 거실·침실에 두려면 팬소음이 결정적</text>
+  <text x="52" y="358" font-size="11.5" fill="#555555">③ 안정성 — 절전·재부팅으로 꺼지면 "상주"가 깨진다</text>
+
+  <!-- 오른쪽: 로컬 경로 -->
+  <rect x="460" y="158" width="410" height="222" rx="14" fill="#FEE2E2" stroke="#9F1239" stroke-width="2.5"/>
+  <text x="665" y="186" font-size="14.5" font-weight="800" fill="#9F1239" text-anchor="middle">🏠 로컬 LLM — 메모리 게임이 시작된다</text>
+  <text x="665" y="208" font-size="11.5" fill="#555555" text-anchor="middle">용량이 모델 크기의 상한, 대역폭이 토큰 속도 (「AI 하드웨어 — 메모리」)</text>
+  <rect x="482" y="222" width="366" height="132" rx="10" fill="#FFFFFF"/>
+  <text x="500" y="248" font-size="11.5" fill="#555555"><tspan font-weight="800" fill="#9F1239">16GB</tspan> 통합 → 7B~14B(Q4) — 요약·분류 등 보조 역할</text>
+  <text x="500" y="274" font-size="11.5" fill="#555555"><tspan font-weight="800" fill="#9F1239">32GB</tspan> 통합 → 30B급 MoE 쾌적 — 상주 비서 주력 가능</text>
+  <text x="500" y="300" font-size="11.5" fill="#555555"><tspan font-weight="800" fill="#9F1239">24GB VRAM</tspan>(RTX 3090·4090) → 속도 최고, 전기·소음 부담</text>
+  <text x="500" y="326" font-size="11.5" fill="#555555"><tspan font-weight="800" fill="#9F1239">48GB+</tspan> → 70B급·대형 MoE — 여기부턴 취미가 아니라 장비</text>
+  <text x="500" y="346" font-size="10" fill="#8A8A8A">양자화(Q4) 기준 개략치 — 컨텍스트 길이만큼 메모리가 더 든다</text>
+
+  <!-- 맥미니 하이라이트 -->
+  <rect x="30" y="400" width="840" height="164" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="52" y="430" font-size="15" font-weight="800" fill="#B45309">🍎 왜 하필 맥미니 M4가 대란의 주인공이 됐나 — 2026년 초 "개인 AI 서버" 품귀 사태</text>
+  <text x="52" y="456" font-size="11.5" fill="#555555">① idle 4W대 초저전력 + 무소음 — 24시간 켜둬도 전기료·귀 부담이 없다   ② 통합 메모리 — VRAM 벽 없이 로컬 모델까지 한 기기로</text>
+  <text x="52" y="478" font-size="11.5" fill="#555555">③ 기본형 $599(국내 90만원대, 개략치)의 성능/가격   ④ iMessage 채널은 맥에서만 — OpenClaw 사용자에겐 기능상 이유도   ⑤ 손바닥 크기</text>
+  <rect x="52" y="494" width="796" height="52" rx="10" fill="#FFFFFF"/>
+  <text x="70" y="516" font-size="11.5" font-weight="800" fill="#B45309">품귀의 디테일: 기본형(16GB)은 당일 주문 가능했지만, 고용량 메모리 옵션은 배송 3~6주 —</text>
+  <text x="70" y="536" font-size="11.5" fill="#555555">가장 먼저 동난 건 32GB. "로컬 모델(Ollama·llama.cpp) + OpenClaw 게이트웨이 동시 구동"의 스위트스폿이었기 때문</text>
+
+  <!-- 전력 비교 바 -->
+  <text x="450" y="596" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">대기 전력 감각 — 24시간 × 365일이면 체감된다 (개략치)</text>
+  <rect x="60" y="612" width="90" height="22" rx="6" fill="#E6F7F1"/><text x="105" y="627" font-size="10.5" font-weight="700" fill="#065F46" text-anchor="middle">파이 ~3W</text>
+  <rect x="160" y="612" width="110" height="22" rx="6" fill="#E6F7F1"/><text x="215" y="627" font-size="10.5" font-weight="700" fill="#065F46" text-anchor="middle">맥미니 idle ~4W</text>
+  <rect x="280" y="612" width="100" height="22" rx="6" fill="#E6F7F1"/><text x="330" y="627" font-size="10.5" font-weight="700" fill="#065F46" text-anchor="middle">N100 ~6W</text>
+  <rect x="390" y="612" width="170" height="22" rx="6" fill="#FEF3E2"/><text x="475" y="627" font-size="10.5" font-weight="700" fill="#B45309" text-anchor="middle">일반 데스크톱 idle 40~60W</text>
+  <rect x="570" y="612" width="270" height="22" rx="6" fill="#FEE2E2"/><text x="705" y="627" font-size="10.5" font-weight="700" fill="#DC2626" text-anchor="middle">GPU 데스크톱 idle 60W+ · 추론 시 300W+</text>
+  <text x="450" y="662" font-size="11" fill="#8A8A8A" text-anchor="middle">같은 "상주"라도 연간 전기료가 수만 원 vs 수십만 원으로 갈린다 — 상시 가동 기기는 idle 전력이 스펙이다</text>
+</svg>
