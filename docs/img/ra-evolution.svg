@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="rea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="560" fill="#FAF7F2"/>
+  <text x="450" y="36" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">AI 사용 방식의 3세대 — 챗봇 → 코딩 에이전트 → 상주형 에이전트</text>
+  <text x="450" y="60" font-size="13" fill="#8A8A8A" text-anchor="middle">핵심 이동: "내가 AI를 찾아간다" → "내가 시킬 때 일한다" → "AI가 내 옆에 산다"</text>
+
+  <!-- 1세대 -->
+  <rect x="30" y="84" width="270" height="300" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="165" y="116" font-size="15" font-weight="800" fill="#002C5F" text-anchor="middle">1세대 · 클라우드 챗봇</text>
+  <text x="165" y="136" font-size="11" fill="#8A8A8A" text-anchor="middle">2023~ · ChatGPT · Claude 앱</text>
+  <rect x="52" y="152" width="226" height="58" rx="10" fill="#FFFFFF"/>
+  <text x="165" y="176" font-size="12" font-weight="700" fill="#002C5F" text-anchor="middle">내가 웹/앱에 찾아가서</text>
+  <text x="165" y="196" font-size="12" font-weight="700" fill="#002C5F" text-anchor="middle">묻고 → 답을 받는다</text>
+  <text x="52" y="238" font-size="12" fill="#555555">· 실행: 제공사 서버 (남의 인프라)</text>
+  <text x="52" y="262" font-size="12" fill="#555555">· 수명: 대화 세션 단위</text>
+  <text x="52" y="286" font-size="12" fill="#555555">· 행동: 말(텍스트)이 최종 출력</text>
+  <text x="52" y="310" font-size="12" fill="#555555">· 내 컴퓨터·계정 접근: 거의 없음</text>
+  <text x="52" y="342" font-size="11.5" font-weight="700" fill="#1A5CB5">= 아는 것이 많은 "상담원"</text>
+  <text x="52" y="364" font-size="10.5" fill="#8A8A8A">행동은 결국 내가 한다</text>
+
+  <!-- 2세대 -->
+  <rect x="315" y="84" width="270" height="300" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="450" y="116" font-size="15" font-weight="800" fill="#B45309" text-anchor="middle">2세대 · 코딩 에이전트</text>
+  <text x="450" y="136" font-size="11" fill="#8A8A8A" text-anchor="middle">2024~ · Claude Code · Cursor</text>
+  <rect x="337" y="152" width="226" height="58" rx="10" fill="#FFFFFF"/>
+  <text x="450" y="176" font-size="12" font-weight="700" fill="#B45309" text-anchor="middle">내 컴퓨터에서 도구를 들고</text>
+  <text x="450" y="196" font-size="12" font-weight="700" fill="#B45309" text-anchor="middle">파일 수정·명령 실행까지</text>
+  <text x="337" y="238" font-size="12" fill="#555555">· 실행: 내 PC (터미널·IDE)</text>
+  <text x="337" y="262" font-size="12" fill="#555555">· 수명: 내가 켠 세션 동안</text>
+  <text x="337" y="286" font-size="12" fill="#555555">· 행동: 코드 수정·테스트·커밋</text>
+  <text x="337" y="310" font-size="12" fill="#555555">· 범위: 주로 코드베이스 작업</text>
+  <text x="337" y="342" font-size="11.5" font-weight="700" fill="#B45309">= 옆자리 "개발 동료"</text>
+  <text x="337" y="364" font-size="10.5" fill="#8A8A8A">단, 자리를 뜨면 같이 퇴근한다</text>
+
+  <!-- 3세대 -->
+  <rect x="600" y="84" width="270" height="300" rx="14" fill="#FEE2E2" stroke="#9F1239" stroke-width="2.5"/>
+  <text x="735" y="116" font-size="15" font-weight="800" fill="#9F1239" text-anchor="middle">3세대 · 상주형 에이전트</text>
+  <text x="735" y="136" font-size="11" fill="#8A8A8A" text-anchor="middle">2026~ · OpenClaw · Hermes</text>
+  <rect x="622" y="152" width="226" height="58" rx="10" fill="#FFFFFF"/>
+  <text x="735" y="176" font-size="12" font-weight="700" fill="#9F1239" text-anchor="middle">내 서버에 24시간 상주하며</text>
+  <text x="735" y="196" font-size="12" font-weight="700" fill="#9F1239" text-anchor="middle">메신저로 대화·먼저 행동</text>
+  <text x="622" y="238" font-size="12" fill="#555555">· 실행: 내 PC/서버, 항상 켜짐</text>
+  <text x="622" y="262" font-size="12" fill="#555555">· 수명: 상시 — 기억이 누적</text>
+  <text x="622" y="286" font-size="12" fill="#555555">· 행동: 메일·일정·브라우저·셸</text>
+  <text x="622" y="310" font-size="12" fill="#555555">· 선제성: 예약 작업·먼저 보고</text>
+  <text x="622" y="342" font-size="11.5" font-weight="700" fill="#9F1239">= 같이 사는 "개인 비서"</text>
+  <text x="622" y="364" font-size="10.5" fill="#8A8A8A">내가 자는 동안에도 일한다</text>
+
+  <line x1="300" y1="234" x2="313" y2="234" stroke="#003F8A" stroke-width="2.5" marker-end="url(#rea)"/>
+  <line x1="585" y1="234" x2="598" y2="234" stroke="#003F8A" stroke-width="2.5" marker-end="url(#rea)"/>
+
+  <!-- 하단: 무엇이 축적되나 -->
+  <rect x="30" y="408" width="840" height="70" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="436" font-size="13.5" font-weight="800" fill="#FFF" text-anchor="middle">세대를 가르는 두 축: "실행 위치" (남의 서버 → 내 컴퓨터 → 내 인프라 상시)와 "주도권" (내가 묻는다 → 내가 시킨다 → 스스로 움직인다)</text>
+  <text x="450" y="460" font-size="11.5" fill="#8A9BB5" text-anchor="middle">모델이 좋아져서가 아니라 하네스(루프·도구·메모리·게이트웨이)가 좋아져서 생긴 변화 — 「Claude Code 내부 해부」의 구조가 생활 전반으로 확장된 것</text>
+
+  <rect x="30" y="494" width="840" height="46" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="450" y="522" font-size="12.5" font-weight="700" fill="#065F46" text-anchor="middle">⚠️ 대체 관계가 아니다 — 3세대가 나왔다고 1·2세대가 사라지는 게 아니라, 책상에선 코딩 에이전트·이동 중엔 상주형으로 "조합"해서 쓴다 (§4-C)</text>
+</svg>

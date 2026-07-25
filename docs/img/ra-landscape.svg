@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="rla" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8A8A8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">AI 서비스 지형도 — 수명 × 용도의 두 축으로 보면 자리가 보인다</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">같은 "AI"라도 사분면이 다르면 경쟁자가 아니라 조합 대상이다</text>
+
+  <!-- 축 -->
+  <line x1="450" y1="90" x2="450" y2="530" stroke="#B5AFA5" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <line x1="70" y1="310" x2="830" y2="310" stroke="#B5AFA5" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="80" y="304" font-size="12.5" font-weight="800" fill="#555555">← 세션형 (내가 켤 때만)</text>
+  <text x="820" y="304" font-size="12.5" font-weight="800" fill="#555555" text-anchor="end">상주형 (24시간) →</text>
+  <text x="450" y="84" font-size="12.5" font-weight="800" fill="#555555" text-anchor="middle">↑ 범용 (생활·업무 전반)</text>
+  <text x="450" y="548" font-size="12.5" font-weight="800" fill="#555555" text-anchor="middle">↓ 특화 (코딩·개발)</text>
+
+  <!-- 좌상: 세션·범용 = 챗봇 -->
+  <rect x="90" y="110" width="330" height="170" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="255" y="138" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">클라우드 챗봇</text>
+  <rect x="112" y="152" width="130" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="177" y="171" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">ChatGPT</text>
+  <text x="177" y="188" font-size="9.5" fill="#8A8A8A" text-anchor="middle">+ Tasks·에이전트 모드</text>
+  <rect x="256" y="152" width="130" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="321" y="171" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">Claude 앱</text>
+  <text x="321" y="188" font-size="9.5" fill="#8A8A8A" text-anchor="middle">+ 커넥터·아티팩트</text>
+  <text x="255" y="222" font-size="11" fill="#555555" text-anchor="middle">실행: 제공사 서버 · 접근: 제한적 커넥터</text>
+  <text x="255" y="242" font-size="11" fill="#555555" text-anchor="middle">강점: 설치 0분, 최신 최강 모델, 안전 관리됨</text>
+  <text x="255" y="262" font-size="10.5" fill="#8A8A8A" text-anchor="middle">에이전트 기능을 흡수 중이지만 "남의 인프라"</text>
+
+  <!-- 우상: 상주·범용 = 상주형 -->
+  <rect x="480" y="110" width="330" height="170" rx="14" fill="#FEE2E2" stroke="#9F1239" stroke-width="2.5"/>
+  <text x="645" y="138" font-size="13.5" font-weight="800" fill="#9F1239" text-anchor="middle">상주형 개인 에이전트 ★ 이 문서</text>
+  <rect x="502" y="152" width="130" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="567" y="171" font-size="11.5" font-weight="700" fill="#9F1239" text-anchor="middle">OpenClaw</text>
+  <text x="567" y="188" font-size="9.5" fill="#8A8A8A" text-anchor="middle">29채널·스킬 장터</text>
+  <rect x="646" y="152" width="130" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="711" y="171" font-size="11.5" font-weight="700" fill="#9F1239" text-anchor="middle">Hermes Agent</text>
+  <text x="711" y="188" font-size="9.5" fill="#8A8A8A" text-anchor="middle">자가 스킬 생성</text>
+  <text x="645" y="222" font-size="11" fill="#555555" text-anchor="middle">실행: 내 서버 상시 · 접근: 내 계정·파일 전부</text>
+  <text x="645" y="242" font-size="11" fill="#555555" text-anchor="middle">강점: 메신저 인터페이스, 기억 누적, 선제 행동</text>
+  <text x="645" y="262" font-size="10.5" fill="#8A8A8A" text-anchor="middle">대가: 직접 설치·운영·보안 책임 (§6~7)</text>
+
+  <!-- 좌하: 세션·코딩 -->
+  <rect x="90" y="340" width="330" height="170" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="255" y="368" font-size="13.5" font-weight="800" fill="#B45309" text-anchor="middle">코딩 에이전트 (세션형)</text>
+  <rect x="112" y="382" width="130" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="177" y="401" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle">Claude Code</text>
+  <text x="177" y="418" font-size="9.5" fill="#8A8A8A" text-anchor="middle">터미널·CLI</text>
+  <rect x="256" y="382" width="130" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="321" y="401" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle">Cursor · Codex</text>
+  <text x="321" y="418" font-size="9.5" fill="#8A8A8A" text-anchor="middle">IDE · CLI</text>
+  <text x="255" y="452" font-size="11" fill="#555555" text-anchor="middle">실행: 내 PC, 켠 동안 · 접근: 저장소·개발 도구</text>
+  <text x="255" y="472" font-size="11" fill="#555555" text-anchor="middle">강점: 코드 작업 깊이 — 수정·테스트·커밋·리뷰</text>
+  <text x="255" y="492" font-size="10.5" fill="#8A8A8A" text-anchor="middle">CLAUDE.md·스킬·훅 등 하네스 개념의 원산지</text>
+
+  <!-- 우하: 상주·특화 -->
+  <rect x="480" y="340" width="330" height="170" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="645" y="368" font-size="13.5" font-weight="800" fill="#065F46" text-anchor="middle">상주형 자동화 (특정 업무)</text>
+  <rect x="502" y="382" width="130" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="567" y="401" font-size="11.5" font-weight="700" fill="#065F46" text-anchor="middle">n8n · Zapier</text>
+  <text x="567" y="418" font-size="9.5" fill="#8A8A8A" text-anchor="middle">워크플로 자동화+AI</text>
+  <rect x="646" y="382" width="130" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="711" y="401" font-size="11.5" font-weight="700" fill="#065F46" text-anchor="middle">CI 봇 · 리뷰 봇</text>
+  <text x="711" y="418" font-size="9.5" fill="#8A8A8A" text-anchor="middle">저장소 상주</text>
+  <text x="645" y="452" font-size="11" fill="#555555" text-anchor="middle">정해진 트리거 → 정해진 흐름 (LLM은 부품)</text>
+  <text x="645" y="472" font-size="11" fill="#555555" text-anchor="middle">자유 대화·범용 판단은 없거나 제한적</text>
+  <text x="645" y="492" font-size="10.5" fill="#8A8A8A" text-anchor="middle">상주형 에이전트의 예약 작업과 일부 겹침</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="562" width="840" height="44" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="590" font-size="12.5" font-weight="700" fill="#FFF" text-anchor="middle">읽는 법: 오른쪽으로 갈수록 "AI가 항상 깨어있고", 위로 갈수록 "다루는 범위가 넓다" — OpenClaw·Hermes는 우상단을 처음 채운 제품군이다</text>
+</svg>

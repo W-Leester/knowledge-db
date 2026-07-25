@@ -272,6 +272,32 @@
       ]
     },
     {
+      "id": "resident-agents",
+      "title": "상주형 AI 에이전트",
+      "desc": "OpenClaw · Hermes — 내 서버에 사는 AI는 챗봇·코딩 에이전트와 무엇이 다른가",
+      "file": "docs/resident-agents.html",
+      "group": "AI · LLM",
+      "icon": "🦞",
+      "gradient": [
+        "#0D1B2E",
+        "#9F1239"
+      ],
+      "tags": [
+        "OpenClaw",
+        "Hermes",
+        "상주형 에이전트"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/ra-evolution.svg",
+        "docs/img/ra-architecture.svg",
+        "docs/img/ra-landscape.svg",
+        "docs/img/ra-day-flow.svg",
+        "docs/img/ra-self-improve.svg",
+        "docs/img/ra-security.svg"
+      ]
+    },
+    {
       "id": "physical-ai",
       "title": "피지컬 AI",
       "desc": "몸을 얻은 지능 — VLA·휴머노이드·sim-to-real, 그리고 $100 로봇팔로 시작하기",

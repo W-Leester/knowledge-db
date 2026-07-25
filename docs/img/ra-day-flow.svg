@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="rda" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="600" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">조합 사용 시나리오 — 개발자의 하루</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">경쟁이 아니라 분업 — 책상에선 코딩 에이전트, 그 외 모든 시간은 상주형이 커버한다</text>
+
+  <!-- 타임라인 축 -->
+  <line x1="80" y1="90" x2="80" y2="540" stroke="#B5AFA5" stroke-width="2"/>
+
+  <!-- 07:30 -->
+  <circle cx="80" cy="120" r="7" fill="#9F1239"/>
+  <text x="40" y="125" font-size="12" font-weight="800" fill="#555555" text-anchor="middle">07:30</text>
+  <rect x="110" y="94" width="760" height="56" rx="12" fill="#FEE2E2" stroke="#9F1239" stroke-width="1.8"/>
+  <text x="130" y="118" font-size="12.5" font-weight="800" fill="#9F1239">📱 출근길 — 상주형이 먼저 보고 (예약 작업)</text>
+  <text x="130" y="138" font-size="11.5" fill="#555555">Telegram으로 밤새 온 메일 요약 + 오늘 일정 브리핑이 먼저 도착해 있다 — 내가 시키지 않아도</text>
+
+  <!-- 09:00 -->
+  <circle cx="80" cy="190" r="7" fill="#B45309"/>
+  <text x="40" y="195" font-size="12" font-weight="800" fill="#555555" text-anchor="middle">09:00</text>
+  <rect x="110" y="164" width="760" height="56" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.8"/>
+  <text x="130" y="188" font-size="12.5" font-weight="800" fill="#B45309">💻 책상 — Claude Code로 본업 (세션형 코딩 에이전트)</text>
+  <text x="130" y="208" font-size="11.5" fill="#555555">저장소 열고 기능 구현·테스트·커밋 — 코드 작업의 깊이는 전용 코딩 에이전트가 가장 강하다</text>
+
+  <!-- 12:30 -->
+  <circle cx="80" cy="260" r="7" fill="#9F1239"/>
+  <text x="40" y="265" font-size="12" font-weight="800" fill="#555555" text-anchor="middle">12:30</text>
+  <rect x="110" y="234" width="760" height="56" rx="12" fill="#FEE2E2" stroke="#9F1239" stroke-width="1.8"/>
+  <text x="130" y="258" font-size="12.5" font-weight="800" fill="#9F1239">🍜 점심 — 폰에서 메신저로 지시</text>
+  <text x="130" y="278" font-size="11.5" fill="#555555">"아까 CI 어떻게 됐어? 실패했으면 로그 요약해줘" — 상주형이 서버에서 확인하고 답장</text>
+
+  <!-- 15:00 -->
+  <circle cx="80" cy="330" r="7" fill="#1A5CB5"/>
+  <text x="40" y="335" font-size="12" font-weight="800" fill="#555555" text-anchor="middle">15:00</text>
+  <rect x="110" y="304" width="760" height="56" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.8"/>
+  <text x="130" y="328" font-size="12.5" font-weight="800" fill="#002C5F">🤔 막힌 문제 — 클라우드 챗봇에게 열린 질문</text>
+  <text x="130" y="348" font-size="11.5" fill="#555555">설계 고민·조사는 최신 최강 모델의 챗봇 웹/앱이 여전히 편하다 — 세대는 공존한다</text>
+
+  <!-- 18:00 -->
+  <circle cx="80" cy="400" r="7" fill="#9F1239"/>
+  <text x="40" y="405" font-size="12" font-weight="800" fill="#555555" text-anchor="middle">18:00</text>
+  <rect x="110" y="374" width="760" height="56" rx="12" fill="#FEE2E2" stroke="#9F1239" stroke-width="1.8"/>
+  <text x="130" y="398" font-size="12.5" font-weight="800" fill="#9F1239">🚶 퇴근 — 이동 중 업무 마감을 메신저로</text>
+  <text x="130" y="418" font-size="11.5" fill="#555555">"오늘 회의록 정리해서 팀 채널에 올리고, 내일 오전 리뷰 일정 잡아줘" — 캘린더·메일 도구로 실행</text>
+
+  <!-- 03:00 -->
+  <circle cx="80" cy="470" r="7" fill="#065F46"/>
+  <text x="40" y="475" font-size="12" font-weight="800" fill="#555555" text-anchor="middle">03:00</text>
+  <rect x="110" y="444" width="760" height="56" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.8"/>
+  <text x="130" y="468" font-size="12.5" font-weight="800" fill="#065F46">🌙 내가 자는 동안 — 백그라운드 작업</text>
+  <text x="130" y="488" font-size="11.5" fill="#555555">RSS·뉴스 수집, 받은편지함 분류, 관심 저장소 릴리스 확인 → 아침 브리핑 재료로 축적</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="524" width="840" height="52" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="546" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">패턴: 깊은 작업(코딩)은 세션형 전용 도구, 넓고 얕은 작업(연락·일정·수집·감시)은 상주형</text>
+  <text x="450" y="566" font-size="11" fill="#8A9BB5" text-anchor="middle">상주형이 챗봇·코딩 에이전트를 "대체"하는 게 아니라, 그 사이의 빈 시간을 채운다</text>
+</svg>

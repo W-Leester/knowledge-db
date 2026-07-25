@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="raa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="rag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+  <rect width="900" height="660" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">상주형 에이전트의 공통 아키텍처 — 게이트웨이 + 루프 + 도구 + 기억</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">OpenClaw·Hermes 모두 이 구조 — 「로컬 LLM 에이전트」에서 그린 하네스가 생활 도구로 제품화된 것</text>
+
+  <!-- 채널층 -->
+  <rect x="30" y="80" width="840" height="96" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="52" y="106" font-size="13.5" font-weight="800" fill="#002C5F">📱 채널층 — 쓰던 메신저가 곧 인터페이스</text>
+  <rect x="52" y="120" width="110" height="40" rx="8" fill="#FFFFFF"/><text x="107" y="145" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">WhatsApp</text>
+  <rect x="174" y="120" width="110" height="40" rx="8" fill="#FFFFFF"/><text x="229" y="145" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">Telegram</text>
+  <rect x="296" y="120" width="110" height="40" rx="8" fill="#FFFFFF"/><text x="351" y="145" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">Discord</text>
+  <rect x="418" y="120" width="110" height="40" rx="8" fill="#FFFFFF"/><text x="473" y="145" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">Slack</text>
+  <rect x="540" y="120" width="110" height="40" rx="8" fill="#FFFFFF"/><text x="595" y="145" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">Signal</text>
+  <rect x="662" y="120" width="110" height="40" rx="8" fill="#FFFFFF"/><text x="717" y="145" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">iMessage</text>
+  <text x="822" y="145" font-size="11" fill="#8A8A8A" text-anchor="middle">…CLI·메일</text>
+
+  <line x1="450" y1="176" x2="450" y2="200" stroke="#003F8A" stroke-width="2.5" marker-end="url(#raa)"/>
+
+  <!-- 게이트웨이 -->
+  <rect x="200" y="204" width="500" height="74" rx="14" fill="#0D1B2E"/>
+  <text x="450" y="232" font-size="14.5" font-weight="800" fill="#FFF" text-anchor="middle">🚪 게이트웨이 (Gateway) — 단일 제어면</text>
+  <text x="450" y="256" font-size="11.5" fill="#8A9BB5" text-anchor="middle">채널 연결·페어링(허용된 사람만) · 메시지 라우팅 · 여러 에이전트 관리 · 원격이면 VPN 뒤에</text>
+
+  <line x1="450" y1="278" x2="450" y2="302" stroke="#003F8A" stroke-width="2.5" marker-end="url(#raa)"/>
+
+  <!-- 에이전트 루프 -->
+  <rect x="150" y="306" width="600" height="88" rx="14" fill="#FEE2E2" stroke="#9F1239" stroke-width="2.5"/>
+  <text x="450" y="334" font-size="14.5" font-weight="800" fill="#9F1239" text-anchor="middle">🔄 에이전트 루프 — 하네스의 심장</text>
+  <text x="450" y="358" font-size="11.5" fill="#555555" text-anchor="middle">요청 + 기억 + 스킬을 컨텍스트로 조립 → LLM 호출 → 도구 실행 → 결과 재투입 → 완료까지 반복</text>
+  <text x="450" y="378" font-size="10.5" fill="#8A8A8A" text-anchor="middle">「Claude Code 내부 해부」 §2의 agent loop와 동일 구조 · 병렬 서브에이전트 지원(Hermes)</text>
+
+  <!-- 모델 제공자 (오른쪽) -->
+  <rect x="770" y="296" width="110" height="108" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="825" y="320" font-size="12" font-weight="800" fill="#6B21A8" text-anchor="middle">🧠 모델</text>
+  <text x="825" y="340" font-size="10" fill="#555555" text-anchor="middle">Claude API</text>
+  <text x="825" y="356" font-size="10" fill="#555555" text-anchor="middle">GPT · OpenRouter</text>
+  <text x="825" y="372" font-size="10" fill="#555555" text-anchor="middle">로컬 vLLM</text>
+  <text x="825" y="388" font-size="10" fill="#555555" text-anchor="middle">llama.cpp</text>
+  <line x1="750" y1="350" x2="766" y2="350" stroke="#6B21A8" stroke-width="2" marker-end="url(#raa)"/>
+  <text x="758" y="338" font-size="9.5" fill="#8A8A8A" text-anchor="middle">교체</text>
+  <text x="758" y="349" font-size="9.5" fill="#8A8A8A" text-anchor="middle">가능</text>
+
+  <line x1="450" y1="394" x2="450" y2="418" stroke="#003F8A" stroke-width="2.5" marker-end="url(#raa)"/>
+
+  <!-- 도구층 -->
+  <rect x="30" y="422" width="840" height="96" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="52" y="448" font-size="13.5" font-weight="800" fill="#B45309">🔧 도구층 — 실제 행동이 일어나는 곳 (= 권한이자 공격면, §6)</text>
+  <rect x="52" y="462" width="150" height="40" rx="8" fill="#FFFFFF"/><text x="127" y="481" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle">셸 명령</text><text x="127" y="496" font-size="9.5" fill="#8A8A8A" text-anchor="middle">스크립트·파일</text>
+  <rect x="214" y="462" width="150" height="40" rx="8" fill="#FFFFFF"/><text x="289" y="481" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle">브라우저 조작</text><text x="289" y="496" font-size="9.5" fill="#8A8A8A" text-anchor="middle">로그인·클릭·입력</text>
+  <rect x="376" y="462" width="150" height="40" rx="8" fill="#FFFFFF"/><text x="451" y="481" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle">메일·캘린더</text><text x="451" y="496" font-size="9.5" fill="#8A8A8A" text-anchor="middle">읽기·발송·일정</text>
+  <rect x="538" y="462" width="150" height="40" rx="8" fill="#FFFFFF"/><text x="613" y="481" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle">MCP·API 연동</text><text x="613" y="496" font-size="9.5" fill="#8A8A8A" text-anchor="middle">외부 서비스</text>
+  <rect x="700" y="462" width="150" height="40" rx="8" fill="#FFFFFF"/><text x="775" y="481" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle">스킬 실행</text><text x="775" y="496" font-size="9.5" fill="#8A8A8A" text-anchor="middle">커뮤니티·자작</text>
+
+  <!-- 저장층 -->
+  <rect x="30" y="538" width="530" height="96" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="52" y="564" font-size="13.5" font-weight="800" fill="#065F46">💾 기억층 — 상주형의 정체성</text>
+  <text x="52" y="588" font-size="11.5" fill="#555555">· 마크다운 메모리: 선호·사람·프로젝트를 파일로 축적 (내 디스크에)</text>
+  <text x="52" y="608" font-size="11.5" fill="#555555">· 스킬 파일: 배운 절차를 재사용 문서로 (Hermes는 스스로 작성, §5)</text>
+  <text x="52" y="626" font-size="10.5" fill="#8A8A8A">세션이 끝나도 남는다 — 챗봇·코딩 에이전트와의 결정적 차이</text>
+
+  <rect x="580" y="538" width="290" height="96" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="602" y="564" font-size="13.5" font-weight="800" fill="#002C5F">⏰ 스케줄러</text>
+  <text x="602" y="588" font-size="11.5" fill="#555555">크론 예약 작업 · 백그라운드 태스크</text>
+  <text x="602" y="608" font-size="11.5" fill="#555555">"매일 아침 메일 브리핑" 등</text>
+  <text x="602" y="626" font-size="10.5" fill="#8A8A8A">선제 행동(proactive)의 동력</text>
+
+  <line x1="295" y1="518" x2="295" y2="534" stroke="#00AA6C" stroke-width="2" marker-end="url(#rag)"/>
+  <line x1="725" y1="518" x2="725" y2="534" stroke="#00AA6C" stroke-width="2" marker-end="url(#rag)"/>
+</svg>
