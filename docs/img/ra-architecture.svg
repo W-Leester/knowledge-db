@@ -52,7 +52,7 @@
 
   <!-- 도구층 -->
   <rect x="30" y="422" width="840" height="96" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
-  <text x="52" y="448" font-size="13.5" font-weight="800" fill="#B45309">🔧 도구층 — 실제 행동이 일어나는 곳 (= 권한이자 공격면, §6)</text>
+  <text x="52" y="448" font-size="13.5" font-weight="800" fill="#B45309">🔧 도구층 — 실제 행동이 일어나는 곳 (= 권한이자 공격면, §7)</text>
   <rect x="52" y="462" width="150" height="40" rx="8" fill="#FFFFFF"/><text x="127" y="481" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle">셸 명령</text><text x="127" y="496" font-size="9.5" fill="#8A8A8A" text-anchor="middle">스크립트·파일</text>
   <rect x="214" y="462" width="150" height="40" rx="8" fill="#FFFFFF"/><text x="289" y="481" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle">브라우저 조작</text><text x="289" y="496" font-size="9.5" fill="#8A8A8A" text-anchor="middle">로그인·클릭·입력</text>
   <rect x="376" y="462" width="150" height="40" rx="8" fill="#FFFFFF"/><text x="451" y="481" font-size="11.5" font-weight="700" fill="#B45309" text-anchor="middle">메일·캘린더</text><text x="451" y="496" font-size="9.5" fill="#8A8A8A" text-anchor="middle">읽기·발송·일정</text>
@@ -63,7 +63,7 @@
   <rect x="30" y="538" width="530" height="96" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
   <text x="52" y="564" font-size="13.5" font-weight="800" fill="#065F46">💾 기억층 — 상주형의 정체성</text>
   <text x="52" y="588" font-size="11.5" fill="#555555">· 마크다운 메모리: 선호·사람·프로젝트를 파일로 축적 (내 디스크에)</text>
-  <text x="52" y="608" font-size="11.5" fill="#555555">· 스킬 파일: 배운 절차를 재사용 문서로 (Hermes는 스스로 작성, §5)</text>
+  <text x="52" y="608" font-size="11.5" fill="#555555">· 스킬 파일: 배운 절차를 재사용 문서로 (Hermes는 스스로 작성, §6)</text>
   <text x="52" y="626" font-size="10.5" fill="#8A8A8A">세션이 끝나도 남는다 — 챗봇·코딩 에이전트와의 결정적 차이</text>
 
   <rect x="580" y="538" width="290" height="96" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>

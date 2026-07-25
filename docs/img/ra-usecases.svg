@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">사람들은 실제로 이렇게 쓴다 — 활용 지도 6갈래</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">커뮤니티·사용기에서 반복적으로 보고되는 실사용 패턴들</text>
+
+  <!-- 1 개인 비서 -->
+  <rect x="30" y="80" width="270" height="230" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="165" y="110" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">🗂 개인 비서</text>
+  <text x="50" y="140" font-size="11.5" fill="#555555">· 아침 브리핑 — 밤새 메일·일정·날씨</text>
+  <text x="62" y="157" font-size="10.5" fill="#8A8A8A">를 요약해 기상 전에 먼저 도착</text>
+  <text x="50" y="182" font-size="11.5" fill="#555555">· 받은편지함 분류·회신 초안</text>
+  <text x="62" y="199" font-size="10.5" fill="#8A8A8A">(발송은 승인제로)</text>
+  <text x="50" y="224" font-size="11.5" fill="#555555">· 일정 조율 — "다음 주 화 오전 비어?"</text>
+  <text x="50" y="249" font-size="11.5" fill="#555555">· 리마인더·할 일을 채팅으로 관리</text>
+  <text x="50" y="274" font-size="11.5" fill="#555555">· 가족 단톡에 초대해 장보기·집안일</text>
+  <text x="62" y="291" font-size="10.5" fill="#8A8A8A">목록을 온 가족이 공유</text>
+
+  <!-- 2 정보 레이더 -->
+  <rect x="315" y="80" width="270" height="230" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="450" y="110" font-size="14" font-weight="800" fill="#065F46" text-anchor="middle">📡 정보 레이더</text>
+  <text x="335" y="140" font-size="11.5" fill="#555555">· 뉴스·RSS·논문을 주제별 요약 배달</text>
+  <text x="335" y="165" font-size="11.5" fill="#555555">· GitHub 트렌드 저장소 매일 브리핑</text>
+  <text x="347" y="182" font-size="10.5" fill="#8A8A8A">(실사용 보고 다수)</text>
+  <text x="335" y="207" font-size="11.5" fill="#555555">· 항공권·상품 가격, 재고 복구 감시</text>
+  <text x="335" y="232" font-size="11.5" fill="#555555">· 포트폴리오·환율 임계값 알림</text>
+  <text x="335" y="257" font-size="11.5" fill="#555555">· 관심 키워드 커뮤니티 글 모니터링</text>
+  <text x="335" y="287" font-size="10.5" font-weight="700" fill="#065F46">패턴: "계속 지켜보다 변하면 알려줘"</text>
+
+  <!-- 3 개발·운영 -->
+  <rect x="600" y="80" width="270" height="230" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="735" y="110" font-size="14" font-weight="800" fill="#B45309" text-anchor="middle">🛠 개발·운영</text>
+  <text x="620" y="140" font-size="11.5" fill="#555555">· 서버·서비스 상태 감시 + 이상 알림</text>
+  <text x="620" y="165" font-size="11.5" fill="#555555">· CI 실패 시 로그 요약해 폰으로</text>
+  <text x="620" y="190" font-size="11.5" fill="#555555">· 폰에서 원격 코딩 지시 — 상주형이</text>
+  <text x="632" y="207" font-size="10.5" fill="#8A8A8A">서버의 Claude Code를 대신 구동</text>
+  <text x="620" y="232" font-size="11.5" fill="#555555">· PR·이슈 요약, 릴리스 노트 초안</text>
+  <text x="620" y="257" font-size="11.5" fill="#555555">· 정기 백업·크론 작업 관리와 보고</text>
+  <text x="620" y="287" font-size="10.5" font-weight="700" fill="#B45309">패턴: "책상 밖에서도 개발이 안 멈춘다"</text>
+
+  <!-- 4 1인 사업 -->
+  <rect x="30" y="326" width="270" height="230" rx="14" fill="#FEE2E2" stroke="#9F1239" stroke-width="2"/>
+  <text x="165" y="356" font-size="14" font-weight="800" fill="#9F1239" text-anchor="middle">💼 1인 사업·소상공</text>
+  <text x="50" y="386" font-size="11.5" fill="#555555">· WhatsApp 고객 문의 1차 응대 +</text>
+  <text x="62" y="403" font-size="10.5" fill="#8A8A8A">Discord 리드 + Slack 일일 매출 요약</text>
+  <text x="62" y="420" font-size="10.5" fill="#8A8A8A">을 봇 하나로 (실사례 보고)</text>
+  <text x="50" y="445" font-size="11.5" fill="#555555">· CRM 갱신·인보이스 초안</text>
+  <text x="50" y="470" font-size="11.5" fill="#555555">· SNS 콘텐츠 초안·예약 발행</text>
+  <text x="50" y="495" font-size="11.5" fill="#555555">· 이력서 스크리닝·후보 랭킹 자동화</text>
+  <text x="62" y="512" font-size="10.5" fill="#8A8A8A">(Hermes 실사례)</text>
+  <text x="50" y="537" font-size="10.5" font-weight="700" fill="#9F1239">패턴: "직원 0.5명 몫의 반복 업무 위임"</text>
+
+  <!-- 5 지식 관리 -->
+  <rect x="315" y="326" width="270" height="230" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="450" y="356" font-size="14" font-weight="800" fill="#6B21A8" text-anchor="middle">📚 지식·콘텐츠 관리</text>
+  <text x="335" y="386" font-size="11.5" fill="#555555">· 흘려보낸 링크·영상을 요약해</text>
+  <text x="347" y="403" font-size="10.5" fill="#8A8A8A">노트(옵시디언 등)에 자동 정리</text>
+  <text x="335" y="428" font-size="11.5" fill="#555555">· 회의록 → 요점·할 일 추출·배포</text>
+  <text x="335" y="453" font-size="11.5" fill="#555555">· 문서·프레젠테이션 생성까지 확장</text>
+  <text x="347" y="470" font-size="10.5" fill="#8A8A8A">(Google Workspace 스킬 실사례)</text>
+  <text x="335" y="495" font-size="11.5" fill="#555555">· "지난달에 봤던 그 글 뭐였지?" —</text>
+  <text x="347" y="512" font-size="10.5" fill="#8A8A8A">쌓인 기억이 개인 검색엔진이 된다</text>
+  <text x="335" y="537" font-size="10.5" font-weight="700" fill="#6B21A8">패턴: "두 번째 뇌의 사서(司書)"</text>
+
+  <!-- 6 특수 -->
+  <rect x="600" y="326" width="270" height="230" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="735" y="356" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">🏠 특수·프라이버시</text>
+  <text x="620" y="386" font-size="11.5" fill="#555555">· 외부 API 금지 자료(법률 등)를</text>
+  <text x="632" y="403" font-size="10.5" fill="#8A8A8A">단일 GPU 자가호스팅으로 처리 (실사례)</text>
+  <text x="620" y="428" font-size="11.5" fill="#555555">· 스마트홈(Home Assistant) 제어 —</text>
+  <text x="632" y="445" font-size="10.5" fill="#8A8A8A">"집 온도 확인하고 히터 켜줘"</text>
+  <text x="620" y="470" font-size="11.5" fill="#555555">· 커뮤니티·모임 봇 — 그룹챗 여러 개를</text>
+  <text x="632" y="487" font-size="10.5" fill="#8A8A8A">게이트웨이 하나로 운영 (실사례)</text>
+  <text x="620" y="512" font-size="11.5" fill="#555555">· 건강·습관 기록을 채팅으로</text>
+  <text x="620" y="537" font-size="10.5" font-weight="700" fill="#1A5CB5">패턴: "클라우드가 못 가는 곳에 산다"</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="572" width="840" height="52" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="594" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">공통분모: ① 반복된다 ② 메신저 한 줄로 시킬 수 있다 ③ 실패해도 치명적이지 않다 — 이 3조건이 겹치는 일부터 위임된다</text>
+  <text x="450" y="614" font-size="11" fill="#8A9BB5" text-anchor="middle">반대로 일회성·고위험·긴 맥락 필요 작업(계약, 대규모 리팩토링)은 여전히 사람+세션형 도구의 영역</text>
+</svg>

@@ -55,5 +55,5 @@
 
   <!-- 하단 -->
   <rect x="30" y="500" width="840" height="44" rx="12" fill="#0D1B2E"/>
-  <text x="450" y="528" font-size="12.5" font-weight="700" fill="#FFF" text-anchor="middle">주의: 스스로 쓴 스킬은 스스로 실행한다 — 잘못 배운 절차도 굳는다. 스킬 파일을 주기적으로 사람이 검토하는 것이 안전장치 (§6)</text>
+  <text x="450" y="528" font-size="12.5" font-weight="700" fill="#FFF" text-anchor="middle">주의: 스스로 쓴 스킬은 스스로 실행한다 — 잘못 배운 절차도 굳는다. 스킬 파일을 주기적으로 사람이 검토하는 것이 안전장치 (§7)</text>
 </svg>

@@ -335,15 +335,17 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#cmp-table" class="sub">4-B. 항목별 대비교</a>
     <a href="#cmp-each" class="sub">4-C. 1:1로 뜯어보기</a>
     <a href="#cmp-day" class="sub">4-D. 조합 시나리오</a>
-    <a href="#selfimprove">5. 자기 개선 루프</a>
-    <a href="#security">6. 보안 — 상주형의 그림자</a>
-    <a href="#hardware">7. 하드웨어 — 무엇 위에 상주시키나</a>
-    <a href="#hw-cloud" class="sub">7-A. 클라우드 LLM이면</a>
-    <a href="#hw-local" class="sub">7-B. 로컬 LLM이면</a>
-    <a href="#hw-pick" class="sub">7-C. 맥미니 대란과 추천 기기</a>
-    <a href="#start">8. 직접 시작하기</a>
-    <a href="#checklist">9. 체크리스트</a>
-    <a href="#refs">10. 출처</a>
+    <a href="#usecases">5. 실전 활용 사례</a>
+    <a href="#selfimprove">6. 자기 개선 루프</a>
+    <a href="#security">7. 보안 — 상주형의 그림자</a>
+    <a href="#hardware">8. 하드웨어 — 무엇 위에 상주시키나</a>
+    <a href="#hw-cloud" class="sub">8-A. 클라우드 LLM이면</a>
+    <a href="#hw-local" class="sub">8-B. 로컬 LLM이면</a>
+    <a href="#hw-pick" class="sub">8-C. 맥미니 대란과 추천 기기</a>
+    <a href="#start">9. 직접 시작하기</a>
+    <a href="#checklist">10. 체크리스트</a>
+    <a href="#goal">11. 궁극의 목표</a>
+    <a href="#refs">12. 출처</a>
   </nav>
   <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
 </aside>
@@ -384,7 +386,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <div class="stat-card"><div class="stat-value">24시간</div><div class="stat-label">상시 데몬 — 세션이 아니라<br>"거주"가 기본 단위</div></div>
     <div class="stat-card"><div class="stat-value">29채널</div><div class="stat-label">OpenClaw가 잇는 메신저 수<br>— 앱 설치 없이 쓰던 걸로</div></div>
     <div class="stat-card"><div class="stat-value">2축</div><div class="stat-label">기존 서비스와의 차이는<br>수명 × 용도로 정리된다 (§4)</div></div>
-    <div class="stat-card"><div class="stat-value">4겹</div><div class="stat-label">넓은 권한의 대가 —<br>방어를 겹으로 쌓는다 (§6)</div></div>
+    <div class="stat-card"><div class="stat-value">4겹</div><div class="stat-label">넓은 권한의 대가 —<br>방어를 겹으로 쌓는다 (§7)</div></div>
   </div>
 
   <div class="callout navy">
@@ -445,7 +447,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
       <thead><tr><th style="width:150px">층</th><th style="width:230px">하는 일</th><th>비고</th></tr></thead>
       <tbody>
         <tr><td class="hl">채널층</td><td>메신저·CLI·메일을 입출력으로 연결</td><td>OpenClaw 29채널, Hermes는 Telegram·Discord·Slack·WhatsApp·Signal + CLI. "인터페이스를 새로 만들지 않는다"가 설계 철학</td></tr>
-        <tr><td class="hl">게이트웨이</td><td>단일 제어면 — 페어링·라우팅·에이전트 관리</td><td>허용된 계정만 통과시키는 문지기. 보안의 1차 방어선이자, 잘못 노출하면 최대 구멍(§6)</td></tr>
+        <tr><td class="hl">게이트웨이</td><td>단일 제어면 — 페어링·라우팅·에이전트 관리</td><td>허용된 계정만 통과시키는 문지기. 보안의 1차 방어선이자, 잘못 노출하면 최대 구멍(§7)</td></tr>
         <tr><td class="hl">에이전트 루프</td><td>컨텍스트 조립 → LLM 호출 → 도구 실행 → 반복</td><td>「Claude Code 내부 해부」 §2의 agent loop와 동일 구조. Hermes는 병렬 서브에이전트도 지원</td></tr>
         <tr><td class="hl">도구층</td><td>셸·브라우저·메일·캘린더·MCP·스킬 실행</td><td>실제 행동이 일어나는 곳 = 권한이자 공격면. MCP 생태계(「클로드 확장하기」)를 그대로 활용</td></tr>
         <tr><td class="hl">기억·스케줄러</td><td>마크다운 메모리 + 스킬 파일 + 크론 예약</td><td>상주형의 정체성. 세션이 끝나도 남는 것이 챗봇·코딩 에이전트와의 결정적 차이</td></tr>
@@ -479,7 +481,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 
   <p class="body">오픈소스 모델로 유명한 Nous Research가 2026년 2월에 공개했다(MIT 라이선스). 석 달 만에 스타 14만(개략치),
   OpenRouter 기준 가장 많이 쓰이는 에이전트라는 집계도 있다. 성격은 <strong>"학습하는 비서"</strong> —
-  반복 작업 패턴을 감지하면 <u>스스로 스킬 파일을 작성</u>해(<span class="mono">~/.hermes/skills/</span>) 다음부터 재사용한다(§5).
+  반복 작업 패턴을 감지하면 <u>스스로 스킬 파일을 작성</u>해(<span class="mono">~/.hermes/skills/</span>) 다음부터 재사용한다(§6).
   내장 스킬 40여 개에 자동 생성이 무한히 얹히는 구조. 채널은 5개 메신저 + CLI로 OpenClaw보다 좁지만,
   병렬 서브에이전트·칸반식 작업 관리 등 <u>일 처리 구조</u>가 정교하고, 릴리스 간 안정성이 좋다는 평이 많다.
   추론은 Nous Portal·OpenRouter(200+ 모델)·OpenAI 호환 API·온프레미스 vLLM 어디든 연결된다.</p>
@@ -539,7 +541,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
         <tr><td class="hl">선제성</td><td>거의 없음 (예약 기능 초기 단계)</td><td>없음 — 지시가 시작점</td><td>핵심 기능 — 크론·백그라운드·먼저 보고</td></tr>
         <tr><td class="hl">모델</td><td>제공사 모델 고정</td><td>제공사 모델 중심</td><td>무관 — Claude·GPT·로컬 LLM 교체 가능</td></tr>
         <tr><td class="hl">설치·운영</td><td>0분 — 가입만</td><td>수 분 — CLI 설치</td><td>수십 분~ — 서버·채널 연동·보안까지 내 몫</td></tr>
-        <tr><td class="hl">보안 책임</td><td>제공사가 관리</td><td>권한 모드가 기본 방어</td><td><strong>전부 내 책임</strong> — 사실상 서버 운영(§6)</td></tr>
+        <tr><td class="hl">보안 책임</td><td>제공사가 관리</td><td>권한 모드가 기본 방어</td><td><strong>전부 내 책임</strong> — 사실상 서버 운영(§7)</td></tr>
       </tbody>
     </table>
   </div>
@@ -559,7 +561,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   <p class="body"><strong>vs 클라우드 에이전트 기능 (ChatGPT 에이전트 모드 등):</strong> "AI가 브라우저로 대신 작업"이라는 그림은 같아 보여도,
   클라우드 쪽은 <u>제공사 서버의 격리된 브라우저</u>에서 돈다. 내 로그인 세션·로컬 파일·홈 네트워크의 장비에는 접근할 수 없고,
   할 수 있는 일의 목록을 제공사가 정한다. 상주형은 내 환경 그 자체에서 돌므로 할 수 있는 일의 상한이 훨씬 높다 —
-  그리고 그만큼 사고의 상한도 높다(§6).</p>
+  그리고 그만큼 사고의 상한도 높다(§7).</p>
 
   <p class="body"><strong>vs 워크플로 자동화 (n8n·Zapier + AI):</strong> "상시 구동·자동 실행"은 같지만 방향이 반대다.
   워크플로 도구는 <u>사람이 그린 고정 흐름</u>에 LLM을 부품으로 끼우는 것이고, 상주형 에이전트는 <u>LLM의 판단이 흐름 그 자체</u>다.
@@ -585,11 +587,66 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   <u>지금까지 AI가 비어 있던 시간대(이동·회의·수면)를 채우는 것</u>이다.</p>
 </section>
 
-<!-- ═══════════ 5. SELF-IMPROVE ═══════════ -->
+<!-- ═══════════ 5. USE CASES ═══════════ -->
+<section id="usecases">
+  <div class="section-header">
+    <div class="eyebrow">In the Wild</div>
+    <h2>5. 실전 활용 사례 — 사람들은 실제로 어떻게 쓰나</h2>
+    <p>커뮤니티·사용기에서 반복적으로 보고되는 패턴 6갈래</p>
+  </div>
+
+  <p class="body">§4-D의 하루 시나리오를 실제 사용자들의 보고로 채워보면 활용의 결이 또렷해진다.
+  수십만 사용자의 사용기에서 반복되는 패턴은 크게 여섯 갈래다 — 그리고 어느 갈래든
+  <strong>"반복되고, 메신저 한 줄로 시킬 수 있고, 실패해도 치명적이지 않은 일"</strong>이라는 공통분모를 갖는다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/ra-usecases.svg" alt="개인 비서, 정보 레이더, 개발 운영, 1인 사업, 지식 관리, 특수 프라이버시 여섯 갈래 활용 지도"></div>
+    <figcaption>활용 지도 6갈래 — 각 갈래의 굵은 항목은 실사용 보고가 확인된 사례 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body"><strong>① 개인 비서.</strong> 가장 보편적인 입구다. 아침 브리핑(밤새 온 메일 요약 + 오늘 일정 + 날씨가
+  기상 전에 먼저 도착), 받은편지함 분류와 회신 초안(발송은 승인제), "다음 주 화요일 오전 비어 있어?" 식의 일정 조율,
+  채팅으로 던져두는 리마인더. 가족 단톡방에 에이전트를 초대해 장보기 목록·집안일 분담을 온 가족이 공유하는 사용기도 흔하다 —
+  <u>메신저가 인터페이스라서 가족처럼 비개발자도 쓸 수 있다</u>는 점이 이 갈래의 핵심이다.</p>
+
+  <p class="body"><strong>② 정보 레이더.</strong> "계속 지켜보다가 변하면 알려줘" 유형. 뉴스·RSS·논문을 주제별로 요약 배달,
+  매일 GitHub 트렌드 저장소를 확인해 요약을 보내주는 구성(실사용 보고 다수), 항공권·상품 가격과 품절 상품 재고 복구 감시,
+  포트폴리오·환율이 임계값을 넘으면 알림. 사람이 하면 "수시로 확인하는 부담"이지만 상주형에겐 크론 작업 하나다 —
+  <u>선제성(§1)의 가치가 가장 직관적으로 드러나는 갈래</u>다.</p>
+
+  <p class="body"><strong>③ 개발·운영.</strong> 개발자들의 주력 사용처. 서버·서비스 상태 감시와 이상 알림, CI가 실패하면
+  로그를 요약해 폰으로 전송, 그리고 <u>폰에서 메신저로 원격 코딩 지시</u> — 상주형이 서버의 Claude Code 같은 세션형
+  에이전트를 대신 구동하고 결과를 보고하는, §4-C에서 말한 "형제 도구의 조합"이 실제로 가장 흔한 고급 사용례다.
+  PR·이슈 요약, 릴리스 노트 초안, 정기 백업 관리도 이 갈래에 속한다.</p>
+
+  <p class="body"><strong>④ 1인 사업·소상공.</strong> "직원 0.5명 몫"의 위임. 보고된 실사례가 인상적이다 —
+  <u>봇 하나가 WhatsApp으로 고객 문의에 1차 응대하고, Discord에서 영업 리드에 답하고, Slack으로 일일 매출 요약을
+  보내는</u> 소규모 지원 데스크 구성. 그 외 CRM 갱신·인보이스 초안·SNS 콘텐츠 예약 발행, 채용 담당자가
+  이력서 스크리닝과 후보 랭킹을 자동화한 사례(Hermes)도 있다. 29채널 통합(§3-A)이 왜 강점인지 보여주는 갈래다.</p>
+
+  <p class="body"><strong>⑤ 지식·콘텐츠 관리.</strong> "두 번째 뇌의 사서". 흘려보낸 링크·영상을 요약해 노트 앱(옵시디언 등)에
+  자동 정리, 회의록에서 요점과 할 일 추출, Google Workspace 스킬을 확장해 프레젠테이션 생성까지 시킨 사례.
+  기억이 마크다운으로 쌓이므로(§2) 시간이 지나면 <u>"지난달에 봤던 그 글 뭐였지?"에 답하는 개인 검색엔진</u>이 된다.</p>
+
+  <p class="body"><strong>⑥ 특수·프라이버시.</strong> 클라우드가 못 가는 곳. 법률 자료처럼 외부 API로 보낼 수 없는 문서를
+  다루는 조직이 단일 GPU 서버에 완전 자가호스팅으로 구축한 사례(Hermes + 로컬 추론), Home Assistant와 연결한
+  스마트홈 제어("집 온도 확인하고 히터 켜줘"), 게이트웨이 하나로 취미 커뮤니티 그룹챗 여러 개를 운영하는 봇.
+  §8-B의 로컬 LLM 구성이 필수가 되는 지점이기도 하다.</p>
+
+  <div class="callout amber">
+    <span class="icon">🧪</span>
+    <div><strong>시작점을 고르는 법 —</strong> 위 여섯 갈래에서 자기 일과를 대입해 "매주 3번 이상 반복 + 메신저 한 줄로
+    설명 가능 + 틀려도 큰일 안 남"에 해당하는 일 하나를 고르면 그게 첫 자동화다. 대부분 ①의 아침 브리핑이나
+    ②의 감시 하나로 시작해서, 신뢰가 쌓이는 만큼 ③·④로 확장한다 — §9의 "첫 일주일 코스"와 같은 원리다.
+    반대로 일회성·고위험·긴 맥락이 필요한 일(계약 검토, 대규모 리팩토링)은 여전히 사람 + 세션형 도구의 영역이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. SELF-IMPROVE ═══════════ -->
 <section id="selfimprove">
   <div class="section-header">
     <div class="eyebrow">Self-Improvement</div>
-    <h2>5. 자기 개선 루프 — 쓸수록 나만의 에이전트가 된다</h2>
+    <h2>6. 자기 개선 루프 — 쓸수록 나만의 에이전트가 된다</h2>
     <p>재귀적 발전 루프 엔지니어링의 제품화 — Hermes의 자가 스킬 생성</p>
   </div>
 
@@ -616,11 +673,11 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
 </section>
 
-<!-- ═══════════ 6. SECURITY ═══════════ -->
+<!-- ═══════════ 7. SECURITY ═══════════ -->
 <section id="security">
   <div class="section-header">
     <div class="eyebrow">Security</div>
-    <h2>6. 보안 — 상주형의 그림자</h2>
+    <h2>7. 보안 — 상주형의 그림자</h2>
     <p>위험의 본질: 상시 가동 + 넓은 권한 + 외부 입력이 한 곳에서 만난다</p>
   </div>
 
@@ -653,11 +710,11 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
 </section>
 
-<!-- ═══════════ 7. HARDWARE ═══════════ -->
+<!-- ═══════════ 8. HARDWARE ═══════════ -->
 <section id="hardware">
   <div class="section-header">
     <div class="eyebrow">Hardware</div>
-    <h2>7. 하드웨어 — 무엇 위에 상주시키나</h2>
+    <h2>8. 하드웨어 — 무엇 위에 상주시키나</h2>
     <p>갈림길은 하나: LLM을 클라우드에서 부르나, 같은 기기에서 돌리나</p>
   </div>
 
@@ -718,7 +775,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   동시 구동"의 최소 쾌적 지점이었기 때문이다. 칩 부족이 아니라 오픈소스 에이전트 하나가 일으킨 수요 폭발이라는 점에서,
   상주형이라는 카테고리가 실물 경제까지 움직인 상징적 사건으로 회자된다.</p>
 
-  <p class="body">맥미니 M4가 그 자리를 차지한 이유는 §7-A·B의 기준을 한 몸에 모아서다:
+  <p class="body">맥미니 M4가 그 자리를 차지한 이유는 §8-A·B의 기준을 한 몸에 모아서다:
   ① idle 4W대 초저전력·무소음 ② 통합 메모리로 로컬 모델까지 한 기기에 ③ 기본형 $599(국내 90만원대, 개략치)의 가격
   ④ <u>iMessage 채널은 맥에서만 연결 가능</u>(OpenClaw 사용자에겐 기능상의 이유) ⑤ 손바닥 크기.
   다만 "기본형이 가성비"라는 소문은 절반만 맞다 — <strong>클라우드 LLM 중심이면 기본형 16GB로 충분하고 남지만,
@@ -733,7 +790,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
         <tr><td class="hl">클라우드 중심 + 표준 선택</td><td>맥미니 M4 기본형 16GB</td><td>대란의 "가성비 PC" — 저전력·무소음·iMessage. 7B~14B 로컬 실험까지 가능</td></tr>
         <tr><td class="hl">로컬 LLM 주력</td><td>맥미니 M4 32GB~ / M4 Pro</td><td>30B급 MoE 쾌적 — 프라이버시 완결형 상주 비서의 스위트스폿</td></tr>
         <tr><td class="hl">로컬 속도 최우선</td><td>RTX 3090/4090급 GPU 데스크톱</td><td>토큰 속도 최강. 전기·소음·발열을 감당할 별도 공간이 있을 때</td></tr>
-        <tr><td class="hl">하드웨어 관리 자체가 싫다</td><td>저가 VPS (월 수천~수만 원)</td><td>폰만으로 운영. 단 민감 데이터가 클라우드에 놓임 — §7-A의 트레이드오프</td></tr>
+        <tr><td class="hl">하드웨어 관리 자체가 싫다</td><td>저가 VPS (월 수천~수만 원)</td><td>폰만으로 운영. 단 민감 데이터가 클라우드에 놓임 — §8-A의 트레이드오프</td></tr>
       </tbody>
     </table>
   </div>
@@ -747,11 +804,11 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
 </section>
 
-<!-- ═══════════ 8. START ═══════════ -->
+<!-- ═══════════ 9. START ═══════════ -->
 <section id="start">
   <div class="section-header">
     <div class="eyebrow">Getting Started</div>
-    <h2>8. 직접 시작하기 — 설치·모델 연결·비용</h2>
+    <h2>9. 직접 시작하기 — 설치·모델 연결·비용</h2>
     <p>설치는 원라이너, 어려운 건 그 다음(연동과 보안)이다</p>
   </div>
 
@@ -780,7 +837,7 @@ hermes gateway setup  <span class="c"># 메신저 채널 연동 (선택)</span><
 
   <div class="callout amber">
     <span class="icon">🖥</span>
-    <div><strong>어디에 상주시키나 —</strong> 기기 선택은 §7에서 상세히 다뤘다. 요약하면: 시작은 쓰던 PC로 감을 잡고,
+    <div><strong>어디에 상주시키나 —</strong> 기기 선택은 §8에서 상세히 다뤘다. 요약하면: 시작은 쓰던 PC로 감을 잡고,
     정착은 저전력 미니PC(맥미니 등)로 — 로컬 LLM 주력이면 메모리 32GB 이상을 기준선으로.</div>
   </div>
 
@@ -788,24 +845,24 @@ hermes gateway setup  <span class="c"># 메신저 채널 연동 (선택)</span><
     <span class="icon">🧪</span>
     <div><strong>첫 일주일 추천 코스 —</strong> 치명 권한 없이 시작한다: 읽기 전용(뉴스·RSS 요약, 일정 조회)으로
     아침 브리핑 예약 작업부터 → 신뢰가 쌓이면 메일 초안 작성(발송은 승인제) → 그 다음에야 셸·브라우저.
-    §6의 4겹을 처음부터 지키는 습관이 이 순서에 자연히 배어 있다.</div>
+    §7의 4겹을 처음부터 지키는 습관이 이 순서에 자연히 배어 있다.</div>
   </div>
 </section>
 
-<!-- ═══════════ 9. CHECKLIST ═══════════ -->
+<!-- ═══════════ 10. CHECKLIST ═══════════ -->
 <section id="checklist">
   <div class="section-header">
     <div class="eyebrow">Checklist</div>
-    <h2>9. 체크리스트 — 도입 판단과 순서</h2>
+    <h2>10. 체크리스트 — 도입 판단과 순서</h2>
     <p>여섯 질문에 답하면 도입 여부와 방식이 정해진다</p>
   </div>
 
   <div class="card-grid">
     <div class="card"><h4>1️⃣ 반복 업무가 있는가</h4><p>브리핑·수집·분류·일정 같은 "넓고 얕은 반복"이 없다면 챗봇+코딩 에이전트로 충분하다. 상주형의 가치는 빈 시간의 반복 업무에서 나온다.</p></div>
     <div class="card"><h4>2️⃣ 운영을 감당할 수 있는가</h4><p>사실상 개인 서버 운영이다 — 업데이트·백업·보안이 내 몫. 부담스러우면 클라우드 챗봇의 에이전트 기능이 성숙하길 기다리는 것도 선택.</p></div>
-    <div class="card"><h4>3️⃣ 무엇을 연결 안 할 것인가</h4><p>연결할 것보다 "안 할 것" 목록이 먼저다 — 금융·주계정·업무 기밀. §6의 한 줄 원칙으로 상한을 정한다.</p></div>
+    <div class="card"><h4>3️⃣ 무엇을 연결 안 할 것인가</h4><p>연결할 것보다 "안 할 것" 목록이 먼저다 — 금융·주계정·업무 기밀. §7의 한 줄 원칙으로 상한을 정한다.</p></div>
     <div class="card"><h4>4️⃣ 어느 도구인가</h4><p>연동 폭·커뮤니티 스킬이 우선이면 OpenClaw, 반복 학습·안정성이 우선이면 Hermes. 개념은 같으니 하나로 감 잡으면 갈아타기 쉽다.</p></div>
-    <div class="card"><h4>5️⃣ 모델은 무엇으로</h4><p>시작은 구독/OpenRouter로 가볍게, 민감 데이터 다루면 로컬 LLM 병행(§7~8). 하네스와 모델이 분리돼 있으니 나중에 바꿔도 자산은 남는다.</p></div>
+    <div class="card"><h4>5️⃣ 모델은 무엇으로</h4><p>시작은 구독/OpenRouter로 가볍게, 민감 데이터 다루면 로컬 LLM 병행(§8~9). 하네스와 모델이 분리돼 있으니 나중에 바꿔도 자산은 남는다.</p></div>
     <div class="card"><h4>6️⃣ 권한은 단계적으로</h4><p>읽기 → 초안(승인제) → 실행 순으로 신뢰를 쌓는다. 처음부터 셸을 주는 건 낯선 사람에게 집 열쇠부터 주는 것과 같다.</p></div>
   </div>
 
@@ -817,44 +874,94 @@ hermes gateway setup  <span class="c"># 메신저 채널 연동 (선택)</span><
   </div>
 </section>
 
-<!-- ═══════════ 10. REFS ═══════════ -->
+<!-- ═══════════ 11. GOAL ═══════════ -->
+<section id="goal">
+  <div class="section-header">
+    <div class="eyebrow">The Endgame</div>
+    <h2>11. 궁극의 목표 — 이 모든 것은 어디로 가는가</h2>
+    <p>자동화되는 것은 "일"이 아니라 "신경 쓰는 것"이다</p>
+  </div>
+
+  <p class="body">§5의 사례들을 관통하는 지향점을 한 단어로 줄이면 <strong>위임(delegation)</strong>이다.
+  검색엔진이 "찾는 시간"을, 챗봇이 "쓰는 시간"을 돌려줬다면, 상주형 에이전트가 돌려주려는 것은
+  <u>주의력</u> — 지켜보고, 챙기고, 잊지 않으려 애쓰는 인지 부하 그 자체다. 그리고 이 위임에는 뚜렷한 사다리가 있다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/ra-goal.svg" alt="도구, 조수, 비서, 참모로 오르는 위임의 사다리와 인터페이스의 역전"></div>
+    <figcaption>상주형은 지금 3단(비서)이고, 4단(참모)을 향해 만들어지고 있다 — 5단(대리인)은 기술보다 신뢰의 문제 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body"><strong>단기 목표 — 비서의 완성 (지금 3단).</strong> 반복 잡무를 믿고 맡길 수 있는 상태.
+  §5의 여섯 갈래가 전부 여기에 해당한다. 기술적으로는 이미 도달했고, 남은 과제는 안정성과 보안(§7)이다.</p>
+
+  <p class="body"><strong>중기 목표 — 축적되는 개인화.</strong> 기억과 스킬(§6)이 쌓이면서 "나를 아는 단 하나의 AI"가
+  되는 것. 여기서 중요한 설계 선택이 드러난다 — 그 축적물이 빅테크의 계정이 아니라 <u>내 디스크의 마크다운 파일</u>이라는 것.
+  모델은 갈아타도 비서는 내 것으로 남는다. 1년 쓴 에이전트와 방금 설치한 에이전트가 전혀 다른 물건이 되는 순간,
+  경쟁의 축은 "누구 모델이 똑똑한가"에서 <strong>"누구에게 내 맥락이 쌓여 있는가"</strong>로 이동한다.</p>
+
+  <p class="body"><strong>장기 목표 — 인터페이스의 역전.</strong> 지금은 내가 메일 앱·캘린더·뱅킹·쇼핑 앱을 손가락으로
+  순회한다. 지향점은 그 반대다 — <u>내 쪽 창구는 대화 하나뿐이고, 앱들은 에이전트가 대신 조작하는 백엔드가 되는 것</u>.
+  "모든 서비스의 UI를 배우는 부담"이 사라지는 대신, 앱은 사람용 화면이 아니라 에이전트용 API(MCP가 그 표준 후보다,
+  「클로드 확장하기」)로 재편된다. 상주형의 폭발적 성장은 이 역전이 상상이 아니라 이미 진행 중임을 보여준 첫 신호로 읽힌다.</p>
+
+  <p class="body"><strong>그 끝 — 디지털 참모(4단).</strong> "다음 달 부모님 칠순 준비해줘" 수준의 <u>목표</u>만 주면
+  계획을 세우고, 필요한 예약·구매·연락을 (승인을 받아가며) 실행하고, 결과를 보고하는 존재.
+  자기 개선 루프(§6)가 이 방향의 엔진이다 — 에이전트가 나와 일하며 배운 절차가 쌓일수록 "시키는 법"조차 필요 없어진다.
+  공상과학의 집사 AI 그림이 바로 이 단계다.</p>
+
+  <div class="callout red">
+    <span class="icon">⚖️</span>
+    <div><strong>단, 궁극의 목표는 "전자동"이 아니다 —</strong> 사다리를 오를수록 에이전트의 실수·오염(§7)의
+    파급도 커진다. 그래서 진짜 목표는 자동화의 극대화가 아니라 <u>"신뢰할 수 있는 위임"</u>이다:
+    위임의 깊이만큼 검증(「LLM-as-a-Judge」)·승인 게이트·감사 로그가 함께 깊어져야 하고,
+    마지막 결정권과 되돌릴 능력은 사람에게 남아야 한다. 5단(대리인 — 위임된 권한으로 대신 결정)이 점선인 이유도
+    기술이 아니라 신뢰·책임·제도가 병목이기 때문이다. 사다리는 "얼마나 빨리 오르나"가 아니라
+    "한 단씩 검증하며 오르나"의 게임이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 12. REFS ═══════════ -->
 <section id="refs">
   <div class="section-header">
     <div class="eyebrow">References</div>
-    <h2>10. 출처</h2>
+    <h2>12. 출처</h2>
     <p>스타 수 등 규모 수치는 빠르게 변한다 — 전부 개략치로 읽을 것</p>
   </div>
 
   <ul class="refs">
     <li><a href="https://openclaw.ai/" target="_blank" rel="noopener">OpenClaw 공식 사이트</a>
-        <span class="ref-note">§2·§3·§8. 29채널·스킬 장터·설치·샌드박싱 등 1차 출처.</span></li>
+        <span class="ref-note">§2·§3·§9. 29채널·스킬 장터·설치·샌드박싱 등 1차 출처.</span></li>
     <li><a href="https://hermes-agent.org/" target="_blank" rel="noopener">Hermes Agent 공식 사이트 (Nous Research)</a>
-        <span class="ref-note">§3·§5·§8. 자가 스킬 생성·게이트웨이·추론 제공자(OpenRouter·vLLM 등) 1차 출처.</span></li>
+        <span class="ref-note">§3·§6·§9. 자가 스킬 생성·게이트웨이·추론 제공자(OpenRouter·vLLM 등) 1차 출처.</span></li>
     <li><a href="https://www.digitalocean.com/resources/articles/what-is-openclaw" target="_blank" rel="noopener">DigitalOcean — What is OpenClaw?</a>
         <span class="ref-note">§1·§3. 역사(2025.11 주말 프로젝트 → 2026.1.30 개명)와 아키텍처 개관.</span></li>
     <li><a href="https://blogs.nvidia.com/blog/rtx-ai-garage-hermes-agent-dgx-spark/" target="_blank" rel="noopener">NVIDIA Blog — Hermes Self-Improving Agents</a>
-        <span class="ref-note">§5. 자기 개선 에이전트 구조와 로컬(RTX·DGX) 구동.</span></li>
+        <span class="ref-note">§6. 자기 개선 에이전트 구조와 로컬(RTX·DGX) 구동.</span></li>
     <li><a href="https://www.mindstudio.ai/blog/hermes-agent-vs-claude-code-vs-openclaw-which-self-improving-ai-agent-right-for-workflow" target="_blank" rel="noopener">MindStudio — Hermes vs Claude Code vs OpenClaw</a>
         <span class="ref-note">§4. 세 도구의 층위 구분과 조합 사용론.</span></li>
     <li><a href="https://utilo.io/en/home/blog/hermes-vs-claude-code-vs-openclaw-2026" target="_blank" rel="noopener">utilo — 세 에이전트, 세 철학 (2026)</a>
         <span class="ref-note">§3·§4. 안정성·비용(구독 추론) 등 실사용 비교 관점.</span></li>
     <li><a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/openclaw-fueled-ordering-frenzy-creates-apple-mac-shortage-delivery-for-high-unified-memory-units-now-ranges-from-6-days-to-6-weeks" target="_blank" rel="noopener">Tom's Hardware — OpenClaw발 주문 폭주로 맥 품귀 (2026)</a>
-        <span class="ref-note">§7-C. 고용량 통합 메모리 구성 배송 3~6주, 32GB 스위트스폿 품절의 1차 보도.</span></li>
+        <span class="ref-note">§8-C. 고용량 통합 메모리 구성 배송 3~6주, 32GB 스위트스폿 품절의 1차 보도.</span></li>
     <li><a href="https://www.techradar.com/computing/macs/mac-mini-shortages-are-starting-to-happen-and-the-openclaw-ai-boom-is-a-key-reason" target="_blank" rel="noopener">TechRadar — 맥미니 품귀와 OpenClaw 붐</a>
-        <span class="ref-note">§7-C. "개인 AI 서버" 카테고리 형성과 수요 폭발의 배경.</span></li>
+        <span class="ref-note">§8-C. "개인 AI 서버" 카테고리 형성과 수요 폭발의 배경.</span></li>
+    <li><a href="https://hermes-agent.nousresearch.com/docs/user-stories" target="_blank" rel="noopener">Hermes Agent — User Stories 공식 문서</a>
+        <span class="ref-note">§5. 법률 자료 자가호스팅·이력서 스크리닝·커뮤니티 봇 등 실사용 사례의 1차 출처.</span></li>
+    <li><a href="https://composio.dev/content/openclaw-vs-hermes-agent" target="_blank" rel="noopener">Composio — OpenClaw vs Hermes 하네스 비교</a>
+        <span class="ref-note">§5. WhatsApp 고객 응대 데스크·GitHub 트렌드 브리핑 등 활용 패턴 보고.</span></li>
   </ul>
 
   <div class="callout navy">
     <span class="icon">📚</span>
     <div><strong>함께 읽으면 좋은 문서 —</strong> 「Claude Code 내부 해부」(이 문서의 아키텍처적 원형 — 루프·도구·권한·메모리),
-    「로컬 LLM 에이전트」(로컬 모델을 상주형에 꽂는 실제 방법), 「AI 하드웨어 — 프로세서·메모리」(§7의 근거 — 통합 메모리·대역폭이 왜 모델 크기와 속도를 정하나),
+    「로컬 LLM 에이전트」(로컬 모델을 상주형에 꽂는 실제 방법), 「AI 하드웨어 — 프로세서·메모리」(§8의 근거 — 통합 메모리·대역폭이 왜 모델 크기와 속도를 정하나),
     「개발 환경으로서의 OS」(Apple Silicon의 전력 효율), 「클로드 확장하기」(스킬·MCP·루프 엔지니어링 — 개념의 출처),
     「LLM-as-a-Judge」(자동 생성 스킬·출력의 검증자), 「네트워크 통신」(게이트웨이·포트·VPN 이해의 기초).</div>
   </div>
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/ra-*.svg (7종) · 규모 수치는 2026.07 개략치 · 「Claude Code 내부 해부」·「로컬 LLM 에이전트」에서 이어지는 확장편
+  Hyundai-Inspired Design System v1.0 · 도식: img/ra-*.svg (9종) · 규모 수치는 2026.07 개략치 · 「Claude Code 내부 해부」·「로컬 LLM 에이전트」에서 이어지는 확장편
 </footer>
 
 </main>
