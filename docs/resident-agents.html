@@ -810,6 +810,16 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   전력은 GPU 데스크톱의 수십 분의 일이다. 속도는 고급 dGPU가 더 빠르지만, "24시간 켜두는 조용한 기기"라는
   상주형의 조건에서는 종합점이 역전된다.</p>
 
+  <div class="callout purple">
+    <span class="icon">🍎</span>
+    <div><strong>추론 서버도 애플 특화가 성숙했다 — oMLX.</strong> 맥을 상주 서버로 쓴다면 llama.cpp·Ollama 외에
+    애플 전용 서버 <u>oMLX</u>(MLX 기반)가 유력 후보다 — RAM+SSD 계층형 KV 캐시로 에이전트 특유의
+    "같은 접두사 반복 왕복" 워크로드에서 첫 토큰 대기를 크게 줄이고(30~90초 → 5초 미만, 개략치),
+    연속 배칭·멀티모델 관리·메뉴바 앱까지 "켜두고 잊는" 상주 운용에 맞게 설계됐다. Anthropic
+    <span class="mono">/v1/messages</span> 호환이라 에이전트 하네스에 바로 꽂힌다.
+    상세 해부는 「로컬 LLM 에이전트」 §6 참조.</div>
+  </div>
+
   <h3 id="hw-pick"><span class="num">C</span>맥미니 M4 대란 — 그리고 상황별 추천</h3>
 
   <p class="body">2026년 초, OpenClaw 붐과 함께 실제로 벌어진 일이다: <strong>맥미니가 "개인 AI 서버"의 표준 기기로
@@ -873,7 +883,7 @@ hermes gateway setup  <span class="c"># 메신저 채널 연동 (선택)</span><
         <tr><td class="hl">클라우드 API 종량제</td><td>쓴 만큼 — 변동</td><td>Claude·GPT API 직결. 품질 최고, 단 백그라운드 작업이 많으면 요금 감시 필수(한도 설정)</td></tr>
         <tr><td class="hl">구독 활용</td><td>월정액</td><td>기존 AI 구독의 에이전트용 한도를 추론에 쓰는 경로(Hermes의 강점으로 꼽힘) — 정액이라 예측 가능</td></tr>
         <tr><td class="hl">OpenRouter</td><td>종량제 — 모델 선택 폭</td><td>200+ 모델을 하나의 키로. 작업별로 싼 모델/강한 모델을 갈아 끼우기 좋다</td></tr>
-        <tr><td class="hl">로컬 LLM</td><td>전기료뿐</td><td>vLLM·llama.cpp로 Qwen 등 연결(「로컬 LLM 에이전트」). 프라이버시 최상 — 단 상주 서버에 VRAM 상시 점유</td></tr>
+        <tr><td class="hl">로컬 LLM</td><td>전기료뿐</td><td>vLLM·llama.cpp·oMLX(맥 전용, 계층형 캐시)로 Qwen 등 연결(「로컬 LLM 에이전트」 §6). 프라이버시 최상 — 단 상주 서버에 VRAM 상시 점유</td></tr>
       </tbody>
     </table>
   </div>

@@ -323,7 +323,11 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#recipes">4. 기능별 레시피</a>
     <a href="#r-rag" class="sub">4-1. RAG — 내 문서 지식</a>
     <a href="#stack">5. 전체 스택 조립</a>
-    <a href="#tips">6. 운영 수칙과 한계</a>
+    <a href="#applestack">6. 애플 실리콘 특화 — MLX·oMLX</a>
+    <a href="#ax-mlx" class="sub">6-1. MLX — 애플의 ML 프레임워크</a>
+    <a href="#ax-omlx" class="sub">6-2. oMLX 해부 — 캐시·배칭·API</a>
+    <a href="#ax-pick" class="sub">6-3. 추론 서버 3파전</a>
+    <a href="#tips">7. 운영 수칙과 한계</a>
   </nav>
   <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
 </aside>
@@ -370,7 +374,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <span class="icon">🧭</span>
     <div><strong>이 문서의 경로 —</strong> §1에서 도구 호출의 원리를 해부하고, §2에서 web_fetch가 달린
     에이전트 루프를 파이썬 50줄로 직접 만든다. §3에서 그걸 직접 만들 필요가 없게 해주는 표준(MCP)을 배우고,
-    §4~5에서 기능별 레시피와 전체 스택을 조립한다. 순서대로 읽으면 "왜 이 구조인가"가 이해된 채로 도구를 늘릴 수 있다.</div>
+    §4~5에서 기능별 레시피와 전체 스택을 조립하고, §6에서 애플 실리콘 전용 스택(MLX·oMLX)을 해부한다. 순서대로 읽으면 "왜 이 구조인가"가 이해된 채로 도구를 늘릴 수 있다.</div>
   </div>
 </section>
 
@@ -683,7 +687,7 @@ npm install <span class="k">&amp;&amp;</span> npm run build      <span class="c"
 <span class="c">// D(자작 서버)의 등록 방식과 완전히 같다. 자작이든 클론이든 "소스로 도는 로컬 서버"일 뿐.</span></pre>
 
   <p class="body">소스 실행이 주는 것 세 가지: ① <strong>커스터마이징</strong> — 코드를 열어 도구를 추가·수정할 수 있다
-  (예: filesystem 서버에 "읽기 전용 모드" 강제). ② <strong>감사(audit)</strong> — 도구 = 권한(§6)이므로,
+  (예: filesystem 서버에 "읽기 전용 모드" 강제). ② <strong>감사(audit)</strong> — 도구 = 권한(§7)이므로,
   실행 전에 이 코드가 무엇을 하는지 직접 확인할 수 있다. ③ <strong>고정</strong> — npx가 매번 버전을 확인하는
   지연이 없고, 검증한 버전이 몰래 바뀌지 않는다.</p>
 
@@ -805,11 +809,11 @@ npm install <span class="k">&amp;&amp;</span> npm run build      <span class="c"
     <table class="ds">
       <thead><tr><th style="width:90px">단계</th><th style="width:280px">할 일</th><th>확인 방법</th></tr></thead>
       <tbody>
-        <tr><td class="hl">1일차</td><td>Ollama(또는 LM Studio)로 Qwen3-30B-A3B 서빙</td><td><span class="mono">curl localhost:11434/v1/models</span>가 응답하면 성공</td></tr>
+        <tr><td class="hl">1일차</td><td>Ollama(또는 LM Studio, 맥이면 oMLX — §6)로 Qwen3-30B-A3B 서빙</td><td><span class="mono">curl localhost:11434/v1/models</span>가 응답하면 성공</td></tr>
         <tr><td class="hl">2일차</td><td>Open WebUI 연결 (Docker 1줄)</td><td>브라우저 챗에서 대화 + 문서 업로드 RAG 확인</td></tr>
         <tr><td class="hl">3일차</td><td>§2 루프를 한 번 직접 실행</td><td>web_fetch로 실제 페이지 요약이 되는지 — 원리 체득</td></tr>
         <tr><td class="hl">4일차</td><td>Cline·Open WebUI에 MCP 서버 등록 (fetch·filesystem부터)</td><td>"이 링크 요약해줘", "이 폴더에서 찾아줘"가 되는지</td></tr>
-        <tr><td class="hl">이후</td><td>필요할 때마다 서버 추가 + 자작 MCP 서버(§3-B)</td><td>도구가 늘 때마다 §6의 수칙 점검</td></tr>
+        <tr><td class="hl">이후</td><td>필요할 때마다 서버 추가 + 자작 MCP 서버(§3-B)</td><td>도구가 늘 때마다 §7의 수칙 점검</td></tr>
       </tbody>
     </table>
   </div>
@@ -823,11 +827,137 @@ npm install <span class="k">&amp;&amp;</span> npm run build      <span class="c"
   </div>
 </section>
 
-<!-- ═══════════ 6. TIPS ═══════════ -->
+<!-- ═══════════ 6. APPLE STACK ═══════════ -->
+<section id="applestack">
+  <div class="section-header">
+    <div class="eyebrow">Apple Silicon Deep-dive</div>
+    <h2>6. 애플 실리콘 특화 스택 — MLX와 oMLX 해부</h2>
+    <p>맥이 로컬 LLM의 기본 하드웨어가 되면서, 애플 전용 스택이 따로 성숙했다</p>
+  </div>
+
+  <p class="body">§5까지의 스택(Ollama·llama.cpp)은 모든 플랫폼에서 통하는 범용 조립이다. 그런데 맥미니가
+  "개인 AI 서버"의 표준 기기가 된 흐름(「상주형 AI 에이전트」 §8) 속에서, <strong>애플 실리콘에서만 도는 대신
+  그 하드웨어를 한계까지 쓰는 전용 스택</strong>이 따로 자랐다 — 프레임워크 층의 <strong>MLX</strong>와,
+  그것을 서버로 만드는 <strong>oMLX</strong>다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/llm-mlx-omlx.svg" alt="애플 실리콘 하드웨어부터 MLX, mlx-lm, oMLX 서버, API 층까지의 스택과 계층형 KV 캐시, 추론 서버 3파전 비교"></div>
+    <figcaption>MLX는 프레임워크, oMLX는 그 위의 서버 — 간판 기능은 RAM+SSD 계층형 KV 캐시다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <h3 id="ax-mlx"><span class="num">A</span>MLX — 애플이 직접 만든 ML 프레임워크</h3>
+
+  <p class="body">MLX는 애플 ML 연구팀이 2023년 말 공개한 오픈소스 배열 연산 프레임워크다. 한 줄 요약은
+  <strong>"PyTorch에게 CUDA가 있다면, 애플 실리콘에는 MLX가 있다"</strong> — NumPy를 닮은 API로,
+  애플 칩에서 ML을 돌리는 것 하나만을 위해 설계됐다. 빠른 이유는 세 가지 설계 선택에서 나온다:</p>
+
+  <div class="card-grid">
+    <div class="card"><h4>🧠 통합 메모리 네이티브</h4><p>대부분의 프레임워크는 "CPU 메모리에서 GPU 메모리로 데이터를 복사한다"는 CUDA 세계관으로 설계됐다. MLX는 처음부터 <u>"메모리는 하나"</u>라는 애플 실리콘의 전제로 설계돼, CPU↔GPU 간 복사 자체가 없다.</p></div>
+    <div class="card"><h4>⏳ 지연 평가 (lazy evaluation)</h4><p>연산을 즉시 실행하지 않고 그래프로 모았다가 결과가 필요한 순간 한꺼번에 실행한다 — 불필요한 중간 계산을 건너뛰고 커널을 융합할 기회가 생긴다.</p></div>
+    <div class="card"><h4>⚙️ Metal 커널 최적화</h4><p>애플 GPU(Metal) 전용 커널로 연산을 실행한다. 신형 칩(M4 등)의 새 기능을 가장 먼저 활용하는 쪽도 대체로 MLX다 — 애플이 직접 만들기 때문.</p></div>
+  </div>
+
+  <p class="body">실전에서 만나는 모습은 <strong>mlx-lm</strong>(LLM 추론·양자화·간단 파인튜닝)과
+  <strong>mlx-vlm</strong>(비전 모델) 라이브러리, 그리고 HuggingFace의 <span class="mono">mlx-community</span>에
+  올라오는 변환·양자화 모델들이다. 주의할 점 하나 — MLX는 llama.cpp의 GGUF와 <u>다른 모델 포맷</u>을 쓴다
+  (safetensors 기반). 같은 Qwen이라도 "GGUF판"과 "MLX판"을 구분해서 받아야 한다.</p>
+
+  <div class="callout navy">
+    <span class="icon">⚖️</span>
+    <div><strong>llama.cpp와의 관계 —</strong> llama.cpp도 Metal 백엔드로 맥에서 잘 돈다. 차이는 태생이다:
+    llama.cpp는 <u>모든 플랫폼을 지원하는 범용 C++ 엔진의 애플 지원</u>이고, MLX는 <u>애플 하드웨어 전용 설계</u>다.
+    성능은 모델·양자화·상황에 따라 엎치락뒤치락하니 "무조건 MLX가 빠르다"는 아니지만, 애플 실리콘의 신기능
+    흡수 속도와 통합 메모리 활용의 자연스러움에서 MLX가 앞서는 경향이 있다. 한계도 명확하다 — <u>맥 밖에서는 못 쓴다</u>,
+    그리고 MLX 자체는 라이브러리라 서버 기능(API·동시 처리·모델 관리)이 없다. 그 빈칸이 oMLX의 자리다.</div>
+  </div>
+
+  <h3 id="ax-omlx"><span class="num">B</span>oMLX 해부 — MLX를 "서버"로 만드는 마지막 조각</h3>
+
+  <p class="body">oMLX는 mlx-lm 위에 서버 기능을 얹은 <strong>애플 실리콘 전용 추론 서버</strong>다
+  (Apache 2.0, 스타 1.8만+ 개략치, macOS 15+ · M1 이상, brew 또는 .dmg로 설치). Electron이 아닌
+  네이티브 Swift 메뉴바 앱이 딸려 있어 서버 시작·중지·모델 다운로드를 터미널 없이 관리할 수 있고,
+  크래시 시 자동 재시작까지 해준다 — <u>"켜두고 잊는" 상주 서버로 설계된 물건</u>이다. 뜯어볼 기능은 다섯 가지다.</p>
+
+  <p class="body"><strong>① 계층형 KV 캐시 (간판 기능).</strong> 에이전트 대화의 구조를 떠올려 보자 —
+  <u>거대한 공통 접두사(시스템 프롬프트 + 도구 스키마 수천 토큰) + 매번 바뀌는 꼬리</u>가 수십 번 왕복한다.
+  Ollama·LM Studio는 컨텍스트가 중간에 바뀌면 KV 캐시 전체를 버리고 처음부터 재계산한다.
+  oMLX는 캐시를 <u>블록 단위</u>(vLLM에서 영감)로 관리하며 접두사 공유와 Copy-on-Write를 지원하고,
+  RAM(Hot)이 차면 블록을 SSD(Cold, safetensors 포맷)로 내려보냈다가 필요하면 복구한다.
+  효과는 긴 컨텍스트의 첫 토큰 대기(TTFT)가 <strong>30~90초 → 5초 미만</strong>(공식 주장, 개략치)으로 주는 것 —
+  「Claude Code 내부 해부」에서 본 "캐시 정렬" 원칙이 서버 쪽에서 구현된 셈이다.</p>
+
+  <p class="body"><strong>② 연속 배칭(continuous batching).</strong> 동시 요청을 기본 8개(조정 가능)까지 겹쳐 처리한다.
+  단일 대화에는 큰 의미가 없지만, <u>에이전트의 병렬 도구 호출·서브에이전트, 또는 가족·팀이 서버 하나를 나눠 쓰는
+  구성</u>에서 체감 차이가 크다.</p>
+
+  <p class="body"><strong>③ 멀티모델 서빙과 메모리 가드.</strong> 여러 모델을 등록해두면 LRU로 자동 교체하고,
+  자주 쓰는 모델은 핀 고정, 유휴 모델은 TTL로 내린다. 전체 메모리 상한(<span class="mono">--memory-guard-gb</span>,
+  기본 "시스템 RAM − 8GB")을 걸어 시스템 전체가 스와프로 죽는 사고를 막는다 — 상주 서버에서 특히 중요한 안전장치다.</p>
+
+  <p class="body"><strong>④ 모델 스펙트럼 — RAG 스택이 서버 하나로.</strong> LLM만이 아니라 VLM(이미지 이해),
+  OCR, <u>임베딩(BGE-M3 등)과 리랭커</u>까지 서빙한다. §4-1의 RAG 레시피에서 따로 세우던 임베딩 서버가
+  필요 없어진다는 뜻 — <span class="mono">/v1/embeddings</span>·<span class="mono">/v1/rerank</span> 엔드포인트를
+  같은 서버가 제공한다.</p>
+
+  <p class="body"><strong>⑤ API 호환 — Anthropic 방언까지.</strong> OpenAI 호환(<span class="mono">/v1/chat/completions</span>)에
+  더해 <strong>Anthropic Messages API(<span class="mono">/v1/messages</span>)를 네이티브로</strong> 제공한다.
+  「Claude Code 내부 해부」 §11에서 다룬 "두 방언" 문제가 여기서도 해소된다 — Anthropic 방언을 쓰는 하네스(Claude Code 등)를
+  변환 프록시 없이 바로 꽂을 수 있다. MCP 도구 통합도 서버 수준에서 지원한다.</p>
+
+  <pre class="code"><span class="title-bar">oMLX 설치와 서빙 — §2의 루프에서 바꿀 것은 주소 한 줄뿐</span><span class="c"># 설치 (Homebrew) — 또는 공식 .dmg로 메뉴바 앱 설치</span>
+brew tap jundot/omlx https://github.com/jundot/omlx
+brew install omlx
+
+<span class="c"># 서빙 — SSD 캐시와 메모리 상한을 걸고 (기본 포트 8000)</span>
+omlx serve --model-dir ~/models \
+  --max-concurrent-requests 8 \
+  --paged-ssd-cache-dir ~/.omlx/cache \   <span class="c">← 계층형 캐시 활성화</span>
+  --memory-guard-gb 24                     <span class="c">← 시스템 보호 (32GB 맥 기준)</span>
+
+<span class="c"># §2의 에이전트 루프는 base_url만 바꾸면 그대로 동작</span>
+client = OpenAI(<span class="f">base_url</span>=<span class="s">"http://localhost:8000/v1"</span>, <span class="f">api_key</span>=<span class="s">"omlx"</span>)</pre>
+
+  <div class="callout amber">
+    <span class="icon">⚡</span>
+    <div><strong>커널 최적화의 낙차 —</strong> oMLX의 성능 사례 중 인상적인 것: 특정 모델의 네이티브 융합 커널이
+    켜지면 prefill ~845 tok/s, 폴백 경로로 떨어지면 ~29 tok/s — <u>약 30배 차이</u>(공식 수치, 개략치)다.
+    "같은 하드웨어라도 커널이 그 칩에 맞게 짜였는지"가 이렇게 갈린다는 것이 애플 전용 스택이 존재하는 이유를
+    잘 보여준다 (「AI 하드웨어 — 프로세서」의 소프트웨어 최적화 이야기와 같은 맥락).</div>
+  </div>
+
+  <h3 id="ax-pick"><span class="num">C</span>추론 서버 3파전 — llama.cpp vs Ollama vs oMLX</h3>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:120px"></th><th>llama.cpp</th><th>Ollama</th><th>oMLX</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">플랫폼</td><td>전부 (맥·리눅스·윈도우·라즈베리파이)</td><td>전부</td><td><strong>맥 전용</strong> (M1+, macOS 15+)</td></tr>
+        <tr><td class="hl">성격</td><td>범용 C++ 엔진 — 세밀 제어</td><td>편의성 래퍼 — 모델 관리 한 줄</td><td>MLX 네이티브 — 애플 특화 서버</td></tr>
+        <tr><td class="hl">모델 포맷</td><td>GGUF</td><td>GGUF (자체 레지스트리)</td><td>MLX (safetensors — 별도 변환본)</td></tr>
+        <tr><td class="hl">KV 캐시</td><td>cache_prompt 재사용 (단일 세션 중심)</td><td>컨텍스트 변경 시 전체 무효화</td><td><strong>RAM+SSD 계층형 — 요청 간 복구</strong></td></tr>
+        <tr><td class="hl">출력 강제</td><td><strong>GBNF·json_schema (가장 강력)</strong></td><td>json 모드 수준</td><td>구조화 출력 지원 (문법 수준은 llama.cpp 우위)</td></tr>
+        <tr><td class="hl">API</td><td>OpenAI + Anthropic(2026.1~)</td><td>OpenAI 호환 + 자체 API</td><td>OpenAI + Anthropic + 임베딩·리랭크</td></tr>
+        <tr><td class="hl">부가 기능</td><td>—</td><td>거대한 연동 생태계</td><td>연속 배칭·멀티모델 LRU·메뉴바 앱·VLM/OCR</td></tr>
+        <tr><td class="hl">어울리는 경우</td><td>이식성·문법 강제·튜닝이 필요할 때</td><td>입문·간단 운영</td><td>맥 상주 서버 + 에이전트 워크로드</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🧭</span>
+    <div><strong>고르는 감각 —</strong> ① 처음이면 Ollama로 감을 잡는다(§5의 1일차 그대로).
+    ② 맥을 상주 서버로 쓰고 에이전트 왕복이 많아지면 oMLX로 갈아탄다 — 계층형 캐시의 TTFT 이득이 정확히 그 워크로드에서 나온다.
+    ③ 판정 JSON을 문법 수준에서 강제해야 하거나(「LLM-as-a-Judge」 §6) 맥 밖에서도 돌려야 하면 llama.cpp.
+    셋 다 OpenAI 호환이라 <u>하네스 쪽 코드는 base_url 하나만 바꾸면 되므로</u>, 갈아타기가 두렵지 않다는 것이
+    이 3파전의 좋은 점이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 7. TIPS ═══════════ -->
 <section id="tips">
   <div class="section-header">
     <div class="eyebrow">Operations &amp; Limits</div>
-    <h2>6. 운영 수칙과 한계 — 로컬 에이전트를 망치는 것들</h2>
+    <h2>7. 운영 수칙과 한계 — 로컬 에이전트를 망치는 것들</h2>
     <p>도구를 늘리는 것보다 어려운 건, 모델이 도구를 "잘" 쓰게 만드는 것</p>
   </div>
 
@@ -857,7 +987,7 @@ npm install <span class="k">&amp;&amp;</span> npm run build      <span class="c"
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/llm-*.svg (6종) · 네트워크 문서(REST·API)와 DB 문서(pgvector·벡터 DB)에서 이어지는 응용편
+  Hyundai-Inspired Design System v1.0 · 도식: img/llm-*.svg (7종) · 네트워크 문서(REST·API)와 DB 문서(pgvector·벡터 DB)에서 이어지는 응용편
 </footer>
 
 </main>

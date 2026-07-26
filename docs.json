@@ -181,14 +181,15 @@
         "MCP",
         "RAG"
       ],
-      "version": 4,
+      "version": 5,
       "assets": [
         "docs/img/llm-agent-loop.svg",
         "docs/img/llm-mcp-architecture.svg",
         "docs/img/llm-mcp-stdio-flow.svg",
         "docs/img/llm-mcp-fetch-trace.svg",
         "docs/img/llm-rag-pipeline.svg",
-        "docs/img/llm-local-stack.svg"
+        "docs/img/llm-local-stack.svg",
+        "docs/img/llm-mlx-omlx.svg"
       ]
     },
     {
@@ -287,7 +288,7 @@
         "Hermes",
         "상주형 에이전트"
       ],
-      "version": 4,
+      "version": 5,
       "assets": [
         "docs/img/ra-evolution.svg",
         "docs/img/ra-architecture.svg",
