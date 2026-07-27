@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 680" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="lfa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="lfp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6B21A8"/>
+    </marker>
+  </defs>
+  <rect width="900" height="680" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">코딩 공장의 전체 설계도 — 5개 모듈과 4개의 계약</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">모듈 사이는 전부 표준 계약(API·git·JSON) — 그래서 어느 부품이든 갈아끼울 수 있다</text>
+
+  <!-- 나 -->
+  <rect x="30" y="90" width="180" height="76" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
+  <text x="120" y="120" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">👤 나</text>
+  <text x="120" y="142" font-size="10.5" fill="#555555" text-anchor="middle">goal.md 작성 · 아침 리뷰</text>
+  <text x="120" y="158" font-size="9.5" fill="#8A8A8A" text-anchor="middle">목적·수용 기준·제약</text>
+
+  <line x1="210" y1="128" x2="266" y2="128" stroke="#003F8A" stroke-width="2.5" marker-end="url(#lfa)"/>
+  <text x="238" y="118" font-size="9.5" fill="#8A8A8A" text-anchor="middle">계약①</text>
+  <text x="238" y="144" font-size="9" fill="#8A8A8A" text-anchor="middle">goal.md</text>
+
+  <!-- Goal Runner -->
+  <rect x="270" y="86" width="360" height="84" rx="14" fill="#FEE2E2" stroke="#9F1239" stroke-width="2.5"/>
+  <text x="450" y="114" font-size="14.5" font-weight="800" fill="#9F1239" text-anchor="middle">🔄 목표 루프 (Goal Runner) — 지휘소</text>
+  <text x="450" y="136" font-size="10.5" fill="#555555" text-anchor="middle">계획 → 코딩 지시 → 기계 게이트 → 심판 → 재시도</text>
+  <text x="450" y="154" font-size="9.5" fill="#8A8A8A" text-anchor="middle">맥 본체의 파이썬 프로세스 · 상한(시도·시간·예산) 관리</text>
+
+  <!-- 알림 -->
+  <rect x="690" y="90" width="180" height="76" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="780" y="120" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">📱 관제·알림</text>
+  <text x="780" y="142" font-size="10.5" fill="#555555" text-anchor="middle">jsonl 로그 · 진행 알림</text>
+  <text x="780" y="158" font-size="9.5" fill="#8A8A8A" text-anchor="middle">완료·막힘 시 보고</text>
+  <line x1="630" y1="128" x2="686" y2="128" stroke="#003F8A" stroke-width="2" marker-end="url(#lfa)"/>
+
+  <!-- 추론 서버 -->
+  <rect x="30" y="230" width="400" height="150" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="230" y="258" font-size="14" font-weight="800" fill="#B45309" text-anchor="middle">🧠 추론 서버 — oMLX (일꾼의 두뇌)</text>
+  <text x="52" y="284" font-size="11" fill="#555555">· Qwen 3.6 27B (MLX 8bit, ~29GB) — 교체 가능 부품</text>
+  <text x="52" y="306" font-size="11" fill="#555555">· 계층형 KV 캐시(RAM+SSD) — 루프 반복 왕복에 최적</text>
+  <text x="52" y="328" font-size="11" fill="#555555">· 임베딩·리랭커까지 한 서버 (RAG 확장 대비)</text>
+  <text x="52" y="350" font-size="11" fill="#8A8A8A">· 포트 8000 · OpenAI 호환 + /v1/messages</text>
+  <text x="52" y="368" font-size="10" fill="#8A8A8A">대안: llama.cpp (GGUF·GBNF 필요 시)</text>
+
+  <line x1="380" y1="170" x2="290" y2="226" stroke="#003F8A" stroke-width="2.5" marker-end="url(#lfa)"/>
+  <text x="308" y="196" font-size="9.5" fill="#8A8A8A">계약② OpenAI 호환 API</text>
+  <text x="322" y="210" font-size="9" fill="#8A8A8A">(base_url 하나로 교체)</text>
+
+  <!-- Docker 작업장 -->
+  <rect x="470" y="230" width="400" height="150" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="670" y="258" font-size="14" font-weight="800" fill="#065F46" text-anchor="middle">🏗 작업장 — Docker 샌드박스 (일꾼의 손)</text>
+  <text x="492" y="284" font-size="11" fill="#555555">· 코드 작성·실행·테스트는 전부 컨테이너 안에서</text>
+  <text x="492" y="306" font-size="11" fill="#555555">· Node/Bun + Python + Playwright 이미지</text>
+  <text x="492" y="328" font-size="11" fill="#555555">· 반출은 git 브랜치로만 — main 병합은 사람</text>
+  <text x="492" y="350" font-size="11" fill="#B45309">· 네이티브 앱 특례: 빌드·테스트만 호스트 러너로</text>
+  <text x="492" y="368" font-size="10" fill="#8A8A8A">맥 본체는 에이전트 코드 실행 금지 구역</text>
+
+  <line x1="520" y1="170" x2="610" y2="226" stroke="#003F8A" stroke-width="2.5" marker-end="url(#lfa)"/>
+  <text x="594" y="196" font-size="9.5" fill="#8A8A8A">계약③ docker exec + git</text>
+
+  <!-- 검증층 -->
+  <rect x="30" y="430" width="400" height="150" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="230" y="458" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">✅ 검증 1층 — 기계 게이트 (공짜·확실)</text>
+  <text x="52" y="484" font-size="11" fill="#555555">· 빌드 통과? 테스트 통과? 린트 통과?</text>
+  <text x="52" y="506" font-size="11" fill="#555555">· 수용 기준을 테스트 코드로 먼저 굳힘</text>
+  <text x="52" y="528" font-size="11" fill="#555555">· 실패 로그는 그대로 다음 시도의 피드백</text>
+  <text x="52" y="550" font-size="10" fill="#8A8A8A">여기서 걸러지면 심판 호출 자체가 없음 — 비용 절약</text>
+  <line x1="230" y1="380" x2="230" y2="426" stroke="#00AA6C" stroke-width="2.2" marker-end="url(#lfa)"/>
+
+  <!-- 심판 -->
+  <rect x="470" y="430" width="400" height="150" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="670" y="458" font-size="14" font-weight="800" fill="#6B21A8" text-anchor="middle">⚖️ 검증 2층 — 클라우드 심판 (드물게·강하게)</text>
+  <text x="492" y="484" font-size="11" fill="#555555">· "목적에 부합하는가"를 Claude API가 판정</text>
+  <text x="492" y="506" font-size="11" fill="#555555">· JSON 판정: pass / 근거 / 다음 할 일</text>
+  <text x="492" y="528" font-size="11" fill="#555555">· 불합격 근거는 재시도 프롬프트에 누적</text>
+  <text x="492" y="550" font-size="10" fill="#8A8A8A">게이트 통과분만 호출 — 하루 수십 회 소액</text>
+  <line x1="450" y1="505" x2="434" y2="505" stroke="#6B21A8" stroke-width="2.2" marker-end="url(#lfp)"/>
+  <text x="450" y="493" font-size="9" fill="#8A8A8A">계약④</text>
+  <text x="450" y="522" font-size="9" fill="#8A8A8A">JSON</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="608" width="840" height="52" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="630" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">모듈화의 핵심: 두뇌(모델)는 계약②의 base_url·모델명 두 줄, 손(편집기)·심판(모델)도 각자 한 줄 — 부품 교체가 설정 수정일 뿐</text>
+  <text x="450" y="650" font-size="11" fill="#8A9BB5" text-anchor="middle">「Claude Code 내부 해부」의 하네스 청사진 + 「LLM-as-a-Judge」의 검증 루프 + 「상주형 에이전트」의 격리 원칙을 한 시스템으로 조립</text>
+</svg>

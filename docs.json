@@ -194,6 +194,29 @@
       ]
     },
     {
+      "id": "llm-factory",
+      "title": "로컬 LLM 코딩 공장",
+      "desc": "M5 Max 128GB + Qwen 3.6 27B — \"목적을 주면 될 때까지\" 도는 24시간 자율 코딩 시스템 구축 가이드",
+      "file": "docs/llm-factory.html",
+      "group": "AI · LLM",
+      "icon": "🏭",
+      "gradient": [
+        "#0D1B2E",
+        "#1A5CB5"
+      ],
+      "tags": [
+        "Qwen 3.6",
+        "oMLX",
+        "Goal Loop"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/lf-architecture.svg",
+        "docs/img/lf-goal-loop.svg",
+        "docs/img/lf-memory.svg"
+      ]
+    },
+    {
       "id": "claude-extensions",
       "title": "클로드 확장하기",
       "desc": "Skills·Subagents·MCP·Hooks, 그리고 하네스·루프 엔지니어링",

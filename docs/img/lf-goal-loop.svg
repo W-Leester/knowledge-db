@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="gla" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="glr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/>
+    </marker>
+    <marker id="glg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+  <rect width="900" height="660" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">목표 루프 — "목적에 부합할 때까지"의 실제 흐름</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">싼 검증(기계)을 먼저, 비싼 검증(심판)을 나중에 — 실패는 버리지 않고 다음 시도의 재료로</text>
+
+  <!-- goal.md -->
+  <rect x="30" y="84" width="190" height="64" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
+  <text x="125" y="110" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">📋 goal.md</text>
+  <text x="125" y="132" font-size="10" fill="#8A8A8A" text-anchor="middle">목적 + 수용 기준 + 제약</text>
+
+  <line x1="220" y1="116" x2="262" y2="116" stroke="#003F8A" stroke-width="2.2" marker-end="url(#gla)"/>
+
+  <!-- 계획 -->
+  <rect x="266" y="84" width="190" height="64" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="361" y="110" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">🗺 계획 수립</text>
+  <text x="361" y="132" font-size="10" fill="#8A8A8A" text-anchor="middle">로컬 Qwen — 단계 분해</text>
+
+  <line x1="456" y1="116" x2="498" y2="116" stroke="#003F8A" stroke-width="2.2" marker-end="url(#gla)"/>
+  <text x="477" y="106" font-size="9.5" fill="#8A8A8A" text-anchor="middle">첫 단계:</text>
+  <text x="477" y="132" font-size="9.5" fill="#8A8A8A" text-anchor="middle">테스트 작성</text>
+
+  <!-- 코딩 -->
+  <rect x="502" y="84" width="190" height="64" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="597" y="110" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">⌨️ 코딩 한 걸음</text>
+  <text x="597" y="132" font-size="10" fill="#8A8A8A" text-anchor="middle">로컬 Qwen → 컨테이너 안 편집</text>
+
+  <line x1="597" y1="148" x2="597" y2="196" stroke="#003F8A" stroke-width="2.2" marker-end="url(#gla)"/>
+
+  <!-- 기계 게이트 -->
+  <rect x="472" y="200" width="250" height="76" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="597" y="228" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">✅ 기계 게이트</text>
+  <text x="597" y="250" font-size="10.5" fill="#555555" text-anchor="middle">빌드 · 테스트 · 린트 (컨테이너 안)</text>
+  <text x="597" y="266" font-size="9.5" fill="#8A8A8A" text-anchor="middle">공짜·객관적 — 여기가 1차 관문</text>
+
+  <!-- 실패 피드백 (게이트) -->
+  <line x1="472" y1="238" x2="240" y2="238" stroke="#DC2626" stroke-width="2.5"/>
+  <line x1="240" y1="238" x2="240" y2="170" stroke="#DC2626" stroke-width="2.5"/>
+  <line x1="240" y1="170" x2="530" y2="152" stroke="#DC2626" stroke-width="2.5" marker-end="url(#glr)"/>
+  <text x="355" y="228" font-size="10.5" font-weight="700" fill="#DC2626" text-anchor="middle">실패 → 에러 로그를 통째로 피드백하고 재시도</text>
+
+  <line x1="597" y1="276" x2="597" y2="324" stroke="#00AA6C" stroke-width="2.2" marker-end="url(#gla)"/>
+  <text x="622" y="304" font-size="10" font-weight="700" fill="#065F46">통과</text>
+
+  <!-- 심판 -->
+  <rect x="472" y="328" width="250" height="80" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="597" y="356" font-size="13" font-weight="800" fill="#6B21A8" text-anchor="middle">⚖️ 클라우드 심판</text>
+  <text x="597" y="378" font-size="10.5" fill="#555555" text-anchor="middle">goal.md 대조 — "목적에 부합하나?"</text>
+  <text x="597" y="396" font-size="9.5" fill="#8A8A8A" text-anchor="middle">{"pass": bool, "reasons": [...], "next": [...]}</text>
+
+  <!-- 불합격 피드백 -->
+  <line x1="472" y1="368" x2="180" y2="368" stroke="#DC2626" stroke-width="2.5"/>
+  <line x1="180" y1="368" x2="180" y2="180" stroke="#DC2626" stroke-width="2.5"/>
+  <line x1="180" y1="180" x2="524" y2="148" stroke="#DC2626" stroke-width="2.5" marker-end="url(#glr)"/>
+  <text x="326" y="358" font-size="10.5" font-weight="700" fill="#DC2626" text-anchor="middle">불합격 → 판정 근거(reasons)를 누적해 재시도</text>
+
+  <line x1="597" y1="408" x2="597" y2="456" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#glg)"/>
+  <text x="622" y="436" font-size="10" font-weight="700" fill="#065F46">합격</text>
+
+  <!-- 완료 -->
+  <rect x="472" y="460" width="250" height="70" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="597" y="488" font-size="13" font-weight="800" fill="#065F46" text-anchor="middle">🎉 완료 — 브랜치 정리 + PR</text>
+  <text x="597" y="510" font-size="10.5" fill="#555555" text-anchor="middle">알림 발송 → 아침에 사람이 최종 리뷰·병합</text>
+
+  <!-- 상한 3종 -->
+  <rect x="30" y="440" width="380" height="150" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <text x="52" y="468" font-size="13" font-weight="800" fill="#DC2626">🛑 무한 헛돎 방지 — 상한 3종 (필수)</text>
+  <text x="52" y="494" font-size="11.5" fill="#555555">· 시도 상한: 같은 단계 N회 실패 → 중단·보고</text>
+  <text x="52" y="518" font-size="11.5" fill="#555555">· 시간 상한: 목표당 벽시계 시간 (예: 6시간)</text>
+  <text x="52" y="542" font-size="11.5" fill="#555555">· 예산 상한: 심판 호출 횟수/비용 한도</text>
+  <text x="52" y="572" font-size="10.5" fill="#8A8A8A">+ 같은 에러 3연속 = "막힘" 판정 → 밤새 제자리 돌지 않게</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="610" width="840" height="36" rx="10" fill="#0D1B2E"/>
+  <text x="450" y="633" font-size="12" font-weight="700" fill="#FFF" text-anchor="middle">핵심 설계: 수용 기준을 테스트 코드로 먼저 굳히면(계획의 첫 단계), "부합하는가"의 대부분을 기계가 공짜로 판정한다 — 심판은 마지막 관문만</text>
+</svg>

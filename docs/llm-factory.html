@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로컬 LLM 코딩 공장 — M5 Max에서 "될 때까지" 도는 시스템 구축</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #1A5CB5 55%, #00AA6C 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>로컬 LLM<br>코딩 공장</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#blueprint">1. 전체 설계도 — 5모듈 4계약</a>
+    <a href="#server">2. 1단계 — 추론 서버 (두뇌)</a>
+    <a href="#workshop">3. 2단계 — 작업장 (Docker)</a>
+    <a href="#goalloop">4. 3단계 — 목표 루프 (지휘소)</a>
+    <a href="#verify">5. 4단계 — 검증층</a>
+    <a href="#ops">6. 5단계 — 관제·상시 구동</a>
+    <a href="#swap">7. 모델 갈아끼우기 — 모듈화 계약</a>
+    <a href="#reality">8. 운영 수칙 — 현실 기대치</a>
+    <a href="#refs">9. 출처</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">AI · LLM · Setup Guide</div>
+  <h1>로컬 LLM 코딩 공장<br><span class="thin">M5 Max 128GB + Qwen 3.6 27B — "목적을 주면 될 때까지" 도는 시스템 구축</span></h1>
+  <p class="sub">목표는 하나다: 밤에 goal.md 한 장을 써두면, 로컬 모델이 Docker 작업장에서 코드를 짜고 테스트를 돌리고
+  클라우드 심판의 합격을 받을 때까지 스스로 반복하다가, 아침에 검토 가능한 브랜치와 보고서를 남겨두는 것.
+  이 저장소의 문서들(에이전트 루프·하네스·심판·격리)을 실제 한 대의 맥 위에 조립하는 실전 가이드다.</p>
+  <div class="tags">
+    <span class="tag">Qwen 3.6 27B</span><span class="tag">oMLX</span><span class="tag">Docker 격리</span>
+    <span class="tag">Goal Loop</span><span class="tag">클라우드 심판</span><span class="tag">모듈화</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 네 가지 결정이 설계를 정한다</h2>
+    <p>이 문서는 이미 내린 결정 위에 서 있다 — 결정이 바뀌면 해당 절만 갈아끼우면 된다</p>
+  </div>
+
+  <div class="card-grid g4">
+    <div class="stat-card"><div class="stat-value">선수</div><div class="stat-label">로컬 Qwen 3.6 27B<br>코딩·계획 전부 로컬 (§2)</div></div>
+    <div class="stat-card"><div class="stat-value">심판</div><div class="stat-label">클라우드 API<br>"목적 부합" 판정만 (§5)</div></div>
+    <div class="stat-card"><div class="stat-value">격리</div><div class="stat-label">Docker 샌드박스<br>맥 본체는 금지 구역 (§3)</div></div>
+    <div class="stat-card"><div class="stat-value">대상</div><div class="stat-label">웹·파이썬·네이티브 앱<br>결과물별 게이트 (§5)</div></div>
+  </div>
+
+  <p class="body">이 구성이 지금 성립하는 이유가 있다. Qwen 3.6 27B는 2026년 4월에 나온 dense 모델인데,
+  <strong>SWE-bench Verified 77.2%(개략치)</strong> — 전 세대의 수백B급 플래그십을 실코딩 벤치마크에서 앞선다.
+  즉 <u>"27B급이면 에이전트 코딩이 실용 수준"</u>이 된 첫 세대이고, M5 Max 128GB는 그걸 8bit(~29GB)로 돌리고도
+  메모리가 절반 넘게 남는 기계다. 병목은 하드웨어가 아니라 모델의 지능이며, 그래서 이 시스템의 진짜 핵심은
+  모델이 아니라 <strong>검증 루프(§4~5)</strong>다 — 로컬 모델의 부족함을 "기계 게이트 + 강한 심판 + 재시도"가 메운다.</p>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>재료가 된 문서들 —</strong> 에이전트 루프의 원리는 「로컬 LLM 에이전트」 §1~2, 하네스 설계는
+    「Claude Code 내부 해부」, 판정 루프는 「LLM-as-a-Judge」 §6, 격리 원칙은 「상주형 AI 에이전트」 §7,
+    추론 서버 선택은 「로컬 LLM 에이전트」 §6(oMLX)에서 온다. 이 문서는 그것들의 <u>조립 설명서</u>다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. BLUEPRINT ═══════════ -->
+<section id="blueprint">
+  <div class="section-header">
+    <div class="eyebrow">Blueprint</div>
+    <h2>1. 전체 설계도 — 5개 모듈, 4개의 계약</h2>
+    <p>모듈 사이를 전부 표준 계약으로 이으면 "갈아끼우기"는 설정 수정이 된다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/lf-architecture.svg" alt="목표 루프, 추론 서버, Docker 작업장, 검증층, 관제로 이루어진 코딩 공장 설계도"></div>
+    <figcaption>두뇌(모델)·손(작업장)·심판·관제가 전부 교체 가능한 부품 — 계약만 지키면 된다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">모듈</th><th style="width:220px">역할</th><th>계약 (교체 시 지킬 것)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① 추론 서버 (oMLX)</td><td>두뇌 — Qwen이 여기서 돈다</td><td>OpenAI 호환 API — 루프는 base_url·모델명만 안다</td></tr>
+        <tr><td class="hl">② 목표 루프 (Goal Runner)</td><td>지휘소 — 계획·지시·재시도·상한 관리</td><td>입력은 goal.md, 출력은 git 브랜치 + 보고서</td></tr>
+        <tr><td class="hl">③ 작업장 (Docker)</td><td>손 — 코드 작성·실행·테스트</td><td>docker exec + git — 반출은 브랜치로만</td></tr>
+        <tr><td class="hl">④ 검증층</td><td>기계 게이트(1층) + 클라우드 심판(2층)</td><td>심판은 JSON 판정 {"pass", "reasons", "next"}</td></tr>
+        <tr><td class="hl">⑤ 관제</td><td>로그·알림·상시 구동</td><td>모든 시도를 jsonl로 — 나중에 평가셋이 된다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">디렉토리는 이렇게 잡는다 (한 폴더가 시스템 전체 — 백업·이사가 쉽다):</p>
+
+  <pre class="code"><span class="title-bar">~/factory — 시스템 전체가 이 폴더 하나</span>~/factory/
+├── config.yaml        <span class="c">← 모든 교체 가능 부품의 단일 진실 (§7)</span>
+├── goals/             <span class="c">← goal.md들 — 하나가 곧 하룻밤 작업</span>
+│   └── 2026-07-28-todo-app.md
+├── runner/            <span class="c">← 목표 루프 파이썬 코드 (§4)</span>
+├── workspace/         <span class="c">← git 저장소들 — 컨테이너에 마운트되는 유일한 폴더</span>
+├── logs/              <span class="c">← 시도·판정 jsonl (§6)</span>
+└── docker/            <span class="c">← 작업장 이미지 Dockerfile (§3)</span></pre>
+</section>
+
+<!-- ═══════════ 2. SERVER ═══════════ -->
+<section id="server">
+  <div class="section-header">
+    <div class="eyebrow">Step 1 — Brain</div>
+    <h2>2. 1단계 — 추론 서버: oMLX에 Qwen 3.6 27B 올리기</h2>
+    <p>에이전트 루프의 반복 왕복에는 계층형 KV 캐시가 결정적이다</p>
+  </div>
+
+  <p class="body">서버는 <strong>oMLX</strong>를 쓴다(「로컬 LLM 에이전트」 §6 — 애플 실리콘 전용, RAM+SSD 계층형 KV 캐시).
+  이 시스템은 "거대한 공통 프롬프트 + 바뀌는 꼬리"를 밤새 수백 번 왕복하므로, 컨텍스트 재계산을 캐시로 흡수하는
+  oMLX의 이득이 정확히 여기서 난다. 모델은 <strong>MLX 8bit 변환본</strong>(~29GB)을 받는다.</p>
+
+  <pre class="code"><span class="title-bar">설치 → 모델 → 서빙 → 검증 (터미널 4줄 + 확인 1줄)</span><span class="c"># ① 설치 (메뉴바 앱을 원하면 공식 .dmg)</span>
+brew tap jundot/omlx https://github.com/jundot/omlx && brew install omlx
+
+<span class="c"># ② 모델 다운로드 — MLX 8bit 변환본 (~29GB, mlx-community 또는 unsloth 배포본)</span>
+huggingface-cli download unsloth/Qwen3.6-27B-MLX-8bit --local-dir ~/factory/models/qwen3.6-27b-8bit
+
+<span class="c"># ③ 서빙 — 128GB에 맞춘 설정</span>
+omlx serve --model-dir ~/factory/models \
+  --max-concurrent-requests 4 \            <span class="c">← 루프 + 보조 호출 동시 처리</span>
+  --paged-ssd-cache-dir ~/factory/omlx-cache \  <span class="c">← 2TB SSD에 캐시 (계층형 캐시 활성화)</span>
+  --memory-guard-gb 96                     <span class="c">← 시스템·Docker 몫 32GB는 절대 침범 못 하게</span>
+
+<span class="c"># ④ 검증 — 이 한 줄이 되면 "두뇌" 완성</span>
+curl -s localhost:8000/v1/chat/completions -d '{"model":"qwen3.6-27b-8bit","messages":[{"role":"user","content":"1+1?"}]}'</pre>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/lf-memory.svg" alt="128GB 통합 메모리와 2TB SSD의 배분 계획"></div>
+    <figcaption>모델 29GB를 올리고도 절반 이상이 남는다 — 병목은 메모리가 아니라 27B의 지능이다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="callout amber">
+    <span class="icon">⚖️</span>
+    <div><strong>양자화 선택 — 8bit가 정답인 이유.</strong> 이 기계는 bf16(~56GB)도 돌리지만, 로컬 추론 속도는
+    메모리 대역폭이 정하므로(「AI 하드웨어 — 메모리」) 가중치가 절반인 8bit가 약 2배 빠르고 품질 손실은 체감 밖이다.
+    반대로 4bit(~17GB)는 메모리가 남아도는 이 기계에서 코딩 품질만 잃는 절약이다. <u>속도가 더 필요해지면
+    양자화를 낮추지 말고 §7의 MoE(A3B급) 교체를 실험</u>하는 것이 옳은 방향이다.</div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🔩</span>
+    <div><strong>llama.cpp를 예비로 —</strong> 판정 JSON을 문법 수준에서 강제하고 싶거나(GBNF) 다른 기기와 설정을
+    공유해야 하면 llama.cpp(GGUF Q8)로 언제든 갈아탈 수 있다. 루프는 base_url만 아는 구조(§7)라 교체 비용이 0에 가깝다 —
+    이것이 계약① 설계의 이유다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 3. WORKSHOP ═══════════ -->
+<section id="workshop">
+  <div class="section-header">
+    <div class="eyebrow">Step 2 — Hands</div>
+    <h2>3. 2단계 — 작업장: Docker 샌드박스</h2>
+    <p>밤새 무인으로 도는 코드는 전부 컨테이너 안 — 맥 본체는 금지 구역</p>
+  </div>
+
+  <p class="body">에이전트가 짠 코드를 무인으로 실행하는 이상, <strong>실행 장소를 맥 본체에서 분리하는 것은 선택이 아니라
+  전제</strong>다(「상주형 AI 에이전트」 §7의 격리 원칙). 도커 런타임은 맥에서 가볍고 빠른 <strong>OrbStack</strong>을 권한다.
+  작업장 이미지는 결과물 3종(웹·파이썬·네이티브)에 맞춰 하나로 만든다:</p>
+
+  <pre class="code"><span class="title-bar">docker/Dockerfile — 작업장 이미지 (웹 + 파이썬 겸용)</span>FROM ubuntu:24.04
+RUN apt-get update && apt-get install -y git curl build-essential
+<span class="c"># 웹·서버: Node LTS + Bun</span>
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && apt-get install -y nodejs
+RUN curl -fsSL https://bun.sh/install | bash
+<span class="c"># 파이썬: 3.12 + uv (빠른 패키지 관리)</span>
+RUN apt-get install -y python3.12 python3.12-venv && curl -LsSf https://astral.sh/uv/install.sh | sh
+<span class="c"># 웹 테스트: Playwright (헤드리스 브라우저 포함)</span>
+RUN npx -y playwright@latest install --with-deps chromium
+<span class="c"># 격리 원칙: 컨테이너 안에는 API 키·클라우드 자격증명을 넣지 않는다 (심판 호출은 §4 러너가 밖에서)</span>
+WORKDIR /work</pre>
+
+  <pre class="code"><span class="title-bar">구동 — workspace만 마운트, 그 밖은 아무것도 안 보인다</span>docker build -t factory-workshop ~/factory/docker
+docker run -d --name workshop \
+  -v ~/factory/workspace:/work \        <span class="c">← 마운트는 이 폴더 하나뿐</span>
+  --memory 16g --cpus 8 \               <span class="c">← 폭주해도 이 상자 안</span>
+  factory-workshop sleep infinity
+<span class="c"># 루프가 명령을 실행하는 방식 (계약③):</span>
+docker exec workshop bash -c "cd /work/todo-app && npm test"</pre>
+
+  <p class="body"><strong>git 규율이 두 번째 격리선이다.</strong> 에이전트는 <span class="mono">agent/</span> 접두사
+  브랜치에만 커밋할 수 있고, main 병합은 언제나 아침의 사람 몫이다. 잘못 만든 밤샘 결과물은 브랜치째 버리면 끝 —
+  되돌리기가 공짜라는 것이 git을 반출 통로로 쓰는 이유다(「Git & GitHub」 문서 참조).</p>
+
+  <div class="callout red">
+    <span class="icon">🍎</span>
+    <div><strong>네이티브 앱(macOS/iOS)의 특례 —</strong> Xcode는 컨테이너에 안 들어간다. 그래서 네이티브 목표만
+    예외 구조를 쓴다: <u>코드 작성·수정은 컨테이너 안 git 저장소에서 그대로 하되, 빌드·테스트만 호스트의 제한된
+    러너 스크립트가 대신 실행</u>한다 — 러너는 <span class="mono">xcodebuild build test</span> 정확히 한 종류의 명령만,
+    workspace 폴더 안에서만 실행하도록 화이트리스트로 짠다(에이전트가 임의 명령을 호스트에서 실행할 통로를 만들지 않는 것이 핵심).
+    유닛 테스트(XCTest)까지는 이 구조로 자동화되고, 시뮬레이터 UI 테스트는 난도가 높으니 초기엔 "빌드+유닛 테스트 통과"를
+    기계 게이트로 삼는 것이 현실적이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. GOAL LOOP ═══════════ -->
+<section id="goalloop">
+  <div class="section-header">
+    <div class="eyebrow">Step 3 — Command</div>
+    <h2>4. 3단계 — 목표 루프: "될 때까지"의 실체</h2>
+    <p>goal.md가 절반이다 — 수용 기준을 기계가 검증할 수 있게 쓰는 것</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/lf-goal-loop.svg" alt="goal.md에서 계획, 코딩, 기계 게이트, 클라우드 심판, 완료로 이어지는 목표 루프 순서도"></div>
+    <figcaption>실패는 버리지 않는다 — 에러 로그와 판정 근거가 다음 시도의 재료 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body"><strong>goal.md 작성이 시스템 성패의 절반이다.</strong> "좋은 투두앱 만들어줘"는 심판도 채점 못 한다.
+  수용 기준을 <u>기계가 검증 가능한 문장</u>으로 쪼개는 것이 핵심이다:</p>
+
+  <pre class="code"><span class="title-bar">goals/2026-07-28-todo-app.md — 목적 정의의 형식</span><span class="k"># 목적</span>
+할 일 관리 웹앱 — 추가·완료·삭제·필터, 새로고침해도 데이터 유지
+
+<span class="k"># 수용 기준</span> <span class="c">← 각 항목이 곧 테스트가 된다 (§5)</span>
+- [ ] 할 일 추가/완료/삭제가 UI에서 동작한다 (Playwright로 검증)
+- [ ] 필터(전체/미완료/완료)가 동작한다
+- [ ] localStorage로 새로고침 후에도 유지된다
+- [ ] `npm test` 전부 통과, `npm run lint` 경고 0
+
+<span class="k"># 제약</span>
+- React + Vite, 외부 UI 라이브러리 금지
+- 기존 코드 스타일 유지 (eslint 설정 준수)
+
+<span class="k"># 상한</span> <span class="c">← §8의 헛돎 방지</span>
+- 최대 6시간 / 심판 호출 30회 / 같은 에러 3연속이면 중단·보고</pre>
+
+  <p class="body">루프 본체는 파이썬 100~200줄이면 된다 — 「로컬 LLM 에이전트」 §2의 50줄 루프에
+  <u>게이트·심판·상한</u>을 더한 구조다. 뼈대:</p>
+
+  <pre class="code"><span class="title-bar">runner/loop.py — 뼈대 (전체 흐름이 이 30줄 안에 있다)</span><span class="k">while</span> not done <span class="k">and</span> within_limits(attempts, clock, judge_calls):
+
+    <span class="c"># ① 코딩 한 걸음 — 로컬 Qwen에게 (계약②: base_url만 아는 OpenAI 호환 호출)</span>
+    step = local_llm(system=HARNESS_PROMPT, context=[goal, plan, state])
+    apply_edits(step)                     <span class="c"># 컨테이너 안 파일 수정 + git commit</span>
+
+    <span class="c"># ② 기계 게이트 — 공짜 검증 먼저 (계약③: docker exec)</span>
+    gates = run_in_workshop(<span class="s">"npm run build && npm test && npm run lint"</span>)
+    <span class="k">if</span> not gates.ok:
+        state.add(<span class="s">"게이트 실패"</span>, gates.log_tail)   <span class="c"># 에러 로그가 다음 시도의 피드백</span>
+        <span class="k">continue</span>
+
+    <span class="c"># ③ 클라우드 심판 — 게이트 통과분만, 목적 대조 판정 (계약④)</span>
+    verdict = cloud_judge(goal_md, git_diff(), gates.summary)   <span class="c"># temperature 0</span>
+    <span class="k">if</span> verdict[<span class="s">"pass"</span>]:
+        done = True                        <span class="c"># → 브랜치 정리, PR 생성, 알림</span>
+    <span class="k">else</span>:
+        state.add(<span class="s">"판정 불합격"</span>, verdict[<span class="s">"reasons"</span>], verdict[<span class="s">"next"</span>])
+
+log_jsonl(attempts, gates, verdict)        <span class="c"># §6 — 모든 시도가 기록으로</span></pre>
+
+  <div class="callout purple">
+    <span class="icon">⚖️</span>
+    <div><strong>심판 프롬프트는 「LLM-as-a-Judge」 §5 템플릿 그대로 —</strong> goal.md의 수용 기준을 기준표(rubric)로,
+    git diff와 테스트 결과를 증거로 주고, <u>근거 먼저 → 마지막 줄 JSON</u>({"pass": bool, "reasons": [...], "next": [...]})을
+    temperature 0으로 받는다. 핵심 규칙 하나: 심판에게는 <u>"의심스러우면 불합격"</u>을 명시한다 — 밤새 도는 시스템에서
+    가짜 합격이 가짜 불합격보다 훨씬 비싸기 때문이다.</div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🔧</span>
+    <div><strong>"손"의 구현은 교체 가능한 부품 —</strong> ①에서 파일 수정을 실제로 수행하는 방법은 두 가지가 있고
+    루프 구조는 동일하다: <u>(a) 자작 편집 도구</u>(「로컬 LLM 에이전트」 §2의 도구 호출로 write_file·run_cmd 구현 — 완전 통제),
+    <u>(b) Aider 같은 기성 CLI 편집기</u>를 컨테이너 안에서 로컬 모델로 구동(<span class="mono">aider --message "..."</span> —
+    diff 적용·git 커밋이 검증돼 있어 초기 구축이 빠름). <strong>(b)로 시작해서 아쉬운 부분만 (a)로 바꿔가는 경로</strong>를 권한다.
+    어느 쪽이든 두뇌는 로컬 Qwen이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. VERIFY ═══════════ -->
+<section id="verify">
+  <div class="section-header">
+    <div class="eyebrow">Step 4 — Quality</div>
+    <h2>5. 4단계 — 검증층: 기계가 먼저, 심판은 마지막</h2>
+    <p>로컬 27B의 부족함은 여기서 메워진다 — 이 시스템의 진짜 핵심</p>
+  </div>
+
+  <p class="body">순서가 곧 설계다: <strong>싸고 객관적인 검증(빌드·테스트·린트)을 먼저</strong> 돌려 대부분의 실패를
+  공짜로 걸러내고, <strong>비싸고 주관적인 검증(클라우드 심판)은 게이트 통과분에만</strong> 쓴다.
+  그리고 계획의 첫 단계를 "수용 기준을 테스트 코드로 옮기기"로 강제하면, "목적 부합"의 대부분이
+  기계 판정으로 내려온다 — 심판은 테스트가 못 재는 것(요구 해석이 맞나, 품질이 조악하지 않나)만 본다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">결과물</th><th style="width:300px">기계 게이트 (컨테이너/러너)</th><th>심판이 추가로 보는 것</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">웹앱·서버</td><td><span class="mono">build → vitest/jest → eslint → Playwright</span> (헤드리스 E2E)</td><td>UI 스크린샷 묘사 대조, UX 흐름이 목적에 맞나</td></tr>
+        <tr><td class="hl">파이썬 도구·CLI</td><td><span class="mono">uv run pytest → ruff check</span> — 검증이 가장 쉬워 자율 루프 궁합 최고</td><td>엣지 케이스 누락, 인터페이스 사용성</td></tr>
+        <tr><td class="hl">macOS/iOS 앱</td><td><span class="mono">xcodebuild build test</span> (호스트 러너, §3 특례) — XCTest 유닛까지</td><td>코드 구조·Swift 관례. UI 동작은 아침 사람 몫</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🎯</span>
+    <div><strong>테스트가 없는 목표는 받지 않는다 —</strong> 루프의 계획 단계가 항상 "수용 기준 → 테스트 코드"를
+    첫 커밋으로 만들게 하라. 이것이 로컬 27B 시스템의 품질을 좌우하는 단 하나의 규칙이다. 테스트가 과녁이 되면
+    약한 모델도 반복으로 명중하지만, 과녁이 없으면 강한 모델도 밤새 허공에 쏜다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. OPS ═══════════ -->
+<section id="ops">
+  <div class="section-header">
+    <div class="eyebrow">Step 5 — Operations</div>
+    <h2>6. 5단계 — 관제: 상시 구동·로그·알림</h2>
+    <p>"켜두고 잊는다"를 성립시키는 나머지 조각들</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:160px">조각</th><th style="width:280px">방법</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">상시 구동</td><td>oMLX는 메뉴바 앱(자동 재시작 내장), 루프는 <span class="mono">tmux</span> 세션에서 실행</td><td>익숙해지면 launchd 등록으로 승격. 절전 해제: <span class="mono">caffeinate</span> 또는 전원 설정</td></tr>
+        <tr><td class="hl">로그</td><td>모든 시도·게이트 결과·판정을 <span class="mono">logs/*.jsonl</span>에 축적</td><td>이 기록이 그대로 평가셋 원석이 된다(「LLM-as-a-Judge」 §6) — §7의 모델 A/B 근거</td></tr>
+        <tr><td class="hl">알림</td><td>완료·막힘 시 macOS 알림(<span class="mono">osascript</span>) 또는 텔레그램 봇 curl 한 줄</td><td>진행 중엔 침묵 — "완료/막힘/상한 도달" 3가지만 알리는 것이 피로가 없다</td></tr>
+        <tr><td class="hl">아침 루틴</td><td>PR(브랜치 diff) 검토 → 병합 or 폐기 → goal.md 다듬어 재투입</td><td>사람 리뷰가 최종 게이트 — main은 언제나 사람이 지킨다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <pre class="code"><span class="title-bar">밤샘 가동의 실제 시작 (자기 전 3줄)</span>tmux new -s factory
+caffeinate -is python runner/loop.py goals/2026-07-28-todo-app.md
+<span class="c"># Ctrl-b d 로 분리 — 아침에 tmux attach -t factory 로 복귀</span></pre>
+</section>
+
+<!-- ═══════════ 7. SWAP ═══════════ -->
+<section id="swap">
+  <div class="section-header">
+    <div class="eyebrow">Modularity</div>
+    <h2>7. 모델 갈아끼우기 — 모듈화 계약의 실전</h2>
+    <p>교체는 코드 수정이 아니라 config 수정이어야 한다</p>
+  </div>
+
+  <p class="body">요구하신 모듈화의 실체는 <strong>config.yaml 한 파일</strong>이다. 루프 코드 어디에도 모델명·주소를
+  하드코딩하지 않고 전부 여기서 읽는다:</p>
+
+  <pre class="code"><span class="title-bar">config.yaml — 교체 가능한 모든 부품의 단일 진실</span><span class="f">player</span>:                                <span class="c"># 두뇌 (선수)</span>
+  base_url: <span class="s">http://localhost:8000/v1</span>   <span class="c">← llama.cpp로 바꾸면 이 줄만 (예: :8080/v1)</span>
+  model: <span class="s">qwen3.6-27b-8bit</span>              <span class="c">← 새 모델은 이 줄만</span>
+  temperature: 0.2                      <span class="c"># 코딩은 낮게</span>
+
+<span class="f">judge</span>:                                 <span class="c"># 심판</span>
+  provider: <span class="s">anthropic</span>
+  model: <span class="s">claude-sonnet-latest</span>          <span class="c">← 심판 교체도 한 줄</span>
+
+<span class="f">workshop</span>:  { container: <span class="s">workshop</span>, memory: <span class="s">16g</span> }
+<span class="f">limits</span>:    { hours: 6, judge_calls: 30, same_error: 3 }</pre>
+
+  <p class="body">교체 절차는 세 줄이다: <u>새 모델 다운로드 → config 한 줄 수정 → 루프 재시작</u>.
+  검증도 시스템이 해준다 — 같은 goal.md를 두 모델로 돌리고 <strong>§6의 jsonl 로그(게이트 통과율·심판 합격까지의
+  시도 수·소요 시간)를 비교</strong>하면 그게 곧 나만의 벤치마크다. 후보군:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:210px">모델 (개략)</th><th style="width:170px">메모리 (8bit)</th><th>언제 시도하나</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Qwen 3.6 27B (기본)</td><td>~29GB</td><td>지금의 기본값 — dense라 지시 이행이 안정적, 비전 내장(스크린샷 검증 확장 여지)</td></tr>
+        <tr><td class="hl">Qwen 3.6 35B-A3B급 MoE</td><td>~37GB (활성 3B)</td><td>왕복 속도가 아쉬울 때 — 활성 파라미터가 작아 훨씬 빠름, 품질은 A/B로 확인</td></tr>
+        <tr><td class="hl">Coder 특화 계열</td><td>크기별</td><td>코딩 전용 파인튜닝 계열이 나오면 1순위 실험 대상</td></tr>
+        <tr><td class="hl">차세대 (미래)</td><td>—</td><td>128GB는 60GB급(8bit 기준 ~60B dense)까지 여유 — 기계 수명 동안 계속 갈아끼운다</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════ 8. REALITY ═══════════ -->
+<section id="reality">
+  <div class="section-header">
+    <div class="eyebrow">Reality Check</div>
+    <h2>8. 운영 수칙 — 현실 기대치와 한계</h2>
+    <p>이 시스템을 살리는 것도 죽이는 것도 기대치 관리다</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><h4>1️⃣ 목적은 잘게</h4><p>하룻밤 = "앱 하나"가 아니라 "기능 하나". 큰 목표는 goal.md 여러 장으로 쪼개 연속 투입한다. 로컬 27B는 프론티어 모델이 아니다 — 작은 과녁 + 많은 반복이 이 체급의 필승 공식.</p></div>
+    <div class="card"><h4>2️⃣ 상한은 신성하다</h4><p>시간·시도·심판 예산 상한(§4)을 끄고 싶은 유혹이 온다 — 참아라. "밤새 같은 에러 400번"은 이 바닥의 고전 사고다. 같은 에러 3연속 = 막힘 보고가 맞다.</p></div>
+    <div class="card"><h4>3️⃣ 첫 주는 지켜본다</h4><p>무인 운행 전에 낮에 몇 번 지켜보며 하네스 프롬프트·게이트를 다듬는다. Cline은 이 감독 단계의 좋은 창이다.</p></div>
+    <div class="card"><h4>4️⃣ 치명 자산 미연결</h4><p>컨테이너에 클라우드 자격증명·개인 데이터를 넣지 않는다. 심판 API 키는 러너(호스트)에만. 배포(실서버 push)는 시스템 밖 — 사람의 일.</p></div>
+    <div class="card"><h4>5️⃣ 기록이 자산</h4><p>jsonl 로그와 실패 브랜치를 지우지 마라 — 모델 A/B의 근거이자, 하네스 프롬프트 개선의 재료이자, 나중에 파인튜닝 데이터(§로컬 LLM 에이전트 §4-2)까지 된다.</p></div>
+    <div class="card"><h4>6️⃣ 심판을 의심하라</h4><p>주 1회 심판 판정 표본을 직접 확인 — 가짜 합격이 보이면 기준표(goal.md 수용 기준)를 더 기계적으로 쪼갠다. "심판의 심판"은 여기서도 사람이다.</p></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>한 줄 요약 —</strong> 이 시스템의 성능은 모델(§2)이 아니라 <u>과녁(goal.md의 수용 기준)과
+    검증(게이트+심판)의 품질</u>에서 나온다. 모델은 갈아끼우는 부품이고, 쌓이는 것은 하네스와 기록이다 —
+    「Claude Code 내부 해부」에서 배운 그대로, 가치는 하네스에 있다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 9. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">References</div>
+    <h2>9. 출처</h2>
+    <p>모델 스펙·벤치마크는 빠르게 바뀐다 — 구축 시점에 재확인</p>
+  </div>
+
+  <ul class="refs">
+    <li><a href="https://huggingface.co/unsloth/Qwen3.6-27B-MLX-8bit" target="_blank" rel="noopener">HuggingFace — Qwen3.6-27B MLX 8bit</a>
+        <span class="ref-note">§2. 이 가이드의 기본 모델 배포본 (~29GB).</span></li>
+    <li><a href="https://willitrunai.com/blog/qwen-3-6-27b-vram-requirements" target="_blank" rel="noopener">Qwen 3.6 27B 하드웨어 요구 정리</a>
+        <span class="ref-note">§0·§2. 양자화별 메모리(Q4 ~17GB / Q8 ~29GB / bf16 ~56GB)와 SWE-bench 77.2% 출처.</span></li>
+    <li><a href="https://github.com/jundot/omlx" target="_blank" rel="noopener">oMLX — LLM inference server for Apple Silicon</a>
+        <span class="ref-note">§2. 서빙 옵션(--memory-guard-gb·--paged-ssd-cache-dir)의 1차 문서.</span></li>
+    <li><a href="https://orbstack.dev/" target="_blank" rel="noopener">OrbStack</a> · <a href="https://aider.chat/" target="_blank" rel="noopener">Aider</a>
+        <span class="ref-note">§3~4. 맥용 경량 Docker 런타임 · 기성 CLI 편집기(선택 부품).</span></li>
+  </ul>
+
+  <div class="callout navy">
+    <span class="icon">📚</span>
+    <div><strong>함께 읽으면 좋은 문서 —</strong> 「로컬 LLM 에이전트」(§2 루프 원리 · §6 oMLX 해부 — 이 가이드의 §2·4의 기반),
+    「LLM-as-a-Judge」(§5 심판 프롬프트 · §6 루프 검증자 — §4~5의 기반), 「Claude Code 내부 해부」(하네스 설계 사상),
+    「상주형 AI 에이전트」(§7 격리 원칙 · §8 하드웨어), 「AI 하드웨어 — 메모리」(양자화·대역폭 계산의 근거).</div>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/lf-*.svg (3종) · 사양: M5 Max 128GB / Qwen 3.6 27B 기준 (수치는 개략치) · 이 저장소 AI 문서들의 실전 조립편
+</footer>
+
+</main>
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>
