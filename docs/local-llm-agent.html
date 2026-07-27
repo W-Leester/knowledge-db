@@ -327,6 +327,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#ax-mlx" class="sub">6-1. MLX — 애플의 ML 프레임워크</a>
     <a href="#ax-omlx" class="sub">6-2. oMLX 해부 — 캐시·배칭·API</a>
     <a href="#ax-pick" class="sub">6-3. 추론 서버 3파전</a>
+    <a href="#ax-confuse" class="sub">6-4. 쉽게 헷갈리는 개념</a>
     <a href="#tips">7. 운영 수칙과 한계</a>
   </nav>
   <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
@@ -950,6 +951,64 @@ client = OpenAI(<span class="f">base_url</span>=<span class="s">"http://localhos
     ③ 판정 JSON을 문법 수준에서 강제해야 하거나(「LLM-as-a-Judge」 §6) 맥 밖에서도 돌려야 하면 llama.cpp.
     셋 다 OpenAI 호환이라 <u>하네스 쪽 코드는 base_url 하나만 바꾸면 되므로</u>, 갈아타기가 두렵지 않다는 것이
     이 3파전의 좋은 점이다.</div>
+  </div>
+
+  <h3 id="ax-confuse"><span class="num">D</span>쉽게 헷갈리는 개념 — MLX는 누구와 비교해야 하나</h3>
+
+  <p class="body">이 동네 이름들이 헷갈리는 데는 구조적인 이유가 있다. <strong>MLX가 세 가지 역할(프레임워크·추론 엔진·
+  파인튜닝 도구)을 겸하고</strong>, <strong>llama.cpp는 엔진이면서 서버까지 겸업</strong>하기 때문이다.
+  "누가 누구의 경쟁자인가"는 층을 나눠야 보인다.</p>
+
+  <p class="body"><strong>관계 ① MLX vs oMLX — 엔진과 자동차.</strong> 이 둘은 비교 대상이 아니라 <u>층이 다른 한 몸</u>이다.
+  MLX는 연산을 실행하는 프레임워크(엔진)고, oMLX는 그 엔진에 API·동시 처리·모델 관리를 씌운 서버(자동차)다.
+  §6-3의 3파전 표에 MLX가 없는 이유가 이것 — <u>MLX는 oMLX 열에 엔진으로 이미 출전해 있다</u>.
+  (mlx-lm에도 <span class="mono">mlx_lm.server</span>라는 미니 서버가 있지만 단일 요청 수준의 실험용이라,
+  그 빈자리가 정확히 oMLX가 만들어진 이유다.)</p>
+
+  <p class="body"><strong>관계 ② MLX vs GGML/GGUF — 같은 링의 맞수 (가장 실용적인 비교).</strong>
+  GGML은 llama.cpp의 추론 엔진이고 GGUF는 그 모델 파일 포맷이다. 로컬 LLM을 받을 때 마주치는
+  "GGUF판이냐 MLX판이냐"가 바로 이 층의 선택이다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:120px"></th><th>GGML/GGUF (llama.cpp)</th><th>MLX</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">지향</td><td>모든 하드웨어에서 돌리기 (CPU·CUDA·Metal·모바일)</td><td>애플 실리콘에서 최대로</td></tr>
+        <tr><td class="hl">양자화</td><td>K-quant·imatrix 등 선택지가 가장 풍부</td><td>4/8bit 중심 — 단순한 편</td></tr>
+        <tr><td class="hl">성능 경향</td><td>상황별 우열 — 저사양·CPU 혼용에 강함</td><td>프리필(긴 프롬프트)·신형 칩에서 유리한 경향</td></tr>
+        <tr><td class="hl">생태계</td><td>압도적 (모델 수·도구 연동)</td><td>mlx-community 중심으로 빠르게 성장</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body"><strong>관계 ③ MLX vs PyTorch(+MPS)·JAX — 연구·훈련의 링.</strong> 범용 ML 프레임워크로서의 비교다.
+  핵심은 한 줄로 수렴한다 — <u>PyTorch의 MPS 백엔드는 CUDA 세계관으로 설계된 프레임워크에 애플 지원을 나중에 붙인 것,
+  MLX는 통합 메모리를 전제로 처음부터 설계된 것</u>. API 문법은 NumPy/PyTorch를, 함수 변환 설계는 JAX를 닮았다.
+  맥에서 파인튜닝(LoRA)·연구를 할 때의 선택지 비교이고, 추론만 한다면 이 링은 신경 쓰지 않아도 된다.</p>
+
+  <p class="body"><strong>관계 ④ MLX vs Core ML — 같은 회사의 다른 층.</strong> 애플 안에 ML 스택이 둘 있다.
+  <u>Core ML은 배포용</u> — 아이폰·맥 앱에 모델을 심을 때 쓰고, Neural Engine(ANE)까지 활용하지만
+  모델을 변환해 굳혀야 해서 유연성이 낮다. <u>MLX는 개발·실험용</u> — 파이썬으로 자유롭게 다루며 GPU 중심으로 돈다.
+  경쟁이 아니라 용도 구분이다: 만들 때는 MLX, 앱에 심을 때는 Core ML.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">층</th><th style="width:280px">대진</th><th>무엇을 고르는 문제인가</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">프레임워크 층</td><td>PyTorch·JAX ↔ <strong>MLX</strong></td><td>맥에서 연구·파인튜닝을 무엇으로 하나</td></tr>
+        <tr><td class="hl">추론 엔진 층</td><td>GGML(llama.cpp) ↔ <strong>MLX</strong></td><td>모델을 GGUF판으로 받나 MLX판으로 받나 — 가장 실용적</td></tr>
+        <tr><td class="hl">배포 런타임 층</td><td>Core ML (MLX는 이 층 아님)</td><td>완성된 모델을 앱에 어떻게 심나</td></tr>
+        <tr><td class="hl">서버 층</td><td>llama-server·Ollama ↔ oMLX</td><td>§6-3의 3파전 — API·동시 처리·운영</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🌀</span>
+    <div><strong>마지막 함정 — vLLM·TensorRT-LLM과의 비교 글.</strong> 검색하면 "MLX vs vLLM" 같은 글도 보이는데
+    반쯤만 맞는 비교다. vLLM·TensorRT-LLM·SGLang은 <u>데이터센터 GPU용 서버 엔진</u>이라, 프레임워크인 MLX보다는
+    서버인 oMLX의 먼 친척에 가깝다 (oMLX의 블록 캐시가 vLLM에서 영감받은 것도 그 맥락).
+    누군가 두 이름을 비교하는 글을 만나면 먼저 물어라 — <u>"이 둘, 같은 층인가?"</u></div>
   </div>
 </section>
 

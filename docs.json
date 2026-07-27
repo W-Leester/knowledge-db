@@ -181,7 +181,7 @@
         "MCP",
         "RAG"
       ],
-      "version": 5,
+      "version": 6,
       "assets": [
         "docs/img/llm-agent-loop.svg",
         "docs/img/llm-mcp-architecture.svg",
