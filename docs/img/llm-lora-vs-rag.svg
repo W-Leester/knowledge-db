@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="lra" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="lrg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+  <rect width="900" height="660" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">파인튜닝(LoRA) vs RAG — 같은 "끼우기", 다른 소켓</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">LoRA는 가중치(계산 방식)에, RAG는 컨텍스트(읽을 내용)에 꽂힌다</text>
+
+  <!-- 왼쪽: LoRA -->
+  <rect x="30" y="80" width="410" height="330" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="235" y="108" font-size="14.5" font-weight="800" fill="#6B21A8" text-anchor="middle">🧬 LoRA — 모델 자체를 바꾼다</text>
+
+  <text x="52" y="134" font-size="11" font-weight="800" fill="#8A8A8A">학습 시점 (과거에 한 번)</text>
+  <rect x="52" y="144" width="170" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="137" y="162" font-size="10.5" font-weight="700" fill="#002C5F" text-anchor="middle">원본 모델 (bf16)</text>
+  <text x="137" y="178" font-size="9.5" fill="#8A8A8A" text-anchor="middle">+ 내 데이터 수백~수천 쌍</text>
+  <line x1="222" y1="166" x2="252" y2="166" stroke="#6B21A8" stroke-width="2" marker-end="url(#lra)"/>
+  <rect x="256" y="144" width="162" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="337" y="162" font-size="10.5" font-weight="700" fill="#6B21A8" text-anchor="middle">어댑터 파일 (ΔW)</text>
+  <text x="337" y="178" font-size="9.5" fill="#8A8A8A" text-anchor="middle">가중치 변경분 — 수십 MB</text>
+
+  <text x="52" y="216" font-size="11" font-weight="800" fill="#8A8A8A">추론 시점 (매번)</text>
+  <rect x="52" y="226" width="366" height="48" rx="8" fill="#0D1B2E"/>
+  <text x="235" y="246" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">본체 W + ΔW 합체 → 계산 방식이 바뀐 채 동작</text>
+  <text x="235" y="264" font-size="10" fill="#8A9BB5" text-anchor="middle">학습은 이미 끝났고, 구워진 패치를 끼울 뿐</text>
+
+  <text x="52" y="300" font-size="11.5" fill="#555555">· 모든 토큰이 영향받음 — 말투·포맷·습관이 몸에 뱀</text>
+  <text x="52" y="324" font-size="11.5" fill="#555555">· 컨텍스트 소모 0 토큰</text>
+  <text x="52" y="348" font-size="11.5" fill="#DC2626">· 갱신 = 재학습 · 근거 추적 불가 (통째로 녹아듦)</text>
+  <rect x="52" y="364" width="366" height="32" rx="8" fill="#FFFFFF"/>
+  <text x="235" y="385" font-size="11.5" font-weight="800" fill="#6B21A8" text-anchor="middle">비유: 훈련받고 온 사람 — 사람 자체가 바뀜</text>
+
+  <!-- 오른쪽: RAG -->
+  <rect x="460" y="80" width="410" height="330" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="665" y="108" font-size="14.5" font-weight="800" fill="#065F46" text-anchor="middle">📖 RAG — 읽을거리를 준다</text>
+
+  <text x="482" y="134" font-size="11" font-weight="800" fill="#8A8A8A">인덱싱 (문서 바뀔 때마다 — 즉시 반영)</text>
+  <rect x="482" y="144" width="170" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="567" y="162" font-size="10.5" font-weight="700" fill="#002C5F" text-anchor="middle">내 문서들</text>
+  <text x="567" y="178" font-size="9.5" fill="#8A8A8A" text-anchor="middle">임베딩 → 벡터 DB</text>
+  <line x1="652" y1="166" x2="682" y2="166" stroke="#00AA6C" stroke-width="2" marker-end="url(#lrg)"/>
+  <rect x="686" y="144" width="162" height="44" rx="8" fill="#FFFFFF"/>
+  <text x="767" y="162" font-size="10.5" font-weight="700" fill="#065F46" text-anchor="middle">질문마다 검색</text>
+  <text x="767" y="178" font-size="9.5" fill="#8A8A8A" text-anchor="middle">관련 문단 추출</text>
+
+  <text x="482" y="216" font-size="11" font-weight="800" fill="#8A8A8A">추론 시점 (매번)</text>
+  <rect x="482" y="226" width="366" height="48" rx="8" fill="#0D1B2E"/>
+  <text x="665" y="246" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">컨텍스트에 문단을 텍스트로 주입 → 모델이 읽음</text>
+  <text x="665" y="264" font-size="10" fill="#8A9BB5" text-anchor="middle">가중치는 1비트도 안 바뀜</text>
+
+  <text x="482" y="300" font-size="11.5" fill="#555555">· 컨텍스트에 있는 것만 영향 — 사실·지식 전달에 강함</text>
+  <text x="482" y="324" font-size="11.5" fill="#555555">· 갱신 즉시 (문서 교체) · 근거 제시 가능 ("이 문서 3쪽")</text>
+  <text x="482" y="348" font-size="11.5" fill="#DC2626">· 컨텍스트를 먹음 · 행동·습관은 못 바꿈</text>
+  <rect x="482" y="364" width="366" height="32" rx="8" fill="#FFFFFF"/>
+  <text x="665" y="385" font-size="11.5" font-weight="800" fill="#065F46" text-anchor="middle">비유: 오픈북 시험 — 사람은 그대로, 자료만 제공</text>
+
+  <!-- 판별법 -->
+  <rect x="30" y="430" width="840" height="66" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="458" font-size="14" font-weight="800" fill="#FFF" text-anchor="middle">판별법: "지식은 RAG로, 행동은 LoRA로"</text>
+  <text x="450" y="482" font-size="11.5" fill="#8A9BB5" text-anchor="middle">"제품 스펙을 알게 하자" → RAG (스펙은 바뀌니까) · "항상 우리 보고서 양식·존댓말로" → LoRA (매번 시키지 말고 몸에 배게)</text>
+
+  <!-- 흔한 실수 2 + 조합 -->
+  <rect x="30" y="512" width="410" height="120" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <text x="52" y="540" font-size="12.5" font-weight="800" fill="#DC2626">☠️ 흔한 실수 두 방향</text>
+  <text x="52" y="564" font-size="11" fill="#555555">· 사실을 LoRA로 주입 — 갱신 불가, 출처 없음,</text>
+  <text x="64" y="581" font-size="11" fill="#555555">아는 것과 지어내는 것의 경계가 흐려짐</text>
+  <text x="52" y="604" font-size="11" fill="#555555">· 행동 교정을 프롬프트+RAG로만 — 컨텍스트 낭비,</text>
+  <text x="64" y="621" font-size="11" fill="#555555">길어지면 지시가 흔들림</text>
+
+  <rect x="460" y="512" width="410" height="120" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="482" y="540" font-size="12.5" font-weight="800" fill="#002C5F">🤝 실전은 둘의 조합</text>
+  <text x="482" y="564" font-size="11" fill="#555555">도메인 어법·포맷을 익힌 LoRA 어댑터 위에,</text>
+  <text x="482" y="581" font-size="11" fill="#555555">최신 문서는 RAG로 공급 — 배타가 아니라 보완</text>
+  <text x="482" y="604" font-size="11" fill="#8A8A8A">학습: MLX(맥)·unsloth(GPU) → 병합 → GGUF 변환</text>
+  <text x="482" y="621" font-size="11" fill="#8A8A8A">적용: llama-server --lora + RAG 스택 (§4-1)</text>
+</svg>

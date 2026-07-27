@@ -181,7 +181,7 @@
         "MCP",
         "RAG"
       ],
-      "version": 6,
+      "version": 7,
       "assets": [
         "docs/img/llm-agent-loop.svg",
         "docs/img/llm-mcp-architecture.svg",
@@ -189,7 +189,8 @@
         "docs/img/llm-mcp-fetch-trace.svg",
         "docs/img/llm-rag-pipeline.svg",
         "docs/img/llm-local-stack.svg",
-        "docs/img/llm-mlx-omlx.svg"
+        "docs/img/llm-mlx-omlx.svg",
+        "docs/img/llm-lora-vs-rag.svg"
       ]
     },
     {

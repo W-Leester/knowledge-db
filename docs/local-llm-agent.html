@@ -322,6 +322,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#m-source" class="sub">3-3. 소스로 직접 실행</a>
     <a href="#recipes">4. 기능별 레시피</a>
     <a href="#r-rag" class="sub">4-1. RAG — 내 문서 지식</a>
+    <a href="#r-lora" class="sub">4-2. 파인튜닝 vs RAG</a>
     <a href="#stack">5. 전체 스택 조립</a>
     <a href="#applestack">6. 애플 실리콘 특화 — MLX·oMLX</a>
     <a href="#ax-mlx" class="sub">6-1. MLX — 애플의 ML 프레임워크</a>
@@ -789,6 +790,69 @@ npm install <span class="k">&amp;&amp;</span> npm run build      <span class="c"
     청크 분할·임베딩·벡터 검색이 자동이다. 직접 만들 필요를 느낄 때(청크 전략·검색 품질 튜닝) LlamaIndex나
     Chroma 직접 사용으로 내려가면 된다. 위 그림은 그때 "내가 지금 뭘 조립하고 있는지" 알기 위한 지도다.</div>
   </div>
+
+  <h3 id="r-lora"><span class="num">B</span>파인튜닝(LoRA) vs RAG — 지식은 검색으로, 행동은 학습으로</h3>
+
+  <p class="body">RAG를 이해하면 곧바로 다음 질문이 온다 — "모델에 뭔가를 더한다는 점에서,
+  파인튜닝(LoRA)이랑 뭐가 다른가? llama.cpp도 추론 때 <span class="mono">--lora</span>로 어댑터를 끼우던데,
+  그건 RAG랑 거의 같은 것 아닌가?" 겉모습은 닮았다 — 둘 다 <u>본체 모델(수십 GB)은 그대로 두고 가벼운 부품만
+  갈아 끼우는</u> 모듈식 설계다. 하지만 <strong>부품이 꽂히는 소켓이 다르다: LoRA는 가중치에, RAG는 컨텍스트에 꽂힌다.</strong></p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/llm-lora-vs-rag.svg" alt="LoRA는 가중치를 바꾸고 RAG는 컨텍스트에 문서를 주입하는 구조 비교, 판별법과 흔한 실수"></div>
+    <figcaption>훈련받고 온 사람(LoRA) vs 오픈북 시험(RAG) — 판별법은 "지식은 RAG로, 행동은 LoRA로" · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body"><strong>LoRA 어댑터의 실체</strong>는 "학습으로 얻은 가중치 변경분(ΔW)"이다. 원본 모델(bf16)과
+  내 데이터 수백~수천 쌍으로 <u>과거에 학습을 끝내고</u>, 그 변경분만 수십 MB 파일로 저장한 것. "추론 시점에 적용한다"는 건
+  추론 때 배운다는 뜻이 아니라 <u>이미 구워진 패치를 로드할 때 본체 가중치에 합친다</u>는 뜻이다. 합쳐진 뒤에는
+  모델이 내뱉는 <strong>모든 토큰</strong>이 바뀐 계산법의 영향을 받는다 — 말투, 출력 포맷, 도구 호출 습관이 "몸에 밴" 상태가 된다.
+  RAG는 정반대로 가중치를 1비트도 안 건드리고, 검색된 문단을 <strong>입력 텍스트로</strong> 끼워 넣을 뿐이다 —
+  모델은 그걸 여느 입력처럼 읽는다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px"></th><th>파인튜닝 (LoRA)</th><th>RAG</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">바꾸는 것</td><td>계산 방식 — "어떻게 생각하나"</td><td>입력 내용 — "무엇을 보나"</td></tr>
+        <tr><td class="hl">잘하는 것</td><td>행동·스타일 — 말투, 출력 포맷, 도구 호출 습관, 도메인 어법</td><td>지식·사실 — 최신 정보, 내 문서, 정확한 수치</td></tr>
+        <tr><td class="hl">못하는 것</td><td>개별 사실 주입 — 통째로 녹아들어 출처가 없고, 아는 것과 지어내는 것의 경계가 흐려짐</td><td>행동 교정 — 읽으라고 줘도 습관은 안 바뀜</td></tr>
+        <tr><td class="hl">갱신 비용</td><td>재학습 필요 (수 시간~)</td><td>문서만 바꾸면 즉시</td></tr>
+        <tr><td class="hl">컨텍스트 비용</td><td><strong>0 토큰</strong></td><td>검색 결과만큼 소모</td></tr>
+        <tr><td class="hl">근거 추적</td><td>불가</td><td>가능 — "이 문서 3쪽에 근거"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">⚖️</span>
+    <div><strong>판별법 — "지식은 RAG로, 행동은 LoRA로."</strong>
+    "우리 제품 스펙을 알게 하고 싶다" → RAG (스펙은 계속 바뀌고, 출처도 필요하니까).
+    "항상 우리 보고서 양식으로, 존댓말로 쓰게 하고 싶다" → LoRA (매번 프롬프트로 시키는 대신 몸에 배게).
+    그리고 실전은 배타가 아니라 조합이다 — <u>도메인 어법을 익힌 LoRA 어댑터 위에 최신 문서를 RAG로 공급</u>하는
+    구성이 흔하다.</div>
+  </div>
+
+  <p class="body"><strong>로컬에서의 실제 워크플로.</strong> 여기서 §6의 포맷 이야기와 이어진다 —
+  GGUF는 추론·배포 전용 포맷이라 <u>그 위에서 학습은 안 되고</u>(양자화가 정밀도를 버렸고, 포맷에 학습용 자리가 없다),
+  학습은 원본 정밀도에서 하고 결과만 가져온다:</p>
+
+  <pre class="code"><span class="title-bar">LoRA의 일생 — 학습은 원본에서, 배포는 GGUF로</span><span class="c"># ① 학습 — 원본(safetensors·bf16) 위에서. GGUF가 아니다!</span>
+mlx_lm.lora --model Qwen/Qwen3-8B --data my_style.jsonl   <span class="c">← 맥이면 MLX (§6)</span>
+<span class="c">#   (NVIDIA GPU면 unsloth·PEFT 등 — 양자화 상태로 학습하는 QLoRA도 이 세계의 기술)</span>
+
+<span class="c"># ② 적용 방법 A — 병합해서 새 GGUF로 굽기 (배포 간단)</span>
+<span class="c"># ② 적용 방법 B — 어댑터만 GGUF로 변환해 추론 때 끼우기 (본체 공유)</span>
+convert_lora_to_gguf.py ./adapters → adapter.gguf
+llama-server -m qwen3-8b.gguf <span class="k">--lora</span> adapter.gguf   <span class="c">← "적용"은 되지만 "학습"은 안 되는 이유가 위 ①</span></pre>
+
+  <div class="callout amber">
+    <span class="icon">🌀</span>
+    <div><strong>흔한 실수 두 방향 —</strong> ① <u>사실을 LoRA로 주입</u>: 회사 FAQ를 파인튜닝하면 당장은 되는 듯해도,
+    내용이 바뀌면 재학습해야 하고 어디서 나온 답인지 추적이 안 되며 환각과 뒤섞인다. ② <u>행동 교정을 프롬프트+RAG로만</u>:
+    "이 양식으로 써라"를 매번 컨텍스트로 밀어 넣으면 토큰을 낭비하고, 대화가 길어지면 지시가 흔들린다.
+    각자의 소켓에 맞는 것을 꽂아라.</div>
+  </div>
 </section>
 
 <!-- ═══════════ 5. STACK ═══════════ -->
@@ -977,9 +1041,14 @@ client = OpenAI(<span class="f">base_url</span>=<span class="s">"http://localhos
         <tr><td class="hl">양자화</td><td>K-quant·imatrix 등 선택지가 가장 풍부</td><td>4/8bit 중심 — 단순한 편</td></tr>
         <tr><td class="hl">성능 경향</td><td>상황별 우열 — 저사양·CPU 혼용에 강함</td><td>프리필(긴 프롬프트)·신형 칩에서 유리한 경향</td></tr>
         <tr><td class="hl">생태계</td><td>압도적 (모델 수·도구 연동)</td><td>mlx-community 중심으로 빠르게 성장</td></tr>
+        <tr><td class="hl">파인튜닝</td><td><strong>불가</strong> — 추론·배포 전용 포맷. 학습은 원본에서 하고 어댑터 "적용"만 가능(§4-2). 본가의 학습 예제는 2024년 제거 (서드파티 확장은 등장 중)</td><td><strong>LoRA·QLoRA 네이티브</strong>(mlx_lm.lora) — 맥에서 학습부터 추론까지 한 스택</td></tr>
       </tbody>
     </table>
   </div>
+
+  <p class="body">특히 마지막 행이 실용적으로 중요하다 — <u>GGUF 세계는 "학습은 딴 곳에서, GGUF는 배포만"</u>인 반면
+  (이유와 워크플로는 §4-2), <u>MLX는 양자화 모델 위 QLoRA까지 네이티브</u>라 맥 한 대로 학습→추론이 닫힌다.
+  파인튜닝 계획이 있는 맥 사용자에게는 이것이 포맷 선택의 결정 요인이 되기도 한다.</p>
 
   <p class="body"><strong>관계 ③ MLX vs PyTorch(+MPS)·JAX — 연구·훈련의 링.</strong> 범용 ML 프레임워크로서의 비교다.
   핵심은 한 줄로 수렴한다 — <u>PyTorch의 MPS 백엔드는 CUDA 세계관으로 설계된 프레임워크에 애플 지원을 나중에 붙인 것,
@@ -1046,7 +1115,7 @@ client = OpenAI(<span class="f">base_url</span>=<span class="s">"http://localhos
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/llm-*.svg (7종) · 네트워크 문서(REST·API)와 DB 문서(pgvector·벡터 DB)에서 이어지는 응용편
+  Hyundai-Inspired Design System v1.0 · 도식: img/llm-*.svg (8종) · 네트워크 문서(REST·API)와 DB 문서(pgvector·벡터 DB)에서 이어지는 응용편
 </footer>
 
 </main>
