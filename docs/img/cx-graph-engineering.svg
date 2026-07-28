@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="gea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="geg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">그래프 엔지니어링 — 루프를 조직도로 펼친다</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">루프 = 한 일꾼의 사이클 · 그래프 = 여러 일꾼의 조직 — 병렬과 분업이 생기는 지점</text>
+
+  <!-- 왼쪽: 루프 -->
+  <rect x="30" y="84" width="240" height="300" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="150" y="112" font-size="14" font-weight="800" fill="#B45309" text-anchor="middle">루프 (§9)</text>
+  <text x="150" y="132" font-size="10.5" fill="#8A8A8A" text-anchor="middle">에이전트 하나 · 순차 반복</text>
+
+  <circle cx="150" cy="240" r="72" fill="none" stroke="#E8962A" stroke-width="2.5"/>
+  <rect x="110" y="152" width="80" height="30" rx="8" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="150" y="172" font-size="10.5" font-weight="700" fill="#B45309" text-anchor="middle">생성</text>
+  <rect x="196" y="225" width="80" height="30" rx="8" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="236" y="245" font-size="10.5" font-weight="700" fill="#B45309" text-anchor="middle">검증</text>
+  <rect x="110" y="298" width="80" height="30" rx="8" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="150" y="318" font-size="10.5" font-weight="700" fill="#B45309" text-anchor="middle">피드백</text>
+  <rect x="24" y="225" width="80" height="30" rx="8" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="64" y="245" font-size="10.5" font-weight="700" fill="#B45309" text-anchor="middle">재시도</text>
+  <text x="150" y="245" font-size="11" fill="#8A8A8A" text-anchor="middle">한 번에</text>
+  <text x="150" y="261" font-size="11" fill="#8A8A8A" text-anchor="middle">한 걸음</text>
+
+  <text x="150" y="368" font-size="10" fill="#8A8A8A" text-anchor="middle">「로컬 LLM 코딩 공장」의 Goal Runner가 이 형태</text>
+
+  <!-- 가운데 화살표 -->
+  <line x1="280" y1="240" x2="330" y2="240" stroke="#003F8A" stroke-width="3" marker-end="url(#gea)"/>
+  <text x="305" y="226" font-size="10.5" font-weight="800" fill="#002C5F" text-anchor="middle">펼치면</text>
+
+  <!-- 오른쪽: 그래프 -->
+  <rect x="340" y="84" width="530" height="300" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="605" y="112" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">그래프 (§10)</text>
+  <text x="605" y="132" font-size="10.5" fill="#8A8A8A" text-anchor="middle">노드 = 에이전트 · 엣지 = 데이터 흐름 — 병렬 구간이 열린다</text>
+
+  <rect x="362" y="222" width="90" height="36" rx="8" fill="#0D1B2E"/>
+  <text x="407" y="245" font-size="10.5" font-weight="700" fill="#FFF" text-anchor="middle">계획</text>
+
+  <rect x="486" y="152" width="96" height="32" rx="8" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="534" y="173" font-size="10" font-weight="700" fill="#002C5F" text-anchor="middle">조사 A</text>
+  <rect x="486" y="224" width="96" height="32" rx="8" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="534" y="245" font-size="10" font-weight="700" fill="#002C5F" text-anchor="middle">조사 B</text>
+  <rect x="486" y="296" width="96" height="32" rx="8" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="534" y="317" font-size="10" font-weight="700" fill="#002C5F" text-anchor="middle">조사 C</text>
+  <line x1="452" y1="230" x2="482" y2="172" stroke="#003F8A" stroke-width="2" marker-end="url(#gea)"/>
+  <line x1="452" y1="240" x2="482" y2="240" stroke="#003F8A" stroke-width="2" marker-end="url(#gea)"/>
+  <line x1="452" y1="250" x2="482" y2="308" stroke="#003F8A" stroke-width="2" marker-end="url(#gea)"/>
+  <text x="534" y="200" font-size="9" fill="#065F46" text-anchor="middle">⟵ 병렬 — 동시에 뛴다</text>
+
+  <rect x="616" y="222" width="90" height="36" rx="8" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="661" y="245" font-size="10.5" font-weight="700" fill="#002C5F" text-anchor="middle">종합</text>
+  <line x1="582" y1="172" x2="612" y2="230" stroke="#003F8A" stroke-width="2" marker-end="url(#gea)"/>
+  <line x1="582" y1="240" x2="612" y2="240" stroke="#003F8A" stroke-width="2" marker-end="url(#gea)"/>
+  <line x1="582" y1="308" x2="612" y2="250" stroke="#003F8A" stroke-width="2" marker-end="url(#gea)"/>
+
+  <rect x="740" y="152" width="108" height="32" rx="8" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="794" y="173" font-size="10" font-weight="700" fill="#6B21A8" text-anchor="middle">⚖️ 검증자 1</text>
+  <rect x="740" y="224" width="108" height="32" rx="8" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="794" y="245" font-size="10" font-weight="700" fill="#6B21A8" text-anchor="middle">⚖️ 검증자 2</text>
+  <rect x="740" y="296" width="108" height="32" rx="8" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="794" y="317" font-size="10" font-weight="700" fill="#6B21A8" text-anchor="middle">⚖️ 검증자 3</text>
+  <line x1="706" y1="230" x2="736" y2="172" stroke="#003F8A" stroke-width="2" marker-end="url(#gea)"/>
+  <line x1="706" y1="240" x2="736" y2="240" stroke="#003F8A" stroke-width="2" marker-end="url(#gea)"/>
+  <line x1="706" y1="250" x2="736" y2="308" stroke="#003F8A" stroke-width="2" marker-end="url(#gea)"/>
+  <text x="794" y="352" font-size="9.5" fill="#6B21A8" text-anchor="middle">서로 다른 관점 → 다수결</text>
+  <text x="794" y="368" font-size="9" fill="#8A8A8A" text-anchor="middle">(「LLM-as-a-Judge」의 패널)</text>
+
+  <!-- 계보 스트립 -->
+  <rect x="30" y="408" width="840" height="58" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="432" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">계보: 프롬프트(요청 한 번) → 하네스(한 에이전트의 장비, §8) → 루프(한 에이전트의 시간, §9) → 그래프(여러 에이전트의 조직, §10)</text>
+  <text x="450" y="454" font-size="11" fill="#8A9BB5" text-anchor="middle">층이 올라갈수록 질문이 바뀐다: "뭐라고 물을까" → "무엇을 쥐여줄까" → "어떻게 반복할까" → "누가 누구에게 무엇을 넘길까"</text>
+
+  <!-- 그래프 하네스 5과제 -->
+  <text x="450" y="500" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">그래프가 되는 순간 하네스는 "분산 시스템 런타임"이 된다 — 5가지 새 과제</text>
+  <rect x="30" y="514" width="156" height="76" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="108" y="540" font-size="11" font-weight="800" fill="#065F46" text-anchor="middle">① 라우팅</text>
+  <text x="108" y="560" font-size="9.5" fill="#555555" text-anchor="middle">누구의 출력을 누구</text>
+  <text x="108" y="574" font-size="9.5" fill="#555555" text-anchor="middle">에게 어떤 형식으로</text>
+  <rect x="201" y="514" width="156" height="76" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="279" y="540" font-size="11" font-weight="800" fill="#065F46" text-anchor="middle">② 장애 격리</text>
+  <text x="279" y="560" font-size="9.5" fill="#555555" text-anchor="middle">노드 하나가 죽어도</text>
+  <text x="279" y="574" font-size="9.5" fill="#555555" text-anchor="middle">그래프는 계속 돈다</text>
+  <rect x="372" y="514" width="156" height="76" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="450" y="540" font-size="11" font-weight="800" fill="#065F46" text-anchor="middle">③ 상태 일관성</text>
+  <text x="450" y="560" font-size="9.5" fill="#555555" text-anchor="middle">병렬 노드들이 같은</text>
+  <text x="450" y="574" font-size="9.5" fill="#555555" text-anchor="middle">진실을 보게 하기</text>
+  <rect x="543" y="514" width="156" height="76" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="621" y="540" font-size="11" font-weight="800" fill="#065F46" text-anchor="middle">④ 동적 생성</text>
+  <text x="621" y="560" font-size="9.5" fill="#555555" text-anchor="middle">일의 크기에 맞춰</text>
+  <text x="621" y="574" font-size="9.5" fill="#555555" text-anchor="middle">노드를 즉석 증설</text>
+  <rect x="714" y="514" width="156" height="76" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="792" y="540" font-size="11" font-weight="800" fill="#065F46" text-anchor="middle">⑤ 관측성</text>
+  <text x="792" y="560" font-size="9.5" fill="#555555" text-anchor="middle">어느 노드가 언제,</text>
+  <text x="792" y="574" font-size="9.5" fill="#555555" text-anchor="middle">얼마나 걸렸나</text>
+
+  <text x="450" y="622" font-size="11" fill="#8A8A8A" text-anchor="middle">이 5과제를 미리 풀어둔 공구가 LangGraph·CrewAI 계열 — 담론이 루프→그래프로 넘어가며 재조명되는 이유</text>
+</svg>

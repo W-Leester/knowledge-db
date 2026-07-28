@@ -209,7 +209,7 @@
         "oMLX",
         "Goal Loop"
       ],
-      "version": 4,
+      "version": 5,
       "assets": [
         "docs/img/lf-architecture.svg",
         "docs/img/lf-goal-loop.svg",
@@ -232,7 +232,7 @@
         "Subagent",
         "Harness"
       ],
-      "version": 3,
+      "version": 4,
       "assets": [
         "docs/img/cx-extension-map.svg",
         "docs/img/cx-context-loading.svg",
@@ -240,7 +240,8 @@
         "docs/img/cx-hooks-lifecycle.svg",
         "docs/img/cx-harness-evolution.svg",
         "docs/img/cx-loop-patterns.svg",
-        "docs/img/cx-recursive-loop.svg"
+        "docs/img/cx-recursive-loop.svg",
+        "docs/img/cx-graph-engineering.svg"
       ]
     },
     {
@@ -312,7 +313,7 @@
         "Hermes",
         "상주형 에이전트"
       ],
-      "version": 5,
+      "version": 6,
       "assets": [
         "docs/img/ra-evolution.svg",
         "docs/img/ra-architecture.svg",
