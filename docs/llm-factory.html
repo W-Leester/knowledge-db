@@ -384,6 +384,32 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     「Claude Code 내부 해부」, 판정 루프는 「LLM-as-a-Judge」 §6, 격리 원칙은 「상주형 AI 에이전트」 §7,
     추론 서버 선택은 「로컬 LLM 에이전트」 §6(oMLX)에서 온다. 이 문서는 그것들의 <u>조립 설명서</u>다.</div>
   </div>
+
+  <h3><span class="num">＋</span>이 가이드가 데려다주는 곳 — 즉시 되는 것과 만들어야 하는 것</h3>
+
+  <p class="body">기대치를 처음부터 정확히 하자. 이 문서의 <strong>설치·설정 부분(§2·§3·§6)은 명령을 그대로 실행하면
+  되지만, 시스템의 심장인 목표 루프(§4~5)는 설계도와 뼈대까지만 제공한다</strong> — 실제로 도는
+  <span class="mono">loop.py</span> 100~200줄은 이 설계를 보고 직접 작성해야 한다. 그리고 그 코드를 쓰는 행위가
+  바로 루프 엔지니어링이다(§4의 대응표 참조).</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:230px">단계</th><th style="width:170px">상태</th><th>소요 (개략)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">로컬 LLM 구동 + Cline 연결 (§2)</td><td>가이드대로 즉시</td><td>반나절 — 모델 다운로드 포함. <strong>이 시점부터 이미 "로컬 LLM 활용"은 시작된다</strong></td></tr>
+        <tr><td class="hl">격리 작업장 (§3)</td><td>가이드대로 즉시</td><td>1~2시간</td></tr>
+        <tr><td class="hl">Goal Runner 구현 (§4~5)</td><td><strong>직접 코드 작성</strong></td><td>하루~이틀 — config 읽기·모델 호출·편집 적용·게이트 실행·심판 호출·로깅·상한 관리</td></tr>
+        <tr><td class="hl">무인 밤샘 신뢰 수준</td><td>감독하며 튜닝</td><td>1주일± — 하네스 프롬프트를 Qwen에 맞게 다듬는 기간(§8-3)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🎒</span>
+    <div><strong>준비물 셋 —</strong> ① 이 사양의 맥 ② Anthropic API 키(심판용 — 러너에만 보관, §3)
+    ③ OrbStack 설치. 잔가지로 심판 프롬프트(「LLM-as-a-Judge」 §5 템플릿 개조), Xcode 호스트 러너
+    스크립트(§3 특례), 알림 연결(§6)도 직접 작성 몫이다.</div>
+  </div>
 </section>
 
 <!-- ═══════════ 1. BLUEPRINT ═══════════ -->
@@ -574,6 +600,18 @@ docker exec workshop bash -c "cd /work/todo-app && npm test"</pre>
         state.add(<span class="s">"판정 불합격"</span>, verdict[<span class="s">"reasons"</span>], verdict[<span class="s">"next"</span>])
 
 log_jsonl(attempts, gates, verdict)        <span class="c"># §6 — 모든 시도가 기록으로</span></pre>
+
+  <div class="callout green">
+    <span class="icon">🔁</span>
+    <div><strong>이 코드를 쓰는 것이 곧 루프 엔지니어링이다 —</strong> 「클로드 확장하기」에서 개념으로 정리한
+    "생성→검증→피드백→재시도 사이클의 설계"가 이 파일의 실물이다: 생성=①(로컬 Qwen의 한 걸음), 검증자=②③(게이트+심판),
+    피드백 재투입=state 누적, 종료 조건=합격 or 상한. 루프는 사실 <u>두 겹</u>이다 — ① 안에서 모델이 도구를 왕복하는
+    <u>안쪽 루프(하네스 층 — Aider나 자작 도구가 담당)</u>와, 목적 달성까지 시도 전체를 감는 <u>바깥 루프(이 파일)</u>.
+    바깥 루프는 기성품이 없어 직접 만들어야 하고, 그것이 이 시스템에서 유일하게 "코딩해야 하는" 부분이자
+    가장 가치 있는 부분이다 — <strong>모델이 약할수록 성능은 루프에서 나온다</strong>(로컬 27B는 한 방 정확도가 낮은 대신
+    반복이 공짜다). 반복이 쌓인 로그로 하네스 자체를 개선하면 재귀적 발전 루프(「클로드 확장하기」·「상주형 에이전트」 §6)로
+    이어진다.</div>
+  </div>
 
   <div class="callout purple">
     <span class="icon">⚖️</span>
