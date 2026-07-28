@@ -543,6 +543,58 @@ docker exec workshop bash -c "cd /work/todo-app && npm test"</pre>
     유닛 테스트(XCTest)까지는 이 구조로 자동화되고, 시뮬레이터 UI 테스트는 난도가 높으니 초기엔 "빌드+유닛 테스트 통과"를
     기계 게이트로 삼는 것이 현실적이다.</div>
   </div>
+
+  <h3><span class="num">＋</span>왜 Xcode인가 — 세 겹의 벽, 그리고 러너를 만들어야 하는 이유</h3>
+
+  <p class="body"><strong>먼저 "Xcode가 필수인가"부터.</strong> 결과물 대상에 macOS/iOS 네이티브 앱을 포함했기 때문에
+  등장하는 것이지, 시스템 전체의 필수품이 아니다 — 웹앱·파이썬만 다루는 동안은 Xcode도 러너도 필요 없다.
+  다만 네이티브의 길로 가는 순간 Xcode는 <u>우회 불가</u>가 된다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:230px">만들고 싶은 것</th><th style="width:150px">Xcode 필요?</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">웹앱·서버·파이썬 도구</td><td>❌ 전혀</td><td>컨테이너만으로 완결 — 이 시스템의 기본 경로</td></tr>
+        <tr><td class="hl">폰에서 쓰는 앱 (웹 기반)</td><td>❌</td><td>PWA — 홈 화면 설치·오프라인까지 가능. 이 지식 베이스 자체가 이 방식이다</td></tr>
+        <tr><td class="hl">맥 데스크톱 앱 (웹 기술)</td><td>🔶 최소만</td><td>Tauri·Electron — 경량판인 Command Line Tools(컴파일러만)로 충분</td></tr>
+        <tr><td class="hl">맥/iOS 네이티브 앱 (SwiftUI)</td><td>✅ 필수</td><td>SDK·시뮬레이터·코드 서명이 전부 Xcode 몫</td></tr>
+        <tr><td class="hl">App Store 배포</td><td>✅ 필수</td><td>애플이 강제하는 관문 — 대안 없음</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body"><strong>그런데 왜 컨테이너에 못 넣나 — 세 겹의 벽.</strong>
+  ① <u>OS의 벽</u>: 컨테이너 안은 리눅스 세계다(§3 서두). Xcode는 macOS 프로그램이라 리눅스 커널 위에서는
+  실행 파일 형식부터 호환되지 않는다 — 윈도우 프로그램이 리눅스에서 안 도는 것과 같은 층위의 문제.
+  ② <u>생태계의 벽</u>: Swift 언어 자체는 오픈소스라 리눅스에서도 컴파일되지만, 앱이 기대는
+  SwiftUI·UIKit 프레임워크(SDK)·코드 서명 체계·iOS 시뮬레이터는 전부 macOS에만 존재한다 — 컴파일러만으로는 앱이 안 나온다.
+  ③ <u>라이선스의 벽</u>: 애플 약관상 Xcode와 macOS는 애플 하드웨어 위에서만 실행 가능하다.
+  "Xcode 도커 이미지"는 기술적으로 어렵기 이전에 합법적으로 존재할 수 없고, 앞으로도 없다.
+  CI 업계가 리눅스 러너보다 훨씬 비싼 <u>맥 전용 러너</u>를 따로 파는 이유가 정확히 이것이다 —
+  이 가이드의 호스트 러너는 그 맥 러너를 내 맥으로 자급하는 구조인 셈이다.</p>
+
+  <p class="body"><strong>그래서 러너를 "만들어야" 하는 이유.</strong> 위 세 벽 때문에 네이티브 빌드는 반드시
+  컨테이너 밖(맥 본체)에서 실행돼야 하는데, 이 시스템의 대전제는 "맥 본체는 에이전트 금지 구역"이다.
+  선택지는 셋뿐이다: (a) 네이티브 앱 포기, (b) 에이전트에게 호스트 셸 권한을 열기 — <u>격리 붕괴, 논외</u>,
+  (c) <strong>정확히 한 종류의 일만 대신 해주는 문지기 스크립트를 사이에 세우기</strong>. 러너는 (c)의 구현이다 —
+  「상주형 AI 에이전트」 §7의 "위험 행동은 화이트리스트로" 원칙이 이 지점에 적용된 것으로,
+  에이전트 입장에서는 "빌드·테스트 결과가 돌아오는 버튼" 하나가 생길 뿐 본체를 만질 통로는 없다:</p>
+
+  <pre class="code"><span class="title-bar">runner/xcode-runner.sh — 문지기 스크립트 (전체가 이 정도)</span>#!/bin/bash
+<span class="c"># 검사 1: workspace 안의 프로젝트만 (경로 화이트리스트)</span>
+PROJECT=<span class="s">"$1"</span>
+[[ <span class="s">"$PROJECT"</span> == ~/factory/workspace/* ]] || { echo <span class="s">"거부: 허용 폴더 밖"</span>; exit 1; }
+
+<span class="c"># 검사 2: 실행 명령은 이 한 줄로 고정 — 에이전트가 명령 내용을 바꿀 방법이 없다</span>
+xcodebuild -project <span class="s">"$PROJECT"</span> -scheme App build test 2>&1 | tail -50
+<span class="c"># 서명 키·배포 인증서는 러너에도 안 둔다 — 배포는 시스템 밖, 사람의 일 (§8-4)</span></pre>
+
+  <div class="callout green">
+    <span class="icon">🗓</span>
+    <div><strong>권장 순서 — 러너는 미뤄도 된다.</strong> 처음엔 웹앱·파이썬 목표만으로 시작하면 시스템 전체가
+    컨테이너 안에서 완결돼 구축·검증이 가장 단순하다. "폰에서 쓰는 앱"이 목적인 경우 상당수는 PWA로 커버되고,
+    진짜 네이티브가 필요한 목표가 생겼을 때 위 스크립트 10줄을 추가하면 된다 — 격리 구조는 그대로 유지된다.</div>
+  </div>
 </section>
 
 <!-- ═══════════ 4. GOAL LOOP ═══════════ -->
