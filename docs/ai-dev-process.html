@@ -586,7 +586,8 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 
   <p class="body">과제: <strong>"특정 사이트의 새 기사를 매일 아침 수집해 정리해두는 프로그램"</strong>.
   일부러 작은 과제를 골랐다 — 규모가 작아도 의도 정의부터 리뷰가 결함을 잡는 순간까지 전부 나오기 때문이다.
-  아래는 §2의 6단계를 이 과제에 그대로 대입한 기록이다.</p>
+  아래는 §2의 6단계를 이 과제에 그대로 대입한 기록이다.
+  <strong>각 단계의 "펼쳐보기"를 누르면 실제 프롬프트 전문과 LLM의 내부 과정(도구 호출 단위)이 열린다.</strong></p>
 
   <figure>
     <div class="fig-scroll"><img src="img/dp-example.svg" alt="기사 수집기 프로젝트의 6단계 전체 흐름 — 스펙, 설계, 뼈대, 사이클 4개, 다듬기, cron 등록과 결산"></div>
@@ -613,6 +614,29 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <span class="k"># 제약</span>
 Python 3.12 · 표준적 라이브러리만 · robots.txt 준수 · 요청 간격 예의</pre>
 
+  <details class="acc">
+    <summary>펼쳐보기 — ① 실제 프롬프트와 AI의 되물음 전문</summary>
+    <div class="acc-body">
+      <pre class="code"><span class="title-bar">주고받은 그대로</span><span class="k">[나]</span> 이런 프로그램을 만들려 한다: ○○사이트의 새 기사를 매일 아침
+     수집해서 정리해두고 싶어. 코드를 짜기 전에, 이 요구사항에서
+     모호한 곳을 전부 지적해줘.
+
+<span class="k">[AI]</span> 결정이 필요한 지점이 다섯 곳 있습니다:
+ 1. "새 기사"의 기준 — 마지막 실행 이후 발행분? 최근 24시간분?
+    (재실행하면 겹치는 구간 처리가 달라집니다)
+ 2. 같은 기사가 수정되어 재발행되면 새 기사로 칠까요?
+ 3. 이 사이트에 RSS 피드가 있나요? 있으면 수집 방식이 훨씬 안정적입니다.
+ 4. 결과물의 형식과 위치 — 파일? DB? 어떤 형식으로 보고 싶으신가요?
+ 5. 실행이 실패한 날(네트워크 등)은 어떻게 되어야 하나요?
+
+<span class="k">[나]</span> 1. 마지막 실행 이후 발행분 2. 아니 — URL이 같으면 같은 기사
+     3. 있어 4. 날짜별 마크다운 파일 5. 기존 데이터는 건드리지 말고
+     에러만 기록 → <span class="c">이 답변들이 그대로 spec.md의 수용 기준이 됐다</span></pre>
+      <p>요령: 되물음에 답하기 어려운 항목이 있다면 그건 <u>내가 아직 결정을 안 한 것</u>이다 —
+      코드가 나온 뒤 발견하는 것보다 지금 발견하는 게 수십 배 싸다.</p>
+    </div>
+  </details>
+
   <h3><span class="num">②</span>설계 대화 — 코드 없이 결정만 (~15분)</h3>
 
   <p class="body">플랜 모드로 옵션을 비교시킨다. 수집 방식: <u>RSS 파싱 vs HTML 스크래핑 vs 비공식 API</u> —
@@ -621,6 +645,27 @@ Python 3.12 · 표준적 라이브러리만 · robots.txt 준수 · 요청 간�
   스케줄러: 서버 없이 맥에서 도는 프로그램이니 <u>cron/launchd</u>. — 여기까지 결정하고 나서야 코드 이야기가 시작된다.
   결정은 전부 사람이 내렸고, AI는 각 선택지의 대가를 설명했다.</p>
 
+  <details class="acc">
+    <summary>펼쳐보기 — ② 설계 대화의 실제 흐름 (플랜 모드)</summary>
+    <div class="acc-body">
+      <pre class="code"><span class="title-bar">코드 생성 없이 계획만 — 플랜 모드의 실제 사용</span><span class="k">[나]</span> (플랜 모드) spec.md를 읽고, 수집 방식과 저장 방식의 선택지를
+     각각 장단점과 함께 비교해줘. 코드는 아직 쓰지 마.
+
+<span class="k">[AI]</span> 수집: ⓐ RSS 파싱 — 구조 안정, 표준 라이브러리로 충분 / ⓑ HTML
+     스크래핑 — RSS에 없는 정보까지 가능하나 사이트 개편마다 깨짐 /
+     ⓒ 비공식 API — 가장 풍부하나 약관·차단 위험.
+     → RSS가 있다고 하셨으니 ⓐ를 권합니다.
+     저장: ⓐ SQLite — "중복 저장 금지" 요구에 기본키가 정확히 대응 /
+     ⓑ jsonl — 단순하나 중복 검사를 직접 구현 / ⓒ 마크다운만 — 상태가
+     없어 재실행 안전성을 못 지킴.
+     → SQLite(상태) + 마크다운(출력) 분리를 권합니다.
+
+<span class="k">[나]</span> 둘 다 권장안대로. 계획을 4단계로 잘라서 보여줘.
+<span class="k">[AI]</span> ① RSS 파싱 ② 중복 제거+저장 ③ 리포트 생성 ④ 실패 내성+CLI
+<span class="c"># 이 4단계가 그대로 ④의 사이클 목록이 됐다 — 계획 합의가 곧 작업 분할</span></pre>
+    </div>
+  </details>
+
   <h3><span class="num">③</span>뼈대 + 규칙 (~15분)</h3>
 
   <p class="body">스캐폴드(src/·tests/·pyproject) 생성과 함께 규칙 파일에 두 줄을 굳힌다:
@@ -628,6 +673,22 @@ Python 3.12 · 표준적 라이브러리만 · robots.txt 준수 · 요청 간�
   <span class="mono">"의존성 추가는 제안만 하고 승인 후 설치"</span>. 첫 줄이 없으면 AI는 태연히 실제 사이트를
   호출하는 테스트를 짜고, 그 테스트는 사이트 사정에 따라 무작위로 실패하는 골칫거리가 된다 —
   규칙 파일 한 줄이 이후 모든 사이클의 품질을 바꾸는 실례다.</p>
+
+  <details class="acc">
+    <summary>펼쳐보기 — ③ 규칙 파일 전문 (이 프로젝트의 CLAUDE.md)</summary>
+    <div class="acc-body">
+      <pre class="code"><span class="title-bar">news-collector/CLAUDE.md — 짧을수록 잘 지켜진다</span><span class="k"># 프로젝트</span>
+○○사이트 기사 수집기. spec.md가 유일한 요구사항 원본이다.
+
+<span class="k"># 규칙</span>
+- 테스트에서 네트워크 호출 금지 — tests/fixtures/의 저장된 XML만 사용
+- 의존성 추가는 제안만 하고, 내 승인 후 설치
+- 모든 함수에 타입 힌트. 출력 파일은 outputs/ 밖에 쓰지 않는다
+- 커밋 전 반드시: uv run pytest && uv run ruff check</pre>
+      <p>이후 모든 사이클에서 AI는 이 파일을 자동으로 읽고 시작한다 — ④에서 "네트워크 없는 테스트"가
+      당연하게 나온 것은 이 네 줄 덕분이다. 규칙이 곧 하네스다(「클로드 확장하기」 §2).</p>
+    </div>
+  </details>
 
   <h3><span class="num">④</span>기능 단위 사이클 × 4 — 이 프로젝트의 본체 (~2시간)</h3>
 
@@ -655,17 +716,97 @@ Python 3.12 · 표준적 라이브러리만 · robots.txt 준수 · 요청 간�
     그리고 사이클 2의 교훈("URL은 정규화 후 비교")은 규칙 파일에 한 줄로 굳었다 — 다음 프로젝트에선 처음부터 반영된다.</div>
   </div>
 
+  <details class="acc">
+    <summary>펼쳐보기 — ④ 사이클 2 전체 재생: 프롬프트 → LLM 내부 과정 → 리뷰 → 재생성</summary>
+    <div class="acc-body">
+      <pre class="code"><span class="title-bar">1) 지시 — 과녁을 함께 준다</span><span class="k">[나]</span> 사이클 2 시작. spec.md의 "이미 수집한 기사는 다시 저장되지
+     않는다"가 이번 과녁이야. 먼저 이 기준을 테스트로 만들고,
+     그 다음 통과시키는 저장 모듈을 구현해.</pre>
+      <pre class="code"><span class="title-bar">2) LLM 내부 — 도구 호출 단위로 벌어진 일 (§3의 5단계 그대로)</span><span class="c">── 컨텍스트 수집 ──────────────────────────</span>
+Read  spec.md                 <span class="c">수용 기준 확인</span>
+Read  src/feed.py             <span class="c">사이클 1의 산출물 — Article 구조 파악</span>
+Read  CLAUDE.md               <span class="c">"네트워크 금지" 규칙 확인</span>
+<span class="c">── 계획 ──────────────────────────────────</span>
+"store.py 신설, articles 테이블에 url을 기본키로.
+ 테스트: 같은 기사 2회 save → count 1"
+<span class="c">── 편집 ──────────────────────────────────</span>
+Write tests/test_store.py    <span class="c">과녁부터 (같은 기사 2회 투입 테스트)</span>
+Write src/store.py           <span class="c">INSERT OR IGNORE 로 구현</span>
+<span class="c">── 실행·확인 ──────────────────────────────</span>
+Bash  uv run pytest           →  <span class="f">7 passed</span>  <span class="c">(기존 4 + 신규 3)</span>
+Bash  uv run ruff check       →  <span class="f">clean</span>
+<span class="c">── 보고 ──────────────────────────────────</span>
+"완료. url PRIMARY KEY + INSERT OR IGNORE 방식입니다. diff 요약: …"</pre>
+      <pre class="code"><span class="title-bar">3) 사람 리뷰 — 테스트는 통과였지만</span><span class="k">[나]</span> diff 봤어. url을 그대로 기본키로 썼네 — 같은 기사가
+     ?utm_source=rss 붙어서 오면 다른 기사로 저장되겠는데?
+
+<span class="k">[AI]</span> 맞습니다, 놓쳤습니다. 쿼리 파라미터 중 추적용(utm_*, fbclid)을
+     제거하는 normalize_url()을 저장 전에 적용하고, 이 경우를 테스트로
+     추가하겠습니다.
+<span class="c">── 재생성: Edit store.py / Edit test_store.py → pytest 9 passed → 커밋</span>
+
+<span class="k">[나]</span> 그리고 이 교훈을 CLAUDE.md 규칙에 한 줄로 추가해줘.  <span class="c">← 재귀 개선</span></pre>
+      <p>주목할 것: 리뷰가 잡은 건 <u>테스트가 몰랐던 경우</u>다. 과녁("같은 기사 2회")은 옳았지만
+      "같은 기사"의 정의가 불완전했다 — 기계 게이트와 사람 리뷰가 서로 다른 것을 잡는다는 §4의 실증.</p>
+    </div>
+  </details>
+
+  <details class="acc">
+    <summary>펼쳐보기 — ④ 사이클 3: 과잉 구현을 잡는 대화</summary>
+    <div class="acc-body">
+      <pre class="code"><span class="title-bar">diff가 부풀어 있으면 의심하라</span><span class="k">[나]</span> 사이클 3: 날짜별 마크다운 리포트 생성. outputs/YYYY-MM-DD.md 형식.
+
+<span class="k">[AI]</span> (생성 후) 완료. 마크다운과 함께 <span class="f">HTML 버전 출력, --format 옵션,
+     테마 CSS 2종</span>도 추가했습니다. 나중에 브라우저로 보실 때…
+
+<span class="k">[나]</span> 스펙에 없는 건 전부 제거해줘 — HTML, --format, CSS 다.
+     지금 필요한 건 마크다운 하나야.
+<span class="c"># diff 180줄 → 40줄로. "친절한 과잉"은 유지보수할 코드가 늘어나는 것 —
+# 공짜가 아니다. 필요해지면 그때 시키면 된다 (그게 더 빠르기도 하다)</span></pre>
+    </div>
+  </details>
+
   <h3><span class="num">⑤</span>다듬기 (~15분)</h3>
 
   <p class="body">README 작성, 로깅 정리, 함수 이름 손질 — 통째로 AI에게 위임하고 diff만 훑었다.
   테스트가 4개 사이클 치 쌓여 있으므로 리팩토링이 안전하다(무언가 깨지면 게이트가 알려준다).
   이 단계가 "믿고 맡기는 영역"인 이유다(§3의 신뢰 눈금).</p>
 
+  <details class="acc">
+    <summary>펼쳐보기 — ⑤ 위임 프롬프트와 훑기 포인트</summary>
+    <div class="acc-body">
+      <pre class="code"><span class="title-bar">통째로 맡기되, 안전선을 명시한다</span><span class="k">[나]</span> 리팩토링·README·로깅 정리를 한 번에 해줘. 단:
+     - 동작 변경 금지 — 테스트가 전부 그대로 통과해야 함
+     - 공개 함수 시그니처 유지
+     끝나면 바뀐 파일 목록과 이유를 요약해줘.</pre>
+      <p>훑기 포인트는 둘뿐이다: <u>테스트가 여전히 전부 통과하는가</u>(기계가 확인),
+      <u>요약에 "동작이 바뀐" 항목이 숨어 있지 않은가</u>(사람이 확인). 나머지는 읽지 않아도 된다 —
+      게이트가 있기에 가능한 위임이다.</p>
+    </div>
+  </details>
+
   <h3><span class="num">⑥</span>배포 — 이 프로젝트에선 cron 등록이다 (~5분)</h3>
 
   <pre class="code"><span class="title-bar">"배포"가 거창할 필요 없다 — 내 맥의 상주 작업으로</span><span class="c"># crontab -e 에 한 줄 (또는 launchd — AI에게 plist를 짜달라고 해도 된다)</span>
 0 7 * * *  cd ~/projects/news-collector && uv run python -m collector >> logs/run.log 2>&1
 <span class="c"># 등록 명령은 사람이 직접 실행했다 — "버튼은 사람이"(§2-⑥)</span></pre>
+
+  <details class="acc">
+    <summary>펼쳐보기 — ⑥ 운영 준비 대화: cron vs launchd, 실패 알림</summary>
+    <div class="acc-body">
+      <pre class="code"><span class="title-bar">배포 전 마지막 대화</span><span class="k">[나]</span> 맥에서 매일 07:00 실행하려면 cron과 launchd 중 뭐가 나아?
+
+<span class="k">[AI]</span> launchd가 맥의 정식 방식입니다 — 잠자기로 시각을 놓치면 깨어난 뒤
+     실행해주는 것이 가장 큰 차이(cron은 그냥 건너뜀). plist를 짜드릴까요?
+
+<span class="k">[나]</span> 응. 그리고 실행이 실패하면 macOS 알림이 뜨게 해줘.
+<span class="k">[AI]</span> (plist 생성 + 실패 시 osascript 알림 래퍼 추가) 등록 명령은
+     이것입니다 — 직접 실행해 주세요:
+     launchctl load ~/Library/LaunchAgents/com.user.collector.plist</pre>
+      <p>여기서도 마지막 줄이 요점이다 — AI는 등록 <u>명령을 준비</u>하고, 실행은 사람이 한다.
+      이 수집기가 커지면 다음 정거장은 「상주형 AI 에이전트」의 정보 레이더다.</p>
+    </div>
+  </details>
 
   <div class="callout green">
     <span class="icon">🧾</span>

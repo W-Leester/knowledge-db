@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
   <rect width="900" height="620" fill="#FAF7F2"/>
   <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">코드 리뷰는 필요한가 — 필요하다, 단 3층 피라미드로</text>
-  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">싼 검증이 아래를 받치고, 사람의 눈은 가장 비싼 곳에만 — 전수 검사에서 위험 기반 검사로</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">싼 검증이 아래를 받치고, 사람의 눈은 가장 비싼 곳에만 — 전수 검사에서 위험 기반 검사로</text>
 
   <!-- 피라미드 -->
   <polygon points="450,90 640,230 260,230" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
@@ -11,12 +11,12 @@
   <polygon points="260,230 640,230 730,370 170,370" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
   <text x="450" y="290" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">2층 · AI 리뷰 (LLM-as-a-Judge)</text>
   <text x="450" y="312" font-size="10.5" fill="#555555" text-anchor="middle">별도 세션의 LLM이 diff를 검토 — 버그 후보·요구 불일치·과잉 구현 지적</text>
-  <text x="450" y="332" font-size="10" fill="#8A8A8A" text-anchor="middle">"쓴 자신"이 아닌 "다른 눈" — 사람 리뷰의 전처리이자 필터</text>
+  <text x="450" y="332" font-size="10" fill="#666666" text-anchor="middle">"쓴 자신"이 아닌 "다른 눈" — 사람 리뷰의 전처리이자 필터</text>
 
   <polygon points="170,370 730,370 820,510 80,510" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
   <text x="450" y="428" font-size="13.5" font-weight="800" fill="#065F46" text-anchor="middle">1층 · 기계 게이트 (전건, 자동, 공짜)</text>
   <text x="450" y="452" font-size="10.5" fill="#555555" text-anchor="middle">빌드 · 테스트 · 린트 · 타입 검사 · CI — 모든 커밋이 통과해야 하는 바닥</text>
-  <text x="450" y="472" font-size="10" fill="#8A8A8A" text-anchor="middle">AI 코드가 늘수록 이 층의 가치가 올라간다 — 사람이 못 읽는 양을 기계는 읽는다</text>
+  <text x="450" y="472" font-size="10" fill="#666666" text-anchor="middle">AI 코드가 늘수록 이 층의 가치가 올라간다 — 사람이 못 읽는 양을 기계는 읽는다</text>
 
   <!-- 왼쪽: 왜 여전히 필요한가 -->
   <rect x="30" y="90" width="200" height="248" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
@@ -31,7 +31,7 @@
   <text x="44" y="270" font-size="10" fill="#555555">· 테스트를 통과"만" 하도록</text>
   <text x="52" y="284" font-size="10" fill="#555555">과녁에 과적합</text>
   <text x="44" y="312" font-size="10" font-weight="700" fill="#DC2626">→ 전부 "실행"만으론 안 잡힘</text>
-  <text x="52" y="328" font-size="10" fill="#8A8A8A">그래서 리뷰가 남는다</text>
+  <text x="52" y="328" font-size="10" fill="#666666">그래서 리뷰가 남는다</text>
 
   <!-- 오른쪽: 사람이 반드시 보는 곳 -->
   <rect x="670" y="90" width="200" height="248" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
@@ -44,11 +44,11 @@
   <text x="692" y="226" font-size="10" fill="#555555">바꾸기 비싼 구조</text>
   <text x="684" y="248" font-size="10" fill="#555555">· main 병합·배포 버튼</text>
   <text x="684" y="276" font-size="10" font-weight="700" fill="#6B21A8">기준: "틀렸을 때의 비용"</text>
-  <text x="692" y="292" font-size="10" fill="#8A8A8A">코드 양이 아니라 위험으로</text>
-  <text x="692" y="308" font-size="10" fill="#8A8A8A">리뷰 강도를 정한다</text>
+  <text x="692" y="292" font-size="10" fill="#666666">코드 양이 아니라 위험으로</text>
+  <text x="692" y="308" font-size="10" fill="#666666">리뷰 강도를 정한다</text>
 
   <!-- 하단: 리뷰의 성격 변화 -->
   <rect x="30" y="534" width="840" height="70" rx="12" fill="#0D1B2E"/>
   <text x="450" y="560" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">리뷰의 성격 변화: "동료의 의도를 이해하는 리뷰" → "AI의 해석이 내 의도와 일치하는지 확인하는 리뷰"</text>
-  <text x="450" y="584" font-size="11" fill="#8A9BB5" text-anchor="middle">그래서 리뷰의 첫 질문도 바뀐다 — "이 코드가 옳은가?"보다 먼저 "이게 내가 시킨 일인가?"</text>
+  <text x="450" y="584" font-size="11" fill="#AAB9CF" text-anchor="middle">그래서 리뷰의 첫 질문도 바뀐다 — "이 코드가 옳은가?"보다 먼저 "이게 내가 시킨 일인가?"</text>
 </svg>

@@ -66,7 +66,7 @@ localStorage 키는 `kdb-` 접두사: `kdb-theme`, `kdb-pos:{docId}`, `kdb-recen
 - 도식·표는 축소하지 말고 **가로 스크롤**: SVG는 `.fig-scroll`로 감싸고 모바일 `@media`에서 `.fig-scroll img { min-width: 660px }`. 표는 `table.ds { min-width: 600px }`, 모바일에서 `th { width: auto !important }`, 마지막 열 `min-width: 240px`, `word-break: keep-all`(한국어 어절 단위).
 - Android 브라우저의 강제 다크 반전은 `dark.css`의 `color-scheme` 선언으로 차단됨 — 건드리지 말 것.
 
-**SVG 저작.** 처음부터 모바일 가독 기준으로 그린다: viewBox 폭 ~900, 본문 글자 ≥13.5px. (다 그린 뒤 글자만 키우면 요소가 겹친다.) `font-family`는 SVG 안에 인라인. 밝은 배경 전제로 그린다 — 다크모드에서 `dark.css`가 `img[src*="img/"]`에 밝은 매트를 자동으로 깐다.
+**SVG 저작.** 처음부터 모바일 가독 기준으로 그린다: viewBox 폭 ~900, 본문 글자 ≥13.5px. (다 그린 뒤 글자만 키우면 요소가 겹친다.) `font-family`는 SVG 안에 인라인. 밝은 배경 전제로 그린다 — 다크모드에서 `dark.css`가 `img[src*="img/"]`에 밝은 매트를 자동으로 깐다. **명도 대비 필수** (실제 지적받은 실수): 밝은 배경 위 회색 글씨는 `#666` 이상 진하게 — `#8A8A8A`는 소형 글씨에서 안 보인다. 흰 글씨를 얹는 막대·상자는 배경을 충분히 어둡게 — `#B5AFA5`·`#8A8A8A` 같은 중간 회색 위 흰 글씨 금지. 어두운 배경(`#0D1B2E`) 위 보조 글씨는 `#AAB9CF` 이상 밝게.
 
 **섹션 삽입 시** 세 곳을 함께 갱신: 사이드바 TOC · 섹션 번호(및 소절 A/B/C…) · 본문 상호 참조(`§N`). 하나라도 놓치면 목차와 본문이 어긋난다.
 

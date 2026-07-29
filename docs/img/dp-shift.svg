@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
   <rect width="900" height="560" fill="#FAF7F2"/>
   <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">무엇이 바뀌었나 — 시간의 무게중심이 "구현"에서 "검증"으로</text>
-  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">코드 생산 비용이 0에 가까워지자, 병목이 이동했다 (막대 폭 = 개발자 시간의 개략 비중)</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">코드 생산 비용이 0에 가까워지자, 병목이 이동했다 (막대 폭 = 개발자 시간의 개략 비중)</text>
 
   <!-- 전통 -->
   <text x="60" y="104" font-size="14" font-weight="800" fill="#555555">기존 개발 — 시간의 대부분이 "쓰기"</text>
   <rect x="60" y="118" width="780" height="56" rx="10" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
-  <rect x="60" y="118" width="94" height="56" rx="10" fill="#8A8A8A"/>
+  <rect x="60" y="118" width="94" height="56" rx="10" fill="#5F5B54"/>
   <text x="107" y="143" font-size="11" font-weight="700" fill="#FFF" text-anchor="middle">요구 정의</text>
   <text x="107" y="160" font-size="9.5" fill="#EEE" text-anchor="middle">~12%</text>
-  <rect x="154" y="118" width="94" height="56" fill="#B5AFA5"/>
+  <rect x="154" y="118" width="94" height="56" fill="#7E786C"/>
   <text x="201" y="143" font-size="11" font-weight="700" fill="#FFF" text-anchor="middle">설계</text>
   <text x="201" y="160" font-size="9.5" fill="#FFF" text-anchor="middle">~12%</text>
   <rect x="248" y="118" width="390" height="56" fill="#1A5CB5"/>
@@ -28,10 +28,10 @@
   <!-- AI 시대 -->
   <text x="60" y="258" font-size="14" font-weight="800" fill="#002C5F">AI 시대 — 시간의 대부분이 "지정하기"와 "확인하기"</text>
   <rect x="60" y="272" width="780" height="56" rx="10" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
-  <rect x="60" y="272" width="187" height="56" rx="10" fill="#8A8A8A"/>
+  <rect x="60" y="272" width="187" height="56" rx="10" fill="#5F5B54"/>
   <text x="153" y="297" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">의도 정의 (스펙·수용 기준)</text>
   <text x="153" y="314" font-size="9.5" fill="#EEE" text-anchor="middle">~24% — 대폭 확대</text>
-  <rect x="247" y="272" width="125" height="56" fill="#B5AFA5"/>
+  <rect x="247" y="272" width="125" height="56" fill="#7E786C"/>
   <text x="309" y="297" font-size="11" font-weight="700" fill="#FFF" text-anchor="middle">설계 대화</text>
   <text x="309" y="314" font-size="9.5" fill="#FFF" text-anchor="middle">~16%</text>
   <rect x="372" y="272" width="78" height="56" fill="#1A5CB5"/>
