@@ -181,13 +181,12 @@
         "리뷰 피라미드",
         "AI 짝코딩"
       ],
-      "version": 3,
+      "version": 4,
       "assets": [
         "docs/img/dp-shift.svg",
         "docs/img/dp-cycle.svg",
         "docs/img/dp-llm-roles.svg",
-        "docs/img/dp-review.svg",
-        "docs/img/dp-example.svg"
+        "docs/img/dp-review.svg"
       ]
     },
     {

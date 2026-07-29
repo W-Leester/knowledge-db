@@ -200,6 +200,9 @@ figure img:hover { opacity: .92; }
 figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
 figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
 .fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.fig-scroll svg.interactive { display: block; width: 100%; height: auto; }
+svg.interactive a { cursor: pointer; }
+svg.interactive a:hover rect, svg.interactive a:focus rect { stroke-width: 3.5px; }
 
 /* ─── Code block ─── */
 pre.code {
@@ -294,6 +297,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   .stat-card .stat-value { font-size: 28px; }
   figure { padding: var(--sp-2); }
   .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  .fig-scroll svg.interactive { min-width: 660px; }
   #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
   #lightbox img { max-width: none; max-height: none; width: 900px; }
   figure figcaption { font-size: 11.5px; }
@@ -590,8 +594,110 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   <strong>각 단계의 "펼쳐보기"를 누르면 실제 프롬프트 전문과 LLM의 내부 과정(도구 호출 단위)이 열린다.</strong></p>
 
   <figure>
-    <div class="fig-scroll"><img src="img/dp-example.svg" alt="기사 수집기 프로젝트의 6단계 전체 흐름 — 스펙, 설계, 뼈대, 사이클 4개, 다듬기, cron 등록과 결산"></div>
-    <figcaption>★ 표시가 사람 리뷰가 실제로 잡은 결함들 — 테스트(기계 게이트)는 전부 "통과"라고 했었다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+    <div class="fig-scroll">
+    <svg class="interactive" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" role="img" aria-label="기사 수집기 프로젝트의 6단계 전체 흐름 — 상자를 누르면 상세가 열린다">
+      <defs>
+        <marker id="dea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+        </marker>
+      </defs>
+      <rect width="900" height="640" fill="#FAF7F2"/>
+      <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">예시 한 판 — "매일 기사 수집기"의 처음부터 끝까지</text>
+      <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">👆 각 단계 상자를 누르면 실제 프롬프트·LLM 내부 과정 상세가 아래에 열린다</text>
+
+      <text x="180" y="96" font-size="12.5" font-weight="800" fill="#666666" text-anchor="middle">프로젝트당 한 번</text>
+      <a class="svg-jump" href="#acc-s1">
+        <rect x="30" y="106" width="270" height="60" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+        <text x="165" y="130" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">① 스펙 반 페이지 🔍</text>
+        <text x="165" y="152" font-size="9.5" fill="#555555" text-anchor="middle">"새 기사만·중복 없이·매일 아침·실패해도 보존"</text>
+      </a>
+      <a class="svg-jump" href="#acc-s2">
+        <rect x="315" y="106" width="270" height="60" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+        <text x="450" y="130" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">② 설계 대화 🔍</text>
+        <text x="450" y="152" font-size="9.5" fill="#555555" text-anchor="middle">RSS vs 스크래핑 → RSS 승 · 저장은 SQLite</text>
+      </a>
+      <a class="svg-jump" href="#acc-s3">
+        <rect x="600" y="106" width="270" height="60" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+        <text x="735" y="130" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">③ 뼈대 + 게이트 🔍</text>
+        <text x="735" y="152" font-size="9.5" fill="#555555" text-anchor="middle">구조 생성 · 규칙 파일 · pytest/ruff 준비</text>
+      </a>
+
+      <line x1="300" y1="136" x2="311" y2="136" stroke="#003F8A" stroke-width="2" marker-end="url(#dea)"/>
+      <line x1="585" y1="136" x2="596" y2="136" stroke="#003F8A" stroke-width="2" marker-end="url(#dea)"/>
+      <line x1="735" y1="166" x2="735" y2="180" stroke="#003F8A" stroke-width="2.2" marker-end="url(#dea)"/>
+      <line x1="735" y1="180" x2="180" y2="180" stroke="#003F8A" stroke-width="2.2"/>
+      <line x1="180" y1="180" x2="180" y2="192" stroke="#003F8A" stroke-width="2.2" marker-end="url(#dea)"/>
+
+      <text x="450" y="190" font-size="13" font-weight="800" fill="#9F1239" text-anchor="middle">④ 기능 단위 사이클 × 4 — 과녁 → 생성 → 검증 → 리뷰 → 커밋</text>
+
+      <a class="svg-jump" href="#acc-s4">
+        <rect x="30" y="202" width="200" height="146" rx="12" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
+        <text x="130" y="226" font-size="11.5" font-weight="800" fill="#065F46" text-anchor="middle">사이클 1 · RSS 파싱</text>
+        <text x="44" y="248" font-size="9.5" fill="#555555">과녁: 고정 XML → 제목·링크·날짜</text>
+        <text x="44" y="266" font-size="9.5" fill="#555555">생성: feedparser로 30줄</text>
+        <text x="44" y="284" font-size="9.5" fill="#555555">검증: 테스트 3/3 통과</text>
+        <text x="44" y="302" font-size="9.5" fill="#065F46">리뷰: 이상 없음 — 통과</text>
+        <text x="44" y="326" font-size="9" font-weight="700" fill="#666666">커밋 ✓ (~20분)</text>
+      </a>
+      <a class="svg-jump" href="#acc-s4">
+        <rect x="250" y="202" width="200" height="146" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+        <text x="350" y="226" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">사이클 2 · 중복 제거 ★🔍</text>
+        <text x="264" y="248" font-size="9.5" fill="#555555">과녁: 같은 기사 2회 → 저장 1회</text>
+        <text x="264" y="266" font-size="9.5" fill="#555555">생성: URL을 기본키로 SQLite</text>
+        <text x="264" y="284" font-size="9.5" fill="#555555">검증: 테스트 통과 — 그러나</text>
+        <text x="264" y="302" font-size="9.5" font-weight="700" fill="#DC2626">리뷰: "?utm=이 붙으면 다른 URL로</text>
+        <text x="264" y="317" font-size="9.5" font-weight="700" fill="#DC2626">인식" 결함 발견 → 재생성</text>
+        <text x="264" y="338" font-size="9" font-weight="700" fill="#666666">정규화 추가 후 커밋 ✓ (~40분)</text>
+      </a>
+      <a class="svg-jump" href="#acc-s4b">
+        <rect x="470" y="202" width="200" height="146" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+        <text x="570" y="226" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">사이클 3 · 리포트 ★🔍</text>
+        <text x="484" y="248" font-size="9.5" fill="#555555">과녁: 날짜별 마크다운 파일</text>
+        <text x="484" y="266" font-size="9.5" font-weight="700" fill="#B45309">생성: 시키지 않은 HTML 버전까지</text>
+        <text x="484" y="281" font-size="9.5" font-weight="700" fill="#B45309">구현 (과잉) → 제거 지시</text>
+        <text x="484" y="302" font-size="9.5" fill="#555555">검증: 테스트 2/2 통과</text>
+        <text x="484" y="320" font-size="9.5" fill="#065F46">리뷰: 통과</text>
+        <text x="484" y="338" font-size="9" font-weight="700" fill="#666666">커밋 ✓ (~25분)</text>
+      </a>
+      <a class="svg-jump" href="#acc-s4">
+        <rect x="690" y="202" width="180" height="146" rx="12" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
+        <text x="780" y="226" font-size="11.5" font-weight="800" fill="#065F46" text-anchor="middle">사이클 4 · 실패 내성</text>
+        <text x="704" y="248" font-size="9.5" fill="#555555">과녁: 네트워크 오류 시</text>
+        <text x="704" y="263" font-size="9.5" fill="#555555">기존 데이터 보존 + CLI</text>
+        <text x="704" y="284" font-size="9.5" fill="#555555">생성·검증: 통과</text>
+        <text x="704" y="302" font-size="9.5" fill="#065F46">리뷰: 로그 추가 요청만</text>
+        <text x="704" y="326" font-size="9" font-weight="700" fill="#666666">커밋 ✓ (~20분)</text>
+      </a>
+
+      <line x1="230" y1="275" x2="246" y2="275" stroke="#003F8A" stroke-width="2" marker-end="url(#dea)"/>
+      <line x1="450" y1="275" x2="466" y2="275" stroke="#003F8A" stroke-width="2" marker-end="url(#dea)"/>
+      <line x1="670" y1="275" x2="686" y2="275" stroke="#003F8A" stroke-width="2" marker-end="url(#dea)"/>
+
+      <text x="450" y="374" font-size="10.5" fill="#666666" text-anchor="middle">★ = 사람 리뷰가 실제로 잡아낸 것들 — 기계 게이트(테스트)는 전부 "통과"라고 했었다는 점이 핵심</text>
+
+      <line x1="450" y1="384" x2="450" y2="400" stroke="#003F8A" stroke-width="2.2" marker-end="url(#dea)"/>
+      <a class="svg-jump" href="#acc-s5">
+        <rect x="140" y="404" width="290" height="76" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+        <text x="285" y="430" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">⑤ 다듬기 🔍</text>
+        <text x="285" y="450" font-size="9.5" fill="#555555" text-anchor="middle">README·로깅 정리 — AI에게 통째로 위임</text>
+        <text x="285" y="468" font-size="9" fill="#666666" text-anchor="middle">(~15분, diff만 훑음)</text>
+      </a>
+      <a class="svg-jump" href="#acc-s6">
+        <rect x="470" y="404" width="290" height="76" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+        <text x="615" y="430" font-size="12" font-weight="800" fill="#065F46" text-anchor="middle">⑥ 배포 = cron 등록 🔍</text>
+        <text x="615" y="450" font-size="9.5" fill="#555555" text-anchor="middle">매일 07:00 실행 — 서버가 아니라 내 맥 상주</text>
+        <text x="615" y="468" font-size="9" fill="#666666" text-anchor="middle">등록 명령은 사람이 직접 실행 (버튼은 사람이)</text>
+      </a>
+
+      <rect x="30" y="504" width="840" height="64" rx="12" fill="#0D1B2E"/>
+      <text x="450" y="530" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">결산: 총 ~3시간 · 사람이 직접 타이핑한 코드 ~0줄 · 사람이 읽은 diff 4번 · 리뷰가 잡은 결함 2건</text>
+      <text x="450" y="552" font-size="11" fill="#AAB9CF" text-anchor="middle">시간의 대부분은 스펙·설계·리뷰에 쓰였다 — §1의 "무게중심 역전"이 작은 프로젝트에서도 그대로 나타난다</text>
+
+      <rect x="30" y="582" width="840" height="42" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.5"/>
+      <text x="450" y="608" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">이 수집기는 「상주형 AI 에이전트」 §5의 "정보 레이더"의 최소 실물이기도 하다 — 다음 단계는 요약 LLM을 붙이는 것</text>
+    </svg>
+    </div>
+    <figcaption>🔍 표시가 있는 상자를 누르면 해당 단계의 "펼쳐보기" 상세가 열리며 이동한다 — 이 도식은 확대(라이트박스) 대신 상호작용을 택했다</figcaption>
   </figure>
 
   <h3><span class="num">①</span>의도 정의 — 스펙 반 페이지 (~20분)</h3>
@@ -614,7 +720,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <span class="k"># 제약</span>
 Python 3.12 · 표준적 라이브러리만 · robots.txt 준수 · 요청 간격 예의</pre>
 
-  <details class="acc">
+  <details class="acc" id="acc-s1">
     <summary>펼쳐보기 — ① 실제 프롬프트와 AI의 되물음 전문</summary>
     <div class="acc-body">
       <pre class="code"><span class="title-bar">주고받은 그대로</span><span class="k">[나]</span> 이런 프로그램을 만들려 한다: ○○사이트의 새 기사를 매일 아침
@@ -645,7 +751,7 @@ Python 3.12 · 표준적 라이브러리만 · robots.txt 준수 · 요청 간�
   스케줄러: 서버 없이 맥에서 도는 프로그램이니 <u>cron/launchd</u>. — 여기까지 결정하고 나서야 코드 이야기가 시작된다.
   결정은 전부 사람이 내렸고, AI는 각 선택지의 대가를 설명했다.</p>
 
-  <details class="acc">
+  <details class="acc" id="acc-s2">
     <summary>펼쳐보기 — ② 설계 대화의 실제 흐름 (플랜 모드)</summary>
     <div class="acc-body">
       <pre class="code"><span class="title-bar">코드 생성 없이 계획만 — 플랜 모드의 실제 사용</span><span class="k">[나]</span> (플랜 모드) spec.md를 읽고, 수집 방식과 저장 방식의 선택지를
@@ -674,7 +780,7 @@ Python 3.12 · 표준적 라이브러리만 · robots.txt 준수 · 요청 간�
   호출하는 테스트를 짜고, 그 테스트는 사이트 사정에 따라 무작위로 실패하는 골칫거리가 된다 —
   규칙 파일 한 줄이 이후 모든 사이클의 품질을 바꾸는 실례다.</p>
 
-  <details class="acc">
+  <details class="acc" id="acc-s3">
     <summary>펼쳐보기 — ③ 규칙 파일 전문 (이 프로젝트의 CLAUDE.md)</summary>
     <div class="acc-body">
       <pre class="code"><span class="title-bar">news-collector/CLAUDE.md — 짧을수록 잘 지켜진다</span><span class="k"># 프로젝트</span>
@@ -716,7 +822,7 @@ Python 3.12 · 표준적 라이브러리만 · robots.txt 준수 · 요청 간�
     그리고 사이클 2의 교훈("URL은 정규화 후 비교")은 규칙 파일에 한 줄로 굳었다 — 다음 프로젝트에선 처음부터 반영된다.</div>
   </div>
 
-  <details class="acc">
+  <details class="acc" id="acc-s4">
     <summary>펼쳐보기 — ④ 사이클 2 전체 재생: 프롬프트 → LLM 내부 과정 → 리뷰 → 재생성</summary>
     <div class="acc-body">
       <pre class="code"><span class="title-bar">1) 지시 — 과녁을 함께 준다</span><span class="k">[나]</span> 사이클 2 시작. spec.md의 "이미 수집한 기사는 다시 저장되지
@@ -751,7 +857,7 @@ Bash  uv run ruff check       →  <span class="f">clean</span>
     </div>
   </details>
 
-  <details class="acc">
+  <details class="acc" id="acc-s4b">
     <summary>펼쳐보기 — ④ 사이클 3: 과잉 구현을 잡는 대화</summary>
     <div class="acc-body">
       <pre class="code"><span class="title-bar">diff가 부풀어 있으면 의심하라</span><span class="k">[나]</span> 사이클 3: 날짜별 마크다운 리포트 생성. outputs/YYYY-MM-DD.md 형식.
@@ -772,7 +878,7 @@ Bash  uv run ruff check       →  <span class="f">clean</span>
   테스트가 4개 사이클 치 쌓여 있으므로 리팩토링이 안전하다(무언가 깨지면 게이트가 알려준다).
   이 단계가 "믿고 맡기는 영역"인 이유다(§3의 신뢰 눈금).</p>
 
-  <details class="acc">
+  <details class="acc" id="acc-s5">
     <summary>펼쳐보기 — ⑤ 위임 프롬프트와 훑기 포인트</summary>
     <div class="acc-body">
       <pre class="code"><span class="title-bar">통째로 맡기되, 안전선을 명시한다</span><span class="k">[나]</span> 리팩토링·README·로깅 정리를 한 번에 해줘. 단:
@@ -791,7 +897,7 @@ Bash  uv run ruff check       →  <span class="f">clean</span>
 0 7 * * *  cd ~/projects/news-collector && uv run python -m collector >> logs/run.log 2>&1
 <span class="c"># 등록 명령은 사람이 직접 실행했다 — "버튼은 사람이"(§2-⑥)</span></pre>
 
-  <details class="acc">
+  <details class="acc" id="acc-s6">
     <summary>펼쳐보기 — ⑥ 운영 준비 대화: cron vs launchd, 실패 알림</summary>
     <div class="acc-body">
       <pre class="code"><span class="title-bar">배포 전 마지막 대화</span><span class="k">[나]</span> 맥에서 매일 07:00 실행하려면 cron과 launchd 중 뭐가 나아?
@@ -867,7 +973,7 @@ Bash  uv run ruff check       →  <span class="f">clean</span>
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/dp-*.svg (5종) · 시간 비율 등 수치는 개략치 · 하네스·루프·심판 문서들의 "사람 쪽 사용 설명서"
+  Hyundai-Inspired Design System v1.0 · 도식: img/dp-*.svg (4종) + 인라인 인터랙티브 1종 · 시간 비율 등 수치는 개략치 · 하네스·루프·심판 문서들의 "사람 쪽 사용 설명서"
 </footer>
 
 </main>
@@ -924,6 +1030,15 @@ const spy = new IntersectionObserver(entries => {
   });
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
+
+// ── 인터랙티브 도식 → 펼쳐보기 연결 ──
+document.querySelectorAll('a.svg-jump').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const el = document.querySelector(a.getAttribute('href'));
+    if (el) { el.open = true; el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
 </script>
 </body>
 </html>

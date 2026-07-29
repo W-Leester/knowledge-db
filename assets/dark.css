@@ -60,3 +60,12 @@
   border-radius: 10px;
   padding: 6px;
 }
+
+/* 라이트박스(확대 보기)도 동일한 밝은 매트 강제.
+   각 문서의 #lightbox img { background: var(--bg-primary) }는 ID 셀렉터라
+   위의 매트 규칙을 이기는데, 다크모드에선 --bg-primary가 어두워져
+   확대 시 시인성이 깨진다 — 여기서 되돌린다 (실제 겪은 버그) */
+:root[data-theme="dark"] #lightbox img {
+  background: #F5F1E8 !important;
+  filter: none !important;
+}
