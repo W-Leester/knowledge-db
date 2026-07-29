@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="dea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">예시 한 판 — "매일 기사 수집기"의 처음부터 끝까지</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">반나절짜리 작은 프로젝트에도 6단계가 전부 등장한다 — 각 사이클에서 실제로 벌어진 일 포함</text>
+
+  <!-- 준비 3단계 -->
+  <rect x="30" y="80" width="270" height="72" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="165" y="106" font-size="12" font-weight="800" fill="#002C5F" text-anchor="middle">① 스펙 반 페이지</text>
+  <text x="165" y="126" font-size="9.5" fill="#555555" text-anchor="middle">"새 기사만·중복 없이·매일 아침·실패해도 보존"</text>
+  <text x="165" y="142" font-size="9" fill="#8A8A8A" text-anchor="middle">+ AI가 지적한 모호점 4개 반영 (~20분)</text>
+
+  <rect x="315" y="80" width="270" height="72" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="450" y="106" font-size="12" font-weight="800" fill="#002C5F" text-anchor="middle">② 설계 대화</text>
+  <text x="450" y="126" font-size="9.5" fill="#555555" text-anchor="middle">RSS vs 스크래핑 → RSS 승 · 저장은 SQLite</text>
+  <text x="450" y="142" font-size="9" fill="#8A8A8A" text-anchor="middle">플랜 모드로 계획 합의 (~15분)</text>
+
+  <rect x="600" y="80" width="270" height="72" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="735" y="106" font-size="12" font-weight="800" fill="#002C5F" text-anchor="middle">③ 뼈대 + 게이트</text>
+  <text x="735" y="126" font-size="9.5" fill="#555555" text-anchor="middle">구조 생성 · 규칙 파일 · pytest/ruff 준비</text>
+  <text x="735" y="142" font-size="9" fill="#8A8A8A" text-anchor="middle">"네트워크는 모킹으로" 규칙 명시 (~15분)</text>
+
+  <line x1="300" y1="116" x2="311" y2="116" stroke="#003F8A" stroke-width="2" marker-end="url(#dea)"/>
+  <line x1="585" y1="116" x2="596" y2="116" stroke="#003F8A" stroke-width="2" marker-end="url(#dea)"/>
+  <line x1="735" y1="152" x2="735" y2="172" stroke="#003F8A" stroke-width="2.2" marker-end="url(#dea)"/>
+  <line x1="735" y1="172" x2="180" y2="172" stroke="#003F8A" stroke-width="2.2"/>
+  <line x1="180" y1="172" x2="180" y2="188" stroke="#003F8A" stroke-width="2.2" marker-end="url(#dea)"/>
+
+  <!-- ④ 사이클 4개 -->
+  <text x="450" y="186" font-size="13" font-weight="800" fill="#9F1239" text-anchor="middle">④ 기능 단위 사이클 × 4 — 과녁 → 생성 → 검증 → 리뷰 → 커밋</text>
+
+  <rect x="30" y="198" width="200" height="150" rx="12" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
+  <text x="130" y="222" font-size="11.5" font-weight="800" fill="#065F46" text-anchor="middle">사이클 1 · RSS 파싱</text>
+  <text x="44" y="244" font-size="9.5" fill="#555555">과녁: 고정 XML → 제목·링크·날짜</text>
+  <text x="44" y="262" font-size="9.5" fill="#555555">생성: feedparser로 30줄</text>
+  <text x="44" y="280" font-size="9.5" fill="#555555">검증: 테스트 3/3 통과</text>
+  <text x="44" y="298" font-size="9.5" fill="#065F46">리뷰: 이상 없음 — 통과</text>
+  <text x="44" y="322" font-size="9" font-weight="700" fill="#8A8A8A">커밋 ✓ (~20분)</text>
+
+  <rect x="250" y="198" width="200" height="150" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="350" y="222" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">사이클 2 · 중복 제거 ★</text>
+  <text x="264" y="244" font-size="9.5" fill="#555555">과녁: 같은 기사 2회 → 저장 1회</text>
+  <text x="264" y="262" font-size="9.5" fill="#555555">생성: URL을 기본키로 SQLite</text>
+  <text x="264" y="280" font-size="9.5" fill="#555555">검증: 테스트 통과 — 그러나</text>
+  <text x="264" y="298" font-size="9.5" font-weight="700" fill="#DC2626">리뷰: "?utm=이 붙으면 다른</text>
+  <text x="264" y="313" font-size="9.5" font-weight="700" fill="#DC2626">URL로 인식" 결함 발견 → 재생성</text>
+  <text x="264" y="334" font-size="9" font-weight="700" fill="#8A8A8A">정규화 추가 후 커밋 ✓ (~40분)</text>
+
+  <rect x="470" y="198" width="200" height="150" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="570" y="222" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">사이클 3 · 리포트 생성 ★</text>
+  <text x="484" y="244" font-size="9.5" fill="#555555">과녁: 날짜별 마크다운 파일</text>
+  <text x="484" y="262" font-size="9.5" font-weight="700" fill="#B45309">생성: 시키지 않은 HTML 버전</text>
+  <text x="484" y="277" font-size="9.5" font-weight="700" fill="#B45309">까지 구현 (과잉) → 제거 지시</text>
+  <text x="484" y="298" font-size="9.5" fill="#555555">검증: 테스트 2/2 통과</text>
+  <text x="484" y="316" font-size="9.5" fill="#065F46">리뷰: 통과</text>
+  <text x="484" y="334" font-size="9" font-weight="700" fill="#8A8A8A">커밋 ✓ (~25분)</text>
+
+  <rect x="690" y="198" width="180" height="150" rx="12" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
+  <text x="780" y="222" font-size="11.5" font-weight="800" fill="#065F46" text-anchor="middle">사이클 4 · 실패 내성</text>
+  <text x="704" y="244" font-size="9.5" fill="#555555">과녁: 네트워크 오류 시</text>
+  <text x="704" y="259" font-size="9.5" fill="#555555">기존 데이터 보존 + CLI</text>
+  <text x="704" y="280" font-size="9.5" fill="#555555">생성·검증: 통과</text>
+  <text x="704" y="298" font-size="9.5" fill="#065F46">리뷰: 로그 추가 요청만</text>
+  <text x="704" y="322" font-size="9" font-weight="700" fill="#8A8A8A">커밋 ✓ (~20분)</text>
+
+  <line x1="230" y1="273" x2="246" y2="273" stroke="#003F8A" stroke-width="2" marker-end="url(#dea)"/>
+  <line x1="450" y1="273" x2="466" y2="273" stroke="#003F8A" stroke-width="2" marker-end="url(#dea)"/>
+  <line x1="670" y1="273" x2="686" y2="273" stroke="#003F8A" stroke-width="2" marker-end="url(#dea)"/>
+
+  <text x="450" y="374" font-size="10.5" fill="#8A8A8A" text-anchor="middle">★ = 사람 리뷰가 실제로 잡아낸 것들 — 기계 게이트(테스트)는 전부 "통과"라고 했었다는 점이 핵심</text>
+
+  <!-- 마무리 -->
+  <line x1="450" y1="384" x2="450" y2="400" stroke="#003F8A" stroke-width="2.2" marker-end="url(#dea)"/>
+  <rect x="140" y="404" width="290" height="76" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="285" y="430" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">⑤ 다듬기</text>
+  <text x="285" y="450" font-size="9.5" fill="#555555" text-anchor="middle">README·로깅 정리 — AI에게 통째로 위임</text>
+  <text x="285" y="468" font-size="9" fill="#8A8A8A" text-anchor="middle">(~15분, diff만 훑음)</text>
+
+  <rect x="470" y="404" width="290" height="76" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="615" y="430" font-size="12" font-weight="800" fill="#065F46" text-anchor="middle">⑥ 배포 = cron 등록</text>
+  <text x="615" y="450" font-size="9.5" fill="#555555" text-anchor="middle">매일 07:00 실행 — 서버가 아니라 내 맥 상주</text>
+  <text x="615" y="468" font-size="9" fill="#8A8A8A" text-anchor="middle">등록 명령은 사람이 직접 실행 (버튼은 사람이)</text>
+
+  <!-- 결산 -->
+  <rect x="30" y="504" width="840" height="64" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="530" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">결산: 총 ~3시간 · 사람이 직접 타이핑한 코드 ~0줄 · 사람이 읽은 diff 4번 · 리뷰가 잡은 결함 2건</text>
+  <text x="450" y="552" font-size="11" fill="#8A9BB5" text-anchor="middle">시간의 대부분은 스펙·설계·리뷰에 쓰였다 — §1의 "무게중심 역전"이 작은 프로젝트에서도 그대로 나타난다</text>
+
+  <rect x="30" y="582" width="840" height="42" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="450" y="608" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">이 수집기는 「상주형 AI 에이전트」 §5의 "정보 레이더"의 최소 실물이기도 하다 — 다음 단계는 요약 LLM을 붙이는 것</text>
+</svg>
