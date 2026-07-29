@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="560" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">무엇이 바뀌었나 — 시간의 무게중심이 "구현"에서 "검증"으로</text>
+  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">코드 생산 비용이 0에 가까워지자, 병목이 이동했다 (막대 폭 = 개발자 시간의 개략 비중)</text>
+
+  <!-- 전통 -->
+  <text x="60" y="104" font-size="14" font-weight="800" fill="#555555">기존 개발 — 시간의 대부분이 "쓰기"</text>
+  <rect x="60" y="118" width="780" height="56" rx="10" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <rect x="60" y="118" width="94" height="56" rx="10" fill="#8A8A8A"/>
+  <text x="107" y="143" font-size="11" font-weight="700" fill="#FFF" text-anchor="middle">요구 정의</text>
+  <text x="107" y="160" font-size="9.5" fill="#EEE" text-anchor="middle">~12%</text>
+  <rect x="154" y="118" width="94" height="56" fill="#B5AFA5"/>
+  <text x="201" y="143" font-size="11" font-weight="700" fill="#FFF" text-anchor="middle">설계</text>
+  <text x="201" y="160" font-size="9.5" fill="#FFF" text-anchor="middle">~12%</text>
+  <rect x="248" y="118" width="390" height="56" fill="#1A5CB5"/>
+  <text x="443" y="143" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">구현 (코드 작성·타이핑)</text>
+  <text x="443" y="160" font-size="10" fill="#E8EEF7" text-anchor="middle">~50% — 시간을 여기에 쏟았다</text>
+  <rect x="638" y="118" width="140" height="56" fill="#065F46"/>
+  <text x="708" y="143" font-size="11" font-weight="700" fill="#FFF" text-anchor="middle">테스트·리뷰</text>
+  <text x="708" y="160" font-size="9.5" fill="#E6F7F1" text-anchor="middle">~18%</text>
+  <rect x="778" y="118" width="62" height="56" rx="10" fill="#E8962A"/>
+  <text x="809" y="143" font-size="10.5" font-weight="700" fill="#FFF" text-anchor="middle">배포</text>
+  <text x="809" y="160" font-size="9.5" fill="#FFF7E6" text-anchor="middle">~8%</text>
+
+  <!-- 화살표 -->
+  <text x="450" y="216" font-size="15" font-weight="800" fill="#DC2626" text-anchor="middle">⬇ 생성이 분 단위가 되자, 무게중심이 양끝으로 밀려났다</text>
+
+  <!-- AI 시대 -->
+  <text x="60" y="258" font-size="14" font-weight="800" fill="#002C5F">AI 시대 — 시간의 대부분이 "지정하기"와 "확인하기"</text>
+  <rect x="60" y="272" width="780" height="56" rx="10" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <rect x="60" y="272" width="187" height="56" rx="10" fill="#8A8A8A"/>
+  <text x="153" y="297" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">의도 정의 (스펙·수용 기준)</text>
+  <text x="153" y="314" font-size="9.5" fill="#EEE" text-anchor="middle">~24% — 대폭 확대</text>
+  <rect x="247" y="272" width="125" height="56" fill="#B5AFA5"/>
+  <text x="309" y="297" font-size="11" font-weight="700" fill="#FFF" text-anchor="middle">설계 대화</text>
+  <text x="309" y="314" font-size="9.5" fill="#FFF" text-anchor="middle">~16%</text>
+  <rect x="372" y="272" width="78" height="56" fill="#1A5CB5"/>
+  <text x="411" y="297" font-size="11" font-weight="700" fill="#FFF" text-anchor="middle">생성</text>
+  <text x="411" y="314" font-size="9.5" fill="#E8EEF7" text-anchor="middle">~10%!</text>
+  <rect x="450" y="272" width="304" height="56" fill="#065F46"/>
+  <text x="602" y="297" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">검증·리뷰 (테스트·읽기·판정)</text>
+  <text x="602" y="314" font-size="10" fill="#E6F7F1" text-anchor="middle">~40% — 새로운 병목이자 품질의 원천</text>
+  <rect x="754" y="272" width="86" height="56" rx="10" fill="#E8962A"/>
+  <text x="797" y="297" font-size="10.5" font-weight="700" fill="#FFF" text-anchor="middle">배포·운영</text>
+  <text x="797" y="314" font-size="9.5" fill="#FFF7E6" text-anchor="middle">~10%</text>
+
+  <!-- 역할 전환 -->
+  <rect x="60" y="368" width="380" height="120" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="250" y="396" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">개발자 역할의 이동</text>
+  <text x="82" y="424" font-size="11.5" fill="#555555">타이피스트 → <tspan font-weight="800" fill="#002C5F">감독·편집자</tspan></text>
+  <text x="82" y="448" font-size="11.5" fill="#555555">"어떻게 짜지?" → <tspan font-weight="800" fill="#002C5F">"무엇을 원하는지 어떻게 명확히 하지?"</tspan></text>
+  <text x="82" y="472" font-size="11.5" fill="#555555">코드를 읽는 시간 &gt; 쓰는 시간</text>
+
+  <rect x="460" y="368" width="380" height="120" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="650" y="396" font-size="13" font-weight="800" fill="#B45309" text-anchor="middle">바뀌지 않은 것</text>
+  <text x="482" y="424" font-size="11.5" fill="#555555">· 잘못 만든 것의 책임 — 여전히 사람의 것</text>
+  <text x="482" y="448" font-size="11.5" fill="#555555">· "무엇을 만들 가치가 있나"의 판단</text>
+  <text x="482" y="472" font-size="11.5" fill="#555555">· 나쁜 요구 정의 → 나쁜 결과 (더 빨리 나올 뿐)</text>
+
+  <rect x="60" y="508" width="780" height="36" rx="10" fill="#0D1B2E"/>
+  <text x="450" y="531" font-size="12" font-weight="700" fill="#FFF" text-anchor="middle">한 줄 요약: 코드는 싸졌고, 검증과 판단이 비싸졌다 — 프로세스는 이 역전에 맞춰 다시 짜야 한다</text>
+</svg>
