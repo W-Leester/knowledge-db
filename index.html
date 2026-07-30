@@ -164,10 +164,17 @@ footer { text-align: center; font-size: 11.5px; color: var(--text-muted); paddin
 </main>
 
 <script>
+// PWA 복귀 시 목록 갱신: bfcache 복원(pageshow.persisted)이나 오래 백그라운드에 있던 탭은
+// fetch 자체가 다시 안 돌므로, 복귀 시점에 한 번 새로 그린다
+window.addEventListener('pageshow', e => { if (e.persisted) location.reload(); });
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && Date.now() - (window.__kdbLoadedAt || 0) > 600000) location.reload();
+});
+window.__kdbLoadedAt = Date.now();
 (async function () {
   const main = document.getElementById('doc-list');
   try {
-    const res = await fetch('docs.json');
+    const res = await fetch('docs.json', { cache: 'no-cache' });  // ETag 재검증 — 10분 HTTP 캐시로 새 문서가 늦게 보이는 문제 방지
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const { docs } = await res.json();
 
