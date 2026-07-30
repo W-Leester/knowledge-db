@@ -241,6 +241,29 @@
       ]
     },
     {
+      "id": "local-llm-models",
+      "title": "현실적으로 좋은 로컬 LLM",
+      "desc": "메모리 구간별 지도(폰~128GB) — Qwen 3.6·gpt-oss·Gemma 4, 그리고 폰에서 도는 Bonsai 27B (2026.07)",
+      "file": "docs/local-llm-models.html",
+      "group": "AI · LLM",
+      "icon": "🎯",
+      "gradient": [
+        "#0D1B2E",
+        "#047857"
+      ],
+      "tags": [
+        "Qwen 3.6",
+        "gpt-oss",
+        "Bonsai"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/lm-principles.svg",
+        "docs/img/lm-tiers.svg",
+        "docs/img/lm-quant.svg"
+      ]
+    },
+    {
       "id": "claude-extensions",
       "title": "클로드 확장하기",
       "desc": "Skills·Subagents·MCP·Hooks, 그리고 하네스·루프 엔지니어링",

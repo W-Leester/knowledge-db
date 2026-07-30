@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="600" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">양자화 스펙트럼 — 그리고 Bonsai가 연 극단의 끝</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">같은 Qwen 3.6 27B가 정밀도에 따라 56GB에서 3.9GB까지 — 성능 유지율과 함께 (개략치)</text>
+
+  <!-- 스펙트럼 막대들 -->
+  <text x="90" y="102" font-size="12" font-weight="800" fill="#555555" text-anchor="end">bf16</text>
+  <rect x="110" y="86" width="700" height="34" rx="8" fill="#1A5CB5"/>
+  <text x="460" y="108" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">55.6GB — 원본 (기준선 100%)</text>
+
+  <text x="90" y="156" font-size="12" font-weight="800" fill="#555555" text-anchor="end">8bit</text>
+  <rect x="110" y="140" width="360" height="34" rx="8" fill="#1A5CB5"/>
+  <text x="290" y="162" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">~29GB — 사실상 무손실 (99%+)</text>
+  <text x="486" y="162" font-size="10.5" fill="#065F46">← 메모리가 넉넉하면 여기가 기본값</text>
+
+  <text x="90" y="210" font-size="12" font-weight="800" fill="#555555" text-anchor="end">4bit</text>
+  <rect x="110" y="194" width="212" height="34" rx="8" fill="#3568B0"/>
+  <text x="216" y="216" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">~17GB — 실용 하한 (~98%)</text>
+  <text x="338" y="216" font-size="10.5" fill="#666666">← 24GB 기기의 표준 선택</text>
+
+  <text x="90" y="264" font-size="12" font-weight="800" fill="#555555" text-anchor="end">터너리</text>
+  <rect x="110" y="248" width="74" height="34" rx="8" fill="#6B21A8"/>
+  <text x="147" y="270" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">5.9GB</text>
+  <text x="200" y="264" font-size="11.5" font-weight="700" fill="#6B21A8">~94.6% 유지 — 노트북·서브 기기용 (Bonsai)</text>
+  <text x="200" y="281" font-size="10" fill="#666666">가중치가 -1/0/+1 세 값뿐</text>
+
+  <text x="90" y="318" font-size="12" font-weight="800" fill="#555555" text-anchor="end">1-bit</text>
+  <rect x="110" y="302" width="49" height="34" rx="8" fill="#9F1239"/>
+  <text x="134" y="324" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">3.9GB</text>
+  <text x="175" y="318" font-size="11.5" font-weight="700" fill="#9F1239">~89.5% 유지 — 폰에서 ~11 tok/s (iPhone 17 Pro Max, Bonsai)</text>
+  <text x="175" y="335" font-size="10" fill="#666666">262K 컨텍스트·비전·도구 호출까지 원본 기능 유지 · Apache 2.0</text>
+
+  <!-- 함의 -->
+  <rect x="30" y="366" width="410" height="120" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="52" y="394" font-size="13" font-weight="800" fill="#6B21A8">새 공식: "파라미터는 많게, 정밀도는 낮게"</text>
+  <text x="52" y="418" font-size="11" fill="#555555">같은 ~4GB라면: 1-bit 27B vs 4bit 9B —</text>
+  <text x="52" y="438" font-size="11" fill="#555555">Bonsai의 주장은 전자가 낫다는 것.</text>
+  <text x="52" y="458" font-size="11" fill="#555555">사실이면 저메모리 구간의 선택 공식이 바뀐다</text>
+  <text x="52" y="476" font-size="10" fill="#666666">+ 1/8만 읽으므로 대역폭 병목에서 속도도 유리 (원칙②)</text>
+
+  <rect x="460" y="366" width="410" height="120" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <text x="482" y="394" font-size="13" font-weight="800" fill="#DC2626">⚠️ "90%"를 읽는 법</text>
+  <text x="482" y="418" font-size="11" fill="#555555">· 유지율은 벤치마크 평균 — 열화는 긴 다단계</text>
+  <text x="494" y="436" font-size="11" fill="#555555">추론·코딩 에이전트 같은 꼬리에서 먼저 나타남</text>
+  <text x="482" y="458" font-size="11" fill="#555555">· "대화·요약은 거의 원본, 밤샘 루프의 일꾼은</text>
+  <text x="494" y="476" font-size="11" fill="#555555">직접 검증 후" — 원칙③의 A/B로 재볼 것</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="506" width="840" height="76" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="532" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">자리 잡기: 64~128GB 맥 본인 용도로는 8bit 원본이 정답 — Bonsai의 자리는 ① 폰 ② 16GB 서브 기기 ③ 메인 옆 보조 모델</text>
+  <text x="450" y="554" font-size="11" fill="#AAB9CF" text-anchor="middle">128GB의 "자유 여유"에 터너리판(5.9GB)을 상시 띄워 분류·요약 잡무를 전담시키는 구성이 자연스럽다</text>
+  <text x="450" y="572" font-size="11" fill="#AAB9CF" text-anchor="middle">폰에서 27B급이 돈다는 것 = 「상주형 AI 에이전트」의 이동 중 시나리오가 서버 없이도 가능해진다는 신호</text>
+</svg>

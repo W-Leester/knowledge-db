@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="560" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">모델명보다 오래가는 세 가지 원칙</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">이 판은 몇 달마다 물갈이된다 — 고르는 눈이 목록보다 중요하다</text>
+
+  <!-- 원칙 1: dense vs MoE -->
+  <rect x="30" y="80" width="410" height="210" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="52" y="110" font-size="14" font-weight="800" fill="#002C5F">① dense vs MoE — 안정 vs 속도</text>
+  <rect x="52" y="126" width="176" height="112" rx="10" fill="#FFFFFF"/>
+  <text x="140" y="150" font-size="12" font-weight="800" fill="#002C5F" text-anchor="middle">dense (27B)</text>
+  <text x="140" y="172" font-size="10.5" fill="#555555" text-anchor="middle">모든 파라미터가 매번 일함</text>
+  <text x="140" y="192" font-size="10.5" fill="#065F46" text-anchor="middle">지시 이행·도구 호출 안정</text>
+  <text x="140" y="212" font-size="10.5" fill="#DC2626" text-anchor="middle">느림 (전부 읽어야 하니까)</text>
+  <text x="140" y="230" font-size="10" fill="#666666" text-anchor="middle">→ 중요 자동화의 일꾼</text>
+  <rect x="242" y="126" width="176" height="112" rx="10" fill="#FFFFFF"/>
+  <text x="330" y="150" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">MoE (A3B·gpt-oss)</text>
+  <text x="330" y="172" font-size="10.5" fill="#555555" text-anchor="middle">토큰마다 일부 전문가만</text>
+  <text x="330" y="192" font-size="10.5" fill="#065F46" text-anchor="middle">같은 품질 대비 2~5배 빠름</text>
+  <text x="330" y="212" font-size="10.5" fill="#DC2626" text-anchor="middle">꼬리 작업서 기복 경향</text>
+  <text x="330" y="230" font-size="10" fill="#666666" text-anchor="middle">→ 왕복 많은 대화·탐색</text>
+  <text x="52" y="266" font-size="11" fill="#555555">둘 다 받아두고 나눠 쓰는 것이 실용적 정답 — 배타가 아니다</text>
+
+  <!-- 원칙 2: 대역폭 -->
+  <rect x="460" y="80" width="410" height="210" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="482" y="110" font-size="14" font-weight="800" fill="#B45309">② 속도는 대역폭이 정한다</text>
+  <rect x="482" y="126" width="366" height="56" rx="10" fill="#0D1B2E"/>
+  <text x="665" y="150" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">tok/s ≈ 메모리 대역폭 ÷ 활성 파라미터 크기</text>
+  <text x="665" y="170" font-size="10.5" fill="#AAB9CF" text-anchor="middle">「AI 하드웨어 — 메모리」의 공식 그대로</text>
+  <text x="482" y="206" font-size="11.5" fill="#555555">· MoE가 빠른 이유 — 활성(읽는 양)이 작아서</text>
+  <text x="482" y="228" font-size="11.5" fill="#555555">· 1-bit이 빠른 이유 — 같은 파라미터를 1/8로 읽어서</text>
+  <text x="482" y="250" font-size="11.5" fill="#555555">· 128GB의 이득 — 속도가 아니라 "여유"(정밀도·컨텍스트·동시 상주)</text>
+  <text x="482" y="274" font-size="10.5" fill="#666666">램을 늘려도 tok/s는 안 늘어난다 — 대역폭이 같으면</text>
+
+  <!-- 원칙 3: 벤치 읽는 법 -->
+  <rect x="30" y="310" width="840" height="170" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="52" y="340" font-size="14" font-weight="800" fill="#065F46">③ 벤치마크는 참고, 판정은 내 로그로</text>
+  <text x="52" y="368" font-size="11.5" fill="#555555">· 벤치 점수·"유지율 90%"는 <tspan font-weight="700">평균</tspan>이다 — 열화는 평균이 아니라 꼬리(긴 다단계 추론·에이전트 루프)에서 먼저 나타난다</text>
+  <text x="52" y="392" font-size="11.5" fill="#555555">· 리스트 글의 절반은 철 지난 재탕 — 2024년 모델(Llama 3.x·Mixtral)을 아직 추천하면 그 글은 거른다</text>
+  <text x="52" y="416" font-size="11.5" fill="#555555">· 최종 판단: 같은 과제(goal.md)를 후보 모델로 돌려 <tspan font-weight="700">합격까지의 시도 수·시간</tspan>을 비교 — 나만의 벤치마크</text>
+  <rect x="52" y="434" width="796" height="32" rx="8" fill="#FFFFFF"/>
+  <text x="450" y="455" font-size="11.5" font-weight="700" fill="#065F46" text-anchor="middle">「로컬 LLM 코딩 공장」 §7의 jsonl 로그 A/B가 정확히 이 장치다 — 남의 순위표보다 내 작업의 성적표</text>
+
+  <rect x="30" y="500" width="840" height="40" rx="10" fill="#0D1B2E"/>
+  <text x="450" y="525" font-size="12.5" font-weight="700" fill="#FFF" text-anchor="middle">요약: 용도로 아키텍처를 고르고(①), 하드웨어로 체급을 정하고(②), 내 로그로 확정한다(③)</text>
+</svg>

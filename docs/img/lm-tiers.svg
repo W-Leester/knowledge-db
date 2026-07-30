@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">메모리 구간별 지도 — 2026.07 스냅샷</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">통합 메모리(맥)·VRAM(GPU) 기준 — 굵은 글씨가 각 구간의 1픽 (수치는 전부 개략치)</text>
+
+  <!-- 폰 티어 (신설) -->
+  <rect x="30" y="80" width="840" height="76" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="52" y="106" font-size="13" font-weight="800" fill="#6B21A8">📱 ~8GB (폰·태블릿) — 2026.7에 새로 열린 구간</text>
+  <text x="52" y="130" font-size="11.5" fill="#555555"><tspan font-weight="800" fill="#6B21A8">Bonsai 27B 1-bit (3.9GB)</tspan> — 27B급 지능이 폰에서 ~11 tok/s (§4) · 그 외 3~4B급 온디바이스 모델들</text>
+  <text x="52" y="148" font-size="10.5" fill="#666666">"폰 = 로컬 LLM 기기"의 신호탄 — 상주형 에이전트의 이동 중 시나리오가 서버 없이 가능해지는 방향</text>
+
+  <!-- 16GB -->
+  <rect x="30" y="170" width="840" height="76" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="52" y="196" font-size="13" font-weight="800" fill="#002C5F">💻 16GB (맥미니 기본형·엔트리 GPU)</text>
+  <text x="52" y="220" font-size="11.5" fill="#555555"><tspan font-weight="800" fill="#002C5F">gpt-oss-20b (~13GB)</tspan> — 추론 가성비 · Qwen 3.5 9B · Gemma 4 12B · Bonsai 터너리(5.9GB)를 보조로</text>
+  <text x="52" y="238" font-size="10.5" fill="#666666">역할: 요약·분류·보조. 시스템 몫을 빼면 실사용 한도는 ~10GB — 게이트웨이와 동시 구동 시 빠듯</text>
+
+  <!-- 24-32 -->
+  <rect x="30" y="260" width="840" height="76" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="52" y="286" font-size="13" font-weight="800" fill="#065F46">🖥 24~32GB (RTX 3090/4090·맥 32GB)</text>
+  <text x="52" y="310" font-size="11.5" fill="#555555"><tspan font-weight="800" fill="#065F46">Qwen 3.6 27B (Q4~Q6)</tspan> — 이 구간의 왕, 코딩·에이전트 최강 · Gemma 4 31B(대화 결) · Mistral Small 24B급</text>
+  <text x="52" y="328" font-size="10.5" fill="#666666">27B가 "실용 에이전트 코딩"의 문턱을 넘은 첫 세대 — SWE-bench Verified 77.2%(개략치)</text>
+
+  <!-- 48-64 -->
+  <rect x="30" y="350" width="840" height="76" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="52" y="376" font-size="13" font-weight="800" fill="#B45309">⚙️ 48~64GB (맥 64GB·듀얼 GPU)</text>
+  <text x="52" y="400" font-size="11.5" fill="#555555"><tspan font-weight="800" fill="#B45309">Qwen 3.6 27B 8bit + 풀컨텍스트</tspan> · <tspan font-weight="800" fill="#B45309">35B-A3B</tspan>(빠른 왕복) · Qwen3-Coder-Next(64GB 정조준) · Gemma 4 26B-A4B</text>
+  <text x="52" y="418" font-size="10.5" fill="#666666">"모델을 키우는" 구간이 아니라 "품질 타협을 없애는" 구간 — 8bit·긴 컨텍스트·둘째 모델의 여유</text>
+
+  <!-- 96-128 -->
+  <rect x="30" y="440" width="840" height="88" rx="12" fill="#FEE2E2" stroke="#9F1239" stroke-width="2.5"/>
+  <text x="52" y="466" font-size="13" font-weight="800" fill="#9F1239">🏭 96~128GB (맥 스튜디오·M Max 상위)</text>
+  <text x="52" y="490" font-size="11.5" fill="#555555"><tspan font-weight="800" fill="#9F1239">gpt-oss-120b (~61~80GB)</tspan> — MoE 117B·활성 5.1B: "27B보다 아는 건 많은데 도는 건 더 빠른" 역전</text>
+  <text x="52" y="510" font-size="11.5" fill="#555555">+ Qwen 3.6 27B 8bit를 주력으로, 보조 모델·임베딩·긴 컨텍스트 동시 상주 — GLM 계열은 경량판·양자화 확인 후</text>
+  <text x="52" y="528" font-size="10.5" fill="#666666">Kimi K2(에이전트 71.6%)는 1T급 MoE — 이 구간 밖. Llama 3.x 70B 추천 글은 2024년 목록의 재탕이니 거르기</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="548" width="840" height="56" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="572" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">읽는 법: 구간이 올라갈수록 "더 큰 모델"이 아니라 "같은 모델을 더 좋은 조건으로" — 정밀도·컨텍스트·동시 상주가 진짜 이득</text>
+  <text x="450" y="594" font-size="11" fill="#AAB9CF" text-anchor="middle">이 지도는 몇 달 단위로 물갈이된다 — 모델명은 바래도 구간의 논리는 남는다</text>
+</svg>

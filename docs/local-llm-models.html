@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>현실적으로 사용하기 좋은 로컬 LLM — 메모리 구간별 지도 (2026.07)</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #047857 55%, #1A5CB5 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>현실적으로 좋은<br>로컬 LLM</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#principles">1. 모델명보다 오래가는 원칙</a>
+    <a href="#tiers">2. 메모리 구간별 지도</a>
+    <a href="#models">3. 주요 모델 해부</a>
+    <a href="#quant">4. 극단 양자화 — Bonsai 27B</a>
+    <a href="#usecase">5. 용도별 최종 추천</a>
+    <a href="#verify">6. 직접 검증하는 법</a>
+    <a href="#refs">7. 출처</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">AI · LLM · Model Guide (2026.07)</div>
+  <h1>현실적으로 사용하기 좋은 로컬 LLM<br><span class="thin">메모리 구간별 지도 — 폰의 3.9GB부터 맥 128GB까지</span></h1>
+  <p class="sub">"지금 뭘 받아야 하나"에 대한 2026년 7월의 스냅샷. 16GB부터 128GB까지 구간별 1픽,
+  주요 모델(Qwen 3.6 · gpt-oss · Gemma 4 · GLM)의 성격 해부, 그리고 폰에서 27B급을 돌리는
+  극단 양자화(Bonsai)까지 — 목록은 몇 달마다 바래므로, 목록과 함께 "고르는 눈"을 남기는 문서다.</p>
+  <div class="tags">
+    <span class="tag">Qwen 3.6</span><span class="tag">gpt-oss-120b</span><span class="tag">Gemma 4</span>
+    <span class="tag">Bonsai 27B</span><span class="tag">dense vs MoE</span><span class="tag">2026.07 스냅샷</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 구간별 1픽</h2>
+    <p>급한 사람을 위한 결론 — 근거는 §2~4에서</p>
+  </div>
+
+  <div class="card-grid g4">
+    <div class="stat-card"><div class="stat-value">24~32GB</div><div class="stat-label"><strong>Qwen 3.6 27B</strong> (Q4~Q6)<br>이 구간의 왕 — 코딩·에이전트</div></div>
+    <div class="stat-card"><div class="stat-value">48~64GB</div><div class="stat-label">27B 8bit + 풀컨텍스트<br>또는 35B-A3B (속도)</div></div>
+    <div class="stat-card"><div class="stat-value">96~128GB</div><div class="stat-label"><strong>gpt-oss-120b</strong> 합류<br>+ 보조 모델 동시 상주</div></div>
+    <div class="stat-card"><div class="stat-value">폰~8GB</div><div class="stat-label"><strong>Bonsai 27B 1-bit</strong> (3.9GB)<br>2026.7에 새로 열린 구간</div></div>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">⏳</span>
+    <div><strong>유통기한 명시 —</strong> 이 문서의 모델명·수치는 <u>2026년 7월 스냅샷</u>이다(전부 개략치).
+    이 판은 몇 달 단위로 물갈이되니, 반년 뒤에 읽는다면 §1의 원칙과 §6의 검증법만 믿고
+    모델명은 그때의 최신으로 갈아끼울 것 — 그러라고 원칙을 앞에 뒀다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. PRINCIPLES ═══════════ -->
+<section id="principles">
+  <div class="section-header">
+    <div class="eyebrow">Principles</div>
+    <h2>1. 모델명보다 오래가는 세 가지 원칙</h2>
+    <p>목록이 바래도 고르는 눈은 남는다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/lm-principles.svg" alt="dense 대 MoE, 대역폭이 속도를 정한다, 벤치마크는 참고이고 판정은 내 로그로 — 세 가지 원칙"></div>
+    <figcaption>용도로 아키텍처를 고르고 → 하드웨어로 체급을 정하고 → 내 로그로 확정한다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body"><strong>① dense vs MoE — 안정과 속도의 저울.</strong> dense(27B급)는 모든 파라미터가 매 토큰 일하므로
+  지시 이행·도구 호출이 안정적이고, MoE(35B-A3B, gpt-oss)는 토큰마다 일부 전문가만 활성화돼
+  <u>같은 품질 대비 2~5배 빠르지만</u> 까다로운 꼬리 작업에서 기복이 있다는 평이 흔하다.
+  정답은 택일이 아니라 분업 — <u>중요 자동화는 dense, 왕복 많은 대화·탐색은 MoE</u>.</p>
+
+  <p class="body"><strong>② 속도는 대역폭이 정한다.</strong> 로컬 추론의 tok/s ≈ 메모리 대역폭 ÷ 활성 파라미터 크기
+  (「AI 하드웨어 — 메모리」). MoE가 빠른 이유(활성이 작다), 1-bit이 빠른 이유(같은 파라미터를 1/8로 읽는다),
+  그리고 <u>램을 128GB로 늘려도 속도는 안 늘어나는 이유</u>(대역폭이 같으니까)가 전부 이 한 줄에서 나온다.
+  큰 메모리의 진짜 이득은 속도가 아니라 <strong>여유</strong>다 — 높은 정밀도, 긴 컨텍스트, 보조 모델 동시 상주.</p>
+
+  <p class="body"><strong>③ 벤치마크는 참고, 판정은 내 로그로.</strong> 순위표 점수와 "유지율 90%" 같은 숫자는 전부 평균이고,
+  열화는 평균이 아니라 꼬리(긴 다단계 추론·에이전트 루프)에서 먼저 나타난다. 게다가 검색되는 추천 글의 절반은
+  철 지난 재탕이다 — <u>2024년 모델(Llama 3.x 70B·Mixtral)을 아직 1순위로 추천하는 글은 거르는 것</u>이
+  가장 쉬운 판별법. 최종 판단은 §6의 자기 벤치마크로 한다.</p>
+</section>
+
+<!-- ═══════════ 2. TIERS ═══════════ -->
+<section id="tiers">
+  <div class="section-header">
+    <div class="eyebrow">The Map</div>
+    <h2>2. 메모리 구간별 지도 — 폰부터 128GB까지</h2>
+    <p>통합 메모리(맥)·VRAM(GPU) 공통 — 구간의 논리는 모델명보다 오래간다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/lm-tiers.svg" alt="폰 8GB부터 128GB까지 메모리 구간별 추천 모델 지도"></div>
+    <figcaption>구간이 올라갈수록 "더 큰 모델"이 아니라 "같은 모델을 더 좋은 조건으로" · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">구간</th><th style="width:290px">추천 (굵게 = 1픽)</th><th>이 구간의 논리</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">~8GB (폰)</td><td><strong>Bonsai 27B 1-bit</strong> (3.9GB) · 3~4B급 온디바이스</td><td>2026.7에 새로 열린 구간(§4) — 폰에서 27B급 지능 ~11 tok/s</td></tr>
+        <tr><td class="hl">16GB</td><td><strong>gpt-oss-20b</strong> (~13GB) · Qwen 3.5 9B · Gemma 4 12B</td><td>보조역·요약·분류. 시스템 몫 빼면 실사용 ~10GB — 욕심 금지 구간</td></tr>
+        <tr><td class="hl">24~32GB</td><td><strong>Qwen 3.6 27B (Q4~Q6)</strong> · Gemma 4 31B · Mistral Small 24B급</td><td>"실용 에이전트 코딩"의 문턱을 처음 넘은 체급 — 가성비의 중심</td></tr>
+        <tr><td class="hl">48~64GB</td><td><strong>Qwen 3.6 27B 8bit·풀컨텍스트</strong> · 35B-A3B · Qwen3-Coder-Next · Gemma 4 26B-A4B</td><td>품질 타협을 없애는 구간 — 8bit·긴 컨텍스트·둘째 모델</td></tr>
+        <tr><td class="hl">96~128GB</td><td><strong>gpt-oss-120b</strong> (~61~80GB) + 27B 8bit 주력 병행 · GLM 계열(경량판 확인)</td><td>MoE 대형이 열리고, 무엇보다 "동시 상주"가 자유로워지는 구간</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════ 3. MODELS ═══════════ -->
+<section id="models">
+  <div class="section-header">
+    <div class="eyebrow">The Players</div>
+    <h2>3. 주요 모델 해부 — 각자의 성격</h2>
+    <p>점수가 아니라 "결"로 고르는 것이 실사용의 감각이다</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:190px">모델 (개략)</th><th style="width:200px">구조·크기</th><th>성격과 평판</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Qwen 3.6 27B</td><td>dense · 8bit ~29GB · 비전 내장</td><td><strong>로컬 코딩·에이전트의 현 최강</strong> — SWE-bench Verified 77.2%(개략치)로 전 세대 수백B급을 추월. "코딩 중심 로컬 배포는 Qwen이 실증적 최강"이 중론</td></tr>
+        <tr><td class="hl">Qwen 3.6 35B-A3B</td><td>MoE · 활성 3B · ~37GB(8bit)</td><td>27B의 속도 보완재 — 활성이 작아 왕복이 훨씬 빠름. 품질은 작업별 기복이 있으니 A/B 후 채택</td></tr>
+        <tr><td class="hl">Qwen3-Coder 계열</td><td>코딩 특화 · 256K 컨텍스트</td><td>Coder-Next가 64GB급을 정조준. 긴 컨텍스트가 강점 — 대형 코드베이스 작업용</td></tr>
+        <tr><td class="hl">gpt-oss-120b</td><td>MoE 117B · <strong>활성 5.1B</strong> · ~61~80GB</td><td>"27B보다 아는 건 많은데 도는 건 더 빠른" 역전 — MoE 희소성의 교과서. 추론(reasoning) 강점, Apache 2.0. 코딩 에이전트 벤치는 Qwen 우세</td></tr>
+        <tr><td class="hl">gpt-oss-20b</td><td>MoE · ~13GB</td><td>16GB 구간의 추론 가성비 픽</td></tr>
+        <tr><td class="hl">Gemma 4 (31B·26B-A4B·12B)</td><td>dense + MoE 라인업</td><td>벤치보다 <u>"대화 결이 좋다"</u>는 평 — 범용·글쓰기용. 제약 적은 라이선스</td></tr>
+        <tr><td class="hl">GLM-5.2 계열</td><td>대형 MoE</td><td>에이전트 코딩에서 Qwen과 선두 다툼이라는 평가. 본가는 대형 — 128GB에선 경량판·양자화 가능 여부를 받는 시점에 확인</td></tr>
+        <tr><td class="hl">Kimi K2</td><td>1T급 MoE</td><td>에이전트 71.6%(멀티어템프트)로 최상위지만 <u>128GB 밖의 물건</u> — 참고용</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧲</span>
+    <div><strong>맥이라면 포맷 확인 한 가지 —</strong> 같은 모델도 GGUF판(llama.cpp·Ollama)과 MLX판(oMLX)이 따로 올라온다
+    (「로컬 LLM 에이전트」 §6-4). 받기 전에 자기 추론 서버에 맞는 변환본이 있는지 확인할 것 —
+    주요 모델은 대부분 며칠 안에 양쪽 다 올라온다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. QUANT ═══════════ -->
+<section id="quant">
+  <div class="section-header">
+    <div class="eyebrow">Extreme Quantization</div>
+    <h2>4. 극단 양자화 — Bonsai 27B, 폰에서 도는 27B급</h2>
+    <p>2026.7.14 공개 — 양자화 스펙트럼의 끝이 새 구간을 열었다</p>
+  </div>
+
+  <p class="body">PrismML이 공개한 <strong>Bonsai 27B</strong>는 Qwen3.6-27B를 BitNet 계열 극단 양자화로 압축한 것이다 —
+  가중치를 1비트(±1) 또는 3진값(-1/0/+1)까지 밀어붙여, <u>27B 파라미터가 3.9GB</u>(1-bit)까지 줄어든다.
+  주목할 점은 압축하면서도 <strong>262K 풀 컨텍스트·비전·도구 호출·에이전트 루프까지 원본 기능을 전부 유지</strong>했다는 것
+  (Apache 2.0, GGUF·MLX·AWQ 전부 공개).</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/lm-quant.svg" alt="bf16 56GB부터 1-bit 3.9GB까지 양자화 스펙트럼과 성능 유지율, Bonsai의 자리"></div>
+    <figcaption>같은 모델이 56GB → 3.9GB — 유지율 89.5%의 의미를 바르게 읽는 것이 핵심 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">Bonsai 변형</th><th style="width:170px">크기 · 유지율 (개략)</th><th>자리</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">1-bit</td><td>3.9GB · ~89.5%</td><td>폰 — iPhone 17 Pro Max에서 ~11 tok/s. "폰 = 로컬 LLM 기기"의 신호탄</td></tr>
+        <tr><td class="hl">터너리(3진)</td><td>5.9GB · ~94.6%</td><td>노트북·16GB 서브 기기, 또는 큰 맥에서 잡무 전담 보조 모델</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body"><strong>함의 — "파라미터는 많게, 정밀도는 낮게".</strong> 같은 ~4GB 예산이면 1-bit 27B와 4bit 9B 중
+  무엇이 나은가 — Bonsai의 주장은 전자다. 이것이 재현되면 <u>저메모리 구간의 선택 공식 자체가 바뀐다</u>.
+  덤으로 읽을 가중치가 1/8이라 대역폭 병목(§1-②)에서 속도까지 유리하다.</p>
+
+  <div class="callout red">
+    <span class="icon">⚠️</span>
+    <div><strong>"90%"를 읽는 법 —</strong> 유지율은 벤치마크 평균이다. 극단 양자화의 열화는 평균보다
+    <u>꼬리 작업(긴 다단계 추론·밤샘 코딩 루프)</u>에서 먼저 나타나는 경향이 있으니,
+    "대화·요약은 거의 원본, 에이전트의 일꾼으로는 §6의 A/B 검증 후"가 안전한 독법이다.
+    그리고 64~128GB 맥 본인 용도로는 굳이 쓸 이유가 없다 — 8bit 원본이 여유로 도는데 90%를 택할 이유가 없으므로,
+    Bonsai의 자리는 ① 폰 ② 16GB 서브 기기 ③ 메인 옆 보조 모델이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. USECASE ═══════════ -->
+<section id="usecase">
+  <div class="section-header">
+    <div class="eyebrow">Final Picks</div>
+    <h2>5. 용도별 최종 추천</h2>
+    <p>"무엇에 쓸 것인가"가 메모리보다 먼저다</p>
+  </div>
+
+  <div class="card-grid g2">
+    <div class="card"><h4>⌨️ 코딩 에이전트 주력</h4><p><strong>Qwen 3.6 27B</strong> — 이견이 적은 1픽. 대형 코드베이스·긴 컨텍스트면 Qwen3-Coder 계열(256K), 도전적 대안으로 GLM-5.2 경량판. 「로컬 LLM 코딩 공장」의 일꾼 자리.</p></div>
+    <div class="card"><h4>🏠 상주 비서·빠른 왕복</h4><p><strong>35B-A3B 또는 gpt-oss-120b</strong>(메모리 되면) — 활성 파라미터가 작아 메신저 왕복·백그라운드 작업이 경쾌하다. 「상주형 AI 에이전트」의 두뇌 자리.</p></div>
+    <div class="card"><h4>💬 범용 대화·글쓰기</h4><p><strong>Gemma 4 31B / 26B-A4B</strong> — 점수보다 결. 요약·초안·일상 질문의 기본기가 편안하다는 평.</p></div>
+    <div class="card"><h4>📱 폰·서브 기기</h4><p><strong>Bonsai 27B</strong>(1-bit/터너리) 또는 gpt-oss-20b — 온디바이스와 16GB 구간의 새 기준선. 잡무 전담 보조 모델로도.</p></div>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🧩</span>
+    <div><strong>128GB의 정답은 "하나"가 아니라 "편성"이다 —</strong> 주전 Qwen 3.6 27B 8bit(~29GB)
+    + 속도용 MoE 하나 + 잡무용 터너리(5.9GB) + 임베딩 모델까지 <u>동시 상주</u>시키고
+    작업별로 라우팅하는 구성이 이 체급의 진짜 사용법이다. oMLX의 멀티모델 서빙(LRU·핀)이 정확히 이 그림을 지원한다
+    (「로컬 LLM 에이전트」 §6).</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. VERIFY ═══════════ -->
+<section id="verify">
+  <div class="section-header">
+    <div class="eyebrow">Trust, but Verify</div>
+    <h2>6. 직접 검증하는 법 — 나만의 벤치마크</h2>
+    <p>남의 순위표는 후보 선정까지, 채택은 내 성적표로</p>
+  </div>
+
+  <p class="body">방법은 「로컬 LLM 코딩 공장」 §7에 만들어둔 그대로다: <u>같은 과제(goal.md)를 후보 모델들로 돌리고,
+  jsonl 로그에서 합격까지의 시도 수·게이트 통과율·소요 시간을 비교</u>한다. 코딩 외 용도라면
+  「LLM-as-a-Judge」의 쌍대 비교(같은 프롬프트 → 두 모델 답변 → 심판이 A/B, 순서 뒤집어 2회)가 가장 간단한 도구다.
+  30분이면 되는 이 절차가, 몇 달마다 바뀌는 순위표 논쟁을 내 작업 기준의 확정 답으로 바꿔준다.</p>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>한 줄 요약 —</strong> 2026년 7월의 답: <u>일꾼은 Qwen 3.6 27B, 속도는 MoE, 폰은 Bonsai</u>.
+    그리고 반년 뒤의 답: §1의 원칙으로 그때의 목록에서 다시 고르면 된다 — 목록은 바래도 고르는 눈은 남는다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 7. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">References</div>
+    <h2>7. 출처</h2>
+    <p>순위·수치는 빠르게 바뀐다 — 읽는 시점에 재확인</p>
+  </div>
+
+  <ul class="refs">
+    <li><a href="https://benchlm.ai/best/local-llm" target="_blank" rel="noopener">BenchLM — Best Local LLMs by VRAM Tier (2026.07)</a>
+        <span class="ref-note">§2. 구간별 추천의 교차 확인 출처.</span></li>
+    <li><a href="https://www.morphllm.com/best-open-source-llm" target="_blank" rel="noopener">Morph — Best Open Source LLMs 2026</a>
+        <span class="ref-note">§3. Qwen·GLM 에이전트 코딩 선두 평가, MoE 활성 파라미터 정리.</span></li>
+    <li><a href="https://tokenmix.ai/blog/gpt-oss-120b-review-benchmark-2026" target="_blank" rel="noopener">TokenMix — GPT-OSS-120B Review</a>
+        <span class="ref-note">§3. gpt-oss-120b의 희소성·요구 메모리·성격.</span></li>
+    <li><a href="https://www.marktechpost.com/2026/07/14/prismml-releases-bonsai-27b-1-bit-and-ternary-builds-of-qwen3-6-27b-that-run-on-laptops-and-phones/" target="_blank" rel="noopener">MarkTechPost — PrismML Bonsai 27B 공개</a>
+        <span class="ref-note">§4. 1-bit 3.9GB(~89.5%)·터너리 5.9GB(~94.6%)·262K 컨텍스트의 1차 보도.</span></li>
+    <li><a href="https://prismml.com/news/bonsai-27b" target="_blank" rel="noopener">PrismML — Bonsai 27B 공식 발표</a>
+        <span class="ref-note">§4. 변형·라이선스·배포 포맷(GGUF·MLX·AWQ).</span></li>
+    <li><a href="https://insiderllm.com/guides/best-local-llms-mac-2026/" target="_blank" rel="noopener">InsiderLLM — Best Local LLMs for Mac 2026</a>
+        <span class="ref-note">§1·§2. "대역폭이 tok/s를 정한다" 등 맥 특화 관찰.</span></li>
+  </ul>
+
+  <div class="callout navy">
+    <span class="icon">📚</span>
+    <div><strong>함께 읽으면 좋은 문서 —</strong> 「AI 하드웨어 — 메모리」(§1-②의 근거 — 대역폭·양자화 계산),
+    「로컬 LLM 에이전트」(§6 추론 서버와 포맷 — 받은 모델을 어디에 꽂나), 「로컬 LLM 코딩 공장」(§7 — §6 검증법의 실제 장치),
+    「상주형 AI 에이전트」(§8 — 이 모델들을 태울 하드웨어), 「LLM-as-a-Judge」(쌍대 비교 A/B의 원리).</div>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/lm-*.svg (3종) · 2026.07 스냅샷 — 모델명·수치는 개략치, 읽는 시점에 재확인 · 로컬 LLM 문서군의 "모델 고르기 편"
+</footer>
+
+</main>
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>
