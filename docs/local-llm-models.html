@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>현실적으로 사용하기 좋은 로컬 LLM — 메모리 구간별 지도 (2026.07)</title>
+<title>현실적으로 사용해볼만한 로컬 모델 — 메모리 구간별 지도 (2026.07)</title>
 <script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <link rel="stylesheet" href="../assets/fonts.css">
 <link rel="stylesheet" href="../assets/dark.css">
@@ -323,7 +323,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <aside id="sidebar">
   <div class="brand">
     <h2>Knowledge DB</h2>
-    <p>현실적으로 좋은<br>로컬 LLM</p>
+    <p>사용해볼만한<br>로컬 모델</p>
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
@@ -331,7 +331,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#tiers">2. 메모리 구간별 지도</a>
     <a href="#models">3. 주요 모델 해부</a>
     <a href="#quant">4. 극단 양자화 — Bonsai 27B</a>
-    <a href="#usecase">5. 용도별 최종 추천</a>
+    <a href="#usecase">5. 용도별 랭킹</a>
     <a href="#verify">6. 직접 검증하는 법</a>
     <a href="#refs">7. 출처</a>
   </nav>
@@ -345,7 +345,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <div id="hero">
   <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
   <div class="eyebrow">AI · LLM · Model Guide (2026.07)</div>
-  <h1>현실적으로 사용하기 좋은 로컬 LLM<br><span class="thin">메모리 구간별 지도 — 폰의 3.9GB부터 맥 128GB까지</span></h1>
+  <h1>현실적으로 사용해볼만한 로컬 모델<br><span class="thin">메모리 구간별 지도 — 폰의 3.9GB부터 맥 128GB까지</span></h1>
   <p class="sub">"지금 뭘 받아야 하나"에 대한 2026년 7월의 스냅샷. 16GB부터 128GB까지 구간별 1픽,
   주요 모델(Qwen 3.6 · gpt-oss · Gemma 4 · GLM)의 성격 해부, 그리고 폰에서 27B급을 돌리는
   극단 양자화(Bonsai)까지 — 목록은 몇 달마다 바래므로, 목록과 함께 "고르는 눈"을 남기는 문서다.</p>
@@ -511,16 +511,29 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <!-- ═══════════ 5. USECASE ═══════════ -->
 <section id="usecase">
   <div class="section-header">
-    <div class="eyebrow">Final Picks</div>
-    <h2>5. 용도별 최종 추천</h2>
-    <p>"무엇에 쓸 것인가"가 메모리보다 먼저다</p>
+    <div class="eyebrow">Rankings by Use Case</div>
+    <h2>5. 용도별 랭킹 — 무엇에 쓸 것인가가 메모리보다 먼저다</h2>
+    <p>2026.07 평판·벤치 종합의 개략 순위 — 확정은 §6의 내 로그로</p>
   </div>
 
-  <div class="card-grid g2">
-    <div class="card"><h4>⌨️ 코딩 에이전트 주력</h4><p><strong>Qwen 3.6 27B</strong> — 이견이 적은 1픽. 대형 코드베이스·긴 컨텍스트면 Qwen3-Coder 계열(256K), 도전적 대안으로 GLM-5.2 경량판. 「로컬 LLM 코딩 공장」의 일꾼 자리.</p></div>
-    <div class="card"><h4>🏠 상주 비서·빠른 왕복</h4><p><strong>35B-A3B 또는 gpt-oss-120b</strong>(메모리 되면) — 활성 파라미터가 작아 메신저 왕복·백그라운드 작업이 경쾌하다. 「상주형 AI 에이전트」의 두뇌 자리.</p></div>
-    <div class="card"><h4>💬 범용 대화·글쓰기</h4><p><strong>Gemma 4 31B / 26B-A4B</strong> — 점수보다 결. 요약·초안·일상 질문의 기본기가 편안하다는 평.</p></div>
-    <div class="card"><h4>📱 폰·서브 기기</h4><p><strong>Bonsai 27B</strong>(1-bit/터너리) 또는 gpt-oss-20b — 온디바이스와 16GB 구간의 새 기준선. 잡무 전담 보조 모델로도.</p></div>
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:160px">용도</th><th style="width:180px">🥇 1위</th><th style="width:180px">🥈 2위</th><th>🥉 3위 · 비고</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">⌨️ 코딩 에이전트</td><td><strong>Qwen 3.6 27B</strong><br>이견이 적은 1위 (SWE-bench 77.2%)</td><td>Qwen3-Coder 계열<br>256K — 대형 코드베이스용</td><td>GLM-5.2 경량판(수급 확인 필요). 차점: gpt-oss-120b — 「코딩 공장」의 일꾼 자리</td></tr>
+        <tr><td class="hl">🏠 상주 비서·빠른 왕복</td><td><strong>Qwen 3.6 35B-A3B</strong><br>활성 3B — 왕복이 경쾌</td><td>gpt-oss-120b<br>96GB+ 있으면 1위로 승격</td><td>Gemma 4 26B-A4B. 「상주형 에이전트」의 두뇌 자리 — 지연이 체감 품질</td></tr>
+        <tr><td class="hl">💬 범용 대화·글쓰기</td><td><strong>Gemma 4 31B</strong><br>점수보다 "결"이 좋다는 평</td><td>Qwen 3.6 27B<br>만능형의 안정감</td><td>gpt-oss-120b — 지식 폭. 한국어 문체는 셋 다 직접 몇 문단 시켜보고 고를 것</td></tr>
+        <tr><td class="hl">🧮 추론·분석</td><td><strong>gpt-oss-120b</strong><br>reasoning 특화 설계</td><td>Qwen 3.6 27B<br>추론+도구 호출 균형</td><td>gpt-oss-20b — 16GB에서 추론 가성비 1위</td></tr>
+        <tr><td class="hl">📱 폰·초저사양</td><td><strong>Bonsai 27B 1-bit</strong><br>3.9GB — 폰 구간 개척자</td><td>Bonsai 터너리<br>5.9GB — 노트북·서브 기기</td><td>gpt-oss-20b(13GB), 3~4B급 온디바이스. 잡무 전담 보조로도(§4)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🏅</span>
+    <div><strong>순위를 읽는 법 —</strong> 이 랭킹은 2026.07의 벤치·커뮤니티 평판을 종합한 <u>개략 순위</u>이지 절대값이 아니다.
+    특히 ① 순위 간 격차는 용도별로 다르고(코딩 1위는 확고, 대화는 취향 싸움) ② 하드웨어가 순위를 바꾸며(96GB+면
+    gpt-oss-120b가 여러 부문에서 승격) ③ 한국어 품질은 영어 벤치에 안 잡힌다 — 최종 확정은 §6의 30분 A/B가 정답이다.</div>
   </div>
 
   <div class="callout green">
