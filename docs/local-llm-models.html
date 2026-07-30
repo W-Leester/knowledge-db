@@ -450,9 +450,9 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <table class="ds">
       <thead><tr><th style="width:170px">모델</th><th style="width:120px">가중치</th><th style="width:170px">KV @128K (bf16 기준)</th><th style="width:150px">실질 합계 @128K</th><th>최대 컨텍스트 · 비고</th></tr></thead>
       <tbody>
-        <tr><td class="hl">Qwen 3.6 27B</td><td>~29GB (8bit)</td><td><strong>~31GB</strong> — 가중치보다 크다 (실측: 8K→1.9 · 32K→7.8 · 128K→31)</td><td>~62GB<br>(KV 8bit 시 ~46GB)</td><td>262K 네이티브 · <strong>1M 확장 지원</strong> — 단 아래 콜아웃</td></tr>
-        <tr><td class="hl">Qwen 3.6 35B-A3B</td><td>~37GB (8bit)</td><td>~13GB급 (개략·확인 필요)</td><td>~52GB</td><td>262K — MoE는 가중치가 크고 KV는 상대적으로 싼 편</td></tr>
-        <tr><td class="hl">gpt-oss-120b</td><td>~61~65GB</td><td><strong>~5GB급</strong> — 슬라이딩 윈도 설계로 KV가 매우 싸다 (개략)</td><td>~68GB</td><td>128K 상한 — "128K 풀컨텍스트가 80GB에 든다"는 설계 목표의 산물</td></tr>
+        <tr><td class="hl">Qwen 3.6 27B<br><a href="https://huggingface.co/Qwen/Qwen3.6-27B" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">HF ↗</a> · <a href="https://huggingface.co/unsloth/Qwen3.6-27B-MLX-8bit" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">MLX 8bit ↗</a></td><td>~29GB (8bit)</td><td><strong>~31GB</strong> — 가중치보다 크다 (실측: 8K→1.9 · 32K→7.8 · 128K→31)</td><td>~62GB<br>(KV 8bit 시 ~46GB)</td><td>262K 네이티브 · <strong>1M 확장 지원</strong> — 단 아래 콜아웃</td></tr>
+        <tr><td class="hl">Qwen 3.6 35B-A3B<br><a href="https://huggingface.co/Qwen/Qwen3.6-35B-A3B" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">HF ↗</a></td><td>~37GB (8bit)</td><td>~13GB급 (개략·확인 필요)</td><td>~52GB</td><td>262K — MoE는 가중치가 크고 KV는 상대적으로 싼 편</td></tr>
+        <tr><td class="hl">gpt-oss-120b<br><a href="https://huggingface.co/openai/gpt-oss-120b" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">HF ↗</a></td><td>~61~65GB</td><td><strong>~5GB급</strong> — 슬라이딩 윈도 설계로 KV가 매우 싸다 (개략)</td><td>~68GB</td><td>128K 상한 — "128K 풀컨텍스트가 80GB에 든다"는 설계 목표의 산물</td></tr>
         <tr><td class="hl">Gemma 4 31B</td><td>~31GB (8bit)</td><td>절약형 계열 (개략·확인 필요)</td><td>~40GB급</td><td>128K — Gemma 라인은 전통적으로 KV 절약 설계</td></tr>
         <tr><td class="hl">Bonsai 27B 1-bit</td><td>3.9GB</td><td><strong>~31GB — 원본과 동일!</strong></td><td>폰에선 불가</td><td>극단 양자화는 <u>가중치만</u> 압축한다 — KV는 그대로. 폰의 현실 컨텍스트는 수천~수만 토큰</td></tr>
       </tbody>
@@ -493,15 +493,18 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
       <tbody>
         <tr><td class="hl">Qwen 3.6 27B</td><td>dense · 8bit ~29GB · 비전 내장</td><td><strong>로컬 코딩·에이전트의 현 최강</strong> — SWE-bench Verified 77.2%(개략치)로 전 세대 수백B급을 추월. "코딩 중심 로컬 배포는 Qwen이 실증적 최강"이 중론</td></tr>
         <tr><td class="hl">Qwen 3.6 35B-A3B</td><td>MoE · 활성 3B · ~37GB(8bit)</td><td>27B의 속도 보완재 — 활성이 작아 왕복이 훨씬 빠름. 품질은 작업별 기복이 있으니 A/B 후 채택</td></tr>
-        <tr><td class="hl">Qwen3-Coder 계열</td><td>코딩 특화 · 256K 컨텍스트</td><td>Coder-Next가 64GB급을 정조준. 긴 컨텍스트가 강점 — 대형 코드베이스 작업용</td></tr>
+        <tr><td class="hl">Qwen3-Coder 계열<br><a href="https://huggingface.co/Qwen/Qwen3-Coder-Next" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">HF ↗</a></td><td>코딩 특화 · 256K 컨텍스트</td><td>Coder-Next가 64GB급을 정조준. 긴 컨텍스트가 강점 — 대형 코드베이스 작업용</td></tr>
         <tr><td class="hl">gpt-oss-120b</td><td>MoE 117B · <strong>활성 5.1B</strong> · ~61~80GB</td><td>"27B보다 아는 건 많은데 도는 건 더 빠른" 역전 — MoE 희소성의 교과서. 추론(reasoning) 강점, Apache 2.0. 코딩 에이전트 벤치는 Qwen 우세</td></tr>
-        <tr><td class="hl">gpt-oss-20b</td><td>MoE · ~13GB</td><td>16GB 구간의 추론 가성비 픽</td></tr>
-        <tr><td class="hl">Gemma 4 (31B·26B-A4B·12B)</td><td>dense + MoE 라인업</td><td>벤치보다 <u>"대화 결이 좋다"</u>는 평 — 범용·글쓰기용. 제약 적은 라이선스</td></tr>
-        <tr><td class="hl">GLM-5.2 계열</td><td>대형 MoE</td><td>에이전트 코딩에서 Qwen과 선두 다툼이라는 평가. 본가는 대형 — 128GB에선 경량판·양자화 가능 여부를 받는 시점에 확인</td></tr>
-        <tr><td class="hl">Kimi K2</td><td>1T급 MoE</td><td>에이전트 71.6%(멀티어템프트)로 최상위지만 <u>128GB 밖의 물건</u> — 참고용</td></tr>
+        <tr><td class="hl">gpt-oss-20b<br><a href="https://huggingface.co/openai/gpt-oss-20b" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">HF ↗</a></td><td>MoE · ~13GB</td><td>16GB 구간의 추론 가성비 픽</td></tr>
+        <tr><td class="hl">Gemma 4 (31B·26B-A4B·12B)<br><a href="https://huggingface.co/google/gemma-4-31B-it" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">31B ↗</a> · <a href="https://huggingface.co/google/gemma-4-26B-A4B-it" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">26B-A4B ↗</a> · <a href="https://huggingface.co/google/gemma-4-12B-it" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">12B ↗</a></td><td>dense + MoE 라인업</td><td>벤치보다 <u>"대화 결이 좋다"</u>는 평 — 범용·글쓰기용. 제약 적은 라이선스</td></tr>
+        <tr><td class="hl">GLM-5.2 계열<br><a href="https://huggingface.co/zai-org/GLM-5.2" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">HF ↗</a></td><td>대형 MoE</td><td>에이전트 코딩에서 Qwen과 선두 다툼이라는 평가. 본가는 대형 — 128GB에선 경량판·양자화 가능 여부를 받는 시점에 확인</td></tr>
+        <tr><td class="hl">Kimi K2<br><a href="https://huggingface.co/moonshotai/Kimi-K2-Instruct" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">HF ↗</a></td><td>1T급 MoE</td><td>에이전트 71.6%(멀티어템프트)로 최상위지만 <u>128GB 밖의 물건</u> — 참고용</td></tr>
       </tbody>
     </table>
   </div>
+
+  <p class="body" style="font-size:13px;color:var(--text-muted)">링크는 2026.07 시점에 실존 확인한 공식 저장소들이다.
+  표 밖의 16GB 구간 모델: <a href="https://huggingface.co/Qwen/Qwen3.5-9B" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">Qwen 3.5 9B ↗</a> · <a href="https://huggingface.co/mistralai/Mistral-Small-3.2-24B-Instruct-2506" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">Mistral Small 24B ↗</a></p>
 
   <div class="callout navy">
     <span class="icon">🧲</span>
@@ -522,7 +525,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   <p class="body">PrismML이 공개한 <strong>Bonsai 27B</strong>는 Qwen3.6-27B를 BitNet 계열 극단 양자화로 압축한 것이다 —
   가중치를 1비트(±1) 또는 3진값(-1/0/+1)까지 밀어붙여, <u>27B 파라미터가 3.9GB</u>(1-bit)까지 줄어든다.
   주목할 점은 압축하면서도 <strong>262K 풀 컨텍스트·비전·도구 호출·에이전트 루프까지 원본 기능을 전부 유지</strong>했다는 것
-  (Apache 2.0, GGUF·MLX·AWQ 전부 공개).</p>
+  (Apache 2.0, GGUF·MLX·AWQ 전부 공개). 27B 외에 <u>8B·4B·1.7B 변형</u>도 같은 방식으로 나와 있어 더 작은 기기까지 내려간다.</p>
 
   <figure>
     <div class="fig-scroll"><img src="img/lm-quant.svg" alt="bf16 56GB부터 1-bit 3.9GB까지 양자화 스펙트럼과 성능 유지율, Bonsai의 자리"></div>
@@ -533,8 +536,8 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <table class="ds">
       <thead><tr><th style="width:150px">Bonsai 변형</th><th style="width:170px">크기 · 유지율 (개략)</th><th>자리</th></tr></thead>
       <tbody>
-        <tr><td class="hl">1-bit</td><td>3.9GB · ~89.5%</td><td>폰 — iPhone 17 Pro Max에서 ~11 tok/s. "폰 = 로컬 LLM 기기"의 신호탄</td></tr>
-        <tr><td class="hl">터너리(3진)</td><td>5.9GB · ~94.6%</td><td>노트북·16GB 서브 기기, 또는 큰 맥에서 잡무 전담 보조 모델</td></tr>
+        <tr><td class="hl">1-bit<br><a href="https://huggingface.co/prism-ml/Bonsai-27B-gguf" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">GGUF ↗</a> · <a href="https://huggingface.co/prism-ml/Bonsai-27B-mlx-1bit" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">MLX ↗</a></td><td>3.9GB · ~89.5%</td><td>폰 — iPhone 17 Pro Max에서 ~11 tok/s. "폰 = 로컬 LLM 기기"의 신호탄</td></tr>
+        <tr><td class="hl">터너리(3진)<br><a href="https://huggingface.co/prism-ml/Ternary-Bonsai-27B-gguf" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">GGUF ↗</a> · <a href="https://huggingface.co/prism-ml/Ternary-Bonsai-27B-mlx-2bit" target="_blank" rel="noopener" style="color:var(--navy-500);font-weight:600;text-decoration:none">MLX ↗</a></td><td>5.9GB · ~94.6%</td><td>노트북·16GB 서브 기기, 또는 큰 맥에서 잡무 전담 보조 모델</td></tr>
       </tbody>
     </table>
   </div>
