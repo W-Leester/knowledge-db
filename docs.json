@@ -51,12 +51,13 @@
         "DAS",
         "3-2-1 백업"
       ],
-      "version": 4,
+      "version": 5,
       "assets": [
         "docs/img/ns-321.svg",
         "docs/img/ns-das-nas.svg",
         "docs/img/ns-roles.svg",
-        "docs/img/ns-rig-compare.svg"
+        "docs/img/ns-rig-compare.svg",
+        "docs/img/ns-raid.svg"
       ]
     },
     {

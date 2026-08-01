@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1060" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="1060" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">RAID 한눈에 — 같은 파일 A·B·C가 디스크에 놓이는 방식</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">파랑=데이터 조각 · 갈색=패리티(복구 숫자) · 보라=2차 패리티 · ✕=죽은 디스크일 때 무슨 일이</text>
+
+  <!-- ═══ RAID 0 ═══ -->
+  <rect x="30" y="80" width="405" height="220" rx="14" fill="#FFFFFF" stroke="#DC2626" stroke-width="2"/>
+  <text x="50" y="108" font-size="13.5" font-weight="800" fill="#DC2626">RAID 0 — 쪼개기 (속도만)</text>
+  <text x="80" y="130" font-size="10" font-weight="700" fill="#666666" text-anchor="middle">디스크1</text>
+  <rect x="50" y="138" width="60" height="26" rx="4" fill="#1A5CB5"/><text x="80" y="155" font-size="10" font-weight="800" fill="#FFF" text-anchor="middle">A1</text>
+  <rect x="50" y="167" width="60" height="26" rx="4" fill="#1A5CB5"/><text x="80" y="184" font-size="10" font-weight="800" fill="#FFF" text-anchor="middle">B1</text>
+  <rect x="50" y="196" width="60" height="26" rx="4" fill="#1A5CB5"/><text x="80" y="213" font-size="10" font-weight="800" fill="#FFF" text-anchor="middle">C1</text>
+  <text x="150" y="130" font-size="10" font-weight="700" fill="#666666" text-anchor="middle">디스크2 ✕</text>
+  <rect x="120" y="138" width="60" height="84" rx="4" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="150" y="176" font-size="9.5" font-weight="700" fill="#DC2626" text-anchor="middle">A2 B2 C2</text>
+  <text x="150" y="192" font-size="16" font-weight="900" fill="#DC2626" text-anchor="middle">✕</text>
+  <text x="210" y="150" font-size="10.5" fill="#555555">파일 A = A1+A2 —</text>
+  <text x="210" y="166" font-size="10.5" fill="#555555">반쪽(A1)만으론 무의미</text>
+  <text x="210" y="192" font-size="10.5" font-weight="800" fill="#DC2626">→ 디스크 하나만 죽어도</text>
+  <text x="210" y="208" font-size="10.5" font-weight="800" fill="#DC2626">전체 데이터 사망</text>
+  <text x="50" y="248" font-size="10" fill="#666666">속도·용량은 2배가 되지만 고장 확률도 2배 —</text>
+  <text x="50" y="264" font-size="10" fill="#666666">"보호"가 목적인 NAS에서는 쓸 자리가 없다</text>
+  <text x="50" y="286" font-size="10.5" font-weight="800" fill="#DC2626">허용 0개 · 효율 100% · NAS 비추</text>
+
+  <!-- ═══ RAID 1 ═══ -->
+  <rect x="465" y="80" width="405" height="220" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="485" y="108" font-size="13.5" font-weight="800" fill="#002C5F">RAID 1 — 미러 (그대로 복제)</text>
+  <text x="515" y="130" font-size="10" font-weight="700" fill="#666666" text-anchor="middle">디스크1</text>
+  <rect x="485" y="138" width="60" height="26" rx="4" fill="#1A5CB5"/><text x="515" y="155" font-size="10" font-weight="800" fill="#FFF" text-anchor="middle">A</text>
+  <rect x="485" y="167" width="60" height="26" rx="4" fill="#1A5CB5"/><text x="515" y="184" font-size="10" font-weight="800" fill="#FFF" text-anchor="middle">B</text>
+  <rect x="485" y="196" width="60" height="26" rx="4" fill="#1A5CB5"/><text x="515" y="213" font-size="10" font-weight="800" fill="#FFF" text-anchor="middle">C</text>
+  <text x="585" y="130" font-size="10" font-weight="700" fill="#666666" text-anchor="middle">디스크2 ✕</text>
+  <rect x="555" y="138" width="60" height="26" rx="4" fill="#3568B0" opacity=".45"/><text x="585" y="155" font-size="10" font-weight="800" fill="#FFF" text-anchor="middle">A</text>
+  <rect x="555" y="167" width="60" height="26" rx="4" fill="#3568B0" opacity=".45"/><text x="585" y="184" font-size="10" font-weight="800" fill="#FFF" text-anchor="middle">B</text>
+  <rect x="555" y="196" width="60" height="26" rx="4" fill="#3568B0" opacity=".45"/><text x="585" y="213" font-size="10" font-weight="800" fill="#FFF" text-anchor="middle">C</text>
+  <text x="585" y="234" font-size="14" font-weight="900" fill="#DC2626" text-anchor="middle">✕</text>
+  <text x="645" y="150" font-size="10.5" fill="#555555">두 디스크가 항상</text>
+  <text x="645" y="166" font-size="10.5" fill="#555555">완전히 같은 내용</text>
+  <text x="645" y="192" font-size="10.5" font-weight="800" fill="#065F46">→ 하나가 죽어도</text>
+  <text x="645" y="208" font-size="10.5" font-weight="800" fill="#065F46">나머지가 원본 그대로</text>
+  <text x="485" y="248" font-size="10" fill="#666666">단순·복구 쉬움. 대신 8TB×2를 사도 8TB —</text>
+  <text x="485" y="264" font-size="10" fill="#666666">절반이 사본 값이다</text>
+  <text x="485" y="286" font-size="10.5" font-weight="800" fill="#1A5CB5">허용 1개 · 효율 50% · 2베이의 표준</text>
+
+  <!-- ═══ RAID 5 ═══ -->
+  <rect x="30" y="320" width="405" height="220" rx="14" fill="#FFFFFF" stroke="#B45309" stroke-width="2"/>
+  <text x="50" y="348" font-size="13.5" font-weight="800" fill="#B45309">RAID 5 — 패리티 1 (복구 숫자를 분산)</text>
+  <text x="80" y="370" font-size="9.5" font-weight="700" fill="#666666" text-anchor="middle">디스크1</text>
+  <rect x="50" y="378" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="80" y="394" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">A1</text>
+  <rect x="50" y="405" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="80" y="421" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">B1</text>
+  <rect x="50" y="432" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="80" y="448" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">C1</text>
+  <text x="148" y="370" font-size="9.5" font-weight="700" fill="#666666" text-anchor="middle">디스크2</text>
+  <rect x="118" y="378" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="148" y="394" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">A2</text>
+  <rect x="118" y="405" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="148" y="421" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">B2</text>
+  <rect x="118" y="432" width="60" height="24" rx="4" fill="#B45309"/><text x="148" y="448" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">C𝗉</text>
+  <text x="216" y="370" font-size="9.5" font-weight="700" fill="#666666" text-anchor="middle">디스크3 ✕</text>
+  <rect x="186" y="378" width="60" height="78" rx="4" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="216" y="412" font-size="9" font-weight="700" fill="#DC2626" text-anchor="middle">A3 B𝗉 C2</text>
+  <text x="216" y="430" font-size="15" font-weight="900" fill="#DC2626" text-anchor="middle">✕</text>
+  <text x="284" y="370" font-size="9.5" font-weight="700" fill="#666666" text-anchor="middle">디스크4</text>
+  <rect x="254" y="378" width="60" height="24" rx="4" fill="#B45309"/><text x="284" y="394" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">A𝗉</text>
+  <rect x="254" y="405" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="284" y="421" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">B3</text>
+  <rect x="254" y="432" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="284" y="448" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">C3</text>
+  <text x="330" y="392" font-size="10" fill="#555555">패리티(갈색)가 줄마다</text>
+  <text x="330" y="407" font-size="10" fill="#555555">돌아가며 배치됨</text>
+  <text x="330" y="430" font-size="10" font-weight="800" fill="#065F46">✕여도 A1+A2+A𝗉로</text>
+  <text x="330" y="445" font-size="10" font-weight="800" fill="#065F46">A3를 역산 복원</text>
+  <text x="50" y="484" font-size="10" fill="#666666">어느 하나가 죽어도 나머지 셋으로 역산 — 단 교체 후</text>
+  <text x="50" y="500" font-size="10" fill="#666666">"재구축" 동안은 무방비 (이때 2차 고장이 악몽)</text>
+  <text x="50" y="524" font-size="10.5" font-weight="800" fill="#B45309">허용 1개 · 효율 N-1 (4개면 75%) · 4베이의 표준</text>
+
+  <!-- ═══ RAID 6 ═══ -->
+  <rect x="465" y="320" width="405" height="220" rx="14" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="485" y="348" font-size="13.5" font-weight="800" fill="#6B21A8">RAID 6 — 패리티 2 (복구 숫자 두 벌)</text>
+  <text x="515" y="370" font-size="9.5" font-weight="700" fill="#666666" text-anchor="middle">디스크1</text>
+  <rect x="485" y="378" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="515" y="394" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">A1</text>
+  <rect x="485" y="405" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="515" y="421" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">B1</text>
+  <rect x="485" y="432" width="60" height="24" rx="4" fill="#B45309"/><text x="515" y="448" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">C𝗉</text>
+  <text x="583" y="370" font-size="9.5" font-weight="700" fill="#666666" text-anchor="middle">디스크2 ✕</text>
+  <rect x="553" y="378" width="60" height="78" rx="4" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="583" y="410" font-size="9" font-weight="700" fill="#DC2626" text-anchor="middle">A2 B𝗉 C𝗊</text>
+  <text x="583" y="428" font-size="15" font-weight="900" fill="#DC2626" text-anchor="middle">✕</text>
+  <text x="651" y="370" font-size="9.5" font-weight="700" fill="#666666" text-anchor="middle">디스크3 ✕</text>
+  <rect x="621" y="378" width="60" height="78" rx="4" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="651" y="410" font-size="9" font-weight="700" fill="#DC2626" text-anchor="middle">A𝗉 B𝗊 C1</text>
+  <text x="651" y="428" font-size="15" font-weight="900" fill="#DC2626" text-anchor="middle">✕</text>
+  <text x="719" y="370" font-size="9.5" font-weight="700" fill="#666666" text-anchor="middle">디스크4</text>
+  <rect x="689" y="378" width="60" height="24" rx="4" fill="#6B21A8"/><text x="719" y="394" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">A𝗊</text>
+  <rect x="689" y="405" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="719" y="421" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">B2</text>
+  <rect x="689" y="432" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="719" y="448" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">C2</text>
+  <text x="765" y="398" font-size="10" font-weight="800" fill="#065F46">둘이 동시에</text>
+  <text x="765" y="413" font-size="10" font-weight="800" fill="#065F46">✕✕여도 생존</text>
+  <text x="485" y="484" font-size="10" fill="#666666">서로 다른 방식의 패리티 𝗉·𝗊 두 벌 — 재구축 중 2차 고장이라는</text>
+  <text x="485" y="500" font-size="10" fill="#666666">RAID 5의 악몽 시나리오까지 버틴다. 수십 TB 디스크 시대의 권장</text>
+  <text x="485" y="524" font-size="10.5" font-weight="800" fill="#6B21A8">허용 2개 · 효율 N-2 (4개면 50%) · 대용량 안심 구성</text>
+
+  <!-- ═══ RAID 10 ═══ -->
+  <rect x="30" y="560" width="405" height="220" rx="14" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+  <text x="50" y="588" font-size="13.5" font-weight="800" fill="#0F766E">RAID 10 — 미러 쌍을 다시 병렬로</text>
+  <rect x="46" y="600" width="140" height="126" rx="8" fill="none" stroke="#0F766E" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="116" y="614" font-size="8.5" font-weight="700" fill="#0F766E" text-anchor="middle">미러 쌍 ①</text>
+  <rect x="54" y="622" width="56" height="22" rx="4" fill="#1A5CB5"/><text x="82" y="637" font-size="9" font-weight="800" fill="#FFF" text-anchor="middle">A1</text>
+  <rect x="54" y="647" width="56" height="22" rx="4" fill="#1A5CB5"/><text x="82" y="662" font-size="9" font-weight="800" fill="#FFF" text-anchor="middle">B1</text>
+  <rect x="118" y="622" width="56" height="22" rx="4" fill="#3568B0" opacity=".45"/><text x="146" y="637" font-size="9" font-weight="800" fill="#FFF" text-anchor="middle">A1</text>
+  <rect x="118" y="647" width="56" height="22" rx="4" fill="#3568B0" opacity=".45"/><text x="146" y="662" font-size="9" font-weight="800" fill="#FFF" text-anchor="middle">B1</text>
+  <text x="146" y="690" font-size="13" font-weight="900" fill="#DC2626" text-anchor="middle">✕</text>
+  <rect x="196" y="600" width="140" height="126" rx="8" fill="none" stroke="#0F766E" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="266" y="614" font-size="8.5" font-weight="700" fill="#0F766E" text-anchor="middle">미러 쌍 ②</text>
+  <rect x="204" y="622" width="56" height="22" rx="4" fill="#1A5CB5"/><text x="232" y="637" font-size="9" font-weight="800" fill="#FFF" text-anchor="middle">A2</text>
+  <rect x="204" y="647" width="56" height="22" rx="4" fill="#1A5CB5"/><text x="232" y="662" font-size="9" font-weight="800" fill="#FFF" text-anchor="middle">B2</text>
+  <rect x="268" y="622" width="56" height="22" rx="4" fill="#3568B0" opacity=".45"/><text x="296" y="637" font-size="9" font-weight="800" fill="#FFF" text-anchor="middle">A2</text>
+  <rect x="268" y="647" width="56" height="22" rx="4" fill="#3568B0" opacity=".45"/><text x="296" y="662" font-size="9" font-weight="800" fill="#FFF" text-anchor="middle">B2</text>
+  <text x="350" y="640" font-size="10" fill="#555555">쌍 안에서 복제 +</text>
+  <text x="350" y="655" font-size="10" fill="#555555">쌍끼리 쪼개기</text>
+  <text x="50" y="744" font-size="10" fill="#666666">역산이 없어 빠르고 재구축도 빠름(그냥 복사) — 단 같은 쌍의 둘이 죽으면 끝</text>
+  <text x="50" y="766" font-size="10.5" font-weight="800" fill="#0F766E">허용 쌍마다 1개 · 효율 50% · 속도 중시(DB·VM)용</text>
+
+  <!-- ═══ JBOD ═══ -->
+  <rect x="465" y="560" width="405" height="220" rx="14" fill="#FFFFFF" stroke="#8A8478" stroke-width="2"/>
+  <text x="485" y="588" font-size="13.5" font-weight="800" fill="#555555">JBOD — 그냥 이어 붙임</text>
+  <text x="515" y="610" font-size="9.5" font-weight="700" fill="#666666" text-anchor="middle">디스크1 ✕</text>
+  <rect x="485" y="618" width="60" height="78" rx="4" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="515" y="650" font-size="9" font-weight="700" fill="#DC2626" text-anchor="middle">A B C</text>
+  <text x="515" y="668" font-size="15" font-weight="900" fill="#DC2626" text-anchor="middle">✕</text>
+  <text x="583" y="610" font-size="9.5" font-weight="700" fill="#666666" text-anchor="middle">디스크2</text>
+  <rect x="553" y="618" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="583" y="634" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">D</text>
+  <rect x="553" y="645" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="583" y="661" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">E</text>
+  <text x="650" y="634" font-size="10" fill="#555555">앞 디스크가 차면</text>
+  <text x="650" y="649" font-size="10" fill="#555555">다음 디스크로 이어 씀</text>
+  <text x="650" y="672" font-size="10" font-weight="800" fill="#B45309">→ 죽은 디스크의</text>
+  <text x="650" y="687" font-size="10" font-weight="800" fill="#B45309">내용(A·B·C)만 사망</text>
+  <text x="485" y="744" font-size="10" fill="#666666">RAID 0과 달리 반쪽 파일은 안 생기지만, 보호는 똑같이 없음</text>
+  <text x="485" y="766" font-size="10.5" font-weight="800" fill="#555555">허용 0개 · 효율 100% · 임시·잡동사니 외 비추</text>
+
+  <!-- ═══ SHR ═══ -->
+  <rect x="30" y="800" width="405" height="220" rx="14" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
+  <text x="50" y="828" font-size="13.5" font-weight="800" fill="#047857">SHR — 용량 혼용의 유연판 (RAID 5/6 기반)</text>
+  <text x="80" y="850" font-size="9.5" font-weight="700" fill="#666666" text-anchor="middle">4TB</text>
+  <rect x="50" y="912" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="80" y="928" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">A1</text>
+  <rect x="50" y="939" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="80" y="955" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">B1</text>
+  <text x="148" y="850" font-size="9.5" font-weight="700" fill="#666666" text-anchor="middle">8TB</text>
+  <rect x="118" y="858" width="60" height="24" rx="4" fill="#34A87C"/><text x="148" y="874" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">C</text>
+  <rect x="118" y="885" width="60" height="24" rx="4" fill="#34A87C"/><text x="148" y="901" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">D</text>
+  <rect x="118" y="912" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="148" y="928" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">A2</text>
+  <rect x="118" y="939" width="60" height="24" rx="4" fill="#B45309"/><text x="148" y="955" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">B𝗉</text>
+  <text x="216" y="850" font-size="9.5" font-weight="700" fill="#666666" text-anchor="middle">8TB</text>
+  <rect x="186" y="858" width="60" height="24" rx="4" fill="#2C8E68" opacity=".55"/><text x="216" y="874" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">C</text>
+  <rect x="186" y="885" width="60" height="24" rx="4" fill="#2C8E68" opacity=".55"/><text x="216" y="901" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">D</text>
+  <rect x="186" y="912" width="60" height="24" rx="4" fill="#B45309"/><text x="216" y="928" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">A𝗉</text>
+  <rect x="186" y="939" width="60" height="24" rx="4" fill="#1A5CB5"/><text x="216" y="955" font-size="9.5" font-weight="800" fill="#FFF" text-anchor="middle">B2</text>
+  <text x="330" y="874" font-size="10" fill="#555555">윗부분: 큰 디스크끼리</text>
+  <text x="330" y="889" font-size="10" fill="#555555">미러(초록) — 남는 용량 활용</text>
+  <text x="330" y="922" font-size="10" fill="#555555">아랫부분: 셋이 함께</text>
+  <text x="330" y="937" font-size="10" fill="#555555">RAID 5식 패리티</text>
+  <text x="50" y="984" font-size="10" fill="#666666">일반 RAID 5라면 전부 4TB 취급(8TB의 절반 낭비) — SHR은 남는 부분까지 짝지어 쓴다.</text>
+  <text x="50" y="1000" font-size="10" fill="#666666">그래서 "1개씩 추가·작은 것부터 롤링 교체" 로드맵이 성립한다</text>
+
+  <!-- ═══ 범례·요약 ═══ -->
+  <rect x="465" y="800" width="405" height="220" rx="14" fill="#0D1B2E"/>
+  <text x="485" y="830" font-size="13.5" font-weight="800" fill="#FFF">읽는 법 · 고르는 법</text>
+  <rect x="485" y="846" width="26" height="16" rx="3" fill="#1A5CB5"/><text x="520" y="859" font-size="10.5" fill="#E7E5E0">데이터 조각</text>
+  <rect x="605" y="846" width="26" height="16" rx="3" fill="#3568B0" opacity=".45"/><text x="640" y="859" font-size="10.5" fill="#E7E5E0">사본(미러)</text>
+  <rect x="485" y="872" width="26" height="16" rx="3" fill="#B45309"/><text x="520" y="885" font-size="10.5" fill="#E7E5E0">패리티 𝗉</text>
+  <rect x="605" y="872" width="26" height="16" rx="3" fill="#6B21A8"/><text x="640" y="885" font-size="10.5" fill="#E7E5E0">2차 패리티 𝗊</text>
+  <text x="485" y="920" font-size="11" fill="#AAB9CF">· 보호의 두 길: 통째 복제(미러)냐, 복구 숫자(패리티)냐</text>
+  <text x="485" y="942" font-size="11" fill="#AAB9CF">· 패리티는 용량을 아끼는 대신 "재구축"이라는 숙제를 남긴다</text>
+  <text x="485" y="964" font-size="11" fill="#AAB9CF">· 가정용 4베이의 무난한 답: SHR(패리티 1)로 시작 →</text>
+  <text x="497" y="984" font-size="11" fill="#AAB9CF">디스크가 커지면 SHR-2(패리티 2)로</text>
+  <text x="485" y="1008" font-size="11" font-weight="800" fill="#FFF">· 그리고 어느 방식이든 — RAID는 백업이 아니다 (§3)</text>
+</svg>
