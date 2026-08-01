@@ -574,7 +574,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <table class="ds">
       <thead><tr><th style="width:150px">선택지</th><th style="width:280px">기준</th><th>이유</th></tr></thead>
       <tbody>
-        <tr><td class="hl">베이 수</td><td><strong>4베이 이상</strong></td><td>"2베이는 금방 후회"가 국룰 — 용량 증설과 RAID 여유. 남는 베이는 미래다</td></tr>
+        <tr><td class="hl">베이 수</td><td><strong>4베이 이상</strong></td><td>"2베이는 금방 후회"가 국룰인 이유와 확장 활용법은 바로 아래 소절에서 — 남는 베이는 미래다</td></tr>
         <tr><td class="hl">네트워크</td><td><strong>2.5GbE 이상</strong>, 가능하면 10GbE</td><td>1GbE(~110MB/s)는 수백 GB 모델·백업에서 병목. 공유기·스위치도 같이 맞춰야 효과</td></tr>
         <tr><td class="hl">디스크</td><td>NAS 전용 라인 (CMR 방식)</td><td>24시간 가동 설계 + RAID 재구축 내성. 같은 모델을 한 번에 사되 가능하면 구매처를 나눠 동시 고장 확률 분산</td></tr>
         <tr><td class="hl">캐시</td><td>NVMe 캐시 슬롯 있으면 활용</td><td>작은 파일·동기화 체감 개선 (필수는 아님)</td></tr>
@@ -582,6 +582,45 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
         <tr><td class="hl">전원</td><td>UPS(무정전 전원) 소형이라도</td><td>쓰기 중 정전은 파일 시스템의 적 — NAS와 연동해 자동 안전 종료</td></tr>
       </tbody>
     </table>
+  </div>
+
+  <h3><span class="num">＋</span>왜 4베이 이상인가 — 증설의 산수</h3>
+
+  <p class="body">2베이와 4베이의 차이는 "디스크 두 개 더"가 아니라 <strong>선택지의 차이</strong>다.
+  RAID 구성부터 갈린다 — 2베이는 사실상 미러(RAID 1) 하나뿐이고, 4베이부터 패리티 방식이 열린다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">베이</th><th style="width:220px">가능한 구성</th><th style="width:140px">고장 허용</th><th>용량 효율 (개략)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">2베이</td><td>RAID 1 (미러) — 사실상 유일한 선택</td><td>1개</td><td><strong>50%</strong> — 8TB×2 사서 8TB 사용</td></tr>
+        <tr><td class="hl">4베이</td><td>RAID 5 / SHR (패리티 1)</td><td>1개</td><td><strong>75%</strong> — 8TB×4 사서 24TB 사용. 같은 보호에 효율이 다르다</td></tr>
+        <tr><td class="hl">4베이</td><td>RAID 6 / SHR-2 (패리티 2)</td><td><strong>2개</strong></td><td>50% — 재구축 중 추가 고장까지 버티는 안심 구성</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">더 결정적인 것은 <strong>증설 경로</strong>다. 2베이가 가득 차면 "두 디스크를 모두 더 큰 것으로 교체 + 전체 재구축"
+  — 사실상 이사다. 4베이는 <u>빈 베이에 디스크 하나 꽂으면 끝</u>이고(SHR류는 무중단 확장),
+  처음부터 디스크 4개를 살 필요도 없다. 단계적 로드맵이 이렇게 그려진다:</p>
+
+  <div class="card-grid g4">
+    <div class="card"><h4>1단계 · 시작</h4><p>디스크 <strong>2개만</strong> 사서 시작 (SHR 미러) — 빈 베이 2개는 비워둔다. 초기 비용이 2베이 제품과 비슷해진다.</p></div>
+    <div class="card"><h4>2단계 · 용량 추가</h4><p>차오르면 <strong>디스크 1개 추가</strong> — 볼륨이 무중단으로 커진다. 필요할 때 필요한 만큼만 지출.</p></div>
+    <div class="card"><h4>3단계 · 안심 강화</h4><p>4개를 채우면 선택: 패리티 2(SHR-2)로 전환해 이중 고장 대비, 또는 핫스페어(대기 디스크) 지정.</p></div>
+    <div class="card"><h4>4단계 · 롤링 교체</h4><p>이후엔 <strong>가장 작은 디스크부터</strong> 큰 것으로 교체 — SHR은 용량 혼용을 흡수하므로 통째 이사 없이 세대교체가 계속된다.</p></div>
+  </div>
+
+  <p class="body">남는 베이의 활용법이 하나 더 있다 — <strong>볼륨 분리</strong>. 백업 볼륨(스냅샷 촘촘히·불변)과
+  창고 볼륨(모델·미디어 — 스냅샷 느슨히)을 다른 디스크 묶음으로 나누면 정책도 장애 영향도 분리된다.
+  일부 기종의 SSD 베이·NVMe 슬롯은 캐시 외에 <u>고속 볼륨</u>(Docker·DB·동기화 폴더용)으로도 쓸 수 있다.</p>
+
+  <div class="callout amber">
+    <span class="icon">🧮</span>
+    <div><strong>2베이의 숨은 비용 —</strong> 처음 가격은 4베이보다 싸지만, 용량 한계에 도달하는 순간
+    "디스크 전량 교체 + 재구축"이나 "새 NAS로 이사"라는 큰 지출로 돌아온다. 반대로 4베이의 빈 베이는
+    <u>아무 비용 없이 미래를 예약해두는 것</u>이다. 그리고 어느 구성이든 §3의 원칙은 그대로다 —
+    RAID는 가용성 장치일 뿐, 백업의 실체는 스냅샷 + 오프사이트다.</div>
   </div>
 
   <div class="callout red">

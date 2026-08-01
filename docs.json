@@ -51,7 +51,7 @@
         "DAS",
         "3-2-1 백업"
       ],
-      "version": 2,
+      "version": 3,
       "assets": [
         "docs/img/ns-321.svg",
         "docs/img/ns-das-nas.svg",
