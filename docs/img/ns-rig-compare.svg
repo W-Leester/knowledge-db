@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="nca" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="660" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">같은 장비, 두 갈래 미래 — DAS만 들이면 vs NAS를 들이면</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">무엇이 좋아지고 무엇이 그대로인지 — 회색이 "그대로 남는 문제"다</text>
+
+  <!-- A. DAS만 -->
+  <rect x="30" y="80" width="410" height="470" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="235" y="110" font-size="15" font-weight="800" fill="#B45309" text-anchor="middle">A. DAS만 들이면 (TS5 Plus + 외장)</text>
+
+  <rect x="60" y="130" width="160" height="56" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="140" y="153" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">💻 맥북 M5 Max</text>
+  <text x="140" y="172" font-size="9" fill="#065F46" text-anchor="middle">✅ 유일한 수혜자</text>
+  <line x1="220" y1="158" x2="256" y2="158" stroke="#E8962A" stroke-width="4"/>
+  <text x="238" y="148" font-size="8.5" fill="#B45309" text-anchor="middle">TB</text>
+  <rect x="260" y="130" width="150" height="56" rx="10" fill="#FFFFFF" stroke="#E8962A" stroke-width="2"/>
+  <text x="335" y="153" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">🗄 DAS</text>
+  <text x="335" y="172" font-size="9" fill="#065F46" text-anchor="middle">✅ 고속 작업·미러 (수 GB/s)</text>
+
+  <rect x="60" y="210" width="160" height="52" rx="10" fill="#EDEAE3" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="140" y="231" font-size="11" font-weight="800" fill="#555555" text-anchor="middle">🖥 윈도우 PC</text>
+  <text x="140" y="249" font-size="9" fill="#8A6D3B" text-anchor="middle">😐 백업 각자도생 그대로</text>
+  <rect x="250" y="210" width="160" height="52" rx="10" fill="#EDEAE3" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="330" y="231" font-size="11" font-weight="800" fill="#555555" text-anchor="middle">🖥 맥미니 M4</text>
+  <text x="330" y="249" font-size="9" fill="#8A6D3B" text-anchor="middle">😐 TM 붙일 곳 없음 그대로</text>
+
+  <rect x="60" y="286" width="350" height="54" rx="10" fill="#EDEAE3" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="235" y="308" font-size="11" font-weight="800" fill="#555555" text-anchor="middle">☁️ 구글드라이브 — 역할 그대로 큼</text>
+  <text x="235" y="327" font-size="9.5" fill="#8A6D3B" text-anchor="middle">동기화·오프사이트를 계속 전담 → 용량 구독 유지</text>
+
+  <text x="60" y="374" font-size="11.5" font-weight="800" fill="#065F46">좋아지는 것</text>
+  <text x="60" y="394" font-size="10.5" fill="#555555">· 맥북의 고속 작업 공간·대용량 즉석 미러 (가장 싸게)</text>
+  <text x="60" y="424" font-size="11.5" font-weight="800" fill="#B45309">그대로인 것</text>
+  <text x="60" y="444" font-size="10.5" fill="#555555">· 기기 3대 백업이 여전히 흩어짐 (통합 허브 없음)</text>
+  <text x="60" y="462" font-size="10.5" fill="#555555">· 공유 없음 — DAS는 맥북 전용, 폰 접근 불가</text>
+  <text x="60" y="480" font-size="10.5" fill="#555555">· 24시간 서비스 없음 · 스냅샷 없음</text>
+  <text x="60" y="498" font-size="10.5" fill="#555555">· 클라우드 구독 다이어트 불가</text>
+  <rect x="60" y="512" width="350" height="26" rx="8" fill="#0D1B2E"/>
+  <text x="235" y="529" font-size="10.5" font-weight="700" fill="#FFF" text-anchor="middle">= "맥북 한 대의 강화" — 저장 문제의 부분 해결</text>
+
+  <!-- B. NAS -->
+  <rect x="460" y="80" width="410" height="470" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="665" y="110" font-size="15" font-weight="800" fill="#0F766E" text-anchor="middle">B. NAS를 들이면</text>
+
+  <rect x="486" y="130" width="112" height="48" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.2"/>
+  <text x="542" y="150" font-size="10" font-weight="800" fill="#002C5F" text-anchor="middle">💻 맥북</text>
+  <text x="542" y="166" font-size="8.5" fill="#065F46" text-anchor="middle">TM ① 자동</text>
+  <rect x="608" y="130" width="112" height="48" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.2"/>
+  <text x="664" y="150" font-size="10" font-weight="800" fill="#002C5F" text-anchor="middle">🖥 윈도우</text>
+  <text x="664" y="166" font-size="8.5" fill="#065F46" text-anchor="middle">이미지 백업 자동</text>
+  <rect x="730" y="130" width="112" height="48" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.2"/>
+  <text x="786" y="150" font-size="10" font-weight="800" fill="#002C5F" text-anchor="middle">🖥 맥미니</text>
+  <text x="786" y="166" font-size="8.5" fill="#065F46" text-anchor="middle">TM ② + AI 두뇌</text>
+
+  <line x1="542" y1="178" x2="640" y2="216" stroke="#0F766E" stroke-width="1.8"/>
+  <line x1="664" y1="178" x2="662" y2="216" stroke="#0F766E" stroke-width="1.8"/>
+  <line x1="786" y1="178" x2="688" y2="216" stroke="#0F766E" stroke-width="1.8"/>
+
+  <rect x="580" y="220" width="170" height="64" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="665" y="244" font-size="12" font-weight="800" fill="#0F766E" text-anchor="middle">🏠 NAS — 통합 허브</text>
+  <text x="665" y="262" font-size="9" fill="#555555" text-anchor="middle">백업 3대 + 스냅샷 + 모델 창고</text>
+  <text x="665" y="277" font-size="9" fill="#555555" text-anchor="middle">동기화 + Docker 24h + 폰 접근(VPN)</text>
+
+  <line x1="665" y1="284" x2="665" y2="308" stroke="#003F8A" stroke-width="2" marker-end="url(#nca)"/>
+  <text x="748" y="302" font-size="9" fill="#666666" text-anchor="middle">야간·암호화·소량만</text>
+  <rect x="580" y="312" width="170" height="44" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="665" y="330" font-size="10.5" font-weight="800" fill="#B45309" text-anchor="middle">☁️ 클라우드 — 축소 유지</text>
+  <text x="665" y="347" font-size="8.5" fill="#666666" text-anchor="middle">최후의 보루 전용 → 구독 다이어트</text>
+
+  <text x="486" y="390" font-size="11.5" font-weight="800" fill="#065F46">좋아지는 것</text>
+  <text x="486" y="410" font-size="10.5" fill="#555555">· 3대 백업 통합·자동·무인 + 스냅샷(랜섬웨어 방어)</text>
+  <text x="486" y="428" font-size="10.5" fill="#555555">· 모든 기기·폰이 공유 — 모델 창고·사진·동기화</text>
+  <text x="486" y="446" font-size="10.5" fill="#555555">· 24시간 서비스(Docker) — 맥미니는 AI에 집중</text>
+  <text x="486" y="464" font-size="10.5" fill="#555555">· 클라우드 구독 다이어트 — 3-2-1 완성</text>
+  <text x="486" y="494" font-size="11.5" font-weight="800" fill="#B45309">대가</text>
+  <text x="486" y="512" font-size="10.5" fill="#555555">· 초기 비용 + 관리 책임 · LAN 속도 상한(작업 공간엔 부족)</text>
+  <rect x="486" y="524" width="356" height="26" rx="8" fill="#0D1B2E"/>
+  <text x="664" y="541" font-size="10.5" font-weight="700" fill="#FFF" text-anchor="middle">= "집 전체의 데이터 층 완성" — 구조 문제의 해결</text>
+
+  <!-- 하단 결론 -->
+  <rect x="30" y="570" width="840" height="70" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="596" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">결론: A는 "속도"의 답, B는 "구조"의 답 — 서로 대체재가 아니므로 병행이 성립한다</text>
+  <text x="450" y="620" font-size="11" fill="#AAB9CF" text-anchor="middle">순서를 정한다면: 백업 구조가 급하면 B 먼저(보험), 당장 맥북 용량·속도가 급하면 A 먼저(즉효) — A는 나중에 언제든 싸게 추가된다</text>
+</svg>

@@ -379,19 +379,27 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <p>"네트워크에 붙은 큰 디스크"가 아니라 "집에 두는 작은 서버"다</p>
   </div>
 
+  <p class="body">각 기능을 <strong>NAS · 구글드라이브 · DAS 셋이 각각 할 수 있는지</strong>로 비교한다 —
+  ✅ 제대로 됨 · 🔶 부분적·제약 있음 · ❌ 불가:</p>
+
   <div class="tbl-wrap">
     <table class="ds">
-      <thead><tr><th style="width:160px">갈래</th><th style="width:300px">내용</th><th>체감 포인트</th></tr></thead>
+      <thead><tr><th style="width:150px">갈래</th><th>NAS</th><th>구글드라이브</th><th>DAS</th></tr></thead>
       <tbody>
-        <tr><td class="hl">백업 허브</td><td>여러 기기의 백업을 한 곳으로 — 맥은 Time Machine 대상, 윈도우는 이미지 백업</td><td>기기별로 흩어진 미러링이 자동·통합·무인이 된다</td></tr>
-        <tr><td class="hl">버전 스냅샷</td><td>파일 시스템 수준의 시점별 스냅샷 — 어제·지난주 상태로 복원</td><td>랜섬웨어·실수 삭제의 해독제. 클라우드 버전 기록보다 강력하고 기간 제한 없음</td></tr>
-        <tr><td class="hl">개인 클라우드</td><td>폴더 동기화(기기 간), 외부 접근, 폰 사진 자동 백업</td><td>구글드라이브의 동기화 기능을 자가호스팅으로 — 용량 무제한(디스크만큼)</td></tr>
-        <tr><td class="hl">대용량 창고</td><td>LLM 모델(수백 GB)·미디어·아카이브 보관</td><td>로컬 SSD엔 쓰는 것만, 나머지는 창고에 — "받아둔 모델 전부"의 집이 생긴다</td></tr>
-        <tr><td class="hl">Docker 호스트</td><td>24시간 서비스 상주 — 미디어 서버·RSS·사진 앱(Immich)·자동화</td><td>「상주형 AI 에이전트」의 잡무 계층을 맡길 자리</td></tr>
-        <tr><td class="hl">공유 작업 공간</td><td>여러 기기가 같은 파일을 네트워크 드라이브로</td><td>"어느 컴퓨터에 그 파일 있더라"가 사라진다</td></tr>
+        <tr><td class="hl">여러 기기 백업 통합</td><td>✅ TM ×2 + 윈도우 이미지를 한 곳에, 무인 자동</td><td>🔶 파일 동기화뿐 — TM·시스템 이미지는 불가, 대용량은 요금 폭발</td><td>🔶 꽂힌 한 대만 (TM은 되지만 그 기기 전용)</td></tr>
+        <tr><td class="hl">버전 스냅샷</td><td>✅ 파일시스템 수준·불변 설정 가능·기간 무제한</td><td>🔶 파일별 버전 기록 — 기간·횟수 제한, 폴더 통째 복원 약함</td><td>❌ 자체 기능 없음 (OS 기능에 의존)</td></tr>
+        <tr><td class="hl">어디서든 접근·폰 사진 백업</td><td>✅ VPN 경유로 — 설정은 내 몫</td><td>✅ 이게 본업 — 가장 쉽고 매끄러움</td><td>❌ 케이블 닿는 곳까지만</td></tr>
+        <tr><td class="hl">대용량 창고 (모델·미디어)</td><td>✅ 수십 TB 소유 — 단가 최저</td><td>🔶 되지만 구독료가 용량에 비례해 폭발</td><td>✅ 가장 싸고 가장 빠름 — 단 한 기기 전용</td></tr>
+        <tr><td class="hl">24시간 서비스 (Docker·자동화)</td><td>✅ 존재 이유 — 미디어·사진(Immich)·RSS·야간 작업</td><td>❌ 저장소일 뿐, 내 코드를 못 돌림</td><td>❌ 컴퓨터가 꺼지면 같이 잔다</td></tr>
+        <tr><td class="hl">여러 기기 공유 작업 공간</td><td>✅ 네트워크 드라이브 — 동시 접근</td><td>🔶 동기화 방식 — 지연·충돌 있음, 대용량 부적합</td><td>❌ 한 대 전용</td></tr>
+        <tr><td class="hl">고속 작업 공간 (편집·임시 대용량)</td><td>🔶 LAN 상한 — 10GbE라야 근접</td><td>❌ 인터넷 속도 — 논외</td><td>✅ 내장급 (썬더볼트 수 GB/s)</td></tr>
+        <tr><td class="hl">재해 내성 (오프사이트)</td><td>❌ 집 안 — PC와 운명 공동체 (§3)</td><td>✅ 집이 불타도 산다 — 유일한 강점이자 결정적 강점</td><td>❌ 집 안 + 보통 PC 옆</td></tr>
       </tbody>
     </table>
   </div>
+
+  <p class="body">읽는 법: <strong>❌가 서로 보완 관계다</strong> — NAS의 ❌(오프사이트)를 구글드라이브가, 구글드라이브의 ❌(서비스·속도·단가)를
+  NAS가, NAS의 🔶(고속 작업)를 DAS가 메운다. 셋 중 하나가 만능이 아니라서 §3의 "역할 재배치"가 성립한다.</p>
 
   <div class="callout navy">
     <span class="icon">🏭</span>
@@ -517,6 +525,16 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <p>윈도우 PC · 맥미니 · 맥북 · TS5 Plus에 NAS가 합류하면</p>
   </div>
 
+  <p class="body">먼저 갈림길부터 — <strong>DAS만 들였을 때와 NAS를 들였을 때, 같은 장비들이 어떻게 다르게 묶이는지</strong>를 나란히 놓는다.
+  회색으로 남는 것이 "그대로인 문제"다:</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/ns-rig-compare.svg" alt="DAS만 들였을 때는 맥북만 강화되고 백업 분산과 클라우드 의존이 그대로, NAS를 들이면 백업 통합과 공유, 클라우드 다이어트가 완성되는 비교"></div>
+    <figcaption>A(DAS만)는 "속도"의 답, B(NAS)는 "구조"의 답 — 대체재가 아니라서 병행이 성립한다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">B를 택했을 때의 상세 배치가 아래다:</p>
+
   <figure>
     <div class="fig-scroll"><img src="img/ns-roles.svg" alt="맥북, 윈도우 PC, 맥미니, TS5 Plus DAS, NAS, 클라우드의 역할 분담 배치도"></div>
     <figcaption>맥북=작업과 지능 · 맥미니=AI 두뇌 · NAS=데이터 기관실 · DAS=옆자리 고속 창고 · 클라우드=최후의 보루 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
@@ -630,7 +648,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/ns-*.svg (3종) · 속도·가격은 개략치 · 「상주형 AI 에이전트」·「데이터베이스」와 이어지는 홈 인프라 편
+  Hyundai-Inspired Design System v1.0 · 도식: img/ns-*.svg (4종) · 속도·가격은 개략치 · 「상주형 AI 에이전트」·「데이터베이스」와 이어지는 홈 인프라 편
 </footer>
 
 </main>
