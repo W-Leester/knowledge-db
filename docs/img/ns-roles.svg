@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="nra" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="nrg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">내 장비 배치도 — 각자의 자리가 생긴다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">NAS가 오면 "누가 무엇을 맡나"가 정리된다 — AI 두뇌와 데이터 기관실의 분업</text>
+
+  <!-- 공유기 중앙 -->
+  <rect x="370" y="270" width="160" height="44" rx="10" fill="#0D1B2E"/>
+  <text x="450" y="292" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">공유기 / 스위치</text>
+  <text x="450" y="307" font-size="9" fill="#AAB9CF" text-anchor="middle">가능하면 2.5GbE+ (개략)</text>
+
+  <!-- 맥북 (좌상) -->
+  <rect x="40" y="90" width="260" height="110" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="170" y="116" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">💻 맥북 M5 Max 128GB</text>
+  <text x="170" y="138" font-size="10.5" fill="#555555" text-anchor="middle">주력 작업 + 로컬 LLM (코딩 공장)</text>
+  <text x="170" y="156" font-size="10.5" fill="#555555" text-anchor="middle">쓰는 모델만 내장 SSD에</text>
+  <text x="170" y="180" font-size="9.5" fill="#666666" text-anchor="middle">이동 기기 — 백업 1순위 대상</text>
+  <line x1="300" y1="180" x2="392" y2="270" stroke="#003F8A" stroke-width="1.8"/>
+
+  <!-- TS5 + DAS (맥북 아래) -->
+  <rect x="40" y="220" width="260" height="96" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="170" y="246" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">🔌 TS5 Plus + DAS (선택)</text>
+  <text x="170" y="268" font-size="10.5" fill="#555555" text-anchor="middle">썬더볼트 외장 — 고속 작업 공간</text>
+  <text x="170" y="286" font-size="10.5" fill="#555555" text-anchor="middle">대용량 임시 데이터 · 즉석 미러</text>
+  <text x="170" y="304" font-size="9.5" fill="#666666" text-anchor="middle">책상에 있을 때의 "옆자리 창고"</text>
+  <line x1="170" y1="200" x2="170" y2="220" stroke="#E8962A" stroke-width="3"/>
+
+  <!-- 윈도우 (우상) -->
+  <rect x="600" y="90" width="260" height="110" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="730" y="116" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">🖥 윈도우 PC (9950X3D)</text>
+  <text x="730" y="138" font-size="10.5" fill="#555555" text-anchor="middle">게임 · 윈도우 전용 프로그램(COM 자동화)</text>
+  <text x="730" y="156" font-size="10.5" fill="#555555" text-anchor="middle">AVX-512 지원 — CPU 추론 실험용으로도</text>
+  <text x="730" y="180" font-size="9.5" fill="#666666" text-anchor="middle">이미지 백업 → NAS로</text>
+  <line x1="600" y1="180" x2="508" y2="270" stroke="#003F8A" stroke-width="1.8"/>
+
+  <!-- 맥미니 (우중) -->
+  <rect x="600" y="240" width="260" height="104" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="730" y="266" font-size="13" font-weight="800" fill="#6B21A8" text-anchor="middle">🖥 맥미니 M4 16GB — AI 두뇌</text>
+  <text x="730" y="288" font-size="10.5" fill="#555555" text-anchor="middle">상주형 에이전트 게이트웨이 · 가벼운 로컬 모델</text>
+  <text x="730" y="306" font-size="10.5" fill="#555555" text-anchor="middle">24시간 · 초저전력 — "개인 AI 서버"의 자리</text>
+  <text x="730" y="330" font-size="9.5" fill="#666666" text-anchor="middle">잡무 서비스는 NAS로 넘겨 메모리 확보</text>
+  <line x1="600" y1="292" x2="530" y2="292" stroke="#6B21A8" stroke-width="1.8"/>
+
+  <!-- NAS (하단 중앙) -->
+  <rect x="280" y="380" width="340" height="130" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="3"/>
+  <text x="450" y="408" font-size="14" font-weight="800" fill="#0F766E" text-anchor="middle">🏠 NAS — 데이터 기관실 (신규)</text>
+  <text x="450" y="430" font-size="10.5" fill="#555555" text-anchor="middle">기기 3대 백업 통합 (TM ×2 + 윈도우 이미지) · 스냅샷</text>
+  <text x="450" y="448" font-size="10.5" fill="#555555" text-anchor="middle">LLM 모델 창고 (받아둔 전부) · 사진 · 폴더 동기화</text>
+  <text x="450" y="466" font-size="10.5" fill="#555555" text-anchor="middle">Docker 잡무: 미디어 · RSS · 로그 수집 (24시간)</text>
+  <text x="450" y="490" font-size="9.5" fill="#666666" text-anchor="middle">4베이+ · 2.5GbE+ · RAID는 가용성 장치 (백업은 스냅샷+오프사이트)</text>
+  <line x1="450" y1="314" x2="450" y2="376" stroke="#0F766E" stroke-width="3" marker-end="url(#nrg)"/>
+
+  <!-- 클라우드 (하단) -->
+  <rect x="660" y="420" width="210" height="90" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="765" y="448" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">☁️ 클라우드 (축소 유지)</text>
+  <text x="765" y="470" font-size="10" fill="#555555" text-anchor="middle">문서·사진·코드 소량만</text>
+  <text x="765" y="488" font-size="10" fill="#555555" text-anchor="middle">NAS가 암호화 자동 업로드</text>
+  <line x1="620" y1="452" x2="656" y2="452" stroke="#003F8A" stroke-width="2" marker-end="url(#nra)"/>
+  <text x="638" y="440" font-size="8.5" fill="#666666" text-anchor="middle">야간</text>
+
+  <!-- 하단 정리 -->
+  <rect x="30" y="536" width="840" height="64" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="560" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">분업의 그림: 맥북=작업과 지능 · 맥미니=24시간 AI 두뇌 · 윈도우=게임과 특수 임무 · DAS=옆자리 고속 창고 · NAS=집의 데이터 기관실</text>
+  <text x="450" y="584" font-size="11" fill="#AAB9CF" text-anchor="middle">외부 접속은 포트 개방 대신 VPN(Tailscale류)으로 — 「상주형 AI 에이전트」 §7의 격리 원칙이 NAS에도 그대로 적용된다</text>
+</svg>

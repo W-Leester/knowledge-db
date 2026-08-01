@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="nda" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">DAS vs NAS — 케이블이냐 네트워크냐가 모든 것을 가른다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">같은 "외장 저장소"처럼 보이지만 — 연결 방식이 속도·공유·역할을 전부 결정한다</text>
+
+  <!-- DAS -->
+  <rect x="30" y="80" width="410" height="300" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="235" y="110" font-size="15" font-weight="800" fill="#002C5F" text-anchor="middle">DAS — 직결 저장소 (Direct Attached)</text>
+
+  <rect x="60" y="130" width="130" height="70" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="125" y="160" font-size="12" font-weight="800" fill="#002C5F" text-anchor="middle">💻 내 컴퓨터</text>
+  <text x="125" y="182" font-size="9.5" fill="#666666" text-anchor="middle">(TS5 Plus 독 경유)</text>
+
+  <line x1="190" y1="165" x2="278" y2="165" stroke="#1A5CB5" stroke-width="4"/>
+  <text x="234" y="152" font-size="10" font-weight="800" fill="#1A5CB5" text-anchor="middle">썬더볼트 케이블</text>
+  <text x="234" y="184" font-size="9.5" fill="#666666" text-anchor="middle">~수 GB/s (개략)</text>
+
+  <rect x="282" y="130" width="130" height="70" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="347" y="160" font-size="12" font-weight="800" fill="#002C5F" text-anchor="middle">🗄 외장 스토리지</text>
+  <text x="347" y="182" font-size="9.5" fill="#666666" text-anchor="middle">SSD/HDD 인클로저</text>
+
+  <text x="60" y="234" font-size="11.5" fill="#065F46">✅ 내장급 속도 — 편집·작업 공간으로도 사용 가능</text>
+  <text x="60" y="258" font-size="11.5" fill="#065F46">✅ 싸고 단순 — 관리랄 게 없다 (그냥 큰 디스크)</text>
+  <text x="60" y="282" font-size="11.5" fill="#DC2626">❌ 꽂힌 그 컴퓨터만 사용 — 공유 불가</text>
+  <text x="60" y="306" font-size="11.5" fill="#DC2626">❌ 컴퓨터가 꺼지면 같이 잔다 — 상시 서비스 불가</text>
+  <text x="60" y="330" font-size="11.5" fill="#DC2626">❌ 스냅샷·앱 같은 "지능"이 없다 (OS 기능에 의존)</text>
+  <text x="235" y="362" font-size="11.5" font-weight="800" fill="#1A5CB5" text-anchor="middle">= "내 컴퓨터의 창고 증축"</text>
+
+  <!-- NAS -->
+  <rect x="460" y="80" width="410" height="300" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="665" y="110" font-size="15" font-weight="800" fill="#0F766E" text-anchor="middle">NAS — 네트워크 저장소 (Network Attached)</text>
+
+  <rect x="490" y="128" width="76" height="42" rx="8" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="528" y="153" font-size="10" font-weight="700" fill="#0F766E" text-anchor="middle">💻 윈도우</text>
+  <rect x="576" y="128" width="76" height="42" rx="8" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="614" y="153" font-size="10" font-weight="700" fill="#0F766E" text-anchor="middle">🖥 맥미니</text>
+  <rect x="662" y="128" width="76" height="42" rx="8" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="700" y="153" font-size="10" font-weight="700" fill="#0F766E" text-anchor="middle">💻 맥북</text>
+  <rect x="748" y="128" width="100" height="42" rx="8" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="798" y="147" font-size="9.5" font-weight="700" fill="#0F766E" text-anchor="middle">📱 폰·태블릿</text>
+  <text x="798" y="162" font-size="8.5" fill="#666666" text-anchor="middle">외부에선 VPN으로</text>
+
+  <line x1="528" y1="170" x2="640" y2="208" stroke="#0F766E" stroke-width="1.8"/>
+  <line x1="614" y1="170" x2="655" y2="208" stroke="#0F766E" stroke-width="1.8"/>
+  <line x1="700" y1="170" x2="672" y2="208" stroke="#0F766E" stroke-width="1.8"/>
+  <line x1="798" y1="170" x2="690" y2="208" stroke="#0F766E" stroke-width="1.8"/>
+
+  <rect x="600" y="210" width="130" height="34" rx="8" fill="#0F766E"/>
+  <text x="665" y="232" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">공유기 / 스위치</text>
+  <line x1="665" y1="244" x2="665" y2="262" stroke="#0F766E" stroke-width="2.5" marker-end="url(#nda)"/>
+  <text x="742" y="258" font-size="9.5" fill="#666666" text-anchor="middle">LAN 2.5~10GbE (개략)</text>
+
+  <rect x="580" y="266" width="170" height="48" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+  <text x="665" y="286" font-size="12" font-weight="800" fill="#0F766E" text-anchor="middle">🏠 NAS (24시간)</text>
+  <text x="665" y="304" font-size="9" fill="#666666" text-anchor="middle">스냅샷 · 동기화 · Docker · 사진</text>
+
+  <text x="490" y="340" font-size="11.5" fill="#065F46">✅ 모든 기기가 공유 · 항상 켜져 있어 서비스가 산다</text>
+  <text x="490" y="362" font-size="11.5" fill="#DC2626">❌ LAN 속도 상한 · 관리 책임(업데이트·보안)이 내 몫</text>
+
+  <!-- 판단 플로우 -->
+  <rect x="30" y="400" width="840" height="150" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="450" y="430" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">판단 3문 — 무엇이 필요한가</text>
+  <rect x="52" y="446" width="256" height="88" rx="10" fill="#E8EEF7"/>
+  <text x="180" y="470" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">한 컴퓨터의 백업·작업 공간?</text>
+  <text x="180" y="494" font-size="12.5" font-weight="800" fill="#1A5CB5" text-anchor="middle">→ DAS로 충분 (더 싸고 빠름)</text>
+  <text x="180" y="518" font-size="9.5" fill="#666666" text-anchor="middle">TS5 Plus에 외장 물리는 것이 이 경우</text>
+  <rect x="322" y="446" width="256" height="88" rx="10" fill="#E6F7F1"/>
+  <text x="450" y="470" font-size="11.5" font-weight="800" fill="#0F766E" text-anchor="middle">여러 기기 공유 + 상시 서비스?</text>
+  <text x="450" y="494" font-size="12.5" font-weight="800" fill="#0F766E" text-anchor="middle">→ NAS의 존재 이유</text>
+  <text x="450" y="518" font-size="9.5" fill="#666666" text-anchor="middle">기기 3대 + 상주 서비스면 여기</text>
+  <rect x="592" y="446" width="256" height="88" rx="10" fill="#FEF3E2"/>
+  <text x="720" y="470" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">둘 다?</text>
+  <text x="720" y="494" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">→ 병행이 정답</text>
+  <text x="720" y="518" font-size="9.5" fill="#666666" text-anchor="middle">DAS=고속 작업 · NAS=공유·백업 허브</text>
+
+  <rect x="30" y="566" width="840" height="40" rx="10" fill="#0D1B2E"/>
+  <text x="450" y="591" font-size="12" font-weight="700" fill="#FFF" text-anchor="middle">한 줄: DAS는 "내 컴퓨터의 창고", NAS는 "집의 데이터 기관실" — 저장이 목적이면 DAS, 공유·상주가 목적이면 NAS</text>
+</svg>

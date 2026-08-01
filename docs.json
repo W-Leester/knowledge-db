@@ -36,6 +36,29 @@
       ]
     },
     {
+      "id": "nas-data-strategy",
+      "title": "NAS와 개인 데이터 전략",
+      "desc": "구글드라이브의 역할 재배치 — 3-2-1 백업, DAS vs NAS 정면 비교, 내 장비 배치도",
+      "file": "docs/nas-data-strategy.html",
+      "group": "Software · Data",
+      "icon": "🛟",
+      "gradient": [
+        "#0D1B2E",
+        "#0F766E"
+      ],
+      "tags": [
+        "NAS",
+        "DAS",
+        "3-2-1 백업"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/ns-321.svg",
+        "docs/img/ns-das-nas.svg",
+        "docs/img/ns-roles.svg"
+      ]
+    },
+    {
       "id": "git-github",
       "title": "Git & GitHub 정리",
       "desc": "로컬 저장소와 원격 연결의 실체, 일상 명령어, PR과 gh CLI, 그리고 잔디심기",
