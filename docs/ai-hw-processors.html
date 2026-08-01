@@ -942,6 +942,61 @@ body.doc-mode #doc-mode-content {
   #fullscreen-btn { display: none; }
   .ctrl-btn { font-size: 13px; padding: 8px 12px; }
 }
+
+/* ═══ X3: CPU 삼국지 — 인텔·AMD·애플 작동 방식 애니메이션 (슬라이드10·ds-10 공용) ═══ */
+.x3-stage { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.x3-card { background:#FFFFFF; border:2px solid var(--acc); border-radius:12px; padding:10px 12px; }
+.x3-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+.x3-name { font-size:16px; font-weight:800; }
+.x3-philo { font-size:10px; color:#666666; font-weight:600; }
+.x3-lab { font-size:10.5px; color:#555555; margin:7px 0 3px; }
+.x3-lab b { color:#1A1A1A; }
+/* 클럭 박동 */
+.x3-clkbar { display:flex; align-items:center; gap:8px; }
+.x3-clk { width:12px; height:12px; border-radius:50%; background:var(--acc); animation:x3beat var(--clk) ease-in-out infinite; }
+.x3-clktrack { flex:1; height:4px; border-radius:2px; background:repeating-linear-gradient(90deg, var(--acc) 0 6px, #EDE8DE 6px 14px); animation:x3flow var(--clk) linear infinite; opacity:.7; }
+/* 명령 컨베이어 (블록 폭 = 명령 길이) */
+.x3-belt { overflow:hidden; height:16px; border-radius:4px; background:#F2EDE4; }
+.x3-track { display:flex; align-items:center; gap:3px; width:max-content; height:100%; animation:x3slide var(--belt) linear infinite; }
+.x3-track b { height:10px; border-radius:2px; background:#5B8DD9; flex:0 0 auto; }
+.x3-arm .x3-track b { background:#34A87C; }
+/* 디코더 게이트 (칸수 = 동시 디코드 폭) */
+.x3-gate { display:flex; gap:3px; margin-top:3px; }
+.x3-gate i { flex:1; height:7px; border-radius:2px; background:var(--acc); opacity:.28; animation:x3glow 1.2s ease-in-out infinite; }
+.x3-gate i:nth-child(2n){ animation-delay:.3s } .x3-gate i:nth-child(3n){ animation-delay:.6s }
+/* 실행 레인 (레인 수 = 폭, 점 속도 = 클럭) */
+.x3-lanes { margin-top:2px; }
+.x3-lane { position:relative; height:5px; border-radius:3px; background:#F2EDE4; margin:3px 0; overflow:hidden; }
+.x3-uop { position:absolute; top:-1px; width:7px; height:7px; border-radius:50%; background:var(--acc); animation:x3run var(--run) linear infinite; }
+.x3-uop.t2 { background:#E8962A; }
+.x3-lane:nth-child(2) .x3-uop{ animation-delay:.25s } .x3-lane:nth-child(3) .x3-uop{ animation-delay:.55s }
+.x3-lane:nth-child(4) .x3-uop{ animation-delay:.1s }  .x3-lane:nth-child(5) .x3-uop{ animation-delay:.4s }
+.x3-lane:nth-child(6) .x3-uop{ animation-delay:.7s }  .x3-lane:nth-child(7) .x3-uop{ animation-delay:.2s }
+.x3-lane:nth-child(8) .x3-uop{ animation-delay:.5s }  .x3-lane:nth-child(9) .x3-uop{ animation-delay:.85s }
+.x3-lane:nth-child(10) .x3-uop{ animation-delay:.33s } .x3-lane:nth-child(11) .x3-uop{ animation-delay:.62s }
+.x3-lane:nth-child(12) .x3-uop{ animation-delay:.92s }
+.x3-lane .x3-uop.t2 { animation-delay:calc(var(--run) / 2) !important; }
+/* 패키지 미니맵 */
+.x3-pkg { margin-top:4px; }
+.x3-tiles { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; }
+.x3-tiles i { height:20px; border-radius:3px; background:#E8EEF7; border:1.5px solid var(--acc); animation:x3glow 2s ease-in-out infinite; }
+.x3-tiles i:nth-child(2){animation-delay:.5s} .x3-tiles i:nth-child(3){animation-delay:1s} .x3-tiles i:nth-child(4){animation-delay:1.5s}
+.x3-chiplet { display:flex; align-items:center; gap:4px; }
+.x3-die { border:1.5px solid var(--acc); background:#FDECEC; border-radius:3px; font-size:8.5px; font-weight:800; color:#B91C1C; text-align:center; padding:5px 0; flex:1; animation:x3glow 2.4s ease-in-out infinite; }
+.x3-die.iod { background:#FFF7E6; color:#B45309; border-color:#E8962A; animation-delay:1.2s; }
+.x3-fab { flex:0 0 26px; height:5px; border-radius:2px; background:repeating-linear-gradient(90deg,#DC2626 0 6px,#F5D9D9 6px 11px); animation:x3flow .5s linear infinite; }
+.x3-soc { border:2px solid var(--acc); border-radius:6px; padding:4px; }
+.x3-socrow { display:flex; gap:4px; margin-bottom:4px; }
+.x3-chip { flex:1; border-radius:3px; background:#E6F7F1; border:1.5px solid var(--acc); font-size:8.5px; font-weight:800; color:#065F46; text-align:center; padding:5px 0; animation:x3glow 1.6s ease-in-out infinite; }
+.x3-umem { height:9px; border-radius:3px; background:repeating-linear-gradient(90deg,#00AA6C 0 7px,#DFF3EA 7px 13px); animation:x3flow .45s linear infinite; }
+.x3-legend { margin-top:8px; font-size:11px; color:#555555; background:#F2EDE4; border-radius:8px; padding:7px 12px; }
+@keyframes x3beat { 0%,100%{transform:scale(1);opacity:.55} 50%{transform:scale(1.5);opacity:1} }
+@keyframes x3slide { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+@keyframes x3run { from{left:-4%} to{left:98%} }
+@keyframes x3glow { 0%,100%{opacity:.3} 50%{opacity:1} }
+@keyframes x3flow { from{background-position:0 0} to{background-position:26px 0} }
+@media (max-width:760px){ body.doc-mode .x3-stage{ grid-template-columns:1fr; } }
+@media (prefers-reduced-motion: reduce){ .x3-stage *, .x3-clk, .x3-track { animation:none !important; } }
 </style>
 </head>
 <body>
@@ -956,7 +1011,7 @@ body.doc-mode #doc-mode-content {
 </div>
 
 <!-- Slide Counter -->
-<div id="slide-counter">1 / 10</div>
+<div id="slide-counter">1 / 11</div>
 
 <!-- Nav Arrows -->
 <button id="nav-prev" aria-label="이전 슬라이드">&#8592;</button>
@@ -1849,6 +1904,57 @@ body.doc-mode #doc-mode-content {
       </div><!-- .slide-body -->
     </section>
 
+
+    <!-- ===== SLIDE 10: CPU 삼국지 ===== -->
+    <section class="slide" id="slide-10">
+      <div class="slide-header">
+        <div class="slide-eyebrow">SLIDE 10 · CPU 설계 철학 비교</div>
+        <h2 class="slide-title">CPU 삼국지 — 인텔 · AMD · 애플의 작동 방식</h2>
+        <div class="title-rule"></div>
+      </div>
+      <div class="slide-body">
+        <div class="x3-stage">
+          <div class="x3-card" style="--acc:#1A5CB5; --clk:.30s; --belt:2.6s; --run:1.0s">
+            <div class="x3-head"><span class="x3-name" style="color:#1A5CB5">Intel</span><span class="x3-philo">깊고 빠르게 · 타일 전환 중</span></div>
+            <div class="x3-lab">클럭 박동 — 가장 빠르다 <b>(~5.7GHz급, 개략)</b></div>
+            <div class="x3-clkbar"><i class="x3-clk"></i><div class="x3-clktrack"></div></div>
+            <div class="x3-lab">x86 <b>가변 길이</b> 명령 → 좁은 디코더 <b>~4폭</b></div>
+            <div class="x3-belt"><div class="x3-track"><b style="width:26px"></b><b style="width:12px"></b><b style="width:34px"></b><b style="width:18px"></b><b style="width:10px"></b><b style="width:30px"></b><b style="width:16px"></b><b style="width:22px"></b><b style="width:14px"></b><b style="width:28px"></b><b style="width:26px"></b><b style="width:12px"></b><b style="width:34px"></b><b style="width:18px"></b><b style="width:10px"></b><b style="width:30px"></b><b style="width:16px"></b><b style="width:22px"></b><b style="width:14px"></b><b style="width:28px"></b></div></div>
+            <div class="x3-gate"><i></i><i></i><i></i><i></i></div>
+            <div class="x3-lab">실행 레인 — <b>좁지만 빠르게</b> (P+E 하이브리드)</div>
+            <div class="x3-lanes"><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div></div>
+            <div class="x3-lab">패키지 — 모놀리식 → <b>타일 + 자체 팹</b></div>
+            <div class="x3-pkg"><div class="x3-tiles"><i></i><i></i><i></i><i></i></div></div>
+          </div>
+          <div class="x3-card" style="--acc:#DC2626; --clk:.33s; --belt:2.8s; --run:1.05s">
+            <div class="x3-head"><span class="x3-name" style="color:#DC2626">AMD</span><span class="x3-philo">칩렛 레고 · 균형형</span></div>
+            <div class="x3-lab">클럭 박동 — 인텔과 비슷 <b>(~5.5GHz급, 개략)</b></div>
+            <div class="x3-clkbar"><i class="x3-clk"></i><div class="x3-clktrack"></div></div>
+            <div class="x3-lab">같은 x86 가변 길이 → 디코더 <b>~4폭</b></div>
+            <div class="x3-belt"><div class="x3-track"><b style="width:26px"></b><b style="width:12px"></b><b style="width:34px"></b><b style="width:18px"></b><b style="width:10px"></b><b style="width:30px"></b><b style="width:16px"></b><b style="width:22px"></b><b style="width:14px"></b><b style="width:28px"></b><b style="width:26px"></b><b style="width:12px"></b><b style="width:34px"></b><b style="width:18px"></b><b style="width:10px"></b><b style="width:30px"></b><b style="width:16px"></b><b style="width:22px"></b><b style="width:14px"></b><b style="width:28px"></b></div></div>
+            <div class="x3-gate"><i></i><i></i><i></i><i></i></div>
+            <div class="x3-lab">실행 레인 — <b>SMT: 한 레인을 두 스레드가</b> (주황 점)</div>
+            <div class="x3-lanes"><div class="x3-lane"><i class="x3-uop"></i><i class="x3-uop t2"></i></div><div class="x3-lane"><i class="x3-uop"></i><i class="x3-uop t2"></i></div><div class="x3-lane"><i class="x3-uop"></i><i class="x3-uop t2"></i></div><div class="x3-lane"><i class="x3-uop"></i><i class="x3-uop t2"></i></div><div class="x3-lane"><i class="x3-uop"></i><i class="x3-uop t2"></i></div><div class="x3-lane"><i class="x3-uop"></i><i class="x3-uop t2"></i></div></div>
+            <div class="x3-lab">패키지 — <b>칩렛(CCD+IOD) + Infinity Fabric</b></div>
+            <div class="x3-pkg"><div class="x3-chiplet"><div class="x3-die">CCD</div><div class="x3-fab"></div><div class="x3-die iod">IOD</div><div class="x3-fab"></div><div class="x3-die">CCD</div></div></div>
+          </div>
+          <div class="x3-card x3-arm" style="--acc:#00AA6C; --clk:.42s; --belt:4.2s; --run:1.5s">
+            <div class="x3-head"><span class="x3-name" style="color:#047857">Apple</span><span class="x3-philo">넓고 느리게 · 몽땅 통합</span></div>
+            <div class="x3-lab">클럭 박동 — 일부러 느리다 <b>(~4.2GHz급, 개략)</b></div>
+            <div class="x3-clkbar"><i class="x3-clk"></i><div class="x3-clktrack"></div></div>
+            <div class="x3-lab">ARM <b>고정 길이(4B)</b> 명령 → 넓은 디코더 <b>~10폭</b></div>
+            <div class="x3-belt"><div class="x3-track"><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b></div></div>
+            <div class="x3-gate"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="x3-lab">실행 레인 — <b>느리지만 아주 넓게</b> (SMT 없음)</div>
+            <div class="x3-lanes"><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div></div>
+            <div class="x3-lab">패키지 — <b>SoC + 온패키지 통합 메모리</b></div>
+            <div class="x3-pkg"><div class="x3-soc"><div class="x3-socrow"><div class="x3-chip">CPU</div><div class="x3-chip">GPU</div><div class="x3-chip">NPU</div></div><div class="x3-umem"></div></div></div>
+          </div>
+        </div>
+        <div class="x3-legend">▶ 움직임 자체가 비교다 — <b>박동 속도</b>=클럭 · <b>벨트 블록 크기</b>=명령 길이(가변 vs 고정) · <b>게이트 칸수</b>=동시 디코드 폭 · <b>레인 수와 점 속도</b>="깊고 빠르게 vs 넓고 느리게" · <b>맨 아래</b>=패키징(타일 · 칩렛+패브릭 · SoC+통합 메모리). 셋 다 내부적으로는 마이크로옵(µop)으로 쪼개 실행한다 — 차이는 속이 아니라 입구와 체격이다.</div>
+      </div><!-- .slide-body -->
+    </section>
+
   </div><!-- #slide-scaler -->
 </div><!-- #presentation-viewport -->
 
@@ -1867,6 +1973,7 @@ body.doc-mode #doc-mode-content {
       <li class="toc-item" data-section="ds-7">선택 가이드</li>
       <li class="toc-item" data-section="ds-8">미래 트렌드</li>
       <li class="toc-item" data-section="ds-9">연산 방식 비교</li>
+      <li class="toc-item" data-section="ds-10">CPU 삼국지 — 인텔·AMD·애플</li>
     </ul>
   </aside>
 
@@ -2015,6 +2122,67 @@ body.doc-mode #doc-mode-content {
           <tr><td>추론 효율</td><td>저속</td><td>고속</td><td>초고효율</td><td>고효율</td></tr>
         </tbody>
       </table></div>
+    </div>
+    <div class="doc-section" id="ds-10">
+      <div class="doc-section-num">Section 10</div>
+      <h2 class="doc-h2">CPU 삼국지 — 인텔 · AMD · 애플의 작동 방식</h2>
+      <p class="doc-p">같은 "빠른 범용 연산"이라는 목적지로 가는 세 갈래 길 — <strong>인텔은 "높은 클럭 + 하이브리드", AMD는 "칩렛 레고", 애플은 "넓고 느리게 + 몽땅 통합"</strong>이다. 아래 무대의 움직임이 곧 비교다: 박동(클럭), 벨트 블록 크기(명령 길이), 게이트 칸수(디코드 폭), 레인(실행 폭과 속도), 맨 아래(패키징).</p>
+      <div class="x3-stage">
+          <div class="x3-card" style="--acc:#1A5CB5; --clk:.30s; --belt:2.6s; --run:1.0s">
+            <div class="x3-head"><span class="x3-name" style="color:#1A5CB5">Intel</span><span class="x3-philo">깊고 빠르게 · 타일 전환 중</span></div>
+            <div class="x3-lab">클럭 박동 — 가장 빠르다 <b>(~5.7GHz급, 개략)</b></div>
+            <div class="x3-clkbar"><i class="x3-clk"></i><div class="x3-clktrack"></div></div>
+            <div class="x3-lab">x86 <b>가변 길이</b> 명령 → 좁은 디코더 <b>~4폭</b></div>
+            <div class="x3-belt"><div class="x3-track"><b style="width:26px"></b><b style="width:12px"></b><b style="width:34px"></b><b style="width:18px"></b><b style="width:10px"></b><b style="width:30px"></b><b style="width:16px"></b><b style="width:22px"></b><b style="width:14px"></b><b style="width:28px"></b><b style="width:26px"></b><b style="width:12px"></b><b style="width:34px"></b><b style="width:18px"></b><b style="width:10px"></b><b style="width:30px"></b><b style="width:16px"></b><b style="width:22px"></b><b style="width:14px"></b><b style="width:28px"></b></div></div>
+            <div class="x3-gate"><i></i><i></i><i></i><i></i></div>
+            <div class="x3-lab">실행 레인 — <b>좁지만 빠르게</b> (P+E 하이브리드)</div>
+            <div class="x3-lanes"><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div></div>
+            <div class="x3-lab">패키지 — 모놀리식 → <b>타일 + 자체 팹</b></div>
+            <div class="x3-pkg"><div class="x3-tiles"><i></i><i></i><i></i><i></i></div></div>
+          </div>
+          <div class="x3-card" style="--acc:#DC2626; --clk:.33s; --belt:2.8s; --run:1.05s">
+            <div class="x3-head"><span class="x3-name" style="color:#DC2626">AMD</span><span class="x3-philo">칩렛 레고 · 균형형</span></div>
+            <div class="x3-lab">클럭 박동 — 인텔과 비슷 <b>(~5.5GHz급, 개략)</b></div>
+            <div class="x3-clkbar"><i class="x3-clk"></i><div class="x3-clktrack"></div></div>
+            <div class="x3-lab">같은 x86 가변 길이 → 디코더 <b>~4폭</b></div>
+            <div class="x3-belt"><div class="x3-track"><b style="width:26px"></b><b style="width:12px"></b><b style="width:34px"></b><b style="width:18px"></b><b style="width:10px"></b><b style="width:30px"></b><b style="width:16px"></b><b style="width:22px"></b><b style="width:14px"></b><b style="width:28px"></b><b style="width:26px"></b><b style="width:12px"></b><b style="width:34px"></b><b style="width:18px"></b><b style="width:10px"></b><b style="width:30px"></b><b style="width:16px"></b><b style="width:22px"></b><b style="width:14px"></b><b style="width:28px"></b></div></div>
+            <div class="x3-gate"><i></i><i></i><i></i><i></i></div>
+            <div class="x3-lab">실행 레인 — <b>SMT: 한 레인을 두 스레드가</b> (주황 점)</div>
+            <div class="x3-lanes"><div class="x3-lane"><i class="x3-uop"></i><i class="x3-uop t2"></i></div><div class="x3-lane"><i class="x3-uop"></i><i class="x3-uop t2"></i></div><div class="x3-lane"><i class="x3-uop"></i><i class="x3-uop t2"></i></div><div class="x3-lane"><i class="x3-uop"></i><i class="x3-uop t2"></i></div><div class="x3-lane"><i class="x3-uop"></i><i class="x3-uop t2"></i></div><div class="x3-lane"><i class="x3-uop"></i><i class="x3-uop t2"></i></div></div>
+            <div class="x3-lab">패키지 — <b>칩렛(CCD+IOD) + Infinity Fabric</b></div>
+            <div class="x3-pkg"><div class="x3-chiplet"><div class="x3-die">CCD</div><div class="x3-fab"></div><div class="x3-die iod">IOD</div><div class="x3-fab"></div><div class="x3-die">CCD</div></div></div>
+          </div>
+          <div class="x3-card x3-arm" style="--acc:#00AA6C; --clk:.42s; --belt:4.2s; --run:1.5s">
+            <div class="x3-head"><span class="x3-name" style="color:#047857">Apple</span><span class="x3-philo">넓고 느리게 · 몽땅 통합</span></div>
+            <div class="x3-lab">클럭 박동 — 일부러 느리다 <b>(~4.2GHz급, 개략)</b></div>
+            <div class="x3-clkbar"><i class="x3-clk"></i><div class="x3-clktrack"></div></div>
+            <div class="x3-lab">ARM <b>고정 길이(4B)</b> 명령 → 넓은 디코더 <b>~10폭</b></div>
+            <div class="x3-belt"><div class="x3-track"><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b><b style="width:16px"></b></div></div>
+            <div class="x3-gate"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="x3-lab">실행 레인 — <b>느리지만 아주 넓게</b> (SMT 없음)</div>
+            <div class="x3-lanes"><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div><div class="x3-lane"><i class="x3-uop"></i></div></div>
+            <div class="x3-lab">패키지 — <b>SoC + 온패키지 통합 메모리</b></div>
+            <div class="x3-pkg"><div class="x3-soc"><div class="x3-socrow"><div class="x3-chip">CPU</div><div class="x3-chip">GPU</div><div class="x3-chip">NPU</div></div><div class="x3-umem"></div></div></div>
+          </div>
+        </div>
+        <div class="x3-legend">▶ 움직임 자체가 비교다 — <b>박동 속도</b>=클럭 · <b>벨트 블록 크기</b>=명령 길이(가변 vs 고정) · <b>게이트 칸수</b>=동시 디코드 폭 · <b>레인 수와 점 속도</b>="깊고 빠르게 vs 넓고 느리게" · <b>맨 아래</b>=패키징(타일 · 칩렛+패브릭 · SoC+통합 메모리). 셋 다 내부적으로는 마이크로옵(µop)으로 쪼개 실행한다 — 차이는 속이 아니라 입구와 체격이다.</div>
+      <p class="doc-p" style="margin-top:16px;"><strong>① 출발점 — 명령어 집합.</strong> 인텔·AMD의 x86-64는 명령 길이가 1~15바이트로 가변이라(40년 하위호환의 유산) 명령의 경계를 찾는 것부터 일이고, 디코더를 넓히기 어렵다. 애플의 ARM64는 모든 명령이 4바이트 고정 — 경계가 자명해서 디코더를 옆으로 쭉 늘릴 수 있다(~10폭 vs ~4폭, 개략). 단, 셋 다 내부에서는 마이크로옵(µop)으로 쪼개 실행한다 — "요즘 x86도 속은 RISC"라는 말처럼, 차이는 속이 아니라 <strong>입구(디코드)의 병목</strong>이다.</p>
+      <p class="doc-p"><strong>② 체격 — 깊고 빠르게 vs 넓고 느리게.</strong> 인텔·AMD는 높은 클럭(5GHz대 중후반)과 깊은 파이프라인으로 승부하고, 애플은 클럭을 4GHz대로 묶는 대신 코어를 아주 넓게(거대한 재정렬 버퍼 + 넉넉한 캐시) 만들어 사이클당 일(IPC)로 승부한다. 클럭은 전력을 제곱 이상으로 태우지만 폭은 페널티가 작다 — 애플의 전력 효율(같은 성능을 절반 이하 전력으로)이 이 선택에서 나온다. ARM의 느슨한 메모리 순서 규칙도 비순차 실행을 공격적으로 하기 좋게 해주는 숨은 조력자다. SMT(한 코어 두 스레드)는 AMD가 유지, 인텔은 최근 제거 추세, 애플은 처음부터 없음 — 코어 하나를 크게 만드는 쪽을 택했다.</p>
+      <p class="doc-p"><strong>③ 패키징 — 레고 vs 통합.</strong> AMD는 칩렛의 선구자 — 코어 덩어리(CCD)와 입출력(IOD)을 따로 만들어 Infinity Fabric으로 잇는다. 작은 칩은 수율이 좋아 코어를 싸게 쌓고(서버 96코어+), L3를 수직으로 쌓는 3D V-Cache 같은 변형도 가능하다. 인텔은 모놀리식에서 타일(칩렛)+3D 적층(Foveros)으로 전환 중이며, 자체 팹을 가진 유일한 회사다. 애플은 SoC — CPU·GPU·NPU에 <strong>메모리까지 한 패키지</strong>로, "CPU를 판다"가 아니라 "컴퓨터 한 대를 칩 하나로 만든다"에 가깝다.</p>
+      <div class="callout" style="margin-bottom:16px;">④ 메모리가 로컬 LLM의 갈림길 — 인텔·AMD는 소켓 DIMM + 별도 VRAM(확장 자유·복사 필요·대역폭 낮음), 애플은 온패키지 통합 메모리(확장 불가·복사 없음·수백 GB/s급). 맥이 로컬 LLM에서 특별한 이유가 정확히 이 설계 선택이다 — 「AI 하드웨어 — 메모리」·「개발 환경으로서의 OS」와 이어진다.</div>
+      <div class="tbl-scroll"><table class="comp-table" style="margin-bottom:8px;">
+        <thead><tr><th></th><th>Intel</th><th>AMD</th><th>Apple</th></tr></thead>
+        <tbody>
+          <tr><td>ISA</td><td>x86-64 (CISC·가변)</td><td>x86-64 (CISC·가변)</td><td>ARM64 (RISC·4B 고정)</td></tr>
+          <tr><td>기본 전략</td><td>높은 클럭 + P/E 하이브리드</td><td>칩렛 + 코어 수 + 균형</td><td>넓은 코어 + 낮은 클럭 + 통합</td></tr>
+          <tr><td>SMT</td><td>제거 추세</td><td>유지 (2스레드/코어)</td><td>없음</td></tr>
+          <tr><td>패키징</td><td>타일 + 자체 팹</td><td>CCD+IOD + 3D V-Cache</td><td>SoC + 온패키지 메모리</td></tr>
+          <tr><td>무기</td><td>싱글스레드·레거시·팹</td><td>멀티코어·가성비·서버</td><td>전력 효율·통합 메모리</td></tr>
+          <tr><td>약점</td><td>전력·공정 경쟁 부담</td><td>자체 팹 없음(TSMC 의존)</td><td>확장 불가·폐쇄 생태계</td></tr>
+          <tr><td>어울리는 곳</td><td>최고 싱글스레드·레거시</td><td>서버·게임·가성비</td><td>노트북·전성비·로컬 LLM</td></tr>
+        </tbody>
+      </table></div>
+      <p class="doc-p" style="font-size:13px;color:#666666;">클럭·디코드 폭 수치는 세대마다 바뀌는 개략치다. 하위호환도 갈림길 — 인텔·AMD는 40년치 소프트웨어가 그대로 도는 것이 자산이자 족쇄이고, 애플은 과거를 잘라내고 x86 소프트웨어는 Rosetta 2로 번역해 돌린다(수직 통합의 과감함).</p>
     </div>
   </div>
 </div>

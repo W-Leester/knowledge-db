@@ -440,7 +440,7 @@
         "NPU",
         "TPU"
       ],
-      "version": 3,
+      "version": 4,
       "assets": [
         "docs/img/cpu-vs-gpu-cores.svg",
         "docs/img/cpu-cache-hierarchy.svg",
