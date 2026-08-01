@@ -997,6 +997,58 @@ body.doc-mode #doc-mode-content {
 @keyframes x3flow { from{background-position:0 0} to{background-position:26px 0} }
 @media (max-width:760px){ body.doc-mode .x3-stage{ grid-template-columns:1fr; } }
 @media (prefers-reduced-motion: reduce){ .x3-stage *, .x3-clk, .x3-track { animation:none !important; } }
+
+/* ═══ X4: 확대경 — 인텔 vs AMD 구조 차이 애니메이션 (슬라이드11·ds-10 공용) ═══ */
+.x4-wrap { overflow-x:auto; }
+.x4-stage { display:grid; grid-template-columns:1fr 1fr; gap:10px; min-width:560px; }
+.x4-col { background:#FFFFFF; border:2px solid var(--acc); border-radius:12px; padding:8px 10px; }
+.x4-colname { font-size:14px; font-weight:800; color:var(--acc); margin-bottom:4px; }
+.x4-cell { position:relative; background:#FAF7F2; border-radius:8px; padding:6px 8px; margin-bottom:7px; min-height:86px; overflow:hidden; }
+.x4-celltitle { font-size:10px; font-weight:700; color:#555555; margin-bottom:4px; }
+/* A. 코어 구성 */
+.x4-director { width:64%; margin:0 auto 4px; text-align:center; font-size:8.5px; font-weight:800; color:#FFF; background:#1A5CB5; border-radius:3px; padding:2px 0; animation:x3glow 1s ease-in-out infinite; }
+.x4-cores { display:flex; gap:3px; justify-content:center; align-items:flex-end; margin-top:14px; }
+.x4-cores i { display:flex; align-items:center; justify-content:center; border-radius:3px; font-style:normal; font-size:8px; font-weight:800; color:#FFF; }
+.x4-p { width:26px; height:26px; background:#1A5CB5; }
+.x4-e { width:18px; height:16px; background:#7EA7DC; }
+.x4-z { width:22px; height:22px; background:#DC2626; }
+.x4-zc { width:18px; height:16px; background:#E58B8B; }
+.x4-dot { position:absolute; width:6px; height:6px; border-radius:50%; background:#E8962A; left:50%; top:24px; }
+.x4-dp { animation:x4goP 1.6s ease-in-out infinite; }
+.x4-de { animation:x4goE 1.6s ease-in-out infinite .8s; }
+.x4-fall1 { animation:x4fall 1.2s ease-in infinite; left:32%; }
+.x4-fall2 { animation:x4fall 1.2s ease-in infinite .6s; left:66%; }
+@keyframes x4goP { 0%{transform:translate(0,0);opacity:0} 15%{opacity:1} 70%{transform:translate(-52px,26px);opacity:1} 100%{transform:translate(-52px,26px);opacity:0} }
+@keyframes x4goE { 0%{transform:translate(0,0);opacity:0} 15%{opacity:1} 70%{transform:translate(46px,30px);opacity:1} 100%{transform:translate(46px,30px);opacity:0} }
+@keyframes x4fall { 0%{transform:translateY(-6px);opacity:0} 25%{opacity:1} 80%{transform:translateY(26px);opacity:1} 100%{transform:translateY(26px);opacity:0} }
+/* B. 캐시 */
+.x4-l2grid { display:flex; gap:5px; justify-content:center; }
+.x4-l2unit { display:flex; flex-direction:column; gap:2px; align-items:center; }
+.x4-l2unit u { text-decoration:none; width:24px; height:16px; border-radius:3px; background:#1A5CB5; }
+.x4-l2unit b { width:28px; height:13px; border-radius:3px; background:#E8EEF7; border:1.2px solid #1A5CB5; animation:x3glow 1.4s ease-in-out infinite; font-size:0; }
+.x4-l2unit:nth-child(2) b{animation-delay:.35s} .x4-l2unit:nth-child(3) b{animation-delay:.7s} .x4-l2unit:nth-child(4) b{animation-delay:1.05s}
+.x4-l3zone { position:relative; padding-top:16px; }
+.x4-l3cores { display:flex; gap:3px; justify-content:center; margin-bottom:3px; }
+.x4-l3cores i { width:18px; height:13px; border-radius:2px; background:#DC2626; font-size:0; }
+.x4-l3bar { width:82%; margin:0 auto; height:15px; border-radius:4px; background:#FDECEC; border:1.5px solid #DC2626; text-align:center; font-size:8.5px; font-weight:800; color:#B91C1C; line-height:14px; animation:x3glow 2.2s ease-in-out infinite 1.1s; }
+.x4-vslab { position:absolute; left:50%; transform:translateX(-50%); bottom:20px; width:60%; height:11px; border-radius:3px; background:#B91C1C; color:#FFF; font-size:7.5px; font-weight:800; text-align:center; line-height:11px; animation:x4stack 2.2s ease-in-out infinite; }
+@keyframes x4stack { 0%{transform:translate(-50%,-20px);opacity:0} 30%{opacity:1} 55%{transform:translate(-50%,0);opacity:1} 80%{transform:translate(-50%,0);opacity:1} 100%{transform:translate(-50%,0);opacity:0} }
+/* C. 메모리 경로 */
+.x4-track { position:relative; height:34px; margin-top:8px; }
+.x4-node { position:absolute; top:8px; border-radius:3px; font-size:8px; font-weight:800; color:#FFF; padding:3px 6px; }
+.x4-ball { position:absolute; top:2px; width:7px; height:7px; border-radius:50%; background:#E8962A; }
+.x4-ball-i { animation:x4trip 1.5s ease-in-out infinite alternate; }
+.x4-ball-a { animation:x4trip 2.3s ease-in-out infinite alternate; }
+@keyframes x4trip { from{left:12%} to{left:82%} }
+/* D. AVX-512 */
+.x4-belt2 { position:relative; height:30px; border-radius:4px; background:#F2EDE4; overflow:hidden; margin-top:4px; }
+.x4-vec { position:absolute; top:7px; height:16px; width:44%; border-radius:3px; background:repeating-linear-gradient(90deg,#065F46 0 10px,#34A87C 10px 20px); color:#FFF; font-size:8px; font-weight:800; text-align:center; line-height:16px; animation:x4vecrun 2.6s linear infinite; }
+@keyframes x4vecrun { from{left:-46%} to{left:104%} }
+.x4-xflash { position:absolute; right:8%; top:2px; font-size:18px; font-weight:900; color:#DC2626; opacity:0; animation:x4xf 2.6s linear infinite; }
+@keyframes x4xf { 0%,55%{opacity:0} 66%,80%{opacity:1} 92%,100%{opacity:0} }
+.x4-ezone { position:absolute; right:0; top:0; bottom:0; width:26%; background:rgba(126,167,220,.25); border-left:1.5px dashed #1A5CB5; }
+.x4-note { font-size:9px; color:#666666; margin-top:3px; }
+@media (prefers-reduced-motion: reduce){ .x4-stage * { animation:none !important; } }
 </style>
 </head>
 <body>
@@ -1011,7 +1063,7 @@ body.doc-mode #doc-mode-content {
 </div>
 
 <!-- Slide Counter -->
-<div id="slide-counter">1 / 11</div>
+<div id="slide-counter">1 / 12</div>
 
 <!-- Nav Arrows -->
 <button id="nav-prev" aria-label="이전 슬라이드">&#8592;</button>
@@ -1955,6 +2007,85 @@ body.doc-mode #doc-mode-content {
       </div><!-- .slide-body -->
     </section>
 
+
+    <!-- ===== SLIDE 11: 확대경 인텔 vs AMD ===== -->
+    <section class="slide" id="slide-11">
+      <div class="slide-header">
+        <div class="slide-eyebrow">SLIDE 11 · 확대경</div>
+        <h2 class="slide-title">인텔 vs AMD — 파고들면 갈라지는 네 곳</h2>
+        <div class="title-rule"></div>
+      </div>
+      <div class="slide-body">
+        <div class="x4-wrap"><div class="x4-stage">
+          <div class="x4-col" style="--acc:#1A5CB5">
+            <div class="x4-colname">Intel</div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">A. 코어 — 이종(P+E) · 교통정리 필요</div>
+              <div class="x4-director">Thread Director</div>
+              <span class="x4-dot x4-dp"></span><span class="x4-dot x4-de"></span>
+              <div class="x4-cores"><i class="x4-p">P</i><i class="x4-p">P</i><i class="x4-p">P</i><i class="x4-p">P</i><i class="x4-e">E</i><i class="x4-e">E</i><i class="x4-e">E</i><i class="x4-e">E</i></div>
+              <div class="x4-note">일감(주황 점)을 어느 코어에 줄지 매번 판단</div>
+            </div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">B. 캐시 — 코어마다 큰 L2 (각자 해결)</div>
+              <div class="x4-l2grid">
+                <span class="x4-l2unit"><u></u><b></b></span><span class="x4-l2unit"><u></u><b></b></span><span class="x4-l2unit"><u></u><b></b></span><span class="x4-l2unit"><u></u><b></b></span>
+              </div>
+              <div class="x4-note">코어(진한 파랑) 밑에 전용 L2가 각각 점멸</div>
+            </div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">C. 메모리 길 — 타일 직결·짧은 왕복</div>
+              <div class="x4-track">
+                <span class="x4-node" style="left:4%;background:#1A5CB5">CORE</span>
+                <span class="x4-node" style="right:4%;background:#5F5B54">MEM</span>
+                <span class="x4-ball x4-ball-i"></span>
+              </div>
+              <div class="x4-note">고급 적층(EMIB·Foveros) — 레이턴시 낮은 전통</div>
+            </div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">D. AVX-512 — E코어가 못 받아 데스크톱서 제거</div>
+              <div class="x4-belt2"><div class="x4-ezone"></div><div class="x4-vec">AVX-512</div><span class="x4-xflash">✕</span></div>
+              <div class="x4-note">E코어 구역(하늘색)에 닿으면 ✕ — AVX10으로 재정리 중</div>
+            </div>
+          </div>
+          <div class="x4-col" style="--acc:#DC2626">
+            <div class="x4-colname">AMD</div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">A. 코어 — 동종 Zen + 압축 변형(c)</div>
+              <span class="x4-dot x4-fall1"></span><span class="x4-dot x4-fall2"></span>
+              <div class="x4-cores" style="margin-top:20px"><i class="x4-z">Z</i><i class="x4-z">Z</i><i class="x4-z">Z</i><i class="x4-z">Z</i><i class="x4-zc">c</i><i class="x4-zc">c</i><i class="x4-zc">c</i><i class="x4-zc">c</i></div>
+              <div class="x4-note">전부 같은 설계 — 일감이 고민 없이 떨어진다</div>
+            </div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">B. 캐시 — 공유 L3 + 3D V-Cache 적층</div>
+              <div class="x4-l3zone">
+                <div class="x4-l3cores"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <span class="x4-vslab">3D V-CACHE</span>
+                <div class="x4-l3bar">공유 L3</div>
+              </div>
+              <div class="x4-note">캐시 다이가 위에서 내려와 얹힌다 — 게임 X3D의 정체</div>
+            </div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">C. 메모리 길 — IOD 경유·긴 왕복</div>
+              <div class="x4-track">
+                <span class="x4-node" style="left:4%;background:#DC2626">CCD</span>
+                <span class="x4-node" style="left:42%;background:#E8962A">IOD</span>
+                <span class="x4-node" style="right:4%;background:#5F5B54">MEM</span>
+                <span class="x4-ball x4-ball-a"></span>
+              </div>
+              <div class="x4-note">공이 더 느리다 — 그 페널티를 B의 큰 L3가 덮는 구조</div>
+            </div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">D. AVX-512 — 전 코어 통과 (얄궂은 역전)</div>
+              <div class="x4-belt2"><div class="x4-vec">AVX-512</div></div>
+              <div class="x4-note">인텔이 만든 명령을 AMD가 전 코어 지원 — llama.cpp CPU 경로서 체감</div>
+            </div>
+          </div>
+        </div></div>
+        <div class="x3-legend">▶ 같은 x86 형제지만 — <b>A</b> 이종 코어(교통정리) vs 동종 코어 · <b>B</b> 코어별 L2 vs 공유 L3+수직 적층 · <b>C</b> 메모리 왕복 속도(직결 vs IOD 경유) · <b>D</b> AVX-512의 역전. 사업 구조도 갈린다: 인텔은 자체 팹(리스크 내재), AMD는 팹리스(TSMC) — 소켓도 인텔 ~2세대 교체 vs AMD 장수 정책.</div>
+      </div><!-- .slide-body -->
+    </section>
+
   </div><!-- #slide-scaler -->
 </div><!-- #presentation-viewport -->
 
@@ -2183,6 +2314,92 @@ body.doc-mode #doc-mode-content {
         </tbody>
       </table></div>
       <p class="doc-p" style="font-size:13px;color:#666666;">클럭·디코드 폭 수치는 세대마다 바뀌는 개략치다. 하위호환도 갈림길 — 인텔·AMD는 40년치 소프트웨어가 그대로 도는 것이 자산이자 족쇄이고, 애플은 과거를 잘라내고 x86 소프트웨어는 Rosetta 2로 번역해 돌린다(수직 통합의 과감함).</p>
+
+      <h2 class="doc-h2" style="margin-top:28px;">확대경 — 인텔 vs AMD, 파고들면 갈라지는 곳</h2>
+      <p class="doc-p">위 삼국지에서 인텔과 AMD는 "같은 x86 형제"로 묶이지만, 확대해 보면 다른 회사임이 실감나는 구조 차이가 나온다. 아래 무대의 네 행이 각각 하나의 갈림길이다:</p>
+      <div class="x4-wrap"><div class="x4-stage">
+          <div class="x4-col" style="--acc:#1A5CB5">
+            <div class="x4-colname">Intel</div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">A. 코어 — 이종(P+E) · 교통정리 필요</div>
+              <div class="x4-director">Thread Director</div>
+              <span class="x4-dot x4-dp"></span><span class="x4-dot x4-de"></span>
+              <div class="x4-cores"><i class="x4-p">P</i><i class="x4-p">P</i><i class="x4-p">P</i><i class="x4-p">P</i><i class="x4-e">E</i><i class="x4-e">E</i><i class="x4-e">E</i><i class="x4-e">E</i></div>
+              <div class="x4-note">일감(주황 점)을 어느 코어에 줄지 매번 판단</div>
+            </div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">B. 캐시 — 코어마다 큰 L2 (각자 해결)</div>
+              <div class="x4-l2grid">
+                <span class="x4-l2unit"><u></u><b></b></span><span class="x4-l2unit"><u></u><b></b></span><span class="x4-l2unit"><u></u><b></b></span><span class="x4-l2unit"><u></u><b></b></span>
+              </div>
+              <div class="x4-note">코어(진한 파랑) 밑에 전용 L2가 각각 점멸</div>
+            </div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">C. 메모리 길 — 타일 직결·짧은 왕복</div>
+              <div class="x4-track">
+                <span class="x4-node" style="left:4%;background:#1A5CB5">CORE</span>
+                <span class="x4-node" style="right:4%;background:#5F5B54">MEM</span>
+                <span class="x4-ball x4-ball-i"></span>
+              </div>
+              <div class="x4-note">고급 적층(EMIB·Foveros) — 레이턴시 낮은 전통</div>
+            </div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">D. AVX-512 — E코어가 못 받아 데스크톱서 제거</div>
+              <div class="x4-belt2"><div class="x4-ezone"></div><div class="x4-vec">AVX-512</div><span class="x4-xflash">✕</span></div>
+              <div class="x4-note">E코어 구역(하늘색)에 닿으면 ✕ — AVX10으로 재정리 중</div>
+            </div>
+          </div>
+          <div class="x4-col" style="--acc:#DC2626">
+            <div class="x4-colname">AMD</div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">A. 코어 — 동종 Zen + 압축 변형(c)</div>
+              <span class="x4-dot x4-fall1"></span><span class="x4-dot x4-fall2"></span>
+              <div class="x4-cores" style="margin-top:20px"><i class="x4-z">Z</i><i class="x4-z">Z</i><i class="x4-z">Z</i><i class="x4-z">Z</i><i class="x4-zc">c</i><i class="x4-zc">c</i><i class="x4-zc">c</i><i class="x4-zc">c</i></div>
+              <div class="x4-note">전부 같은 설계 — 일감이 고민 없이 떨어진다</div>
+            </div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">B. 캐시 — 공유 L3 + 3D V-Cache 적층</div>
+              <div class="x4-l3zone">
+                <div class="x4-l3cores"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <span class="x4-vslab">3D V-CACHE</span>
+                <div class="x4-l3bar">공유 L3</div>
+              </div>
+              <div class="x4-note">캐시 다이가 위에서 내려와 얹힌다 — 게임 X3D의 정체</div>
+            </div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">C. 메모리 길 — IOD 경유·긴 왕복</div>
+              <div class="x4-track">
+                <span class="x4-node" style="left:4%;background:#DC2626">CCD</span>
+                <span class="x4-node" style="left:42%;background:#E8962A">IOD</span>
+                <span class="x4-node" style="right:4%;background:#5F5B54">MEM</span>
+                <span class="x4-ball x4-ball-a"></span>
+              </div>
+              <div class="x4-note">공이 더 느리다 — 그 페널티를 B의 큰 L3가 덮는 구조</div>
+            </div>
+            <div class="x4-cell">
+              <div class="x4-celltitle">D. AVX-512 — 전 코어 통과 (얄궂은 역전)</div>
+              <div class="x4-belt2"><div class="x4-vec">AVX-512</div></div>
+              <div class="x4-note">인텔이 만든 명령을 AMD가 전 코어 지원 — llama.cpp CPU 경로서 체감</div>
+            </div>
+          </div>
+        </div></div>
+      <p class="doc-p" style="margin-top:16px;"><strong>A. 코어 전략.</strong> 인텔의 P·E코어는 <u>아예 다른 마이크로아키텍처</u>다(설계팀도 다름) — 성능은 극대화되지만 OS가 일감을 어느 코어에 줄지 매번 판단해야 하고(Thread Director), 두 코어의 명령어 지원 차이가 D의 AVX-512 사태를 낳았다. AMD는 <u>모든 코어가 동일한 Zen 설계</u>이고 밀도가 필요하면 같은 설계의 압축 변형(Zen c — IPC 동일·클럭만 낮음)을 쓴다 — 스케줄링이 단순하고 명령어 지원이 균일하다.</p>
+      <p class="doc-p"><strong>B. 캐시 철학.</strong> 인텔은 코어마다 붙는 L2를 크게(코어당 2~3MB급, 개략) — "각자 해결". AMD는 공유 L3를 크게, 나아가 캐시 다이를 <u>수직으로 쌓는 3D V-Cache</u>(96MB+급)로 "게임용 CPU = AMD X3D"라는 공식을 만들었다. 인텔에는 아직 대응물이 없다.</p>
+      <p class="doc-p"><strong>C. 칩렛의 구현.</strong> 같은 칩렛이라도 — AMD는 <u>수율 기준 분할</u>(CCD 최신 공정 + IOD 구공정, 기판 배선 연결)로 패키징이 저렴하지만 메모리 접근이 IOD를 경유해 레이턴시 페널티가 있고(그걸 B의 큰 L3로 덮는 한 세트 설계), 인텔은 <u>기능 기준 분할</u>(연산·그래픽·SoC 타일) + 고급 2.5D/3D 적층(EMIB·Foveros)으로 비싸지만 거리가 짧다. 사업 차원의 최대 차이도 여기 얽힌다 — <u>인텔은 자체 팹(공정 전환 리스크를 스스로 짊어짐), AMD는 팹리스(TSMC 최신 노드를 골라 씀)</u>.</p>
+      <p class="doc-p"><strong>D. 명령어의 얄궂은 역전.</strong> AVX-512는 인텔이 만들었지만 E코어가 지원을 못 해 데스크톱에서 빼야 했고(AVX10으로 재정리 중), AMD는 Zen 4부터 전 코어 지원(Zen 5 네이티브 512비트)이다. llama.cpp의 CPU 추론 경로처럼 AVX-512를 타는 작업에서 실제로 체감되는 차이. 반대로 서버 행렬 가속(AMX)은 인텔의 무기다.</p>
+      <div class="tbl-scroll"><table class="comp-table" style="margin-bottom:8px;">
+        <thead><tr><th>갈래</th><th>Intel</th><th>AMD</th></tr></thead>
+        <tbody>
+          <tr><td>코어</td><td>이종 P+E — 스케줄링 복잡</td><td>동종 Zen + 압축 변형(c)</td></tr>
+          <tr><td>캐시</td><td>코어별 L2 크게</td><td>공유 L3 크게 + 3D V-Cache</td></tr>
+          <tr><td>칩렛</td><td>기능 분할 + 고급 적층(비쌈·짧음)</td><td>수율 분할 + 저렴한 패브릭(IOD 레이턴시)</td></tr>
+          <tr><td>제조</td><td>자체 팹 (IDM — 리스크 내재)</td><td>팹리스 (TSMC)</td></tr>
+          <tr><td>AVX-512</td><td>데스크톱 제거 → AVX10</td><td>전 코어 지원</td></tr>
+          <tr><td>소켓</td><td>~2세대마다 교체</td><td>장수 정책 (AM4 7년, AM5 장기)</td></tr>
+          <tr><td>강한 곳</td><td>싱글스레드·가속기(AMX)·레거시</td><td>게임(X3D)·서버 코어 수·가성비</td></tr>
+        </tbody>
+      </table></div>
+      <p class="doc-p" style="font-size:13px;color:#666666;">한 줄 요약 — 애플과 비교할 땐 형제, 서로 비교하면 설계 철학(이종 vs 동종)·캐시(L2 vs L3+적층)·사업 구조(팹 vs 팹리스)가 갈라놓은 경쟁자다.</p>
     </div>
   </div>
 </div>
