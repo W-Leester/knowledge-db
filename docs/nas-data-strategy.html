@@ -640,6 +640,35 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     </table>
   </div>
 
+  <p class="body">숫자로도 비교해보자 — <strong>기준: 8TB HDD × 4개(합산 32TB), 디스크 1개 순차 속도 ~250MB/s</strong>
+  (개략치 · RAID 1만 2개 구성 기준). 속도 배수는 이론 상한에 가까운 개략값이고, 실측은 컨트롤러·캐시·파일 크기에 따라 낮아진다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:110px">방식</th><th style="width:110px">합산 용량</th><th style="width:140px">실사용 용량</th><th style="width:180px">읽기 속도 (개략)</th><th>쓰기 속도 (개략)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">RAID 0</td><td>32TB</td><td><strong>32TB</strong> (100%)</td><td>~4배 (~1,000MB/s)</td><td>~4배 (~1,000MB/s) — 대신 보호 0</td></tr>
+        <tr><td class="hl">RAID 1 (2개)</td><td>16TB</td><td><strong>8TB</strong> (50%)</td><td>~2배 (~500MB/s)</td><td>~1배 (~250MB/s) — 양쪽에 같이 써야 하므로</td></tr>
+        <tr><td class="hl">RAID 5</td><td>32TB</td><td><strong>24TB</strong> (75%)</td><td>~3배 (~750MB/s)</td><td>순차 ~2~3배 · <u>랜덤 쓰기는 크게 저하</u> (패리티 갱신 왕복)</td></tr>
+        <tr><td class="hl">RAID 6</td><td>32TB</td><td><strong>16TB</strong> (50%)</td><td>~3배 (~750MB/s)</td><td>순차 ~2배 · 랜덤은 RAID 5보다 더 저하 (패리티 2벌 갱신)</td></tr>
+        <tr><td class="hl">RAID 10</td><td>32TB</td><td><strong>16TB</strong> (50%)</td><td>~4배 (~1,000MB/s)</td><td>~2배 (~500MB/s) — 패리티 연산 없이 균일</td></tr>
+        <tr><td class="hl">JBOD</td><td>32TB</td><td><strong>32TB</strong> (100%)</td><td>~1배 (~250MB/s)</td><td>~1배 — 한 번에 한 디스크만 일한다</td></tr>
+        <tr><td class="hl">SHR (8×4)</td><td>32TB</td><td><strong>24TB</strong> — RAID 5와 동일</td><td>RAID 5와 유사</td><td>RAID 5와 유사</td></tr>
+        <tr><td class="hl">SHR (4+8+8 혼용)</td><td>20TB</td><td><strong>12TB</strong> — 일반 RAID 5라면 8TB에 그침</td><td colspan="2">혼용의 진가는 속도가 아니라 <u>용량 회수</u> — 남는 4TB×2를 미러로 살려낸다 (도식 참조)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🚦</span>
+    <div><strong>현실 체크 — 병목은 대개 RAID가 아니라 LAN이다.</strong> 위 속도는 NAS 내부의 이야기이고,
+    내 컴퓨터에서 체감하는 속도는 네트워크가 상한이다: <u>1GbE ≈ 110MB/s(디스크 1개보다 느림!),
+    2.5GbE ≈ 300MB/s, 10GbE ≈ 1,100MB/s</u>. 즉 1GbE에서는 어떤 RAID를 짜도 차이가 안 보이고,
+    RAID 0/10의 속도가 드러나려면 10GbE가 필요하다 — §6 표에서 "2.5GbE 이상"을 권한 이유이자,
+    <u>속도가 진짜 목적이면 NAS의 RAID보다 DAS(§4)가 정답</u>인 이유다. 반대로 쓰기 랜덤 저하(RAID 5/6)는
+    LAN과 무관하게 백업·잔파일 작업에서 체감될 수 있다 — SSD 캐시가 이걸 완충한다.</div>
+  </div>
+
   <div class="callout green">
     <span class="icon">🧭</span>
     <div><strong>고르기 요약 —</strong> 가정용 4베이라면 고민 순서는 셋뿐이다:
