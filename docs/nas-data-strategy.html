@@ -623,6 +623,31 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <figcaption>같은 파일 A·B·C가 방식마다 어떻게 놓이고, ✕(고장) 때 무슨 일이 벌어지는지 — 파랑=데이터 · 갈색=패리티 · 보라=2차 패리티 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
   </figure>
 
+  <p class="body">마지막으로 <strong>선택의 저울</strong> — 방식별 장점과 단점, 그리고 어떤 사람의 답인지:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:110px">방식</th><th style="width:280px">장점</th><th style="width:290px">단점</th><th>이런 경우의 답</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">RAID 0</td><td>속도·용량 모두 100% 합산 — 가장 빠르다</td><td>보호 0 — 오히려 고장 확률이 디스크 수만큼 배가. 하나 죽으면 전체 사망</td><td>잃어도 되는 초고속 작업판뿐 — NAS에선 답이 아님</td></tr>
+        <tr><td class="hl">RAID 1</td><td>가장 단순·복구가 제일 쉽다(남은 쪽을 그대로 사용) · 읽기 빠름</td><td>용량 반토막(50%) · 2베이에 갇혀 확장 경로가 없음</td><td>2베이로 시작하는 소규모 — 단순함이 최고 미덕일 때</td></tr>
+        <tr><td class="hl">RAID 5</td><td>보호와 용량의 균형(N-1) — 4베이에서 75% · 읽기 성능 양호</td><td>쓰기마다 패리티 연산 오버헤드 · <strong>재구축이 길고 그동안 무방비</strong> — 대용량 디스크일수록 2차 고장 위험 증가</td><td>중간 용량 디스크의 4베이 표준 — 균형이 목적일 때</td></tr>
+        <tr><td class="hl">RAID 6</td><td><strong>동시 2개 고장 허용</strong> — 재구축 중 불안 해소 · 대용량 디스크 시대의 안심</td><td>쓰기 오버헤드가 RAID 5보다 큼 · 효율 N-2 · 최소 4베이</td><td>수십 TB급 디스크·"재구축 도박"이 싫은 사람</td></tr>
+        <tr><td class="hl">RAID 10</td><td>패리티 연산이 없어 <strong>빠르고</strong>, 재구축도 빠르고 안전(그냥 복사)</td><td>효율 50% · 같은 미러 쌍의 2개가 죽으면 사망 · 최소 4개</td><td>속도가 우선인 작업(DB·VM·편집) — 용량은 양보</td></tr>
+        <tr><td class="hl">JBOD</td><td>용량 100% · 크기 다른 디스크 아무렇게나 이어 씀</td><td>보호 0 · 볼륨 정리도 안 됨 — 죽은 디스크 몫은 그대로 소멸</td><td>임시 창고·어차피 사본이 따로 있는 데이터뿐</td></tr>
+        <tr><td class="hl">SHR / SHR-2</td><td><strong>용량 혼용 낭비 최소</strong> · 1개씩 무중단 증설·롤링 교체 — §의 로드맵이 성립 · 관리가 쉬움</td><td>특정 제조사 생태계 종속(다른 기기로 이식 어려움) · 속은 RAID 5/6이라 재구축 부담 등 같은 한계</td><td>가정용 4베이의 기본값 — 디스크를 단계적으로 살 계획이면 사실상 유일해</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🧭</span>
+    <div><strong>고르기 요약 —</strong> 가정용 4베이라면 고민 순서는 셋뿐이다:
+    ① 기본값은 <u>SHR(패리티 1)</u> — 로드맵의 유연함. ② 디스크가 커질수록(수십 TB) <u>SHR-2/RAID 6</u>으로 —
+    재구축 도박을 없애는 값. ③ 속도가 진짜 병목이면 <u>RAID 10</u> — 단 용량 절반을 값으로 치른다.
+    RAID 0·JBOD는 "보호"가 목적인 NAS에서는 선택지에서 빼고 시작하면 된다.</div>
+  </div>
+
   <div class="callout navy">
     <span class="icon">🧩</span>
     <div><strong>패리티가 뭐길래 —</strong> 패리티는 "짝맞춤 숫자"다. 3+5=8일 때 8을 따로 적어두면,
