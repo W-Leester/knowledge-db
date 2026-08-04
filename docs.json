@@ -191,6 +191,29 @@
       ]
     },
     {
+      "id": "dev-ecosystem",
+      "title": "개발 생태계 해부",
+      "desc": "이름들이 사는 6개의 층 — 언어·런타임·패키지 매니저·빌드 도구, node는 npm이 아니다",
+      "file": "docs/dev-ecosystem.html",
+      "group": "Software · Dev",
+      "icon": "🪪",
+      "gradient": [
+        "#0D1B2E",
+        "#4338CA"
+      ],
+      "tags": [
+        "런타임",
+        "npm·pip",
+        "빌드 타임"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/eco-layers.svg",
+        "docs/img/eco-buildtime.svg",
+        "docs/img/eco-merge.svg"
+      ]
+    },
+    {
       "id": "ai-dev-process",
       "title": "AI 시대의 개발 프로세스",
       "desc": "코드는 싸졌고 검증이 비싸졌다 — 순서·LLM의 역할·리뷰 피라미드까지 작업 흐름의 재설계",

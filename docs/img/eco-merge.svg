@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 580" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="ema" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="580" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">반전 — 층은 다시 합쳐지는 중이다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">6층 명함은 "분류의 칼"이지 벽이 아니다 — 요즘 도구들은 여러 층을 한 몸에 담는다</text>
+
+  <!-- 분화의 세계 -->
+  <rect x="30" y="84" width="410" height="300" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <text x="235" y="112" font-size="14" font-weight="800" fill="#DC2626" text-anchor="middle">분화의 세계 — JS의 지난 10년</text>
+  <text x="235" y="132" font-size="10.5" fill="#666666" text-anchor="middle">층마다 도구가 따로, 그것도 여럿씩</text>
+
+  <text x="52" y="162" font-size="11" font-weight="700" fill="#555555">런타임:</text>
+  <rect x="130" y="148" width="60" height="22" rx="5" fill="#FFFFFF" stroke="#B45309" stroke-width="1.2"/><text x="160" y="163" font-size="9.5" fill="#B45309" text-anchor="middle" font-weight="700">Node</text>
+  <rect x="196" y="148" width="60" height="22" rx="5" fill="#FFFFFF" stroke="#B45309" stroke-width="1.2"/><text x="226" y="163" font-size="9.5" fill="#B45309" text-anchor="middle" font-weight="700">브라우저</text>
+  <text x="52" y="200" font-size="11" font-weight="700" fill="#555555">패키지 매니저:</text>
+  <rect x="160" y="186" width="50" height="22" rx="5" fill="#FFFFFF" stroke="#065F46" stroke-width="1.2"/><text x="185" y="201" font-size="9.5" fill="#065F46" text-anchor="middle" font-weight="700">npm</text>
+  <rect x="216" y="186" width="50" height="22" rx="5" fill="#FFFFFF" stroke="#065F46" stroke-width="1.2"/><text x="241" y="201" font-size="9.5" fill="#065F46" text-anchor="middle" font-weight="700">yarn</text>
+  <rect x="272" y="186" width="50" height="22" rx="5" fill="#FFFFFF" stroke="#065F46" stroke-width="1.2"/><text x="297" y="201" font-size="9.5" fill="#065F46" text-anchor="middle" font-weight="700">pnpm</text>
+  <text x="52" y="238" font-size="11" font-weight="700" fill="#555555">번들러:</text>
+  <rect x="130" y="224" width="64" height="22" rx="5" fill="#FFFFFF" stroke="#3568B0" stroke-width="1.2"/><text x="162" y="239" font-size="9.5" fill="#3568B0" text-anchor="middle" font-weight="700">Webpack</text>
+  <rect x="200" y="224" width="50" height="22" rx="5" fill="#FFFFFF" stroke="#3568B0" stroke-width="1.2"/><text x="225" y="239" font-size="9.5" fill="#3568B0" text-anchor="middle" font-weight="700">Vite</text>
+  <rect x="256" y="224" width="60" height="22" rx="5" fill="#FFFFFF" stroke="#3568B0" stroke-width="1.2"/><text x="286" y="239" font-size="9.5" fill="#3568B0" text-anchor="middle" font-weight="700">esbuild</text>
+  <text x="52" y="276" font-size="11" font-weight="700" fill="#555555">변환기:</text>
+  <rect x="130" y="262" width="50" height="22" rx="5" fill="#FFFFFF" stroke="#6B21A8" stroke-width="1.2"/><text x="155" y="277" font-size="9.5" fill="#6B21A8" text-anchor="middle" font-weight="700">Babel</text>
+  <rect x="186" y="262" width="40" height="22" rx="5" fill="#FFFFFF" stroke="#6B21A8" stroke-width="1.2"/><text x="206" y="277" font-size="9.5" fill="#6B21A8" text-anchor="middle" font-weight="700">tsc</text>
+  <text x="52" y="314" font-size="11" font-weight="700" fill="#555555">테스트·린트:</text>
+  <rect x="146" y="300" width="46" height="22" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.2"/><text x="169" y="315" font-size="9.5" fill="#555555" text-anchor="middle" font-weight="700">Jest</text>
+  <rect x="198" y="300" width="56" height="22" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.2"/><text x="226" y="315" font-size="9.5" fill="#555555" text-anchor="middle" font-weight="700">ESLint</text>
+  <text x="235" y="352" font-size="10.5" font-weight="700" fill="#DC2626" text-anchor="middle">→ "JS 피로감"의 정체 — 배우기 전에 고르다 지친다</text>
+  <text x="235" y="370" font-size="9.5" fill="#666666" text-anchor="middle">층 구분 없이는 이 이름들이 전부 "개발환경"으로 뭉개진다</text>
+
+  <!-- 통합의 세계 -->
+  <rect x="460" y="84" width="410" height="300" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="665" y="112" font-size="14" font-weight="800" fill="#0F766E" text-anchor="middle">통합의 세계 — 원조와 신흥</text>
+  <text x="665" y="132" font-size="10.5" fill="#666666" text-anchor="middle">도구 하나가 여러 층을 겸한다</text>
+
+  <rect x="482" y="148" width="176" height="100" rx="10" fill="#FFFFFF" stroke="#B45309" stroke-width="1.5"/>
+  <text x="570" y="170" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">원조 통합파</text>
+  <text x="570" y="192" font-size="10.5" fill="#555555" text-anchor="middle">cargo (Rust)</text>
+  <text x="570" y="210" font-size="10.5" fill="#555555" text-anchor="middle">go 명령 (Go)</text>
+  <text x="570" y="232" font-size="9" fill="#666666" text-anchor="middle">빌드+패키지+테스트를 처음부터 한 몸에</text>
+
+  <rect x="672" y="148" width="176" height="100" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+  <text x="760" y="170" font-size="11.5" font-weight="800" fill="#0F766E" text-anchor="middle">신흥 통합파 (JS·Python)</text>
+  <text x="760" y="192" font-size="10.5" fill="#555555" text-anchor="middle">Bun — 런타임+PM+번들러+테스트</text>
+  <text x="760" y="210" font-size="10.5" fill="#555555" text-anchor="middle">Deno — 런타임+도구 일체</text>
+  <text x="760" y="228" font-size="10.5" fill="#555555" text-anchor="middle">uv — pip+venv+파이썬 설치까지</text>
+
+  <rect x="482" y="264" width="366" height="104" rx="10" fill="#0D1B2E"/>
+  <text x="665" y="290" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">왜 합치나 — 분화의 비용이 너무 커져서</text>
+  <text x="665" y="312" font-size="10" fill="#AAB9CF" text-anchor="middle">도구 5개의 설정 파일 5개, 버전 궁합, 속도 손실…</text>
+  <text x="665" y="330" font-size="10" fill="#AAB9CF" text-anchor="middle">"cargo처럼 하나로"가 모든 생태계의 공통 방향</text>
+  <text x="665" y="352" font-size="10" fill="#7FD1A8" text-anchor="middle">Claude Code가 Bun을 택한 이유 중 하나 — 도구 사슬의 단순화</text>
+
+  <line x1="440" y1="234" x2="456" y2="234" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ema)"/>
+
+  <!-- 하단 -->
+  <rect x="30" y="404" width="840" height="86" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="450" y="432" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">그래서 6층 명함은 어떻게 쓰나</text>
+  <text x="450" y="456" font-size="11.5" fill="#555555" text-anchor="middle">통합 도구를 만나면 "이건 몇 층이지?"가 아니라 <tspan font-weight="800">"이건 몇 층을 겸하지?"</tspan>로 질문이 진화한다</text>
+  <text x="450" y="478" font-size="11" fill="#666666" text-anchor="middle">Bun의 명함: 2층(런타임) + 3층(패키지 매니저) + 6층(번들러·테스트) — 층은 사라진 게 아니라 한 회사에 입사했을 뿐</text>
+
+  <rect x="30" y="506" width="840" height="52" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="528" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">분류는 도구를 위해 있는 게 아니라 나를 위해 있다 — 새 이름이 나와도 층으로 해부하면 3분 안에 정체가 잡힌다</text>
+  <text x="450" y="548" font-size="11" fill="#AAB9CF" text-anchor="middle">이 문서의 목록은 바래겠지만(2026.08 스냅샷), 층의 문법은 남는다</text>
+</svg>

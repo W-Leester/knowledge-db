@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>개발 생태계 해부 — 이름들이 사는 6개의 층</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #4338CA 55%, #E8962A 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>개발 생태계<br>해부</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#confusion">1. 왜 헷갈리나 — 실제 질문 사슬</a>
+    <a href="#layers">2. 6층 명함</a>
+    <a href="#map">3. 생태계 지도 — 8개 언어</a>
+    <a href="#deep">4. 층별 깊이 파기</a>
+    <a href="#d-runtime" class="sub">4-A. 런타임 — 한 언어, 여러 무대</a>
+    <a href="#d-pm" class="sub">4-B. 패키지 매니저와 창고</a>
+    <a href="#d-build" class="sub">4-C. 빌드 도구 — 왜 JS만 시끄럽나</a>
+    <a href="#buildtime">5. 빌드 타임 vs 런타임</a>
+    <a href="#merge">6. 반전 — 층이 다시 합쳐진다</a>
+    <a href="#practice">7. 실전 판별법</a>
+    <a href="#refs">8. 함께 읽기</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.08</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Software Engineering · Ecosystem Anatomy</div>
+  <h1>개발 생태계 해부<br><span class="thin">이름들이 사는 6개의 층 — node는 npm이 아니고, React는 언어가 아니다</span></h1>
+  <p class="sub">Node, npm, pip, React, Vite, cargo, PyPI… 개발을 배우면 이름의 홍수를 만난다.
+  혼란의 원인은 이름이 많아서가 아니라 <strong>층을 가르는 칼이 없어서</strong>다. 언어·런타임·패키지 매니저·
+  레지스트리·패키지·빌드 도구라는 6층 명함 하나로, 이미 만난 이름들을 정리하고 앞으로 만날 이름들까지
+  3분 안에 분류하는 눈을 만든다.</p>
+  <div class="tags">
+    <span class="tag">언어 vs 런타임</span><span class="tag">npm·pip</span><span class="tag">빌드 타임</span>
+    <span class="tag">cargo·go</span><span class="tag">Bun·uv</span><span class="tag">6층 명함</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 혼란의 세 뿌리</h2>
+    <p>이름을 100개 외우는 것보다 뿌리 3개를 아는 것이 빠르다</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><h4>① 이름의 다의성</h4><p>Python은 언어 이름이자 실행기 이름이고, npm은 도구 이름이자 창고 이름이다. 한 이름이 여러 층에 걸치면 "언어 = 환경"같은 잘못된 등식이 생긴다 — 그 등식이 Node에서 깨질 때 혼란이 시작된다.</p></div>
+    <div class="card"><h4>② 범주 미분화</h4><p>"개발환경"이라는 한 단어 안에 실제로는 6개의 서로 다른 층(언어·런타임·패키지 매니저·레지스트리·패키지·빌드 도구)이 뭉쳐 있다 — 층을 가르면 이름들이 제자리를 찾는다(§2).</p></div>
+    <div class="card"><h4>③ 시점 미분화</h4><p>"개발할 때의 도구"와 "사용자가 돌릴 때의 실행"은 다른 세계다 — React에 Node가 필요한 건 실행이 아니라 변환(빌드) 때문. 빌드 타임과 런타임을 가르면 마지막 퍼즐이 풀린다(§5).</p></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>이 문서의 위치 —</strong> 「기술 스택 고르기」 §5가 런타임·프레임워크·컴파일의 "개념"을 다뤘다면,
+    이 문서는 그 개념들이 실제 생태계에서 <u>어떤 이름표를 달고 사는지</u>를 다룬다 — 형제 문서다.
+    도구 사슬 통합의 최전선(Bun)은 「Claude Code 내부 해부」와 만난다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. CONFUSION ═══════════ -->
+<section id="confusion">
+  <div class="section-header">
+    <div class="eyebrow">The Confusion</div>
+    <h2>1. 왜 헷갈리나 — 어느 학습자의 실제 질문 사슬</h2>
+    <p>부끄러운 질문이 아니다 — 전부 층 하나씩을 발견하는 정확한 관문이었다</p>
+  </div>
+
+  <p class="body">아래는 한 학습자가 실제로 밟은 질문의 사슬이다(웹 개발을 처음 정리하는 사람이라면 거의 같은 길을 걷는다).
+  각 질문이 <strong>어느 층의 혼동</strong>이었는지를 나란히 붙이면, 이 문서 전체의 지도가 된다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:290px">질문</th><th style="width:210px">혼동의 정체</th><th>발견한 층</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">"node가 npm인 거 아냐?"</td><td>실행기와 배달부를 한 몸으로 봄 (같이 설치되니까)</td><td>2층(런타임) ≠ 3층(패키지 매니저)</td></tr>
+        <tr><td class="hl">"실행환경은 cmd나 터미널 아닌가?"</td><td>창구와 요리사를 혼동 — 터미널은 이름을 불러줄 뿐</td><td>터미널은 층이 아니라 <strong>창구</strong></td></tr>
+        <tr><td class="hl">"파이썬 = 개발언어라고 생각했는데, 노드도 언어인가?"</td><td>파이썬에서 배운 "언어 이름 = 실행기 이름" 등식이 JS에서 깨짐</td><td>1층(언어) ≠ 2층(런타임) — JS의 무대가 Node</td></tr>
+        <tr><td class="hl">"같은 언어를 다른 환경에서 실행할 수도 있나?"</td><td>혼동이 아니라 <strong>정확한 추론</strong> — 브라우저도 JS의 무대다</td><td>2층의 복수성 (§4-A)</td></tr>
+        <tr><td class="hl">"리액트는 언어야 뭐야?"</td><td>유명하니 언어처럼 보이지만, JS로 쓰인 코드 뭉치</td><td>5층(패키지) — 라이브러리</td></tr>
+        <tr><td class="hl">"리액트는 npm 뭉치라고 보면 되나?"</td><td>정확 — 배포 단위 관점의 명중</td><td>5층은 4층(창고)에서 3층(배달부)으로 받는다</td></tr>
+        <tr><td class="hl">"그럼 리액트의 실행환경은 node야?"</td><td>반만 맞음 — 개발할 땐 Node, 실행은 브라우저</td><td><strong>시점의 발견</strong> — 빌드 타임 vs 런타임 (§5)</td></tr>
+        <tr><td class="hl">"애초에 크롬에서 바로 개발하면 되잖아?"</td><td>10년 전엔 실제로 그랬다 — 규모·문법·보안이 변환 공장을 만들었다</td><td>6층(빌드 도구)의 존재 이유 (§4-C)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🪜</span>
+    <div><strong>이 사슬이 훌륭한 이유 —</strong> 여덟 질문이 정확히 6층 + 창구 + 시점이라는 이 문서의 전체 뼈대를
+    순서대로 두드리고 있다. 즉 혼란은 무지가 아니라 <u>지도가 없는 상태에서의 올바른 탐색</u>이었다.
+    이제 지도를 그리자.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. LAYERS ═══════════ -->
+<section id="layers">
+  <div class="section-header">
+    <div class="eyebrow">The Map</div>
+    <h2>2. 6층 명함 — "개발환경" 한 단어를 여섯 조각으로</h2>
+    <p>새 이름을 만나면 먼저 묻는다: "이건 몇 층이지?"</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/eco-layers.svg" alt="언어, 런타임, 패키지 매니저, 레지스트리, 패키지, 빌드 도구 6층과 터미널 창구"></div>
+    <figcaption>여섯 층 + 표 밖의 터미널(창구) — 오른쪽 칸이 각 층의 실제 거주자들 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">층</th><th style="width:230px">정체</th><th>비유 (연극)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">1층 · 언어</td><td>문법 규칙 — 실체는 명세서(문서)</td><td>대본을 쓰는 말 (한국어·영어)</td></tr>
+        <tr><td class="hl">2층 · 런타임</td><td>그 말을 실행하는 <strong>프로그램</strong></td><td>무대 — 같은 대본을 올릴 무대가 여럿일 수 있다</td></tr>
+        <tr><td class="hl">3층 · 패키지 매니저</td><td>남의 코드를 가져오고 버전 관리하는 도구</td><td>소품 배달부</td></tr>
+        <tr><td class="hl">4층 · 레지스트리</td><td>패키지가 모인 온라인 창고</td><td>소품 도매시장</td></tr>
+        <tr><td class="hl">5층 · 패키지</td><td>배달받은 코드 뭉치 — 라이브러리·프레임워크</td><td>소품 그 자체 (도구상자 or 무대 골조)</td></tr>
+        <tr><td class="hl">6층 · 빌드 도구</td><td>코드를 배포 표적에 맞게 변환·묶음·압축</td><td>공연 전 리허설·무대 전환 팀</td></tr>
+        <tr><td class="hl">(창구) 터미널</td><td>여섯 층 누구든 이름을 불러 깨우는 인터페이스</td><td>매표소 — 공연 자체는 아니다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🪪</span>
+    <div><strong>명함 읽기 연습 —</strong> "Node.js를 설치했더니 npm이 따라왔다" = <u>2층 상품을 샀더니 3층 도구가
+    사은품으로 왔다</u>는 뜻이지, 둘이 같은 물건이라는 뜻이 아니다. "pip install fastapi" = <u>3층 배달부에게
+    4층 창고(PyPI)에서 5층 소품(FastAPI)을 받아오라고 시킨 것</u>. 문장을 층 번호로 다시 읽는 습관이
+    이 문서가 주려는 근육이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 3. ECOSYSTEM MAP ═══════════ -->
+<section id="map">
+  <div class="section-header">
+    <div class="eyebrow">Eight Ecosystems</div>
+    <h2>3. 생태계 지도 — 8개 언어의 6층 채우기</h2>
+    <p>파이썬·노드만이 아니다 — 층을 채우는 방식 자체가 언어마다 성격이다</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:110px">언어 (1층)</th><th style="width:150px">런타임 (2층)</th><th style="width:130px">패키지 매니저 (3층)</th><th style="width:120px">레지스트리 (4층)</th><th style="width:150px">대표 패키지 (5층)</th><th>빌드 도구 (6층)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">JavaScript /<br>TypeScript</td><td>브라우저 · Node.js · Bun · Deno</td><td>npm · pnpm · yarn · bun</td><td>npm 레지스트리</td><td>React · Express · Next.js</td><td><strong>가장 시끄러운 층</strong> — Vite·esbuild·tsc·Babel</td></tr>
+        <tr><td class="hl">Python</td><td>CPython(<span class="mono">python</span>) · PyPy · MicroPython</td><td>pip · <strong>uv</strong> · poetry · conda</td><td>PyPI</td><td>requests · FastAPI · PyTorch</td><td>거의 없음 — .py 그대로 실행</td></tr>
+        <tr><td class="hl">Rust</td><td>없음 — 기계어로 컴파일</td><td colspan="2"><strong>cargo가 3·4·6층 통합</strong> (창고는 crates.io)</td><td>serde · tokio</td><td>cargo build (rustc 내장 지휘)</td></tr>
+        <tr><td class="hl">Go</td><td>없음 — 기계어로 컴파일</td><td colspan="2"><strong><span class="mono">go</span> 명령 하나로 통합</strong> (모듈 프록시)</td><td>gin · cobra</td><td>go build — 크로스 컴파일이 한 줄</td></tr>
+        <tr><td class="hl">Java / Kotlin</td><td>JVM</td><td>Maven · Gradle</td><td>Maven Central</td><td>Spring</td><td>Maven·Gradle이 3층+6층 겸업</td></tr>
+        <tr><td class="hl">C# / .NET</td><td>CLR(.NET 런타임)</td><td>NuGet</td><td>nuget.org</td><td>ASP.NET</td><td>dotnet CLI 통합</td></tr>
+        <tr><td class="hl">Swift</td><td>없음(컴파일) — 단 SDK가 OS에 묶임</td><td>SwiftPM</td><td>(깃 저장소 직결)</td><td>Vapor · SwiftUI(SDK)</td><td>Xcode·swiftc — 맥에 묶인 6층 (NAS 문서의 그 이야기)</td></tr>
+        <tr><td class="hl">C / C++</td><td>없음 — 기계어로 컴파일</td><td><strong>표준이 사실상 없음</strong> — vcpkg·conan 후발 경쟁</td><td>(파편화)</td><td>Boost · Qt</td><td>gcc·clang + CMake — 층이 없어서 생기는 무법지대</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">이 표에서 성격이 갈리는 지점 세 곳을 짚으면:</p>
+
+  <div class="card-grid">
+    <div class="card"><h4>🦀 통합의 모범생 — Rust·Go</h4><p>cargo와 go 명령은 패키지 관리·빌드·테스트를 처음부터 한 몸으로 설계했다. "도구 고르느라 지치는" 일이 없다 — §6에서 다룰 통합 흐름의 원조.</p></div>
+    <div class="card"><h4>🌪 분화의 극단 — JS</h4><p>층마다 도구가 여럿씩 경쟁한다(런타임 4종, 패키지 매니저 4종, 번들러 3종+). "JS 피로감"의 정체가 이것 — 층 구분 없이는 전부 "개발환경"으로 뭉개진다.</p></div>
+    <div class="card"><h4>🕳 층의 부재 — C/C++</h4><p>표준 패키지 매니저가 없어서 의존성 관리가 프로젝트마다 제각각인 무법지대. "층이 있는 게 얼마나 큰 축복인지"를 역으로 보여준다.</p></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🌍</span>
+    <div><strong>레지스트리는 코드만의 것이 아니다 —</strong> 4층(창고)의 문법은 어디든 재사용된다:
+    Docker 이미지의 Docker Hub, LLM 모델의 <u>HuggingFace</u>(「현실적으로 사용해볼만한 로컬 모델」에서 링크를 단
+    바로 그 창고), 맥 앱의 Homebrew까지 — 전부 "배달부 + 창고" 구조다. 한 번 익히면 온 동네에서 통한다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. DEEP ═══════════ -->
+<section id="deep">
+  <div class="section-header">
+    <div class="eyebrow">Layer Deep-dives</div>
+    <h2>4. 층별 깊이 파기 — 헷갈림이 집중되는 세 층</h2>
+    <p>2층(런타임)·3~4층(배달부와 창고)·6층(빌드)만 깊게 파면 나머지는 저절로 정리된다</p>
+  </div>
+
+  <h3 id="d-runtime"><span class="num">A</span>런타임 — 한 언어, 여러 무대</h3>
+
+  <p class="body">언어와 실행기가 <strong>별개의 상품</strong>이라는 것이 2층의 전부다. 그래서 한 언어에 무대가 여럿일 수 있다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:120px">언어</th><th style="width:200px">무대</th><th>같은 언어인데 무엇이 다른가</th></tr></thead>
+      <tbody>
+        <tr><td class="hl" rowspan="4">JavaScript</td><td>브라우저 (크롬·사파리…)</td><td>화면(<span class="mono">document</span>·<span class="mono">alert</span>)이 있음 · 보안상 내 파일에 손 못 댐</td></tr>
+        <tr><td>Node.js</td><td>화면이 없음 · 대신 파일·네트워크·서버 능력 (<span class="mono">fs</span> 등)</td></tr>
+        <tr><td>Bun</td><td>Node 호환 + 패키지 매니저·번들러까지 내장한 통합형 (§6)</td></tr>
+        <tr><td>Deno</td><td>보안 기본값이 엄격한(권한 명시) 런타임</td></tr>
+        <tr><td class="hl" rowspan="3">Python</td><td>CPython (표준 — <span class="mono">python</span> 명령의 실체)</td><td>"파이썬을 설치했다" = 사실 CPython이라는 구현체를 설치한 것</td></tr>
+        <tr><td>PyPy</td><td>JIT로 수 배 빠른 대체 구현 — 같은 .py가 그대로 돈다</td></tr>
+        <tr><td>MicroPython</td><td>마이크로컨트롤러(칩)용 초경량판 — 피지컬 AI 문서의 세계</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout purple">
+    <span class="icon">🎭</span>
+    <div><strong>무대가 다르면 대사도 달라진다 —</strong> 같은 JS라도 <span class="mono">alert()</span>는 브라우저에만,
+    <span class="mono">fs.writeFileSync()</span>는 Node에만 있다. 언어(문법)는 공유하되 <u>무대가 제공하는 소품(API)이 다른 것</u> —
+    "이 함수가 안 돼요"의 절반은 문법 문제가 아니라 무대를 착각한 문제다.</div>
+  </div>
+
+  <h3 id="d-pm"><span class="num">B</span>패키지 매니저(배달부)와 레지스트리(창고) — 그리고 격리</h3>
+
+  <p class="body">3층과 4층을 가르는 것부터: <strong>npm은 도구(3층)이자 창고(4층)의 이름</strong>이라 혼동의 단골이다.
+  정확히는 — 도구 npm CLI가, 창고 npmjs.com(레지스트리)에서, 패키지를 받아온다. 파이썬은 이름이 갈라져 있어 오히려 명확하다:
+  도구 pip가, 창고 PyPI에서 받아온다.</p>
+
+  <p class="body">받아온 패키지를 <strong>어디에 두느냐</strong>가 다음 문제다. "프로젝트 A는 라이브러리 v1, B는 v2가 필요하다"는
+  충돌을 두 생태계가 다르게 푼다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px"></th><th>JS — <span class="mono">node_modules</span></th><th>Python — 가상환경(venv)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">방식</td><td>프로젝트 폴더 안에 패키지를 통째로 설치 — 기본이 격리</td><td>프로젝트마다 "미니 파이썬 세계"를 만들어 그 안에 설치</td></tr>
+        <tr><td class="hl">장점</td><td>따로 켜고 끌 것 없음 — 폴더가 곧 격리</td><td>디스크 절약 · 파이썬 버전까지 격리 가능</td></tr>
+        <tr><td class="hl">대가</td><td>폴더가 거대해짐 ("우주에서 제일 무거운 물체" 밈)</td><td>활성화(activate)를 잊으면 엉뚱한 곳에 설치되는 사고</td></tr>
+        <tr><td class="hl">재현성 장치</td><td>package.json + lockfile</td><td>requirements.txt / pyproject.toml + lockfile(uv 등)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">🎣</span>
+    <div><strong>창고의 그림자 — 공급망 공격.</strong> 누구나 창고에 패키지를 올릴 수 있다는 개방성이 곧 공격면이다 —
+    유명 패키지와 비슷한 이름(타이포스쿼팅), 인기 패키지 탈취 후 악성코드 주입 등이 npm·PyPI에서 실제로 반복되고 있다
+    (북한 해커 조직의 npm 악성 패키지 수백 개 배포가 보도되는 수준). 수칙은 세 줄: <u>이름 철자 확인,
+    다운로드 수·저장소 확인, lockfile로 버전 고정</u>. 「AI 시대의 개발 프로세스」에서 "의존성 추가는 승인제"로
+    둔 이유가 이것이다.</div>
+  </div>
+
+  <h3 id="d-build"><span class="num">C</span>빌드 도구 — 왜 JS 세계만 이렇게 시끄럽나</h3>
+
+  <p class="body">§3 표에서 6층이 유독 요란한 곳이 JS다. 이유는 언어가 아니라 <strong>배포 표적이 특수해서</strong>다 —
+  결과물이 "내 컴퓨터에서 도는 프로그램"이 아니라 <u>전 세계 불특정 사용자의 브라우저로 전송되는 파일</u>이기 때문에:</p>
+
+  <div class="card-grid">
+    <div class="card"><h4>① 번역이 필요하다</h4><p>JSX(React 문법)·TypeScript를 브라우저는 못 읽는다 → 표준 JS로 변환(tsc·Babel). 「기술 스택 고르기」 §5-B의 트랜스파일이 바로 이 자리.</p></div>
+    <div class="card"><h4>② 묶어야 한다</h4><p>파일 수백 개를 그대로 보내면 로딩이 하세월 → 몇 개로 번들(Vite·esbuild) + 압축. 전송량이 곧 사용자 경험이라서.</p></div>
+    <div class="card"><h4>③ 숨겨야 한다</h4><p>브라우저에 간 코드는 누구나 열어본다 → 비밀키·핵심 로직은 서버 쪽(Node 등)에 남긴다. 6층은 "무엇을 보낼지"의 검문소이기도.</p></div>
+  </div>
+
+  <p class="body">거꾸로 보면 다른 생태계가 조용한 이유도 설명된다 — <strong>파이썬</strong>은 배포 표적이 "파이썬이 깔린 컴퓨터"라
+  .py를 그대로 실행하면 되고(6층 거의 불필요), <strong>Rust·Go·C++</strong>는 애초에 컴파일이 본체라 6층이 곧 생태계의 심장이다
+  (그 대신 산출물이 기계어라 브라우저류의 변환 고민이 없다).</p>
+</section>
+
+<!-- ═══════════ 5. BUILDTIME ═══════════ -->
+<section id="buildtime">
+  <div class="section-header">
+    <div class="eyebrow">Two Moments</div>
+    <h2>5. 빌드 타임 vs 런타임 — 마지막 퍼즐</h2>
+    <p>"React의 실행환경은 Node인가?"가 반만 맞는 이유</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/eco-buildtime.svg" alt="React 소스가 빌드 도구를 거쳐 정적 파일이 되고 사용자의 브라우저에서 실행되는 여정"></div>
+    <figcaption>조리실(빌드 타임 — 내 컴퓨터의 Node+Vite)과 테이블(런타임 — 사용자의 브라우저)은 다른 세계다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">시간 순으로 읽으면: 내가 쓴 소스(JSX·파일 수백 개)는 브라우저가 못 읽는 상태다 →
+  <strong>빌드 타임</strong>에 변환 공장(Vite·esbuild — Node 위에서 도는 6층 도구들)이 표준 JS 몇 개로 번역·번들·압축한다 →
+  산출물은 평범한 정적 파일(html·js·css)이고, 이 시점에 Node는 퇴장한다 → 서버는 그 파일을 건네줄 뿐이고 →
+  <strong>런타임</strong>에 사용자의 브라우저가 다운받아 실행한다. <u>사용자 컴퓨터에 Node는 없고, 필요한 적도 없다.</u></p>
+
+  <div class="callout green">
+    <span class="icon">🔑</span>
+    <div><strong>이 구분이 열어주는 답들 —</strong> "React 실행환경은 Node인가?" → 빌드 타임엔 Node(도구의 무대),
+    런타임엔 브라우저(결과물의 무대). "크롬에서 바로 개발하면 안 되나?" → 10년 전엔 그랬다 — 규모(수백 파일)·
+    문법(JSX)·보안(비밀 숨기기)이 조리실을 만들었다. "이 지식 베이스는?" → 빌드 없는 순수 정적 문서 —
+    그래서 push한 파일이 곧 서비스다(원시적 방식이 아니라 <u>의도된 단순함</u>이다).</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. MERGE ═══════════ -->
+<section id="merge">
+  <div class="section-header">
+    <div class="eyebrow">The Twist</div>
+    <h2>6. 반전 — 층은 다시 합쳐지는 중이다</h2>
+    <p>분류를 가르쳐놓고 뒤집기 — 그래야 최신 도구가 읽힌다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/eco-merge.svg" alt="층마다 도구가 난립한 분화의 세계와 cargo, go, Bun, uv, Deno 같은 통합 도구의 세계 비교"></div>
+    <figcaption>분화의 비용(도구 5개·설정 5개·버전 궁합)이 커지자, 모든 생태계가 "cargo처럼"으로 수렴 중 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">6층을 힘들게 갈랐는데, 최신 흐름은 얄궂게도 <strong>통합</strong>이다. 원조는 Rust의 cargo와 Go —
+  패키지 관리·빌드·테스트를 처음부터 한 명령에 담았다. 그 편안함을 목격한 다른 생태계들이 따라가는 중이다:
+  JS의 <strong>Bun</strong>(런타임+패키지 매니저+번들러+테스트 러너를 한 몸에 — Claude Code가 택한 그 도구),
+  <strong>Deno</strong>, 파이썬의 <strong>uv</strong>(pip+venv+파이썬 버전 관리까지, Rust로 만들어져 수십 배 빠름).</p>
+
+  <div class="callout amber">
+    <span class="icon">🪪</span>
+    <div><strong>그럼 6층 명함은 무용지물인가 — 반대다.</strong> 통합 도구를 만나면 질문이 진화할 뿐이다:
+    "이건 몇 층이지?"에서 <u>"이건 몇 층을 겸하지?"</u>로. Bun의 명함은 2층+3층+6층이고, uv의 명함은 3층+환경 관리다.
+    층은 사라진 게 아니라 <u>한 회사에 입사했을 뿐</u> — 명함을 읽을 줄 알아야 "Bun이 Node랑 npm을 대체한다"는
+    문장이 정확히 무슨 뜻인지 안다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 7. PRACTICE ═══════════ -->
+<section id="practice">
+  <div class="section-header">
+    <div class="eyebrow">Field Guide</div>
+    <h2>7. 실전 판별법 — 새 이름을 만났을 때</h2>
+    <p>3분 판별 3질문 + 자주 헷갈리는 이름들의 최종 정리</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><h4>질문 ① 몇 층이지?</h4><p>공식 사이트 첫 문장에 답이 있다 — "runtime"이면 2층, "package manager"면 3층, "framework/library"면 5층, "bundler/compiler"면 6층.</p></div>
+    <div class="card"><h4>질문 ② 이름이 겹치는 게 있나?</h4><p>같은 이름의 도구/창고/언어가 따로 있는지 확인 — npm(도구+창고), Python(언어+런타임)처럼 다의어가 혼란의 절반이다.</p></div>
+    <div class="card"><h4>질문 ③ 빌드용인가 실행용인가?</h4><p>"개발할 때만 쓰나(devDependency), 사용자 기기에서도 도나?" — Vite는 전자, React(의 산출물)는 후자. 시점을 물으면 정체가 갈린다.</p></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:220px">헷갈리는 세트</th><th>최종 정리</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">node vs npm vs npx vs nvm</td><td>node=런타임(2층) · npm=패키지 매니저(3층) · npx=설치 없이 패키지를 즉석 실행하는 3층의 부속 · nvm=<u>node 자체의 버전</u>을 갈아끼우는 관리자(층 밖의 살림 도구)</td></tr>
+        <tr><td class="hl">npm vs npmjs.com</td><td>도구(3층) vs 창고(4층) — 같은 브랜드의 다른 물건</td></tr>
+        <tr><td class="hl">python vs pip vs PyPI vs venv</td><td>런타임(2층) · 배달부(3층) · 창고(4층) · 격리 공간(3층의 부속) — 네 개가 전부 다른 것</td></tr>
+        <tr><td class="hl">TypeScript는 몇 층?</td><td><strong>1층(언어)</strong> — 단, 브라우저가 못 읽어서 <u>6층(tsc)을 반드시 소환하는 언어</u>. "언어인데 빌드를 부른다"가 TS의 정체</td></tr>
+        <tr><td class="hl">JSX는?</td><td>언어가 아니라 JS의 <u>문법 확장</u>(1층의 사투리) — 역시 6층 번역이 필수</td></tr>
+        <tr><td class="hl">Vite vs Node</td><td>Vite는 6층 도구, Node는 그 도구가 도는 2층 무대 — "Node가 필요하다"의 실체는 대부분 Vite류였다</td></tr>
+        <tr><td class="hl">React vs Next.js</td><td>둘 다 5층 — React는 화면 라이브러리, Next.js는 React를 품은 프레임워크(+자체 6층 빌드와 서버 실행까지). "누가 누구를 부르나"로 가른다(「기술 스택 고르기」 §5-A)</td></tr>
+        <tr><td class="hl">conda</td><td>3층이면서 격리·파이썬 설치까지 겸하는 통합형(§6의 문법으로 읽기) — 데이터과학 진영의 표준이었고, 요즘 그 자리를 uv가 잠식 중</td></tr>
+        <tr><td class="hl">Homebrew·apt</td><td>같은 3층 문법이되 대상이 "언어 패키지"가 아니라 <u>시스템 프로그램</u> — OS 층의 배달부</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>한 줄 요약 —</strong> 이름은 계속 태어나고 목록은 바랜다(2026.08 스냅샷). 남는 것은
+    <u>층의 문법</u>이다: 몇 층인지 → 이름이 겹치는지 → 빌드용인지 실행용인지. 이 세 질문이면
+    다음에 어떤 이름이 유행해도 3분 안에 명함이 읽힌다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 8. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">Related</div>
+    <h2>8. 함께 읽기</h2>
+    <p>이 문서에서 갈라지는 길들</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:280px">주제</th><th>문서</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">런타임·프레임워크·컴파일의 "개념" 편</td><td>「기술 스택 고르기」 §5 — 이 문서의 형제</td></tr>
+        <tr><td class="hl">Bun을 실제로 택한 대형 프로젝트의 이유</td><td>「Claude Code 내부 해부」 — TS·Bun 스택 분석</td></tr>
+        <tr><td class="hl">의존성 승인제·공급망 주의의 실전 맥락</td><td>「AI 시대의 개발 프로세스」 §7 (규칙 파일)</td></tr>
+        <tr><td class="hl">4층(창고) 문법의 다른 동네</td><td>「현실적으로 사용해볼만한 로컬 모델」 — HuggingFace</td></tr>
+        <tr><td class="hl">Xcode·swiftc가 맥에 묶이는 이유</td><td>「로컬 LLM 코딩 공장」 §3 — "세 겹의 벽"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🎓</span>
+    <div><strong>맺음 —</strong> 처음의 질문 사슬(§1)로 돌아가면 — "node가 npm 아냐?"는 부끄러운 질문이 아니라
+    이 지도의 첫 관문이었다. 개발 공부의 상당 부분은 코드가 아니라 <u>이름들의 정체를 아는 것</u>이고,
+    그 정체는 외우는 게 아니라 층으로 분류하는 것이다. 명함은 준비됐다 — 다음 이름을 기다리면 된다.</div>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/eco-*.svg (3종) · 도구 목록은 2026.08 스냅샷 · 「기술 스택 고르기」의 형제 편 — 개념이 아니라 이름의 지도
+</footer>
+
+</main>
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>

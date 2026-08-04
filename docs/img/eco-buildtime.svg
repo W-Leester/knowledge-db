@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="eba" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="ebr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">빌드 타임 vs 런타임 — React 코드의 여정으로 보는 두 개의 시점</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">"크롬에서 바로 개발하면 안 되나?"의 답 — Node가 필요한 건 실행이 아니라 변환 때문이다</text>
+
+  <!-- 빌드 타임 존 -->
+  <rect x="30" y="84" width="500" height="300" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="280" y="112" font-size="14.5" font-weight="800" fill="#B45309" text-anchor="middle">🍳 빌드 타임 — 내 컴퓨터 (조리실)</text>
+
+  <rect x="52" y="130" width="180" height="88" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="142" y="152" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">내가 쓴 소스</text>
+  <text x="142" y="172" font-size="10" fill="#555555" text-anchor="middle">App.jsx · 파일 수백 개</text>
+  <text x="142" y="190" font-size="10" fill="#555555" text-anchor="middle">JSX·TS 등 특수 문법</text>
+  <text x="142" y="208" font-size="9.5" fill="#DC2626" text-anchor="middle">브라우저는 못 읽는 상태</text>
+
+  <line x1="232" y1="174" x2="288" y2="174" stroke="#003F8A" stroke-width="2.5" marker-end="url(#eba)"/>
+
+  <rect x="292" y="130" width="216" height="88" rx="10" fill="#E8EEF7" stroke="#3568B0" stroke-width="2"/>
+  <text x="400" y="152" font-size="11.5" font-weight="800" fill="#3568B0" text-anchor="middle">⚙️ 변환 공장 (6층 빌드 도구)</text>
+  <text x="400" y="172" font-size="10" fill="#555555" text-anchor="middle">Vite·esbuild·tsc — Node 런타임 위에서 동작</text>
+  <text x="400" y="190" font-size="10" fill="#555555" text-anchor="middle">JSX→JS 번역 · 수백 파일→몇 개로 번들 · 압축</text>
+  <text x="400" y="208" font-size="9.5" fill="#666666" text-anchor="middle">"Node를 거친다"의 실체는 이 도구들이다</text>
+
+  <line x1="400" y1="218" x2="400" y2="252" stroke="#003F8A" stroke-width="2.5" marker-end="url(#eba)"/>
+
+  <rect x="292" y="256" width="216" height="76" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="400" y="278" font-size="11.5" font-weight="800" fill="#065F46" text-anchor="middle">📦 산출물 — 평범한 정적 파일</text>
+  <text x="400" y="298" font-size="10" fill="#555555" text-anchor="middle">index.html + bundle.js + style.css</text>
+  <text x="400" y="316" font-size="9.5" fill="#666666" text-anchor="middle">이 시점부터 Node는 무대 뒤로 퇴장</text>
+
+  <text x="52" y="256" font-size="10.5" fill="#555555">개발자만 겪는 구간 —</text>
+  <text x="52" y="272" font-size="10.5" fill="#555555">사용자는 이 존의 존재를</text>
+  <text x="52" y="288" font-size="10.5" fill="#555555">영원히 모른다</text>
+  <text x="52" y="318" font-size="10" fill="#B45309" font-weight="700">파이썬 세계엔 이 존이</text>
+  <text x="52" y="334" font-size="10" fill="#B45309" font-weight="700">거의 없다 — .py 그대로 실행</text>
+
+  <!-- 배포 화살표 -->
+  <line x1="530" y1="294" x2="586" y2="294" stroke="#003F8A" stroke-width="2.5" marker-end="url(#eba)"/>
+  <text x="558" y="282" font-size="9.5" fill="#666666" text-anchor="middle">배포</text>
+
+  <!-- 런타임 존 -->
+  <rect x="590" y="84" width="280" height="300" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="730" y="112" font-size="14.5" font-weight="800" fill="#0F766E" text-anchor="middle">🍽 런타임 — 사용자 (테이블)</text>
+
+  <rect x="612" y="130" width="236" height="70" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="730" y="152" font-size="11.5" font-weight="800" fill="#0F766E" text-anchor="middle">🌐 웹 서버</text>
+  <text x="730" y="172" font-size="10" fill="#555555" text-anchor="middle">정적 파일을 건네줄 뿐</text>
+  <text x="730" y="190" font-size="9.5" fill="#666666" text-anchor="middle">(GitHub Pages가 정확히 이 역할)</text>
+
+  <line x1="730" y1="200" x2="730" y2="234" stroke="#003F8A" stroke-width="2.5" marker-end="url(#eba)"/>
+
+  <rect x="612" y="238" width="236" height="94" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+  <text x="730" y="260" font-size="11.5" font-weight="800" fill="#0F766E" text-anchor="middle">💻 사용자의 브라우저 (2층 런타임)</text>
+  <text x="730" y="280" font-size="10" fill="#555555" text-anchor="middle">bundle.js를 다운받아 V8 엔진이 실행</text>
+  <text x="730" y="298" font-size="10" fill="#555555" text-anchor="middle">React 화면이 그려지는 진짜 무대</text>
+  <text x="730" y="318" font-size="9.5" fill="#065F46" font-weight="700" text-anchor="middle">✅ 여기 도착한 건 순수 JS — 문제없음</text>
+
+  <text x="730" y="360" font-size="10" fill="#666666" text-anchor="middle">사용자 컴퓨터에 Node는 없다 —</text>
+  <text x="730" y="376" font-size="10" fill="#666666" text-anchor="middle">필요한 적도 없었다</text>
+
+  <!-- 지름길 시도 (오답) -->
+  <path d="M 142 218 C 142 430 560 430 700 400" fill="none" stroke="#DC2626" stroke-width="2.2" stroke-dasharray="7 5" marker-end="url(#ebr)"/>
+  <rect x="240" y="404" width="420" height="52" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <text x="450" y="426" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">✕ 지름길의 유혹: "소스를 크롬에 바로 주면 안 되나?"</text>
+  <text x="450" y="446" font-size="10" fill="#555555" text-anchor="middle">JSX를 크롬은 못 읽고, 파일 수백 개는 로딩이 하세월 — 그래서 변환 공장을 거친다</text>
+
+  <!-- 하단 정리 -->
+  <rect x="30" y="480" width="840" height="120" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="508" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">두 시점을 가르면 모든 질문이 풀린다</text>
+  <text x="450" y="534" font-size="11.5" fill="#AAB9CF" text-anchor="middle">"React의 실행환경은 Node인가?" → 빌드 타임엔 Node(도구를 돌리는 무대), 런타임엔 브라우저(결과물이 도는 무대)</text>
+  <text x="450" y="556" font-size="11.5" fill="#AAB9CF" text-anchor="middle">"왜 파이썬엔 이런 게 없나?" → 배포 표적이 브라우저가 아니라서 — 내가 쓴 .py를 런타임이 그대로 읽는다</text>
+  <text x="450" y="578" font-size="11.5" fill="#AAB9CF" text-anchor="middle">"컴파일 언어(Rust·Go)는?" → 빌드 타임이 본체다 — 산출물이 JS 파일이 아니라 기계어 실행 파일일 뿐, 구조는 같다</text>
+</svg>
