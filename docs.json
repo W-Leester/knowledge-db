@@ -180,7 +180,7 @@
         "TypeScript",
         "Python"
       ],
-      "version": 4,
+      "version": 5,
       "assets": [
         "docs/img/ts-decision-axes.svg",
         "docs/img/ts-popularity.svg",
@@ -206,7 +206,7 @@
         "npm·pip",
         "빌드 타임"
       ],
-      "version": 2,
+      "version": 3,
       "assets": [
         "docs/img/eco-layers.svg",
         "docs/img/eco-buildtime.svg",

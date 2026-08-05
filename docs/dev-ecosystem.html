@@ -655,6 +655,8 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
         <tr><td class="hl">Vite vs Node</td><td>Vite는 6층 도구, Node는 그 도구가 도는 2층 무대 — "Node가 필요하다"의 실체는 대부분 Vite류였다</td></tr>
         <tr><td class="hl">React vs Next.js</td><td>둘 다 5층 — React는 화면 라이브러리, Next.js는 React를 품은 프레임워크(+자체 6층 빌드와 서버 실행까지). "누가 누구를 부르나"로 가른다(「기술 스택 고르기」 §5-A)</td></tr>
         <tr><td class="hl">conda</td><td>3층이면서 격리·파이썬 설치까지 겸하는 통합형(§6의 문법으로 읽기) — 데이터과학 진영의 표준이었고, 요즘 그 자리를 uv가 잠식 중</td></tr>
+        <tr><td class="hl">런타임 vs 실행환경 vs 개발환경</td><td>런타임 = 실행환경 — <strong>같은 말</strong>(runtime environment의 번역). "개발환경"은 다른 것 — 에디터·터미널·런타임·도구를 뭉뚱그린 <u>일상어</u>(작업 셋업 전체)라, 런타임을 개발환경이라 부르면 층이 다시 뭉개진다</td></tr>
+        <tr><td class="hl">"npm의 실행환경은 node?"</td><td><strong>정확한 관찰</strong> — npm·Vite는 JS로 짜인 프로그램이라 Node(2층) 위에서 돈다. 도구도 누군가의 프로그램이다 — Node 설치에 npm이 동봉되는 진짜 이유(같은 런타임을 쓰니까). 층 관계(2층≠3층)와 실행 관계(3층 도구가 2층 위에서 돎)는 별개의 축</td></tr>
         <tr><td class="hl">Homebrew·apt</td><td>같은 3층 문법이되 대상이 "언어 패키지"가 아니라 <u>시스템 프로그램</u> — OS 층의 배달부</td></tr>
       </tbody>
     </table>
