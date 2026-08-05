@@ -657,6 +657,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
         <tr><td class="hl">conda</td><td>3층이면서 격리·파이썬 설치까지 겸하는 통합형(§6의 문법으로 읽기) — 데이터과학 진영의 표준이었고, 요즘 그 자리를 uv가 잠식 중</td></tr>
         <tr><td class="hl">런타임 vs 실행환경 vs 개발환경</td><td>런타임 = 실행환경 — <strong>같은 말</strong>(runtime environment의 번역). "개발환경"은 다른 것 — 에디터·터미널·런타임·도구를 뭉뚱그린 <u>일상어</u>(작업 셋업 전체)라, 런타임을 개발환경이라 부르면 층이 다시 뭉개진다</td></tr>
         <tr><td class="hl">"npm의 실행환경은 node?"</td><td><strong>정확한 관찰</strong> — npm·Vite는 JS로 짜인 프로그램이라 Node(2층) 위에서 돈다. 도구도 누군가의 프로그램이다 — Node 설치에 npm이 동봉되는 진짜 이유(같은 런타임을 쓰니까). 층 관계(2층≠3층)와 실행 관계(3층 도구가 2층 위에서 돎)는 별개의 축</td></tr>
+        <tr><td class="hl">Xcode·VS Code — IDE는 몇 층?</td><td><strong>층이 아니라 작업대</strong> — 터미널(창구)의 GUI 진화형, IDE(통합 "개발환경")라는 별도 범주. VS Code는 <u>빈 작업대</u>(층 도구를 시장에서 조립해 꽂음), Xcode는 <u>풀옵션 공장</u>(작업대 + 6층 swiftc·xcodebuild + 5층 SDK 동봉 + 3층 SwiftPM + 2층 유사 시뮬레이터까지 분리 불가 통합) — §6 통합 흐름의 극단이자, Xcode가 맥에 묶이는 이유(「로컬 LLM 코딩 공장」 §3)</td></tr>
         <tr><td class="hl">Homebrew·apt</td><td>같은 3층 문법이되 대상이 "언어 패키지"가 아니라 <u>시스템 프로그램</u> — OS 층의 배달부</td></tr>
       </tbody>
     </table>
