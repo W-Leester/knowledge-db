@@ -578,6 +578,51 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     유명한 표현으로 <em>"우리를 부르지 마세요, 우리가 당신을 부를게요(헐리우드 원칙)"</em>. 프레임워크가 큰 흐름을 정하고 나는 빈칸만 메운다.</div>
   </div>
 
+  <p class="body">코드로 보면 즉시 체감된다 — <strong>흐름(main)을 누가 소유하는지</strong>가 갈림길이다:</p>
+
+  <pre class="code"><span class="title-bar">같은 "남의 코드 쓰기"인데 — 주도권이 반대다</span><span class="c"># 라이브러리(requests) — 흐름의 주인은 나. 필요할 때 도구를 "부른다"</span>
+data = requests.get(<span class="s">"https://..."</span>)     <span class="c">← 내 프로그램의 한 줄일 뿐</span>
+print(process(data))
+
+<span class="c"># 프레임워크(FastAPI) — 흐름의 주인은 프레임워크. 나는 빈칸에 "등록"만</span>
+<span class="k">@app.get</span>(<span class="s">"/users"</span>)                       <span class="c">← 이 빈칸에 내 코드를 겁니다</span>
+<span class="k">def</span> <span class="f">get_users</span>(): <span class="k">return</span> [...]
+<span class="c"># 서버 루프·요청 수신·라우팅은 FastAPI가 돌리고, 요청이 오면
+# FastAPI가 "내 함수를 호출"한다 — 나는 main을 쓴 적이 없다</span></pre>
+
+  <p class="body">그런데 실전에서 헷갈리는 이유가 있다 — <strong>이분법이 아니라 스펙트럼</strong>이기 때문이다.
+  React가 공식적으로는 "라이브러리"를 자칭하는데 다들 프레임워크처럼 느끼는 유명한 혼란이 그 증거다.
+  실체는 <u>주도권을 얼마나 가져가느냐의 눈금</u>이다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">눈금</th><th style="width:170px">예</th><th>주도권을 가져가는 범위</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">순수 도구상자</td><td>requests · lodash</td><td>없음 — 함수 호출뿐, 빼도 몇 줄만 사라진다</td></tr>
+        <tr><td class="hl">부분 골조</td><td>React</td><td><u>화면 그리는 부분만</u> 제어 역전 — 라우팅·데이터·빌드는 안 건드림. 그래서 "라이브러리" 자칭</td></tr>
+        <tr><td class="hl">넓은 골조</td><td>Next.js · FastAPI</td><td>라우팅·빌드·서버 흐름까지 소유 — React의 "나머지"를 가져가며 프레임워크가 됨</td></tr>
+        <tr><td class="hl">풀스택 골조</td><td>Django · Spring</td><td>DB·인증·관리자 화면까지 "정답 구조" 통째 — 빼면 프로젝트가 무너진다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🔍</span>
+    <div><strong>판별 질문 두 개면 끝 —</strong> ① <u>"내 코드에 main(전체 흐름)이 있나, 아니면 내 코드가 남의 흐름에
+    꽂히는 플러그인인가?"</u> ② <u>"이걸 빼면 함수 호출 몇 줄이 사라지나(라이브러리), 코드 구조 전체가 무너지나(프레임워크)?"</u>
+    단어는 믿지 말 것 — "테스트 프레임워크"(pytest)·"CSS 프레임워크"(Tailwind)처럼 관습적으로 붙는 경우가 많아서,
+    이름이 아니라 <strong>주도권 축</strong>으로 판별하는 것이 안전하다. 설치 모습(<span class="mono">npm install</span>)은
+    라이브러리와 프레임워크가 똑같다는 것도 혼란의 원인 — 층이 아니라 성격의 차이다(「개발 생태계 해부」 5층).</div>
+  </div>
+
+  <div class="callout purple">
+    <span class="icon">🔁</span>
+    <div><strong>이 문법은 웹 밖에서도 반복된다 —</strong> Claude Code의 하네스가 정확히 프레임워크 구조다:
+    에이전트 루프(흐름)는 하네스가 소유하고, 사용자는 CLAUDE.md·스킬·훅이라는 <u>빈칸을 채우면 하네스가 그것들을
+    호출</u>한다(「클로드 확장하기」). 「로컬 LLM 코딩 공장」의 Goal Runner도 같은 문법 — 루프는 러너가 돌리고
+    goal.md가 빈칸이다. 제어의 역전은 웹 프레임워크만의 것이 아니라 <u>잘 만든 자동화의 공통 문법</u>이다.</div>
+  </div>
+
   <h3 id="f-run"><span class="num">B</span>코드가 실행되는 방식 — 왜 C는 컴파일하고 Python은 바로 도나</h3>
 
   <p class="body">왜 어떤 언어는 "빌드(컴파일)"가 필요하고 어떤 언어는 저장하면 즉시 도는가? 답의 출발점은 하나다 —

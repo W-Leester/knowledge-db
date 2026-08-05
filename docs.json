@@ -180,7 +180,7 @@
         "TypeScript",
         "Python"
       ],
-      "version": 3,
+      "version": 4,
       "assets": [
         "docs/img/ts-decision-axes.svg",
         "docs/img/ts-popularity.svg",
