@@ -468,7 +468,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
       <thead><tr><th style="width:110px">언어 (1층)</th><th style="width:150px">런타임 (2층)</th><th style="width:130px">패키지 매니저 (3층)</th><th style="width:120px">레지스트리 (4층)</th><th style="width:150px">대표 패키지 (5층)</th><th>빌드 도구 (6층)</th></tr></thead>
       <tbody>
         <tr><td class="hl">JavaScript /<br>TypeScript</td><td>브라우저 · Node.js · Bun · Deno</td><td>npm · pnpm · yarn · bun</td><td>npm 레지스트리</td><td>React · Express · Next.js</td><td><strong>가장 시끄러운 층</strong> — Vite·esbuild·tsc·Babel</td></tr>
-        <tr><td class="hl">Python</td><td>CPython(<span class="mono">python</span>) · PyPy · MicroPython</td><td>pip · <strong>uv</strong> · poetry · conda</td><td>PyPI</td><td>requests · FastAPI · PyTorch</td><td>거의 없음 — .py 그대로 실행</td></tr>
+        <tr><td class="hl">Python</td><td>CPython(<span class="mono">python</span>) · PyPy · MicroPython</td><td>pip · <strong>uv</strong> · poetry · conda</td><td>PyPI</td><td>requests · FastAPI · PyTorch</td><td>일상 개발엔 불필요(.py 그대로 실행) · <strong>배포 시 등장</strong> — PyInstaller·Nuitka·py2app(앱 포장), Cython(속도), build/wheel(패키지 배포)</td></tr>
         <tr><td class="hl">Rust</td><td>없음 — 기계어로 컴파일</td><td colspan="2"><strong>cargo가 3·4·6층 통합</strong> (창고는 crates.io)</td><td>serde · tokio</td><td>cargo build (rustc 내장 지휘)</td></tr>
         <tr><td class="hl">Go</td><td>없음 — 기계어로 컴파일</td><td colspan="2"><strong><span class="mono">go</span> 명령 하나로 통합</strong> (모듈 프록시)</td><td>gin · cobra</td><td>go build — 크로스 컴파일이 한 줄</td></tr>
         <tr><td class="hl">Java / Kotlin</td><td>JVM</td><td>Maven · Gradle</td><td>Maven Central</td><td>Spring</td><td>Maven·Gradle이 3층+6층 겸업</td></tr>
@@ -571,8 +571,33 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
 
   <p class="body">거꾸로 보면 다른 생태계가 조용한 이유도 설명된다 — <strong>파이썬</strong>은 배포 표적이 "파이썬이 깔린 컴퓨터"라
-  .py를 그대로 실행하면 되고(6층 거의 불필요), <strong>Rust·Go·C++</strong>는 애초에 컴파일이 본체라 6층이 곧 생태계의 심장이다
+  .py를 그대로 실행하면 되고, <strong>Rust·Go·C++</strong>는 애초에 컴파일이 본체라 6층이 곧 생태계의 심장이다
   (그 대신 산출물이 기계어라 브라우저류의 변환 고민이 없다).</p>
+
+  <div class="callout amber">
+    <span class="icon">📦</span>
+    <div><strong>단, 파이썬에 6층이 "없는" 건 아니다 — 늦게 오고 선택적일 뿐.</strong>
+    "파이썬 안 깔린 사람에게 프로그램을 주려는 순간" 6층이 등장한다: <u>PyInstaller·Nuitka·py2app</u>(실행 파일·앱으로 포장),
+    <u>BeeWare·Kivy</u>(모바일 앱), <u>Cython·mypyc</u>(속도용 C 변환), <u>build/wheel</u>(PyPI 배포용).
+    차이는 있음/없음이 아니라 <strong>필수성과 시점</strong>이다 — JS의 6층은 개발 첫날부터 필수(브라우저가 JSX를 못 읽으니),
+    파이썬의 6층은 배포일에 선택적으로.</div>
+  </div>
+
+  <p class="body">그리고 세 생태계의 6층이 <strong>하는 일 자체가 다르다</strong>는 것도 중요하다 —
+  PyInstaller가 하는 것은 컴파일이 아니라 <u>동봉</u>이다: 파이썬 인터프리터(2층)를 결과물 안에 함께 실어
+  "런타임 없는 남의 컴퓨터에서도 돌게" 만드는 것. 그래서 결과물이 수십~수백 MB가 되고,
+  실행하면 내부의 그 인터프리터가 코드를 읽는다 — <u>2층을 없앤 게 아니라 짐칸에 실은 것</u>이다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:190px">생태계</th><th style="width:230px">6층이 하는 일</th><th>결과물의 성격</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Rust · Go</td><td><strong>번역</strong> — 기계어로</td><td>작고, 런타임이 아예 없다 (CPU 직접 실행)</td></tr>
+        <tr><td class="hl">Python (PyInstaller류)</td><td><strong>동봉</strong> — 인터프리터를 함께 포장</td><td>크고, 런타임이 결과물 안에 들어 있다</td></tr>
+        <tr><td class="hl">JS (Vite류)</td><td><strong>변환 + 묶음</strong> — 표준 JS로</td><td>브라우저(이미 있는 런타임)가 읽을 파일들</td></tr>
+      </tbody>
+    </table>
+  </div>
 </section>
 
 <!-- ═══════════ 5. BUILDTIME ═══════════ -->
