@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>애플 앱 개발의 지도 — Xcode와 의무의 사다리</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #B91C1C 55%, #E8962A 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>애플 앱 개발의<br>지도</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#anatomy">1. Xcode의 정체 — 풀옵션 공장 해부</a>
+    <a href="#identity">2. 필수성 ≠ 정체</a>
+    <a href="#ladder">3. 의무의 사다리</a>
+    <a href="#gate">4. 배포의 관문 — 서명·공증·스토어</a>
+    <a href="#practice">5. 실전 — 개인 유틸 만들기</a>
+    <a href="#cross">6. 크로스플랫폼의 진실</a>
+    <a href="#decision">7. 3분 판별 플로우</a>
+    <a href="#refs">8. 함께 읽기</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.08</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Software Engineering · Apple Platform</div>
+  <h1>애플 앱 개발의 지도<br><span class="thin">Xcode와 의무의 사다리 — "무조건"은 꼭대기 한 칸뿐이다</span></h1>
+  <p class="sub">"맥 앱은 Xcode로만 만들 수 있다던데?" — 이 문장에는 오해 세 개가 겹쳐 있다.
+  Xcode는 언어도 환경도 아닌 작업대(IDE)고, 의무의 실체는 그 안의 애플 툴체인이며,
+  그 의무조차 "무엇을 만들어 어디까지 나눠주느냐"에 따라 조였다 풀린다.
+  Xcode 해부부터 개인 유틸 실전까지 — 애플 생태계에서 개발할 때의 지도 한 장.</p>
+  <div class="tags">
+    <span class="tag">Xcode</span><span class="tag">Command Line Tools</span><span class="tag">서명·공증</span>
+    <span class="tag">SwiftUI</span><span class="tag">의무의 사다리</span><span class="tag">개인 유틸</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 결론 세 줄</h2>
+    <p>이 문서 전체가 이 세 문장의 전개다</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><h4>① Xcode는 작업대다</h4><p>언어(그건 Swift)도 실행환경도 아닌 IDE — 터미널 창구의 GUI 진화형. 다만 그 안에 여러 층(빌드·SDK·시뮬레이터·서명)이 분리 불가로 동봉된 "풀옵션 공장"이라 한 덩어리처럼 보인다(§1).</p></div>
+    <div class="card"><h4>② 의무의 실체는 툴체인</h4><p>"Xcode로만 빌드된다"에서 의무인 건 껍데기(IDE)가 아니라 알맹이(swiftc·SDK·서명 체계)다 — GUI 없이 터미널의 xcodebuild로 빌드하는 CI들이 그 증거(§2).</p></div>
+    <div class="card"><h4>③ 의무는 사다리다</h4><p>의무의 크기 = 애플 독점 자산을 만지는 정도 × 배포 범위. "무슨 일이 있어도"는 아이폰 앱 한 칸뿐이고, 개인용 맥 유틸은 자유 구역이다(§3~5).</p></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>이 문서의 위치 —</strong> 「개발 생태계 해부」의 6층 명함과 "IDE는 층이 아니라 작업대" 항목을
+    애플 생태계에 정밀 적용한 각론이다. Xcode가 컨테이너에 못 들어가는 이유(세 겹의 벽)는
+    「로컬 LLM 코딩 공장」 §3과, 맥 자동화의 다른 길은 「Windows COM과 맥 자동화」와 만난다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. ANATOMY ═══════════ -->
+<section id="anatomy">
+  <div class="section-header">
+    <div class="eyebrow">Anatomy</div>
+    <h2>1. Xcode의 정체 — 풀옵션 공장 해부</h2>
+    <p>"필수라길래 언어인 줄 알았다"에서 시작하는 오해 풀기</p>
+  </div>
+
+  <p class="body">흔한 오해의 경로는 이렇다: <em>"맥에서는 Xcode를 통해서만 앱이 빌드된다"</em> →
+  <em>"그럼 Xcode가 개발언어거나 개발환경이겠네."</em> 합리적인 추론이지만 전제가 틀렸다 —
+  <strong>개발언어는 Swift(1층)이고, Xcode는 그 언어로 일하는 작업대(IDE)</strong>다.
+  IDE(Integrated Development Environment)는 6층 명함(「개발 생태계 해부」 §2) 어디에도 속하지 않는 별도 범주로,
+  터미널(창구)의 GUI 진화형이다. 그런데 왜 한 덩어리 "환경"처럼 느껴지는가 — 해부해 보면 답이 나온다:</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/ax-xcode-anatomy.svg" alt="Xcode 내부의 작업대, 6층 빌드 도구, 5층 SDK, 3층 SwiftPM, 시뮬레이터, 서명 도구 해부와 VS Code 대비"></div>
+    <figcaption>작업대 본체 + 2·3·5·6층 동봉 세트 — VS Code(빈 작업대)와의 철학 차이 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:230px">Xcode 안의 부품</th><th style="width:130px">몇 층인가</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">에디터·프로젝트 관리·디버거</td><td>층 아님 — 작업대</td><td>VS Code와 같은 역할의 본체</td></tr>
+        <tr><td class="hl">swiftc · xcodebuild</td><td><strong>6층</strong> (빌드)</td><td>의무의 몸통 ① — 터미널로도 부를 수 있다</td></tr>
+        <tr><td class="hl">SDK — SwiftUI·UIKit·AppKit</td><td><strong>5층</strong> (프레임워크)</td><td>의무의 몸통 ② — 창고에서 받는 게 아니라 동봉</td></tr>
+        <tr><td class="hl">SwiftPM</td><td>3층 (패키지 매니저)</td><td>이건 표준적 — 깃 저장소 직결</td></tr>
+        <tr><td class="hl">iOS 시뮬레이터</td><td>2층 유사 (실행환경)</td><td>iOS의 복제품 — 맥 가상화에 묶임</td></tr>
+        <tr><td class="hl">서명·공증·스토어 업로드</td><td>층 밖 — 유통 관문</td><td>배포할 때만 발동(§4)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🧰</span>
+    <div><strong>VS Code와의 철학 차이 —</strong> 같은 IDE라도 VS Code는 <u>빈 작업대</u>다: 런타임·빌드·패키지 도구를
+    시장에서 골라 꽂는다(층마다 경쟁). Xcode는 <u>풀옵션 공장</u>이다: 전부 동봉·분리 불가·선택지 없음.
+    얻는 것은 설정 지옥 제로, 치르는 것은 자유와 이식성 — 「개발 생태계 해부」 §6에서 본 "층의 재통합" 흐름의
+    극단(IDE까지 포함한 수직 통합)이며, Xcode가 맥에 묶이는 이유(「로컬 LLM 코딩 공장」 §3의 세 겹의 벽)도
+    이 통합의 그림자다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. IDENTITY ═══════════ -->
+<section id="identity">
+  <div class="section-header">
+    <div class="eyebrow">The Principle</div>
+    <h2>2. 필수성 ≠ 정체 — "없으면 안 된다"는 층을 알려주지 않는다</h2>
+    <p>이 문서에서 하나만 가져간다면 이 원리다</p>
+  </div>
+
+  <p class="body">"이게 없으면 개발이 안 된다"는 사실에서 "그러니 이게 언어/환경이겠구나"로 건너뛰는 것이
+  오해의 공식이었다. 그러나 <strong>필수성은 정체가 아니라 "생태계가 얼마나 수직 통합됐는지"를 알려주는 신호</strong>일 뿐이다 —
+  JS 개발에 Node가 사실상 필수라고 Node가 언어인 게 아니듯, iOS 개발에 Xcode가 필수라고 Xcode가 언어인 게 아니다.
+  정체 판별은 언제나 "이건 몇 층이지?"로 돌아간다.</p>
+
+  <p class="body">그리고 결정적 증거 — <strong>"Xcode를 통해서만 빌드된다"는 문장조차 정확히는 틀렸다.</strong>
+  의무인 건 Xcode라는 앱이 아니라 그 안의 툴체인이라서, GUI를 한 번도 안 열고 빌드하는 길이 늘 있다:</p>
+
+  <pre class="code"><span class="title-bar">GUI 없이 빌드 — CI 서버·자동화 러너가 매일 하는 일</span><span class="c"># 풀 Xcode의 알맹이만 터미널에서 호출</span>
+xcodebuild -project MyApp.xcodeproj -scheme MyApp build test
+
+<span class="c"># 더 가볍게 — Command Line Tools(경량판)의 swiftc로 직접</span>
+xcode-select --install        <span class="c">← 풀 Xcode 없이 컴파일러+SDK만 (무료·소형)</span>
+swiftc main.swift -o mytool   <span class="c">← CLI 도구는 이걸로 끝</span>
+
+<span class="c"># 「로컬 LLM 코딩 공장」의 Xcode 러너가 정확히 이 방식이었다 —
+# 에이전트가 GUI 없이 호스트의 xcodebuild만 화이트리스트로 호출</span></pre>
+
+  <div class="callout green">
+    <span class="icon">🔑</span>
+    <div><strong>용어 셋을 가르면 대화가 명확해진다 —</strong> "Xcode 필요"라는 말은 실제로 셋 중 하나다:
+    ① <u>풀 Xcode</u>(IDE 전체, 수십 GB — 시뮬레이터·미리보기·스토어 제출)
+    ② <u>Command Line Tools</u>(경량판 — swiftc·SDK만)
+    ③ <u>서명 도구</u>(배포 관문용 부속). 어느 것이 필요한지는 §3의 사다리와 §7의 플로우가 정해준다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 3. LADDER ═══════════ -->
+<section id="ladder">
+  <div class="section-header">
+    <div class="eyebrow">The Ladder</div>
+    <h2>3. 의무의 사다리 — "무슨 일이 있더라도?"의 진짜 답</h2>
+    <p>무엇을 만드느냐에 따라 사슬이 조였다 풀린다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/ax-ladder.svg" alt="아이폰 앱부터 웹앱까지 의무가 조였다 풀리는 사다리와 배포 범위 축"></div>
+    <figcaption>왼쪽 사다리(만드는 것) × 오른쪽 축(나눠주는 범위) — 개인 유틸은 두 축 모두 바닥이라 자유 구역 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:200px">만드는 것</th><th style="width:170px">Xcode(애플 사슬) 의무?</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">아이폰·아이패드 앱</td><td>✅ <strong>무슨 일이 있어도</strong></td><td>유일한 예외 없는 구역 — SDK·시뮬레이터·실기기 설치·스토어 제출 전부 애플 사슬. 크로스플랫폼도 탈출구 아님(§6)</td></tr>
+        <tr><td class="hl">맥 네이티브 앱 (SwiftUI·AppKit)</td><td>✅ 사실상 — 툴체인 의무</td><td>단 GUI Xcode는 선택: xcodebuild·SwiftPM으로도 빌드된다 — 껍데기 자유, 알맹이 의무</td></tr>
+        <tr><td class="hl">웹 기술 맥 앱 (Electron·Tauri)</td><td>🔶 CLT 수준으로 축소</td><td>빌드는 Node·Rust 툴체인이 — 애플 몫은 경량판 컴파일러 정도</td></tr>
+        <tr><td class="hl">CLI 도구·스크립트</td><td>❌ 불필요</td><td>Swift CLI조차 CLT면 충분, Python·Go·Rust는 애플과 무관 — §5의 실전 칸</td></tr>
+        <tr><td class="hl">웹앱·PWA</td><td>❌ 전혀</td><td>브라우저가 무대 — 이 지식 베이스가 살아 있는 증거. "폰에서 쓰는 앱"의 상당수가 이 칸으로 충분</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">🔒</span>
+    <div><strong>꼭대기 칸이 진짜 예외 없는 이유 —</strong> 아이폰 앱은 만드는 도구(SDK)·시험하는 무대(시뮬레이터·실기기)·
+    나눠주는 길(스토어·사이드로드의 서명 체계)이 <u>전부</u> 애플 독점이다. 셋 중 하나만 독점이어도 우회로가 생기는데,
+    셋이 다 잠겨 있어서 "무슨 일이 있어도"가 성립한다 — 사다리의 나머지 칸들은 최소 하나가 열려 있다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. GATE ═══════════ -->
+<section id="gate">
+  <div class="section-header">
+    <div class="eyebrow">Distribution Gates</div>
+    <h2>4. 배포의 관문 — 서명·공증·스토어</h2>
+    <p>의무의 둘째 축: 같은 앱도 "어디까지 나눠주느냐"로 관문이 달라진다</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">나눠주는 범위</th><th style="width:230px">치러야 하는 의식</th><th>실제 의미</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">나만 쓴다</td><td><strong>없음</strong> — 서명조차 생략 가능</td><td>내 맥에서 내가 빌드해 내가 쓰는 물건은 완전 자유 구역. 개인 유틸(§5)이 여기</td></tr>
+        <tr><td class="hl">남에게 나눠준다</td><td>코드 서명 + 공증(notarization)</td><td>게이트키퍼 통과 의식 — "확인되지 않은 개발자" 경고를 없애는 절차. 풀 Xcode가 아니라 애플 서명 도구면 됨 (개발자 계정 필요)</td></tr>
+        <tr><td class="hl">App Store에 올린다</td><td>전체 사슬 + 심사</td><td>개발자 계정(연회비, 개략) + 스토어 심사 — 애플 유통망의 정식 관문</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">그래서 최종 공식이 완성된다 — <strong>의무의 크기 = 애플의 독점 자산을 만지는 정도(§3 사다리)
+  × 나눠주는 범위(이 표)</strong>. 두 축 모두 바닥인 "개인용 맥 유틸"이 가장 자유롭고, 두 축 모두 꼭대기인
+  "스토어에 올리는 아이폰 앱"이 가장 조인다. 다음 절에서 그 자유 구역을 실제로 걸어본다.</p>
+</section>
+
+<!-- ═══════════ 5. PRACTICE ═══════════ -->
+<section id="practice">
+  <div class="section-header">
+    <div class="eyebrow">Walkthrough</div>
+    <h2>5. 실전 — "내장 디스플레이 끄기" 개인 유틸 만들기</h2>
+    <p>구체 사례 하나로 사다리 바닥 칸의 자유를 확인한다</p>
+  </div>
+
+  <p class="body">과제: 맥북에서 쓸 "내장 디스플레이 끄기" 유틸을 직접 만든다 — Xcode를 무조건 써야 하나?
+  <strong>답: 안 써도 된다.</strong> 개인용 맥 유틸은 사다리(§3)와 관문(§4) 두 축 모두 바닥이라, 경로가 셋이나 열려 있다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:190px">경로</th><th style="width:200px">필요한 것</th><th>만드는 모습</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① 스크립트로 (최경량)</td><td>아무것도 — 컴파일 없음</td><td>Hammerspoon(맥 자동화 앱, Lua)이나 Python+pyobjc로 디스플레이 제어 → 단축키에 연결</td></tr>
+        <tr><td class="hl">② Swift CLI로</td><td><strong>CLT만</strong> — 풀 Xcode 불필요</td><td><span class="mono">swiftc off.swift -o off</span> — CLT에 swiftc와 macOS SDK가 들어 있어 CoreGraphics·AppKit 링크 가능</td></tr>
+        <tr><td class="hl">③ 메뉴바 상주 앱으로</td><td>CLT + SwiftPM</td><td>SwiftPM으로 빌드 → .app 번들은 폴더 구조+Info.plist 수작업 — 가능하지만 손이 좀 간다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">세 경로 모두 <strong>서명·공증 불필요</strong> — §4의 "나만 쓴다" 행 그대로다.
+  Xcode가 다시 필요해지는 순간은 셋뿐이다: SwiftUI로 화면 있는 앱을 <u>편하게</u> 만들고 싶을 때(의무가 아니라 편의),
+  남에게 나눠줄 때(서명 도구), 스토어에 올릴 때(진짜 의무).</p>
+
+  <div class="callout amber">
+    <span class="icon">🕳</span>
+    <div><strong>정직한 함정 — 툴체인보다 기능이 난관이다.</strong> "내장 디스플레이만 끄기"는 macOS에 깔끔한
+    공개 API가 없는 영역이라, 기존 도구들(BetterDisplay, 오픈소스 brightness CLI 등)도 비공개 API·디스플레이 구성
+    트릭으로 구현한다. 현실적 접근: ① 먼저 기존 도구·클램셸 모드로 해결되는지 확인(「AI 시대의 개발 프로세스」의
+    의도 정의 — 만들 가치부터) ② 직접 만들 거면 오픈소스 소스를 참고 자료로 AI에게 "이 방식으로 Swift CLI 짜줘"라고
+    시키는 것이 요즘 방식이다.</div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🪪</span>
+    <div><strong>이 프로젝트의 6층 명함 —</strong> 언어 Swift(1층) · 런타임 없음(기계어 컴파일) ·
+    패키지 SwiftPM 선택(3층) · SDK는 CLT 동봉분(5층) · 빌드 CLT의 swiftc(6층 — <u>풀 Xcode 아님</u>) ·
+    작업대는 VS Code든 메모장이든 자유. <strong>"Xcode"라는 이름은 이 명함 어디에도 필수로 등장하지 않는다</strong> — 그게 답이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. CROSS ═══════════ -->
+<section id="cross">
+  <div class="section-header">
+    <div class="eyebrow">Cross-platform Reality</div>
+    <h2>6. 크로스플랫폼의 진실 — 탈출구가 아니라 완충재</h2>
+    <p>"React Native로 만들면 Xcode 안 써도 되지 않나?"에 대한 정확한 답</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:200px">도구</th><th style="width:180px">애플 사슬과의 관계</th><th>실제로 벌어지는 일</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">React Native · Flutter · Unity</td><td><strong>감싼다</strong> (iOS에선 탈출 아님)</td><td>코드는 JS·Dart·C#로 쓰지만, iOS 빌드 단계에서 내부적으로 Xcode 툴체인을 호출한다 — 대체가 아니라 포장</td></tr>
+        <tr><td class="hl">Electron · Tauri (맥 앱)</td><td><strong>줄인다</strong></td><td>빌드 주체가 Node·Rust 툴체인으로 넘어가고 애플 몫은 CLT 수준으로 축소 — 의무를 없애진 못해도 크게 완화</td></tr>
+        <tr><td class="hl">웹앱 · PWA</td><td><strong>벗어난다</strong></td><td>무대가 브라우저라 애플 사슬 밖 — 단 "네이티브 기능(위젯·백그라운드 등)"은 포기하는 거래</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">한 줄 정리 — <strong>사슬을 없애는 건 "iOS를 표적에서 빼는 것"뿐</strong>이다.
+  iOS를 표적에 두는 한 크로스플랫폼은 Xcode를 감싸는 완충재이고(설치·관리는 여전히 필요),
+  맥만 표적이면 웹 기술로 의무를 CLT 수준까지 줄일 수 있으며, 웹으로 가면 완전히 벗어난다.
+  「기술 스택 고르기」 §1의 저울("무엇을 얻고 무엇을 내주나")이 여기서도 그대로 작동한다.</p>
+</section>
+
+<!-- ═══════════ 7. DECISION ═══════════ -->
+<section id="decision">
+  <div class="section-header">
+    <div class="eyebrow">Field Guide</div>
+    <h2>7. 3분 판별 — "내 프로젝트에 Xcode가 필요한가?"</h2>
+    <p>질문 세 개면 답이 나온다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/ax-decision.svg" alt="아이폰에 넣는가, 애플 프레임워크를 쓰는가, 남에게 배포하는가 세 질문으로 Xcode 필요 여부를 가르는 결정 트리"></div>
+    <figcaption>Q1 아이폰? → Q2 애플 프레임워크 화면? → Q3 남에게 배포? — 셋 다 아니오면 자유 구역 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="card-grid">
+    <div class="card"><h4>Q1. 아이폰/아이패드에 넣나?</h4><p>예 → <strong>풀 Xcode 의무, 예외 없음</strong>(크로스플랫폼 포함). 아니오 → 다음 질문으로.</p></div>
+    <div class="card"><h4>Q2. 애플 프레임워크로 화면을?</h4><p>SwiftUI·AppKit GUI면 → 툴체인 의무·IDE는 선택(편의). 아니오 → 다음 질문으로.</p></div>
+    <div class="card"><h4>Q3. 남에게 배포하나?</h4><p>예 → 서명·공증만 챙기면 됨. 아니오 → <strong>자유 구역</strong> — CLT나 그마저 불필요.</p></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>맺음 —</strong> "Xcode 써야 하나요?"는 사실 세 질문의 압축이었다: 무엇을 만들고(사다리),
+    무엇으로 화면을 그리고(프레임워크), 어디까지 나눠주나(관문). 그리고 그 아래의 더 깊은 교훈 —
+    <u>필수성은 정체를 알려주지 않는다.</u> 어떤 도구가 "없으면 안 된다"고 들리면, 그것의 층과
+    의무의 조건부터 물어라. 대개 "무조건"은 생각보다 좁은 구역의 이야기다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 8. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">Related</div>
+    <h2>8. 함께 읽기</h2>
+    <p>이 문서에서 갈라지는 길들</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:280px">주제</th><th>문서</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">6층 명함·IDE라는 범주의 원론</td><td>「개발 생태계 해부」 §2·§7 — 이 문서의 모(母) 지도</td></tr>
+        <tr><td class="hl">Xcode가 컨테이너에 못 들어가는 이유</td><td>「로컬 LLM 코딩 공장」 §3 — 세 겹의 벽·호스트 러너</td></tr>
+        <tr><td class="hl">맥 자동화의 다른 길 (앱 만들지 않고)</td><td>「Windows COM과 맥 자동화」 — Apple Events·접근성</td></tr>
+        <tr><td class="hl">"폰에서 쓰는 앱"을 웹으로 — PWA의 실제</td><td>이 지식 베이스 자체 + 「상주형 AI 에이전트」의 모바일 경로</td></tr>
+        <tr><td class="hl">무엇을 얻고 내주나 — 선택의 저울</td><td>「기술 스택 고르기」 §1</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/ax-*.svg (3종) · 정책·연회비 등은 개략 — 배포 시점에 애플 공식 문서 확인 · 「개발 생태계 해부」의 애플 각론
+</footer>
+
+</main>
+        <tr><td class="hl">AI/ML</td><td><strong>PyTorch</strong> · TensorFlow</td><td>PyTorch가 연구 주도. TensorFlow는 모바일·엣지 배포(TFLite)에서 우위. 로컬 추론은 llama.cpp·Ollama(「로컬 LLM」 문서).</td></tr>
+        <tr><td class="hl">엣지·경량 서버</td><td>Hono · Fastify</td><td>Express의 자리를 잠식 — Cloudflare Workers·Vercel Edge 등 엣지 런타임에서 가벼움·속도.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧩</span>
+    <div><strong>프레임워크의 본질 —</strong> 「로컬 LLM 에이전트」의 하네스, 「Claude Code 내부」의 오케스트레이션과 같은 발상이다 —
+    <u>반복되는 뼈대는 프레임워크가 제공하고, 나는 내 로직만</u> 얹는다. 언어가 "무엇으로 말하나"라면 프레임워크는 "어떤 뼈대 위에서 짓나"다.
+    새 프로젝트에서 <strong>언어 → 런타임 → 프레임워크</strong> 순으로 좁혀가면 선택이 정리된다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. LAYERS ═══════════ -->
+<section id="layers">
+  <div class="section-header">
+    <div class="eyebrow">Layered Reality</div>
+    <h2>6. 층으로 역할 분담 — "한 언어로 다"가 아니다</h2>
+    <p>"C++이 빠른데 왜 TS를?"의 최종 답</p>
+  </div>
+
+  <p class="body">실무의 진짜 모습은 "최고의 언어 하나로 전부"가 아니라 <strong>층마다 병목이 다르니 언어도 다르게</strong>다.
+  같은 제품 안에서도 밑단과 윗단이 원하는 게 다르다:</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/ts-layered-stack.svg" alt="3층 스택: UI(TS), 오케스트레이션(TS/Python), 성능 코어(C++/Rust)"></div>
+    <figcaption>UI·오케스트레이션은 편한 언어(빠른 개발), 성능 코어는 저수준 언어(진짜 병목) · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:180px">층</th><th style="width:200px">언어</th><th>왜 그 언어</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">🖥 UI·앱</td><td>JS/TS · React</td><td>자주 바뀌고 사람이 봄 — 개발 속도·생태계가 중요, 성능은 병목 아님.</td></tr>
+        <tr><td class="hl">⚙️ 오케스트레이션</td><td>TS(Claude Code) · Python(로컬 하네스)</td><td>밑단을 부르고 흐름을 관리 — 매주 바뀌므로 빠른 개발 언어가 유리.</td></tr>
+        <tr><td class="hl">🔩 성능 코어</td><td>C++(llama.cpp) · Rust · Zig · CUDA</td><td>진짜 병목 — 밀리초·메모리 전쟁. Bun 내부도 Zig, 파이썬 AI 라이브러리 밑단도 C/C++.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🔑</span>
+    <div><strong>내가 만들 로컬 LLM 하네스도 똑같다 —</strong> 추론은 <span class="mono">llama.cpp</span>(C++, 성능 병목이 진짜),
+    그 위 하네스는 편한 언어(파이썬 등, 빠른 개발). 「Claude Code 내부」 §11에서 "서비스 계층의 API만 바꾸고 오케스트레이션은 편하게"라고 한 게
+    바로 이 층 분담이다. <u>"빠른 언어 vs 편한 언어"는 양자택일이 아니라 층으로 공존</u>한다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 7. CHECKLIST ═══════════ -->
+<section id="checklist">
+  <div class="section-header">
+    <div class="eyebrow">Checklist</div>
+    <h2>7. 스택 고르기 체크리스트</h2>
+    <p>새 프로젝트에서 언어·스택을 정할 때 물어볼 것</p>
+  </div>

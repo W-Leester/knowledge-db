@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 680" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="axl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="680" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">의무의 사다리 — "무슨 일이 있더라도?"는 꼭대기 한 칸뿐이다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">위로 갈수록 애플의 독점 자산을 많이 만지고, 사슬이 조인다 — 아래로 갈수록 자유</text>
+
+  <!-- 사다리 -->
+  <rect x="30" y="84" width="560" height="96" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="3"/>
+  <text x="52" y="112" font-size="14" font-weight="800" fill="#DC2626">🔒 아이폰·아이패드 앱 — 유일한 "무슨 일이 있어도" 구역</text>
+  <text x="52" y="136" font-size="11" fill="#555555">풀 Xcode 의무: SDK·시뮬레이터·실기기 설치·스토어 제출 전부 애플 사슬</text>
+  <text x="52" y="156" font-size="11" fill="#B45309" font-weight="700">크로스플랫폼(RN·Flutter·Unity)도 탈출구 아님 — iOS 빌드 때 내부적으로 Xcode를 호출한다 (§6)</text>
+  <text x="52" y="173" font-size="9.5" fill="#666666">사이드로드·개인 설치조차 애플 서명 체계를 지난다</text>
+
+  <rect x="30" y="192" width="560" height="82" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="52" y="220" font-size="14" font-weight="800" fill="#B45309">🔐 맥 네이티브 앱 (SwiftUI·AppKit)</text>
+  <text x="52" y="244" font-size="11" fill="#555555">툴체인(swiftc·SDK) 의무 — 단 GUI Xcode는 선택: 터미널 xcodebuild·SwiftPM으로도 빌드된다</text>
+  <text x="52" y="264" font-size="10" fill="#666666">껍데기는 자유, 알맹이는 의무 — "필수성 ≠ 정체"의 현장</text>
+
+  <rect x="30" y="286" width="560" height="76" rx="14" fill="#FEF9E7" stroke="#A16207" stroke-width="2"/>
+  <text x="52" y="314" font-size="14" font-weight="800" fill="#A16207">🔓 웹 기술 맥 앱 (Electron · Tauri)</text>
+  <text x="52" y="338" font-size="11" fill="#555555">빌드는 Node·Rust 툴체인이 — 애플 몫은 Command Line Tools(경량판) 수준으로 축소</text>
+  <text x="52" y="356" font-size="10" fill="#666666">의무를 "줄이는" 완충재 — 없애는 건 아니다 (§6)</text>
+
+  <rect x="30" y="374" width="560" height="76" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="52" y="402" font-size="14" font-weight="800" fill="#065F46">✅ CLI 도구 · 스크립트 (Python·Go·Rust·Swift CLI)</text>
+  <text x="52" y="426" font-size="11" fill="#555555">Xcode 불필요 — Swift CLI조차 CLT의 swiftc면 충분. 나머지 언어는 애플과 무관</text>
+  <text x="52" y="444" font-size="10" fill="#666666">§5의 실전 케이스("디스플레이 끄기" 유틸)가 사는 칸</text>
+
+  <rect x="30" y="462" width="560" height="76" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="52" y="490" font-size="14" font-weight="800" fill="#0F766E">🕊 웹앱 · PWA</text>
+  <text x="52" y="514" font-size="11" fill="#555555">전혀 불필요 — 브라우저가 무대라 애플 사슬 밖. 홈 화면 설치·오프라인까지 가능</text>
+  <text x="52" y="532" font-size="10" fill="#666666">이 지식 베이스가 살아 있는 증거 — "폰에서 쓰는 앱"의 상당수는 이 칸으로 충분</text>
+
+  <line x1="610" y1="120" x2="610" y2="500" stroke="#8A8478" stroke-width="2" marker-end="url(#axl)"/>
+  <text x="628" y="140" font-size="11" font-weight="800" fill="#DC2626">조임</text>
+  <text x="628" y="500" font-size="11" font-weight="800" fill="#0F766E">자유</text>
+
+  <!-- 배포 축 -->
+  <rect x="660" y="84" width="210" height="454" rx="14" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="765" y="112" font-size="13" font-weight="800" fill="#6B21A8" text-anchor="middle">둘째 축 — 배포 범위</text>
+  <text x="765" y="132" font-size="10" fill="#666666" text-anchor="middle">같은 앱이라도 어디까지 주느냐로</text>
+  <text x="765" y="147" font-size="10" fill="#666666" text-anchor="middle">관문(서명·공증)이 달라진다 (§4)</text>
+
+  <rect x="682" y="162" width="166" height="86" rx="10" fill="#E6F7F1"/>
+  <text x="765" y="186" font-size="11.5" font-weight="800" fill="#065F46" text-anchor="middle">나만 쓴다</text>
+  <text x="765" y="208" font-size="10" fill="#555555" text-anchor="middle">서명조차 생략 가능</text>
+  <text x="765" y="226" font-size="10" fill="#555555" text-anchor="middle">완전 자유 구역</text>
+
+  <rect x="682" y="258" width="166" height="86" rx="10" fill="#FEF3E2"/>
+  <text x="765" y="282" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">남에게 나눠준다</text>
+  <text x="765" y="304" font-size="10" fill="#555555" text-anchor="middle">코드 서명 + 공증</text>
+  <text x="765" y="322" font-size="10" fill="#555555" text-anchor="middle">(게이트키퍼 통과 의식)</text>
+
+  <rect x="682" y="354" width="166" height="86" rx="10" fill="#FEE2E2"/>
+  <text x="765" y="378" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">스토어에 올린다</text>
+  <text x="765" y="400" font-size="10" fill="#555555" text-anchor="middle">전체 사슬 + 심사</text>
+  <text x="765" y="418" font-size="10" fill="#555555" text-anchor="middle">개발자 계정(연회비)</text>
+
+  <text x="765" y="470" font-size="10" fill="#666666" text-anchor="middle">의무 = 만드는 것(왼쪽 사다리)</text>
+  <text x="765" y="488" font-size="10" fill="#666666" text-anchor="middle">× 나눠주는 범위(이 축)</text>
+  <text x="765" y="512" font-size="10.5" font-weight="700" fill="#6B21A8" text-anchor="middle">개인 유틸 = 두 축 모두 바닥</text>
+  <text x="765" y="528" font-size="10.5" font-weight="700" fill="#6B21A8" text-anchor="middle">→ 자유 구역 (§5)</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="560" width="840" height="60" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="586" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">원리: 의무의 크기 = 애플의 독점 자산(프레임워크·기기·유통망)을 만지는 정도 × 배포 범위</text>
+  <text x="450" y="608" font-size="11.5" fill="#AAB9CF" text-anchor="middle">웹 기술·크로스플랫폼·CLI로 갈수록 풀리고, 아이폰과 스토어로 갈수록 조인다 — "무조건"은 꼭대기 한 칸의 이야기</text>
+</svg>

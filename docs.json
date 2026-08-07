@@ -165,6 +165,29 @@
       ]
     },
     {
+      "id": "apple-app-dev",
+      "title": "애플 앱 개발의 지도",
+      "desc": "Xcode와 의무의 사다리 — \"무조건\"은 아이폰 한 칸뿐, 개인 맥 유틸은 자유 구역이다",
+      "file": "docs/apple-app-dev.html",
+      "group": "Software · Dev",
+      "icon": "🍎",
+      "gradient": [
+        "#0D1B2E",
+        "#B91C1C"
+      ],
+      "tags": [
+        "Xcode",
+        "CLT",
+        "서명·공증"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/ax-xcode-anatomy.svg",
+        "docs/img/ax-ladder.svg",
+        "docs/img/ax-decision.svg"
+      ]
+    },
+    {
       "id": "tech-stack",
       "title": "기술 스택 고르기",
       "desc": "언어·프레임워크 지형도 — 빠른 언어가 답이 아닌 이유, 용도별 선택 기준",

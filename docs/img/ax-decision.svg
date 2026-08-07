@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="axd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="axdr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/>
+    </marker>
+    <marker id="axdg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+  <rect width="900" height="560" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">3분 판별 — "내 프로젝트에 Xcode가 필요한가?"</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">질문 세 개면 답이 나온다 — 위에서 아래로</text>
+
+  <!-- Q1 -->
+  <rect x="330" y="80" width="240" height="56" rx="28" fill="#0D1B2E"/>
+  <text x="450" y="104" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">Q1. 아이폰/아이패드에 넣나?</text>
+  <text x="450" y="124" font-size="10" fill="#AAB9CF" text-anchor="middle">크로스플랫폼 프레임워크 사용 포함</text>
+
+  <line x1="570" y1="108" x2="660" y2="108" stroke="#DC2626" stroke-width="2.5" marker-end="url(#axdr)"/>
+  <text x="612" y="98" font-size="11" font-weight="800" fill="#DC2626" text-anchor="middle">예</text>
+  <rect x="664" y="80" width="206" height="70" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="767" y="106" font-size="12.5" font-weight="800" fill="#DC2626" text-anchor="middle">풀 Xcode 의무</text>
+  <text x="767" y="126" font-size="10" fill="#555555" text-anchor="middle">예외 없음 — RN·Flutter도</text>
+  <text x="767" y="141" font-size="10" fill="#555555" text-anchor="middle">내부적으로 Xcode 호출</text>
+
+  <line x1="450" y1="136" x2="450" y2="176" stroke="#003F8A" stroke-width="2.5" marker-end="url(#axd)"/>
+  <text x="472" y="162" font-size="11" font-weight="800" fill="#065F46">아니오</text>
+
+  <!-- Q2 -->
+  <rect x="330" y="180" width="240" height="56" rx="28" fill="#0D1B2E"/>
+  <text x="450" y="204" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">Q2. 애플 프레임워크로 화면을?</text>
+  <text x="450" y="224" font-size="10" fill="#AAB9CF" text-anchor="middle">SwiftUI·AppKit 네이티브 GUI</text>
+
+  <line x1="570" y1="208" x2="660" y2="208" stroke="#E8962A" stroke-width="2.5" marker-end="url(#axd)"/>
+  <text x="612" y="198" font-size="11" font-weight="800" fill="#B45309" text-anchor="middle">예</text>
+  <rect x="664" y="180" width="206" height="70" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="767" y="206" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">툴체인 의무 · IDE 선택</text>
+  <text x="767" y="226" font-size="10" fill="#555555" text-anchor="middle">편하려면 Xcode, 원리상은</text>
+  <text x="767" y="241" font-size="10" fill="#555555" text-anchor="middle">xcodebuild·SwiftPM으로 가능</text>
+
+  <line x1="450" y1="236" x2="450" y2="276" stroke="#003F8A" stroke-width="2.5" marker-end="url(#axd)"/>
+  <text x="472" y="262" font-size="11" font-weight="800" fill="#065F46">아니오</text>
+
+  <!-- Q3 -->
+  <rect x="330" y="280" width="240" height="56" rx="28" fill="#0D1B2E"/>
+  <text x="450" y="304" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">Q3. 남에게 배포하나?</text>
+  <text x="450" y="324" font-size="10" fill="#AAB9CF" text-anchor="middle">가족·팀·인터넷 공개 포함</text>
+
+  <line x1="570" y1="308" x2="660" y2="308" stroke="#E8962A" stroke-width="2.5" marker-end="url(#axd)"/>
+  <text x="612" y="298" font-size="11" font-weight="800" fill="#B45309" text-anchor="middle">예</text>
+  <rect x="664" y="280" width="206" height="70" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="767" y="306" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">서명·공증만 챙기면 됨</text>
+  <text x="767" y="326" font-size="10" fill="#555555" text-anchor="middle">게이트키퍼 통과 의식 —</text>
+  <text x="767" y="341" font-size="10" fill="#555555" text-anchor="middle">풀 Xcode 아닌 애플 서명 도구</text>
+
+  <line x1="450" y1="336" x2="450" y2="376" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#axdg)"/>
+  <text x="472" y="362" font-size="11" font-weight="800" fill="#065F46">아니오</text>
+
+  <!-- 자유 구역 -->
+  <rect x="290" y="380" width="320" height="76" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="3"/>
+  <text x="450" y="408" font-size="14" font-weight="800" fill="#065F46" text-anchor="middle">🕊 자유 구역 — Xcode 불필요</text>
+  <text x="450" y="430" font-size="10.5" fill="#555555" text-anchor="middle">CLI·스크립트면 CLT(경량판)나 그마저 불필요</text>
+  <text x="450" y="447" font-size="10.5" fill="#555555" text-anchor="middle">개인 유틸·웹앱·자동화가 전부 이 칸 (§5)</text>
+
+  <!-- 왼쪽 참고 -->
+  <rect x="30" y="380" width="230" height="140" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="145" y="406" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">용어 확인 (§1)</text>
+  <text x="46" y="430" font-size="10" fill="#555555">· 풀 Xcode = IDE 전체 (수십 GB)</text>
+  <text x="46" y="450" font-size="10" fill="#555555">· CLT = 경량판 — swiftc·SDK만</text>
+  <text x="52" y="466" font-size="9.5" fill="#666666">(xcode-select --install, 무료·소형)</text>
+  <text x="46" y="488" font-size="10" fill="#555555">· 서명 도구 = 배포 관문용 부속</text>
+  <text x="46" y="508" font-size="10" fill="#666666">"Xcode 필요"라는 말이 셋 중</text>
+  <text x="46" y="522" font-size="10" fill="#666666">무엇을 뜻하는지부터 가릴 것</text>
+
+  <!-- 하단 -->
+  <rect x="640" y="380" width="230" height="140" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="755" y="406" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">자주 오해하는 것</text>
+  <text x="656" y="430" font-size="10" fill="#555555">· "필수 = 언어/환경"? — 아니다,</text>
+  <text x="662" y="445" font-size="10" fill="#555555">필수성은 정체를 알려주지 않는다</text>
+  <text x="656" y="467" font-size="10" fill="#555555">· "크로스플랫폼이면 탈출"? —</text>
+  <text x="662" y="482" font-size="10" fill="#555555">iOS에선 감쌀 뿐, 탈출 아님</text>
+  <text x="656" y="504" font-size="10" fill="#555555">· "맥 앱 = 무조건 Xcode"? —</text>
+  <text x="662" y="519" font-size="10" fill="#555555">Electron·CLI·웹은 자유 구역</text>
+</svg>
