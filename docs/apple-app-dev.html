@@ -638,59 +638,60 @@ swiftc main.swift -o mytool   <span class="c">← CLI 도구는 이걸로 끝</s
 </footer>
 
 </main>
-        <tr><td class="hl">AI/ML</td><td><strong>PyTorch</strong> · TensorFlow</td><td>PyTorch가 연구 주도. TensorFlow는 모바일·엣지 배포(TFLite)에서 우위. 로컬 추론은 llama.cpp·Ollama(「로컬 LLM」 문서).</td></tr>
-        <tr><td class="hl">엣지·경량 서버</td><td>Hono · Fastify</td><td>Express의 자리를 잠식 — Cloudflare Workers·Vercel Edge 등 엣지 런타임에서 가벼움·속도.</td></tr>
-      </tbody>
-    </table>
-  </div>
 
-  <div class="callout navy">
-    <span class="icon">🧩</span>
-    <div><strong>프레임워크의 본질 —</strong> 「로컬 LLM 에이전트」의 하네스, 「Claude Code 내부」의 오케스트레이션과 같은 발상이다 —
-    <u>반복되는 뼈대는 프레임워크가 제공하고, 나는 내 로직만</u> 얹는다. 언어가 "무엇으로 말하나"라면 프레임워크는 "어떤 뼈대 위에서 짓나"다.
-    새 프로젝트에서 <strong>언어 → 런타임 → 프레임워크</strong> 순으로 좁혀가면 선택이 정리된다.</div>
-  </div>
-</section>
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
 
-<!-- ═══════════ 6. LAYERS ═══════════ -->
-<section id="layers">
-  <div class="section-header">
-    <div class="eyebrow">Layered Reality</div>
-    <h2>6. 층으로 역할 분담 — "한 언어로 다"가 아니다</h2>
-    <p>"C++이 빠른데 왜 TS를?"의 최종 답</p>
-  </div>
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
 
-  <p class="body">실무의 진짜 모습은 "최고의 언어 하나로 전부"가 아니라 <strong>층마다 병목이 다르니 언어도 다르게</strong>다.
-  같은 제품 안에서도 밑단과 윗단이 원하는 게 다르다:</p>
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
 
-  <figure>
-    <div class="fig-scroll"><img src="img/ts-layered-stack.svg" alt="3층 스택: UI(TS), 오케스트레이션(TS/Python), 성능 코어(C++/Rust)"></div>
-    <figcaption>UI·오케스트레이션은 편한 언어(빠른 개발), 성능 코어는 저수준 언어(진짜 병목) · <span class="zoom-hint">클릭하면 확대</span></figcaption>
-  </figure>
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
 
-  <div class="tbl-wrap">
-    <table class="ds">
-      <thead><tr><th style="width:180px">층</th><th style="width:200px">언어</th><th>왜 그 언어</th></tr></thead>
-      <tbody>
-        <tr><td class="hl">🖥 UI·앱</td><td>JS/TS · React</td><td>자주 바뀌고 사람이 봄 — 개발 속도·생태계가 중요, 성능은 병목 아님.</td></tr>
-        <tr><td class="hl">⚙️ 오케스트레이션</td><td>TS(Claude Code) · Python(로컬 하네스)</td><td>밑단을 부르고 흐름을 관리 — 매주 바뀌므로 빠른 개발 언어가 유리.</td></tr>
-        <tr><td class="hl">🔩 성능 코어</td><td>C++(llama.cpp) · Rust · Zig · CUDA</td><td>진짜 병목 — 밀리초·메모리 전쟁. Bun 내부도 Zig, 파이썬 AI 라이브러리 밑단도 C/C++.</td></tr>
-      </tbody>
-    </table>
-  </div>
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
 
-  <div class="callout green">
-    <span class="icon">🔑</span>
-    <div><strong>내가 만들 로컬 LLM 하네스도 똑같다 —</strong> 추론은 <span class="mono">llama.cpp</span>(C++, 성능 병목이 진짜),
-    그 위 하네스는 편한 언어(파이썬 등, 빠른 개발). 「Claude Code 내부」 §11에서 "서비스 계층의 API만 바꾸고 오케스트레이션은 편하게"라고 한 게
-    바로 이 층 분담이다. <u>"빠른 언어 vs 편한 언어"는 양자택일이 아니라 층으로 공존</u>한다.</div>
-  </div>
-</section>
-
-<!-- ═══════════ 7. CHECKLIST ═══════════ -->
-<section id="checklist">
-  <div class="section-header">
-    <div class="eyebrow">Checklist</div>
-    <h2>7. 스택 고르기 체크리스트</h2>
-    <p>새 프로젝트에서 언어·스택을 정할 때 물어볼 것</p>
-  </div>
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>
