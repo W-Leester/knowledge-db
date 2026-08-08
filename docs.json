@@ -17,7 +17,7 @@
         "S3·CDN",
         "Supabase"
       ],
-      "version": 7,
+      "version": 8,
       "assets": [
         "docs/img/db-history-timeline.svg",
         "docs/img/db-prehistory.svg",
