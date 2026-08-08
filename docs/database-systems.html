@@ -389,6 +389,11 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#storage">6. 스토리지 — S3 · CDN</a>
     <a href="#baas">7. 클라우드 DB & BaaS</a>
     <a href="#compare">8. 종합 비교 & 선택 가이드</a>
+    <a href="#responsibility">9. 바이브코딩의 DB 선택</a>
+    <a href="#r-vehicle" class="sub">9-A. 탈것으로 보는 지도</a>
+    <a href="#r-seven" class="sub">9-B. 7가지 질문</a>
+    <a href="#r-supabase" class="sub">9-C. Supabase의 두 함정</a>
+    <a href="#r-myths" class="sub">9-D. 초보의 두 착각</a>
   </nav>
   <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
 </aside>
@@ -976,9 +981,148 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
   </div>
 </section>
 
+<!-- ═══════════ 9. RESPONSIBILITY ═══════════ -->
+<section id="responsibility">
+  <div class="section-header">
+    <div class="eyebrow">Vibe Coding Reality</div>
+    <h2>9. 바이브코딩의 DB 선택 — 책임의 크기로 고른다</h2>
+    <p>§8이 "데이터의 성격"으로 골랐다면, 이 절은 "내가 감당할 책임"으로 고른다</p>
+  </div>
+
+  <p class="body">바이브 코딩으로 앱을 만들면 대개 <strong>화면부터</strong> 만든다 — 버튼·입력창·카드·리스트·로그인 화면.
+  만들면 바로 보이니 재미있다. 그러다 반드시 멈추는 순간이 온다: <em>"이 사람이 입력한 정보는 어디에 저장되지?"</em>
+  그때 데이터베이스가 등장하고, 초보자는 보통 이렇게 묻는다 — <u>"어떤 DB가 제일 다루기 쉬운가요?"</u></p>
+
+  <p class="body">나쁜 질문은 아니지만 조금 부족하다. 진짜 질문은 이것이다:
+  <strong>"내 서비스가 지금 감당해야 할 데이터의 책임은 어디까지인가?"</strong>
+  회원 정보를 받으면 개인정보 책임이, 결제를 다루면 보안 책임이, 사용자 데이터를 보관하면 백업 책임이,
+  동시 접속이 생기면 동시성 문제가, 관리자와 일반 사용자가 나뉘면 권한 문제가 따라온다.
+  즉 <strong>DB 선택은 기술 선택이 아니라 책임의 선택</strong>이다 —
+  "남들이 Supabase 쓰라니까 나도"로 가면 처음엔 편해 보여도 곧 험한 길이 이어진다.</p>
+
+  <div class="callout navy">
+    <span class="icon">📺</span>
+    <div><strong>이 절의 출처 —</strong> 유튜브 채널 <strong>바이브랩스</strong>의
+    「바이브 코딩 시작 전 꼭 봐야 할 데이터베이스 선택 가이드」 내용을 정리하고,
+    이 문서의 다른 절들과 연결해 재구성했다. 탈것 비유(§9-A)와 7가지 질문(§9-B)이 그 영상의 뼈대다.</div>
+  </div>
+
+  <h3 id="r-vehicle"><span class="num">P</span>탈것으로 보는 지도 — 목적지가 차를 고른다</h3>
+
+  <p class="body">DB를 고르는 것은 차를 고르는 것과 닮았다 — 어디를 가느냐에 따라 자전거가 맞을 때도,
+  승용차가 맞을 때도, 트럭이 필요할 때도 있다. <u>좋은 차를 고르는 게 아니라 목적지에 맞는 것을 고른다.</u></p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/db-vehicle-map.svg" alt="구글 시트는 자전거, SQLite는 소형차, Supabase는 기사 딸린 중형차, 직접 운영 PostgreSQL은 트럭, NoSQL은 서랍장, DuckDB는 분석실로 비유한 지도"></div>
+    <figcaption>자전거가 나쁜 게 아니라 "택배 사업에 자전거"가 문제다 — 반대로 동네 마실에 트럭도 문제 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">탈것</th><th style="width:230px">맞는 경우</th><th>한계가 오는 순간</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">🚲 구글 시트·노션</td><td>명단 수집 · 콘텐츠 목록 · 혼자 쓰는 업무 도구 · 아이디어 빠른 검증</td><td>주문·고객정보·배송상태·권한이 늘어날 때. <strong>개인정보·결제는 절대 금지</strong></td></tr>
+        <tr><td class="hl">🚗 SQLite</td><td>혼자 쓰는 앱 · 데스크톱 도구 · 로컬 프로그램 · 프로토타입 — 파일 하나로 관리돼 설치·운영 부담이 거의 없다</td><td>사용자가 늘고, 여러 명이 동시에 쓰고, 복잡한 권한 구조가 필요해질 때</td></tr>
+        <tr><td class="hl">🚙 Supabase</td><td>회원가입이 있는 웹서비스 · 사용자별 데이터 분리 · 나중에 결제까지 (§7의 그 통합 스택)</td><td>편하지만 공짜는 아니다 — RLS와 키 관리를 이해해야 한다(§9-C)</td></tr>
+        <tr><td class="hl">🚚 PostgreSQL 직접 운영</td><td>힘과 자유도가 필요하고, 운영을 감당할 준비가 됐을 때</td><td>서버·백업·보안·계정·장애를 전부 직접 — 앱 하나 만들려다 새벽에 DB 로그를 보게 된다</td></tr>
+        <tr><td class="hl">🗄 NoSQL (MongoDB)</td><td>설정값·로그처럼 구조가 자주 바뀌는 데이터 (§3-2)</td><td>관계 설계 없이 시작하면 "이 댓글은 어느 글과 연결됐지?"가 시작된다</td></tr>
+        <tr><td class="hl">🔬 DuckDB</td><td>CSV·로그 분석 · 리포트 · 통계 (§4의 분석 전문 DB)</td><td>회원가입·주문을 다루는 <u>메인 저장소로는 부적합</u></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🚲</span>
+    <div><strong>SQLite가 의외로 좋은 출발점인 이유 —</strong> "아직 이게 진짜 서비스가 될지 모르겠다,
+    일단 돌아가는 걸 빨리 보고 싶다, 혼자 또는 소규모로 쓸 것이다" — 이 단계라면 SQLite는 훌륭한 선택이다.
+    거대한 DB 서버를 세우지 않아도 되고, 파일 하나가 곧 데이터베이스다.
+    참고로 영상 제작자의 홈페이지도 SQLite로 운영 중이라고 한다 — <u>작다고 못 버티는 게 아니다.</u></div>
+  </div>
+
+  <h3 id="r-seven"><span class="num">Q</span>7가지 질문 — 답을 적으면 방향이 보인다</h3>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/db-seven-questions.svg" alt="혼자인가 여럿인가부터 실험인가 운영인가까지 7가지 질문과 답의 조합별 추천, 그리고 다섯 가지 책임"></div>
+    <figcaption>질문들이 실제로 묻는 것은 다섯 가지 책임 — 개인정보·보안·백업·동시성·권한 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:60px">#</th><th style="width:330px">질문</th><th>이 질문이 실제로 묻는 것</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">1</td><td>혼자 쓰나요, 여러 사람이 쓰나요?</td><td>동시성 책임 — 충돌 처리가 필요한가</td></tr>
+        <tr><td class="hl">2</td><td>로그인이 필요한가요?</td><td>개인정보 책임의 시작점</td></tr>
+        <tr><td class="hl">3</td><td>사용자마다 자기 데이터만 봐야 하나요?</td><td>권한 책임 — RLS가 필요해지는 지점(§9-C)</td></tr>
+        <tr><td class="hl">4</td><td>데이터가 사라지면 얼마나 치명적인가요?</td><td>백업 책임 — 재생성 가능하면 가볍게 가도 된다</td></tr>
+        <tr><td class="hl">5</td><td>동시에 여러 명이 접속하나요?</td><td>동시성 — SQLite의 한계선이 여기</td></tr>
+        <tr><td class="hl">6</td><td>검색·필터링·통계가 중요한가요?</td><td>쿼리 능력 — 시트·NoSQL로는 버거워지는 지점</td></tr>
+        <tr><td class="hl">7</td><td>지금은 실험인가요, 실제 운영인가요?</td><td>모든 답의 강도를 조절하는 축</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">답의 조합이 곧 방향이다 — <u>혼자 쓰는 자동화 + 로그인 없음 + 날아가도 재생성 가능</u> → 구글 시트·SQLite로 충분.
+  <u>회원가입 + 사용자별 데이터 분리 + 결제 가능성</u> → 관리형 Postgres(Supabase).
+  <u>인터넷 없이 내 컴퓨터에서만</u> → SQLite. <u>CSV 분석·대시보드가 핵심</u> → DuckDB.</p>
+
+  <h3 id="r-supabase"><span class="num">R</span>Supabase의 두 함정 — RLS와 키</h3>
+
+  <p class="body">§7에서 본 대로 Supabase는 강력한 통합 스택이다. 다만 <strong>편한 도구라고 해서 이해 없이 써도 되는 도구는 아니다.</strong>
+  바이브코딩 초보가 실제로 막히는 두 지점이 있다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">함정</th><th style="width:270px">무엇인가</th><th>잘못하면</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">RLS<br>(Row Level Security)</td><td><strong>행 단위 보안</strong> — "이 사용자는 자기 데이터만", "관리자는 전체", "비로그인은 접근 불가" 같은 규칙을 테이블마다 정하는 것</td><td>둘 중 하나가 된다: <u>데이터가 아예 안 보이거나</u>(개발자가 괴롭다) <u>보이면 안 될 데이터까지 공개되거나</u>(서비스가 위험하다)</td></tr>
+        <tr><td class="hl">키 관리<br>(anon vs service role)</td><td>프런트엔드에 노출해도 되는 키와 <strong>절대 노출하면 안 되는 키</strong>가 나뉜다</td><td>모르고 AI가 시키는 대로 붙여넣으면 — 현관문 열쇠를 화분 밑 잘 보이는 곳에 정성껏 놓아둔 꼴이 된다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">🔑</span>
+    <div><strong>MCP도 공짜 마법은 아니다 —</strong> Supabase MCP를 붙이면 AI가 프로젝트를 읽고 테이블을 보고 쿼리도 대신 짜준다.
+    편해지는 만큼 <u>토큰을 소모</u>하고, 무엇보다 <strong>최종 판단은 여전히 사람의 몫</strong>이다 —
+    이 정책이 안전한가? 이 키가 노출되면 안 되는 것 아닌가? 이 테이블 구조가 나중에 버틸 수 있나?
+    「AI 시대의 개발 프로세스」 §4의 "사람 리뷰 필수 구역"(보안 경계)이 정확히 여기다.</div>
+  </div>
+
+  <h3 id="r-myths"><span class="num">S</span>초보가 자주 빠지는 두 착각</h3>
+
+  <div class="card-grid g2">
+    <div class="card" style="border-left:4px solid var(--red)">
+      <h4>착각 ① "나중에 커질 수도 있으니 처음부터 제일 좋은 걸로"</h4>
+      <p>그럴듯하지만, 이것 때문에 <strong>출시를 아예 못 하는</strong> 경우가 생긴다. 사용자가 한 명도 없는데
+      인증 구조·권한 정책·배포 구조·백업 전략까지 짜다가 지쳐버리는 것 —
+      <u>식당을 열기도 전에 프랜차이즈 본사 시스템부터 만드는 격</u>이다.</p>
+    </div>
+    <div class="card" style="border-left:4px solid var(--amber)">
+      <h4>착각 ② "일단 구글 시트로 다 하면 되지 않나"</h4>
+      <p>실제로 많은 경우 된다. 그러나 <strong>개인정보·결제 정보·민감한 사용자 데이터가 들어가는 순간</strong> 달라진다 —
+      구글 시트는 편리한 협업 도구이지 모든 서비스의 안전한 DB가 아니다.</p>
+    </div>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">⚖️</span>
+    <div><strong>두 착각 사이의 균형 —</strong> 처음부터 거창하게 갈 필요는 없다.
+    <u>그러나 "가볍게 시작한다"는 이유로 책임까지 가볍게 보면 안 된다.</u>
+    가볍게 시작하되, 어떤 책임을 지고 있는지는 정확히 알고 있는 것 — 그것이 이 절 전체의 요지다.</div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>다음에 "저장은 어디에 하지?"라는 질문이 나오면 —</strong> 바로 Supabase부터 열지 말고 먼저 물어보자:
+    <u>이 데이터는 누구의 것인가? 누가 볼 수 있어야 하는가? 사라지면 얼마나 큰일인가? 나는 이 책임을 어디까지 감당할 수 있는가?</u>
+    이 질문에 답하고 나면 DB 선택은 훨씬 덜 무서워진다. 그리고 기억할 한 문장 —
+    <strong>"앱은 화면에서 시작하지만, 서비스는 데이터에서 버틴다."</strong></div>
+  </div>
+</section>
+
 <footer style="border-top:1px solid var(--border); padding-top:24px; color:var(--text-muted); font-size:12.5px; text-align:center; margin-bottom:40px;">
   Knowledge DB · 데이터베이스 완전 정리 — SQL · NoSQL · NewSQL · 전문 DB · 스토리지(S3·CDN) · BaaS(Supabase)<br>
-  Hyundai-Inspired Design System v1.0 · 도식: img/db-*.svg (14종) · §1A·§6·§7은 유튜브 강의 "뿌리강의 3강 — DB와 스토리지" 내용을 반영해 보강
+  Hyundai-Inspired Design System v1.0 · 도식: img/db-*.svg (16종) · §1A·§6·§7은 유튜브 강의 "뿌리강의 3강 — DB와 스토리지", §9는 바이브랩스 「바이브 코딩 시작 전 꼭 봐야 할 데이터베이스 선택 가이드」 내용을 반영해 보강
 </footer>
 
 </main>

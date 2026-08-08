@@ -17,7 +17,7 @@
         "S3·CDN",
         "Supabase"
       ],
-      "version": 5,
+      "version": 6,
       "assets": [
         "docs/img/db-history-timeline.svg",
         "docs/img/db-prehistory.svg",
@@ -32,7 +32,9 @@
         "docs/img/db-object-storage.svg",
         "docs/img/db-cdn-presigned.svg",
         "docs/img/db-upload-flow.svg",
-        "docs/img/db-baas-supabase.svg"
+        "docs/img/db-baas-supabase.svg",
+        "docs/img/db-vehicle-map.svg",
+        "docs/img/db-seven-questions.svg"
       ]
     },
     {

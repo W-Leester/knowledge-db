@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="dsq" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">7가지 질문 — 답을 적고 나면 방향이 보인다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">"어떤 DB가 제일 쉬운가"가 아니라 "내 서비스가 감당할 책임은 어디까지인가"를 묻는다</text>
+
+  <!-- 7 질문 -->
+  <rect x="30" y="80" width="400" height="286" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="230" y="108" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">먼저 답을 적는다</text>
+
+  <rect x="50" y="122" width="360" height="30" rx="8" fill="#E8EEF7"/>
+  <text x="64" y="142" font-size="11.5" fill="#002C5F"><tspan font-weight="800">1.</tspan> 혼자 쓰나요, 여러 사람이 쓰나요?</text>
+  <rect x="50" y="156" width="360" height="30" rx="8" fill="#E8EEF7"/>
+  <text x="64" y="176" font-size="11.5" fill="#002C5F"><tspan font-weight="800">2.</tspan> 로그인이 필요한가요?</text>
+  <rect x="50" y="190" width="360" height="30" rx="8" fill="#E8EEF7"/>
+  <text x="64" y="210" font-size="11.5" fill="#002C5F"><tspan font-weight="800">3.</tspan> 사용자마다 자기 데이터만 봐야 하나요?</text>
+  <rect x="50" y="224" width="360" height="30" rx="8" fill="#FEE2E2"/>
+  <text x="64" y="244" font-size="11.5" fill="#991B1B"><tspan font-weight="800">4.</tspan> 데이터가 사라지면 얼마나 치명적인가요?</text>
+  <rect x="50" y="258" width="360" height="30" rx="8" fill="#E8EEF7"/>
+  <text x="64" y="278" font-size="11.5" fill="#002C5F"><tspan font-weight="800">5.</tspan> 동시에 여러 명이 접속하나요?</text>
+  <rect x="50" y="292" width="360" height="30" rx="8" fill="#E8EEF7"/>
+  <text x="64" y="312" font-size="11.5" fill="#002C5F"><tspan font-weight="800">6.</tspan> 검색·필터링·통계가 중요한가요?</text>
+  <rect x="50" y="326" width="360" height="30" rx="8" fill="#FEF3E2"/>
+  <text x="64" y="346" font-size="11.5" fill="#B45309"><tspan font-weight="800">7.</tspan> 지금은 실험인가요, 실제 운영인가요?</text>
+
+  <line x1="434" y1="222" x2="470" y2="222" stroke="#003F8A" stroke-width="2.5" marker-end="url(#dsq)"/>
+
+  <!-- 케이스별 답 -->
+  <rect x="474" y="80" width="396" height="286" rx="14" fill="#FFFFFF" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="672" y="108" font-size="14" font-weight="800" fill="#0F766E" text-anchor="middle">답의 조합 → 현실적인 선택</text>
+
+  <rect x="492" y="122" width="360" height="52" rx="8" fill="#E6F7F1"/>
+  <text x="506" y="142" font-size="10.5" fill="#555555">혼자 쓰는 자동화 · 로그인 없음 · 날아가도 재생성 가능</text>
+  <text x="506" y="162" font-size="11.5" font-weight="800" fill="#065F46">→ 구글 시트 · SQLite로 충분</text>
+
+  <rect x="492" y="180" width="360" height="52" rx="8" fill="#FEF3E2"/>
+  <text x="506" y="200" font-size="10.5" fill="#555555">회원가입 · 사용자별 데이터 분리 · 결제 가능성</text>
+  <text x="506" y="220" font-size="11.5" font-weight="800" fill="#B45309">→ 관리형 Postgres 계열 (Supabase)</text>
+
+  <rect x="492" y="238" width="360" height="52" rx="8" fill="#E8EEF7"/>
+  <text x="506" y="258" font-size="10.5" fill="#555555">인터넷 없이 내 컴퓨터에서만 도는 개인용 앱</text>
+  <text x="506" y="278" font-size="11.5" font-weight="800" fill="#002C5F">→ SQLite가 자연스럽다</text>
+
+  <rect x="492" y="296" width="360" height="52" rx="8" fill="#E6F7F1"/>
+  <text x="506" y="316" font-size="10.5" fill="#555555">CSV 분석 · 리포트 · 대시보드가 핵심</text>
+  <text x="506" y="336" font-size="11.5" font-weight="800" fill="#0F766E">→ DuckDB (메인 DB가 아니라 분석 도구로)</text>
+
+  <!-- 책임의 다섯 갈래 -->
+  <text x="450" y="398" font-size="15" font-weight="800" fill="#002C5F" text-anchor="middle">질문들이 실제로 묻는 것 — 다섯 가지 책임</text>
+
+  <rect x="30" y="414" width="160" height="86" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="110" y="438" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">개인정보 책임</text>
+  <text x="110" y="460" font-size="10" fill="#555555" text-anchor="middle">회원 정보를 받는 순간</text>
+  <text x="110" y="478" font-size="10" fill="#555555" text-anchor="middle">생긴다 (질문 2·3)</text>
+
+  <rect x="202" y="414" width="160" height="86" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="282" y="438" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">보안 책임</text>
+  <text x="282" y="460" font-size="10" fill="#555555" text-anchor="middle">결제를 다루는 순간</text>
+  <text x="282" y="478" font-size="10" fill="#555555" text-anchor="middle">(질문 4·7)</text>
+
+  <rect x="374" y="414" width="160" height="86" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.8"/>
+  <text x="454" y="438" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">백업 책임</text>
+  <text x="454" y="460" font-size="10" fill="#555555" text-anchor="middle">사용자가 쌓은 데이터를</text>
+  <text x="454" y="478" font-size="10" fill="#555555" text-anchor="middle">보관하는 순간 (질문 4)</text>
+
+  <rect x="546" y="414" width="160" height="86" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.8"/>
+  <text x="626" y="438" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">동시성 책임</text>
+  <text x="626" y="460" font-size="10" fill="#555555" text-anchor="middle">여러 명이 동시에</text>
+  <text x="626" y="478" font-size="10" fill="#555555" text-anchor="middle">접속할 때 (질문 1·5)</text>
+
+  <rect x="718" y="414" width="152" height="86" rx="10" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.8"/>
+  <text x="794" y="438" font-size="11.5" font-weight="800" fill="#6B21A8" text-anchor="middle">권한 책임</text>
+  <text x="794" y="460" font-size="10" fill="#555555" text-anchor="middle">관리자와 일반 사용자가</text>
+  <text x="794" y="478" font-size="10" fill="#555555" text-anchor="middle">나뉠 때 (질문 3)</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="520" width="840" height="46" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="450" y="548" font-size="12.5" font-weight="700" fill="#002C5F" text-anchor="middle">AI에게 "내 서비스에 맞는 DB 추천해줘"라고 물으면 답은 나온다 — 단 그 답은 내가 적어준 몇 줄에 맞춘 답이다</text>
+
+  <rect x="30" y="576" width="840" height="46" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="604" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">DB는 좋은 걸 고르는 게 아니라, 지금 내 서비스가 감당할 수 있는 책임에 맞게 고르는 것이다</text>
+</svg>
