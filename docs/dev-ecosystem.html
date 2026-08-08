@@ -335,6 +335,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#d-pm" class="sub">4-B. 패키지 매니저와 창고</a>
     <a href="#d-build" class="sub">4-C. 빌드 도구 — 왜 JS만 시끄럽나</a>
     <a href="#buildtime">5. 빌드 타임 vs 런타임</a>
+    <a href="#b-when" class="sub">5-1. 빌드는 언제 소환되나</a>
     <a href="#merge">6. 반전 — 층이 다시 합쳐진다</a>
     <a href="#practice">7. 실전 판별법</a>
     <a href="#refs">8. 함께 읽기</a>
@@ -625,6 +626,73 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     문법(JSX)·보안(비밀 숨기기)이 조리실을 만들었다. "이 지식 베이스는?" → 빌드 없는 순수 정적 문서 —
     그래서 push한 파일이 곧 서비스다(원시적 방식이 아니라 <u>의도된 단순함</u>이다).</div>
   </div>
+
+  <h3 id="b-when"><span class="num">＋</span>빌드는 언제 소환되나 — "의무가 아니라 결과"</h3>
+
+  <p class="body">그래서 자연스러운 반문이 나온다 — <strong>"JS 파일 만들어서 브라우저로 열면 그냥 되는데, 빌드가 왜 필요해?"</strong>
+  맞는 관찰이다. <u>빌드는 언어의 의무가 아니라, 무엇을 쓸지 선택하면 따라오는 결과</u>다.
+  아래 중 하나라도 해당되면 소환되고, 아니면 정말로 필요 없다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:230px">이걸 쓰는가</th><th style="width:130px">빌드</th><th>이유</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">바닐라 JS · 파일 몇 개</td><td>❌ <strong>0</strong></td><td>브라우저가 직접 아는 것들 — 열면 돈다. <u>이 지식 베이스가 그 방식</u></td></tr>
+        <tr><td class="hl">TypeScript</td><td>✅ 필수</td><td>브라우저는 <span class="mono">.ts</span>를 <strong>모른다</strong> — 받으면 JS로 해석하려다 타입 표기(<span class="mono">: number</span>)에서 문법 오류로 즉시 중단</td></tr>
+        <tr><td class="hl">React의 JSX</td><td>✅ 필수</td><td>같은 이유 — JS 안에 <span class="mono">&lt;div&gt;</span>를 쓰는 문법을 브라우저가 모른다</td></tr>
+        <tr><td class="hl">npm 패키지</td><td>✅ 사실상</td><td><span class="mono">node_modules</span>의 수천 파일을 브라우저가 하나씩 받을 수 없다 → 번들 필요</td></tr>
+        <tr><td class="hl">파일이 수백 개</td><td>✅</td><td>로딩 시간 — 묶고 압축해야</td></tr>
+        <tr><td class="hl">구형 브라우저 지원</td><td>✅</td><td>최신 문법을 하위 호환으로 변환(Babel)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">🚫</span>
+    <div><strong>브라우저는 TS를 "자동 변환"하지 않는다 —</strong> 흔한 오해다.
+    <span class="mono">&lt;script src="app.ts"&gt;</span>를 넣으면 브라우저는 확장자를 무시하고 <u>JS라고 가정해 해석</u>하다가
+    문법 오류로 죽는다. 브라우저에는 TS 컴파일러가 없고, TS의 존재조차 모른다(웹 표준이 아닌 한 회사의 언어라서).
+    반면 <u>Bun·Deno는 <span class="mono">.ts</span>를 직접 실행</u>한다(변환기 내장) — 즉 "TS를 아는 런타임"과
+    "브라우저"는 다른 집합이며, 브라우저는 앞으로도 이 목록에 없을 것이다.
+    <strong>런타임은 고집스럽고, 유연함은 6층이 제공한다</strong> — TS·JSX·CoffeeScript가 전부 JS로,
+    C++·Rust가 WebAssembly로 변환돼 들어가는 "웹으로 컴파일" 흐름이 그 증거다.</div>
+  </div>
+
+  <p class="body"><strong>산출물의 실체도 정리해두자.</strong> <span class="mono">.ts</span>는 <u>원본</u>이고 빌드는 그것을 읽어
+  <span class="mono">.js</span>를 <u>새로 만든다</u>(원본은 그대로 남는다). 함께 나오는 것들까지:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">산출물</th><th>정체</th></tr></thead>
+      <tbody>
+        <tr><td class="hl"><span class="mono">app.js</span></td><td>실행되는 본체 — 타입 표기가 지워진 순수 JS. TS 변환은 사실상 "타입 지우기"에 가까워 가볍고 빠르다(TS는 JS의 상위집합)</td></tr>
+        <tr><td class="hl"><span class="mono">app.d.ts</span></td><td>타입 선언만 담은 부록 — 확장자에 <span class="mono">.ts</span>가 있지만 <u>산출물이고 실행되지 않는다</u>. 라이브러리를 남에게 줄 때의 설명서</td></tr>
+        <tr><td class="hl"><span class="mono">app.js.map</span></td><td>소스맵 — 디버거가 "이 에러는 원본 .ts 42번째 줄"이라고 알려주게 하는 지도</td></tr>
+        <tr><td class="hl">위치·관례</td><td>원본은 <span class="mono">src/</span>(git 커밋), 산출물은 <span class="mono">dist/</span>(<span class="mono">.gitignore</span>로 제외 — 언제든 다시 만들 수 있으니까)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🎨</span>
+    <div><strong>빌드는 코드를 변환하고, 자산은 나른다 —</strong> SVG·이미지·폰트는 <u>원본 자산</u>이라
+    빌드가 만들어내지 않고 <span class="mono">dist/</span>로 복사만 한다(파일명 해시 정도). 그래서
+    "TS·CSS로 움직이는 SVG"에서도 <strong>SVG 안에 TS가 들어가는 일은 없다</strong> — SVG에 넣을 수 있는 스크립트는
+    JS뿐이고(실무에선 거의 안 씀), 보통 <u>TS는 SVG 밖에서 그것을 조작</u>한다(배우와 연출자가 다른 파일).
+    이 저장소의 CPU 애니메이션이 산 증거다 — HTML 안 인라인 SVG + CSS <span class="mono">@keyframes</span>만으로,
+    JS·TS·빌드 없이 움직인다. 정해진 움직임은 CSS로 충분하고, <u>데이터에 따라 달라지는 움직임</u>에서야 JS/TS가 등장한다.</div>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🧰</span>
+    <div><strong>그럼 빌드 도구는 어디에 설치되나 — IDE가 아니라 프로젝트에.</strong>
+    컴퓨터 전역에 필요한 건 <u>Node.js(2층) 하나</u>뿐이고, Vite·tsc는 npm이 <u>프로젝트 폴더의
+    <span class="mono">node_modules</span></u>로 배달한다(§4-B의 격리) — 그래서 프로젝트마다 다른 버전을 써도 충돌이 없고,
+    폴더를 지우면 흔적 없이 사라진다. IDE 익스텐션(ESLint·Prettier)은 <u>편집을 돕는 것</u>이지 빌드의 주체가 아니다 —
+    에디터가 조용해도 <span class="mono">npm run build</span>는 실패할 수 있고, 최종 판정은 언제나 터미널이 한다.
+    그리고 개발 중엔 <span class="mono">npm run dev</span>를 켜두면 저장할 때마다 수십 ms 안에 변환돼
+    <u>디스크에 파일도 안 생긴다</u>(메모리에서 브라우저로) — "빌드 명령을 매번 치는" 경험이 아니다.</div>
+  </div>
 </section>
 
 <!-- ═══════════ 6. MERGE ═══════════ -->
@@ -683,6 +751,9 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
         <tr><td class="hl">런타임 vs 실행환경 vs 개발환경</td><td>런타임 = 실행환경 — <strong>같은 말</strong>(runtime environment의 번역). "개발환경"은 다른 것 — 에디터·터미널·런타임·도구를 뭉뚱그린 <u>일상어</u>(작업 셋업 전체)라, 런타임을 개발환경이라 부르면 층이 다시 뭉개진다</td></tr>
         <tr><td class="hl">"npm의 실행환경은 node?"</td><td><strong>정확한 관찰</strong> — npm·Vite는 JS로 짜인 프로그램이라 Node(2층) 위에서 돈다. 도구도 누군가의 프로그램이다 — Node 설치에 npm이 동봉되는 진짜 이유(같은 런타임을 쓰니까). 층 관계(2층≠3층)와 실행 관계(3층 도구가 2층 위에서 돎)는 별개의 축</td></tr>
         <tr><td class="hl">Xcode·VS Code — IDE는 몇 층?</td><td><strong>층이 아니라 작업대</strong> — 터미널(창구)의 GUI 진화형, IDE(통합 "개발환경")라는 별도 범주. VS Code는 <u>빈 작업대</u>(층 도구를 시장에서 조립해 꽂음), Xcode는 <u>풀옵션 공장</u>(작업대 + 6층 swiftc·xcodebuild + 5층 SDK 동봉 + 3층 SwiftPM + 2층 유사 시뮬레이터까지 분리 불가 통합) — §6 통합 흐름의 극단이자, Xcode가 맥에 묶이는 이유(「로컬 LLM 코딩 공장」 §3)</td></tr>
+        <tr><td class="hl">JavaScript vs Java</td><td><strong>완전히 무관한 남남</strong> — 1995년 넷스케이프가 LiveScript로 만들었다가 당시 유행하던 Java의 인기에 편승해 개명한 마케팅의 산물. 런타임(브라우저·Node vs JVM)·문법·설계 철학 전부 다르다. 격언: "Java와 JavaScript의 관계는 Car와 Carpet의 관계"</td></tr>
+        <tr><td class="hl">컴파일러 = 런타임?</td><td>아니다 — <strong>시점이 다르다</strong>. 컴파일러(6층)는 실행 <u>전에</u> 한 번 일하고 퇴장, 런타임(2층)은 실행 <u>중에</u> 계속 붙어 일한다. 그래서 컴파일된 C++·Rust·Go는 <u>런타임이 없다</u>(CPU 직접 실행). 각주: "C++ 런타임 라이브러리"(libstdc++)는 이름만 런타임이고 실체는 미리 만들어진 함수 모음 — 5층에 가깝다</td></tr>
+        <tr><td class="hl">"층"은 위계인가?</td><td>아니다 — <strong>범주 번호(역할별 서랍)</strong>지 높낮이가 아니다. Python·C++·Swift·JS는 <u>전부 1층</u>이고, "로우레벨/하이레벨"은 하드웨어와의 거리라는 <u>별개의 축</u>(1층 서랍 안에서의 줄 세우기) — Python과 C++은 같은 서랍의 양쪽 끝 이웃이다. 진짜 위아래가 있는 계층은 「네트워크 통신」의 IP·TCP·HTTP 스택 쪽</td></tr>
         <tr><td class="hl">Homebrew·apt</td><td>같은 3층 문법이되 대상이 "언어 패키지"가 아니라 <u>시스템 프로그램</u> — OS 층의 배달부</td></tr>
       </tbody>
     </table>

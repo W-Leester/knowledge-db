@@ -229,7 +229,7 @@
         "npm·pip",
         "빌드 타임"
       ],
-      "version": 5,
+      "version": 6,
       "assets": [
         "docs/img/eco-layers.svg",
         "docs/img/eco-buildtime.svg",
