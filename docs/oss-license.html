@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오픈소스 라이선스와 바이브코딩 — MIT로는 절반만 해결된다</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #7C2D12 55%, #E8962A 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>오픈소스<br>라이선스</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#two">1. 두 방향 — 내보내기와 들여오기</a>
+    <a href="#spectrum">2. 라이선스 스펙트럼</a>
+    <a href="#mine">3. 내 코드에 무엇을 붙일까</a>
+    <a href="#risk">4. 바이브코딩의 특수 리스크</a>
+    <a href="#guard">5. 가드레일 — 세 개의 게이트</a>
+    <a href="#rules">6. 에이전트 룰 파일</a>
+    <a href="#faq">7. 자주 헷갈리는 것들</a>
+    <a href="#refs">8. 함께 읽기</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.08</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Software Engineering · Open Source Licensing</div>
+  <h1>오픈소스 라이선스와 바이브코딩<br><span class="thin">MIT를 붙이는 것으로는 절반만 해결된다</span></h1>
+  <p class="sub">GitHub에 코드를 올리려면 라이선스를 정해야 한다. 그런데 라이선스 문제는 두 방향으로 존재하고,
+  MIT를 고르는 것은 그중 <strong>내보내는 쪽</strong>만 해결한다. 바이브코딩에서 실제 사고가 나는 곳은
+  <strong>들여오는 쪽</strong> — AI가 데려온 의존성들의 조건이다. 스펙트럼 지도부터 에이전트 룰 파일까지,
+  분쟁을 구조로 막는 방법을 정리한다.</p>
+  <div class="tags">
+    <span class="tag">MIT</span><span class="tag">Apache 2.0</span><span class="tag">GPL·AGPL</span>
+    <span class="tag">전염성</span><span class="tag">의존성 검사</span><span class="tag">에이전트 룰</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 결론 네 줄</h2>
+    <p>급한 사람을 위한 요약</p>
+  </div>
+
+  <div class="card-grid g4">
+    <div class="stat-card"><div class="stat-value">2방향</div><div class="stat-label">내보내기(해결됨) vs<br>들여오기(진짜 위험) (§1)</div></div>
+    <div class="stat-card"><div class="stat-value">MIT</div><div class="stat-label">개인 프로젝트의 무난한 답<br>— 유지해도 좋다 (§3)</div></div>
+    <div class="stat-card"><div class="stat-value">🔴 GPL</div><div class="stat-label">의존성으로 들어오면<br>내 코드도 공개 의무 (§2)</div></div>
+    <div class="stat-card"><div class="stat-value">3게이트</div><div class="stat-label">시작·의존성 추가·배포<br>세 지점에 검사 (§5)</div></div>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">⚖️</span>
+    <div><strong>미리 밝히는 것 —</strong> 이 문서는 개발자의 실무 감각을 정리한 것이고 <u>법률 자문이 아니다</u>.
+    라이선스 해석은 관할·배포 형태에 따라 달라질 수 있으니, 상업적으로 중요한 판단은 전문가 확인이 필요하다.
+    다만 아래 원칙들은 오픈소스 커뮤니티에서 널리 합의된 실무 관행이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. TWO DIRECTIONS ═══════════ -->
+<section id="two">
+  <div class="section-header">
+    <div class="eyebrow">The Two Directions</div>
+    <h2>1. 두 방향 — 내보내기와 들여오기</h2>
+    <p>MIT를 붙이는 것은 왼쪽만 해결한다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/lic-two-directions.svg" alt="내 프로젝트를 중심으로 왼쪽은 내보내는 라이선스(해결됨), 오른쪽은 들여오는 의존성 라이선스(위험)"></div>
+    <figcaption>왼쪽은 한 번 정하는 결정, 오른쪽은 매 커밋마다 자라는 리스크 — 비대칭에 주의 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px"></th><th>내보내는 쪽 (내 라이선스)</th><th>들여오는 쪽 (남의 라이선스)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">질문</td><td>"남들이 내 코드로 무엇을 할 수 있나"</td><td>"내가 쓰는 남의 코드의 조건은 무엇인가"</td></tr>
+        <tr><td class="hl">실체</td><td>LICENSE 파일 한 장</td><td>패키지 수십~수백 개 + 그들의 의존성까지</td></tr>
+        <tr><td class="hl">관리 부담</td><td>한 번 정하면 끝</td><td><strong>매번 늘어난다</strong> — AI가 제안할 때마다</td></tr>
+        <tr><td class="hl">최악의 결과</td><td>남들이 안 쓴다 (되돌릴 수 있음)</td><td><strong>내 코드가 공개 의무에 묶인다</strong> (되돌리기 어려움)</td></tr>
+        <tr><td class="hl">해결 방법</td><td>MIT 고르기 (§3)</td><td>룰 + 자동 검사 (§5~6)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🎯</span>
+    <div><strong>바이브코딩에서 왜 오른쪽이 특히 위험한가 —</strong> AI가 "이 라이브러리 쓰면 됩니다"라고 할 때
+    <u>라이선스는 말해주지 않는다</u>. 그리고 물어도 틀릴 수 있다(GPL 프로젝트를 MIT라고 하는 등).
+    사람이 손으로 코딩할 때는 패키지를 직접 검색하며 자연히 라이선스를 보게 되는데, 바이브코딩에서는
+    그 눈길이 생략된다 — 그래서 <strong>구조적 게이트</strong>가 필요하다(§5).</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. SPECTRUM ═══════════ -->
+<section id="spectrum">
+  <div class="section-header">
+    <div class="eyebrow">The Map</div>
+    <h2>2. 라이선스 스펙트럼 — 자유로움에서 전염성까지</h2>
+    <p>왼쪽으로 갈수록 쓰기 편하고, 오른쪽으로 갈수록 공개 의무가 번진다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/lic-spectrum.svg" alt="MIT·Apache부터 LGPL·GPL·AGPL·비오픈소스까지의 스펙트럼과 3색 신호등"></div>
+    <figcaption>허용형 → 약한 전염 → 강한 전염 → 비-오픈소스, 그리고 "라이선스 없음"의 함정 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">라이선스</th><th style="width:120px">성격</th><th style="width:230px">남이 쓸 때의 의무</th><th>대표 프로젝트</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">MIT</td><td>허용형</td><td>저작권 표시 유지만</td><td>React · jQuery · Rails</td></tr>
+        <tr><td class="hl">Apache-2.0</td><td>허용형 + 특허</td><td>표시 유지 + 변경 사항 명시 + 특허 보복 방지</td><td>Kubernetes · Swift · gpt-oss·Bonsai(로컬 모델 문서)</td></tr>
+        <tr><td class="hl">BSD 2/3-Clause · ISC</td><td>허용형</td><td>MIT와 거의 동일 (3-Clause는 이름 도용 금지 추가)</td><td>FreeBSD · Node 생태계 다수</td></tr>
+        <tr><td class="hl">LGPL</td><td>약한 전염</td><td>링크는 자유 — <u>그 라이브러리를 수정하면</u> 그 부분 공개</td><td>glibc</td></tr>
+        <tr><td class="hl">MPL-2.0</td><td>약한 전염</td><td>파일 단위 — 수정한 파일만 공개</td><td>Firefox</td></tr>
+        <tr><td class="hl">GPL v2/v3</td><td><strong>강한 전염</strong></td><td><strong>내 코드까지 전부 GPL로 공개</strong></td><td>Linux(v2) · Bash · GIMP</td></tr>
+        <tr><td class="hl">AGPL v3</td><td><strong>가장 강함</strong></td><td>GPL + <strong>네트워크 서비스만 해도</strong> 소스 공개</td><td>Grafana · 일부 DB</td></tr>
+        <tr><td class="hl">SSPL · BUSL · Elastic</td><td><u>오픈소스 아님</u></td><td>상업적 사용·클라우드 제공 제한</td><td>Redis(최근) · Elastic · MongoDB</td></tr>
+        <tr><td class="hl">라이선스 없음</td><td><u>권한 없음</u></td><td>저작권 전부 보유 — <strong>법적으로 사용 불가</strong></td><td>GitHub의 수많은 개인 저장소</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">🦠</span>
+    <div><strong>"전염"의 정확한 발동 조건 —</strong> GPL의 공개 의무는 <u>배포할 때</u> 발동한다 —
+    내 컴퓨터에서만 쓰는 스크립트라면 GPL 라이브러리를 써도 문제되지 않는다.
+    그러나 ① 바이브코딩 결과물은 대개 GitHub에 올라가고(=배포), ② <strong>AGPL은 배포하지 않고
+    웹 서비스로 제공만 해도</strong> 발동한다. 그래서 "나중에 공개하거나 서비스로 만들 수도 있다"면
+    처음부터 피하는 것이 유일한 안전책이다 — 나중에 걷어내는 것은 재작성에 가깝다.</div>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">👻</span>
+    <div><strong>가장 흔한 착각 — "GitHub에 공개돼 있으니 써도 된다"</strong>는 틀렸다.
+    LICENSE 파일이 없는 저장소는 <u>자유가 아니라 저작권 전부 보유</u> 상태다(공개 = 사용 허락이 아니다).
+    남의 코드를 쓸 때도, 내 저장소를 만들 때도 <strong>LICENSE 파일의 존재 자체가 첫 확인 항목</strong>이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 3. MINE ═══════════ -->
+<section id="mine">
+  <div class="section-header">
+    <div class="eyebrow">Choosing Yours</div>
+    <h2>3. 내 코드에 무엇을 붙일까 — MIT vs Apache 2.0</h2>
+    <p>실질적 갈림길은 이 둘 사이뿐이다</p>
+  </div>
+
+  <p class="body">개인 프로젝트라면 <strong>MIT가 무난한 정답</strong>이다 — 약 170단어로 짧아 누구나 읽어서 이해할 수 있고,
+  사실상 "표시만 남기고 알아서 쓰세요"다. 그럼 언제 Apache 2.0을 고려하는가:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:140px"></th><th>MIT</th><th>Apache-2.0</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">분량</td><td>~170단어 — 다 읽힌다</td><td>수 페이지 — 법무팀이 읽는다</td></tr>
+        <tr><td class="hl">특허</td><td>명시 조항 없음</td><td><strong>특허 라이선스 명시 부여</strong> + 기여자의 특허 공격 차단</td></tr>
+        <tr><td class="hl">변경 고지</td><td>불필요</td><td>변경한 파일에 표시 의무</td></tr>
+        <tr><td class="hl">어울리는 곳</td><td>개인 유틸·학습·소규모 라이브러리</td><td>기업 채택을 기대하거나 특허가 얽힐 기술</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><h4>MIT를 유지해도 좋은 경우</h4><p>개인 프로젝트, 유틸리티, 학습용 코드, 특허와 무관한 애플리케이션 — 지금 상태를 바꿀 이유가 없다.</p></div>
+    <div class="card"><h4>Apache 2.0으로 갈 만한 경우</h4><p>회사가 갖다 쓸 것을 기대하거나(특허 조항이 채택 장벽을 낮춘다), 알고리즘·기술적 발명이 얽힌 프로젝트. gpt-oss·Bonsai 같은 모델들이 이걸 쓰는 이유.</p></div>
+    <div class="card"><h4>지금 정하는 것이 싼 이유</h4><p>나중에 바꿀 수는 있지만, <strong>외부 기여자가 생기면 그들의 동의가 필요</strong>해진다 — 기여자가 늘기 전에 정하는 것이 훨씬 싸다.</p></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📄</span>
+    <div><strong>코드가 아닌 자산은 별도로 —</strong> 문서·이미지·도식은 코드 라이선스와 다른 것을 쓰는 경우가 많다
+    (CC BY 계열). 이 지식 베이스처럼 문서가 본체인 저장소라면, "코드는 MIT, 문서는 CC BY-SA" 같은 이중 표기도 흔하다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. RISK ═══════════ -->
+<section id="risk">
+  <div class="section-header">
+    <div class="eyebrow">AI-specific Risks</div>
+    <h2>4. 바이브코딩의 특수 리스크</h2>
+    <p>사람이 손으로 코딩할 때는 없던 위험 네 가지</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:210px">리스크</th><th style="width:250px">왜 생기나</th><th>대응</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">라이선스가 대화에 등장하지 않는다</td><td>AI는 패키지를 추천하며 라이선스를 언급하지 않는다 — 사람은 검색하다 자연히 보게 되는데 그 눈길이 생략됨</td><td>규칙 파일에 "제안 시 라이선스 명시" 의무화(§6)</td></tr>
+        <tr><td class="hl">AI가 라이선스를 착각한다</td><td>학습 데이터 시점 이후 변경(Redis·Elastic처럼 라이선스가 바뀐 사례 다수) + 단순 혼동</td><td>AI 답을 믿지 말고 npm/PyPI 페이지·저장소 LICENSE로 직접 확인</td></tr>
+        <tr><td class="hl">의존성이 판단 없이 늘어난다</td><td>"이거 설치할게요" → 즉시 실행되는 흐름</td><td><strong>"의존성 추가는 제안만, 승인 후 설치"</strong> — 「AI 시대의 개발 프로세스」의 그 규칙</td></tr>
+        <tr><td class="hl">코드 재현 가능성</td><td>드물지만 유명 저장소의 특징적 코드를 상당량 재현할 수 있다</td><td>"특정 프로젝트 코드를 그대로 재현하지 않는다" 규칙 + 이상하게 완성도 높은 덩어리는 출처 확인</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout purple">
+    <span class="icon">🤖</span>
+    <div><strong>AI 생성 코드 자체의 저작권은? —</strong> 회색 지대다. 대체로 <u>"저작권 보호를 받기 어려운 산출물"</u>로
+    보는 견해가 우세하고(사람의 창작적 기여가 핵심 요건), 그래서 <strong>AI로 만든 코드를 MIT로 배포하는 데
+    실무적 장애는 대개 없다</strong>. 남는 문제는 위 표의 마지막 행 — AI가 기존 저작물을 상당량 재현했을 경우
+    원본 라이선스가 따라온다는 점이다. 이 영역은 법·판례가 변하는 중이니, 상업적 배포 전에는 최신 상황을 확인하는 것이 좋다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. GUARD ═══════════ -->
+<section id="guard">
+  <div class="section-header">
+    <div class="eyebrow">Guardrails</div>
+    <h2>5. 가드레일 — 세 개의 게이트</h2>
+    <p>라이선스 사고는 "몰라서"가 아니라 "확인 단계가 없어서" 난다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/lic-workflow.svg" alt="프로젝트 시작·의존성 추가·배포 전 세 게이트와 검사 명령, AI 특수 리스크와 구조적 방어"></div>
+    <figcaption>기억력에 의존하지 않는다 — 세 지점에 게이트를 심고, 검사는 명령 한 줄로 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">게이트</th><th style="width:110px">빈도</th><th>체크 항목</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① 프로젝트 시작</td><td>한 번 · 5분</td><td>LICENSE 파일 생성 · README 명시 · 규칙 파일에 라이선스 룰 연결 · <strong>배포 형태 결정</strong>(SaaS면 AGPL 절대 금지선이 여기서 정해진다)</td></tr>
+        <tr><td class="hl">② 의존성 추가 ★</td><td>매번 · 30초</td><td>제안 시 라이선스 확인 → AI 답을 직접 검증 → 3색 판정 → 🔴이면 대체품 탐색 → 설치 후 검사 1회</td></tr>
+        <tr><td class="hl">③ 공개·배포 전</td><td>배포마다 · 2분</td><td>전체 목록 출력 · 🔴 0건 확인 · 서드파티 고지 파일 갱신 · 붙여넣은 코드 출처 점검 · 비밀키 미포함</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <pre class="code"><span class="title-bar">검사 명령 — 게이트 ②③의 실체</span><span class="c"># JS / TS</span>
+npx license-checker --summary
+npx license-checker --failOn <span class="s">"GPL-3.0;AGPL-3.0;SSPL-1.0"</span>   <span class="c">← CI에서 자동 차단</span>
+
+<span class="c"># Python</span>
+pip install pip-licenses && pip-licenses --format=markdown
+
+<span class="c"># Rust · Go</span>
+cargo license
+go-licenses report ./...</pre>
+
+  <div class="callout green">
+    <span class="icon">🤖</span>
+    <div><strong>가장 값싼 보험 — CI에 걸어두기.</strong> 위 <span class="mono">--failOn</span> 류를 GitHub Actions에
+    한 줄 넣으면 🔴 라이선스가 들어오는 순간 빌드가 실패한다. 「AI 시대의 개발 프로세스」의 <u>기계 게이트(1층)</u>에
+    라이선스 검사를 추가하는 것 — 사람의 기억이 아니라 기계가 지키게 만드는 방식이다.
+    단 검사 도구도 완벽하지 않으니(표기 누락·오탈자), 결과가 "UNKNOWN"인 항목은 🟡로 취급해 직접 확인한다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. RULES ═══════════ -->
+<section id="rules">
+  <div class="section-header">
+    <div class="eyebrow">The Rule File</div>
+    <h2>6. 에이전트 룰 파일 — 이 저장소에 준비돼 있다</h2>
+    <p>바이브코딩할 때 AI가 매번 읽는 규칙으로 만들어두면 관리가 자동화된다</p>
+  </div>
+
+  <p class="body">위 내용을 실제로 작동시키는 방법은 <strong>규칙 파일에 명문화</strong>하는 것이다 —
+  「클로드 확장하기」에서 다룬 CLAUDE.md·규칙 파일이 그 자리이고, 에이전트가 세션마다 자동으로 읽는다.
+  이 저장소에 바로 쓸 수 있는 룰 파일이 들어 있다:</p>
+
+  <pre class="code"><span class="title-bar">rules/LICENSE-RULES.md — 새 프로젝트에 복사하거나 링크해서 쓴다</span><span class="c"># 새 프로젝트의 규칙 파일(CLAUDE.md 등)에 붙여넣기</span>
+cat ~/Desktop/Dev/knowledge-db/rules/LICENSE-RULES.md >> CLAUDE.md
+
+<span class="c"># 또는 §8의 한 문단 요약만 규칙 파일에 넣고, 전문은 참조로 두기</span></pre>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:180px">룰 파일의 구성</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">§0 프로젝트 설정</td><td>내 라이선스 · 배포 형태 체크박스 — <u>SaaS 여부가 AGPL 금지선을 정한다</u></td></tr>
+        <tr><td class="hl">§1 절대 규칙 6개</td><td>의존성은 제안만 · 라이선스 함께 명시 · 🔴 제안 금지 · 외부 코드 붙여넣기 금지 · LICENSE 임의 변경 금지 · 비밀키 금지</td></tr>
+        <tr><td class="hl">§2 3색 신호등</td><td>🟢/🟡/🔴 라이선스 <strong>이름을 명시적으로 나열</strong> — 에이전트가 판단하지 않고 조회하게</td></tr>
+        <tr><td class="hl">§3 세 게이트</td><td>§5의 체크리스트를 그대로 (체크박스 형식)</td></tr>
+        <tr><td class="hl">§4 고지 파일 형식</td><td>THIRD-PARTY-NOTICES.md 템플릿</td></tr>
+        <tr><td class="hl">§5 검사 명령</td><td>생태계별 명령 + CI 차단 방법</td></tr>
+        <tr><td class="hl">§6~7 AI 코드·라이선스 고르기</td><td>AI 생성물 입장 정리 + 내 라이선스 선택 표</td></tr>
+        <tr><td class="hl">§8 한 문단 요약</td><td><strong>규칙 파일에 넣을 압축판</strong> — 이것만 붙여도 핵심은 작동한다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧩</span>
+    <div><strong>왜 룰 파일이 결정적인가 —</strong> 라이선스 지식을 사람이 기억해서 매번 확인하는 것은
+    지속되지 않는다(바이브코딩의 속도에서는 특히). 규칙 파일은 <u>에이전트가 매 세션 자동으로 읽는 문서</u>라,
+    한 번 써두면 이후 모든 대화에서 라이선스 확인이 기본 동작이 된다 —
+    「클로드 확장하기」 §8의 하네스 엔지니어링이 라이선스 리스크 관리에 적용된 사례다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 7. FAQ ═══════════ -->
+<section id="faq">
+  <div class="section-header">
+    <div class="eyebrow">FAQ</div>
+    <h2>7. 자주 헷갈리는 것들</h2>
+    <p>실무에서 반복되는 질문들</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:250px">질문</th><th>답</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">GPL 라이브러리를 쓰면 무조건 공개해야 하나?</td><td>아니다 — <strong>배포할 때</strong> 발동한다. 내 컴퓨터에서만 쓰면 무관. 단 GitHub 공개도 배포이고, AGPL은 서비스 제공만으로 발동</td></tr>
+        <tr><td class="hl">개발 도구(devDependency)도 전염되나?</td><td>일반적으로 아니다 — 빌드에만 쓰이고 결과물에 포함되지 않으면 대개 무관(예: GPL 린터). 단 <u>결과물에 코드가 섞여 들어가는지</u>가 판단 기준</td></tr>
+        <tr><td class="hl">MIT 패키지를 썼는데 저작권 표시를 안 했다</td><td>형식적으로는 의무 위반이다. 대부분 프로젝트가 지키지 않지만, THIRD-PARTY-NOTICES.md 한 장으로 해결되니 갖추는 게 낫다</td></tr>
+        <tr><td class="hl">라이선스를 나중에 바꿀 수 있나?</td><td>내 코드만이면 가능. <strong>외부 기여자가 있으면 그들의 동의 필요</strong> — 초기에 정하는 것이 싸다</td></tr>
+        <tr><td class="hl">private 저장소면 신경 안 써도 되나?</td><td>배포가 없으니 전염은 발동하지 않는다. 단 언젠가 공개·배포할 가능성이 있으면 그때 걷어내기가 재작성급이 된다</td></tr>
+        <tr><td class="hl">Redis·Elastic이 "오픈소스 아님"이라니?</td><td>예전엔 오픈소스였다가 클라우드 업체의 무단 활용에 대응해 라이선스를 바꿨다 — <u>AI가 옛 정보로 답할 수 있는</u> 대표 사례(§4)</td></tr>
+        <tr><td class="hl">AI가 만든 코드를 MIT로 내도 되나?</td><td>실무적으로 대개 문제없다(§4의 콜아웃) — 남는 리스크는 기존 코드 재현 부분</td></tr>
+        <tr><td class="hl">문서·이미지도 코드 라이선스로 덮이나?</td><td>LICENSE 파일의 범위에 따른다 — 보통은 코드 기준이라, 문서·자산은 CC BY 등으로 별도 표기하는 것이 명확</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════ 8. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">Related</div>
+    <h2>8. 함께 읽기</h2>
+    <p>이 문서에서 갈라지는 길들</p>
+  </div>
+
+  <ul class="refs">
+    <li><a href="https://choosealicense.com/" target="_blank" rel="noopener">choosealicense.com (GitHub)</a>
+        <span class="ref-note">§3. 라이선스 고르기 공식 가이드 — 질문 몇 개로 추천해준다.</span></li>
+    <li><a href="https://tldrlegal.com/" target="_blank" rel="noopener">TLDRLegal</a>
+        <span class="ref-note">§2. 라이선스 전문을 "할 수 있는 것/못 하는 것/해야 하는 것"으로 요약.</span></li>
+    <li><a href="https://spdx.org/licenses/" target="_blank" rel="noopener">SPDX License List</a>
+        <span class="ref-note">§5. 검사 도구가 쓰는 표준 식별자 목록(MIT·Apache-2.0·GPL-3.0-only 등).</span></li>
+  </ul>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:280px">주제</th><th>문서</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">"의존성 추가는 승인제" 규칙의 맥락</td><td>「AI 시대의 개발 프로세스」 §2·§7 — 기계 게이트에 라이선스 검사 추가</td></tr>
+        <tr><td class="hl">규칙 파일로 에이전트를 통제하는 법</td><td>「클로드 확장하기」 §2·§8 — 하네스 엔지니어링</td></tr>
+        <tr><td class="hl">패키지·레지스트리의 구조 (3~5층)</td><td>「개발 생태계 해부」 §4-B — 공급망 보안과 같은 자리</td></tr>
+        <tr><td class="hl">GitHub 저장소 운영 기본</td><td>「Git &amp; GitHub 정리」</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>맺음 —</strong> 라이선스는 법 문제로 보이지만 실무에서는 <u>프로세스 문제</u>다.
+    MIT 한 줄로 내보내는 쪽을 끝내고, 들여오는 쪽은 룰 파일과 검사 명령으로 자동화하면
+    바이브코딩의 속도를 유지하면서도 분쟁 가능성을 거의 0으로 만들 수 있다.
+    남는 것은 "확인 단계를 시스템에 심었는가" 하나뿐이다.</div>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/lic-*.svg (3종) · 법률 자문이 아님 — 상업적 판단은 전문가 확인 · 룰 파일: rules/LICENSE-RULES.md
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>

@@ -85,6 +85,29 @@
       ]
     },
     {
+      "id": "oss-license",
+      "title": "오픈소스 라이선스와 바이브코딩",
+      "desc": "MIT로는 절반만 해결된다 — 전염성 라이선스, 의존성 검사, 그리고 에이전트 룰 파일",
+      "file": "docs/oss-license.html",
+      "group": "Software · Dev",
+      "icon": "⚖️",
+      "gradient": [
+        "#0D1B2E",
+        "#7C2D12"
+      ],
+      "tags": [
+        "MIT",
+        "GPL·AGPL",
+        "에이전트 룰"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/lic-two-directions.svg",
+        "docs/img/lic-spectrum.svg",
+        "docs/img/lic-workflow.svg"
+      ]
+    },
+    {
       "id": "network-comm",
       "title": "네트워크 통신 정리",
       "desc": "IP·TCP·DNS부터 HTTP·HTTPS·REST, 그리고 WebSocket 실시간까지",

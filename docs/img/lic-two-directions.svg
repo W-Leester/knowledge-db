@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="lta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="ltr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">라이선스는 두 방향이다 — 내보내는 쪽과 들여오는 쪽</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">MIT를 붙이는 것은 왼쪽만 해결한다 — 바이브코딩에서 위험한 쪽은 오른쪽이다</text>
+
+  <!-- 내 프로젝트 (중앙) -->
+  <rect x="330" y="250" width="240" height="120" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="3"/>
+  <text x="450" y="282" font-size="14.5" font-weight="800" fill="#002C5F" text-anchor="middle">📦 내 프로젝트</text>
+  <text x="450" y="306" font-size="11" fill="#555555" text-anchor="middle">바이브코딩으로 만든 코드</text>
+  <text x="450" y="326" font-size="11" fill="#555555" text-anchor="middle">+ AI가 데려온 의존성 수십 개</text>
+  <text x="450" y="350" font-size="10" fill="#666666" text-anchor="middle">GitHub 공개 저장소</text>
+
+  <!-- 왼쪽: 내보내는 쪽 -->
+  <rect x="30" y="90" width="270" height="440" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="165" y="120" font-size="14" font-weight="800" fill="#0F766E" text-anchor="middle">← 내보내는 쪽 (해결됨)</text>
+  <text x="165" y="142" font-size="11" fill="#555555" text-anchor="middle">"남들이 내 코드로 뭘 할 수 있나"</text>
+
+  <rect x="52" y="160" width="226" height="96" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="165" y="184" font-size="12" font-weight="800" fill="#0F766E" text-anchor="middle">내가 고르는 라이선스</text>
+  <text x="165" y="206" font-size="10.5" fill="#555555" text-anchor="middle">MIT · Apache 2.0 · GPL …</text>
+  <text x="165" y="226" font-size="10.5" fill="#555555" text-anchor="middle">LICENSE 파일 한 장</text>
+  <text x="165" y="246" font-size="9.5" fill="#666666" text-anchor="middle">한 번 정하면 끝 — 관리 부담 낮음</text>
+
+  <rect x="52" y="272" width="226" height="112" rx="10" fill="#FFFFFF"/>
+  <text x="165" y="296" font-size="11.5" font-weight="800" fill="#065F46" text-anchor="middle">개인 프로젝트의 무난한 답</text>
+  <text x="70" y="318" font-size="10.5" fill="#555555">· MIT — 짧고 범용, 사실상 표준</text>
+  <text x="70" y="338" font-size="10.5" fill="#555555">· 특허 얽히거나 기업이 쓸 것 같으면</text>
+  <text x="80" y="354" font-size="10.5" fill="#555555">Apache 2.0</text>
+  <text x="70" y="374" font-size="10.5" fill="#555555">· 개방 강제하고 싶으면 GPL 계열</text>
+
+  <text x="165" y="410" font-size="11" font-weight="700" fill="#065F46" text-anchor="middle">위험도: 낮음</text>
+  <text x="165" y="430" font-size="10" fill="#666666" text-anchor="middle">잘못 골라도 나중에 바꿀 수 있다</text>
+  <text x="165" y="446" font-size="10" fill="#666666" text-anchor="middle">(내 저작물이므로 — 단 기여자가</text>
+  <text x="165" y="462" font-size="10" fill="#666666" text-anchor="middle">생기면 동의가 필요해진다)</text>
+  <rect x="52" y="478" width="226" height="38" rx="8" fill="#0F766E"/>
+  <text x="165" y="502" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">님이 MIT로 이미 해결한 부분</text>
+
+  <line x1="330" y1="310" x2="304" y2="310" stroke="#0F766E" stroke-width="2.5" marker-end="url(#lta)"/>
+
+  <!-- 오른쪽: 들여오는 쪽 -->
+  <rect x="600" y="90" width="270" height="440" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="3"/>
+  <text x="735" y="120" font-size="14" font-weight="800" fill="#DC2626" text-anchor="middle">들여오는 쪽 (진짜 위험) →</text>
+  <text x="735" y="142" font-size="11" fill="#555555" text-anchor="middle">"내가 쓰는 남의 코드의 조건"</text>
+
+  <rect x="622" y="160" width="226" height="118" rx="10" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="735" y="184" font-size="12" font-weight="800" fill="#DC2626" text-anchor="middle">AI가 데려오는 것들</text>
+  <text x="640" y="206" font-size="10.5" fill="#555555">· npm/pip 패키지 수십~수백 개</text>
+  <text x="640" y="226" font-size="10.5" fill="#555555">· 각자 다른 라이선스 · 의존성의</text>
+  <text x="650" y="242" font-size="10.5" fill="#555555">의존성까지 딸려온다</text>
+  <text x="640" y="262" font-size="10.5" fill="#555555">· 붙여넣은 코드 조각·설정 파일</text>
+
+  <rect x="622" y="292" width="226" height="106" rx="10" fill="#FFF7E6" stroke="#B45309" stroke-width="1.5"/>
+  <text x="735" y="316" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">⚠️ 전염의 위험</text>
+  <text x="640" y="338" font-size="10.5" fill="#555555">GPL 하나가 섞이면 →</text>
+  <text x="640" y="356" font-size="10.5" fill="#555555">내 코드도 GPL 공개 의무</text>
+  <text x="640" y="376" font-size="10.5" fill="#555555">AGPL이면 → 웹 서비스만 해도</text>
+  <text x="650" y="392" font-size="10.5" fill="#555555">소스 공개 의무</text>
+
+  <text x="735" y="424" font-size="11" font-weight="700" fill="#DC2626" text-anchor="middle">위험도: 높음</text>
+  <text x="735" y="444" font-size="10" fill="#666666" text-anchor="middle">계속 늘어나고, AI는 라이선스를</text>
+  <text x="735" y="460" font-size="10" fill="#666666" text-anchor="middle">말해주지 않으며 착각하기도 한다</text>
+  <rect x="622" y="478" width="226" height="38" rx="8" fill="#DC2626"/>
+  <text x="735" y="502" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">여기에 룰과 자동 검사가 필요하다</text>
+
+  <line x1="596" y1="310" x2="574" y2="310" stroke="#DC2626" stroke-width="2.5" marker-end="url(#ltr)"/>
+
+  <!-- 하단 -->
+  <rect x="330" y="392" width="240" height="120" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="418" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">비대칭에 주의</text>
+  <text x="450" y="442" font-size="10" fill="#AAB9CF" text-anchor="middle">왼쪽: 한 번 정하는 결정</text>
+  <text x="450" y="460" font-size="10" fill="#AAB9CF" text-anchor="middle">오른쪽: 매 커밋마다 자라는 리스크</text>
+  <text x="450" y="484" font-size="10" fill="#7FD1A8" text-anchor="middle">그래서 룰 파일(에이전트용)로</text>
+  <text x="450" y="500" font-size="10" fill="#7FD1A8" text-anchor="middle">오른쪽을 자동 관리한다 (§6)</text>
+
+  <rect x="30" y="548" width="840" height="56" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="450" y="574" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">한 줄: MIT를 붙이는 것은 "내 코드를 남에게 어떻게 줄까"의 답이고, 바이브코딩의 실제 사고는 "남의 코드를 어떻게 받았나"에서 난다</text>
+  <text x="450" y="594" font-size="11" fill="#555555" text-anchor="middle">「AI 시대의 개발 프로세스」의 "의존성 추가는 승인제" 규칙이 이 그림의 오른쪽을 지키기 위한 장치였다</text>
+</svg>

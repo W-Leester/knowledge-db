@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="lwa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="lwr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+  <rect width="900" height="600" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">바이브코딩 라이선스 가드레일 — 사고를 구조로 막는다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">기억력에 의존하지 않는다 — 프로젝트 시작·의존성 추가·배포 세 지점에 게이트를 심는다</text>
+
+  <!-- 게이트 1 -->
+  <rect x="30" y="84" width="270" height="180" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="165" y="112" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">게이트 ① 프로젝트 시작</text>
+  <text x="48" y="138" font-size="10.5" fill="#555555">□ LICENSE 파일 생성 (MIT 기본)</text>
+  <text x="48" y="160" font-size="10.5" fill="#555555">□ README에 라이선스 명시</text>
+  <text x="48" y="182" font-size="10.5" fill="#555555">□ 규칙 파일에 라이선스 룰 추가</text>
+  <text x="58" y="198" font-size="9.5" fill="#666666">(에이전트가 읽는 CLAUDE.md 등)</text>
+  <text x="48" y="220" font-size="10.5" fill="#555555">□ 서비스로 만들 계획인지 미리 판단</text>
+  <text x="58" y="236" font-size="9.5" fill="#666666">→ 그렇다면 AGPL 의존성 절대 금지</text>
+  <text x="165" y="256" font-size="9.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">한 번 · 5분</text>
+
+  <!-- 게이트 2 -->
+  <rect x="315" y="84" width="270" height="180" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
+  <text x="450" y="112" font-size="13.5" font-weight="800" fill="#B45309" text-anchor="middle">게이트 ② 의존성 추가 ★핵심</text>
+  <text x="333" y="138" font-size="10.5" fill="#555555">□ AI가 패키지를 제안하면 <tspan font-weight="700">먼저 질문</tspan></text>
+  <text x="343" y="154" font-size="9.5" fill="#666666">"이 패키지 라이선스가 무엇인가?"</text>
+  <text x="333" y="176" font-size="10.5" fill="#555555">□ AI 답을 믿지 말고 <tspan font-weight="700">직접 확인</tspan></text>
+  <text x="343" y="192" font-size="9.5" fill="#666666">(AI는 라이선스를 착각한다)</text>
+  <text x="333" y="214" font-size="10.5" fill="#555555">□ 🔴면 대체품 찾기 · 못 찾으면 보류</text>
+  <text x="333" y="236" font-size="10.5" fill="#555555">□ 설치 후 검사 명령 1회</text>
+  <text x="450" y="256" font-size="9.5" font-weight="700" fill="#B45309" text-anchor="middle">매번 · 30초</text>
+
+  <!-- 게이트 3 -->
+  <rect x="600" y="84" width="270" height="180" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="735" y="112" font-size="13.5" font-weight="800" fill="#0F766E" text-anchor="middle">게이트 ③ 공개·배포 전</text>
+  <text x="618" y="138" font-size="10.5" fill="#555555">□ 전체 의존성 라이선스 목록 출력</text>
+  <text x="618" y="160" font-size="10.5" fill="#555555">□ 🔴 항목 0건 확인</text>
+  <text x="618" y="182" font-size="10.5" fill="#555555">□ 서드파티 저작권 표시 파일 포함</text>
+  <text x="628" y="198" font-size="9.5" fill="#666666">(THIRD-PARTY-NOTICES.md)</text>
+  <text x="618" y="220" font-size="10.5" fill="#555555">□ 붙여넣은 코드 조각 출처 점검</text>
+  <text x="618" y="242" font-size="10.5" fill="#555555">□ 비밀키·토큰이 커밋에 없는지</text>
+  <text x="735" y="256" font-size="9.5" font-weight="700" fill="#0F766E" text-anchor="middle">배포마다 · 2분</text>
+
+  <line x1="300" y1="174" x2="311" y2="174" stroke="#003F8A" stroke-width="2.5" marker-end="url(#lwa)"/>
+  <line x1="585" y1="174" x2="596" y2="174" stroke="#003F8A" stroke-width="2.5" marker-end="url(#lwa)"/>
+
+  <!-- 검사 명령 -->
+  <rect x="30" y="286" width="840" height="104" rx="12" fill="#0D1B2E"/>
+  <text x="52" y="314" font-size="13" font-weight="800" fill="#FFF">🔍 검사 명령 — 이 한 줄이 게이트②③의 실체</text>
+  <text x="52" y="340" font-size="11" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">npx license-checker --summary          </text>
+  <text x="380" y="340" font-size="10.5" fill="#AAB9CF">← JS/TS 프로젝트</text>
+  <text x="52" y="360" font-size="11" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">uv pip list | xargs pip-licenses       </text>
+  <text x="380" y="360" font-size="10.5" fill="#AAB9CF">← 파이썬 (또는 pip-licenses 직접)</text>
+  <text x="52" y="380" font-size="11" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">cargo license / go-licenses           </text>
+  <text x="380" y="380" font-size="10.5" fill="#AAB9CF">← Rust · Go</text>
+
+  <!-- AI 특수 리스크 -->
+  <rect x="30" y="412" width="410" height="140" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <text x="52" y="440" font-size="13" font-weight="800" fill="#DC2626">🤖 바이브코딩 특수 리스크</text>
+  <text x="52" y="464" font-size="10.5" fill="#555555">· AI는 라이선스를 <u>말해주지 않고</u>, 물어도 틀릴 수 있다</text>
+  <text x="52" y="486" font-size="10.5" fill="#555555">· 의존성이 <u>내 판단 없이</u> 늘어난다 (제안→즉시 설치)</text>
+  <text x="52" y="508" font-size="10.5" fill="#555555">· 유명 코드를 상당량 재현할 가능성 (드물지만 존재)</text>
+  <text x="52" y="530" font-size="10.5" fill="#555555">· "GitHub에 있으니 써도 된다"는 착각을 강화</text>
+
+  <rect x="460" y="412" width="410" height="140" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
+  <text x="482" y="440" font-size="13" font-weight="800" fill="#0F766E">🛡 구조적 방어</text>
+  <text x="482" y="464" font-size="10.5" fill="#555555">· <u>규칙 파일에 명문화</u> — 에이전트가 매번 읽는다</text>
+  <text x="482" y="486" font-size="10.5" fill="#555555">· "의존성 추가는 제안만, 승인 후 설치" 규칙</text>
+  <text x="482" y="508" font-size="10.5" fill="#555555">· 검사 명령을 CI·커밋 전 훅으로 (기억에 의존 금지)</text>
+  <text x="482" y="530" font-size="10.5" fill="#555555">· 🔴 라이선스는 이름을 규칙에 <u>명시적으로 나열</u></text>
+
+  <rect x="30" y="562" width="840" height="30" rx="8" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="450" y="582" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">핵심: 라이선스 사고는 "몰라서" 나는 게 아니라 "확인 단계가 없어서" 난다 — 룰 파일이 그 단계를 만든다</text>
+</svg>
