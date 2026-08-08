@@ -100,7 +100,7 @@
         "GPL·AGPL",
         "에이전트 룰"
       ],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/lic-two-directions.svg",
         "docs/img/lic-spectrum.svg",
