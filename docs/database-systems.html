@@ -392,8 +392,9 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#responsibility">9. 바이브코딩의 DB 선택</a>
     <a href="#r-vehicle" class="sub">9-A. 탈것으로 보는 지도</a>
     <a href="#r-seven" class="sub">9-B. 7가지 질문</a>
-    <a href="#r-supabase" class="sub">9-C. Supabase의 두 함정</a>
-    <a href="#r-myths" class="sub">9-D. 초보의 두 착각</a>
+    <a href="#r-answer" class="sub">9-C. 조건별 정답표</a>
+    <a href="#r-supabase" class="sub">9-D. Supabase의 두 함정</a>
+    <a href="#r-myths" class="sub">9-E. 초보의 두 착각</a>
   </nav>
   <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.07</div>
 </aside>
@@ -1023,7 +1024,7 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
       <tbody>
         <tr><td class="hl">🚲 구글 시트·노션</td><td>명단 수집 · 콘텐츠 목록 · 혼자 쓰는 업무 도구 · 아이디어 빠른 검증</td><td>주문·고객정보·배송상태·권한이 늘어날 때. <strong>개인정보·결제는 절대 금지</strong></td></tr>
         <tr><td class="hl">🚗 SQLite</td><td>혼자 쓰는 앱 · 데스크톱 도구 · 로컬 프로그램 · 프로토타입 — 파일 하나로 관리돼 설치·운영 부담이 거의 없다</td><td>사용자가 늘고, 여러 명이 동시에 쓰고, 복잡한 권한 구조가 필요해질 때</td></tr>
-        <tr><td class="hl">🚙 Supabase</td><td>회원가입이 있는 웹서비스 · 사용자별 데이터 분리 · 나중에 결제까지 (§7의 그 통합 스택)</td><td>편하지만 공짜는 아니다 — RLS와 키 관리를 이해해야 한다(§9-C)</td></tr>
+        <tr><td class="hl">🚙 Supabase</td><td>회원가입이 있는 웹서비스 · 사용자별 데이터 분리 · 나중에 결제까지 (§7의 그 통합 스택)</td><td>편하지만 공짜는 아니다 — RLS와 키 관리를 이해해야 한다(§9-D)</td></tr>
         <tr><td class="hl">🚚 PostgreSQL 직접 운영</td><td>힘과 자유도가 필요하고, 운영을 감당할 준비가 됐을 때</td><td>서버·백업·보안·계정·장애를 전부 직접 — 앱 하나 만들려다 새벽에 DB 로그를 보게 된다</td></tr>
         <tr><td class="hl">🗄 NoSQL (MongoDB)</td><td>설정값·로그처럼 구조가 자주 바뀌는 데이터 (§3-2)</td><td>관계 설계 없이 시작하면 "이 댓글은 어느 글과 연결됐지?"가 시작된다</td></tr>
         <tr><td class="hl">🔬 DuckDB</td><td>CSV·로그 분석 · 리포트 · 통계 (§4의 분석 전문 DB)</td><td>회원가입·주문을 다루는 <u>메인 저장소로는 부적합</u></td></tr>
@@ -1052,7 +1053,7 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
       <tbody>
         <tr><td class="hl">1</td><td>혼자 쓰나요, 여러 사람이 쓰나요?</td><td>동시성 책임 — 충돌 처리가 필요한가</td></tr>
         <tr><td class="hl">2</td><td>로그인이 필요한가요?</td><td>개인정보 책임의 시작점</td></tr>
-        <tr><td class="hl">3</td><td>사용자마다 자기 데이터만 봐야 하나요?</td><td>권한 책임 — RLS가 필요해지는 지점(§9-C)</td></tr>
+        <tr><td class="hl">3</td><td>사용자마다 자기 데이터만 봐야 하나요?</td><td>권한 책임 — RLS가 필요해지는 지점(§9-D)</td></tr>
         <tr><td class="hl">4</td><td>데이터가 사라지면 얼마나 치명적인가요?</td><td>백업 책임 — 재생성 가능하면 가볍게 가도 된다</td></tr>
         <tr><td class="hl">5</td><td>동시에 여러 명이 접속하나요?</td><td>동시성 — SQLite의 한계선이 여기</td></tr>
         <tr><td class="hl">6</td><td>검색·필터링·통계가 중요한가요?</td><td>쿼리 능력 — 시트·NoSQL로는 버거워지는 지점</td></tr>
@@ -1065,7 +1066,75 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
   <u>회원가입 + 사용자별 데이터 분리 + 결제 가능성</u> → 관리형 Postgres(Supabase).
   <u>인터넷 없이 내 컴퓨터에서만</u> → SQLite. <u>CSV 분석·대시보드가 핵심</u> → DuckDB.</p>
 
-  <h3 id="r-supabase"><span class="num">R</span>Supabase의 두 함정 — RLS와 키</h3>
+  <h3 id="r-answer"><span class="num">R</span>조건별 정답표 — "그래서 나는 뭘 쓰면 되나"</h3>
+
+  <p class="body">판단 기준(§9-A·B)을 실제 답으로 바꾸면 이렇다. 먼저 <strong>결정 트리</strong> —
+  위에서부터 답하면 대부분 SQLite 또는 Supabase 둘 중 하나로 수렴한다:</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/db-decision-tree.svg" alt="개인정보 여부, 동시 사용 여부, 데이터 중요도, 분석 목적 여부로 갈라지는 DB 결정 트리와 특수 케이스"></div>
+    <figcaption>첫 갈림길이 "민감 데이터" — 여기서 갈리면 나머지 답이 전부 달라진다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">구체적인 상황별로는 이 표가 답이다. <strong>1순위를 그대로 따라도 되고</strong>,
+  "갈아탈 시점"이 오기 전까지는 바꿀 이유가 없다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:210px">상황</th><th style="width:130px">1순위</th><th style="width:190px">이유</th><th>갈아탈 시점</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">혼자 쓰는 자동화 스크립트<br><span style="font-size:11px;color:#666">가계부·수집기·기록 도구</span></td><td><strong>SQLite</strong><br><span style="font-size:11px;color:#666">또는 구글 시트</span></td><td>설치·운영 부담 0, 파일 하나로 백업·이동</td><td>남과 공유하게 되거나 웹에서 접근하고 싶을 때</td></tr>
+        <tr><td class="hl">개인용 데스크톱 앱<br><span style="font-size:11px;color:#666">오프라인 동작</span></td><td><strong>SQLite</strong></td><td>인터넷 없이 도는 것이 요구사항 — 서버 DB는 애초에 부적합</td><td>기기 간 동기화가 필요해질 때 (그때도 SQLite+동기화 계층 검토)</td></tr>
+        <tr><td class="hl">프로토타입 웹앱<br><span style="font-size:11px;color:#666">로그인 없음, 검증 목적</span></td><td><strong>SQLite</strong></td><td>"이게 서비스가 될지 모를 때"의 정답 — 빨리 돌리는 게 우선</td><td>회원가입을 붙이는 순간</td></tr>
+        <tr><td class="hl">회원가입 있는 웹서비스</td><td><strong>Supabase</strong></td><td>인증·사용자별 데이터 분리·API가 처음부터 연결됨 (§7)</td><td>트래픽이 커져 비용·성능 최적화가 필요할 때</td></tr>
+        <tr><td class="hl">결제가 있는 서비스</td><td><strong>Supabase</strong><br><span style="font-size:11px;color:#666">(+결제는 PG사 위임)</span></td><td>ACID 트랜잭션이 필수 — 관계형이 아니면 안 된다. <u>카드번호는 직접 저장하지 말고 결제대행사에 맡긴다</u></td><td>규모가 커지면 관리형 Postgres 직접 계약으로</td></tr>
+        <tr><td class="hl">실시간 채팅·협업</td><td><strong>Supabase</strong></td><td>Realtime 기능이 내장 — 직접 만들면 가장 품이 많이 드는 부분</td><td>동시 접속이 수천 단위로 갈 때 전용 실시간 인프라 검토</td></tr>
+        <tr><td class="hl">팀 내부 도구<br><span style="font-size:11px;color:#666">사용자 5~50명</span></td><td><strong>Supabase</strong></td><td>권한 분리(관리자/일반)가 필요하면 RLS가 정확히 그 도구</td><td>대개 이 단계에서 오래 머문다 — 바꿀 일이 잘 없다</td></tr>
+        <tr><td class="hl">콘텐츠 사이트·블로그</td><td><strong>정적 파일</strong><br><span style="font-size:11px;color:#666">또는 SQLite</span></td><td>DB가 아예 없어도 되는 경우가 많다 — <u>이 지식 베이스가 그 예</u>(JSON+HTML)</td><td>댓글·회원 기능이 붙을 때 Supabase로</td></tr>
+        <tr><td class="hl">CSV 분석·리포트·대시보드</td><td><strong>DuckDB</strong></td><td>파일을 그대로 SQL로 조회 — 서버 없이 분석에 특화 (§4)</td><td>갈아탈 일이 아니라, 운영 DB와 <u>병행</u>하는 도구</td></tr>
+        <tr><td class="hl">캐시·세션·실시간 랭킹</td><td><strong>Redis</strong></td><td>메인 DB가 아니라 <u>곁들이는 것</u> — 속도가 필요한 부분만 (§3-1)</td><td>처음부터 넣지 말 것 — 느려진 게 측정된 뒤에</td></tr>
+        <tr><td class="hl">구조가 자주 바뀌는 데이터<br><span style="font-size:11px;color:#666">설정값·로그·이벤트</span></td><td><strong>Postgres의 JSONB</strong></td><td>MongoDB로 가기 전에 — 현대 Postgres는 문서형도 상당 부분 감당한다 (§1·§8의 결론)</td><td>진짜 문서형 요구가 증명되면 그때 MongoDB</td></tr>
+        <tr><td class="hl">AI 임베딩·유사도 검색</td><td><strong>pgvector</strong><br><span style="font-size:11px;color:#666">(Postgres 확장)</span></td><td>Supabase에서 확장 하나 켜면 끝 — 별도 벡터 DB 없이 시작 가능</td><td>벡터가 수백만 건을 넘고 검색 지연이 문제될 때 전용 벡터 DB</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">🚫</span>
+    <div><strong>반대로 — 이럴 땐 쓰지 마라 (안티패턴)</strong><br>
+    · <u>구글 시트에 개인정보·결제정보</u> — 편의를 위해 넘지 말아야 할 선<br>
+    · <u>사용자 100명 넘는 서비스에 SQLite 단독</u> — 동시 쓰기에서 막힌다<br>
+    · <u>첫 프로젝트부터 PostgreSQL 직접 운영</u> — 앱을 만들려다 서버 관리자가 된다<br>
+    · <u>관계 설계 없이 MongoDB부터</u> — 나중에 "이 데이터가 어디 있지"가 시작된다<br>
+    · <u>DuckDB를 서비스 메인 DB로</u> — 분석 도구지 운영 DB가 아니다<br>
+    · <u>필요 없는데 Redis·전용 DB부터</u> — 병목이 측정되기 전의 최적화는 비용만 남는다</div>
+  </div>
+
+  <p class="body"><strong>그리고 미리 알아둘 것 — 나중에 갈아타는 비용은 조합마다 천차만별이다.</strong>
+  "일단 시작하고 나중에 옮기면 되지"가 어떤 경우엔 맞고 어떤 경우엔 재작성이 된다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:230px">이사 경로</th><th style="width:120px">난이도</th><th>이유</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Postgres → Postgres<br><span style="font-size:11px;color:#666">Supabase ↔ Neon ↔ 직접 운영</span></td><td><span class="badge badge-green">쉬움</span></td><td>같은 엔진 — <span class="mono">pg_dump</span>로 내보내고 가져오면 끝. <u>Supabase를 고르면 이 자유가 남는다</u></td></tr>
+        <tr><td class="hl">구글 시트 → 아무 DB</td><td><span class="badge badge-green">쉬움</span></td><td>데이터가 적을 때 — CSV 내보내기 후 가져오기. 단 코드는 다시 써야 한다</td></tr>
+        <tr><td class="hl">SQLite → Postgres</td><td><span class="badge badge-amber">중간</span></td><td>둘 다 SQL이라 개념은 같지만 타입·방언 차이 조정 필요. <u>흔한 성장 경로</u></td></tr>
+        <tr><td class="hl">Postgres → SQLite</td><td><span class="badge badge-red">어려움</span></td><td>기능 손실(동시성·확장·권한) — 되돌아갈 일이 잘 없다</td></tr>
+        <tr><td class="hl">NoSQL ↔ 관계형</td><td><span class="badge badge-red">재설계급</span></td><td>데이터 구조 자체를 다시 짜야 한다 — 사실상 새로 만드는 것</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🛣</span>
+    <div><strong>그래서 추천 로드맵 —</strong> <u>SQLite로 시작 → 회원가입이 붙는 순간 Supabase → 규모가 커지면
+    Postgres 계열 안에서 이사</u>. 이 경로는 각 단계의 이사 난이도가 "중간 → 쉬움"이라 막다른 길이 없다.
+    반대로 처음부터 NoSQL로 갔다가 관계형이 필요해지면 재작성이 기다린다 —
+    <strong>지금 뭘 고르느냐보다 "나중에 못 빠져나오는 길로 들어가지 않는 것"이 더 중요하다.</strong></div>
+  </div>
+
+  <h3 id="r-supabase"><span class="num">S</span>Supabase의 두 함정 — RLS와 키</h3>
 
   <p class="body">§7에서 본 대로 Supabase는 강력한 통합 스택이다. 다만 <strong>편한 도구라고 해서 이해 없이 써도 되는 도구는 아니다.</strong>
   바이브코딩 초보가 실제로 막히는 두 지점이 있다:</p>
@@ -1088,7 +1157,7 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
     「AI 시대의 개발 프로세스」 §4의 "사람 리뷰 필수 구역"(보안 경계)이 정확히 여기다.</div>
   </div>
 
-  <h3 id="r-myths"><span class="num">S</span>초보가 자주 빠지는 두 착각</h3>
+  <h3 id="r-myths"><span class="num">T</span>초보가 자주 빠지는 두 착각</h3>
 
   <div class="card-grid g2">
     <div class="card" style="border-left:4px solid var(--red)">
@@ -1122,7 +1191,7 @@ db.users.<span class="f">findOne</span>({ _id: <span class="s">1001</span> })
 
 <footer style="border-top:1px solid var(--border); padding-top:24px; color:var(--text-muted); font-size:12.5px; text-align:center; margin-bottom:40px;">
   Knowledge DB · 데이터베이스 완전 정리 — SQL · NoSQL · NewSQL · 전문 DB · 스토리지(S3·CDN) · BaaS(Supabase)<br>
-  Hyundai-Inspired Design System v1.0 · 도식: img/db-*.svg (16종) · §1A·§6·§7은 유튜브 강의 "뿌리강의 3강 — DB와 스토리지", §9는 바이브랩스 「바이브 코딩 시작 전 꼭 봐야 할 데이터베이스 선택 가이드」 내용을 반영해 보강
+  Hyundai-Inspired Design System v1.0 · 도식: img/db-*.svg (17종) · §1A·§6·§7은 유튜브 강의 "뿌리강의 3강 — DB와 스토리지", §9는 바이브랩스 「바이브 코딩 시작 전 꼭 봐야 할 데이터베이스 선택 가이드」 내용을 반영해 보강
 </footer>
 
 </main>
