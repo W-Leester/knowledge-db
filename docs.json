@@ -111,6 +111,30 @@
       ]
     },
     {
+      "id": "saas-anatomy",
+      "title": "SaaS 해부",
+      "desc": "접속을 파는 사업의 처음부터 끝까지 — 멀티테넌시·구독 상태 기계·MRR과 Churn·책임의 구독",
+      "file": "docs/saas-anatomy.html",
+      "group": "Software · Dev",
+      "icon": "☁️",
+      "gradient": [
+        "#0D1B2E",
+        "#0369A1"
+      ],
+      "tags": [
+        "멀티테넌시",
+        "MRR·Churn",
+        "1인 SaaS"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/sa-ladder.svg",
+        "docs/img/sa-tenancy.svg",
+        "docs/img/sa-subscription.svg",
+        "docs/img/sa-metrics.svg"
+      ]
+    },
+    {
       "id": "network-comm",
       "title": "네트워크 통신 정리",
       "desc": "IP·TCP·DNS부터 HTTP·HTTPS·REST, 그리고 WebSocket 실시간까지",

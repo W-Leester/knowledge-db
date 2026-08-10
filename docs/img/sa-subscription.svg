@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="ssa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="ssg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+    <marker id="ssr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">구독은 "결제 한 번"이 아니라 상태 기계다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">모든 SaaS가 이 상태들을 돌린다 — Stripe류가 표준인 이유는 이 기계를 대신 돌려주기 때문</text>
+
+  <!-- 체험 -->
+  <rect x="40" y="100" width="180" height="76" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="130" y="130" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">🎁 체험 (Trial)</text>
+  <text x="130" y="152" font-size="10" fill="#555555" text-anchor="middle">14일 무료 · 카드 등록 여부가</text>
+  <text x="130" y="168" font-size="10" fill="#555555" text-anchor="middle">전환율을 가른다</text>
+
+  <line x1="220" y1="138" x2="296" y2="138" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#ssg)"/>
+  <text x="258" y="128" font-size="10" font-weight="700" fill="#065F46" text-anchor="middle">첫 결제 성공</text>
+
+  <!-- 활성 -->
+  <rect x="300" y="92" width="220" height="92" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="3"/>
+  <text x="410" y="122" font-size="14.5" font-weight="800" fill="#065F46" text-anchor="middle">✅ 활성 (Active)</text>
+  <text x="410" y="146" font-size="10.5" fill="#555555" text-anchor="middle">매달 자동 갱신 — MRR의 원천</text>
+  <text x="410" y="166" font-size="10" fill="#666666" text-anchor="middle">업/다운그레이드 시 일할 계산(proration)</text>
+
+  <!-- 갱신 루프 -->
+  <path d="M 480 92 C 520 52 380 52 400 88" fill="none" stroke="#00AA6C" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ssg)"/>
+  <text x="443" y="48" font-size="10" font-weight="700" fill="#065F46" text-anchor="middle">매달 갱신 결제</text>
+
+  <line x1="520" y1="138" x2="596" y2="138" stroke="#DC2626" stroke-width="2.5" marker-end="url(#ssr)"/>
+  <text x="558" y="128" font-size="10" font-weight="700" fill="#DC2626" text-anchor="middle">갱신 실패</text>
+
+  <!-- 연체 -->
+  <rect x="600" y="92" width="260" height="92" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="730" y="120" font-size="13" font-weight="800" fill="#B45309" text-anchor="middle">⏳ 연체 (Past Due) — 더닝</text>
+  <text x="730" y="142" font-size="10" fill="#555555" text-anchor="middle">카드 만료·한도 초과가 대부분 —</text>
+  <text x="730" y="158" font-size="10" fill="#555555" text-anchor="middle">며칠 간격 재시도 + 독촉 메일 자동화</text>
+  <text x="730" y="176" font-size="9.5" font-weight="700" fill="#B45309" text-anchor="middle">여기서 살리는 매출이 의외로 크다 (비자발 이탈)</text>
+
+  <path d="M 700 184 C 660 240 520 220 500 180" fill="none" stroke="#00AA6C" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ssg)"/>
+  <text x="622" y="234" font-size="10" font-weight="700" fill="#065F46" text-anchor="middle">재시도 성공 → 활성 복귀</text>
+
+  <line x1="770" y1="184" x2="770" y2="266" stroke="#DC2626" stroke-width="2.5" marker-end="url(#ssr)"/>
+  <text x="792" y="230" font-size="10" font-weight="700" fill="#DC2626">전부 실패</text>
+
+  <!-- 취소 예약 -->
+  <rect x="120" y="260" width="260" height="86" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="250" y="288" font-size="13" font-weight="800" fill="#6B21A8" text-anchor="middle">🚪 취소 예약 (Canceling)</text>
+  <text x="250" y="310" font-size="10" fill="#555555" text-anchor="middle">고객이 취소 버튼 — 단 기간 만료까지는 사용 가능</text>
+  <text x="250" y="330" font-size="9.5" fill="#666666" text-anchor="middle">"즉시 차단"은 최악의 UX — 남은 기간은 이미 낸 돈이다</text>
+
+  <path d="M 360 184 C 330 220 300 236 280 256" fill="none" stroke="#6B21A8" stroke-width="2.2" marker-end="url(#ssa)"/>
+  <text x="288" y="222" font-size="10" font-weight="700" fill="#6B21A8" text-anchor="middle">고객 취소</text>
+
+  <path d="M 320 260 C 350 230 380 210 396 188" fill="none" stroke="#00AA6C" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ssg)"/>
+  <text x="392" y="238" font-size="9.5" font-weight="700" fill="#065F46" text-anchor="middle">마음 바꿈</text>
+
+  <!-- 만료 -->
+  <rect x="520" y="290" width="240" height="86" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="640" y="318" font-size="13" font-weight="800" fill="#DC2626" text-anchor="middle">⛔ 만료 (Churned)</text>
+  <text x="640" y="340" font-size="10" fill="#555555" text-anchor="middle">접근 차단 — 단 데이터는 유예 기간 보관</text>
+  <text x="640" y="360" font-size="9.5" fill="#666666" text-anchor="middle">(재가입 대비 + 데이터 반환 의무 — 30~90일 관례)</text>
+
+  <line x1="380" y1="316" x2="516" y2="322" stroke="#DC2626" stroke-width="2.2" marker-end="url(#ssr)"/>
+  <text x="448" y="308" font-size="10" font-weight="700" fill="#DC2626" text-anchor="middle">기간 만료</text>
+
+  <path d="M 640 376 C 620 440 420 440 400 190" fill="none" stroke="#00AA6C" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ssg)"/>
+  <text x="530" y="436" font-size="10" font-weight="700" fill="#065F46" text-anchor="middle">재활성화 (win-back 메일이 노리는 것)</text>
+
+  <!-- 부속 상자 -->
+  <rect x="30" y="470" width="410" height="150" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="52" y="498" font-size="12.5" font-weight="800" fill="#002C5F">이 기계에 딸려오는 부속들</text>
+  <text x="52" y="524" font-size="10.5" fill="#555555">· 업그레이드/다운그레이드 일할 계산 (proration)</text>
+  <text x="52" y="546" font-size="10.5" fill="#555555">· 환불 — 정책·부분 환불·분쟁(차지백) 대응</text>
+  <text x="52" y="568" font-size="10.5" fill="#555555">· 영수증·세금계산서 — 국가별 세금(VAT 등)</text>
+  <text x="52" y="590" font-size="10.5" fill="#555555">· 웹훅 — "결제됨/실패함"을 내 DB에 동기화하는 통로</text>
+  <text x="52" y="610" font-size="9.5" fill="#DC2626" font-weight="700">→ 웹훅 처리 누락 = 돈 냈는데 잠긴 고객 (최악의 CS)</text>
+
+  <rect x="460" y="470" width="410" height="150" rx="12" fill="#0D1B2E"/>
+  <text x="482" y="498" font-size="12.5" font-weight="800" fill="#FFF">직접 만들지 마라 — 표준 도구에 위임</text>
+  <text x="482" y="524" font-size="10.5" fill="#AAB9CF">· 해외: Stripe — 이 상태 기계 전체 + 더닝 + 세금 내장</text>
+  <text x="482" y="546" font-size="10.5" fill="#AAB9CF">· 국내: 토스페이먼츠·포트원 — 정기결제(빌링키) 제공</text>
+  <text x="482" y="568" font-size="10.5" fill="#AAB9CF">· 카드번호는 내 DB에 절대 저장하지 않는다 —</text>
+  <text x="492" y="588" font-size="10.5" fill="#AAB9CF">결제사가 보관, 나는 토큰만 (「데이터베이스」 §9-C)</text>
+  <text x="482" y="610" font-size="10" fill="#7FD1A8" font-weight="700">수수료는 이 기계를 안 만드는 값 — 대부분 이득이다</text>
+</svg>

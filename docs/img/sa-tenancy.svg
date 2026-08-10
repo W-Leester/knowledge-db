@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="sta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="str" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+  <rect width="900" height="660" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">멀티테넌시 — 한 건물에 여러 세입자, 그러나 벽은 절대적이다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">SaaS 마진의 원천(고객 추가 비용 ≈ 0)이자, 가장 무서운 사고(벽 뚫림)의 진원지</text>
+
+  <!-- 왼쪽: 싱글 테넌트 -->
+  <rect x="30" y="84" width="250" height="290" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <text x="155" y="112" font-size="13.5" font-weight="800" fill="#DC2626" text-anchor="middle">옛날: 고객마다 집 한 채</text>
+  <text x="155" y="132" font-size="10.5" fill="#666666" text-anchor="middle">(싱글 테넌트 · 온프레미스)</text>
+  <rect x="52" y="148" width="90" height="70" rx="8" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="97" y="178" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">고객 A 서버</text>
+  <text x="97" y="198" font-size="9.5" fill="#666666" text-anchor="middle">앱+DB 한 벌</text>
+  <rect x="168" y="148" width="90" height="70" rx="8" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="213" y="178" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">고객 B 서버</text>
+  <text x="213" y="198" font-size="9.5" fill="#666666" text-anchor="middle">앱+DB 한 벌</text>
+  <rect x="52" y="232" width="90" height="70" rx="8" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="97" y="262" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">고객 C 서버</text>
+  <text x="97" y="282" font-size="9.5" fill="#666666" text-anchor="middle">앱+DB 한 벌</text>
+  <text x="155" y="330" font-size="10.5" font-weight="700" fill="#DC2626" text-anchor="middle">고객 100명 = 서버 100벌</text>
+  <text x="155" y="350" font-size="10" fill="#555555" text-anchor="middle">업데이트도 100번 — 비용이 정비례</text>
+
+  <!-- 오른쪽: 멀티 테넌트 건물 -->
+  <rect x="320" y="84" width="550" height="290" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="3"/>
+  <text x="595" y="112" font-size="13.5" font-weight="800" fill="#0F766E" text-anchor="middle">SaaS: 한 건물에 모두 입주 (멀티테넌시)</text>
+
+  <rect x="344" y="128" width="500" height="56" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="594" y="150" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">앱 서버 (전 고객 공용 · 한 벌)</text>
+  <text x="594" y="170" font-size="10" fill="#666666" text-anchor="middle">배포 1번 = 전 고객 동시 업데이트</text>
+
+  <line x1="594" y1="184" x2="594" y2="204" stroke="#003F8A" stroke-width="2.2" marker-end="url(#sta)"/>
+
+  <rect x="344" y="208" width="500" height="130" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+  <text x="594" y="230" font-size="11.5" font-weight="800" fill="#0F766E" text-anchor="middle">DB (공용 한 채 — 벽은 RLS가 세운다)</text>
+  <rect x="362" y="244" width="140" height="76" rx="8" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="432" y="266" font-size="10.5" font-weight="800" fill="#002C5F" text-anchor="middle">🏠 tenant_id = A</text>
+  <text x="432" y="286" font-size="9.5" fill="#555555" text-anchor="middle">A의 행들만</text>
+  <text x="432" y="304" font-size="9.5" fill="#666666" text-anchor="middle">A 사용자에게만 보임</text>
+  <rect x="522" y="244" width="140" height="76" rx="8" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="592" y="266" font-size="10.5" font-weight="800" fill="#B45309" text-anchor="middle">🏠 tenant_id = B</text>
+  <text x="592" y="286" font-size="9.5" fill="#555555" text-anchor="middle">B의 행들만</text>
+  <text x="592" y="304" font-size="9.5" fill="#666666" text-anchor="middle">B 사용자에게만 보임</text>
+  <rect x="682" y="244" width="140" height="76" rx="8" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="752" y="266" font-size="10.5" font-weight="800" fill="#6B21A8" text-anchor="middle">🏠 tenant_id = C</text>
+  <text x="752" y="286" font-size="9.5" fill="#555555" text-anchor="middle">C의 행들만</text>
+  <text x="752" y="304" font-size="9.5" fill="#666666" text-anchor="middle">C 사용자에게만 보임</text>
+
+  <text x="595" y="360" font-size="10.5" font-weight="700" fill="#0F766E" text-anchor="middle">고객 100명 = 서버 여전히 한 벌 — 추가 비용 ≈ 0, 이것이 SaaS 마진의 원천</text>
+
+  <!-- RLS 최소 구현 -->
+  <rect x="30" y="394" width="550" height="150" rx="12" fill="#0D1B2E"/>
+  <text x="52" y="422" font-size="12.5" font-weight="800" fill="#FFF">🧱 벽의 최소 구현 — tenant_id + RLS 정책 한 쌍</text>
+  <text x="52" y="450" font-size="11" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">ALTER TABLE docs ENABLE ROW LEVEL SECURITY;</text>
+  <text x="52" y="474" font-size="11" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">CREATE POLICY tenant_wall ON docs</text>
+  <text x="52" y="494" font-size="11" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">  USING (tenant_id = auth.jwt() -&gt;&gt; 'tenant_id');</text>
+  <text x="52" y="522" font-size="10" fill="#AAB9CF">"어느 테넌트 소속인지" 컬럼 하나 + "자기 테넌트 행만 보인다" 정책 하나 — 이 한 쌍이 벽의 전부다</text>
+
+  <!-- 사고 경고 -->
+  <rect x="600" y="394" width="270" height="150" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="735" y="420" font-size="12" font-weight="800" fill="#DC2626" text-anchor="middle">⚠️ 벽이 뚫리면 = 사업 종료급</text>
+  <text x="618" y="446" font-size="10" fill="#555555">A 고객 화면에 B 고객 데이터가 뜨는</text>
+  <text x="618" y="464" font-size="10" fill="#555555">사고는 SaaS 최악의 시나리오 —</text>
+  <text x="618" y="482" font-size="10" fill="#555555">신뢰가 상품인 사업에서 회복 불능</text>
+  <text x="618" y="508" font-size="10" font-weight="700" fill="#DC2626">→ RLS는 기능이 아니라 생존 장치</text>
+  <text x="618" y="528" font-size="9.5" fill="#666666">테스트: "다른 계정으로 남의 ID 조회" 필수</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="564" width="840" height="56" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="450" y="590" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">「데이터베이스」 §9-D에서 "Supabase의 함정"이라 부른 RLS가 — 실은 SaaS의 심장 기술이다</text>
+  <text x="450" y="610" font-size="11" fill="#555555" text-anchor="middle">개인 앱에선 "귀찮은 설정"이지만 SaaS에선 "마진과 생존을 동시에 담당하는 벽" — 같은 기술, 다른 무게</text>
+</svg>

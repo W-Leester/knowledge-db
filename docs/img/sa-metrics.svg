@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="sma" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">지표의 연결 지도 — 여섯 숫자가 서로를 결정한다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">외우지 말고 화살표를 따라가라 — 결국 모든 화살표는 Churn으로 통한다</text>
+
+  <!-- 유입 축 -->
+  <rect x="30" y="90" width="240" height="110" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="150" y="118" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">CAC 고객 획득 비용</text>
+  <text x="150" y="142" font-size="10.5" fill="#555555" text-anchor="middle">광고비+영업비 ÷ 신규 고객 수</text>
+  <text x="150" y="162" font-size="10" fill="#666666" text-anchor="middle">"한 명 데려오는 데 얼마 드나"</text>
+  <text x="150" y="184" font-size="10" font-weight="700" fill="#1A5CB5" text-anchor="middle">1인 SaaS는 콘텐츠·SEO로 낮춘다</text>
+
+  <rect x="30" y="230" width="240" height="96" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="150" y="258" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">전환율 (무료→유료)</text>
+  <text x="150" y="282" font-size="10.5" fill="#555555" text-anchor="middle">Freemium 2~5%대가 흔함 (개략)</text>
+  <text x="150" y="304" font-size="10" fill="#666666" text-anchor="middle">무료 사용자 대부분은 영원히 무료다</text>
+
+  <line x1="270" y1="200" x2="330" y2="240" stroke="#003F8A" stroke-width="2.2" marker-end="url(#sma)"/>
+
+  <!-- MRR 중앙 -->
+  <rect x="334" y="200" width="232" height="130" rx="16" fill="#0D1B2E"/>
+  <text x="450" y="234" font-size="16" font-weight="800" fill="#FFF" text-anchor="middle">MRR 월 반복 매출</text>
+  <text x="450" y="258" font-size="10.5" fill="#AAB9CF" text-anchor="middle">SaaS의 심박수 — 모든 지표의 기준</text>
+  <text x="450" y="280" font-size="10.5" fill="#AAB9CF" text-anchor="middle">신규 + 확장(업셀) − 축소 − 이탈</text>
+  <text x="450" y="304" font-size="10.5" fill="#7FD1A8" text-anchor="middle">MRR×12 = ARR (연 환산 — 기업가치의 기준)</text>
+
+  <!-- Churn -->
+  <rect x="630" y="90" width="240" height="120" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="3"/>
+  <text x="750" y="118" font-size="14" font-weight="800" fill="#DC2626" text-anchor="middle">🕳 Churn 월 이탈률</text>
+  <text x="750" y="142" font-size="10.5" fill="#555555" text-anchor="middle">복리의 적 — 월 5% 이탈이면</text>
+  <text x="750" y="160" font-size="10.5" fill="#555555" text-anchor="middle">1년에 고객 ~46%가 증발</text>
+  <text x="750" y="182" font-size="10" font-weight="700" fill="#DC2626" text-anchor="middle">신규 유입이 그만큼을 메워야 제자리</text>
+  <text x="750" y="200" font-size="9.5" fill="#666666" text-anchor="middle">(러닝머신 — §5의 새는 양동이)</text>
+
+  <line x1="660" y1="210 " x2="580" y2="240" stroke="#DC2626" stroke-width="2.5" marker-end="url(#sma)"/>
+  <text x="640" y="236" font-size="10" font-weight="700" fill="#DC2626" text-anchor="middle">깎는다</text>
+
+  <!-- LTV -->
+  <rect x="630" y="250" width="240" height="120" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="750" y="278" font-size="13.5" font-weight="800" fill="#0F766E" text-anchor="middle">LTV 고객 생애 가치</text>
+  <text x="750" y="302" font-size="11" fill="#555555" text-anchor="middle">≈ 월 단가 ÷ 이탈률</text>
+  <text x="750" y="324" font-size="10" fill="#666666" text-anchor="middle">이탈 2% → 단가의 50배</text>
+  <text x="750" y="342" font-size="10" fill="#666666" text-anchor="middle">이탈 5% → 단가의 20배</text>
+  <text x="750" y="362" font-size="10" font-weight="700" fill="#0F766E" text-anchor="middle">이탈률이 기업 가치를 결정한다</text>
+
+  <line x1="750" y1="210" x2="750" y2="246" stroke="#003F8A" stroke-width="2.2" marker-end="url(#sma)"/>
+  <text x="772" y="232" font-size="10" font-weight="700" fill="#555555">분모로 들어감</text>
+
+  <!-- 건강선 -->
+  <rect x="334" y="380" width="532" height="90" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="600" y="408" font-size="13.5" font-weight="800" fill="#B45309" text-anchor="middle">건강선: LTV ÷ CAC ≥ 3 (통념적 기준 · 개략)</text>
+  <text x="600" y="432" font-size="10.5" fill="#555555" text-anchor="middle">3 미만 — 데려오는 값이 너무 비싸다 (성장할수록 손해일 수 있음)</text>
+  <text x="600" y="452" font-size="10.5" fill="#555555" text-anchor="middle">10 이상 — 오히려 마케팅을 덜 쓰고 있다는 신호일 수도</text>
+
+  <line x1="150" y1="326" x2="150" y2="410 " stroke="#003F8A" stroke-width="2.2"/>
+  <line x1="150" y1="410" x2="330" y2="418" stroke="#003F8A" stroke-width="2.2" marker-end="url(#sma)"/>
+  <line x1="750" y1="370" x2="750" y2="376" stroke="#003F8A" stroke-width="2.2" marker-end="url(#sma)"/>
+
+  <!-- NRR -->
+  <rect x="30" y="380" width="270" height="90" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="165" y="408" font-size="13" font-weight="800" fill="#6B21A8" text-anchor="middle">NRR 기존 고객 매출 유지율</text>
+  <text x="165" y="430" font-size="10.5" fill="#555555" text-anchor="middle">작년 고객들이 올해 내는 돈 ÷ 작년에 낸 돈</text>
+  <text x="165" y="452" font-size="10" font-weight="700" fill="#6B21A8" text-anchor="middle">100% 초과 = 신규 없이도 성장 (업셀의 힘)</text>
+
+  <!-- 하단 읽기 -->
+  <rect x="30" y="494" width="840" height="60" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="450" y="518" font-size="12" font-weight="800" fill="#002C5F" text-anchor="middle">읽는 순서: CAC로 데려와 → 전환시키고 → MRR에 쌓는다 — Churn이 매달 깎고 → 그 이탈률이 LTV를 정하고 → LTV/CAC가 사업의 건강</text>
+  <text x="450" y="540" font-size="10.5" fill="#555555" text-anchor="middle">그래서 성장 단계의 최우선 과제는 대개 "더 많이 데려오기"가 아니라 "덜 나가게 하기"다 — 같은 노력, 복리는 후자가 크다</text>
+
+  <rect x="30" y="566" width="840" height="52" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="590" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">수치들은 업종·단가·시장에 따라 크게 다르다 — 여기 적은 기준선은 감각을 위한 개략치다</text>
+  <text x="450" y="610" font-size="11" fill="#AAB9CF" text-anchor="middle">중요한 건 절대값이 아니라 추세 — 내 서비스의 지난달 대비 이번 달이다</text>
+</svg>
