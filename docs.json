@@ -238,6 +238,29 @@
       ]
     },
     {
+      "id": "app-release",
+      "title": "앱 출시의 관문",
+      "desc": "기능 말고 앱에 반드시 들어가야 하는 것들 — 심사 의무·강제 업데이트·설정 화면 골격 (Android·iOS)",
+      "file": "docs/app-release.html",
+      "group": "Software · Dev",
+      "icon": "📱",
+      "gradient": [
+        "#0D1B2E",
+        "#15803D"
+      ],
+      "tags": [
+        "심사",
+        "계정 삭제",
+        "강제 업데이트"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/am-three-gates.svg",
+        "docs/img/am-settings.svg",
+        "docs/img/am-update-flow.svg"
+      ]
+    },
+    {
       "id": "tech-stack",
       "title": "기술 스택 고르기",
       "desc": "언어·프레임워크 지형도 — 빠른 언어가 답이 아닌 이유, 용도별 선택 기준",

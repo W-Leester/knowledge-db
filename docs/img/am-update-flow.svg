@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="aua" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="aur" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/>
+    </marker>
+    <marker id="aug" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">강제 업데이트·점검 모드 — 웹에는 없는, 앱만의 필수 장치</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">웹은 배포하면 전원 최신이지만, 앱은 구버전이 영원히 살아있다 — 그래서 앱 시작마다 서버에 묻는다</text>
+
+  <!-- 왜 필요한가 (좌측 배경 설명) -->
+  <rect x="30" y="84" width="380" height="120" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+  <text x="52" y="112" font-size="12.5" font-weight="800" fill="#DC2626">이 장치가 없을 때의 사고</text>
+  <text x="52" y="136" font-size="10.5" fill="#555555">서버 API를 v2로 바꿈 → 스토어 심사·사용자 업데이트는</text>
+  <text x="52" y="154" font-size="10.5" fill="#555555">며칠~몇 주 걸림 → 그 사이 <tspan font-weight="700">구버전 앱 전원이 오류</tspan></text>
+  <text x="52" y="172" font-size="10.5" fill="#555555">→ 별점 1점 폭탄 · "앱이 고장났어요" CS 폭주</text>
+  <text x="52" y="192" font-size="10" font-weight="700" fill="#DC2626">SaaS의 "전원 동시 최신"(§2)이 앱에선 성립하지 않는다</text>
+
+  <rect x="470" y="84" width="400" height="120" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
+  <text x="492" y="112" font-size="12.5" font-weight="800" fill="#0F766E">해법 — 서버가 내려주는 작은 JSON 하나</text>
+  <text x="492" y="138" font-size="10.5" fill="#7FD1A8" font-family="'JetBrains Mono', monospace" >{ "min_version": "1.2.0",</text>
+  <text x="492" y="158" font-size="10.5" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">  "latest_version": "1.4.1",</text>
+  <text x="492" y="178" font-size="10.5" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">  "maintenance": false, "notice": "" }</text>
+  <text x="492" y="198" font-size="10" fill="#555555">앱이 시작할 때마다 이걸 읽고 스스로 판단한다 — 아래 흐름</text>
+
+  <!-- 흐름도 -->
+  <rect x="360" y="232" width="180" height="52" rx="26" fill="#0D1B2E"/>
+  <text x="450" y="254" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">앱 시작</text>
+  <text x="450" y="272" font-size="9.5" fill="#AAB9CF" text-anchor="middle">스플래시 화면 뒤에서</text>
+
+  <line x1="450" y1="284" x2="450" y2="312" stroke="#003F8A" stroke-width="2.5" marker-end="url(#aua)"/>
+
+  <rect x="330" y="316" width="240" height="54" rx="27" fill="#0D1B2E"/>
+  <text x="450" y="338" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">설정 JSON 가져오기</text>
+  <text x="450" y="357" font-size="9.5" fill="#AAB9CF" text-anchor="middle">실패 시: 그냥 통과 (이 장치가 앱을 죽이면 안 됨)</text>
+
+  <line x1="450" y1="370" x2="450" y2="398" stroke="#003F8A" stroke-width="2.5" marker-end="url(#aua)"/>
+
+  <!-- 분기 1: 점검 -->
+  <rect x="350" y="402" width="200" height="48" rx="24" fill="#FFFFFF" stroke="#B45309" stroke-width="2.5"/>
+  <text x="450" y="422" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">maintenance == true?</text>
+  <text x="450" y="440" font-size="9.5" fill="#666666" text-anchor="middle">점검 중인가</text>
+
+  <line x1="550" y1="426" x2="640" y2="426" stroke="#DC2626" stroke-width="2.5" marker-end="url(#aur)"/>
+  <text x="595" y="416" font-size="10" font-weight="800" fill="#DC2626" text-anchor="middle">예</text>
+  <rect x="644" y="398" width="226" height="76" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="757" y="424" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">🔧 점검 화면</text>
+  <text x="757" y="444" font-size="9.5" fill="#555555" text-anchor="middle">notice 문구 표시 · 진입 차단</text>
+  <text x="757" y="462" font-size="9.5" fill="#666666" text-anchor="middle">에러 화면이 아니라 "안내" — 신뢰의 차이</text>
+
+  <line x1="450" y1="450" x2="450" y2="478" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#aug)"/>
+  <text x="472" y="470" font-size="10" font-weight="800" fill="#065F46">아니오</text>
+
+  <!-- 분기 2: 강제 업데이트 -->
+  <rect x="335" y="482" width="230" height="48" rx="24" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="450" y="502" font-size="12" font-weight="800" fill="#DC2626" text-anchor="middle">내 버전 &lt; min_version?</text>
+  <text x="450" y="520" font-size="9.5" fill="#666666" text-anchor="middle">너무 낡았는가</text>
+
+  <line x1="565" y1="506" x2="640" y2="506" stroke="#DC2626" stroke-width="2.5" marker-end="url(#aur)"/>
+  <text x="600" y="496" font-size="10" font-weight="800" fill="#DC2626" text-anchor="middle">예</text>
+  <rect x="644" y="482" width="226" height="76" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="757" y="506" font-size="12" font-weight="800" fill="#DC2626" text-anchor="middle">⛔ 강제 업데이트 화면</text>
+  <text x="757" y="526" font-size="9.5" fill="#555555" text-anchor="middle">스토어로 보내는 버튼만 — 우회 불가</text>
+  <text x="757" y="544" font-size="9.5" fill="#666666" text-anchor="middle">min_version은 신중히 올린다 (강제는 최후수단)</text>
+
+  <line x1="450" y1="530" x2="450" y2="558" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#aug)"/>
+  <text x="472" y="550" font-size="10" font-weight="800" fill="#065F46">아니오</text>
+
+  <rect x="330" y="562" width="240" height="44" rx="22" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="450" y="582" font-size="12" font-weight="800" fill="#065F46" text-anchor="middle">✅ 정상 진입</text>
+  <text x="450" y="599" font-size="9.5" fill="#555555" text-anchor="middle">latest보다 낡았으면 "새 버전 있어요" 배너만 (선택 업데이트)</text>
+
+  <!-- 좌측: 운영 시나리오 -->
+  <rect x="30" y="402" width="280" height="204" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="52" y="428" font-size="11.5" font-weight="800" fill="#002C5F">운영 시나리오</text>
+  <text x="52" y="452" font-size="10" fill="#555555">· API 대격변 배포일: 새 앱 심사 통과 확인</text>
+  <text x="62" y="468" font-size="10" fill="#555555">→ min_version 올림 → 구버전 안전 차단</text>
+  <text x="52" y="490" font-size="10" fill="#555555">· DB 마이그레이션 30분: maintenance true</text>
+  <text x="62" y="506" font-size="10" fill="#555555">→ 끝나면 false — 앱 재배포 없이 제어</text>
+  <text x="52" y="528" font-size="10" fill="#555555">· 치명 버그 버전 발견: 그 버전만</text>
+  <text x="62" y="544" font-size="10" fill="#555555">min_version 아래로 밀어 격리</text>
+  <text x="52" y="570" font-size="10" font-weight="700" fill="#0F766E">공통점: 전부 서버 값 하나로 원격 제어 —</text>
+  <text x="52" y="588" font-size="10" font-weight="700" fill="#0F766E">앱 심사를 기다리지 않는다</text>
+</svg>
