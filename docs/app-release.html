@@ -329,6 +329,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#overview">0. 한눈에 보기 — 세 개의 층</a>
     <a href="#why">1. 웹과 앱은 무엇이 다른가</a>
     <a href="#legal">2. 1층 — 법·정책 의무</a>
+    <a href="#l-platform" class="sub">2-1. 플랫폼 전용 의무</a>
     <a href="#ops">3. 2층 — 운영의 필수</a>
     <a href="#plus">4. 3층 — 품질의 플러스</a>
     <a href="#settings">5. 설정 화면 골격</a>
@@ -433,6 +434,45 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     등급 설문과 콘텐츠가 다르거나. 바이브코딩 관점의 함정도 정확히 여기다 —
     <strong>AI가 붙인 SDK(분석·광고·크래시)가 무엇을 수집하는지 내가 모르면, 신고가 실제와 어긋난다.</strong>
     의존성 승인제(라이선스 룰 게이트 ②)가 여기서 두 번째 일을 한다.</div>
+  </div>
+
+  <h3 id="l-platform"><span class="num">＋</span>플랫폼 전용 의무 — 여기서부터는 갈린다</h3>
+
+  <p class="body">위 표의 의무들은 양쪽 공통이지만, <strong>"앱에 넣어야 하는 것" 자체가 갈리는 항목</strong>들이 있다 —
+  그리고 이 갈림 항목들이 실제 심사 거절의 단골이다. 크로스플랫폼(React Native·Flutter)으로 만들어도
+  <u>면제되지 않는다</u> — 프레임워크가 코드를 통일해줄 뿐, 플랫폼 의무는 각각 이행해야 한다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:200px">🍎 iOS 전용</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">ATT 추적 허용 팝업</td><td>앱 간 추적(광고 ID 활용 — 광고·일부 분석 SDK)을 하면 <strong>시스템 표준 팝업으로 사전 동의</strong>를 받아야 한다. 팝업 없이 추적하거나, 거부했는데 추적하면 거절·제재 — <u>광고 SDK를 붙이는 순간 발동</u>하는 의무</td></tr>
+        <tr><td class="hl">Apple 로그인 의무</td><td>구글·카카오 등 <u>제3자 소셜 로그인을 제공하면</u> "Apple로 로그인"도 반드시 함께 제공해야 한다 — 소셜 로그인 앱의 단골 거절 사유</td></tr>
+        <tr><td class="hl">권한 사용 목적 문구</td><td>카메라·위치·마이크 등에 접근하면 <strong>"왜 필요한지" 문구</strong>(Info.plist purpose string)가 필수 — 없으면 해당 기능에서 앱이 죽거나 심사 거절. 문구가 성의 없어도("앱 기능에 필요") 거절될 수 있다</td></tr>
+        <tr><td class="hl">심사용 데모 계정</td><td>로그인이 있으면 심사관용 테스트 계정을 제출 정보에 첨부 — 사람이 실제로 들어가 본다(§6의 "대사관 인터뷰")</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:200px">🤖 Android 전용</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">타겟 API 레벨 의무</td><td>매년 <strong>최신에 가까운 Android 버전을 타겟</strong>하도록 강제(대략 1년 이내 — 개략) — 안 올리면 <u>신규 등록·업데이트가 거부</u>된다. "한 번 내고 방치"가 구조적으로 불가능한 이유</td></tr>
+        <tr><td class="hl">런타임 권한 + 선언서</td><td>위치·카메라 등은 사용 시점 팝업(런타임 권한). SMS·통화기록·백그라운드 위치 같은 <u>민감 권한은 별도 선언서·심사</u>가 필요하고 대부분 반려된다 — 애초에 안 쓰는 설계가 정답</td></tr>
+        <tr><td class="hl">알림 권한 (13+)</td><td>Android 13부터 알림도 런타임 권한 — 설치만 하면 오던 푸시의 시대는 끝. 온보딩에서 <u>맥락 있는 순간에</u> 요청하는 설계가 필요</td></tr>
+        <tr><td class="hl">AAB + 서명 키 관리</td><td>신규 앱은 App Bundle(AAB) 형식 + Play App Signing — <strong>업로드 키를 잃으면</strong> 복구 절차가 고통스럽다. 키 백업은 3-2-1로(「NAS」의 그 원칙)</td></tr>
+        <tr><td class="hl">시스템 뒤로가기</td><td>iOS엔 없는 <u>시스템 백 제스처/버튼</u> 처리 — 화면마다 "뒤로가면 어디로"를 설계해야 한다. 무시하면 "뒤로 눌렀더니 앱이 꺼져요" 리뷰가 쌓인다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🔀</span>
+    <div><strong>공통 8할, 전용 2할 — 그런데 왜 2할이 무서운가.</strong> 공통 의무(§2 표)는 한 번 설계하면 양쪽에 쓰이지만,
+    전용 의무는 <u>한쪽 경험만으로는 존재 자체를 모른다</u> — 안드로이드만 해본 사람은 ATT·Apple 로그인 의무를,
+    iOS만 해본 사람은 타겟 API 레벨 의무를 모른 채 제출한다. 크로스플랫폼 프레임워크도 이걸 대신 채워주지 않으므로
+    (「애플 앱 개발의 지도」 §6 — "감싼다, 면제하지 않는다"), <strong>제출 전 체크리스트는 플랫폼별로 한 번씩</strong> 돌린다.</div>
   </div>
 </section>
 
@@ -571,6 +611,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
         <tr><td class="hl">1층 · 출시의 전제</td><td>□ 방침 링크가 앱 안+스토어 양쪽에 □ 데이터 수집 신고 = SDK 실제 수집 (분석·크래시 포함) □ 계정 삭제가 앱 안에서 됨 □ 라이선스 고지 화면 (자동 생성) □ 약관+환불 정책 □ 외부 결제 유도 문구 없음 □ (유료·한국) 사업자 정보 □ 등급 설문과 콘텐츠 일치</td></tr>
         <tr><td class="hl">2층 · 운영의 필수</td><td>□ min_version·maintenance 원격 플래그가 v1.0.0에 있음 □ 플래그 읽기 실패 시 통과 확인 □ 설정에 버전 (빌드) 표시 □ 문의 창구 □ 크래시 리포팅 연결(+신고 반영) □ 오프라인 상태 화면</td></tr>
         <tr><td class="hl">3층 · 품질</td><td>□ 온보딩·빈 화면 □ 리뷰 요청은 공식 API·좋은 순간에만 □ 알림 필수/마케팅 분리(+한국 동의 요건) □ What's New □ 시스템 글자 크기에서 깨지지 않음</td></tr>
+        <tr><td class="hl">플랫폼 전용</td><td>□ (iOS) 추적 SDK 있으면 ATT 팝업 □ (iOS) 소셜 로그인 있으면 Apple 로그인 병행 □ (iOS) 권한 목적 문구 전부 작성 □ (Android) 타겟 API 최신 확인 □ (Android) 민감 권한 없음(또는 선언서) □ (Android) 뒤로가기 전 화면 점검 □ (Android) 업로드 키 백업</td></tr>
         <tr><td class="hl">제출 실무</td><td>□ 스크린샷·설명이 실제 기능과 일치(과장 = 거절 사유) □ 심사용 테스트 계정 제공(로그인 앱) □ 단계적 출시로 시작 □ 출시 후 첫 48시간 크래시·리뷰 모니터링</td></tr>
       </tbody>
     </table>

@@ -253,7 +253,7 @@
         "계정 삭제",
         "강제 업데이트"
       ],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/am-three-gates.svg",
         "docs/img/am-settings.svg",
