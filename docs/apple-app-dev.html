@@ -327,6 +327,8 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#map-desktop" class="sub">0-A. 윈도우 ↔ 맥 대응표</a>
+    <a href="#map-mobile" class="sub">0-B. 안드로이드 ↔ iOS 대응표</a>
     <a href="#anatomy">1. Xcode의 정체 — 풀옵션 공장 해부</a>
     <a href="#identity">2. 필수성 ≠ 정체</a>
     <a href="#ladder">3. 의무의 사다리</a>
@@ -379,6 +381,83 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <div><strong>이 문서의 위치 —</strong> 「개발 생태계 해부」의 6층 명함과 "IDE는 층이 아니라 작업대" 항목을
     애플 생태계에 정밀 적용한 각론이다. Xcode가 컨테이너에 못 들어가는 이유(세 겹의 벽)는
     「로컬 LLM 코딩 공장」 §3과, 맥 자동화의 다른 길은 「Windows COM과 맥 자동화」와 만난다.</div>
+  </div>
+
+  <h3 id="map-desktop">익숙한 것에서 출발 ① — 윈도우 프로그램 ↔ 맥 앱</h3>
+
+  <p class="body">윈도우나 안드로이드 개발을 해봤다면, 애플 생태계는 <strong>새로 배우는 것이 아니라 이름을 갈아 끼우는 것</strong>에 가깝다.
+  개발 과정 순서대로 1:1로 놓아 보면 대부분 자리가 맞는다 — 그리고 <u>자리가 안 맞는 몇 칸</u>이 진짜 배울 것이다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">과정</th><th style="width:200px">🪟 Windows (익숙한 쪽)</th><th style="width:200px">🍎 macOS (대응)</th><th>다른 점 · 주의</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">개발 언어</td><td>C# (또는 C++)</td><td><strong>Swift</strong> (구세대: Objective-C)</td><td>둘 다 정적 타입 컴파일 언어 — C#을 아는 사람에게 Swift는 낯설지 않다</td></tr>
+        <tr><td class="hl">IDE</td><td>Visual Studio</td><td><strong>Xcode</strong></td><td>역할은 같지만 Xcode는 툴체인이 분리 불가로 동봉된 "풀옵션 공장" (§1)</td></tr>
+        <tr><td class="hl">UI — 현세대</td><td>WinUI 3 · WPF</td><td><strong>SwiftUI</strong></td><td>둘 다 선언형으로 이동 중 — XAML 감각이 SwiftUI에 그대로 통한다</td></tr>
+        <tr><td class="hl">UI — 구세대</td><td>WinForms · Win32</td><td><strong>AppKit</strong> (Cocoa)</td><td>레거시 유지보수에서 만난다 (§6-C의 UIKit과 같은 위치)</td></tr>
+        <tr><td class="hl">화면 정의 방식</td><td>XAML 마크업 + 코드비하인드</td><td>SwiftUI 코드 (구세대: xib·Storyboard)</td><td>SwiftUI는 마크업 없이 <u>Swift 코드로만</u> 화면을 쓴다</td></tr>
+        <tr><td class="hl">패키지 매니저</td><td>NuGet</td><td><strong>SwiftPM</strong></td><td>애플엔 중앙 창고가 없다 — <u>깃 주소로 직거래</u>(「개발 생태계 해부」 §3)</td></tr>
+        <tr><td class="hl">시스템 API</td><td>Win32 API · COM</td><td>Cocoa · Foundation</td><td>자동화는 COM ↔ <u>Apple Events·AppleScript</u> (「Windows COM과 맥 자동화」)</td></tr>
+        <tr><td class="hl">설정 저장</td><td>레지스트리 · AppData</td><td>UserDefaults · <span class="mono">~/Library</span></td><td>맥엔 레지스트리 같은 중앙 저장소가 없다 — plist 파일 단위</td></tr>
+        <tr><td class="hl">빌드 산출물</td><td><span class="mono">.exe</span> + DLL</td><td><strong><span class="mono">.app</span> 번들</strong></td><td><u>.app은 파일이 아니라 폴더다</u> — 실행 파일·리소스를 담은 디렉토리를 OS가 앱처럼 보여줄 뿐</td></tr>
+        <tr><td class="hl">설치 패키지</td><td><span class="mono">.msi</span> · <span class="mono">.msix</span> · 설치 마법사</td><td><span class="mono">.dmg</span> · <span class="mono">.pkg</span></td><td>맥은 대개 "드래그해서 Applications에 넣기" — 설치 마법사 문화가 아니다</td></tr>
+        <tr><td class="hl">코드 서명</td><td>Authenticode 인증서</td><td>Developer ID 서명 <strong>+ 공증</strong></td><td><u>공증(notarization)이 윈도우엔 없는 추가 단계</u> — 애플 서버에 올려 검사받는다 (§4)</td></tr>
+        <tr><td class="hl">OS의 문지기</td><td>SmartScreen 경고</td><td><strong>Gatekeeper</strong> 차단</td><td>성격이 다르다 — SmartScreen은 "경고 후 진행 가능", Gatekeeper는 미서명 앱을 <u>기본 차단</u></td></tr>
+        <tr><td class="hl">스토어 밖 배포</td><td>웹에서 exe 배포 자유</td><td>dmg 배포 가능 (단 서명·공증 필요)</td><td>맥도 스토어 밖 배포가 자유롭다 — <u>iOS와 결정적으로 다른 점</u></td></tr>
+        <tr><td class="hl">스토어</td><td>Microsoft Store (선택)</td><td>Mac App Store (선택)</td><td>양쪽 다 필수가 아니다 — 스토어에 넣으면 샌드박스 제약이 붙는 것도 비슷</td></tr>
+        <tr><td class="hl">개발 OS 요구</td><td>어디서나 (윈도우 권장)</td><td><strong>맥 필수</strong></td><td>가장 큰 진입 장벽 — 「로컬 LLM 코딩 공장」 §3의 "세 겹의 벽"</td></tr>
+        <tr><td class="hl">비용</td><td>무료 (VS Community)</td><td>Xcode 무료 · 배포 시 개발자 계정 유료</td><td>맥은 <u>배포 단계에서</u> 연회비가 발생 (개략 — §4)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="map-mobile">익숙한 것에서 출발 ② — 안드로이드 ↔ iOS</h3>
+
+  <p class="body">모바일 쪽은 대응이 더 깔끔하다 — 두 플랫폼이 같은 문제를 각자 풀어온 결과라
+  <strong>거의 모든 개념에 짝이 있다</strong>:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">과정</th><th style="width:200px">🤖 Android (익숙한 쪽)</th><th style="width:200px">🍎 iOS (대응)</th><th>다른 점 · 주의</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">개발 언어</td><td>Kotlin (구: Java)</td><td><strong>Swift</strong> (구: Objective-C)</td><td>둘 다 "구세대 언어의 현대적 후계자" — 등장 배경까지 평행하다</td></tr>
+        <tr><td class="hl">IDE</td><td>Android Studio</td><td><strong>Xcode</strong></td><td>Android Studio는 어느 OS에서나, Xcode는 맥에서만</td></tr>
+        <tr><td class="hl">UI — 현세대</td><td>Jetpack Compose</td><td><strong>SwiftUI</strong></td><td>둘 다 선언형 — <u>Compose를 알면 SwiftUI는 문법만 다른 같은 개념</u></td></tr>
+        <tr><td class="hl">UI — 구세대</td><td>XML 레이아웃 + View</td><td><strong>UIKit</strong> (+ Storyboard)</td><td>§6-C 참조 — 명령형 시절의 도구들</td></tr>
+        <tr><td class="hl">화면 단위</td><td>Activity · Fragment</td><td>ViewController · View</td><td>iOS엔 Activity 같은 "시스템이 관리하는 진입 단위" 개념이 약하다</td></tr>
+        <tr><td class="hl">생명주기</td><td><span class="mono">onCreate</span> · <span class="mono">onResume</span> · <span class="mono">onPause</span></td><td><span class="mono">viewDidLoad</span> · <span class="mono">viewWillAppear</span></td><td>이름만 다르고 개념은 동일 — 화면이 뜨고 지는 시점에 끼어드는 훅</td></tr>
+        <tr><td class="hl">앱 설정 파일</td><td><span class="mono">AndroidManifest.xml</span></td><td><span class="mono">Info.plist</span></td><td>권한·앱 정보·진입점을 선언하는 자리 — 정확히 같은 역할</td></tr>
+        <tr><td class="hl">권한</td><td>매니페스트 선언 + 런타임 요청</td><td>plist에 <u>용도 문구</u> + 런타임 요청</td><td>iOS는 <strong>"왜 필요한지" 문구가 필수</strong>이고 없으면 앱이 죽는다 (「앱 출시의 관문」 §2-1)</td></tr>
+        <tr><td class="hl">빌드 시스템</td><td>Gradle</td><td>Xcode Build System</td><td>Gradle 같은 범용 빌드 스크립트 문화가 약하다 — 대부분 Xcode 설정 UI</td></tr>
+        <tr><td class="hl">패키지 매니저</td><td>Gradle + Maven 저장소</td><td>SwiftPM (구세대: CocoaPods)</td><td>중앙 저장소 유무의 차이 (위 표와 동일)</td></tr>
+        <tr><td class="hl">산출물</td><td><span class="mono">.aab</span> (구: <span class="mono">.apk</span>)</td><td><span class="mono">.ipa</span></td><td>—</td></tr>
+        <tr><td class="hl">서명</td><td>업로드 키 + Play App Signing</td><td>인증서 + <strong>프로비저닝 프로파일</strong></td><td>iOS는 "어느 기기에 설치 가능한가"까지 서명에 묶인다 — 개념이 하나 더 많다</td></tr>
+        <tr><td class="hl">테스트 배포</td><td>내부·비공개·공개 트랙</td><td><strong>TestFlight</strong></td><td>TestFlight는 외부 테스터용 빌드도 <u>심사를 거친다</u></td></tr>
+        <tr><td class="hl">시뮬레이터</td><td>Android Emulator</td><td>iOS Simulator</td><td>iOS 시뮬레이터가 훨씬 가볍고 빠르다 (실제 ARM 코드를 맥에서 그대로 돌리므로)</td></tr>
+        <tr><td class="hl">스토어·심사</td><td>Google Play — 자동화 중심, 빠름</td><td>App Store — 사람 심사, 깐깐</td><td>「앱 출시의 관문」 §6의 "세관 vs 대사관" 비유</td></tr>
+        <tr><td class="hl">등록비</td><td>1회성 (개략)</td><td>연회비 (개략)</td><td>iOS는 <u>매년 갱신</u> — 끊기면 앱이 스토어에서 내려간다</td></tr>
+        <tr><td class="hl">개발 OS</td><td>Windows · Mac · Linux 자유</td><td><strong>맥 필수</strong></td><td>안드로이드 개발자가 iOS로 확장할 때 만나는 첫 벽</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">🚧</span>
+    <div><strong>1:1 대응이 깨지는 다섯 칸 — 여기가 진짜 배울 것이다.</strong><br>
+    ① <u>공증(notarization)</u> — 윈도우엔 없는 단계. 서명만으로 끝나지 않고 애플 서버의 검사를 통과해야 한다.<br>
+    ② <u>프로비저닝 프로파일</u> — 안드로이드의 서명보다 개념이 하나 더 많다("어느 기기·어느 용도로 설치 가능한가").<br>
+    ③ <u>사이드로드의 부재</u> — 안드로이드는 APK를 그냥 나눠줄 수 있지만, iOS는 사실상 불가능하다(§3의 "무슨 일이 있어도" 구역).<br>
+    ④ <u>시스템 뒤로가기 없음</u> — 안드로이드의 백 버튼에 해당하는 것이 iOS엔 없어서, 화면 이동 설계 자체가 달라진다.<br>
+    ⑤ <u>맥 필수</u> — 윈도우·안드로이드에는 없는 하드웨어 전제.<br>
+    반대로 <strong>맥 데스크톱 앱은 iOS보다 윈도우에 가깝다</strong> — 스토어 밖 배포가 자유롭다는 점에서(§3 사다리의 둘째 칸).</div>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🧭</span>
+    <div><strong>읽고 나서 —</strong> 두 표에서 <u>왼쪽 열이 이미 아는 것</u>이라면, 이 문서의 나머지는
+    "오른쪽 열의 몇 칸을 자세히 설명하는 것"에 가깝다: Xcode의 정체(§1), 무엇이 진짜 의무인가(§2·§3),
+    서명·공증의 관문(§4), 그리고 Swift·SwiftUI·UIKit의 관계(§6).</div>
   </div>
 </section>
 
