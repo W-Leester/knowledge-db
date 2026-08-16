@@ -329,6 +329,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#overview">0. 한눈에 보기</a>
     <a href="#map-desktop" class="sub">0-A. 윈도우 ↔ 맥 대응표</a>
     <a href="#map-mobile" class="sub">0-B. 안드로이드 ↔ iOS 대응표</a>
+    <a href="#map-terms" class="sub">0-C. 용어 풀이 12개</a>
     <a href="#anatomy">1. Xcode의 정체 — 풀옵션 공장 해부</a>
     <a href="#identity">2. 필수성 ≠ 정체</a>
     <a href="#ladder">3. 의무의 사다리</a>
@@ -397,13 +398,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
         <tr><td class="hl">UI — 현세대</td><td>WinUI 3 · WPF</td><td><strong>SwiftUI</strong></td><td>둘 다 선언형으로 이동 중 — XAML 감각이 SwiftUI에 그대로 통한다</td></tr>
         <tr><td class="hl">UI — 구세대</td><td>WinForms · Win32</td><td><strong>AppKit</strong> (Cocoa)</td><td>레거시 유지보수에서 만난다 (§6-C의 UIKit과 같은 위치)</td></tr>
         <tr><td class="hl">화면 정의 방식</td><td>XAML 마크업 + 코드비하인드</td><td>SwiftUI 코드 (구세대: xib·Storyboard)</td><td>SwiftUI는 마크업 없이 <u>Swift 코드로만</u> 화면을 쓴다</td></tr>
-        <tr><td class="hl">패키지 매니저</td><td>NuGet</td><td><strong>SwiftPM</strong></td><td>애플엔 중앙 창고가 없다 — <u>깃 주소로 직거래</u>(「개발 생태계 해부」 §3)</td></tr>
+        <tr><td class="hl">패키지 매니저</td><td><u>언어마다 다르다</u> — C#이면 NuGet, 파이썬이면 pip, JS면 npm</td><td><strong>SwiftPM</strong> (Swift의 것)</td><td>"윈도우의 패키지 매니저"란 건 없다 — <strong>언어에 딸린 것</strong>이다(「개발 생태계 해부」 3층). 애플엔 중앙 창고가 없어 깃 주소로 직거래</td></tr>
         <tr><td class="hl">시스템 API</td><td>Win32 API · COM</td><td>Cocoa · Foundation</td><td>자동화는 COM ↔ <u>Apple Events·AppleScript</u> (「Windows COM과 맥 자동화」)</td></tr>
         <tr><td class="hl">설정 저장</td><td>레지스트리 · AppData</td><td>UserDefaults · <span class="mono">~/Library</span></td><td>맥엔 레지스트리 같은 중앙 저장소가 없다 — plist 파일 단위</td></tr>
         <tr><td class="hl">빌드 산출물</td><td><span class="mono">.exe</span> + DLL</td><td><strong><span class="mono">.app</span> 번들</strong></td><td><u>.app은 파일이 아니라 폴더다</u> — 실행 파일·리소스를 담은 디렉토리를 OS가 앱처럼 보여줄 뿐</td></tr>
-        <tr><td class="hl">설치 패키지</td><td><span class="mono">.msi</span> · <span class="mono">.msix</span> · 설치 마법사</td><td><span class="mono">.dmg</span> · <span class="mono">.pkg</span></td><td>맥은 대개 "드래그해서 Applications에 넣기" — 설치 마법사 문화가 아니다</td></tr>
+        <tr><td class="hl">배포·설치 방식</td><td>대개 <strong><span class="mono">setup.exe</span></strong>(설치 마법사) — 기업·스토어 배포에만 <span class="mono">.msi</span>·<span class="mono">.msix</span></td><td><span class="mono">.dmg</span>(디스크 이미지) · <span class="mono">.pkg</span></td><td>맥은 "dmg를 열어 <u>앱을 Applications 폴더로 드래그</u>" — 설치 마법사 문화가 아니다</td></tr>
         <tr><td class="hl">코드 서명</td><td>Authenticode 인증서</td><td>Developer ID 서명 <strong>+ 공증</strong></td><td><u>공증(notarization)이 윈도우엔 없는 추가 단계</u> — 애플 서버에 올려 검사받는다 (§4)</td></tr>
-        <tr><td class="hl">OS의 문지기</td><td>SmartScreen 경고</td><td><strong>Gatekeeper</strong> 차단</td><td>성격이 다르다 — SmartScreen은 "경고 후 진행 가능", Gatekeeper는 미서명 앱을 <u>기본 차단</u></td></tr>
+        <tr><td class="hl">OS의 문지기</td><td><strong>SmartScreen</strong> — "Windows의 PC 보호" 파란 경고창(알 수 없는 게시자)</td><td><strong>Gatekeeper</strong> — "확인되지 않은 개발자" 차단</td><td>둘 다 <u>서명 없는 앱</u>에 뜬다. <strong>UAC(노란 방패 "변경을 허용하시겠습니까?")와는 다른 것</strong> — UAC는 관리자 권한 요청이고 맥의 대응물은 암호 입력 창</td></tr>
         <tr><td class="hl">스토어 밖 배포</td><td>웹에서 exe 배포 자유</td><td>dmg 배포 가능 (단 서명·공증 필요)</td><td>맥도 스토어 밖 배포가 자유롭다 — <u>iOS와 결정적으로 다른 점</u></td></tr>
         <tr><td class="hl">스토어</td><td>Microsoft Store (선택)</td><td>Mac App Store (선택)</td><td>양쪽 다 필수가 아니다 — 스토어에 넣으면 샌드박스 제약이 붙는 것도 비슷</td></tr>
         <tr><td class="hl">개발 OS 요구</td><td>어디서나 (윈도우 권장)</td><td><strong>맥 필수</strong></td><td>가장 큰 진입 장벽 — 「로컬 LLM 코딩 공장」 §3의 "세 겹의 벽"</td></tr>
@@ -431,13 +432,37 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
         <tr><td class="hl">권한</td><td>매니페스트 선언 + 런타임 요청</td><td>plist에 <u>용도 문구</u> + 런타임 요청</td><td>iOS는 <strong>"왜 필요한지" 문구가 필수</strong>이고 없으면 앱이 죽는다 (「앱 출시의 관문」 §2-1)</td></tr>
         <tr><td class="hl">빌드 시스템</td><td>Gradle</td><td>Xcode Build System</td><td>Gradle 같은 범용 빌드 스크립트 문화가 약하다 — 대부분 Xcode 설정 UI</td></tr>
         <tr><td class="hl">패키지 매니저</td><td>Gradle + Maven 저장소</td><td>SwiftPM (구세대: CocoaPods)</td><td>중앙 저장소 유무의 차이 (위 표와 동일)</td></tr>
-        <tr><td class="hl">산출물</td><td><span class="mono">.aab</span> (구: <span class="mono">.apk</span>)</td><td><span class="mono">.ipa</span></td><td>—</td></tr>
+        <tr><td class="hl">산출물</td><td>기기에 설치되는 건 <strong><span class="mono">.apk</span></strong>(현역!) · 스토어에 <u>업로드</u>할 때만 <span class="mono">.aab</span></td><td><span class="mono">.ipa</span></td><td>APK는 죽지 않았다 — Play가 AAB를 받아 <u>기기별 맞춤 APK를 만들어 배포</u>할 뿐. 개발·테스트·직접 배포는 여전히 APK</td></tr>
         <tr><td class="hl">서명</td><td>업로드 키 + Play App Signing</td><td>인증서 + <strong>프로비저닝 프로파일</strong></td><td>iOS는 "어느 기기에 설치 가능한가"까지 서명에 묶인다 — 개념이 하나 더 많다</td></tr>
         <tr><td class="hl">테스트 배포</td><td>내부·비공개·공개 트랙</td><td><strong>TestFlight</strong></td><td>TestFlight는 외부 테스터용 빌드도 <u>심사를 거친다</u></td></tr>
         <tr><td class="hl">시뮬레이터</td><td>Android Emulator</td><td>iOS Simulator</td><td>iOS 시뮬레이터가 훨씬 가볍고 빠르다 (실제 ARM 코드를 맥에서 그대로 돌리므로)</td></tr>
         <tr><td class="hl">스토어·심사</td><td>Google Play — 자동화 중심, 빠름</td><td>App Store — 사람 심사, 깐깐</td><td>「앱 출시의 관문」 §6의 "세관 vs 대사관" 비유</td></tr>
-        <tr><td class="hl">등록비</td><td>1회성 (개략)</td><td>연회비 (개략)</td><td>iOS는 <u>매년 갱신</u> — 끊기면 앱이 스토어에서 내려간다</td></tr>
+        <tr><td class="hl">등록비</td><td><u>개발자 계정</u> 1회 등록비 (개략) — <strong>스토어에 안 올리면 불필요</strong>(APK 직접 배포는 무료)</td><td><u>개발자 계정</u> 연회비 (개략)</td><td>라이선스료가 아니라 <strong>스토어 계정 개설비</strong>. iOS는 매년 갱신이고 끊기면 앱이 내려간다 — 그리고 iOS는 스토어 밖 배포가 사실상 없어 <u>사실상 필수 비용</u></td></tr>
         <tr><td class="hl">개발 OS</td><td>Windows · Mac · Linux 자유</td><td><strong>맥 필수</strong></td><td>안드로이드 개발자가 iOS로 확장할 때 만나는 첫 벽</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="map-terms">표에 나온 용어 풀이 — 헷갈리는 12개</h3>
+
+  <p class="body">위 표는 이름을 많이 던진다. 각각이 <strong>6층 명함(「개발 생태계 해부」)의 몇 층인지</strong>와 함께 정리하면 자리가 잡힌다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">용어</th><th style="width:110px">몇 층</th><th>쉽게 말하면</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">UI 프레임워크<br><span style="font-size:11px;color:#666">Win32·WinForms·WPF·WinUI 3<br>AppKit·SwiftUI·UIKit·Compose</span></td><td><strong>5층</strong><br>(패키지)</td><td><strong>화면을 그리는 부품 상자</strong> — 개발환경(IDE)도 아니고 추상적 "방식"도 아니다. 버튼·목록·창 같은 기성품이 든 라이브러리다. 윈도우는 세대별로 4개가 쌓여 있고(Win32 1985 → WinForms 2002 → WPF 2006 → WinUI 3 2021), 애플은 둘로 정리돼 있다(구 AppKit/UIKit → 신 SwiftUI)</td></tr>
+        <tr><td class="hl">화면 정의 방식</td><td>—</td><td><strong>"버튼을 어디에 놓을지"를 무엇으로 적느냐.</strong> 세 가지가 있다: ① <u>코드로</u>(SwiftUI·Compose) ② <u>마크업 파일로</u>(XAML·안드로이드 XML — 웹의 HTML 같은 태그 문서) ③ <u>드래그로</u>(디자이너 화면에서 마우스로 배치 — WinForms·Storyboard)</td></tr>
+        <tr><td class="hl">패키지 매니저<br><span style="font-size:11px;color:#666">NuGet·pip·npm·Gradle·SwiftPM</span></td><td><strong>3층</strong></td><td><u>남의 코드를 받아오는 도구.</u> 중요한 건 <strong>OS가 아니라 언어에 딸려 있다</strong>는 점 — 윈도우 프로그램을 파이썬으로 만들었다면 쓴 것은 pip다. NuGet은 <u>C#·.NET을 할 때만</u> 만난다</td></tr>
+        <tr><td class="hl">빌드 시스템<br><span style="font-size:11px;color:#666">Gradle·Xcode Build</span></td><td><strong>6층</strong></td><td><strong>소스 코드 → 설치 가능한 앱 파일</strong>로 조립하는 라인. 컴파일·리소스 묶기·서명까지 순서대로 처리한다. 안드로이드는 Gradle 스크립트를 직접 만지는 문화, iOS는 대부분 Xcode 설정 화면에서 클릭</td></tr>
+        <tr><td class="hl">화면 단위<br><span style="font-size:11px;color:#666">Activity · ViewController</span></td><td>—</td><td><strong>앱의 "한 페이지"에 해당하는 코드 뭉치.</strong> 웹으로 치면 페이지 하나. 목록 화면·상세 화면·설정 화면이 각각 하나씩 된다</td></tr>
+        <tr><td class="hl">생명주기<br><span style="font-size:11px;color:#666">onCreate · viewDidLoad</span></td><td>—</td><td><strong>화면이 뜨고·가려지고·사라질 때 자동으로 불리는 함수들.</strong> "화면이 나타날 때 데이터를 불러와라", "가려지면 영상을 멈춰라"를 여기에 쓴다. 내가 부르는 게 아니라 <u>OS가 나를 부른다</u> — 프레임워크의 제어 역전(「기술 스택 고르기」 §5-A)</td></tr>
+        <tr><td class="hl">앱 설정 파일<br><span style="font-size:11px;color:#666">AndroidManifest.xml · Info.plist</span></td><td>—</td><td><strong>앱의 신분증.</strong> 앱 이름·아이콘·버전·필요한 권한·시작 화면을 적어두는 파일. OS와 스토어가 이 파일을 읽고 앱을 파악한다</td></tr>
+        <tr><td class="hl">권한</td><td>—</td><td>카메라·위치·연락처처럼 <u>민감한 것에 접근할 허가.</u> 2단계다 — ① 설정 파일에 "쓰겠다"고 <u>미리 선언</u> ② 실제 쓰는 순간 사용자에게 <u>팝업으로 허락</u>을 받는다. iOS는 여기에 "왜 필요한지" 문구까지 필수</td></tr>
+        <tr><td class="hl">서명 · 공증</td><td>—</td><td><u>서명</u> = "이 앱은 내가 만들었고 이후 변조되지 않았다"는 도장. <u>공증</u> = 애플 서버에 앱을 올려 악성코드 검사를 받고 도장을 하나 더 받는 것 — <strong>윈도우엔 없는 단계</strong></td></tr>
+        <tr><td class="hl">SmartScreen · Gatekeeper<br><span style="font-size:11px;color:#666">(≠ UAC)</span></td><td>—</td><td><strong>서명 없는 앱을 막는 OS의 문지기.</strong> 윈도우의 "Windows의 PC 보호"(파란 창), 맥의 "확인되지 않은 개발자"가 그것.<br><u>흔한 혼동</u>: "이 앱이 디바이스를 변경하도록 허용하시겠습니까?"(노란 방패)는 <strong>UAC</strong>로 <u>다른 것</u>이다 — UAC는 관리자 권한 요청이고, 맥에선 암호 입력 창이 그 자리</td></tr>
+        <tr><td class="hl">APK · AAB · IPA</td><td>—</td><td><u>APK</u> = 안드로이드 기기에 설치되는 파일(<strong>현역</strong>). <u>AAB</u> = Play 스토어에 <strong>업로드용</strong> 형식 — 스토어가 이걸 받아 기기별 맞춤 APK를 만들어 내려준다. <u>IPA</u> = iOS의 앱 파일</td></tr>
+        <tr><td class="hl">개발자 계정 등록비</td><td>—</td><td><strong>스토어에 앱을 올릴 자격</strong>을 얻는 계정 개설비 — 라이선스료가 아니다. 구글은 1회, 애플은 매년(개략). <u>안드로이드는 APK를 직접 나눠주면 0원</u>, iOS는 스토어 밖 배포가 사실상 없어 필수 비용에 가깝다</td></tr>
       </tbody>
     </table>
   </div>
