@@ -230,11 +230,14 @@
         "CLT",
         "서명·공증"
       ],
-      "version": 2,
+      "version": 3,
       "assets": [
         "docs/img/ax-xcode-anatomy.svg",
         "docs/img/ax-ladder.svg",
-        "docs/img/ax-decision.svg"
+        "docs/img/ax-decision.svg",
+        "docs/img/ax-language-paths.svg",
+        "docs/img/ax-swift-when.svg",
+        "docs/img/ax-uikit-swiftui.svg"
       ]
     },
     {

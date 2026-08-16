@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="aus" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="700" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">UIKit vs SwiftUI — 웹으로 치면 jQuery와 React의 관계</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">둘 다 "화면을 그리는 도구(5층)"이고 언어는 똑같이 Swift — 갈리는 것은 <tspan font-weight="700">누가 화면을 갱신하는가</tspan>다</text>
+
+  <!-- UIKit -->
+  <rect x="30" y="84" width="405" height="290" rx="14" fill="#F2EDE4" stroke="#8A8478" stroke-width="2.5"/>
+  <text x="232" y="112" font-size="15" font-weight="800" fill="#555555" text-anchor="middle">🧱 UIKit (2008~) — 명령형</text>
+  <text x="232" y="132" font-size="10.5" fill="#666666" text-anchor="middle">"버튼을 놓고, 값이 바뀌면 내가 직접 고쳐 쓴다"</text>
+
+  <rect x="50" y="146" width="365" height="106" rx="10" fill="#0D1B2E"/>
+  <text x="66" y="168" font-size="10" fill="#AAB9CF" font-family="'JetBrains Mono', monospace">// 1) 라벨을 만들어 화면에 붙이고</text>
+  <text x="66" y="186" font-size="10.5" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">let label = UILabel()</text>
+  <text x="66" y="204" font-size="10.5" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">view.addSubview(label)</text>
+  <text x="66" y="224" font-size="10" fill="#AAB9CF" font-family="'JetBrains Mono', monospace">// 2) 숫자가 바뀔 때마다 "내가" 갱신</text>
+  <text x="66" y="242" font-size="10.5" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">count += 1; label.text = "\(count)"</text>
+
+  <text x="50" y="276" font-size="11" font-weight="700" fill="#555555">특징</text>
+  <text x="50" y="298" font-size="10.5" fill="#555555">· 화면 갱신을 <tspan font-weight="700">내가 일일이 명령</tspan>한다</text>
+  <text x="50" y="318" font-size="10.5" fill="#555555">· 17년 넘게 쌓인 자료·라이브러리·해답</text>
+  <text x="50" y="338" font-size="10.5" fill="#555555">· 세밀한 제어가 필요할 때 강하다</text>
+  <text x="50" y="360" font-size="10.5" fill="#B45309" font-weight="700">· 코드가 길고, 갱신을 빠뜨리면 화면이 어긋난다</text>
+
+  <!-- SwiftUI -->
+  <rect x="465" y="84" width="405" height="290" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
+  <text x="667" y="112" font-size="15" font-weight="800" fill="#B45309" text-anchor="middle">✨ SwiftUI (2019~) — 선언형</text>
+  <text x="667" y="132" font-size="10.5" fill="#666666" text-anchor="middle">"상태가 이러면 화면은 이렇다"만 선언한다</text>
+
+  <rect x="485" y="146" width="365" height="106" rx="10" fill="#0D1B2E"/>
+  <text x="501" y="168" font-size="10" fill="#AAB9CF" font-family="'JetBrains Mono', monospace">// 상태와 화면의 관계만 적는다</text>
+  <text x="501" y="188" font-size="10.5" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">@State var count = 0</text>
+  <text x="501" y="208" font-size="10.5" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">Text("\(count)")</text>
+  <text x="501" y="228" font-size="10" fill="#AAB9CF" font-family="'JetBrains Mono', monospace">// count가 바뀌면 화면은 프레임워크가</text>
+  <text x="501" y="244" font-size="10" fill="#AAB9CF" font-family="'JetBrains Mono', monospace">// 알아서 다시 그린다 — 갱신 코드 없음</text>
+
+  <text x="485" y="276" font-size="11" font-weight="700" fill="#B45309">특징</text>
+  <text x="485" y="298" font-size="10.5" fill="#555555">· 갱신은 <tspan font-weight="700">프레임워크가</tspan> 한다 (제어의 역전)</text>
+  <text x="485" y="318" font-size="10.5" fill="#555555">· 코드가 짧고, 실시간 미리보기가 강력</text>
+  <text x="485" y="338" font-size="10.5" fill="#555555">· 워치·비전OS 등 새 플랫폼의 기본 도구</text>
+  <text x="485" y="360" font-size="10.5" fill="#DC2626" font-weight="700">· 역사가 짧아 아주 특수한 커스텀은 아직 빈틈</text>
+
+  <!-- 평행 비유 -->
+  <rect x="30" y="392" width="840" height="96" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="450" y="418" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">이미 아는 것으로 번역하면 — 웹의 그 전환과 똑같다</text>
+  <rect x="60" y="430" width="360" height="44" rx="9" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="240" y="448" font-size="11.5" font-weight="800" fill="#555555" text-anchor="middle">jQuery : "이 요소를 찾아 내가 바꾼다"</text>
+  <text x="240" y="466" font-size="10.5" fill="#666666" text-anchor="middle">= UIKit (명령형)</text>
+  <text x="450" y="456" font-size="16" font-weight="800" fill="#1A5CB5" text-anchor="middle">↔</text>
+  <rect x="480" y="430" width="360" height="44" rx="9" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="660" y="448" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">React : "상태를 주면 화면은 따라온다"</text>
+  <text x="660" y="466" font-size="10.5" fill="#666666" text-anchor="middle">= SwiftUI (선언형)</text>
+
+  <!-- 왜 SwiftUI를 많이 쓰나 -->
+  <rect x="30" y="504" width="405" height="126" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
+  <text x="52" y="530" font-size="12.5" font-weight="800" fill="#0F766E">왜 요즘 SwiftUI를 많이 쓰나</text>
+  <text x="52" y="554" font-size="10.5" fill="#555555">① 같은 화면을 훨씬 적은 코드로</text>
+  <text x="52" y="574" font-size="10.5" fill="#555555">② 애플이 미는 방향 — 새 기능이 먼저 온다</text>
+  <text x="52" y="594" font-size="10.5" fill="#555555">③ 미리보기로 즉시 확인 (빌드 대기 없음)</text>
+  <text x="52" y="614" font-size="10.5" fill="#555555">④ 워치·비전OS는 사실상 SwiftUI 전용</text>
+
+  <!-- 무엇을 고르나 -->
+  <rect x="465" y="504" width="405" height="126" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="487" y="530" font-size="12.5" font-weight="800" fill="#002C5F">그래서 무엇을 고르나</text>
+  <text x="487" y="554" font-size="10.5" fill="#555555">· <tspan font-weight="700">새로 시작</tspan> → SwiftUI (기본값)</text>
+  <text x="487" y="574" font-size="10.5" fill="#555555">· <tspan font-weight="700">기존 앱 유지보수</tspan> → UIKit 그대로</text>
+  <text x="487" y="594" font-size="10.5" fill="#555555">· <tspan font-weight="700">특수 화면만 막힐 때</tspan> → 그 부분만 UIKit 삽입</text>
+  <text x="487" y="616" font-size="10" font-weight="700" fill="#0F766E">둘은 한 앱 안에서 섞어 쓸 수 있다 (상호 변환 지원)</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="646" width="840" height="42" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="672" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">기억할 것: 둘 다 5층(프레임워크)이고 언어는 똑같이 Swift — "SwiftUI를 쓴다"고 다른 언어를 쓰는 게 아니다</text>
+</svg>

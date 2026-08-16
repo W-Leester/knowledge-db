@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="alp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="700" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">"Xcode에서 JS로 코딩하나?" — 질문 자체가 함정이다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">경로마다 <tspan font-weight="700">내가 코드를 쓰는 곳</tspan>과 <tspan font-weight="700">Xcode가 등장하는 시점</tspan>이 다르다 — 네 경로를 나란히 놓으면 보인다</text>
+
+  <!-- 열 헤더 -->
+  <rect x="30" y="80" width="200" height="44" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="130" y="108" font-size="13.5" font-weight="800" fill="#DC2626" text-anchor="middle">① 네이티브</text>
+  <rect x="240" y="80" width="200" height="44" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="340" y="108" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">② React Native</text>
+  <rect x="450" y="80" width="200" height="44" rx="10" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="550" y="108" font-size="13.5" font-weight="800" fill="#6B21A8" text-anchor="middle">③ Flutter</text>
+  <rect x="660" y="80" width="210" height="44" rx="10" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="765" y="108" font-size="13.5" font-weight="800" fill="#0F766E" text-anchor="middle">④ 웹앱 · PWA</text>
+
+  <!-- 행 1: 내가 쓰는 언어 -->
+  <text x="20" y="152" font-size="11.5" font-weight="800" fill="#555555">내가 쓰는 언어</text>
+  <rect x="30" y="162" width="200" height="52" rx="9" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="130" y="184" font-size="13" font-weight="800" fill="#DC2626" text-anchor="middle">Swift</text>
+  <text x="130" y="203" font-size="10" fill="#666666" text-anchor="middle">(또는 구세대 Objective-C)</text>
+  <rect x="240" y="162" width="200" height="52" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="340" y="184" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">JavaScript · TypeScript</text>
+  <text x="340" y="203" font-size="10" fill="#666666" text-anchor="middle">Swift 안 씀 (대개 0줄)</text>
+  <rect x="450" y="162" width="200" height="52" rx="9" fill="#FFFFFF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="550" y="184" font-size="13" font-weight="800" fill="#6B21A8" text-anchor="middle">Dart</text>
+  <text x="550" y="203" font-size="10" fill="#666666" text-anchor="middle">Swift 안 씀 (대개 0줄)</text>
+  <rect x="660" y="162" width="210" height="52" rx="9" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="765" y="184" font-size="13" font-weight="800" fill="#0F766E" text-anchor="middle">JavaScript · TypeScript</text>
+  <text x="765" y="203" font-size="10" fill="#666666" text-anchor="middle">Swift 안 씀</text>
+
+  <!-- 행 2: 주 작업대 -->
+  <text x="20" y="242" font-size="11.5" font-weight="800" fill="#555555">주로 앉아 있는 작업대</text>
+  <rect x="30" y="252" width="200" height="52" rx="9" fill="#FEE2E2"/>
+  <text x="130" y="274" font-size="12.5" font-weight="800" fill="#DC2626" text-anchor="middle">🍎 Xcode</text>
+  <text x="130" y="293" font-size="10" fill="#555555" text-anchor="middle">코딩·미리보기·빌드 전부 여기</text>
+  <rect x="240" y="252" width="200" height="52" rx="9" fill="#E8EEF7"/>
+  <text x="340" y="274" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">🧰 VS Code</text>
+  <text x="340" y="293" font-size="10" fill="#555555" text-anchor="middle">Xcode는 거의 안 연다</text>
+  <rect x="450" y="252" width="200" height="52" rx="9" fill="#F3E8FF"/>
+  <text x="550" y="274" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">🧰 VS Code · Android Studio</text>
+  <text x="550" y="293" font-size="10" fill="#555555" text-anchor="middle">Xcode는 거의 안 연다</text>
+  <rect x="660" y="252" width="210" height="52" rx="9" fill="#E6F7F1"/>
+  <text x="765" y="274" font-size="12.5" font-weight="800" fill="#0F766E" text-anchor="middle">🧰 아무 에디터</text>
+  <text x="765" y="293" font-size="10" fill="#555555" text-anchor="middle">Xcode 자체가 불필요</text>
+
+  <!-- 행 3: Xcode의 역할 -->
+  <text x="20" y="332" font-size="11.5" font-weight="800" fill="#555555">Xcode가 하는 일</text>
+  <rect x="30" y="342" width="200" height="72" rx="9" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="130" y="364" font-size="11" font-weight="800" fill="#DC2626" text-anchor="middle">전부</text>
+  <text x="130" y="384" font-size="9.5" fill="#555555" text-anchor="middle">편집 · 미리보기 · 빌드</text>
+  <text x="130" y="400" font-size="9.5" fill="#555555" text-anchor="middle">시뮬레이터 · 서명 · 제출</text>
+  <rect x="240" y="342" width="200" height="72" rx="9" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="340" y="364" font-size="11" font-weight="800" fill="#B45309" text-anchor="middle">포장 단계에만</text>
+  <text x="340" y="384" font-size="9.5" fill="#555555" text-anchor="middle">빌드 · 서명 · 제출</text>
+  <text x="340" y="400" font-size="9.5" fill="#666666" text-anchor="middle">(명령어로 뒤에서 돌기도)</text>
+  <rect x="450" y="342" width="200" height="72" rx="9" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="550" y="364" font-size="11" font-weight="800" fill="#B45309" text-anchor="middle">포장 단계에만</text>
+  <text x="550" y="384" font-size="9.5" fill="#555555" text-anchor="middle">빌드 · 서명 · 제출</text>
+  <text x="550" y="400" font-size="9.5" fill="#666666" text-anchor="middle">flutter build ios가 호출</text>
+  <rect x="660" y="342" width="210" height="72" rx="9" fill="#E6F7F1" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="765" y="364" font-size="11" font-weight="800" fill="#0F766E" text-anchor="middle">등장하지 않음</text>
+  <text x="765" y="384" font-size="9.5" fill="#555555" text-anchor="middle">브라우저가 무대라</text>
+  <text x="765" y="400" font-size="9.5" fill="#555555" text-anchor="middle">심사·서명도 없음</text>
+
+  <!-- 행 4: 화면을 그리는 주체 -->
+  <text x="20" y="442" font-size="11.5" font-weight="800" fill="#555555">화면을 그리는 것</text>
+  <rect x="30" y="452" width="200" height="56" rx="9" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="130" y="474" font-size="10.5" font-weight="700" fill="#002C5F" text-anchor="middle">SwiftUI 또는 UIKit</text>
+  <text x="130" y="494" font-size="9.5" fill="#666666" text-anchor="middle">애플 부품 그대로 (§6-D)</text>
+  <rect x="240" y="452" width="200" height="56" rx="9" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="340" y="474" font-size="10.5" font-weight="700" fill="#002C5F" text-anchor="middle">애플 부품을 JS가 조종</text>
+  <text x="340" y="494" font-size="9.5" fill="#666666" text-anchor="middle">진짜 네이티브 버튼이 뜬다</text>
+  <rect x="450" y="452" width="200" height="56" rx="9" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="550" y="474" font-size="10.5" font-weight="700" fill="#6B21A8" text-anchor="middle">자체 엔진이 직접 그림</text>
+  <text x="550" y="494" font-size="9.5" fill="#666666" text-anchor="middle">애플 부품을 안 씀 (그림)</text>
+  <rect x="660" y="452" width="210" height="56" rx="9" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="765" y="474" font-size="10.5" font-weight="700" fill="#0F766E" text-anchor="middle">브라우저(HTML·CSS)</text>
+  <text x="765" y="494" font-size="9.5" fill="#666666" text-anchor="middle">웹 화면 그대로</text>
+
+  <!-- 공통 관문 -->
+  <rect x="30" y="530" width="620" height="58" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="340" y="554" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">①②③ 공통 — 마지막엔 반드시 애플 툴체인을 지난다 (맥 필요 · 서명 · 심사)</text>
+  <text x="340" y="576" font-size="10.5" fill="#555555" text-anchor="middle">언어가 무엇이든 iOS 앱이 되려면 이 관문은 동일 — "언어는 자유, 툴체인은 의무"</text>
+  <rect x="660" y="530" width="210" height="58" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="765" y="556" font-size="12" font-weight="800" fill="#0F766E" text-anchor="middle">④만 관문 밖</text>
+  <text x="765" y="576" font-size="10" fill="#555555" text-anchor="middle">대신 네이티브 기능 포기</text>
+
+  <!-- 하단 결론 -->
+  <rect x="30" y="604" width="840" height="76" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="630" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">그래서 "Xcode에서 JS로 코딩하나?"의 답은 — 그렇게 하지 않는다</text>
+  <text x="450" y="654" font-size="11.5" fill="#AAB9CF" text-anchor="middle">JS는 VS Code에서 쓰고, Xcode는 <tspan fill="#7FD1A8" font-weight="700">마지막 포장(빌드·서명·제출) 단계에서만</tspan> 등장한다 — 코딩 도구가 아니라 출고 설비에 가깝다</text>
+  <text x="450" y="674" font-size="10.5" fill="#AAB9CF" text-anchor="middle">Xcode를 "IDE"로만 보면 헷갈리고, "애플이 요구하는 출고 라인"으로 보면 네 경로가 한눈에 정리된다</text>
+</svg>

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">Swift는 언제 필요한가 — 0%에서 100%까지</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">"필요/불필요"의 이분법이 아니다 — 내 코드에서 Swift가 차지하는 비율의 문제다</text>
+
+  <!-- 스펙트럼 바 -->
+  <rect x="40" y="84" width="820" height="28" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <rect x="40" y="84" width="230" height="28" rx="14" fill="#0F766E"/>
+  <rect x="270" y="84" width="300" height="28" fill="#1A5CB5"/>
+  <rect x="570" y="84" width="290" height="28" rx="14" fill="#DC2626"/>
+  <text x="155" y="103" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">Swift 0줄</text>
+  <text x="420" y="103" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">Swift 조금 (부분 삽입)</text>
+  <text x="715" y="103" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">Swift 전면</text>
+
+  <!-- 구간 1 -->
+  <rect x="40" y="132" width="255" height="210" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="167" y="160" font-size="14" font-weight="800" fill="#0F766E" text-anchor="middle">전혀 필요 없다</text>
+  <text x="58" y="188" font-size="10.5" fill="#555555">· 웹앱·PWA로 만든다</text>
+  <text x="58" y="210" font-size="10.5" fill="#555555">· React Native·Flutter로 만들고</text>
+  <text x="68" y="226" font-size="10.5" fill="#555555">표준 기능만 쓴다</text>
+  <text x="58" y="248" font-size="10.5" fill="#555555">· 필요한 기능의 플러그인이</text>
+  <text x="68" y="264" font-size="10.5" fill="#555555">이미 다 나와 있다</text>
+  <text x="58" y="292" font-size="10" font-weight="700" fill="#065F46">→ 대부분의 일반 앱이 여기</text>
+  <text x="58" y="312" font-size="10" fill="#666666">(로그인·목록·폼·결제·푸시 정도면</text>
+  <text x="58" y="328" font-size="10" fill="#666666">이미 만들어진 부품으로 충분)</text>
+
+  <!-- 구간 2 -->
+  <rect x="307" y="132" width="286" height="210" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="450" y="160" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">조금 필요하다 (부분 삽입)</text>
+  <text x="325" y="188" font-size="10.5" fill="#555555">· 새로 나온 기기 기능에 대응하는</text>
+  <text x="335" y="204" font-size="10.5" fill="#555555">플러그인이 아직 없다 → 브리지 직접</text>
+  <text x="325" y="226" font-size="10.5" fill="#555555">· 위젯 · 워치 앱 · 잠금화면 확장</text>
+  <text x="325" y="248" font-size="10.5" fill="#555555">· 애플 로그인·결제 등 OS 깊은 연동</text>
+  <text x="325" y="270" font-size="10.5" fill="#555555">· 특정 화면만 성능 최적화</text>
+  <text x="325" y="298" font-size="10" font-weight="700" fill="#1A5CB5">→ 전체 재작성이 아니라 "부품 하나"</text>
+  <text x="325" y="318" font-size="10" fill="#666666">앱의 99%는 JS·Dart 그대로 두고</text>
+  <text x="325" y="334" font-size="10" fill="#666666">Swift 파일 한두 개를 끼워 넣는다</text>
+
+  <!-- 구간 3 -->
+  <rect x="605" y="132" width="255" height="210" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="732" y="160" font-size="14" font-weight="800" fill="#DC2626" text-anchor="middle">전면 필요하다</text>
+  <text x="623" y="188" font-size="10.5" fill="#555555">· 애플 플랫폼 전용으로 간다</text>
+  <text x="623" y="210" font-size="10.5" fill="#555555">· 최신 OS 기능을 발표 당일 쓴다</text>
+  <text x="623" y="232" font-size="10.5" fill="#555555">· 극한의 성능·부드러움이 상품</text>
+  <text x="633" y="248" font-size="10.5" fill="#555555">(고급 카메라·게임·그래픽)</text>
+  <text x="623" y="270" font-size="10.5" fill="#555555">· 비전OS·워치 등 새 플랫폼 주력</text>
+  <text x="623" y="298" font-size="10" font-weight="700" fill="#DC2626">→ 대가: 안드로이드를 따로 만든다</text>
+  <text x="623" y="318" font-size="10" fill="#666666">개발 비용이 사실상 두 배 —</text>
+  <text x="623" y="334" font-size="10" fill="#666666">그만한 이유가 있을 때만</text>
+
+  <!-- 오해 정정 -->
+  <rect x="40" y="366" width="400" height="150" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="62" y="394" font-size="12.5" font-weight="800" fill="#B45309">흔한 오해 — "결국 Swift로 다시 짜야 한다"</text>
+  <text x="62" y="420" font-size="10.5" fill="#555555">아니다. 크로스플랫폼은 <tspan font-weight="700">Xcode 툴체인</tspan>을 못 벗어날 뿐,</text>
+  <text x="62" y="438" font-size="10.5" fill="#555555">코드를 Swift로 옮기라는 뜻이 아니다.</text>
+  <text x="62" y="462" font-size="10.5" fill="#555555">React Native 앱도 내 코드는 100% JS이고,</text>
+  <text x="62" y="480" font-size="10.5" fill="#555555">Xcode는 빌드·서명 때만 뒤에서 돈다.</text>
+  <text x="62" y="504" font-size="10.5" font-weight="700" fill="#B45309">의무는 "언어"가 아니라 "출고 라인"이다</text>
+
+  <!-- 백엔드 케이스 -->
+  <rect x="460" y="366" width="400" height="150" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
+  <text x="482" y="394" font-size="12.5" font-weight="800" fill="#0F766E">그리고 — 파이썬 서버라면 옮길 것이 없다</text>
+  <text x="482" y="420" font-size="10.5" fill="#555555">파이썬으로 만든 것이 백엔드·API·스크립트라면</text>
+  <text x="482" y="438" font-size="10.5" fill="#555555">그건 "앱"이 아니라 앱이 <tspan font-weight="700">호출할 상대</tspan>다.</text>
+  <text x="482" y="464" font-size="10.5" fill="#555555">파이썬 서버 ←── API ──→ iOS 앱 (새로 만듦)</text>
+  <text x="502" y="482" font-size="10.5" fill="#555555">그대로 유지 &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 화면만 추가</text>
+  <text x="482" y="506" font-size="10.5" font-weight="700" fill="#0F766E">마이그레이션 0 — 클라이언트를 하나 더 붙일 뿐</text>
+
+  <!-- 하단 -->
+  <rect x="40" y="536" width="820" height="66" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="562" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">판단 순서: ① 웹앱으로 될 일인가? → ② 크로스플랫폼 표준 부품으로 될 일인가? → ③ 안 되는 그 부분만 Swift</text>
+  <text x="450" y="584" font-size="11" fill="#AAB9CF" text-anchor="middle">"처음부터 Swift"는 애플 전용으로 갈 이유가 분명할 때의 선택이지, iOS 앱의 전제 조건이 아니다</text>
+</svg>
