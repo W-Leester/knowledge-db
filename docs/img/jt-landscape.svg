@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="700" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">2026 AI 직군 지형 — 이름은 어지럽지만 자리는 정해져 있다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">모델에서 멀어질수록 도메인 지식의 비중이 커진다 — 오른쪽이 요즘 인력이 몰리는 쪽</text>
+
+  <!-- 축 -->
+  <line x1="60" y1="640" x2="860" y2="640" stroke="#555555" stroke-width="2.5"/>
+  <text x="90" y="662" font-size="11" font-weight="800" fill="#1A5CB5">← 모델을 만든다</text>
+  <text x="830" y="662" font-size="11" font-weight="800" fill="#B45309" text-anchor="end">업무에 붙인다 →</text>
+  <text x="450" y="682" font-size="10.5" fill="#666666" text-anchor="middle">기술 깊이 중심 ←──────────────────────────→ 도메인·맥락 이해 중심</text>
+
+  <!-- 왼쪽: 모델 제작 -->
+  <rect x="50" y="84" width="180" height="530" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="140" y="112" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">모델을 만드는 쪽</text>
+  <text x="140" y="132" font-size="9.5" fill="#666666" text-anchor="middle">(소수 · 진입장벽 높음)</text>
+
+  <rect x="66" y="146" width="148" height="76" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="140" y="168" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">ML / 리서치 엔지니어</text>
+  <text x="140" y="188" font-size="9.5" fill="#555555" text-anchor="middle">학습·아키텍처·최적화</text>
+  <text x="140" y="206" font-size="9" fill="#666666" text-anchor="middle">파운데이션 모델을 만든다</text>
+
+  <rect x="66" y="234" width="148" height="76" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="140" y="256" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">AI Safety · 레드팀</text>
+  <text x="140" y="276" font-size="9.5" fill="#555555" text-anchor="middle">안전·오용 시험</text>
+  <text x="140" y="294" font-size="9" fill="#666666" text-anchor="middle">모델을 깨뜨려 본다</text>
+
+  <rect x="66" y="322" width="148" height="76" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="140" y="344" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">AI Ops · LLMOps</text>
+  <text x="140" y="364" font-size="9.5" fill="#555555" text-anchor="middle">서빙·모니터링·비용</text>
+  <text x="140" y="382" font-size="9" fill="#666666" text-anchor="middle">모델을 돌아가게 유지</text>
+
+  <!-- 중앙: 제품에 붙이는 쪽 -->
+  <rect x="248" y="84" width="300" height="530" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="398" y="112" font-size="13" font-weight="800" fill="#0F766E" text-anchor="middle">제품에 붙이는 쪽 (가장 큰 직군군)</text>
+  <text x="398" y="132" font-size="9.5" fill="#666666" text-anchor="middle">모델을 만들지 않고, 모델로 무언가를 만든다</text>
+
+  <rect x="264" y="146" width="268" height="72" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+  <text x="398" y="168" font-size="11.5" font-weight="800" fill="#0F766E" text-anchor="middle">AI Engineer / Applied AI Engineer</text>
+  <text x="398" y="188" font-size="9.5" fill="#555555" text-anchor="middle">파운데이션 모델을 제품 기능으로 — 가장 수요가 큰 자리</text>
+  <text x="398" y="206" font-size="9" fill="#666666" text-anchor="middle">「로컬 LLM 에이전트」의 내용 전반</text>
+
+  <rect x="264" y="230" width="268" height="72" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="398" y="252" font-size="11.5" font-weight="800" fill="#0F766E" text-anchor="middle">Context Engineer</text>
+  <text x="398" y="272" font-size="9.5" fill="#555555" text-anchor="middle">컨텍스트 설계·RAG·메모리로 모델을 정확한 정보에 접지</text>
+  <text x="398" y="290" font-size="9" fill="#666666" text-anchor="middle">프롬프트 엔지니어의 진화형</text>
+
+  <rect x="264" y="314" width="268" height="72" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="398" y="336" font-size="11.5" font-weight="800" fill="#0F766E" text-anchor="middle">Agent / Harness Engineer</text>
+  <text x="398" y="356" font-size="9.5" fill="#555555" text-anchor="middle">에이전트 루프·도구·실패 격리·오케스트레이션 설계</text>
+  <text x="398" y="374" font-size="9" fill="#666666" text-anchor="middle">「클로드 확장하기」 §8·§10</text>
+
+  <rect x="264" y="398" width="268" height="72" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+  <text x="398" y="420" font-size="11.5" font-weight="800" fill="#0F766E" text-anchor="middle">AI Evals Engineer</text>
+  <text x="398" y="440" font-size="9.5" fill="#555555" text-anchor="middle">평가 하네스·정답 데이터셋·LLM-as-a-Judge·텔레메트리</text>
+  <text x="398" y="458" font-size="9" fill="#666666" text-anchor="middle">「LLM-as-a-Judge」 문서가 이 직무의 교재</text>
+
+  <rect x="264" y="482" width="268" height="72" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="398" y="504" font-size="11.5" font-weight="800" fill="#0F766E" text-anchor="middle">Spec Engineer</text>
+  <text x="398" y="524" font-size="9.5" fill="#555555" text-anchor="middle">AI가 실행할 명세를 정밀하게 쓰는 일 — 요구를 코드 이전에 확정</text>
+  <text x="398" y="542" font-size="9" fill="#666666" text-anchor="middle">「AI 시대의 개발 프로세스」 §2-① 의도 정의</text>
+
+  <rect x="264" y="566" width="268" height="40" rx="10" fill="#F2EDE4"/>
+  <text x="398" y="591" font-size="10" fill="#555555" text-anchor="middle">+ AI Product Manager · 데이터/온톨로지 엔지니어</text>
+
+  <!-- 오른쪽: 현장에 꽂는 쪽 -->
+  <rect x="566" y="84" width="290" height="530" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
+  <text x="711" y="112" font-size="13" font-weight="800" fill="#B45309" text-anchor="middle">현장에 꽂는 쪽 (마지막 1마일)</text>
+  <text x="711" y="132" font-size="9.5" fill="#666666" text-anchor="middle">도메인 지식이 기술 깊이보다 중요해지는 구간</text>
+
+  <rect x="582" y="146" width="258" height="86" rx="10" fill="#FFFFFF" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="711" y="168" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">🎯 FDE (Forward Deployed Engineer)</text>
+  <text x="711" y="188" font-size="9.5" fill="#555555" text-anchor="middle">고객사에 임베드 — 발굴부터 정착까지 소유</text>
+  <text x="711" y="206" font-size="9.5" fill="#555555" text-anchor="middle">AI 업계 최고 대우 제너럴리스트로 꼽힌다</text>
+  <text x="711" y="224" font-size="9" fill="#666666" text-anchor="middle">기술 → 도메인 방향</text>
+
+  <rect x="582" y="244" width="258" height="96" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="711" y="266" font-size="12" font-weight="800" fill="#0F766E" text-anchor="middle">🔄 도메인 전문가 + 바이브코딩</text>
+  <text x="711" y="286" font-size="9.5" fill="#555555" text-anchor="middle">Internal FDE · Business Technologist ·</text>
+  <text x="711" y="302" font-size="9.5" fill="#555555" text-anchor="middle">AI-first Developer · Citizen Developer</text>
+  <text x="711" y="322" font-size="9.5" fill="#555555" text-anchor="middle">이름은 미정착 — 실체는 FDE의 거울상</text>
+  <text x="711" y="336" font-size="9" fill="#666666" text-anchor="middle">도메인 → 기술 방향 (§2)</text>
+
+  <rect x="582" y="352" width="258" height="80" rx="10" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="711" y="374" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">도메인 전문가 트레이너</text>
+  <text x="711" y="394" font-size="9.5" fill="#555555" text-anchor="middle">변호사·의사·엔지니어가 모델 학습·평가에</text>
+  <text x="711" y="410" font-size="9.5" fill="#555555" text-anchor="middle">직접 참여 — 프론티어 랩이 대거 채용</text>
+  <text x="711" y="426" font-size="9" fill="#666666" text-anchor="middle">"코딩 없이" 참여하는 경로</text>
+
+  <rect x="582" y="444" width="258" height="76" rx="10" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="711" y="466" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">사내 AI 도입 리드 · Enablement</text>
+  <text x="711" y="486" font-size="9.5" fill="#555555" text-anchor="middle">조직의 워크플로를 AI로 재설계</text>
+  <text x="711" y="504" font-size="9.5" fill="#555555" text-anchor="middle">규칙·가드레일·교육까지 (룰 파일의 자리)</text>
+
+  <rect x="582" y="532" width="258" height="74" rx="10" fill="#0D1B2E"/>
+  <text x="711" y="556" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">공통 채용 기준의 변화</text>
+  <text x="711" y="576" font-size="9.5" fill="#AAB9CF" text-anchor="middle">학위·자격증보다 <tspan fill="#7FD1A8">결과물 증거</tspan> —</text>
+  <text x="711" y="592" font-size="9.5" fill="#AAB9CF" text-anchor="middle">저장소·배포한 에이전트·평가 스위트</text>
+</svg>

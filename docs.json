@@ -135,6 +135,29 @@
       ]
     },
     {
+      "id": "job-landscape",
+      "title": "AI 시대의 직무 지형",
+      "desc": "FDE와 그 거울상 — 마지막 1마일을 누가 뚫는가, 그리고 코드가 싸질 때 값이 오르는 것",
+      "file": "docs/job-landscape.html",
+      "group": "Software · Dev",
+      "icon": "🧭",
+      "gradient": [
+        "#0D1B2E",
+        "#7C3AED"
+      ],
+      "tags": [
+        "FDE",
+        "AI 직군",
+        "도메인 지식"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/jt-ownership.svg",
+        "docs/img/jt-last-mile.svg",
+        "docs/img/jt-landscape.svg"
+      ]
+    },
+    {
       "id": "network-comm",
       "title": "네트워크 통신 정리",
       "desc": "IP·TCP·DNS부터 HTTP·HTTPS·REST, 그리고 WebSocket 실시간까지",

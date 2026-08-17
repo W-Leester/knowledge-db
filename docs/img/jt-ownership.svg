@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="jto" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">비슷한 직무들의 갈림길은 "소유권"이다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">언제 개입하고, 무엇을 남기고 떠나는가 — FDE만 "작동하는 시스템"을 남긴다</text>
+
+  <!-- 타임라인 -->
+  <line x1="60" y1="112" x2="840" y2="112" stroke="#D5CFBF" stroke-width="3"/>
+  <text x="150" y="98" font-size="11" font-weight="800" fill="#666666" text-anchor="middle">계약 전</text>
+  <text x="380" y="98" font-size="11" font-weight="800" fill="#666666" text-anchor="middle">계약</text>
+  <text x="650" y="98" font-size="11" font-weight="800" fill="#666666" text-anchor="middle">계약 후 — 실제 구축·정착</text>
+  <line x1="380" y1="88" x2="380" y2="136" stroke="#8A8478" stroke-width="2" stroke-dasharray="4 4"/>
+
+  <!-- 세일즈 엔지니어 -->
+  <rect x="60" y="146" width="300" height="86" rx="12" fill="#F2EDE4" stroke="#8A8478" stroke-width="2"/>
+  <text x="80" y="172" font-size="13" font-weight="800" fill="#555555">세일즈 엔지니어 (Pre-sales)</text>
+  <text x="80" y="194" font-size="10.5" fill="#555555">데모 · 기술 설득 · 가능성 입증</text>
+  <text x="80" y="214" font-size="10" fill="#666666">남기는 것: <tspan font-weight="700">확신</tspan> — 계약이 되면 임무 종료</text>
+
+  <!-- 솔루션 아키텍트 -->
+  <rect x="60" y="246" width="480" height="86" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="80" y="272" font-size="13" font-weight="800" fill="#002C5F">솔루션 아키텍트</text>
+  <text x="80" y="294" font-size="10.5" fill="#555555">요구 분석 · 아키텍처 설계 · 기술 자문</text>
+  <text x="80" y="314" font-size="10" fill="#666666">남기는 것: <tspan font-weight="700">설계도</tspan> — 구현은 다른 팀에 <u>인계</u>한다</text>
+  <line x1="540" y1="289" x2="576" y2="289" stroke="#1A5CB5" stroke-width="2.2" marker-end="url(#jto)"/>
+  <text x="640" y="285" font-size="10.5" font-weight="700" fill="#1A5CB5">여기서 손을 뗀다</text>
+  <text x="640" y="303" font-size="9.5" fill="#666666">→ 인계 지점에서 정보가 새기 시작</text>
+
+  <!-- 컨설턴트 -->
+  <rect x="60" y="346" width="420" height="86" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="80" y="372" font-size="13" font-weight="800" fill="#6B21A8">컨설턴트</text>
+  <text x="80" y="394" font-size="10.5" fill="#555555">프로세스 진단 · 전략 · 조직 변화 권고</text>
+  <text x="80" y="414" font-size="10" fill="#666666">남기는 것: <tspan font-weight="700">보고서</tspan> — 코드는 쓰지 않는다</text>
+
+  <!-- FDE -->
+  <rect x="60" y="446" width="780" height="100" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="3.5"/>
+  <text x="80" y="474" font-size="14.5" font-weight="800" fill="#B45309">🎯 FDE (Forward Deployed Engineer)</text>
+  <text x="80" y="498" font-size="11" fill="#555555">발굴 · 설계 · <tspan font-weight="700">구현</tspan> · 통합 · 평가 · 정착까지 — 고객 현장에서 끝까지</text>
+  <text x="80" y="520" font-size="11" fill="#555555">남기는 것: <tspan font-weight="800" fill="#B45309">작동하는 시스템</tspan> — 인계 지점이 없다 (자기가 만들고 자기가 책임진다)</text>
+  <text x="80" y="540" font-size="10" fill="#666666">정체: 소프트웨어 엔지니어 + 솔루션 아키텍트 + 컨설턴트 + 스타트업 CTO의 하이브리드</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="566" width="840" height="44" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="590" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">핵심 판별 질문: "이 사람은 무엇을 남기고 떠나는가?" — 확신 / 설계도 / 보고서 / <tspan fill="#7FD1A8">작동하는 시스템</tspan></text>
+  <text x="450" y="606" font-size="10.5" fill="#AAB9CF" text-anchor="middle">직함은 회사마다 다르므로, 이름이 아니라 이 질문으로 판단하는 것이 안전하다</text>
+</svg>

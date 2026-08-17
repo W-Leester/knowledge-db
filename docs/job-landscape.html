@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 시대의 직무 지형 — FDE와 그 거울상</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #7C3AED 55%, #E8962A 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<style>
+/* ── 직무 지형 문서 전용: 두 경로 수렴 애니메이션 ── */
+.jt-anim { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 14px 8px; margin: var(--sp-4) 0; }
+.jt-anim figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding: 8px 0 6px; }
+@keyframes jtMoveR { 0%, 6% { transform: translateX(0); } 62%, 100% { transform: translateX(268px); } }
+@keyframes jtMoveL { 0%, 6% { transform: translateX(0); } 62%, 100% { transform: translateX(-268px); } }
+.jt-tech { animation: jtMoveR 11s ease-in-out infinite; }
+.jt-domain { animation: jtMoveL 11s ease-in-out infinite; }
+@keyframes jtGainA { 0%, 18% { opacity: 0; } 26%, 100% { opacity: 1; } }
+@keyframes jtGainB { 0%, 34% { opacity: 0; } 42%, 100% { opacity: 1; } }
+.jt-gain-a { opacity: 0; animation: jtGainA 11s ease-in-out infinite; }
+.jt-gain-b { opacity: 0; animation: jtGainB 11s ease-in-out infinite; }
+@keyframes jtMeet { 0%, 60% { opacity: 0; transform: scale(.85); } 70% { opacity: 1; transform: scale(1.04); } 76%, 100% { opacity: 1; transform: scale(1); } }
+.jt-meet { opacity: 0; transform-box: fill-box; transform-origin: center; animation: jtMeet 11s ease-in-out infinite; }
+@keyframes jtPulse { 0%, 62% { opacity: 0; } 70% { opacity: .55; } 84% { opacity: .15; } 100% { opacity: .4; } }
+.jt-halo { opacity: 0; animation: jtPulse 11s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .jt-anim * { animation: none !important; }
+  .jt-gain-a, .jt-gain-b, .jt-meet, .jt-halo { opacity: 1 !important; }
+  .jt-tech { transform: translateX(200px); } .jt-domain { transform: translateX(-200px); }
+}
+@media (max-width: 720px) { .jt-anim .fig-scroll svg { min-width: 860px; } }
+</style>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>AI 시대의<br>직무 지형</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#fde">1. FDE — 마지막 1마일의 직무</a>
+    <a href="#f-what" class="sub">1-A. 무엇을 남기고 떠나는가</a>
+    <a href="#f-why" class="sub">1-B. 왜 지금 폭발했나</a>
+    <a href="#mirror">2. 거울상 — 도메인 전문가의 경로</a>
+    <a href="#m-converge" class="sub">2-1. 두 경로의 수렴</a>
+    <a href="#m-gap" class="sub">2-2. 만드는 것 vs 책임지는 것</a>
+    <a href="#landscape">3. 2026 직군 지형</a>
+    <a href="#business">4. 사업 모델로 보면</a>
+    <a href="#self">5. 나는 어디에 서 있나</a>
+    <a href="#refs">6. 함께 읽기</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.08</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Career · Organization</div>
+  <h1>AI 시대의 직무 지형<br><span class="thin">FDE와 그 거울상 — 코드가 싸질 때 값이 오르는 것</span></h1>
+  <p class="sub">모델은 범용인데 가치는 특수한 업무 맥락에서만 나온다.
+  그 사이의 <strong>마지막 1마일</strong>을 누가 뚫는가에서 새 직무들이 태어났다 —
+  엔지니어를 현장에 보내는 <strong>FDE</strong>, 그리고 현장 사람에게 구현 능력을 주는
+  <strong>그 거울상</strong>. 두 경로가 어디서 만나는지, 그리고 2026년의 직군 이름들이
+  실제로 무엇을 소유하는지 정리한다.</p>
+  <div class="tags">
+    <span class="tag">FDE</span><span class="tag">Context Engineer</span><span class="tag">Evals Engineer</span>
+    <span class="tag">바이브코딩</span><span class="tag">도메인 지식</span><span class="tag">책임의 경계</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 관통하는 한 문장</h2>
+    <p>이 문서의 모든 내용이 여기서 파생된다</p>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🎯</span>
+    <div style="font-size:14.5px"><strong>모델은 범용인데, 가치는 특수한 맥락에서만 나온다.</strong><br>
+    <span style="font-size:13px">그래서 <u>코드 생산이 싸질수록 "무엇을 만들어야 하는지 아는 것"의 값이 오른다</u> —
+    2026년의 새 직무들은 전부 이 명제의 파생물이다.</span></div>
+  </div>
+
+  <div class="card-grid g4">
+    <div class="stat-card"><div class="stat-value">1마일</div><div class="stat-label">모델과 실제 업무 사이<br>— 새 직무들의 서식지 (§1)</div></div>
+    <div class="stat-card"><div class="stat-value">2방향</div><div class="stat-label">기술→도메인(FDE) vs<br>도메인→기술 (§2)</div></div>
+    <div class="stat-card"><div class="stat-value">소유권</div><div class="stat-label">직함이 아니라<br>"무엇을 남기나"로 판단 (§1-A)</div></div>
+    <div class="stat-card"><div class="stat-value">경계</div><div class="stat-label">만드는 것과 책임지는<br>것은 다르다 (§2-2)</div></div>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">⚠️</span>
+    <div><strong>미리 밝히는 것 —</strong> 이 문서의 직함·보상·채용 동향은 <u>2026년 8월 시점의 개략</u>이고,
+    출처마다 수치 차이가 크다. 업계에서도 작명이 정리되지 않아 같은 일을 회사마다 다르게 부른다 —
+    그래서 이 문서는 <strong>이름을 외우는 대신 "무엇을 소유하는가"로 읽는 법</strong>을 제안한다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. FDE ═══════════ -->
+<section id="fde">
+  <div class="section-header">
+    <div class="eyebrow">The Role</div>
+    <h2>1. FDE — 마지막 1마일을 걷는 직무</h2>
+    <p>Forward Deployed Engineer · 전방 배치 엔지니어</p>
+  </div>
+
+  <p class="body"><strong>FDE</strong>는 "전방 배치"라는 군사 표현 그대로, <u>엔지니어를 고객사 안에 밀어 넣는</u> 직무다.
+  Palantir가 2000년대 중반에 만들었고(내부적으로 FDSE라고도 부른다), 핵심은 한 줄로 압축된다 —
+  <strong>슬라이드나 문서가 아니라, 고객 현장에서 작동하는 프로덕션 코드를 직접 쓴다.</strong></p>
+
+  <h3 id="f-what"><span class="num">A</span>기존 직무와 무엇이 다른가 — "무엇을 남기고 떠나는가"</h3>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/jt-ownership.svg" alt="세일즈 엔지니어·솔루션 아키텍트·컨설턴트·FDE가 각각 언제 개입해 무엇을 남기는지 비교한 타임라인"></div>
+    <figcaption>확신 / 설계도 / 보고서 / <strong>작동하는 시스템</strong> — FDE만 인계 지점이 없다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">직무</th><th style="width:130px">개입 시점</th><th style="width:150px">남기는 것</th><th>결정적 차이</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">세일즈 엔지니어</td><td>계약 <u>전</u></td><td>확신</td><td>계약이 성사되면 임무가 끝난다</td></tr>
+        <tr><td class="hl">솔루션 아키텍트</td><td>계약 전후</td><td>설계도·자문</td><td>구현은 <strong>다른 팀에 인계</strong> — 인계 지점에서 맥락이 샌다</td></tr>
+        <tr><td class="hl">컨설턴트</td><td>프로세스 단계</td><td>보고서·권고</td><td>코드를 쓰지 않는다</td></tr>
+        <tr><td class="hl">FDE</td><td>계약 <u>후</u>, 끝까지</td><td><strong>작동하는 시스템</strong></td><td><u>인계 지점이 없다</u> — 자기가 만들고 자기가 책임진다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🧩</span>
+    <div><strong>FDE의 정체를 한 줄로 —</strong> 업계에서 흔히 이렇게 묘사된다:
+    <em>"소프트웨어 엔지니어 + 솔루션 아키텍트 + 컨설턴트 + 스타트업 CTO의 하이브리드."</em>
+    그래서 희소하고, 그래서 비싸다 — AI 업계에서 <u>가장 높은 대우를 받는 제너럴리스트 직무</u>로 꼽히며,
+    프론티어 랩의 시니어급은 Palantir 대비 배수로 받는다는 보고가 있다(차이는 대부분 지분에서 발생 — 개략치).</div>
+  </div>
+
+  <h3 id="f-why"><span class="num">B</span>왜 지금 폭발했나 — 진단이 바뀌었다</h3>
+
+  <p class="body">핵심 논리는 이것이다: <strong>엔터프라이즈 AI 파일럿이 실패하는 이유는 모델이 약해서가 아니라
+  "배치(deployment)"가 깨져서</strong>라는 진단. 파운데이션 모델은 강력하지만 아무 업무에도 특화돼 있지 않고,
+  실제 가치는 <u>이 회사의 데이터 형식·레거시 시스템·업무 순서·예외 규칙</u>에 붙을 때만 발생한다.
+  그 구간이 <strong>누구의 몫도 아니었던 마지막 1마일</strong>이다:</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/jt-last-mile.svg" alt="파운데이션 모델에서 제품, 마지막 1마일, 실제 가치로 이어지는 흐름과 두 가지 해법"></div>
+    <figcaption>모델 → 제품까지는 공급사의 몫, 그 다음 1마일이 파일럿의 무덤 — 이 구간을 누가 뚫는가에서 두 답이 갈린다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">Palantir가 "너무 비싸고 이상해서 아무도 따라 하지 않던" 모델이 갑자기 표준이 된 것도 이 진단 때문이다.
+  <strong>2026년 현재 OpenAI·Anthropic·Google이 이 모델을 명시적 엔터프라이즈 전략으로 채택</strong>했고,
+  Scale AI·Harvey·Mistral·Cohere·Databricks 등 대형 AI 스타트업 대부분이 변형된 형태로 운영한다.</p>
+</section>
+
+<!-- ═══════════ 2. MIRROR ═══════════ -->
+<section id="mirror">
+  <div class="section-header">
+    <div class="eyebrow">The Mirror Image</div>
+    <h2>2. 거울상 — 도메인 전문가가 구현 능력을 얻을 때</h2>
+    <p>같은 목적지, 정반대 출발점</p>
+  </div>
+
+  <p class="body">FDE 모델이 비싸고 희소한 이유는 <strong>"도메인 이해 + 구현 능력"의 결합이 드물어서</strong>다.
+  그런데 이 결합을 만드는 길은 하나가 아니다 — <u>엔지니어에게 도메인을 주입</u>하는 길(FDE)과,
+  <u>도메인 전문가에게 구현 능력을 주입</u>하는 길이 있다. 후자가 바이브코딩으로 갑자기 열렸다.</p>
+
+  <h3 id="m-converge">2-1. 두 경로의 수렴 — 어디서 만나는가</h3>
+
+  <figure class="jt-anim">
+    <div class="fig-scroll">
+    <svg viewBox="0 0 900 400" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" style="width:100%;display:block">
+      <!-- 중앙 목표 -->
+      <circle cx="450" cy="180" r="86" fill="#FEF3E2" opacity=".5" class="jt-halo"/>
+      <g class="jt-meet">
+        <rect x="336" y="128" width="228" height="104" rx="14" fill="#0D1B2E"/>
+        <text x="450" y="156" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">🎯 도착점</text>
+        <text x="450" y="180" font-size="11.5" font-weight="700" fill="#7FD1A8" text-anchor="middle">도메인을 알면서</text>
+        <text x="450" y="200" font-size="11.5" font-weight="700" fill="#7FD1A8" text-anchor="middle">직접 만들 수 있는 사람</text>
+        <text x="450" y="220" font-size="9.5" fill="#AAB9CF" text-anchor="middle">이 조합이 희소해서 값이 비싸다</text>
+      </g>
+
+      <!-- 왼쪽 출발: 기술자 -->
+      <text x="120" y="40" font-size="12" font-weight="800" fill="#1A5CB5" text-anchor="middle">경로 ① FDE</text>
+      <text x="120" y="58" font-size="10" fill="#666666" text-anchor="middle">기술 → 도메인</text>
+      <g class="jt-tech">
+        <rect x="40" y="72" width="160" height="72" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+        <text x="120" y="98" font-size="12" font-weight="800" fill="#002C5F" text-anchor="middle">👩‍💻 엔지니어</text>
+        <text x="120" y="118" font-size="10" fill="#555555" text-anchor="middle">구현 능력 ✓</text>
+        <text x="120" y="134" font-size="10" fill="#DC2626" text-anchor="middle">도메인 ✕</text>
+      </g>
+      <g class="jt-gain-a">
+        <rect x="216" y="80" width="96" height="56" rx="9" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5" stroke-dasharray="5 3"/>
+        <text x="264" y="102" font-size="10" font-weight="800" fill="#1A5CB5" text-anchor="middle">현장에 상주</text>
+        <text x="264" y="120" font-size="9" fill="#666666" text-anchor="middle">도메인 흡수</text>
+        <text x="264" y="132" font-size="9" font-weight="700" fill="#B45309" text-anchor="middle">수개월</text>
+      </g>
+
+      <!-- 오른쪽 출발: 도메인 전문가 -->
+      <text x="780" y="40" font-size="12" font-weight="800" fill="#0F766E" text-anchor="middle">경로 ② 거울상</text>
+      <text x="780" y="58" font-size="10" fill="#666666" text-anchor="middle">도메인 → 기술</text>
+      <g class="jt-domain">
+        <rect x="700" y="72" width="160" height="72" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+        <text x="780" y="98" font-size="12" font-weight="800" fill="#0F766E" text-anchor="middle">🧑‍🔧 도메인 전문가</text>
+        <text x="780" y="118" font-size="10" fill="#555555" text-anchor="middle">도메인 ✓</text>
+        <text x="780" y="134" font-size="10" fill="#DC2626" text-anchor="middle">구현 능력 ✕</text>
+      </g>
+      <g class="jt-gain-b">
+        <rect x="588" y="80" width="96" height="56" rx="9" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5" stroke-dasharray="5 3"/>
+        <text x="636" y="102" font-size="10" font-weight="800" fill="#0F766E" text-anchor="middle">바이브코딩</text>
+        <text x="636" y="120" font-size="9" fill="#666666" text-anchor="middle">구현 능력 획득</text>
+        <text x="636" y="132" font-size="9" font-weight="700" fill="#065F46" text-anchor="middle">수주</text>
+      </g>
+
+      <!-- 화살표 트랙 -->
+      <line x1="40" y1="264" x2="410" y2="264" stroke="#1A5CB5" stroke-width="2" stroke-dasharray="7 5"/>
+      <polygon points="418,264 406,258 406,270" fill="#1A5CB5"/>
+      <line x1="860" y1="292" x2="490" y2="292" stroke="#0F766E" stroke-width="2" stroke-dasharray="7 5"/>
+      <polygon points="482,292 494,286 494,298" fill="#0F766E"/>
+      <text x="200" y="256" font-size="10" fill="#1A5CB5" font-weight="700">외부에서 안으로 들어간다</text>
+      <text x="700" y="284" font-size="10" fill="#0F766E" font-weight="700" text-anchor="end">처음부터 안에 있다 (발굴 비용 0)</text>
+
+      <!-- 하단 -->
+      <rect x="40" y="316" width="820" height="66" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+      <text x="450" y="340" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">경쟁이 아니라 같은 병목에 대한 반대 방향 접근이다</text>
+      <text x="450" y="360" font-size="11" fill="#555555" text-anchor="middle">그리고 ②가 더 빠를 수 있다 — 도메인 지식은 몇 달로 안 되지만, 코딩은 AI가 상당 부분 대신하므로</text>
+      <text x="450" y="376" font-size="10" fill="#666666" text-anchor="middle">단, 도착점에서 두 사람이 감당하는 "책임의 범위"는 여전히 다르다 (§2-2)</text>
+    </svg>
+    </div>
+    <figcaption>양쪽에서 출발해 중앙에서 만난다 — 각자 없던 것을 획득하는 구간(점선 상자)의 소요 시간이 다르다 (동작 줄이기 설정 시 정지 상태로 표시)</figcaption>
+  </figure>
+
+  <p class="body">그리고 이런 사람들을 부르는 이름은 <strong>아직 정착되지 않았다</strong> — 회사마다 다르게 쓴다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:190px">이름</th><th style="width:210px">뉘앙스</th><th>평가</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Internal FDE</td><td>사내에 배치된 FDE</td><td><strong>가장 정확한 표현</strong> — 실제로 이렇게 쓰는 기업이 있다</td></tr>
+        <tr><td class="hl">Citizen Developer</td><td>IT 부서 밖 직원이 도구를 만든다</td><td>노코드 시대의 용어 — "본업이 아닌 사람"이라는 <u>낮춰보는 뉘앙스</u>가 있어 AI 시대엔 부족하다</td></tr>
+        <tr><td class="hl">Business Technologist</td><td>업무와 기술의 경계 인력</td><td>컨설팅·리서치 업계 용어. 중립적이지만 추상적</td></tr>
+        <tr><td class="hl">AI-first Developer</td><td>AI 에이전트를 지휘해 프로덕션 품질을 만드는 사람</td><td>2026년에 뜬 표현 — <u>출발점(도메인/기술)을 묻지 않는다</u>는 점이 특징</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">📈</span>
+    <div><strong>실제로 벌어지고 있는 일 —</strong> 바이브코딩 플랫폼의 활성 사용자 다수가 비개발자라는 보고가 있고,
+    <u>"엔지니어링 팀을 몇 달 기다려야 했던 내부 도구를, 워크플로를 아는 운영 담당자가 직접 만든다"</u>는 사례가 흔해졌다.
+    조직 관점에서 이 경로가 매력적인 이유는 명확하다 — <strong>FDE를 외부에서 데려와도 도메인 학습에 몇 달이 든다.</strong>
+    내부 전문가는 그 몇 달을 이미 갖고 있다.</div>
+  </div>
+
+  <h3 id="m-gap">2-2. 만드는 것 vs 책임지는 것 — 정직한 경계</h3>
+
+  <p class="body">다만 도착점에서 두 사람이 감당하는 범위는 다르다. 이 지식 베이스를 관통하는 주제가 여기서도 반복된다 —
+  <strong>만들 수 있다는 것과 책임질 수 있다는 것은 다른 문제다.</strong></p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:230px">바이브코딩으로 쉽게 얻는 것</th><th>여전히 어려운 것</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">프로토타입 — "이게 가능한가" 검증</td><td><strong>프로덕션 운영</strong> — 보안·성능·장애 대응·온콜</td></tr>
+        <tr><td class="hl">내부 도구 · 업무 자동화</td><td><strong>시스템 설계</strong> — 다른 시스템과의 통합, 확장 대비</td></tr>
+        <tr><td class="hl">데이터 분석 · 리포트 생성</td><td><strong>유지보수 가능한 코드</strong> — 6개월 뒤 남이 고칠 수 있는가</td></tr>
+        <tr><td class="hl">기존 SaaS를 대체하는 사내 앱</td><td><strong>고객 데이터의 책임</strong> — 「SaaS 해부」의 "책임의 구독"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🚧</span>
+    <div><strong>그래서 실무적 결론은 경계선을 긋는 것이다 —</strong>
+    <u>내부 도구·검증·자동화까지는 도메인 전문가가 압도적으로 유리하다</u>(발굴 비용이 0이므로).
+    <u>고객에게 나가는 제품·안전이 걸린 시스템은 책임을 나눠야 한다</u> —
+    「AI 시대의 개발 프로세스」 §4의 리뷰 피라미드가 그 경계를 그리는 도구고,
+    「기능안전과 워치독」이 다룬 영역은 애초에 개인이 감당할 층이 아니다.
+    <strong>"어디까지 내가 책임지는가"를 먼저 정하는 것이 새 역할의 실질적 정의다.</strong></div>
+  </div>
+</section>
+
+<!-- ═══════════ 3. LANDSCAPE ═══════════ -->
+<section id="landscape">
+  <div class="section-header">
+    <div class="eyebrow">The Map</div>
+    <h2>3. 2026 직군 지형 — 이름은 어지럽지만 자리는 정해져 있다</h2>
+    <p>모델에서 멀어질수록 도메인 지식의 비중이 커진다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/jt-landscape.svg" alt="모델을 만드는 쪽, 제품에 붙이는 쪽, 현장에 꽂는 쪽으로 나뉜 2026 AI 직군 지도"></div>
+    <figcaption>왼쪽은 기술 깊이, 오른쪽은 도메인·맥락 — 요즘 인력이 몰리는 쪽은 오른쪽이다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:180px">직군</th><th style="width:270px">무엇을 하나</th><th>이 지식 베이스와의 연결</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">AI Engineer /<br>Applied AI Engineer</td><td>모델을 <u>만드는</u> 게 아니라 <strong>파운데이션 모델을 제품 기능으로</strong> 붙인다 — 수요가 가장 큰 자리</td><td>「로컬 LLM 에이전트」 전반</td></tr>
+        <tr><td class="hl">Context Engineer</td><td>컨텍스트 설계·RAG·메모리로 모델을 <strong>정확한 정보에 접지</strong>시킨다 — 프롬프트 엔지니어의 진화형</td><td>「클로드 확장하기」의 계보 (프롬프트→하네스→루프→그래프)</td></tr>
+        <tr><td class="hl">AI Evals Engineer</td><td>평가 하네스·정답 데이터셋·<strong>LLM-as-a-Judge 파이프라인</strong>·프로덕션 텔레메트리</td><td><strong>「LLM-as-a-Judge」 문서가 통째로 이 직무의 교재</strong></td></tr>
+        <tr><td class="hl">Agent /<br>Harness Engineer</td><td>에이전트 루프·도구·실패 격리·오케스트레이션 설계</td><td>「클로드 확장하기」 §8·§10 · 「로컬 LLM 코딩 공장」</td></tr>
+        <tr><td class="hl">Spec Engineer</td><td>AI가 실행할 <strong>명세를 정밀하게</strong> 쓴다 — 요구를 코드 이전에 확정</td><td>「AI 시대의 개발 프로세스」 §2-① 의도 정의</td></tr>
+        <tr><td class="hl">AI Ops / LLMOps</td><td>서빙·모니터링·비용 관리</td><td>「SaaS 해부」 §4-D · 「로컬 LLM 코딩 공장」</td></tr>
+        <tr><td class="hl">도메인 전문가<br>트레이너</td><td>변호사·의사·엔지니어가 <strong>모델 학습·평가에 직접 참여</strong> — 프론티어 랩이 대거 채용</td><td>코딩 없이 도메인만으로 참여하는 경로</td></tr>
+        <tr><td class="hl">사내 AI 도입 리드<br>(Enablement)</td><td>조직의 워크플로를 AI로 재설계 — 규칙·가드레일·교육까지</td><td><strong>rules/LICENSE-RULES.md 같은 룰 파일의 자리</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">🏷</span>
+    <div><strong>작명 재앙 — 직함을 믿지 말 것.</strong> 업계에서도 2026년의 AI 직함 상황을
+    <em>"업계가 만들어낸 최악의 작명 재앙"</em>이라 부를 정도로 정리가 안 돼 있다 —
+    같은 일을 회사마다 다르게 부르고, 같은 이름이 회사마다 다른 일을 뜻한다.
+    그래서 채용 공고를 볼 때는 <u>제목이 아니라 §1-A의 질문</u>으로 판단하는 게 안전하다:
+    <strong>"이 자리는 무엇을 남기고 떠나는가?"</strong></div>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">📂</span>
+    <div><strong>채용 기준의 공통 변화 —</strong> 이 직군들은 학위·자격증보다 <strong>결과물 증거</strong>로 뽑는다는
+    보고가 일관된다: <u>저장소·배포한 에이전트·평가 스위트·실제 도입 사례</u>.
+    바꿔 말하면 <strong>만들어 본 것이 이력서</strong>다 — 도메인 전문가에게 유리한 판이기도 하다(현장 문제를 이미 알고 있으므로).</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. BUSINESS ═══════════ -->
+<section id="business">
+  <div class="section-header">
+    <div class="eyebrow">Business Model</div>
+    <h2>4. 사업 모델로 보면 — 「SaaS 해부」의 반대편</h2>
+    <p>한계비용 0을 포기하고 얻는 것</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px"></th><th>전형적 SaaS (셀프서브)</th><th>FDE 모델</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">고객 추가 비용</td><td><strong>≈ 0</strong> — 멀티테넌시 (「SaaS 해부」 §2)</td><td><strong>높다</strong> — 사람이 붙는다</td></tr>
+        <tr><td class="hl">도입 방식</td><td>가입하면 알아서 씀 (PLG)</td><td>엔지니어가 들어가 함께 만든다</td></tr>
+        <tr><td class="hl">단가</td><td>월 구독 (소액 다수)</td><td>엔터프라이즈 계약 (고액 소수)</td></tr>
+        <tr><td class="hl">확장의 원리</td><td>제품이 알아서 팔린다</td><td><u>현장에서 배운 것을 제품으로 역류</u> → 다음 고객은 더 싸게</td></tr>
+        <tr><td class="hl">경쟁 우위</td><td>제품 품질·가격</td><td><strong>도입 마찰 자체가 진입장벽</strong> — 경쟁자도 같은 1마일을 걸어야 한다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>이것은 "확장되지 않는 일을 하라"의 제도화다 —</strong>
+    스타트업 조언으로 유명한 <em>"Do things that don't scale"</em>을 조직 차원의 직무로 굳힌 것이 FDE다.
+    그리고 「SaaS 해부」 §6에서 다룬 "큰 고객의 단일 테넌트 요구"에 <u>사람으로 답하는 방식</u>이기도 하다.<br>
+    <strong>여기서 바이브코딩이 결정적으로 개입한다</strong> — 예전엔 고객사 맞춤 구현이 너무 비싸 "확장 불가"로 취급됐지만,
+    AI 도구가 구현 단가를 끌어내리자 <u>"사람이 붙는 모델"이 다시 계산에 맞게</u> 됐다.
+    FDE 붐의 절반은 진단의 변화(§1-B), 나머지 절반은 이 경제성의 변화다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. SELF ═══════════ -->
+<section id="self">
+  <div class="section-header">
+    <div class="eyebrow">Self-diagnosis</div>
+    <h2>5. 나는 어디에 서 있나</h2>
+    <p>이름을 고르는 대신 좌표를 찍는 법</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><h4>질문 ① 내 출발점은?</h4><p><u>기술</u>에서 왔다면 부족한 것은 도메인 — 현장에 붙는 시간이 자산이 된다. <u>도메인</u>에서 왔다면 부족한 것은 구현 — AI 도구가 그 격차를 메우는 중이다.</p></div>
+    <div class="card"><h4>질문 ② 내가 남기는 것은?</h4><p>확신(설득)·설계도(자문)·보고서(진단)·<strong>작동하는 시스템</strong> 중 무엇인가. 마지막이면 이름이 무엇이든 FDE적 역할이다.</p></div>
+    <div class="card"><h4>질문 ③ 어디까지 책임지나?</h4><p>프로토타입까지 / 내부 도구까지 / 고객에게 나가는 제품까지 / 안전이 걸린 시스템까지 — <u>이 선이 실질적 직무 정의</u>다(§2-2).</p></div>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🎒</span>
+    <div><strong>도메인 전문가가 다음에 채우면 값이 큰 것들 —</strong>
+    코딩 자체보다 그 주변이다: <u>버전 관리</u>(「Git &amp; GitHub」)·<u>기계 게이트</u>(테스트·린트·타입 — 「AI 시대의 개발 프로세스」)·
+    <u>의존성과 라이선스 위생</u>(「오픈소스 라이선스」)·<u>데이터 책임</u>(「데이터베이스」 §9).
+    이것들이 "만든 것"을 "맡길 수 있는 것"으로 바꾸는 층이고,
+    바이브코딩이 대신해주지 않는(그리고 AI가 가장 자주 빠뜨리는) 부분이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">Related</div>
+    <h2>6. 함께 읽기</h2>
+    <p>각 직군의 실무 교재가 되는 문서들</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:250px">직군·주제</th><th>문서</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">AI Evals Engineer</td><td>「LLM-as-a-Judge」 — 평가 설계의 전모</td></tr>
+        <tr><td class="hl">Context / Harness / Agent Engineer</td><td>「클로드 확장하기」 §8·§10 · 「로컬 LLM 에이전트」 · 「상주형 AI 에이전트」</td></tr>
+        <tr><td class="hl">Spec Engineer · 프로세스 전반</td><td>「AI 시대의 개발 프로세스」</td></tr>
+        <tr><td class="hl">사업 모델의 반대편</td><td>「SaaS 해부」 — 멀티테넌시와 셀프서브</td></tr>
+        <tr><td class="hl">책임의 경계를 다룬 사례들</td><td>「데이터베이스」 §9(책임의 선택) · 「기능안전과 워치독」(증명 책임) · 「오픈소스 라이선스」(법적 책임)</td></tr>
+        <tr><td class="hl">바이브코딩으로 무장하기</td><td>「로컬 LLM 코딩 공장」 · rules/LICENSE-RULES.md</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>맺음 —</strong> 이 문서의 직함들은 몇 년 뒤 다른 이름이 되어 있을 것이다.
+    남는 것은 구조다: <u>모델은 범용이고 가치는 특수하다</u> → 그 사이를 메우는 사람이 필요하다 →
+    그 사람은 <strong>기술에서 도메인으로</strong> 갈 수도, <strong>도메인에서 기술로</strong> 갈 수도 있다 →
+    그리고 어느 쪽이든 <u>"어디까지 책임지는가"가 그 사람의 실제 직무를 정한다.</u><br>
+    코드가 싸진 시대에 값이 오른 것은 코드가 아니라 <strong>맥락과 책임</strong>이다.</div>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/jt-*.svg (3종) + 동적 수렴 도식 1종(CSS 애니메이션) · 직함·보상·채용 동향은 2026.08 개략이며 출처·기업마다 큰 차이가 있다
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>
