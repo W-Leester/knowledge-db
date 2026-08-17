@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기능안전과 워치독 — 차량 ECU의 워치독은 왜 다른가</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #991B1B 55%, #E8962A 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<style>
+/* ── 기능안전 문서 전용: 윈도우 워치독 타이밍 애니메이션 ── */
+.fs-anim { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 14px 8px; margin: var(--sp-4) 0; }
+.fs-anim figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding: 8px 0 6px; }
+@keyframes fsScan { 0% { transform: translateX(0); } 96%, 100% { transform: translateX(560px); } }
+.fs-cursor { animation: fsScan 9s linear infinite; }
+@keyframes fsHitB { 0%, 13% { opacity: 0; } 15% { opacity: 1; r: 11; } 18%, 100% { opacity: 1; } }
+@keyframes fsHitA { 0%, 40% { opacity: 0; } 42% { opacity: 1; } 45%, 100% { opacity: 1; } }
+@keyframes fsBadgeB { 0%, 15% { opacity: 0; transform: translateY(6px); } 20%, 100% { opacity: 1; transform: translateY(0); } }
+@keyframes fsBadgeA { 0%, 42% { opacity: 0; transform: translateY(6px); } 47%, 100% { opacity: 1; transform: translateY(0); } }
+@keyframes fsBadgeC { 0%, 55% { opacity: 0; transform: translateY(6px); } 60%, 100% { opacity: 1; transform: translateY(0); } }
+@keyframes fsFlash { 0%, 55% { opacity: 0; } 58% { opacity: 1; } 63% { opacity: .35; } 68% { opacity: 1; } 100% { opacity: .8; } }
+.fs-hit-b { opacity: 0; animation: fsHitB 9s linear infinite; }
+.fs-hit-a { opacity: 0; animation: fsHitA 9s linear infinite; }
+.fs-badge-b { opacity: 0; animation: fsBadgeB 9s linear infinite; }
+.fs-badge-a { opacity: 0; animation: fsBadgeA 9s linear infinite; }
+.fs-badge-c { opacity: 0; animation: fsBadgeC 9s linear infinite; }
+.fs-flash { opacity: 0; animation: fsFlash 9s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .fs-anim * { animation: none !important; }
+  .fs-hit-b, .fs-hit-a, .fs-badge-b, .fs-badge-a, .fs-badge-c, .fs-flash { opacity: 1 !important; }
+}
+@media (max-width: 720px) { .fs-anim .fig-scroll svg { min-width: 860px; } }
+</style>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>기능안전과<br>워치독</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#vs-app">1. 앱의 워치독과 무엇이 다른가</a>
+    <a href="#evolution">2. 워치독의 진화 4단계</a>
+    <a href="#window" class="sub">2-1. 윈도우 워치독의 타이밍</a>
+    <a href="#three-level">3. 3레벨 감시 개념 (E-Gas)</a>
+    <a href="#qa">4. 질문-응답 워치독</a>
+    <a href="#others">5. 워치독 옆의 안전 메커니즘들</a>
+    <a href="#autosar">6. AUTOSAR WdgM — 소프트웨어 구조</a>
+    <a href="#resource">7. 리소스 — 얼마나 드나</a>
+    <a href="#asil">8. ASIL별 요구 수준</a>
+    <a href="#refs">9. 함께 읽기</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.08</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Embedded · Functional Safety</div>
+  <h1>기능안전과 워치독<br><span class="thin">차량 ECU의 워치독은 왜 다른가</span></h1>
+  <p class="sub">앱에서 워치독은 "죽으면 되살리는 편의 기능"이지만, 엔진 ECU에서는
+  <strong>폭주를 안전 상태로 유도하는 최후의 방어선</strong>이고 인증의 전제 조건이다.
+  단순 타이머에서 질문-응답 방식까지의 진화, 엔진 제어의 표준인 3레벨 감시 구조,
+  그리고 "실제로 얼마나 비싼가"를 하드웨어·연산·개발 공수로 나눠 정리한다.</p>
+  <div class="tags">
+    <span class="tag">ISO 26262</span><span class="tag">ASIL</span><span class="tag">3레벨 감시</span>
+    <span class="tag">Q&amp;A 워치독</span><span class="tag">FTTI</span><span class="tag">AUTOSAR WdgM</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 결론 네 줄</h2>
+    <p>급한 사람을 위한 요약</p>
+  </div>
+
+  <div class="card-grid g4">
+    <div class="stat-card"><div class="stat-value">필수</div><div class="stat-label">안전 관련 ECU에서<br>선택이 아니다 (§8)</div></div>
+    <div class="stat-card"><div class="stat-value">3레벨</div><div class="stat-label">엔진 제어의 표준<br>감시 아키텍처 (§3)</div></div>
+    <div class="stat-card"><div class="stat-value">Q&amp;A</div><div class="stat-label">"두드렸다"가 아니라<br>"계산해 맞췄다" (§4)</div></div>
+    <div class="stat-card"><div class="stat-value">공수</div><div class="stat-label">비용의 본체는 부품이<br>아니라 설계·검증 (§7)</div></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🎯</span>
+    <div><strong>이 문서가 답하는 세 질문 —</strong>
+    ① <u>워치독이 필수인가?</u> → 안전 관련 ECU라면 그렇다. ISO 26262가 요구하는 안전 메커니즘의 핵심이다.
+    ② <u>어떤 상황에 필요한가?</u> → 고장이 "위험"으로 번질 수 있는 제어(엔진·제동·조향)에서. 편의 기능은 단순 재부팅용으로 족하다.
+    ③ <u>리소스는 얼마나?</u> → 하드웨어는 대개 SBC에 흡수돼 미미하고, 연산도 1% 미만이다.
+    <strong>진짜 비용은 3레벨 구조의 설계와 검증 공수</strong>다(§7).</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. VS APP ═══════════ -->
+<section id="vs-app">
+  <div class="section-header">
+    <div class="eyebrow">Disambiguation</div>
+    <h2>1. "워치독"은 하나가 아니다 — 앱과 차량은 다른 물건이다</h2>
+    <p>같은 이름을 쓰는 네 가지를 먼저 가른다</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:190px">종류</th><th style="width:200px">누가 무엇을 감시</th><th style="width:130px">내가 만드나</th><th>성격</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① OS 워치독<br><span style="font-size:11px;color:#666">iOS Watchdog · 안드로이드 ANR</span></td><td>OS가 <u>내 앱을</u> 감시</td><td>❌ 아니다</td><td>내가 만드는 기능이 아니라 <strong>안 걸리게 피해야 할 대상</strong> — 메인 스레드를 막지 않는 것이 전부</td></tr>
+        <tr><td class="hl">② 프로세스 워치독<br><span style="font-size:11px;color:#666">systemd · PM2 · Docker</span></td><td>감시자가 <u>내 서버 프로세스를</u></td><td>⭕ 설정 한 줄</td><td>죽으면 되살린다 — 관리형 플랫폼(Vercel 등)이면 이미 되어 있다</td></tr>
+        <tr><td class="hl">③ 외부 헬스체크<br><span style="font-size:11px;color:#666">uptime 모니터링</span></td><td>외부 서비스가 <u>내 서비스를</u></td><td>⭕ 가입·연결</td><td>"프로세스는 살았는데 응답 못 하는" 상태를 잡는다 (「SaaS 해부」 §4-D)</td></tr>
+        <tr><td class="hl">④ <strong>하드웨어 워치독</strong><br><span style="font-size:11px;color:#666">차량 ECU · 임베디드</span></td><td>칩이 <u>MCU 자신을</u></td><td>⭕ 설계 대상</td><td><strong>이 문서의 주제</strong> — 고장을 안전 상태로 유도하는 안전 메커니즘</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">⚖️</span>
+    <div><strong>결정적 차이는 "실패의 결과"다 —</strong> 앱이 멈추면 사용자가 짜증을 내고 별점이 떨어진다.
+    엔진 ECU가 폭주하면 <u>스로틀이 고착되거나 의도치 않은 가속</u>으로 이어진다.
+    그래서 앱의 워치독은 <em>가용성(uptime) 도구</em>이고, 차량의 워치독은 <em>안전(safety) 장치</em>다 —
+    같은 이름이지만 설계 목표부터 다르다. 이 문서의 모든 정교함은 이 한 줄에서 나온다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. EVOLUTION ═══════════ -->
+<section id="evolution">
+  <div class="section-header">
+    <div class="eyebrow">Four Generations</div>
+    <h2>2. 워치독의 진화 4단계</h2>
+    <p>각 단계는 "앞 단계가 못 잡는 것"을 잡기 위해 생겼다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/fs-watchdog-evolution.svg" alt="단순 워치독, 윈도우 워치독, 질문-응답 워치독, 외부 감시 IC의 4단계 진화와 각 단계가 못 잡는 고장"></div>
+    <figcaption>①의 구멍이 ②를, ②의 구멍이 ③을, 그리고 "감시자가 감시 대상 안에 있다"는 문제가 ④를 낳았다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">단계</th><th style="width:250px">통과 조건</th><th>이 단계가 새로 잡는 고장</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① 단순 WDT</td><td>정해진 시간 안에 리프레시</td><td>완전 정지 — 무한 루프·데드락·행</td></tr>
+        <tr><td class="hl">② 윈도우 WDT</td><td>리프레시가 <strong>열린 창 안에</strong> 도착 (너무 빨라도 실패)</td><td><u>주기가 어긋난 폭주</u> — 리프레시만 미친 속도로 도는 코드</td></tr>
+        <tr><td class="hl">③ Q&amp;A 워치독</td><td>질문에 <strong>계산으로 정답</strong>을 회신 + 시간 창 준수</td><td><u>연산 능력 자체의 고장</u> — 비트 플립·ALU 이상 (리프레시는 되는데 계산이 틀림)</td></tr>
+        <tr><td class="hl">④ 외부 감시 IC</td><td>③을 <strong>MCU 밖의 칩</strong>이 판정</td><td><u>MCU 전체의 사망</u> — 클럭 정지·전원 이상 (내부 워치독은 같이 죽는다)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="window">2-1. 윈도우 워치독의 타이밍 — 왜 "너무 빨라도" 실패인가</h3>
+
+  <p class="body">단순 워치독의 구멍이 직관적이지 않으니 시간축에서 보자. 세 케이스를 같은 시간선에 나란히 놓고
+  커서를 지나가게 하면, <strong>②가 왜 필요한지</strong>가 보인다:</p>
+
+  <figure class="fs-anim">
+    <div class="fig-scroll">
+    <svg viewBox="0 0 900 400" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" style="width:100%;display:block">
+      <!-- 구간 배경 (공통 시간축) -->
+      <rect x="200" y="52" width="160" height="290" fill="#FEE2E2" opacity=".55"/>
+      <rect x="360" y="52" width="140" height="290" fill="#E6F7F1" opacity=".7"/>
+      <rect x="500" y="52" width="260" height="290" fill="#FEF3E2" opacity=".5"/>
+      <text x="280" y="44" font-size="11" font-weight="800" fill="#991B1B" text-anchor="middle">닫힌 구간 (too early)</text>
+      <text x="430" y="44" font-size="11" font-weight="800" fill="#065F46" text-anchor="middle">열린 창 (valid)</text>
+      <text x="630" y="44" font-size="11" font-weight="800" fill="#B45309" text-anchor="middle">창을 지나침 (too late)</text>
+
+      <!-- 트랙 A: 정상 -->
+      <text x="30" y="96" font-size="12" font-weight="800" fill="#065F46">케이스 A</text>
+      <text x="30" y="112" font-size="10" fill="#666666">정상 동작</text>
+      <line x1="200" y1="100" x2="760" y2="100" stroke="#B5AFA5" stroke-width="2.5"/>
+      <g class="fs-hit-a">
+        <circle cx="430" cy="100" r="9" fill="#00AA6C"/>
+        <circle cx="430" cy="100" r="16" fill="none" stroke="#00AA6C" stroke-width="2" opacity=".5"/>
+      </g>
+      <text x="430" y="82" font-size="10" fill="#065F46" font-weight="700" text-anchor="middle">리프레시</text>
+      <g class="fs-badge-a">
+        <rect x="774" y="84" width="112" height="32" rx="8" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+        <text x="830" y="105" font-size="11.5" font-weight="800" fill="#065F46" text-anchor="middle">✓ 통과</text>
+      </g>
+
+      <!-- 트랙 B: 너무 빠름 -->
+      <text x="30" y="186" font-size="12" font-weight="800" fill="#DC2626">케이스 B</text>
+      <text x="30" y="202" font-size="10" fill="#666666">폭주 — 리프레시만</text>
+      <text x="30" y="216" font-size="10" fill="#666666">미친 속도로 반복</text>
+      <line x1="200" y1="190" x2="760" y2="190" stroke="#B5AFA5" stroke-width="2.5"/>
+      <g class="fs-hit-b">
+        <circle cx="280" cy="190" r="9" fill="#DC2626"/>
+        <circle cx="280" cy="190" r="16" fill="none" stroke="#DC2626" stroke-width="2" opacity=".5"/>
+      </g>
+      <text x="280" y="172" font-size="10" fill="#991B1B" font-weight="700" text-anchor="middle">너무 이른 리프레시</text>
+      <g class="fs-badge-b">
+        <rect x="774" y="174" width="112" height="32" rx="8" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+        <text x="830" y="195" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">✕ 실패</text>
+      </g>
+      <text x="470" y="212" font-size="9.5" fill="#991B1B">① 단순 WDT는 이걸 "정상"으로 본다 — ②는 잡는다</text>
+
+      <!-- 트랙 C: 멈춤 -->
+      <text x="30" y="276" font-size="12" font-weight="800" fill="#B45309">케이스 C</text>
+      <text x="30" y="292" font-size="10" fill="#666666">행(hang) — 리프레시</text>
+      <text x="30" y="306" font-size="10" fill="#666666">자체가 오지 않음</text>
+      <line x1="200" y1="280" x2="760" y2="280" stroke="#B5AFA5" stroke-width="2.5"/>
+      <text x="430" y="262" font-size="10" fill="#8A8478" font-weight="700" text-anchor="middle">(리프레시 없음)</text>
+      <g class="fs-flash">
+        <rect x="500" y="264" width="260" height="32" rx="8" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+        <text x="630" y="285" font-size="11" font-weight="800" fill="#DC2626" text-anchor="middle">⚡ 타임아웃 → 리셋 / 안전 상태</text>
+      </g>
+      <g class="fs-badge-c">
+        <rect x="774" y="264" width="112" height="32" rx="8" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+        <text x="830" y="285" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">✕ 실패</text>
+      </g>
+
+      <!-- 스캔 커서 -->
+      <g class="fs-cursor">
+        <line x1="200" y1="52" x2="200" y2="342" stroke="#1A5CB5" stroke-width="2.5"/>
+        <polygon points="200,46 194,34 206,34" fill="#1A5CB5"/>
+      </g>
+
+      <!-- 시간축 -->
+      <line x1="200" y1="342" x2="770" y2="342" stroke="#555555" stroke-width="2"/>
+      <text x="770" y="360" font-size="10.5" fill="#555555" text-anchor="end">시간 →</text>
+      <text x="360" y="360" font-size="9.5" fill="#666666" text-anchor="middle">창 열림</text>
+      <text x="500" y="360" font-size="9.5" fill="#666666" text-anchor="middle">창 닫힘 (마감)</text>
+
+      <!-- 하단 -->
+      <rect x="30" y="372" width="840" height="24" rx="7" fill="#0D1B2E"/>
+      <text x="450" y="389" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">"살아있다"의 증거는 두드림의 존재가 아니라 — 정확한 타이밍이다</text>
+    </svg>
+    </div>
+    <figcaption>파란 커서가 시간을 지나가며 세 케이스를 판정한다 — B가 ②의 존재 이유다(①은 B를 정상으로 본다). 시스템의 "동작 줄이기" 설정을 켜면 정지 상태로 표시된다</figcaption>
+  </figure>
+
+  <div class="callout amber">
+    <span class="icon">⏱</span>
+    <div><strong>창의 폭은 어떻게 정하나 —</strong> 임의값이 아니라 <u>제어 주기에서 역산</u>한다.
+    10ms 주기 태스크에서 리프레시한다면 창도 그 주기에 맞춰지고, 허용 오차(지터)만큼 여유를 준다.
+    창이 너무 넓으면 폭주를 놓치고, 너무 좁으면 정상 동작이 오검출된다 —
+    <strong>안전과 가용성의 저울</strong>이 여기서 처음 등장한다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 3. THREE LEVEL ═══════════ -->
+<section id="three-level">
+  <div class="section-header">
+    <div class="eyebrow">The Core Architecture</div>
+    <h2>3. 3레벨 감시 개념 — 엔진 제어의 표준 구조</h2>
+    <p>워치독은 이 구조의 3층에 들어간다 — 이 문서의 심장</p>
+  </div>
+
+  <p class="body">가솔린·디젤 엔진 제어에는 업계에서 널리 공유된 안전 아키텍처가 있다(E-Gas 감시 개념으로 알려진 3단 구조).
+  요점은 <strong>"제어하는 자"와 "검증하는 자"와 "검증자가 정상인지 보는 자"를 분리</strong>하는 것이다:</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/fs-three-level.svg" alt="Level 1 기능, Level 2 기능 감시, Level 3 컨트롤러 감시로 구성된 3레벨 구조와 안전 상태, FTTI"></div>
+    <figcaption>Level 2가 Level 1의 결과를 독립 재계산으로 검증하고, Level 3이 CPU 자체를 감시한다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">레벨</th><th style="width:280px">하는 일</th><th>구현 요점</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Level 1<br>기능</td><td>실제 엔진 제어 — 토크 계산·연료 분사·점화·스로틀</td><td>코드의 대부분. 복잡한 맵과 보정·학습이 여기 — <u>스스로를 검증하지 않는다</u></td></tr>
+        <tr><td class="hl">Level 2<br>기능 감시</td><td>Level 1의 결과를 <strong>독립적으로 재계산해 비교</strong> — "요청 토크 vs 실제 발생 토크"가 허용 범위 안인가</td><td><strong>독립성이 생명</strong>: 다른 알고리즘·다른 변수·단순화된 경로로 계산해야 한다. 같은 코드를 두 번 돌리면 같은 버그에 똑같이 당한다</td></tr>
+        <tr><td class="hl">Level 3<br>컨트롤러 감시</td><td>"계산이 맞나"가 아니라 <strong>"이 CPU가 정상인가"</strong></td><td>Q&amp;A 워치독(외부 IC) · ALU·레지스터 자기 테스트 · 프로그램 흐름 감시 · 메모리 검사</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🛑</span>
+    <div><strong>안전 상태(Safe State)의 의미 — "멈춤"이 아니라 "예측 가능하게 무해해짐"이다.</strong>
+    감시가 실패를 선언하면 연료 분사 차단, 액추에이터 파워스테이지 차단, 리셋 후 재시작,
+    또는 <u>림프홈</u>(출력을 제한해 최소한의 주행은 가능하게)으로 간다.
+    "차를 세우는 것"이 항상 가장 안전한 것은 아니라는 점이 중요하다 —
+    고속도로에서 급정지는 그 자체로 위험이므로, 무엇이 안전 상태인지는 상황을 담아 정의한다.</div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">⏳</span>
+    <div><strong>타임아웃 값의 근거 — FTTI(고장 허용 시간 간격).</strong>
+    "고장이 발생해 위험으로 번지기까지 허용되는 시간"이 FTTI이고,
+    <u>고장 감지 + 안전 상태 진입이 그 안에 끝나야 한다.</u>
+    그래서 워치독 주기·감시 태스크 주기가 임의로 고른 값이 아니라 <strong>FTTI에서 역산된 값</strong>이다 —
+    "왜 10ms인가?"의 답이 여기서 나온다. (구체적 수치는 차종·제어 대상마다 다르다.)</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. Q&A ═══════════ -->
+<section id="qa">
+  <div class="section-header">
+    <div class="eyebrow">Challenge-Response</div>
+    <h2>4. 질문-응답 워치독 — 한 주기를 뜯어보기</h2>
+    <p>"두드렸다"가 아니라 "계산해서 맞췄다"를 요구하는 방식</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/fs-qa-sequence.svg" alt="워치독 IC가 seed를 발행하고 MCU가 계산해 응답하며 검증 후 통과 또는 단계적 대응으로 이어지는 시퀀스"></div>
+    <figcaption>seed 발행 → MCU 계산 → 응답 회신 → 검증 → 통과 또는 고장 카운터↑ → 리셋 → 파워스테이지 차단 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">핵심은 <strong>매 주기마다 질문이 바뀐다</strong>는 점이다 — 그래서 정답을 미리 저장해둘 수 없고,
+  통과하려면 <u>실제로 계산을 수행</u>해야 한다. 이 계산에 ALU·레지스터·메모리 접근·분기가 동원되므로
+  결과적으로 <strong>CPU 핵심 기능의 실사용 검사</strong>가 된다. 단순 리프레시로는 확인할 수 없던 층이 이렇게 덮인다.</p>
+
+  <div class="callout amber">
+    <span class="icon">🔁</span>
+    <div><strong>실패를 1회로 단정하지 않는다 —</strong> 노이즈·일시적 간섭으로 한 번 틀릴 수 있으므로
+    대개 <u>고장 카운터</u>를 두고 임계를 넘을 때 조치한다: ① 카운터 증가 → ② 임계 초과 시 MCU 리셋 →
+    ③ 리셋 반복이 계속되면 파워스테이지 차단(안전 상태 고정).
+    이 단계적 대응이 <strong>과민 반응(불필요한 주행 중단)과 둔감(위험 방치) 사이의 균형</strong>이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. OTHERS ═══════════ -->
+<section id="others">
+  <div class="section-header">
+    <div class="eyebrow">Companions</div>
+    <h2>5. 워치독 옆의 안전 메커니즘들</h2>
+    <p>워치독 하나로는 부족하다 — 함께 배치되는 것들</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:200px">메커니즘</th><th style="width:280px">무엇을 하나</th><th>워치독이 못 하는 무엇을 채우나</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">프로그램 흐름 감시<br><span style="font-size:11px;color:#666">Program Flow Monitoring</span></td><td>코드가 <strong>정해진 순서대로</strong> 실행됐는지 체크포인트로 검증</td><td>워치독은 "돌고 있나"만 본다 — 이건 <u>"제대로 된 길로 돌고 있나"</u>를 본다(잘못된 점프·함수 건너뛰기)</td></tr>
+        <tr><td class="hl">Lockstep 코어</td><td>두 코어가 <strong>같은 연산을 동시에</strong> 수행하고 결과를 하드웨어가 비교</td><td>고장을 <u>즉시</u> 감지한다(주기를 기다리지 않음). 높은 ASIL에서 흔히 채택</td></tr>
+        <tr><td class="hl">메모리 보호 (MPU)</td><td>태스크별 메모리 접근 권한 분리</td><td>낮은 등급 코드가 안전 관련 데이터를 훼손하는 것을 차단 — <u>간섭 없음(freedom from interference)</u></td></tr>
+        <tr><td class="hl">ECC · 메모리 검사</td><td>RAM·플래시의 비트 오류 검출·정정</td><td>비트 플립을 <u>사용 시점에</u> 잡는다</td></tr>
+        <tr><td class="hl">중복 저장 · 역수 저장</td><td>중요 변수를 두 벌(또는 보수 형태로) 저장해 비교</td><td>변수 하나가 조용히 변질되는 것을 잡는다</td></tr>
+        <tr><td class="hl">시간 감시<br><span style="font-size:11px;color:#666">Deadline Monitoring</span></td><td>태스크가 마감 안에 끝났는지</td><td>워치독은 전체 정지를 잡지만, 이건 <u>특정 태스크의 지연</u>을 잡는다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧩</span>
+    <div><strong>안전은 단일 장치가 아니라 그물이다 —</strong> 워치독이 잡는 것은 "제어기가 멈췄거나 미쳤다"는 <u>거친 고장</u>이고,
+    "값 하나가 조용히 틀어졌다"는 <u>미세한 고장</u>은 위 메커니즘들이 담당한다.
+    ISO 26262가 요구하는 <strong>진단 커버리지</strong>는 이 그물의 촘촘함을 정량화한 개념이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. AUTOSAR ═══════════ -->
+<section id="autosar">
+  <div class="section-header">
+    <div class="eyebrow">Software Architecture</div>
+    <h2>6. AUTOSAR WdgM — 소프트웨어에서의 모습</h2>
+    <p>앱의 워치독이 한 축인 반면, 여기는 세 축을 따로 본다</p>
+  </div>
+
+  <pre class="code"><span class="title-bar">AUTOSAR의 워치독 3층 구조</span><span class="k">WdgM</span> (Watchdog Manager)   <span class="c">← 감시 대상(Supervised Entity)들을 관리·판정</span>
+  ├─ <span class="f">Alive Supervision</span>     <span class="c">주기적으로 살아있나 (횟수가 예상 범위인가)</span>
+  ├─ <span class="f">Deadline Supervision</span>  <span class="c">체크포인트 간 소요가 마감 안인가</span>
+  └─ <span class="f">Logical Supervision</span>   <span class="c">허용된 실행 순서(그래프)를 따랐나</span>
+<span class="k">WdgIf</span> (Watchdog Interface) <span class="c">← 상위와 드라이버를 잇는 층</span>
+<span class="k">Wdg</span> (Driver)              <span class="c">← 내부/외부 워치독 하드웨어를 실제로 조작</span></pre>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:200px">감시 종류</th><th style="width:250px">잡아내는 것</th><th>예</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Alive Supervision</td><td>너무 자주 / 너무 드물게 실행 — <u>주기의 이상</u></td><td>10ms 태스크가 100ms 동안 3번만 돌았다 → 이상</td></tr>
+        <tr><td class="hl">Deadline Supervision</td><td>시작과 끝 사이 <u>소요 시간</u>의 이상</td><td>센서 읽기가 2ms 안에 끝나야 하는데 8ms 걸렸다</td></tr>
+        <tr><td class="hl">Logical Supervision</td><td>실행 <u>순서</u>의 이상</td><td>초기화 → 진단 → 제어 순서인데, 진단을 건너뛰고 제어로 갔다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">앱 개발의 워치독이 "프로세스가 살아있나" 하나였던 것과 비교하면 차이가 분명하다 —
+  여기서는 <strong>살아있나 · 제때 끝났나 · 올바른 순서인가</strong>를 각각 다른 메커니즘으로 확인한다.
+  그리고 이 판정 결과가 최종적으로 하드웨어 워치독의 리프레시(또는 Q&amp;A 응답) 여부로 이어진다 —
+  <u>소프트웨어 감시가 통과해야만 하드웨어 감시를 만족시켜 준다</u>는 사슬 구조다.</p>
+</section>
+
+<!-- ═══════════ 7. RESOURCE ═══════════ -->
+<section id="resource">
+  <div class="section-header">
+    <div class="eyebrow">The Real Cost</div>
+    <h2>7. 리소스 — 실제로 얼마나 드나</h2>
+    <p>하드웨어·연산·메모리는 싸고, 비싼 것은 다른 데 있다</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">항목</th><th style="width:200px">비용 수준</th><th>내용 (수치는 구현마다 크게 다름 — 개략)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">내부 WDT</td><td><span class="badge badge-green">0</span></td><td>MCU에 이미 내장 — 레지스터 설정만 하면 된다</td></tr>
+        <tr><td class="hl">외부 워치독 IC</td><td><span class="badge badge-green">거의 0</span></td><td>대개 <strong>SBC</strong>(전원 관리 + CAN 트랜시버 + 워치독 통합 칩)에 포함되므로 <u>별도 부품이 아니다</u>. 단독 IC를 쓰면 부품 하나 추가 수준</td></tr>
+        <tr><td class="hl">Lockstep 코어 MCU</td><td><span class="badge badge-amber">유의미</span></td><td>높은 ASIL에서 채택 — <u>여기서 원가 차이가 실제로 생긴다</u>(코어를 두 벌 얹은 셈이므로)</td></tr>
+        <tr><td class="hl">CPU — 단순 리프레시</td><td><span class="badge badge-green">무시 가능</span></td><td>주기당 마이크로초 단위</td></tr>
+        <tr><td class="hl">CPU — Q&amp;A 워치독</td><td><span class="badge badge-green">1% 미만</span></td><td>보통 10ms 급 태스크에서 처리 — seed 계산과 통신이 전부</td></tr>
+        <tr><td class="hl">CPU — <strong>Level 2 기능 감시</strong></td><td><span class="badge badge-red">수~십 %</span></td><td><strong>여기가 진짜 부하다</strong> — Level 1의 상당 부분을 독립적으로 재계산하므로. 워치독 자체보다 훨씬 무겁다</td></tr>
+        <tr><td class="hl">메모리 (RAM)</td><td><span class="badge badge-green">수 KB</span></td><td>WdgM의 상태·카운터·그래프 정보</td></tr>
+        <tr><td class="hl"><strong>개발 공수</strong></td><td><span class="badge badge-red">비용의 본체</span></td><td>안전 요구사항 도출·아키텍처 문서·FMEA/FTA·검증 시험·툴 적격성·추적성(traceability) 관리. <u>ASIL D에서는 코드보다 문서와 검증이 더 큰 일</u>이 되는 것이 보통</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">💸</span>
+    <div><strong>질문을 다시 쓰면 —</strong> "워치독에 리소스가 얼마나 드나?"의 답은 <u>거의 안 든다</u>다.
+    그런데 워치독은 혼자 오지 않는다. 워치독을 제대로 쓰려면 <strong>Level 2 감시와 안전 상태 설계</strong>가 따라오고,
+    그것들이 CPU 부하와 개발 공수의 대부분을 차지한다.
+    즉 <strong>부품값이 아니라 아키텍처 값</strong>이 비용이다 —
+    「SaaS 해부」에서 "구독 상태 기계를 직접 만들지 말라"고 했던 것과 같은 종류의 교훈이다:
+    비싼 것은 눈에 보이는 부품이 아니라 그것을 둘러싼 구조다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 8. ASIL ═══════════ -->
+<section id="asil">
+  <div class="section-header">
+    <div class="eyebrow">By Safety Level</div>
+    <h2>8. ASIL별 요구 수준 — 어디에 어디까지</h2>
+    <p>모든 ECU가 같은 워치독을 쓰지는 않는다</p>
+  </div>
+
+  <p class="body">ISO 26262는 위험도를 <strong>ASIL A~D</strong>로 나눈다(D가 가장 엄격, 안전과 무관한 것은 QM).
+  등급은 "고장 시 얼마나 위험한가 × 얼마나 자주 노출되나 × 운전자가 회피할 수 있나"로 정해지며,
+  등급이 오를수록 요구되는 안전 메커니즘이 촘촘해진다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">등급·성격</th><th style="width:220px">해당 ECU 예</th><th>워치독 수준</th></tr></thead>
+      <tbody>
+        <tr><td class="hl"><strong>ASIL C~D</strong><br>안전 핵심</td><td><strong>엔진 제어</strong> · 제동(ESC) · 조향(EPS) · 에어백 · ADAS</td><td>3레벨 감시 전체 + <strong>Q&amp;A 외부 워치독</strong> + 프로그램 흐름 감시 (+ Lockstep 코어가 흔함)</td></tr>
+        <tr><td class="hl">ASIL A~B<br>안전 관련</td><td>일부 섀시·바디 제어 · 조명 일부</td><td>윈도우 워치독 + 기본 감시 — 3레벨을 완전히 갖추지 않는 경우도 있다</td></tr>
+        <tr><td class="hl">QM<br>비안전</td><td>인포테인먼트 · 시트 · 편의 기능</td><td>단순 WDT로 충분 — <u>목적이 "안전"이 아니라 "재부팅으로 복구"</u>다 (앱의 워치독과 성격이 같아진다)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🧭</span>
+    <div><strong>질문 "어떤 경우에 필요한가"의 답 —</strong> 기준은 기술이 아니라 <u>고장의 결과</u>다.
+    <strong>고장이 사람을 다치게 할 수 있으면</strong> 3레벨 + Q&amp;A가 필요하고,
+    <strong>고장이 불편에 그치면</strong> 단순 WDT로 족하다.
+    「데이터베이스」 §9에서 "DB 선택은 책임의 선택"이라 했던 것의 자동차판이다 —
+    <u>워치독 수준의 선택은 "이 고장이 무엇을 해칠 수 있는가"의 선택</u>이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 9. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">Related</div>
+    <h2>9. 함께 읽기</h2>
+    <p>이 문서에서 갈라지는 길들</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:280px">주제</th><th>문서</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">소프트웨어 워치독 — 서버·앱 쪽의 그것</td><td>「SaaS 해부」 §4-D (모니터링·헬스체크) · 「앱 출시의 관문」 §3 (크래시·강제 업데이트)</td></tr>
+        <tr><td class="hl">물리 세계를 제어하는 AI·로봇의 안전</td><td>「피지컬 AI」 — 센서·액추에이터·실시간 제약</td></tr>
+        <tr><td class="hl">"책임의 크기로 고른다"는 사고법</td><td>「데이터베이스 완전 정리」 §9 — 같은 판단 구조의 다른 도메인</td></tr>
+        <tr><td class="hl">기계 게이트로 품질을 지키는 방식</td><td>「AI 시대의 개발 프로세스」 §4 — 리뷰 피라미드의 1층</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>맺음 —</strong> 차량 ECU의 워치독을 한 문장으로 줄이면:
+    <u>"제어기가 스스로 정상임을 증명하지 못하면, 시스템을 예측 가능한 무해 상태로 보낸다"</u>는 계약이다.
+    단순 타이머에서 질문-응답으로 진화한 이유도, 감시자를 칩 밖으로 내보낸 이유도,
+    3레벨로 층을 나눈 이유도 전부 <strong>"증명의 신뢰도를 높이기 위해"</strong>였다.
+    앱의 워치독이 가용성을 위한 편의라면, 이쪽은 <strong>증명 책임의 설계</strong>다.</div>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/fs-*.svg (3종) + 동적 타이밍 도식 1종(CSS 애니메이션) · 수치·주기·등급 배정은 개략이며 차종·제어 대상·표준 개정판에 따라 다르다 — 실제 설계 시 해당 프로젝트의 안전 요구사항 문서를 따를 것
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>

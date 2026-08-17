@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 680" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="fwe" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="680" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">워치독의 진화 4단계 — 각 단계는 "앞 단계가 못 잡는 것"을 잡는다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">엔진 ECU는 ②+③+④의 조합을 쓴다 — ①만으로는 폭주를 놓친다</text>
+
+  <!-- ① 단순 WDT -->
+  <rect x="30" y="80" width="840" height="120" rx="14" fill="#F2EDE4" stroke="#8A8478" stroke-width="2"/>
+  <text x="52" y="108" font-size="14.5" font-weight="800" fill="#555555">① 단순 워치독 (Simple WDT) — MCU 내부 타이머</text>
+  <text x="52" y="132" font-size="11" fill="#555555">동작: 소프트웨어가 정해진 시간 안에 카운터를 리프레시(kick)하지 않으면 → MCU 리셋</text>
+  <rect x="52" y="146" width="380" height="40" rx="8" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.2"/>
+  <text x="242" y="171" font-size="11" fill="#555555" text-anchor="middle" font-family="'JetBrains Mono', monospace">while(1) { work(); WDT_refresh(); }</text>
+  <text x="452" y="162" font-size="11.5" font-weight="800" fill="#DC2626">✕ 못 잡는 것</text>
+  <text x="452" y="182" font-size="10.5" fill="#555555">폭주한 코드가 <tspan font-weight="700">우연히 리프레시만 계속 두드리는</tspan> 상황 — 겉보기엔 정상</text>
+
+  <line x1="450" y1="200" x2="450" y2="222" stroke="#003F8A" stroke-width="2.5" marker-end="url(#fwe)"/>
+
+  <!-- ② 윈도우 워치독 -->
+  <rect x="30" y="226" width="840" height="130" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="52" y="254" font-size="14.5" font-weight="800" fill="#002C5F">② 윈도우 워치독 (Window WDT) — "너무 빨라도 실패"</text>
+  <text x="52" y="278" font-size="11" fill="#555555">동작: 리프레시가 <tspan font-weight="700">닫힌 구간(too early)</tspan>에 오면 실패, <tspan font-weight="700">열린 창(window)</tspan> 안에서만 유효 — 창을 지나치면(too late) 역시 실패</text>
+
+  <!-- 타이밍 바 -->
+  <rect x="52" y="292" width="380" height="26" rx="6" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2"/>
+  <rect x="212" y="292" width="130" height="26" rx="0" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.5"/>
+  <text x="132" y="309" font-size="9.5" font-weight="700" fill="#991B1B" text-anchor="middle">너무 빠름 ✕</text>
+  <text x="277" y="309" font-size="9.5" font-weight="700" fill="#065F46" text-anchor="middle">유효 창 ✓</text>
+  <text x="387" y="309" font-size="9.5" font-weight="700" fill="#991B1B" text-anchor="middle">너무 늦음 ✕</text>
+  <text x="242" y="336" font-size="9.5" fill="#666666" text-anchor="middle">시간 →</text>
+
+  <text x="452" y="308" font-size="11.5" font-weight="800" fill="#DC2626">✕ 못 잡는 것</text>
+  <text x="452" y="328" font-size="10.5" fill="#555555">타이밍은 정확한데 <tspan font-weight="700">CPU의 연산 자체가 망가진</tspan> 경우</text>
+  <text x="452" y="346" font-size="10.5" fill="#666666">(비트 플립·ALU 고장 — 리프레시는 되는데 계산 결과가 틀린다)</text>
+
+  <line x1="450" y1="356" x2="450" y2="378" stroke="#003F8A" stroke-width="2.5" marker-end="url(#fwe)"/>
+
+  <!-- ③ Q&A -->
+  <rect x="30" y="382" width="840" height="130" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
+  <text x="52" y="410" font-size="14.5" font-weight="800" fill="#B45309">③ 질문-응답 워치독 (Question-Answer / Challenge-Response)</text>
+  <text x="52" y="434" font-size="11" fill="#555555">동작: 워치독이 <tspan font-weight="700">질문(seed)</tspan>을 던지고, MCU가 <tspan font-weight="700">계산해서 정답</tspan>을 회신해야 통과 — 계산이 틀리면 리프레시로 인정하지 않는다</text>
+  <rect x="52" y="448" width="380" height="48" rx="8" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.2"/>
+  <text x="242" y="466" font-size="10.5" fill="#555555" text-anchor="middle">WD: "seed = 0x3A?" → MCU: "answer = 0xC7"</text>
+  <text x="242" y="486" font-size="10" fill="#666666" text-anchor="middle">→ WD가 검증 → 맞으면 통과, 틀리면 고장 카운터 ↑</text>
+  <text x="452" y="466" font-size="11.5" font-weight="800" fill="#065F46">✓ 여기서 얻는 것</text>
+  <text x="452" y="486" font-size="10.5" fill="#555555">"프로그램이 돈다"를 넘어 <tspan font-weight="700">"CPU가 제대로 계산한다"</tspan>까지 검증</text>
+
+  <line x1="450" y1="512" x2="450" y2="534" stroke="#003F8A" stroke-width="2.5" marker-end="url(#fwe)"/>
+
+  <!-- ④ 외부 감시 -->
+  <rect x="30" y="538" width="840" height="86" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="3"/>
+  <text x="52" y="566" font-size="14.5" font-weight="800" fill="#DC2626">④ 외부 감시 IC (External Watchdog · SBC 통합)</text>
+  <text x="52" y="590" font-size="11" fill="#555555">동작: 감시자를 <tspan font-weight="700">MCU 바깥의 별도 칩</tspan>에 둔다 — 대개 SBC(전원 관리 + CAN 트랜시버 + 워치독 통합 칩)에 포함</text>
+  <text x="52" y="612" font-size="11" fill="#991B1B" font-weight="700">왜 필수인가: MCU 자체가 죽으면 내부 워치독도 함께 죽는다 — 감시자는 감시 대상 밖에 있어야 한다</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="638" width="840" height="30" rx="8" fill="#0D1B2E"/>
+  <text x="450" y="658" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">앱 개발의 워치독이 ①에 머무는 반면, 엔진 ECU는 ②+③+④를 겹쳐 쓴다 — 놓치면 안전이 걸려 있으므로</text>
+</svg>

@@ -546,6 +546,29 @@
       ]
     },
     {
+      "id": "functional-safety",
+      "title": "기능안전과 워치독",
+      "desc": "차량 ECU의 워치독은 왜 다른가 — 3레벨 감시·Q&A 워치독·ASIL별 요구 수준과 실제 리소스",
+      "file": "docs/functional-safety.html",
+      "group": "Embedded · Safety",
+      "icon": "🐕",
+      "gradient": [
+        "#0D1B2E",
+        "#991B1B"
+      ],
+      "tags": [
+        "ISO 26262",
+        "ASIL",
+        "3레벨 감시"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/fs-watchdog-evolution.svg",
+        "docs/img/fs-three-level.svg",
+        "docs/img/fs-qa-sequence.svg"
+      ]
+    },
+    {
       "id": "paper-jlens",
       "title": "논문 — Jacobian Lens",
       "desc": "Anthropic의 J-lens와 J-space, 뇌 신경과학과의 대응, 그리고 로컬 적용",

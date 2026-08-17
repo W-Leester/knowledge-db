@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="fqa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+    <marker id="fqr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#DC2626"/>
+    </marker>
+    <marker id="fqg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00AA6C"/>
+    </marker>
+  </defs>
+  <rect width="900" height="660" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">질문-응답 워치독의 한 주기 — 왜 단순 리프레시보다 강한가</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">"두드렸다"가 아니라 <tspan font-weight="700">"계산해서 맞췄다"</tspan>를 요구한다 — 리프레시 코드만 살아있는 폭주를 걸러낸다</text>
+
+  <!-- 두 주체 -->
+  <rect x="60" y="84" width="300" height="48" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="210" y="114" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">🧠 메인 MCU (감시 대상)</text>
+  <rect x="540" y="84" width="300" height="48" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="690" y="114" font-size="13.5" font-weight="800" fill="#DC2626" text-anchor="middle">🔌 외부 워치독 IC (감시자)</text>
+
+  <!-- 생명선 -->
+  <line x1="210" y1="132" x2="210" y2="500" stroke="#B5AFA5" stroke-width="2" stroke-dasharray="6 5"/>
+  <line x1="690" y1="132" x2="690" y2="500" stroke="#B5AFA5" stroke-width="2" stroke-dasharray="6 5"/>
+
+  <!-- ① seed -->
+  <line x1="680" y1="164" x2="220" y2="164" stroke="#DC2626" stroke-width="2.5" marker-end="url(#fqr)"/>
+  <rect x="300" y="140" width="300" height="20" rx="6" fill="#FAF7F2"/>
+  <text x="450" y="156" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">① 질문(seed) 발행 — 예: 0x3A</text>
+  <text x="450" y="182" font-size="10" fill="#666666" text-anchor="middle">매 주기마다 값이 바뀐다 (예측·하드코딩 불가)</text>
+
+  <!-- ② 계산 -->
+  <rect x="90" y="200" width="240" height="80" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.8"/>
+  <text x="210" y="222" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">② MCU가 정답을 계산</text>
+  <text x="210" y="242" font-size="10" fill="#555555" text-anchor="middle">약속된 알고리즘으로 seed → answer</text>
+  <text x="210" y="260" font-size="10" fill="#555555" text-anchor="middle">이 계산에 ALU·메모리·분기가 동원된다</text>
+  <text x="210" y="275" font-size="9.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">= CPU 기능의 실사용 검사</text>
+
+  <!-- ③ answer -->
+  <line x1="220" y1="308" x2="680" y2="308" stroke="#1A5CB5" stroke-width="2.5" marker-end="url(#fqa)"/>
+  <text x="450" y="300" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">③ 응답(answer) 회신 — 예: 0xC7</text>
+  <text x="450" y="326" font-size="10" fill="#666666" text-anchor="middle">정해진 시간 창(window) 안에 도착해야 한다 — 너무 빠르면 그것도 실패</text>
+
+  <!-- ④ 검증 -->
+  <rect x="570" y="344" width="240" height="72" rx="10" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="690" y="366" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">④ 워치독이 검증</text>
+  <text x="690" y="386" font-size="10" fill="#555555" text-anchor="middle">값이 맞나 · 시간 창에 들어왔나</text>
+  <text x="690" y="404" font-size="10" fill="#555555" text-anchor="middle">둘 다 만족해야 통과</text>
+
+  <!-- 분기 -->
+  <path d="M 640 416 C 560 450 420 450 340 452" fill="none" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#fqg)"/>
+  <text x="470" y="443" font-size="10.5" font-weight="800" fill="#065F46" text-anchor="middle">통과 → 다음 주기로</text>
+
+  <path d="M 740 416 L 740 452" fill="none" stroke="#DC2626" stroke-width="2.5" marker-end="url(#fqr)"/>
+  <text x="762" y="440" font-size="10.5" font-weight="800" fill="#DC2626">실패</text>
+
+  <rect x="60" y="440" width="280" height="56" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="200" y="464" font-size="11.5" font-weight="800" fill="#065F46" text-anchor="middle">✅ 정상 — 제어를 계속한다</text>
+  <text x="200" y="484" font-size="10" fill="#555555" text-anchor="middle">보통 수~수십 ms 주기로 이 대화가 반복된다</text>
+
+  <rect x="600" y="458" width="270" height="118" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="735" y="482" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">❌ 실패 — 단계적 대응</text>
+  <text x="616" y="504" font-size="10" fill="#555555">1) 고장 카운터 증가 (1회는 노이즈일 수 있음)</text>
+  <text x="616" y="524" font-size="10" fill="#555555">2) 임계 초과 → MCU 리셋 시도</text>
+  <text x="616" y="544" font-size="10" fill="#555555">3) 반복되면 → <tspan font-weight="700">파워스테이지 차단</tspan></text>
+  <text x="616" y="564" font-size="10" fill="#991B1B" font-weight="700">→ 안전 상태 진입 (연료 차단·림프홈)</text>
+
+  <!-- 하단 비교 -->
+  <rect x="30" y="596" width="410" height="48" rx="10" fill="#F2EDE4" stroke="#8A8478" stroke-width="1.8"/>
+  <text x="235" y="618" font-size="11.5" font-weight="800" fill="#555555" text-anchor="middle">단순 워치독이 통과시키는 폭주</text>
+  <text x="235" y="636" font-size="10" fill="#555555" text-anchor="middle">엉뚱한 루프에 빠졌는데 리프레시 줄만 계속 실행 → 정상 판정</text>
+
+  <rect x="460" y="596" width="410" height="48" rx="10" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
+  <text x="665" y="618" font-size="11.5" font-weight="800" fill="#0F766E" text-anchor="middle">Q&amp;A 워치독이 잡아내는 이유</text>
+  <text x="665" y="636" font-size="10" fill="#555555" text-anchor="middle">매번 다른 질문에 <u>정답을 계산해내지 못하면</u> 통과할 수 없다</text>
+</svg>
