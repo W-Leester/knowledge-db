@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="cca" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">CD는 두 가지다 — 갈림길은 "사람 버튼이 어디 있는가"</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">같은 약어를 쓰지만 다른 것 — 실무에서 "CI/CD"라 할 때는 대개 위쪽(Delivery)을 뜻한다</text>
+
+  <!-- 공통 앞단 -->
+  <text x="60" y="96" font-size="11.5" font-weight="800" fill="#555555">공통 앞단 (CI)</text>
+  <rect x="60" y="106" width="120" height="54" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="120" y="130" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">커밋·PR</text>
+  <text x="120" y="148" font-size="9.5" fill="#666666" text-anchor="middle">코드 변경</text>
+  <line x1="180" y1="133" x2="204" y2="133" stroke="#003F8A" stroke-width="2.2" marker-end="url(#cca)"/>
+  <rect x="208" y="106" width="120" height="54" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="268" y="130" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">빌드·테스트</text>
+  <text x="268" y="148" font-size="9.5" fill="#666666" text-anchor="middle">기계 게이트</text>
+  <line x1="328" y1="133" x2="352" y2="133" stroke="#003F8A" stroke-width="2.2" marker-end="url(#cca)"/>
+  <rect x="356" y="106" width="130" height="54" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="421" y="130" font-size="11.5" font-weight="800" fill="#065F46" text-anchor="middle">배포 산출물</text>
+  <text x="421" y="148" font-size="9.5" fill="#666666" text-anchor="middle">언제든 나갈 수 있음</text>
+
+  <path d="M 486 133 C 520 133 520 240 548 240" fill="none" stroke="#003F8A" stroke-width="2.2" marker-end="url(#cca)"/>
+  <path d="M 486 133 C 520 133 520 430 548 430" fill="none" stroke="#003F8A" stroke-width="2.2" marker-end="url(#cca)"/>
+
+  <!-- Continuous Delivery -->
+  <rect x="552" y="188" width="318" height="150" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
+  <text x="711" y="216" font-size="14.5" font-weight="800" fill="#B45309" text-anchor="middle">Continuous Delivery (지속적 제공)</text>
+  <rect x="574" y="230" width="90" height="46" rx="9" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="619" y="249" font-size="11" font-weight="800" fill="#DC2626" text-anchor="middle">👤 사람</text>
+  <text x="619" y="266" font-size="10" fill="#555555" text-anchor="middle">승인 버튼</text>
+  <line x1="664" y1="253" x2="690" y2="253" stroke="#003F8A" stroke-width="2.2" marker-end="url(#cca)"/>
+  <rect x="694" y="230" width="154" height="46" rx="9" fill="#0D1B2E"/>
+  <text x="771" y="249" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">🚀 프로덕션</text>
+  <text x="771" y="266" font-size="9.5" fill="#AAB9CF" text-anchor="middle">실제 사용자에게</text>
+  <text x="574" y="300" font-size="10.5" fill="#555555">뜻: "언제든 배포할 수 있는 상태를 항상 유지한다"</text>
+  <text x="574" y="320" font-size="10.5" font-weight="700" fill="#B45309">배포 시점은 사람이 정한다 — 대부분의 팀이 여기</text>
+
+  <!-- Continuous Deployment -->
+  <rect x="552" y="378" width="318" height="150" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="3"/>
+  <text x="711" y="406" font-size="14.5" font-weight="800" fill="#0F766E" text-anchor="middle">Continuous Deployment (지속적 배포)</text>
+  <rect x="574" y="420" width="90" height="46" rx="9" fill="#F2EDE4" stroke="#B5AFA5" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="619" y="439" font-size="10.5" font-weight="700" fill="#8A8478" text-anchor="middle">사람 없음</text>
+  <text x="619" y="456" font-size="9.5" fill="#666666" text-anchor="middle">(자동)</text>
+  <line x1="664" y1="443" x2="690" y2="443" stroke="#00AA6C" stroke-width="2.2" marker-end="url(#cca)"/>
+  <rect x="694" y="420" width="154" height="46" rx="9" fill="#0D1B2E"/>
+  <text x="771" y="439" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">🚀 프로덕션</text>
+  <text x="771" y="456" font-size="9.5" fill="#AAB9CF" text-anchor="middle">테스트 통과 = 즉시 반영</text>
+  <text x="574" y="490" font-size="10.5" fill="#555555">뜻: "통과하면 사람 개입 없이 그대로 나간다"</text>
+  <text x="574" y="510" font-size="10.5" font-weight="700" fill="#0F766E">전제: 테스트를 깊이 신뢰할 수 있어야 한다</text>
+
+  <!-- 왼쪽 비교 -->
+  <rect x="60" y="200" width="440" height="150" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="82" y="228" font-size="12.5" font-weight="800" fill="#002C5F">어느 쪽을 택하나 — 판단 기준</text>
+  <text x="82" y="254" font-size="10.5" fill="#555555">· 테스트가 충분히 촘촘한가 (없으면 Deployment는 위험)</text>
+  <text x="82" y="276" font-size="10.5" fill="#555555">· 사고의 비용이 얼마인가 (결제·의료·안전 → 사람 승인)</text>
+  <text x="82" y="298" font-size="10.5" fill="#555555">· 되돌릴 수 있는가 (롤백·기능 스위치가 있으면 과감해도 됨)</text>
+  <text x="82" y="320" font-size="10.5" fill="#555555">· 규제·감사 요구가 있는가 (승인 기록이 필요할 수 있다)</text>
+  <text x="82" y="342" font-size="10" font-weight="700" fill="#1A5CB5">→ 대개 Delivery로 시작해, 신뢰가 쌓이면 Deployment로</text>
+
+  <rect x="60" y="366" width="440" height="112" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="82" y="392" font-size="12.5" font-weight="800" fill="#002C5F">한 걸음 더 — 배포(deploy) ≠ 릴리스(release)</text>
+  <text x="82" y="416" font-size="10.5" fill="#555555">기능 스위치(feature flag)를 쓰면 <tspan font-weight="700">코드는 나가 있되 꺼진 상태</tspan>로 둘 수 있다.</text>
+  <text x="82" y="438" font-size="10.5" fill="#555555">배포는 매일 자동으로, 노출은 원하는 날 스위치로 —</text>
+  <text x="82" y="458" font-size="10.5" font-weight="700" fill="#1A5CB5">두 결정을 분리하면 "자동 배포냐 아니냐" 논쟁 자체가 줄어든다</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="552" width="840" height="52" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="576" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">판별 질문 하나면 된다 — "프로덕션에 나가기 전에 사람이 누르는 버튼이 있는가?"</text>
+  <text x="450" y="596" font-size="11" fill="#AAB9CF" text-anchor="middle">있으면 Delivery · 없으면 Deployment — 문서·채용공고에서 CD를 만나면 이걸 확인하면 된다</text>
+</svg>

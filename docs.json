@@ -360,6 +360,29 @@
       ]
     },
     {
+      "id": "ci-cd",
+      "title": "CI/CD 정리",
+      "desc": "약어 해체부터 툴 지형까지 — CD의 두 뜻, CT의 세 뜻, 배포 전략과 기계 게이트",
+      "file": "docs/ci-cd.html",
+      "group": "Software · Dev",
+      "icon": "🔁",
+      "gradient": [
+        "#0D1B2E",
+        "#0E7490"
+      ],
+      "tags": [
+        "CI",
+        "Delivery vs Deployment",
+        "GitHub Actions"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/cc-cd-two.svg",
+        "docs/img/cc-tools.svg",
+        "docs/img/cc-strategies.svg"
+      ]
+    },
+    {
       "id": "local-llm-agent",
       "title": "로컬 LLM 에이전트",
       "desc": "도구 호출·MCP·RAG로 내 컴퓨터의 Qwen에게 날개 달기",
