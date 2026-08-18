@@ -455,6 +455,15 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <u>코드는 싸졌고 검증이 비싸졌다</u>. AI가 만들어내는 변경량이 늘수록 사람이 전부 읽을 수 없으므로,
     <strong>기계가 읽는 층(CI)</strong>의 가치가 올라간다 — 그 문서의 리뷰 피라미드 1층이 정확히 CI다.</div>
   </div>
+
+  <div class="callout amber">
+    <span class="icon">🌿</span>
+    <div><strong>CI의 숨은 전제 — 브랜치가 짧아야 한다.</strong> CI의 "I"는 통합(Integration)인데,
+    브랜치를 몇 주씩 키운 뒤 합치면 <u>CI 도구가 있어도 통합 지옥은 그대로</u>다 — 도구는 합칠 때 검사할 뿐,
+    합치는 빈도는 사람이 정하기 때문이다. 그래서 CI가 잘 도는 팀은 대개 <strong>작게 쪼갠 브랜치를 하루~며칠 안에
+    병합</strong>하는 방식(트렁크 기반에 가까운 흐름)을 쓴다. 「AI 시대의 개발 프로세스」의
+    "한 입 크기로 자르기(④-1)"가 CI와 맞물리는 지점이 여기다 — <u>작게 자를수록 기계 검증이 의미 있어진다</u>.</div>
+  </div>
 </section>
 
 <!-- ═══════════ 2. CI ═══════════ -->
@@ -567,6 +576,15 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     그러면 <u>피드백 루프가 끊겨 CI의 의미가 사라진다</u>. 실무 목표는 대개 <strong>10분 이내</strong>(개략)이고,
     이를 위해 캐시(의존성·빌드 산출물), 병렬 실행, 변경된 부분만 테스트하는 기법을 쓴다.
     <u>느린 파이프라인은 없는 파이프라인보다 나쁠 수 있다</u> — 기다리는 시간이 쌓이므로.</div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🗝</span>
+    <div><strong>환경 3종과 시크릿의 자리 —</strong> 파이프라인이 오가는 무대는 보통 셋이다:
+    <u>개발(내 컴퓨터)</u> → <u>스테이징(실제와 비슷한 리허설 무대)</u> → <u>프로덕션(실사용)</u>.
+    환경마다 DB 주소·API 키가 다르고, 이 값들은 코드가 아니라 <strong>환경 변수 + CI의 시크릿 저장소</strong>
+    (GitHub Actions Secrets 등)에 산다 — YAML이나 코드에 적는 순간 공개 저장소에선 즉시 유출이다(§8 안티패턴 ⑤).
+    「SaaS 해부」의 "키 관리"·「데이터베이스」 §9-D의 "service role 키"가 실무에서 놓이는 곳이 정확히 여기다.</div>
   </div>
 </section>
 
@@ -800,6 +818,53 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
         <tr><td class="hl">6단계</td><td>프로덕션 자동화 + 롤백·전략(§5)</td><td>배포가 행사에서 일상으로</td></tr>
       </tbody>
     </table>
+  </div>
+
+  <h3><span class="num">＋</span>잘 되고 있는지 어떻게 아나 — DORA 4지표</h3>
+
+  <p class="body">파이프라인을 갖춘 다음의 질문은 "우리가 잘하고 있나"다. 업계 표준 측정이
+  <strong>DORA 지표</strong>(연구 프로그램 이름에서 유래)로 정리돼 있다 — 넷이 한 세트다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:190px">지표</th><th style="width:250px">무엇을 재나</th><th>읽는 법</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">배포 빈도</td><td>얼마나 자주 프로덕션에 나가나</td><td rowspan="2">속도의 축 — 잦고 빠를수록 변경이 작다는 뜻</td></tr>
+        <tr><td class="hl">변경 리드타임</td><td>커밋 → 프로덕션까지 걸리는 시간</td></tr>
+        <tr><td class="hl">변경 실패율</td><td>배포 중 문제를 일으키는 비율</td><td rowspan="2">안정의 축 — 빨라졌는데 사고가 늘면 의미 없다</td></tr>
+        <tr><td class="hl">복구 시간 (MTTR)</td><td>장애에서 회복까지 걸리는 시간</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">핵심은 <strong>속도 둘 + 안정 둘을 함께 본다</strong>는 것 — 한쪽만 좋아지는 것은 착시다.
+  그리고 「SaaS 해부」의 지표들처럼 절대값보다 <u>내 팀의 지난달 대비 추세</u>가 중요하다.
+  개인 프로젝트라면 넷을 다 잴 필요 없이 "커밋에서 배포까지 몇 분인가" 하나로 시작해도 충분하다.</p>
+
+  <h3><span class="num">＋</span>반대의 답 — CI를 안 붙이는 게 맞는 경우</h3>
+
+  <p class="body">이 문서는 도입을 전제로 썼지만, <strong>안 붙이는 것이 합리적인 경우도 실재한다.</strong>
+    실제로 이 지식 베이스가 §7의 설계까지 하고도 검토 끝에 붙이지 않기로 결정했다 — 판단 기준은 셋이었다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:200px">기준</th><th style="width:250px">CI가 값진 경우</th><th>임시 검증이 나은 경우</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">작성자 수</td><td>여럿 — 서로의 변경이 서로를 깨뜨린다</td><td><strong>사실상 혼자</strong> — 회귀의 주요 원인(타인)이 없다</td></tr>
+        <tr><td class="hl">검사의 성격</td><td>매번 같은 항목 (회귀 방지)</td><td><strong>작업마다 다른 항목</strong> — 이번 문서의 아코디언·애니메이션처럼 특화 검사가 본체</td></tr>
+        <tr><td class="hl">유지보수 대가</td><td>구조가 안정돼 스크립트 가정이 오래 간다</td><td>구조가 계속 진화해 <u>스크립트가 족쇄</u>가 된다 · 오검출이 나기 시작하면 신뢰가 무너진다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">⚖️</span>
+    <div><strong>결정의 핵심은 도구가 아니라 회귀 위험이다 —</strong> CI의 값은 "여러 사람의 변경이 얽히며 생기는
+    회귀"에 비례한다. 단일 작성자·문서 중심·저회귀 저장소라면, <u>반복 사고 지점을 규칙 문서(CLAUDE.md류)에
+    적어두고 작업마다 맞춤 검증을 돌리는 것</u>이 스크립트 유지보수 비용 없이 같은 효과를 낸다.
+    단 그 경우에도 <strong>실제 사고가 났던 검사 하나쯤은 매번 고정으로 포함</strong>하는 절충이 값싸고 —
+    상황이 바뀌면(공동 작업자 합류, 같은 사고 재발) 그때 §7의 설계를 꺼내면 된다.
+    <u>"언제 도입하나"만큼 "언제 안 하나"도 판단</u>이다.</div>
   </div>
 
   <div class="callout red">

@@ -375,7 +375,7 @@
         "Delivery vs Deployment",
         "GitHub Actions"
       ],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/cc-cd-two.svg",
         "docs/img/cc-tools.svg",
