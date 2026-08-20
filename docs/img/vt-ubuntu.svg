@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="vtu" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">Ubuntu의 정체 — "리눅스"는 엔진이고, 배포판은 완성차다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">"리눅스 깔았어"의 실체는 언제나 어떤 배포판을 깐 것 — 엔진만으로는 달릴 수 없으므로</text>
+
+  <!-- 커널 -->
+  <rect x="60" y="90" width="260" height="200" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="190" y="120" font-size="14" font-weight="800" fill="#DC2626" text-anchor="middle">🔧 리눅스 커널 (엔진)</text>
+  <text x="80" y="148" font-size="10.5" fill="#555555">· 자원 배분자 그 자체 —</text>
+  <text x="90" y="164" font-size="10.5" fill="#555555">CPU 스케줄링·메모리·드라이버</text>
+  <text x="80" y="188" font-size="10.5" fill="#555555">· 리누스 토르발스가 1991년 시작</text>
+  <text x="80" y="212" font-size="10.5" fill="#555555">· 이것만 있으면? <tspan font-weight="700" fill="#DC2626">아무것도 못 한다</tspan></text>
+  <text x="90" y="228" font-size="10" fill="#666666">(명령어도, 화면도, 설치 도구도 없음)</text>
+  <text x="190" y="262" font-size="10.5" font-weight="700" fill="#DC2626" text-anchor="middle">"리눅스"가 정확히 가리키는 것은</text>
+  <text x="190" y="278" font-size="10.5" font-weight="700" fill="#DC2626" text-anchor="middle">이 엔진 하나뿐이다</text>
+
+  <line x1="320" y1="190" x2="368" y2="190" stroke="#003F8A" stroke-width="2.5" marker-end="url(#vtu)"/>
+  <text x="344" y="178" font-size="10" font-weight="700" fill="#555555" text-anchor="middle">+ 포장</text>
+
+  <!-- 배포판 -->
+  <rect x="372" y="90" width="498" height="200" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="3"/>
+  <text x="621" y="120" font-size="14" font-weight="800" fill="#0F766E" text-anchor="middle">📦 배포판 (완성차) — 커널 + 생활용품 일습</text>
+  <rect x="392" y="136" width="220" height="30" rx="7" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2"/>
+  <text x="502" y="156" font-size="10.5" font-weight="700" fill="#DC2626" text-anchor="middle">리눅스 커널 (엔진 그대로)</text>
+  <rect x="392" y="172" width="220" height="30" rx="7" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="502" y="192" font-size="10.5" fill="#555555" text-anchor="middle">셸·기본 명령어 (ls, grep …)</text>
+  <rect x="392" y="208" width="220" height="30" rx="7" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="502" y="228" font-size="10.5" fill="#555555" text-anchor="middle">패키지 매니저 (apt — 3층!)</text>
+  <rect x="392" y="244" width="220" height="30" rx="7" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="502" y="264" font-size="10.5" fill="#555555" text-anchor="middle">설치 도구·기본 설정·(데스크톱 환경)</text>
+  <text x="746" y="150" font-size="11" font-weight="700" fill="#0F766E" text-anchor="middle">이 "포장 세트"를 누가</text>
+  <text x="746" y="168" font-size="11" font-weight="700" fill="#0F766E" text-anchor="middle">어떻게 꾸리느냐가</text>
+  <text x="746" y="186" font-size="11" font-weight="700" fill="#0F766E" text-anchor="middle">배포판의 차이</text>
+  <text x="746" y="216" font-size="10" fill="#666666" text-anchor="middle">엔진(커널)은 모두 같고</text>
+  <text x="746" y="232" font-size="10" fill="#666666" text-anchor="middle">내장과 옵션이 다른 것</text>
+  <text x="746" y="262" font-size="10" fill="#555555" text-anchor="middle">Ubuntu = 그중 제일</text>
+  <text x="746" y="278" font-size="10" fill="#555555" text-anchor="middle">많이 팔리는 모델</text>
+
+  <!-- 가계도 -->
+  <text x="450" y="336" font-size="15" font-weight="800" fill="#002C5F" text-anchor="middle">배포판 지형 — 어디서 만나게 되나</text>
+
+  <rect x="40" y="356" width="266" height="120" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="173" y="382" font-size="12.5" font-weight="800" fill="#0F766E" text-anchor="middle">Debian 계열</text>
+  <text x="173" y="404" font-size="11" font-weight="700" fill="#065F46" text-anchor="middle">★ Ubuntu — 사실상 기본값</text>
+  <text x="60" y="426" font-size="10" fill="#555555">서버·개발·튜토리얼·CI(ubuntu-latest)의</text>
+  <text x="60" y="442" font-size="10" fill="#555555">표준 전제 · WSL의 기본 선택지</text>
+  <text x="60" y="462" font-size="9.5" fill="#666666">부모 Debian: 보수적·안정 지향</text>
+
+  <rect x="318" y="356" width="266" height="120" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="451" y="382" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">Red Hat 계열</text>
+  <text x="451" y="404" font-size="11" font-weight="700" fill="#1A5CB5" text-anchor="middle">RHEL · Rocky · Fedora</text>
+  <text x="338" y="426" font-size="10" fill="#555555">기업 서버의 표준 — 유료 지원 계약이</text>
+  <text x="338" y="442" font-size="10" fill="#555555">본체 (은행·통신사 서버실에서 만남)</text>
+  <text x="338" y="462" font-size="9.5" fill="#666666">패키지 매니저가 다르다 (dnf/yum)</text>
+
+  <rect x="596" y="356" width="274" height="120" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="733" y="382" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">특화형</text>
+  <text x="733" y="404" font-size="11" font-weight="700" fill="#B45309" text-anchor="middle">Alpine · Arch</text>
+  <text x="616" y="426" font-size="10" fill="#555555">Alpine: 초경량 — Docker 컨테이너의</text>
+  <text x="616" y="442" font-size="10" fill="#555555">바탕으로 자주 만남 (수 MB!)</text>
+  <text x="616" y="462" font-size="9.5" fill="#666666">Arch: 전부 직접 조립하는 취향의 선택</text>
+
+  <!-- 왜 자주 보이나 -->
+  <rect x="30" y="496" width="840" height="88" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="52" y="524" font-size="12.5" font-weight="800" fill="#002C5F">"개발하다 보면 자꾸 나오는" 이유 — 개발의 목적지 세 곳이 전부 리눅스 전제다</text>
+  <text x="52" y="548" font-size="10.5" fill="#555555">① <tspan font-weight="700">서버</tspan> — 배포하면 코드가 도는 곳이 대부분 리눅스 &#160;&#160; ② <tspan font-weight="700">CI 러너</tspan> — runs-on: ubuntu-latest = GitHub이 빌려주는 Ubuntu 가상머신</text>
+  <text x="52" y="570" font-size="10.5" fill="#555555">③ <tspan font-weight="700">컨테이너</tspan> — Docker 이미지의 바탕이 대개 Ubuntu·Alpine &#160;&#160;→ 「개발 환경으로서의 OS」의 개발-배포 격차 그림이 이 이야기</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="600" width="840" height="30" rx="8" fill="#0D1B2E"/>
+  <text x="450" y="620" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">한 줄: 리눅스 = 엔진 · 배포판 = 완성차 · Ubuntu = 그중 국민차 — 그리고 개발 세계의 도로는 대부분 리눅스 전용이다</text>
+</svg>

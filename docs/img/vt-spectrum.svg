@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">"가상"의 스펙트럼 — 공통 본질은 착각의 제공이다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">"프로그램에게 진짜와 다른 세계를 보여주고, 프로그램은 그걸 진짜인 줄 알고 평소처럼 동작한다" — 무엇에 대한 착각이냐가 층을 가른다</text>
+
+  <!-- 스펙트럼 축 -->
+  <line x1="80" y1="96" x2="820" y2="96" stroke="#8A8478" stroke-width="2.5"/>
+  <text x="80" y="84" font-size="10.5" font-weight="700" fill="#0F766E">좁은 착각 (가볍다)</text>
+  <text x="820" y="84" font-size="10.5" font-weight="700" fill="#DC2626" text-anchor="end">넓은 착각 (무겁다)</text>
+
+  <!-- venv -->
+  <rect x="40" y="116" width="196" height="230" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="138" y="144" font-size="13" font-weight="800" fill="#0F766E" text-anchor="middle">🐍 venv · node_modules</text>
+  <rect x="56" y="158" width="164" height="44" rx="8" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="138" y="176" font-size="10" font-weight="700" fill="#065F46" text-anchor="middle">속이는 것:</text>
+  <text x="138" y="193" font-size="10.5" font-weight="800" fill="#0F766E" text-anchor="middle">"설치된 패키지 세계"</text>
+  <text x="56" y="222" font-size="10" fill="#555555">실체: 경로 트릭 —</text>
+  <text x="56" y="238" font-size="10" fill="#555555">"python은 이 폴더 것 먼저"</text>
+  <text x="56" y="262" font-size="10" fill="#555555">자원 배분 개입: <tspan font-weight="800" fill="#DC2626">없음</tspan></text>
+  <text x="56" y="282" font-size="10" fill="#555555">무게: 0 (폴더 하나)</text>
+  <text x="138" y="316" font-size="9.5" fill="#666666" text-anchor="middle">「개발 생태계 해부」 §4-B의</text>
+  <text x="138" y="330" font-size="9.5" fill="#666666" text-anchor="middle">"의존성 격리"가 이것</text>
+
+  <!-- 컨테이너 -->
+  <rect x="248" y="116" width="196" height="230" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="346" y="144" font-size="13" font-weight="800" fill="#B45309" text-anchor="middle">📦 컨테이너</text>
+  <rect x="264" y="158" width="164" height="44" rx="8" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.2"/>
+  <text x="346" y="176" font-size="10" font-weight="700" fill="#B45309" text-anchor="middle">속이는 것:</text>
+  <text x="346" y="193" font-size="10.5" font-weight="800" fill="#B45309" text-anchor="middle">"너의 OS 세계"</text>
+  <text x="264" y="222" font-size="10" fill="#555555">실체: 커널의 격리 기능 —</text>
+  <text x="264" y="238" font-size="10" fill="#555555">파일·프로세스·네트워크 시야</text>
+  <text x="264" y="262" font-size="10" fill="#555555">자원 배분: <tspan font-weight="800" fill="#B45309">한도 딱지만</tspan></text>
+  <text x="264" y="282" font-size="10" fill="#555555">무게: MB · 수 초</text>
+  <text x="346" y="316" font-size="9.5" fill="#666666" text-anchor="middle">배분자는 여전히</text>
+  <text x="346" y="330" font-size="9.5" fill="#666666" text-anchor="middle">호스트 커널 하나</text>
+
+  <!-- VM -->
+  <rect x="456" y="116" width="196" height="230" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="554" y="144" font-size="13" font-weight="800" fill="#DC2626" text-anchor="middle">🖥 가상머신 (가상 OS)</text>
+  <rect x="472" y="158" width="164" height="44" rx="8" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.2"/>
+  <text x="554" y="176" font-size="10" font-weight="700" fill="#DC2626" text-anchor="middle">속이는 것:</text>
+  <text x="554" y="193" font-size="10.5" font-weight="800" fill="#DC2626" text-anchor="middle">"하드웨어 전체"</text>
+  <text x="472" y="222" font-size="10" fill="#555555">실체: 하이퍼바이저가</text>
+  <text x="472" y="238" font-size="10" fill="#555555">가짜 컴퓨터를 통째로 제공</text>
+  <text x="472" y="262" font-size="10" fill="#555555">자원 배분: <tspan font-weight="800" fill="#DC2626">2단 배분</tspan></text>
+  <text x="472" y="282" font-size="10" fill="#555555">무게: GB · 수십 초</text>
+  <text x="554" y="316" font-size="9.5" fill="#666666" text-anchor="middle">게스트 OS는 자기가</text>
+  <text x="554" y="330" font-size="9.5" fill="#666666" text-anchor="middle">진짜 주인인 줄 안다</text>
+
+  <!-- 가상 메모리 -->
+  <rect x="664" y="116" width="196" height="230" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="762" y="144" font-size="13" font-weight="800" fill="#6B21A8" text-anchor="middle">🧠 (원조) 가상 메모리</text>
+  <rect x="680" y="158" width="164" height="44" rx="8" fill="#FFFFFF" stroke="#6B21A8" stroke-width="1.2"/>
+  <text x="762" y="176" font-size="10" font-weight="700" fill="#6B21A8" text-anchor="middle">속이는 것:</text>
+  <text x="762" y="193" font-size="10.5" font-weight="800" fill="#6B21A8" text-anchor="middle">"너만의 메모리 공간"</text>
+  <text x="680" y="222" font-size="10" fill="#555555">모든 OS가 모든 프로세스에게</text>
+  <text x="680" y="238" font-size="10" fill="#555555">항상 쓰고 있는 원조 트릭</text>
+  <text x="680" y="262" font-size="10" fill="#555555">각 프로세스는 자기가 메모리를</text>
+  <text x="680" y="278" font-size="10" fill="#555555">통째로 가진 줄 안다</text>
+  <text x="762" y="316" font-size="9.5" fill="#666666" text-anchor="middle">가상화 기술들은 이 트릭의</text>
+  <text x="762" y="330" font-size="9.5" fill="#666666" text-anchor="middle">범위를 넓힌 변주들이다</text>
+
+  <!-- 정리 표 -->
+  <rect x="40" y="370" width="820" height="150" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="60" y="398" font-size="12.5" font-weight="800" fill="#002C5F">그래서 — "가상 OS와 venv는 같은 것인가?"의 답</text>
+  <text x="60" y="424" font-size="11" fill="#555555">이름만 사촌이다. <tspan font-weight="700">venv는 자원 배분과 무관한 경로 트릭</tspan>이고, VM은 하드웨어 착각 + 2단 자원 배분이다.</text>
+  <text x="60" y="448" font-size="11" fill="#555555">공통 본질은 "리소스 분배 요청"이 아니라 <tspan font-weight="800" fill="#002C5F">"격리된 시야(세계)의 제공"</tspan> — 자원 배분은 그중 오른쪽 둘에만 있는 부가 기능이다.</text>
+  <text x="60" y="480" font-size="11" font-weight="700" fill="#0F766E">고르는 법: 필요한 착각의 크기만큼만 산다 —</text>
+  <text x="60" y="502" font-size="10.5" fill="#555555">패키지 충돌만 막으면 되나 → venv · "내 컴퓨터에선 되는데"를 없애려면 → 컨테이너 · 다른 OS·강한 격리가 필요하면 → VM</text>
+
+  <!-- 하단 -->
+  <rect x="40" y="536" width="820" height="80" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="562" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">관통 문장: 가상화란 — 프로그램에게 거짓 세계를 보여주되, 그 거짓이 완벽해서 프로그램이 평소처럼 일하게 만드는 기술</text>
+  <text x="450" y="586" font-size="11" fill="#AAB9CF" text-anchor="middle">venv는 패키지 세계를, 컨테이너는 OS 세계를, VM은 컴퓨터 자체를 속인다 — 그리고 OS는 원래부터 모두를 속이고 있었다(가상 메모리)</text>
+  <text x="450" y="606" font-size="10.5" fill="#7FD1A8" text-anchor="middle">새로운 "가상 무엇"을 만나면 물어라: "무엇에 대한 착각을 파는가?"</text>
+</svg>

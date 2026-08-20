@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 680" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="680" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">VM vs 컨테이너 — 집 한 채 vs 아파트 호실</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">무게 차이의 근원: 배분자(OS)를 새로 두느냐, 기존 배분자에 딱지만 붙이느냐</text>
+
+  <!-- VM 쪽 -->
+  <rect x="30" y="84" width="410" height="330" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="235" y="112" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">🏠 가상머신 — 집을 통째로 새로 짓는다</text>
+
+  <rect x="60" y="360" width="350" height="32" rx="7" fill="#555555"/>
+  <text x="235" y="381" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">🔩 하드웨어</text>
+  <rect x="60" y="322" width="350" height="32" rx="7" fill="#B45309"/>
+  <text x="235" y="343" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">⚡ 하이퍼바이저 (배분자 1층)</text>
+
+  <rect x="60" y="136" width="168" height="180" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="144" y="160" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">VM 1 (집 한 채)</text>
+  <rect x="76" y="172" width="136" height="26" rx="5" fill="#E6F7F1" stroke="#0F766E" stroke-width="1"/>
+  <text x="144" y="189" font-size="9.5" fill="#065F46" text-anchor="middle">앱</text>
+  <rect x="76" y="204" width="136" height="26" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1"/>
+  <text x="144" y="221" font-size="9.5" fill="#555555" text-anchor="middle">라이브러리·명령어</text>
+  <rect x="76" y="236" width="136" height="34" rx="5" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="144" y="251" font-size="9.5" font-weight="800" fill="#DC2626" text-anchor="middle">게스트 OS 통째</text>
+  <text x="144" y="264" font-size="8.5" fill="#991B1B" text-anchor="middle">커널 포함 (배분자 2층!)</text>
+  <rect x="76" y="276" width="136" height="26" rx="5" fill="#F2EDE4"/>
+  <text x="144" y="293" font-size="9.5" fill="#555555" text-anchor="middle">가상 하드웨어</text>
+
+  <rect x="242" y="136" width="168" height="180" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="326" y="160" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">VM 2 (또 한 채)</text>
+  <rect x="258" y="172" width="136" height="26" rx="5" fill="#E6F7F1" stroke="#0F766E" stroke-width="1"/>
+  <text x="326" y="189" font-size="9.5" fill="#065F46" text-anchor="middle">앱</text>
+  <rect x="258" y="204" width="136" height="26" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1"/>
+  <text x="326" y="221" font-size="9.5" fill="#555555" text-anchor="middle">라이브러리·명령어</text>
+  <rect x="258" y="236" width="136" height="34" rx="5" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="326" y="251" font-size="9.5" font-weight="800" fill="#DC2626" text-anchor="middle">게스트 OS 또 통째</text>
+  <text x="326" y="264" font-size="8.5" fill="#991B1B" text-anchor="middle">커널 또 포함</text>
+  <rect x="258" y="276" width="136" height="26" rx="5" fill="#F2EDE4"/>
+  <text x="326" y="293" font-size="9.5" fill="#555555" text-anchor="middle">가상 하드웨어</text>
+
+  <text x="235" y="404" font-size="9.5" fill="#666666" text-anchor="middle">OS가 집집마다 하나씩 — 그래서 GB 단위·부팅 수십 초</text>
+
+  <!-- 컨테이너 쪽 -->
+  <rect x="460" y="84" width="410" height="330" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="665" y="112" font-size="14" font-weight="800" fill="#0F766E" text-anchor="middle">🏢 컨테이너 — 한 건물의 호실들</text>
+
+  <rect x="490" y="360" width="350" height="32" rx="7" fill="#555555"/>
+  <text x="665" y="381" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">🔩 하드웨어</text>
+  <rect x="490" y="322" width="350" height="32" rx="7" fill="#DC2626"/>
+  <text x="665" y="343" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">🐧 호스트 OS 커널 하나 (유일한 배분자)</text>
+
+  <rect x="490" y="176" width="106" height="140" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+  <text x="543" y="200" font-size="10.5" font-weight="800" fill="#0F766E" text-anchor="middle">호실 1</text>
+  <rect x="502" y="212" width="82" height="26" rx="5" fill="#E6F7F1" stroke="#0F766E" stroke-width="1"/>
+  <text x="543" y="229" font-size="9.5" fill="#065F46" text-anchor="middle">앱</text>
+  <rect x="502" y="244" width="82" height="26" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1"/>
+  <text x="543" y="261" font-size="9" fill="#555555" text-anchor="middle">라이브러리</text>
+  <rect x="502" y="276" width="82" height="28" rx="5" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.2"/>
+  <text x="543" y="288" font-size="8.5" font-weight="700" fill="#B45309" text-anchor="middle">한도 딱지</text>
+  <text x="543" y="299" font-size="8" fill="#666666" text-anchor="middle">CPU 2 · 4GB</text>
+
+  <rect x="612" y="176" width="106" height="140" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+  <text x="665" y="200" font-size="10.5" font-weight="800" fill="#0F766E" text-anchor="middle">호실 2</text>
+  <rect x="624" y="212" width="82" height="26" rx="5" fill="#E6F7F1" stroke="#0F766E" stroke-width="1"/>
+  <text x="665" y="229" font-size="9.5" fill="#065F46" text-anchor="middle">앱</text>
+  <rect x="624" y="244" width="82" height="26" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1"/>
+  <text x="665" y="261" font-size="9" fill="#555555" text-anchor="middle">라이브러리</text>
+  <rect x="624" y="276" width="82" height="28" rx="5" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.2"/>
+  <text x="665" y="288" font-size="8.5" font-weight="700" fill="#B45309" text-anchor="middle">한도 딱지</text>
+  <text x="665" y="299" font-size="8" fill="#666666" text-anchor="middle">CPU 1 · 2GB</text>
+
+  <rect x="734" y="176" width="106" height="140" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+  <text x="787" y="200" font-size="10.5" font-weight="800" fill="#0F766E" text-anchor="middle">호실 3</text>
+  <rect x="746" y="212" width="82" height="26" rx="5" fill="#E6F7F1" stroke="#0F766E" stroke-width="1"/>
+  <text x="787" y="229" font-size="9.5" fill="#065F46" text-anchor="middle">앱</text>
+  <rect x="746" y="244" width="82" height="26" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1"/>
+  <text x="787" y="261" font-size="9" fill="#555555" text-anchor="middle">라이브러리</text>
+  <rect x="746" y="276" width="82" height="28" rx="5" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.2"/>
+  <text x="787" y="288" font-size="8.5" font-weight="700" fill="#B45309" text-anchor="middle">한도 딱지</text>
+  <text x="787" y="299" font-size="8" fill="#666666" text-anchor="middle">CPU 4 · 8GB</text>
+
+  <text x="665" y="160" font-size="9.5" fill="#666666" text-anchor="middle">OS(커널)는 없음 — 건물의 것을 같이 쓴다. 그래서 MB 단위·시작 수 초</text>
+  <text x="665" y="404" font-size="9.5" fill="#666666" text-anchor="middle">"한도 딱지"(cgroups) = 배분자를 새로 두는 게 아니라 기존 배분자에게 상한만 신고</text>
+
+  <!-- 비교표 -->
+  <rect x="30" y="434" width="840" height="130" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="120" y="462" font-size="11.5" font-weight="800" fill="#555555">비교</text>
+  <text x="400" y="462" font-size="11.5" font-weight="800" fill="#1A5CB5">🏠 VM</text>
+  <text x="660" y="462" font-size="11.5" font-weight="800" fill="#0F766E">🏢 컨테이너</text>
+  <line x1="50" y1="472" x2="850" y2="472" stroke="#D5CFBF" stroke-width="1"/>
+  <text x="120" y="492" font-size="10.5" fill="#555555">배분자 수</text>
+  <text x="400" y="492" font-size="10.5" fill="#555555">2층 (하이퍼바이저 + 게스트 OS)</text>
+  <text x="660" y="492" font-size="10.5" fill="#555555">1층 (호스트 커널뿐)</text>
+  <text x="120" y="514" font-size="10.5" fill="#555555">격리 벽</text>
+  <text x="400" y="514" font-size="10.5" fill="#555555">두껍다 (다른 커널·가상 하드웨어)</text>
+  <text x="660" y="514" font-size="10.5" fill="#555555">얇다 (커널 공유)</text>
+  <text x="120" y="536" font-size="10.5" fill="#555555">무게·속도</text>
+  <text x="400" y="536" font-size="10.5" fill="#555555">GB · 부팅 수십 초</text>
+  <text x="660" y="536" font-size="10.5" fill="#555555">MB · 수 초</text>
+  <text x="120" y="556" font-size="10.5" fill="#555555">주 용도</text>
+  <text x="400" y="556" font-size="10.5" fill="#555555">다른 OS · 강한 격리 · 클라우드 서버</text>
+  <text x="660" y="556" font-size="10.5" fill="#555555">배포 표준 · 개발 환경 통일</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="580" width="840" height="80" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="606" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">실전에서는 겹쳐 쓴다 — 클라우드: 바닥은 VM(고객 간 두꺼운 벽) + 그 위에 컨테이너(앱의 가벼운 포장)</text>
+  <text x="450" y="628" font-size="11" fill="#AAB9CF" text-anchor="middle">맥·윈도우의 Docker도 마찬가지 — 리눅스 커널이 없으므로 경량 VM을 먼저 띄우고(WSL2·OrbStack) 그 안에서 컨테이너를 돌린다</text>
+  <text x="450" y="648" font-size="10.5" fill="#7FD1A8" text-anchor="middle">「로컬 LLM 코딩 공장」의 샌드박스 = 이 아파트 호실에 AI를 입주시킨 것</text>
+</svg>

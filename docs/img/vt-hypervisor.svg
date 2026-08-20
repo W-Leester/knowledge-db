@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="660" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">하이퍼바이저는 어디에 사는가 — 두 구조, 그리고 WSL2의 반전</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">"하이퍼바이저 = 윈도우?"의 답: 겸업일 수도(Type 2), 윈도우 밑을 파고든 진짜 주인일 수도(Type 1)</text>
+
+  <!-- Type 2 -->
+  <rect x="30" y="84" width="410" height="250" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="235" y="112" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">Type 2 — 호스트형 ("윈도우 안의 앱")</text>
+  <text x="235" y="132" font-size="10.5" fill="#666666" text-anchor="middle">VirtualBox · VMware Workstation</text>
+
+  <rect x="60" y="286" width="350" height="34" rx="7" fill="#555555"/>
+  <text x="235" y="308" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">🔩 하드웨어 (CPU · RAM · 디스크)</text>
+  <rect x="60" y="246" width="350" height="34" rx="7" fill="#1A5CB5"/>
+  <text x="235" y="268" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">🪟 Windows — 주인 (진짜 배분자)</text>
+  <rect x="60" y="206" width="350" height="34" rx="7" fill="#7FB5E8"/>
+  <text x="235" y="228" font-size="11.5" font-weight="800" fill="#0D1B2E" text-anchor="middle">하이퍼바이저 = 윈도우 위의 프로그램 하나</text>
+  <rect x="60" y="166" width="170" height="34" rx="7" fill="#E6F7F1" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="145" y="188" font-size="11" font-weight="800" fill="#0F766E" text-anchor="middle">🐧 게스트 OS</text>
+  <rect x="240" y="166" width="170" height="34" rx="7" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="325" y="188" font-size="11" fill="#555555" text-anchor="middle">일반 앱들 (크롬 등)</text>
+  <text x="235" y="150" font-size="10" font-weight="700" fill="#1A5CB5" text-anchor="middle">→ 님의 직감이 맞는 구조: 윈도우가 마스터</text>
+
+  <!-- Type 1 -->
+  <rect x="460" y="84" width="410" height="250" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
+  <text x="665" y="112" font-size="14" font-weight="800" fill="#B45309" text-anchor="middle">Type 1 — 베어메탈형 ("하드웨어 바로 위")</text>
+  <text x="665" y="132" font-size="10.5" fill="#666666" text-anchor="middle">Hyper-V · ESXi · KVM — 클라우드는 전부 이쪽</text>
+
+  <rect x="490" y="286" width="350" height="34" rx="7" fill="#555555"/>
+  <text x="665" y="308" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">🔩 하드웨어</text>
+  <rect x="490" y="246" width="350" height="34" rx="7" fill="#B45309"/>
+  <text x="665" y="268" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">⚡ 하이퍼바이저 — 진짜 주인 (최종 배분자)</text>
+  <rect x="490" y="186" width="165" height="52" rx="7" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="572" y="208" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">🪟 Windows</text>
+  <text x="572" y="226" font-size="9.5" fill="#666666" text-anchor="middle">세입자 1호</text>
+  <rect x="675" y="186" width="165" height="52" rx="7" fill="#E6F7F1" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="757" y="208" font-size="11" font-weight="800" fill="#0F766E" text-anchor="middle">🐧 Linux</text>
+  <text x="757" y="226" font-size="9.5" fill="#666666" text-anchor="middle">세입자 2호</text>
+  <text x="665" y="164" font-size="10" font-weight="700" fill="#DC2626" text-anchor="middle">→ 윈도우조차 세입자 — 특권이 클 뿐</text>
+
+  <!-- WSL2 반전 -->
+  <rect x="30" y="358" width="840" height="216" rx="14" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="450" y="388" font-size="14.5" font-weight="800" fill="#DC2626" text-anchor="middle">🔄 WSL2의 반전 — 켜는 순간 구조가 뒤집힌다</text>
+
+  <text x="240" y="416" font-size="11.5" font-weight="800" fill="#555555" text-anchor="middle">WSL2 켜기 전</text>
+  <rect x="90" y="490" width="300" height="30" rx="6" fill="#555555"/>
+  <text x="240" y="510" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">하드웨어</text>
+  <rect x="90" y="454" width="300" height="30" rx="6" fill="#1A5CB5"/>
+  <text x="240" y="474" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">🪟 Windows — 유일한 주인</text>
+  <rect x="90" y="424" width="140" height="24" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.2"/>
+  <text x="160" y="440" font-size="9.5" fill="#555555" text-anchor="middle">앱들</text>
+
+  <text x="450" y="480" font-size="22" font-weight="800" fill="#DC2626" text-anchor="middle">→</text>
+
+  <text x="660" y="416" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">WSL2 켠 후 (Hyper-V 활성화)</text>
+  <rect x="510" y="490" width="300" height="30" rx="6" fill="#555555"/>
+  <text x="660" y="510" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">하드웨어</text>
+  <rect x="510" y="454" width="300" height="30" rx="6" fill="#B45309"/>
+  <text x="660" y="474" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">⚡ Hyper-V — 새 주인 (밑으로 파고듦)</text>
+  <rect x="510" y="424" width="145" height="24" rx="5" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.2"/>
+  <text x="582" y="440" font-size="9.5" font-weight="700" fill="#002C5F" text-anchor="middle">🪟 Windows = 세입자 1호</text>
+  <rect x="665" y="424" width="145" height="24" rx="5" fill="#E6F7F1" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="737" y="440" font-size="9.5" font-weight="700" fill="#0F766E" text-anchor="middle">🐧 Ubuntu = 세입자 2호</text>
+
+  <text x="450" y="546" font-size="10.5" fill="#555555" text-anchor="middle">화면·드라이버는 여전히 윈도우가 담당해서 체감은 안 되지만 — 자원 배분의 최종 권한은 이미 Hyper-V에게 넘어가 있다</text>
+  <text x="450" y="564" font-size="10" font-weight="700" fill="#DC2626" text-anchor="middle">"하이퍼바이저가 마스터 OS"가 아니라, 하이퍼바이저가 마스터 OS 밑으로 파고들어 자리를 빼앗는 쪽에 가깝다</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="592" width="840" height="48" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="614" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">기억법: Type 2 = "윈도우 안의 앱" · Type 1 = "OS들의 OS" — 그리고 클라우드에서 빌리는 서버는 전부 Type 1의 세입자다</text>
+  <text x="450" y="632" font-size="10.5" fill="#AAB9CF" text-anchor="middle">"OS = 자원 배분자"라는 정의를 한 단계 위로 올린 것이 하이퍼바이저 — OS들을 돌리며 자원을 배분한다</text>
+</svg>

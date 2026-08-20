@@ -211,6 +211,30 @@
       ]
     },
     {
+      "id": "virtualization",
+      "title": "가상화의 세계",
+      "desc": "WSL·Ubuntu·가상 OS — 착각을 파는 기술: 2단 배분, 시분할, 하이퍼바이저의 반전, venv와의 차이",
+      "file": "docs/virtualization.html",
+      "group": "Software · Dev",
+      "icon": "🪆",
+      "gradient": [
+        "#0D1B2E",
+        "#C2410C"
+      ],
+      "tags": [
+        "가상머신",
+        "WSL2",
+        "컨테이너"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/vt-hypervisor.svg",
+        "docs/img/vt-ubuntu.svg",
+        "docs/img/vt-vm-container.svg",
+        "docs/img/vt-spectrum.svg"
+      ]
+    },
+    {
       "id": "windows-com",
       "title": "Windows COM과 맥 자동화",
       "desc": "COM으로 엑셀·시스템 자동화, 그리고 macOS의 Apple Events·접근성 — 두 OS 개발 차이",

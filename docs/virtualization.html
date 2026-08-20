@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>가상화의 세계 — WSL · Ubuntu · 가상 OS</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #C2410C 55%, #E8962A 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<style>
+/* ── 가상화 문서 전용 애니메이션 ── */
+.vt-anim { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 14px 8px; margin: var(--sp-4) 0; }
+.vt-anim figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding: 8px 0 6px; }
+/* ① 2단 배분: 요청 펄스가 두 관문을 내려가고 자원이 되돌아온다 */
+@keyframes vtReq {
+  0%, 4% { transform: translateY(0); opacity: 0; }
+  7% { opacity: 1; }
+  24% { transform: translateY(96px); }
+  32% { transform: translateY(96px); }
+  49% { transform: translateY(192px); }
+  57% { transform: translateY(192px); }
+  72% { transform: translateY(288px); opacity: 1; }
+  76%, 100% { transform: translateY(288px); opacity: 0; }
+}
+.vt-req { animation: vtReq 10s ease-in-out infinite; }
+@keyframes vtRes {
+  0%, 72% { transform: translateY(0); opacity: 0; }
+  76% { opacity: 1; }
+  96% { transform: translateY(-288px); opacity: 1; }
+  99%, 100% { transform: translateY(-288px); opacity: 0; }
+}
+.vt-res { animation: vtRes 10s ease-in-out infinite; }
+@keyframes vtGateA { 0%, 22% { opacity: .2; } 26%, 34% { opacity: 1; } 40%, 100% { opacity: .2; } }
+@keyframes vtGateB { 0%, 47% { opacity: .2; } 51%, 59% { opacity: 1; } 65%, 100% { opacity: .2; } }
+.vt-gate-a { opacity: .2; animation: vtGateA 10s ease-in-out infinite; }
+.vt-gate-b { opacity: .2; animation: vtGateB 10s ease-in-out infinite; }
+/* ② CPU 시분할: 코어 타임라인 위 슬롯 점등 + 스캔 커서 */
+@keyframes vtScan { 0% { transform: translateX(0); } 100% { transform: translateX(640px); } }
+.vt-scan { animation: vtScan 8s linear infinite; }
+@keyframes vtSlot1 { 0%, 2% { opacity: .25; } 4%, 22% { opacity: 1; } 26%, 100% { opacity: .25; } }
+@keyframes vtSlot2 { 0%, 24% { opacity: .25; } 27%, 40% { opacity: 1; } 44%, 100% { opacity: .25; } }
+@keyframes vtSlot3 { 0%, 42% { opacity: .25; } 45%, 58% { opacity: 1; } 62%, 100% { opacity: .25; } }
+@keyframes vtSlot4 { 0%, 60% { opacity: .25; } 63%, 78% { opacity: 1; } 82%, 100% { opacity: .25; } }
+@keyframes vtSlot5 { 0%, 80% { opacity: .25; } 83%, 97% { opacity: 1; } 100% { opacity: .25; } }
+.vt-s1 { opacity:.25; animation: vtSlot1 8s linear infinite; }
+.vt-s2 { opacity:.25; animation: vtSlot2 8s linear infinite; }
+.vt-s3 { opacity:.25; animation: vtSlot3 8s linear infinite; }
+.vt-s4 { opacity:.25; animation: vtSlot4 8s linear infinite; }
+.vt-s5 { opacity:.25; animation: vtSlot5 8s linear infinite; }
+@keyframes vtMem { 0%, 15% { transform: scaleX(.30); } 40% { transform: scaleX(.62); } 60% { transform: scaleX(.55); } 80% { transform: scaleX(.78); } 100% { transform: scaleX(.34); } }
+.vt-mem { transform-box: fill-box; transform-origin: left; animation: vtMem 16s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .vt-anim * { animation: none !important; }
+  .vt-req, .vt-res { opacity: .8; } .vt-gate-a, .vt-gate-b { opacity: .7; }
+  .vt-s1,.vt-s2,.vt-s3,.vt-s4,.vt-s5 { opacity: 1; } .vt-mem { transform: scaleX(.6); }
+}
+@media (max-width: 720px) { .vt-anim .fig-scroll svg { min-width: 860px; } }
+</style>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>가상화의 세계</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#anchor">1. 출발점 — OS는 자원 배분자</a>
+    <a href="#vm">2. 가상머신 — 컴퓨터 안의 가짜 컴퓨터</a>
+    <a href="#twolevel" class="sub">2-1. 2단 배분 (동적)</a>
+    <a href="#resource">3. 리소스는 미리 떼어주나</a>
+    <a href="#timeshare" class="sub">3-1. CPU 시분할 (동적)</a>
+    <a href="#hypervisor">4. 하이퍼바이저는 어디에 사나</a>
+    <a href="#ubuntu">5. Ubuntu — 엔진과 완성차</a>
+    <a href="#wsl">6. WSL — 윈도우에 리눅스를 들이는 문</a>
+    <a href="#container">7. VM vs 컨테이너</a>
+    <a href="#spectrum">8. "가상"의 스펙트럼 — venv와의 차이</a>
+    <a href="#met">9. 이미 만난 가상화 지도</a>
+    <a href="#refs">10. 함께 읽기</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.08</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Operating Systems · Virtualization</div>
+  <h1>가상화의 세계<br><span class="thin">WSL · Ubuntu · 가상 OS — 착각을 파는 기술</span></h1>
+  <p class="sub">OS의 본업이 자원 배분이라면, 가상화는 그 정의를 재귀적으로 한 번 더 적용한 것이다 —
+  <strong>OS들을 돌리며 자원을 배분하는 OS</strong>. 컴퓨터 안의 가짜 컴퓨터(VM)부터
+  윈도우 밑을 파고드는 하이퍼바이저의 반전, Ubuntu가 국민차인 이유,
+  그리고 venv와는 왜 다른지까지 — 전부 그림으로 푼다.</p>
+  <div class="tags">
+    <span class="tag">가상머신</span><span class="tag">하이퍼바이저</span><span class="tag">WSL2</span>
+    <span class="tag">Ubuntu</span><span class="tag">컨테이너</span><span class="tag">시분할</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 네 개의 답</h2>
+    <p>대화에서 나온 질문 넷에 대한 압축 답변 — 상세는 각 절에서</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:280px">질문</th><th>답 (한 줄)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">"가상 OS가 뭐야?"</td><td>하이퍼바이저가 만든 <strong>가짜 컴퓨터 위에서, 자기가 진짜인 줄 알고 도는 OS</strong> (§2)</td></tr>
+        <tr><td class="hl">"리소스를 미리 할당해주는 거야?"</td><td>대부분 아니다 — CPU는 <u>시분할</u>, 메모리는 <u>설정에 따라</u>, 디스크는 <u>쓴 만큼 성장</u> (§3)</td></tr>
+        <tr><td class="hl">"하이퍼바이저 = 마스터 OS(윈도우)?"</td><td>겸업(Type 2)일 수도, <strong>윈도우 밑을 파고든 진짜 주인</strong>(Type 1 — WSL2가 이쪽)일 수도 (§4)</td></tr>
+        <tr><td class="hl">"가상 OS = 파이썬 가상환경?"</td><td><strong>아니다</strong> — venv는 자원과 무관한 경로 트릭. 공통 본질은 "분배 요청"이 아니라 <u>착각의 제공</u> (§8)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🎭</span>
+    <div><strong>문서 전체를 관통하는 한 문장 —</strong>
+    가상화란 <u>"프로그램에게 거짓 세계를 보여주되, 그 거짓이 완벽해서 프로그램이 평소처럼 일하게 만드는 기술"</u>이다.
+    venv는 패키지 세계를, 컨테이너는 OS 세계를, VM은 컴퓨터 자체를 속인다 —
+    무엇을 속이느냐가 층을 가르고, 층이 무게를 정한다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. ANCHOR ═══════════ -->
+<section id="anchor">
+  <div class="section-header">
+    <div class="eyebrow">The Anchor</div>
+    <h2>1. 출발점 — "OS는 자원 배분자"라는 정확한 직감</h2>
+    <p>이 정의 하나면 가상화 전체가 풀린다</p>
+  </div>
+
+  <p class="body">OS의 본업은 <strong>자원 배분</strong>이다 — 수십 개의 프로그램이 동시에 "CPU 달라, 메모리 달라"고
+  아우성치는 것을, OS가 CPU 시간을 잘게 쪼개 돌아가며 나눠주고(스케줄링), 메모리를 구획해 배정하고,
+  디스크·네트워크 접근을 줄 세운다. 프로그램들은 서로의 존재를 거의 모른 채 각자 컴퓨터를 독차지한 기분으로 돈다.</p>
+
+  <p class="body">그런데 이 문장을 다시 읽어보자 — <u>"각자 컴퓨터를 독차지한 기분으로"</u>.
+  즉 평범한 OS도 이미 <strong>모든 프로그램에게 착각을 제공하고 있다.</strong>
+  가상화는 새로운 마법이 아니라, <strong>이 착각의 범위를 넓힌 것</strong>이다:
+  "프로세스 하나"에게 주던 착각을 "OS 통째"에게 주면 — 그게 가상머신이다.</p>
+
+  <div class="callout green">
+    <span class="icon">🪆</span>
+    <div><strong>재귀 한 번이면 끝 —</strong> "프로그램을 돌리며 자원을 배분하는 것"이 OS라면,
+    <u>"OS들을 돌리며 자원을 배분하는 것"</u>이 하이퍼바이저다.
+    마트료시카처럼 같은 구조가 한 겹 더 생긴 것뿐 — 이 문서에서 새로 배울 것은 사실 이 한 겹이 전부다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. VM ═══════════ -->
+<section id="vm">
+  <div class="section-header">
+    <div class="eyebrow">Virtual Machine</div>
+    <h2>2. 가상머신 — 컴퓨터 안의 가짜 컴퓨터</h2>
+    <p>게스트 OS는 별도의 리소스를 "소유"하는 게 아니라, 배분받은 몫을 자기 것인 줄 알고 다시 배분한다</p>
+  </div>
+
+  <p class="body"><strong>가상머신(VM)</strong>은 한 대의 진짜 컴퓨터(호스트) 안에 소프트웨어로 세운 가짜 컴퓨터이고,
+  그 위에 설치된 OS(게스트)가 흔히 말하는 "가상 OS"다. 게스트 입장에서는 CPU·메모리·디스크가 다 보이므로
+  자기가 진짜 컴퓨터에 깔린 줄 안다 — 실제로는 <strong>하이퍼바이저</strong>가 진짜 하드웨어를 쪼개 나눠주고 있다.
+  쓰는 이유는 셋: <u>다른 OS가 필요해서</u>(윈도우 안의 리눅스), <u>격리가 필요해서</u>(안에서 뭘 망가뜨려도 밖은 무사 —
+  「로컬 LLM 코딩 공장」의 샌드박스), <u>한 대를 쪼개 팔려고</u>(클라우드 — 「SaaS 해부」 사다리의 IaaS층 상품이 바로 VM이다).</p>
+
+  <h3 id="twolevel">2-1. 2단 배분 — 요청 하나가 두 관문을 지난다 (동적)</h3>
+
+  <p class="body">핵심 구조를 눈으로 보자. Ubuntu 안의 앱이 "메모리 줘"라고 요청하면,
+  그 요청은 <strong>배분자 두 명</strong>을 차례로 지난다:</p>
+
+  <figure class="vt-anim">
+    <div class="fig-scroll">
+    <svg viewBox="0 0 900 470" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" style="width:100%;display:block">
+      <!-- 층 상자들 -->
+      <rect x="120" y="40" width="480" height="72" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+      <text x="360" y="70" font-size="13" font-weight="800" fill="#0F766E" text-anchor="middle">🐍 앱 (Ubuntu 안의 파이썬)</text>
+      <text x="360" y="94" font-size="10.5" fill="#555555" text-anchor="middle">"메모리 4GB 주세요" — 요청의 출발</text>
+
+      <rect x="120" y="136" width="480" height="72" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+      <text x="360" y="162" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">🐧 게스트 OS (Ubuntu) — 배분자 2층</text>
+      <text x="360" y="184" font-size="10.5" fill="#555555" text-anchor="middle">"내 메모리 16GB에서 떼어주지" — <tspan font-weight="700">자기가 진짜 주인인 줄 안다</tspan></text>
+      <text x="360" y="200" font-size="9.5" fill="#666666" text-anchor="middle">(그 16GB 자체가 가짜라는 것을 모른다)</text>
+
+      <rect x="120" y="232" width="480" height="72" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+      <text x="360" y="258" font-size="13" font-weight="800" fill="#B45309" text-anchor="middle">⚡ 하이퍼바이저 — 배분자 1층 (진짜 주인)</text>
+      <text x="360" y="280" font-size="10.5" fill="#555555" text-anchor="middle">"Ubuntu가 쓴다는 만큼만 진짜 RAM에서 떼어주자"</text>
+      <text x="360" y="296" font-size="9.5" fill="#666666" text-anchor="middle">Windows·Ubuntu 사이의 최종 심판</text>
+
+      <rect x="120" y="328" width="480" height="64" rx="12" fill="#555555"/>
+      <text x="360" y="356" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">🔩 진짜 하드웨어 (RAM 64GB · 16코어)</text>
+      <text x="360" y="378" font-size="10.5" fill="#D5CFBF" text-anchor="middle">물리적 실체는 여기 하나뿐</text>
+
+      <!-- 게이트 하이라이트 -->
+      <rect x="120" y="136" width="480" height="72" rx="12" fill="none" stroke="#1A5CB5" stroke-width="5" class="vt-gate-a"/>
+      <rect x="120" y="232" width="480" height="72" rx="12" fill="none" stroke="#E8962A" stroke-width="5" class="vt-gate-b"/>
+
+      <!-- 요청 펄스 (내려감) -->
+      <g class="vt-req">
+        <circle cx="90" cy="76" r="11" fill="#0F766E"/>
+        <text x="90" y="81" font-size="10" font-weight="800" fill="#FFF" text-anchor="middle">요청</text>
+      </g>
+      <!-- 응답 펄스 (올라옴) -->
+      <g class="vt-res">
+        <circle cx="640" cy="364" r="11" fill="#E8962A"/>
+        <text x="640" y="369" font-size="10" font-weight="800" fill="#FFF" text-anchor="middle">자원</text>
+      </g>
+      <line x1="90" y1="90" x2="90" y2="380" stroke="#0F766E" stroke-width="1.5" stroke-dasharray="4 5" opacity=".5"/>
+      <line x1="640" y1="76" x2="640" y2="380" stroke="#E8962A" stroke-width="1.5" stroke-dasharray="4 5" opacity=".5"/>
+      <text x="68" y="235" font-size="10" font-weight="700" fill="#0F766E" text-anchor="middle" transform="rotate(-90 68 235)">요청은 아래로</text>
+      <text x="664" y="235" font-size="10" font-weight="700" fill="#B45309" text-anchor="middle" transform="rotate(90 664 235)">자원은 위로</text>
+
+      <!-- 오른쪽 설명 -->
+      <rect x="700" y="40" width="170" height="352" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+      <text x="785" y="66" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">비유: 회사 건물</text>
+      <text x="714" y="92" font-size="9.5" fill="#555555">직원(앱)이 자리를 달라 하면</text>
+      <text x="714" y="112" font-size="9.5" fill="#555555">회사(게스트 OS)가 자기 층에서</text>
+      <text x="714" y="128" font-size="9.5" fill="#555555">좌석을 배치한다 —</text>
+      <text x="714" y="152" font-size="9.5" fill="#555555">그런데 그 층이 몇 평인지는</text>
+      <text x="714" y="168" font-size="9.5" font-weight="700" fill="#B45309">건물주(하이퍼바이저)가 정한다</text>
+      <text x="714" y="196" font-size="9.5" fill="#555555">회사는 건물주의 존재를</text>
+      <text x="714" y="212" font-size="9.5" fill="#555555">모른 채 "우리 사무실"을</text>
+      <text x="714" y="228" font-size="9.5" fill="#555555">운영한다</text>
+      <text x="714" y="260" font-size="9.5" font-weight="700" fill="#0F766E">→ 게스트 OS는 별도 자원을</text>
+      <text x="714" y="276" font-size="9.5" font-weight="700" fill="#0F766E">소유하는 게 아니라,</text>
+      <text x="714" y="292" font-size="9.5" font-weight="700" fill="#0F766E">배분받은 몫을 자기 것인 줄</text>
+      <text x="714" y="308" font-size="9.5" font-weight="700" fill="#0F766E">알고 다시 배분한다</text>
+      <text x="714" y="340" font-size="9" fill="#666666">배분자가 둘이라 약간의</text>
+      <text x="714" y="356" font-size="9" fill="#666666">손실은 있다 (요즘은 CPU의</text>
+      <text x="714" y="372" font-size="9" fill="#666666">가상화 회로로 몇 % 수준·개략)</text>
+
+      <!-- 하단 -->
+      <rect x="120" y="412" width="750" height="44" rx="10" fill="#0D1B2E"/>
+      <text x="495" y="432" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">파란 테두리(Ubuntu의 배분)와 주황 테두리(하이퍼바이저의 배분)가 차례로 켜진다 — 관문이 둘</text>
+      <text x="495" y="450" font-size="10" fill="#AAB9CF" text-anchor="middle">위층은 아래층의 존재를 모른다 — 이 "모름"이 가상화의 본질이다</text>
+    </svg>
+    </div>
+    <figcaption>초록 점(요청)이 두 관문을 내려가고, 주황 점(자원)이 올라온다 — 각 관문이 자기 차례에 빛난다 (동작 줄이기 설정 시 정지)</figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════ 3. RESOURCE ═══════════ -->
+<section id="resource">
+  <div class="section-header">
+    <div class="eyebrow">Allocation Reality</div>
+    <h2>3. 리소스는 미리 떼어주나 — 자원마다 다르다</h2>
+    <p>"미리 할당"은 기본값이 아니라 선택지다</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:110px">자원</th><th style="width:190px">방식</th><th>실제 동작</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">CPU</td><td>❌ 고정 아님 — <strong>시분할</strong></td><td>"vCPU 8개"는 코어 8개를 떼어놓는 게 아니라 <u>진짜 코어들의 시간을 쪼개 받는 티켓</u>이다. 게스트가 놀면 그 시간은 호스트가 그냥 쓴다 — 물리 코어보다 많은 vCPU를 파는 것(초과 판매)도 가능하고, 클라우드가 이 원리로 돌아간다</td></tr>
+        <tr><td class="hl">메모리</td><td>⚠️ 설정에 따라 <strong>둘 다</strong></td><td>고전 VM(VirtualBox류)은 부팅 때 통째로 예약이 기본. <u>WSL2·현대 하이퍼바이저는 동적</u> — 쓰는 만큼 가져가고 안 쓰면 반납한다</td></tr>
+        <tr><td class="hl">디스크</td><td>대개 <strong>성장형</strong></td><td>게스트에게 "256GB 디스크"를 보여주지만 실체는 호스트의 파일 하나 — <u>실제로 쓴 만큼만 자란다</u> (thin provisioning)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="timeshare">3-1. CPU 시분할을 눈으로 — 코어 하나의 1초 (동적)</h3>
+
+  <figure class="vt-anim">
+    <div class="fig-scroll">
+    <svg viewBox="0 0 900 360" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" style="width:100%;display:block">
+      <text x="450" y="30" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">진짜 코어 1개의 시간을 확대해 보면 — 잘게 썰어 번갈아 준다</text>
+
+      <!-- 코어 타임라인 -->
+      <text x="60" y="86" font-size="11.5" font-weight="800" fill="#555555" text-anchor="end">코어 #3</text>
+      <rect x="80" y="60" width="740" height="44" rx="8" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+      <!-- 슬롯들 -->
+      <g class="vt-s1"><rect x="84" y="64" width="160" height="36" rx="5" fill="#1A5CB5"/><text x="164" y="87" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">🪟 Windows 몫</text></g>
+      <g class="vt-s2"><rect x="248" y="64" width="120" height="36" rx="5" fill="#0F766E"/><text x="308" y="87" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">🐧 Ubuntu 몫</text></g>
+      <g class="vt-s3"><rect x="372" y="64" width="140" height="36" rx="5" fill="#1A5CB5"/><text x="442" y="87" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">🪟 Windows 몫</text></g>
+      <g class="vt-s4"><rect x="516" y="64" width="150" height="36" rx="5" fill="#0F766E"/><text x="591" y="87" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">🐧 Ubuntu 몫</text></g>
+      <g class="vt-s5"><rect x="670" y="64" width="146" height="36" rx="5" fill="#D5CFBF"/><text x="743" y="87" font-size="10.5" font-weight="800" fill="#555555" text-anchor="middle">유휴 (아무도 안 씀)</text></g>
+
+      <!-- 스캔 커서 -->
+      <g class="vt-scan">
+        <line x1="84" y1="52" x2="84" y2="112" stroke="#DC2626" stroke-width="2.5"/>
+        <polygon points="84,46 78,36 90,36" fill="#DC2626"/>
+      </g>
+      <text x="80" y="130" font-size="9.5" fill="#666666">0ms</text>
+      <text x="820" y="130" font-size="9.5" fill="#666666" text-anchor="end">~1초</text>
+
+      <text x="450" y="152" font-size="10.5" fill="#555555" text-anchor="middle">"Ubuntu에 vCPU 8개"라고 해도 코어를 떼어두는 게 아니다 — <tspan font-weight="700">빈 시간 조각을 그때그때 받는 것</tspan></text>
+      <text x="450" y="170" font-size="10" fill="#666666" text-anchor="middle">Ubuntu가 놀면(유휴) 그 시간은 Windows가 그냥 쓴다 — 낭비가 없어서 초과 판매(코어 16개로 vCPU 30개)도 가능하다</text>
+
+      <!-- 메모리 동적 -->
+      <text x="450" y="212" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">메모리는 (WSL2 기준) 필요할 때 자라고, 놓으면 반납한다</text>
+      <text x="60" y="252" font-size="11.5" font-weight="800" fill="#555555" text-anchor="end">RAM 64GB</text>
+      <rect x="80" y="228" width="740" height="40" rx="8" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+      <rect x="84" y="232" width="240" height="32" rx="5" fill="#1A5CB5"/>
+      <text x="204" y="253" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">🪟 Windows 사용분</text>
+      <g class="vt-mem">
+        <rect x="330" y="232" width="360" height="32" rx="5" fill="#0F766E"/>
+      </g>
+      <text x="420" y="253" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">🐧 Ubuntu (동적으로 증감 ↔)</text>
+      <text x="450" y="290" font-size="10" fill="#666666" text-anchor="middle">.wslconfig의 "memory=16GB"는 예약이 아니라 <tspan font-weight="700">천장</tspan>이다 — 거기까지만 자랄 수 있다는 한도</text>
+
+      <!-- 하단 -->
+      <rect x="80" y="310" width="740" height="40" rx="10" fill="#0D1B2E"/>
+      <text x="450" y="328" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">"할당"의 실체: CPU는 시간표, 메모리는 천장, 디스크는 성장 — 미리 떼어두는 것은 예외에 가깝다</text>
+      <text x="450" y="344" font-size="9.5" fill="#AAB9CF" text-anchor="middle">그래서 Ubuntu를 꺼두면 자원 점유는 사실상 0이다</text>
+    </svg>
+    </div>
+    <figcaption>빨간 커서가 시간을 훑을 때 그 순간의 주인이 밝아진다 — 코어는 쪼개 쓰는 것이지 나눠 갖는 것이 아니다 (동작 줄이기 설정 시 정지)</figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════ 4. HYPERVISOR ═══════════ -->
+<section id="hypervisor">
+  <div class="section-header">
+    <div class="eyebrow">Where It Lives</div>
+    <h2>4. 하이퍼바이저는 어디에 사나 — 그리고 WSL2의 반전</h2>
+    <p>"하이퍼바이저 = 윈도우?"의 답은 구조에 따라 갈린다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/vt-hypervisor.svg" alt="Type 2 호스트형과 Type 1 베어메탈형 하이퍼바이저 구조, 그리고 WSL2를 켜면 윈도우가 세입자가 되는 반전"></div>
+    <figcaption>Type 2 = 윈도우 안의 앱, Type 1 = OS들의 OS — 그리고 WSL2를 켜면 윈도우조차 세입자 1호가 된다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="callout amber">
+    <span class="icon">🔄</span>
+    <div><strong>반전의 요점 —</strong> WSL2를 켜면 내부적으로 Hyper-V(Type 1)가 활성화되며 구조가 뒤집힌다:
+    하이퍼바이저가 하드웨어 바로 위에 서고, <u>윈도우는 특권이 큰 "세입자 1호"</u>가 된다.
+    화면·드라이버를 윈도우가 계속 담당해서 체감은 없지만, <strong>자원 배분의 최종 권한은 이미 Hyper-V에 있다.</strong>
+    "하이퍼바이저 = 마스터 OS"가 아니라 — 하이퍼바이저가 마스터 OS <u>밑으로 파고들어</u> 자리를 빼앗는 쪽에 가깝다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. UBUNTU ═══════════ -->
+<section id="ubuntu">
+  <div class="section-header">
+    <div class="eyebrow">The Distribution</div>
+    <h2>5. Ubuntu — "리눅스"는 엔진이고, 배포판은 완성차다</h2>
+    <p>"리눅스 깔았어"의 실체는 언제나 어떤 배포판을 깐 것</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/vt-ubuntu.svg" alt="리눅스 커널과 배포판의 관계, 배포판 지형(Debian 계열, Red Hat 계열, 특화형), 개발에서 자주 보이는 이유"></div>
+    <figcaption>커널(엔진) + 셸·명령어·패키지 매니저·설치 도구(포장) = 배포판(완성차) — Ubuntu는 그중 국민차 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">엄밀히 "리눅스"는 <strong>커널(자원 배분자 그 자체)만</strong>을 가리키고, 커널만으로는 명령어 하나 칠 수 없다.
+  커널 + 기본 명령어 + <u>패키지 매니저(apt — 「개발 생태계 해부」의 3층!)</u> + 설치 도구를 한 세트로 포장한 것이
+  <strong>배포판</strong>이고, <strong>Ubuntu는 그중 가장 대중적인 것</strong>이다 — 서버·튜토리얼·CI(<span class="mono">ubuntu-latest</span>)·
+  WSL 기본 선택지까지, 사실상 "리눅스의 기본값" 역할을 한다. 개발하다 보면 자꾸 등장하는 이유는 단순하다:
+  <strong>개발의 목적지 세 곳(서버·CI 러너·컨테이너)이 전부 리눅스 전제</strong>이기 때문이다.</p>
+</section>
+
+<!-- ═══════════ 6. WSL ═══════════ -->
+<section id="wsl">
+  <div class="section-header">
+    <div class="eyebrow">Windows Subsystem for Linux</div>
+    <h2>6. WSL — 윈도우에 리눅스를 들이는 공식 통로</h2>
+    <p>"WSL 깔고 Ubuntu 올려서"가 한 덩어리로 다니는 이유</p>
+  </div>
+
+  <p class="body"><strong>WSL(Windows Subsystem for Linux)</strong>은 윈도우 안에서 진짜 리눅스를 돌리는
+  마이크로소프트 공식 기능이다. 두 용어가 세트로 다니는 이유 — WSL을 켜고 "어떤 리눅스를 설치할까?"에서
+  <u>기본 선택지가 Ubuntu</u>이기 때문이다. 왜 필요한지는 「개발 환경으로서의 OS」의 핵심 논지 그대로다:</p>
+
+  <div class="card-grid">
+    <div class="card"><h4>문제 — 개발 세계는 유닉스 전제</h4><p>도구·서버·문서·스크립트가 유닉스 계열 전제로 만들어져 있어, 순정 윈도우에서는 명령어·경로가 자꾸 어긋난다. 맥은 애초에 유닉스 혈통이라 이 문제가 없다.</p></div>
+    <div class="card"><h4>해법 — 경량 VM 속 진짜 커널</h4><p>WSL2는 Hyper-V 경량 VM에서 <strong>진짜 리눅스 커널</strong>을 돌린다(§4의 그 반전). 흉내가 아니라 진짜라서 Docker·서버 도구가 그대로 돈다.</p></div>
+    <div class="card"><h4>체감 — 이중 구조의 일상</h4><p>파일은 윈도우에, 터미널·개발 도구는 리눅스에서 도는 이중 구조. VS Code가 WSL 안으로 자연스럽게 접속해 경계가 거의 안 느껴진다.</p></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">💻</span>
+    <div><strong>내 장비로 번역하면 —</strong> 윈도우 PC(9950X3D)에서 개발할 때 WSL2+Ubuntu가 표준 경로다.
+    §3에서 본 대로 <u>vCPU는 시간표, 메모리는 천장(동적)</u>이라 Ubuntu를 꺼두면 점유는 사실상 0.
+    맥북·맥미니에는 WSL이라는 개념 자체가 불필요하다(이미 유닉스).
+    그리고 CI/CD 문서의 <span class="mono">runs-on: ubuntu-latest</span>는 내 컴퓨터와 무관하게
+    GitHub이 클라우드에서 매번 새로 띄워주는 <u>일회용 Ubuntu VM</u>이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 7. CONTAINER ═══════════ -->
+<section id="container">
+  <div class="section-header">
+    <div class="eyebrow">VM vs Container</div>
+    <h2>7. VM vs 컨테이너 — 집 한 채 vs 아파트 호실</h2>
+    <p>무게 차이의 근원: 배분자를 새로 두느냐, 딱지만 붙이느냐</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/vt-vm-container.svg" alt="가상머신은 집집마다 OS를 통째로 갖고, 컨테이너는 호스트 커널 하나를 공유하며 한도 딱지만 붙는 구조 비교"></div>
+    <figcaption>VM = 집집마다 OS 통째(배분자 2층) · 컨테이너 = 건물 커널 공유 + 한도 딱지(배분자 1층) · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">§2의 언어로 정리하면 — <strong>컨테이너에는 두 번째 배분자가 없다.</strong>
+  호스트 커널이 직접 그 프로세스들을 관리하고, "이 컨테이너는 CPU 2개·4GB까지"라는 <u>한도 딱지</u>(cgroups)만 붙인다.
+  OS를 새로 안 깔기 때문에 MB 단위·수 초로 가볍고, 대가는 격리 벽이 VM보다 얇다는 것.
+  그래서 실전에서는 겹쳐 쓴다 — 클라우드는 바닥에 VM(고객 간 두꺼운 벽), 그 위에 컨테이너(앱의 가벼운 포장).
+  맥·윈도우의 Docker도 리눅스 커널이 없으므로 <u>경량 VM을 먼저 띄우고(WSL2·OrbStack) 그 안에서 컨테이너</u>를 돌린다.</p>
+</section>
+
+<!-- ═══════════ 8. SPECTRUM ═══════════ -->
+<section id="spectrum">
+  <div class="section-header">
+    <div class="eyebrow">The Word "Virtual"</div>
+    <h2>8. "가상"의 스펙트럼 — venv와는 왜 다른가</h2>
+    <p>공통 본질은 "리소스 분배 요청"이 아니라 착각의 제공이다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/vt-spectrum.svg" alt="venv는 패키지 세계, 컨테이너는 OS 세계, VM은 하드웨어, 가상 메모리는 메모리 공간을 속이는 착각의 스펙트럼"></div>
+    <figcaption>무엇에 대한 착각이냐가 층을 가른다 — 그리고 OS는 원래부터 모두를 속이고 있었다(가상 메모리) · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px"></th><th>파이썬 venv</th><th>컨테이너</th><th>가상머신</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">속이는 것</td><td>"설치된 패키지 세계"</td><td>"너의 OS 세계"</td><td>"하드웨어 전체"</td></tr>
+        <tr><td class="hl">실체</td><td><strong>경로 트릭</strong> — 환경 변수 몇 개</td><td>커널의 격리 기능</td><td>가짜 컴퓨터 통째</td></tr>
+        <tr><td class="hl">자원 배분 개입</td><td>❌ <strong>전혀 없음</strong></td><td>🔶 한도 딱지만</td><td>✅ 2단 배분</td></tr>
+        <tr><td class="hl">무게</td><td>0 (폴더 하나)</td><td>MB · 수 초</td><td>GB · 수십 초</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🛒</span>
+    <div><strong>고르는 법 — 필요한 착각의 크기만큼만 산다.</strong>
+    패키지 충돌만 막으면 되나 → venv(공짜).
+    "내 컴퓨터에선 되는데"를 없애려면 → 컨테이너.
+    다른 OS·강한 격리가 필요하면 → VM.
+    새로운 "가상 무엇"을 만나면 물어라: <u>"무엇에 대한 착각을 파는가?"</u> —
+    「개발 생태계 해부」의 "이건 몇 층이지?"와 같은 종류의 판별 질문이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 9. MET ═══════════ -->
+<section id="met">
+  <div class="section-header">
+    <div class="eyebrow">Already Met</div>
+    <h2>9. 이미 만난 가상화 지도</h2>
+    <p>이 지식 베이스에서 마주친 것들의 정체를 한 표로</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:220px">만난 곳</th><th style="width:170px">정체</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">WSL2</td><td>경량 VM (Type 1)</td><td>윈도우 안의 진짜 리눅스 커널 — 켜는 순간 윈도우도 세입자(§4)</td></tr>
+        <tr><td class="hl">Docker · OrbStack (맥)</td><td>경량 VM + 컨테이너</td><td>맥엔 리눅스 커널이 없어 VM을 먼저 띄우고 그 안에서 컨테이너 — OrbStack이 빠른 이유가 이 VM 층 최적화(「로컬 LLM 코딩 공장」)</td></tr>
+        <tr><td class="hl"><span class="mono">runs-on: ubuntu-latest</span></td><td>일회용 VM</td><td>GitHub이 매번 새로 띄워주는 Ubuntu 가상머신 (「CI/CD 정리」)</td></tr>
+        <tr><td class="hl">클라우드 서버 (EC2 등)</td><td>VM 대여</td><td>물리 서버를 하이퍼바이저로 쪼갠 것 — 「SaaS 해부」 IaaS층의 상품</td></tr>
+        <tr><td class="hl">Android Emulator</td><td>VM에 가까움</td><td>안드로이드 OS를 통째로 돌린다 — 그래서 무겁다</td></tr>
+        <tr><td class="hl">iOS 시뮬레이터</td><td>⚠️ <strong>VM 아님</strong></td><td>iOS를 통째 돌리는 게 아니라 iOS API를 맥에서 흉내 — 「애플 앱 개발의 지도」에서 "2층 유사"라고 한 이유이자, 에뮬레이터보다 빠른 이유</td></tr>
+        <tr><td class="hl">venv · node_modules</td><td>가상화 아님 (경로 격리)</td><td>§8 — 자원과 무관, 이름만 사촌 (「개발 생태계 해부」 §4-B)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════ 10. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">Related</div>
+    <h2>10. 함께 읽기</h2>
+    <p>이 문서에서 갈라지는 길들</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:280px">주제</th><th>문서</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">왜 개발 환경으로 유닉스인가 — WSL의 배경</td><td>「개발 환경으로서의 OS」 — 이 문서의 모(母) 문서</td></tr>
+        <tr><td class="hl">venv·node_modules의 원래 맥락</td><td>「개발 생태계 해부」 §4-B (의존성 격리)</td></tr>
+        <tr><td class="hl">컨테이너 샌드박스의 실전 사용</td><td>「로컬 LLM 코딩 공장」 §3 — AI를 아파트 호실에 입주시키기</td></tr>
+        <tr><td class="hl">클라우드 = VM 대여라는 사업</td><td>「SaaS 해부」 §1 — 책임의 사다리 (IaaS층)</td></tr>
+        <tr><td class="hl">ubuntu-latest가 나온 곳</td><td>「CI/CD 정리」 §7</td></tr>
+        <tr><td class="hl">iOS 시뮬레이터가 VM이 아닌 이유</td><td>「애플 앱 개발의 지도」 §1</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>맺음 —</strong> 이 문서의 전부는 사실 두 문장이다.
+    ① <u>OS가 자원 배분자라면, 하이퍼바이저는 OS들의 자원 배분자다</u> — 같은 구조의 재귀.
+    ② <u>가상화의 본질은 분배가 아니라 착각의 제공이다</u> — venv는 패키지를, 컨테이너는 OS를, VM은 컴퓨터를 속인다.
+    이 둘만 쥐고 있으면 WSL도, Docker도, 클라우드도, 앞으로 만날 어떤 "가상 무엇"도 —
+    새 개념이 아니라 <strong>아는 구조의 변주</strong>로 읽힌다.</div>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/vt-*.svg (4종) + 동적 도식 2종(2단 배분·CPU 시분할, CSS 애니메이션) · 성능 손실·기본값 등 수치는 개략
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>
