@@ -226,7 +226,7 @@
         "WSL2",
         "컨테이너"
       ],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/vt-hypervisor.svg",
         "docs/img/vt-ubuntu.svg",

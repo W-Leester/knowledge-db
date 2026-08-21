@@ -387,6 +387,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#wsl">6. WSL — 윈도우에 리눅스를 들이는 문</a>
     <a href="#container">7. VM vs 컨테이너</a>
     <a href="#spectrum">8. "가상"의 스펙트럼 — venv와의 차이</a>
+    <a href="#when" class="sub">8-1. 언제 VM을 켜나</a>
     <a href="#met">9. 이미 만난 가상화 지도</a>
     <a href="#refs">10. 함께 읽기</a>
   </nav>
@@ -746,6 +747,52 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     다른 OS·강한 격리가 필요하면 → VM.
     새로운 "가상 무엇"을 만나면 물어라: <u>"무엇에 대한 착각을 파는가?"</u> —
     「개발 생태계 해부」의 "이건 몇 층이지?"와 같은 종류의 판별 질문이다.</div>
+  </div>
+
+  <h3 id="when">8-1. 그래서 언제 VM을 켜나 — 실전 시나리오 8 + 아닌 경우 5</h3>
+
+  <p class="body">"다른 OS·강한 격리"라는 기준을 실제 상황으로 풀면 이렇다.
+  <strong>VM이 정답인 여덟 장면</strong>:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:230px">상황</th><th style="width:280px">왜 VM인가</th><th>도구</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① 윈도우에서 리눅스 개발</td><td>개발의 목적지(서버·CI·컨테이너)가 리눅스 전제(§5) — 진짜 커널이 필요하다</td><td><strong>WSL2</strong> — 이 문서의 주인공. 사실상 자동 선택</td></tr>
+        <tr><td class="hl">② 맥에서 윈도우 전용 프로그램</td><td>은행·관공서 프로그램, 윈도우 전용 업무 SW처럼 <u>대체재가 없는</u> 경우</td><td>Parallels·UTM — 단 이 용도는 "필요악"에 가깝다</td></tr>
+        <tr><td class="hl">③ 수상한 것을 열어봐야 할 때</td><td>의심스러운 첨부파일·출처 불명 프로그램 — 가짜 컴퓨터에서 열면 <u>망가져도 그 안</u>이다. 끝나면 통째로 삭제</td><td>격리 전용 VM (네트워크까지 끊으면 더 안전)</td></tr>
+        <tr><td class="hl">④ 부수기 전제의 실험</td><td>OS 설정·레지스트리·새 도구를 마구 만져보는 실험 — <strong>스냅샷</strong>을 찍어두고, 깨지면 그 시점으로 복원</td><td>VM의 스냅샷 기능 — 물리 컴퓨터엔 없는 "되감기 버튼"</td></tr>
+        <tr><td class="hl">⑤ 레거시 소프트웨어</td><td>옛 OS에서만 도는 프로그램(구형 장비 제어 SW 등) — 그 시절 OS를 VM에 박제</td><td>해당 구버전 OS의 VM</td></tr>
+        <tr><td class="hl">⑥ 내 앱의 호환성 시험</td><td>여러 OS·여러 버전에서 내 프로그램이 도는지 확인 — 컴퓨터를 그만큼 살 수는 없으니</td><td>OS별 VM 여러 개 (또는 클라우드 테스트 서비스)</td></tr>
+        <tr><td class="hl">⑦ 서버가 필요할 때</td><td>클라우드에서 서버를 "빌린다" = VM을 빌린다(§2) — 내가 켜는 게 아니라 <u>이미 쓰고 있는</u> 경우</td><td>EC2류 · <span class="mono">ubuntu-latest</span></td></tr>
+        <tr><td class="hl">⑧ AI 에이전트 샌드박스</td><td>자율 루프가 파일 삭제·설치를 마음껏 해도 되는 우리 — 컨테이너로 부족하면(호스트 조작 위험) VM 격리로</td><td>「로컬 LLM 코딩 공장」 §3의 그 설계</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">반대로 <strong>VM이 과하거나 틀린 다섯 장면</strong> — "가상 OS 쓰는 게 좋은가?"의 답이
+  "아니오"인 경우가 실은 더 많다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:250px">상황</th><th>더 나은 답</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">파이썬 패키지 버전이 충돌한다</td><td><strong>venv</strong> — 착각 한 층이면 되는데 컴퓨터 통째는 낭비다(§8)</td></tr>
+        <tr><td class="hl">"내 컴퓨터에선 되는데"를 없애고 싶다</td><td><strong>컨테이너</strong> — 배포 환경 통일이 목적이면 아파트 호실로 충분</td></tr>
+        <tr><td class="hl">게임·3D·GPU 성능이 핵심이다</td><td>VM은 GPU 전달이 어렵고 손실도 있다 — <u>네이티브 부팅</u>(듀얼부팅)이나 그냥 그 OS의 컴퓨터</td></tr>
+        <tr><td class="hl">맥에서 iOS 앱을 빌드하려고 맥 VM을?</td><td>방향이 반대다 — iOS 빌드에 필요한 건 <u>진짜 맥</u>(「애플 앱 개발의 지도」의 "맥 필수"). 맥OS의 VM 구동은 라이선스·성능 제약이 커서 실용적이지 않다</td></tr>
+        <tr><td class="hl">그냥 리눅스를 배우고 싶다 (맥 사용자)</td><td>맥 터미널이 이미 유닉스다 — 명령어 학습엔 VM이 불필요하고, 리눅스 특유의 것(apt·systemd)이 궁금할 때만 가볍게 컨테이너나 VM</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🧭</span>
+    <div><strong>내 장비 기준으로 요약하면 —</strong>
+    <u>윈도우 PC</u>: 개발용 WSL2(①)가 상시 후보이고, 수상한 파일(③)·실험(④)이 가끔.
+    <u>맥북·맥미니</u>: VM을 켤 일이 드물다 — 이미 유닉스라 ①이 불필요하고, Docker(OrbStack)가 뒤에서 알아서 경량 VM을 돌려준다(§7).
+    켜게 된다면 ②(윈도우 전용 프로그램)나 ⑧(에이전트 격리) 정도다.
+    <strong>판별 습관: "다른 커널이 필요한가? 부숴도 되는 우리가 필요한가?" — 둘 다 아니면 VM은 과하다.</strong></div>
   </div>
 </section>
 
