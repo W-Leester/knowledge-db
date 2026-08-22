@@ -388,6 +388,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#container">7. VM vs 컨테이너</a>
     <a href="#spectrum">8. "가상"의 스펙트럼 — venv와의 차이</a>
     <a href="#when" class="sub">8-1. 언제 VM을 켜나</a>
+    <a href="#tools" class="sub">8-2. 무엇으로 켜나</a>
     <a href="#met">9. 이미 만난 가상화 지도</a>
     <a href="#refs">10. 함께 읽기</a>
   </nav>
@@ -684,6 +685,31 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <div class="card"><h4>체감 — 이중 구조의 일상</h4><p>파일은 윈도우에, 터미널·개발 도구는 리눅스에서 도는 이중 구조. VS Code가 WSL 안으로 자연스럽게 접속해 경계가 거의 안 느껴진다.</p></div>
   </div>
 
+  <h3>WSL1 vs WSL2 — 흉내에서 진짜로</h3>
+
+  <p class="body">"WSL2"라는 이름이 암시하듯 1세대가 있었고, 둘의 차이가 정확히 <u>§8 스펙트럼의 층 차이</u>다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px"></th><th>WSL1 (2016)</th><th>WSL2 (2019~, 기본값)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">방식</td><td><strong>번역 계층</strong> — 리눅스 커널 없이, 리눅스의 시스템 요청을 윈도우 커널 요청으로 실시간 통역</td><td><strong>경량 VM + 진짜 리눅스 커널</strong> (MS가 커널을 직접 배포·업데이트)</td></tr>
+        <tr><td class="hl">비유</td><td>iOS 시뮬레이터와 같은 부류 — <u>흉내</u> (§9)</td><td>진짜 — 컴퓨터 안의 컴퓨터</td></tr>
+        <tr><td class="hl">호환성</td><td>통역에 구멍이 있다 — <u>Docker가 안 되고</u>, 일부 기능 미지원</td><td>진짜 커널이라 <strong>전부 된다</strong> (Docker 포함)</td></tr>
+        <tr><td class="hl">파일 속도</td><td>윈도우 파일(<span class="mono">C:\</span>) 접근이 빠름</td><td>리눅스 세계 안(<span class="mono">~/</span>)은 빠르고, <u>윈도우 파일(<span class="mono">/mnt/c</span>) 접근은 느림</u> — 프로젝트를 리눅스 쪽에 두는 것이 요령</td></tr>
+        <tr><td class="hl">지금 선택은</td><td colspan="2">고민할 필요 없이 <strong>WSL2</strong> — 기본값이고, Docker·개발 도구 호환이 결정적. (WSL1은 <span class="mono">wsl --set-version</span>으로 여전히 선택 가능한 특수용)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">📜</span>
+    <div><strong>1→2의 교훈이 이 문서의 축소판이다 —</strong> MS는 처음에 "번역(흉내)"으로 시작했다가
+    통역의 구멍(호환성)을 메울 수 없어서 "진짜(경량 VM)"로 방향을 바꿨다.
+    <u>흉내는 가볍지만 완벽할 수 없고, 진짜는 무겁지만 완전하다</u> —
+    §8 스펙트럼에서 어느 층을 사느냐의 대가가 실제 제품의 세대 교체로 나타난 사례다.</div>
+  </div>
+
   <div class="callout navy">
     <span class="icon">💻</span>
     <div><strong>내 장비로 번역하면 —</strong> 윈도우 PC(9950X3D)에서 개발할 때 WSL2+Ubuntu가 표준 경로다.
@@ -756,19 +782,22 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 
   <div class="tbl-wrap">
     <table class="ds">
-      <thead><tr><th style="width:230px">상황</th><th style="width:280px">왜 VM인가</th><th>도구</th></tr></thead>
+      <thead><tr><th style="width:170px">상황</th><th style="width:300px">실제 장면 (이런 날이다)</th><th style="width:230px">왜 VM인가</th><th>도구</th></tr></thead>
       <tbody>
-        <tr><td class="hl">① 윈도우에서 리눅스 개발</td><td>개발의 목적지(서버·CI·컨테이너)가 리눅스 전제(§5) — 진짜 커널이 필요하다</td><td><strong>WSL2</strong> — 이 문서의 주인공. 사실상 자동 선택</td></tr>
-        <tr><td class="hl">② 맥에서 윈도우 전용 프로그램</td><td>은행·관공서 프로그램, 윈도우 전용 업무 SW처럼 <u>대체재가 없는</u> 경우</td><td>Parallels·UTM — 단 이 용도는 "필요악"에 가깝다</td></tr>
-        <tr><td class="hl">③ 수상한 것을 열어봐야 할 때</td><td>의심스러운 첨부파일·출처 불명 프로그램 — 가짜 컴퓨터에서 열면 <u>망가져도 그 안</u>이다. 끝나면 통째로 삭제</td><td>격리 전용 VM (네트워크까지 끊으면 더 안전)</td></tr>
-        <tr><td class="hl">④ 부수기 전제의 실험</td><td>OS 설정·레지스트리·새 도구를 마구 만져보는 실험 — <strong>스냅샷</strong>을 찍어두고, 깨지면 그 시점으로 복원</td><td>VM의 스냅샷 기능 — 물리 컴퓨터엔 없는 "되감기 버튼"</td></tr>
-        <tr><td class="hl">⑤ 레거시 소프트웨어</td><td>옛 OS에서만 도는 프로그램(구형 장비 제어 SW 등) — 그 시절 OS를 VM에 박제</td><td>해당 구버전 OS의 VM</td></tr>
-        <tr><td class="hl">⑥ 내 앱의 호환성 시험</td><td>여러 OS·여러 버전에서 내 프로그램이 도는지 확인 — 컴퓨터를 그만큼 살 수는 없으니</td><td>OS별 VM 여러 개 (또는 클라우드 테스트 서비스)</td></tr>
-        <tr><td class="hl">⑦ 서버가 필요할 때</td><td>클라우드에서 서버를 "빌린다" = VM을 빌린다(§2) — 내가 켜는 게 아니라 <u>이미 쓰고 있는</u> 경우</td><td>EC2류 · <span class="mono">ubuntu-latest</span></td></tr>
-        <tr><td class="hl">⑧ AI 에이전트 샌드박스</td><td>자율 루프가 파일 삭제·설치를 마음껏 해도 되는 우리 — 컨테이너로 부족하면(호스트 조작 위험) VM 격리로</td><td>「로컬 LLM 코딩 공장」 §3의 그 설계</td></tr>
+        <tr><td class="hl">① 윈도우에서 리눅스 개발</td><td>튜토리얼이 전부 <span class="mono">chmod</span>·<span class="mono">crontab</span>·<span class="mono">apt install</span>인데, 윈도우 명령창은 "내부 또는 외부 명령이 아닙니다"만 반복한다</td><td>개발의 목적지(서버·CI·컨테이너)가 리눅스 전제(§5) — <span class="mono">wsl</span> 한 번이면 튜토리얼이 한 글자도 안 바꾸고 그대로 된다</td><td><strong>WSL2</strong> — 사실상 자동 선택</td></tr>
+        <tr><td class="hl">② 맥에서 윈도우 전용 프로그램</td><td>맥북만 들고 나왔는데 법인 뱅킹이 "○○보안프로그램(.exe) 설치 필요" — 맥용은 없다. HWP 구버전 전용 서식·윈도우 전용 ERP도 같은 부류</td><td>대체재가 없는 윈도우 전용 SW — 맥 안에 윈도우 창 하나를 띄워 그 안에서만 쓴다</td><td>Parallels·UTM — "필요악". 윈도우 PC가 따로 있으면 만날 일이 적다</td></tr>
+        <tr><td class="hl">③ 수상한 것을 열어봐야 할 때</td><td>거래처를 사칭한 메일로 <span class="mono">견적서_최종.exe</span>가 왔다 — 진짜일 수도 있는데 열기가 찜찜하다</td><td>랜섬웨어였다면 암호화되는 건 <u>가짜 디스크뿐</u> — 확인 후 VM을 통째로 삭제하면 흔적도 없다. 3-2-1 백업을 실전 가동할 뻔한 일이 파일 하나 지우는 일이 된다</td><td>네트워크 끊은 일회용 VM</td></tr>
+        <tr><td class="hl">④ 부수기 전제의 실험</td><td>"레지스트리를 고쳐 우클릭 메뉴를 정리하는 팁"을 따라 하고 싶은데 잘못 건드리면 부팅이 안 될 수도 있다 · 윈도우 베타가 궁금하다</td><td>실험 전 <strong>스냅샷</strong> → 마음껏 부수고 → 깨지면 5초 복원. <u>git의 커밋·되돌리기를 OS 전체에 하는 셈</u></td><td>VM 스냅샷 — 물리 컴퓨터엔 없는 "되감기 버튼"</td></tr>
+        <tr><td class="hl">⑤ 레거시 소프트웨어</td><td>공장 장비 제어 SW가 <u>윈도우 XP 전용</u>인데 제조사는 폐업 — 장비는 멀쩡한데 XP 컴퓨터가 죽으면 끝이다</td><td>그 시절 OS를 VM으로 <strong>박제</strong> — 하드웨어가 죽어도 VM 파일만 복사하면 그 환경이 영원히 산다 ("OS의 미라 보존")</td><td>해당 구버전 OS의 VM</td></tr>
+        <tr><td class="hl">⑥ 내 앱의 호환성 시험</td><td>배포한 유틸에 "윈도우 10에서 안 열려요" 리뷰가 달렸는데 내 PC는 윈도우 11이라 재현이 안 된다</td><td>그 사용자의 환경을 재현 + <u>순정 상태</u>(개발 도구가 하나도 없는)에서 시험 — "개발자 컴퓨터라 되는" 함정을 잡는다</td><td>OS별 VM (또는 클라우드 테스트 서비스)</td></tr>
+        <tr><td class="hl">⑦ 서버가 필요할 때</td><td><strong>장면이 따로 없다 — 이미 쓰고 있다.</strong> 이 저장소의 GitHub Pages, <span class="mono">ubuntu-latest</span>, Supabase 프로젝트의 밑바닥이 전부 VM이다</td><td>클라우드에서 서버를 "빌린다" = 물리 서버를 쪼갠 VM을 빌린다(§2)</td><td>EC2류 — "언제 쓰나"의 가장 흔한 답은 "매일, 모르는 새에"</td></tr>
+        <tr><td class="hl">⑧ AI 에이전트 샌드박스</td><td>"될 때까지 코딩해"라고 맡기고 자러 갔는데 새벽 3시에 에이전트가 <span class="mono">rm -rf</span>를 엉뚱한 경로에 날린다면?</td><td>부서지는 건 가짜 세계뿐 — 아침에 로그 보고 우리를 새로 만들면 끝. <u>무인 루프에게 진짜 홈 디렉토리를 주는 것은 초보 운전자에게 내 차 키를 주는 것</u></td><td>「로컬 LLM 코딩 공장」 §3의 그 설계</td></tr>
       </tbody>
     </table>
   </div>
+
+  <p class="body">거꾸로 기억하면 더 쉽다 — 여덟 장면의 공통분모는 둘뿐이다:
+  <strong>"다른 커널이 필요하다"</strong>(①②⑤⑥⑦) 아니면 <strong>"부숴도 되는 우리가 필요하다"</strong>(③④⑧).</p>
 
   <p class="body">반대로 <strong>VM이 과하거나 틀린 다섯 장면</strong> — "가상 OS 쓰는 게 좋은가?"의 답이
   "아니오"인 경우가 실은 더 많다:</p>
@@ -793,6 +822,31 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <u>맥북·맥미니</u>: VM을 켤 일이 드물다 — 이미 유닉스라 ①이 불필요하고, Docker(OrbStack)가 뒤에서 알아서 경량 VM을 돌려준다(§7).
     켜게 된다면 ②(윈도우 전용 프로그램)나 ⑧(에이전트 격리) 정도다.
     <strong>판별 습관: "다른 커널이 필요한가? 부숴도 되는 우리가 필요한가?" — 둘 다 아니면 VM은 과하다.</strong></div>
+  </div>
+
+  <h3 id="tools">8-2. 무엇으로 켜나 — VM 도구 지형</h3>
+
+  <p class="body">쓰기로 했다면 무엇으로 켜는가 — 플랫폼별 대표 도구들이다 (2026.08 기준 · 개인 사용 무료 여부는 개략):</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">내 자리</th><th style="width:220px">1순위</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">윈도우 — 개발용</td><td><strong>WSL2</strong> (무료·내장)</td><td>①번 장면의 자동 선택 — 일반 VM 도구를 켤 필요가 없다</td></tr>
+        <tr><td class="hl">윈도우 — 일반 VM<br><span style="font-size:11px;color:#666">③④⑤⑥ 장면용</span></td><td><strong>Hyper-V</strong> (Pro 내장) 또는 <strong>VirtualBox</strong> (무료)</td><td>Hyper-V는 WSL2가 쓰는 그 엔진(Type 1) · VirtualBox는 스냅샷 UI가 직관적인 고전(Type 2). VMware Workstation도 개인 무료화됨(개략)</td></tr>
+        <tr><td class="hl">맥 (Apple Silicon)</td><td><strong>UTM</strong> (무료) · <strong>Parallels</strong> (유료)</td><td>UTM은 무료로 충분하고, Parallels는 ②번 장면(윈도우 구동)이 가장 매끄럽다 — 단 ARM 윈도우라는 제약. 개발용 리눅스·컨테이너면 <u>OrbStack이 이미 그 일을 한다</u></td></tr>
+        <tr><td class="hl">홈랩 서버<br><span style="font-size:11px;color:#666">남는 PC를 VM 호텔로</span></td><td><strong>Proxmox VE</strong> (무료)</td><td>PC에 하이퍼바이저를 직접 설치(Type 1)해 VM 여러 개를 웹 UI로 운영 — NAS 문서의 확장 로드맵과 만나는 취미의 영역</td></tr>
+        <tr><td class="hl">기업 데이터센터</td><td>vSphere/ESXi · KVM</td><td>참고만 — 클라우드 사업자들의 밑바닥도 KVM 계열·자체 하이퍼바이저다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🎯</span>
+    <div><strong>고르다 지치지 않는 법 —</strong> 개인 기준으로는 사실상 답이 정해져 있다:
+    <u>윈도우 개발 = WSL2, 윈도우 잡용 = VirtualBox, 맥 = UTM(무료면 충분) 또는 Parallels(윈도우가 꼭 필요하면)</u>.
+    나머지 이름들은 "그 자리에 그런 게 있다"만 알면 된다 — 「CI/CD 정리」의 툴 지형과 같은 요령:
+    <strong>도구는 바뀌어도 자리는 남는다.</strong></div>
   </div>
 </section>
 
