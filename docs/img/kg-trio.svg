@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="660" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">세 가지 "안다" — 벡터가 문을 찾고, 그래프가 길을 걷고, 온톨로지가 법을 지킨다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">경쟁이 아니라 분업 — 서로의 맹점을 정확히 채운다</text>
+
+  <!-- 벡터 -->
+  <rect x="30" y="84" width="272" height="290" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="166" y="112" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">📍 벡터 DB — "비슷함"을 안다</text>
+  <!-- 점 구름 -->
+  <circle cx="110" cy="170" r="7" fill="#1A5CB5"/>
+  <circle cx="128" cy="156" r="6" fill="#1A5CB5" opacity=".75"/>
+  <circle cx="96" cy="150" r="6" fill="#1A5CB5" opacity=".75"/>
+  <circle cx="122" cy="184" r="6" fill="#1A5CB5" opacity=".6"/>
+  <circle cx="222" cy="200" r="6" fill="#8A8478" opacity=".6"/>
+  <circle cx="238" cy="160" r="6" fill="#8A8478" opacity=".6"/>
+  <circle cx="206" cy="176" r="6" fill="#8A8478" opacity=".5"/>
+  <circle cx="110" cy="170" r="30" fill="none" stroke="#1A5CB5" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="110" y="222" font-size="9.5" fill="#1A5CB5" font-weight="700" text-anchor="middle">의미가 가까운 것끼리 근처에</text>
+  <text x="46" y="252" font-size="10.5" fill="#555555">잘하는 질문:</text>
+  <text x="46" y="270" font-size="10" fill="#065F46">"환불 규정 비슷한 내용 찾아줘"</text>
+  <text x="46" y="288" font-size="10" fill="#065F46">— 표현이 달라도("반품") 찾는다</text>
+  <text x="46" y="314" font-size="10.5" fill="#555555">못하는 것:</text>
+  <text x="46" y="332" font-size="10" fill="#DC2626">관계 추적 — 3단계 건너는 질문에서</text>
+  <text x="46" y="348" font-size="10" fill="#DC2626">무너진다 ("근처"는 알아도 "길"을 모름)</text>
+
+  <!-- 그래프 -->
+  <rect x="314" y="84" width="272" height="290" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="450" y="112" font-size="14" font-weight="800" fill="#0F766E" text-anchor="middle">🕸 그래프 DB — "이어짐"을 안다</text>
+  <circle cx="380" cy="165" r="14" fill="#0F766E"/>
+  <circle cx="450" cy="200" r="14" fill="#0F766E" opacity=".8"/>
+  <circle cx="520" cy="160" r="14" fill="#0F766E" opacity=".8"/>
+  <circle cx="490" cy="235" r="14" fill="#0F766E" opacity=".6"/>
+  <line x1="393" y1="172" x2="437" y2="194" stroke="#0F766E" stroke-width="2.5"/>
+  <line x1="463" y1="193" x2="507" y2="167" stroke="#0F766E" stroke-width="2.5"/>
+  <line x1="459" y1="211" x2="481" y2="226" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="450" y="264" font-size="9.5" fill="#0F766E" font-weight="700" text-anchor="middle">명시된 관계를 정확히 따라간다</text>
+  <text x="330" y="290" font-size="10.5" fill="#555555">잘하는 질문:</text>
+  <text x="330" y="308" font-size="10" fill="#065F46">"A 부품 업체 중 지연 이력 있는 곳?"</text>
+  <text x="330" y="324" font-size="10" fill="#065F46">— 다단계 추적이 본질 (JOIN 지옥의 해방)</text>
+  <text x="330" y="348" font-size="10.5" fill="#555555">못하는 것: <tspan fill="#DC2626">뉘앙스 — "환불"과 "반품"이</tspan></text>
+  <text x="330" y="364" font-size="10" fill="#DC2626">다른 노드로 적혀 있으면 못 잇는다</text>
+
+  <!-- 온톨로지 -->
+  <rect x="598" y="84" width="272" height="290" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="734" y="112" font-size="14" font-weight="800" fill="#6B21A8" text-anchor="middle">⚖️ 온톨로지 — "규칙"을 안다</text>
+  <rect x="640" y="145" width="188" height="30" rx="7" fill="#FFFFFF" stroke="#6B21A8" stroke-width="1.2"/>
+  <text x="734" y="165" font-size="9.5" fill="#555555" text-anchor="middle">"업체 —치료→ 발열" ← ✕ 불가 판정</text>
+  <rect x="640" y="181" width="188" height="30" rx="7" fill="#FFFFFF" stroke="#6B21A8" stroke-width="1.2"/>
+  <text x="734" y="201" font-size="9.5" fill="#555555" text-anchor="middle">is-a 사슬로 안 적힌 사실 추론 ✓</text>
+  <text x="734" y="240" font-size="9.5" fill="#6B21A8" font-weight="700" text-anchor="middle">개념의 문법 — 허용·금지·도출</text>
+  <text x="614" y="270" font-size="10.5" fill="#555555">잘하는 것:</text>
+  <text x="614" y="288" font-size="10" fill="#065F46">모순 탐지 · 추론 · AI 환각의 구조적 차단</text>
+  <text x="614" y="306" font-size="10" fill="#065F46">("그 관계 유형은 존재하지 않는다")</text>
+  <text x="614" y="332" font-size="10.5" fill="#555555">못하는 것:</text>
+  <text x="614" y="350" font-size="10" fill="#DC2626">스스로는 데이터가 없다 — 도면일 뿐,</text>
+  <text x="614" y="366" font-size="10" fill="#DC2626">채우는 것은 그래프·문서의 몫</text>
+
+  <!-- 분업 요약 -->
+  <rect x="30" y="398" width="840" height="120" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="450" y="426" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">한 질문에서의 분업 — "A 제품 부품 납품업체 중 지연 이력 있는 곳?"</text>
+  <rect x="52" y="440" width="256" height="60" rx="10" fill="#E8EEF7"/>
+  <text x="180" y="462" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">① 벡터: 문을 찾는다</text>
+  <text x="180" y="482" font-size="9.5" fill="#555555" text-anchor="middle">"이 질문은 노트북A 노드 근처 얘기군"</text>
+  <rect x="322" y="440" width="256" height="60" rx="10" fill="#E6F7F1"/>
+  <text x="450" y="462" font-size="11" font-weight="800" fill="#0F766E" text-anchor="middle">② 그래프: 길을 걷는다</text>
+  <text x="450" y="482" font-size="9.5" fill="#555555" text-anchor="middle">제품→부품→업체→이력 3홉 추적</text>
+  <rect x="592" y="440" width="256" height="60" rx="10" fill="#F3E8FF"/>
+  <text x="720" y="462" font-size="11" font-weight="800" fill="#6B21A8" text-anchor="middle">③ 온톨로지: 법을 지킨다</text>
+  <text x="720" y="482" font-size="9.5" fill="#555555" text-anchor="middle">걸어온 길이 허용된 관계인지 검증</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="534" width="840" height="94" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="562" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">「데이터베이스」의 언어로: 벡터 = pgvector(§9-C) · 그래프 = Neo4j(§3-4) · 온톨로지 = 이번에 새로 얹는 층</text>
+  <text x="450" y="586" font-size="11" fill="#AAB9CF" text-anchor="middle">표준 RAG(「로컬 LLM 에이전트」)가 ①만 쓰는 구조였다면 — GraphRAG는 ①②③을 전부 쓴다 (§6)</text>
+  <text x="450" y="608" font-size="11" fill="#7FD1A8" text-anchor="middle">기억법: 비슷함(어디쯤?) · 이어짐(어떻게 가?) · 규칙(가도 되는 길이야?)</text>
+</svg>

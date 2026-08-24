@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="kgb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">GraphRAG 구축 — 문서 더미가 지식 그래프가 되기까지</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">LLM이 읽고, 온톨로지가 규격을 대고, 그래프·벡터 두 색인이 만들어진다</text>
+
+  <!-- 입력 -->
+  <rect x="40" y="100" width="180" height="130" rx="12" fill="#F2EDE4" stroke="#8A8478" stroke-width="2"/>
+  <text x="130" y="128" font-size="13" font-weight="800" fill="#555555" text-anchor="middle">📚 비정형 더미</text>
+  <text x="130" y="152" font-size="10.5" fill="#555555" text-anchor="middle">사내 위키 · 계약서 · 이메일</text>
+  <text x="130" y="170" font-size="10.5" fill="#555555" text-anchor="middle">보고서 · 매뉴얼 · 회의록</text>
+  <text x="130" y="196" font-size="10" fill="#666666" text-anchor="middle">관계가 산문 속에</text>
+  <text x="130" y="212" font-size="10" fill="#666666" text-anchor="middle">암묵적으로 묻혀 있다</text>
+
+  <line x1="220" y1="165" x2="256" y2="165" stroke="#003F8A" stroke-width="2.5" marker-end="url(#kgb)"/>
+
+  <!-- LLM 추출 -->
+  <rect x="260" y="100" width="220" height="130" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="370" y="128" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">🤖 LLM 추출기</text>
+  <text x="370" y="152" font-size="10.5" fill="#555555" text-anchor="middle">문장을 읽고 (개체, 관계, 개체)</text>
+  <text x="370" y="170" font-size="10.5" fill="#555555" text-anchor="middle">트리플을 뽑아낸다</text>
+  <rect x="276" y="182" width="188" height="34" rx="7" fill="#0D1B2E"/>
+  <text x="370" y="198" font-size="9" fill="#7FD1A8" text-anchor="middle" font-family="'JetBrains Mono', monospace">"B전자가 배터리 납품 지연" →</text>
+  <text x="370" y="210" font-size="9" fill="#7FD1A8" text-anchor="middle" font-family="'JetBrains Mono', monospace">(B전자)-[납품]-(배터리X)-[지연]</text>
+
+  <!-- 온톨로지 규격 (위에서 내려옴) -->
+  <rect x="260" y="260" width="220" height="96" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="370" y="288" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">⚖️ 온톨로지 (규격서)</text>
+  <text x="370" y="310" font-size="10" fill="#555555" text-anchor="middle">"개체는 제품·부품·업체·이력 중 하나"</text>
+  <text x="370" y="328" font-size="10" fill="#555555" text-anchor="middle">"납품은 업체→부품에만 허용"</text>
+  <text x="370" y="346" font-size="9.5" font-weight="700" fill="#6B21A8" text-anchor="middle">→ LLM의 추출이 제멋대로 되는 것을 막는다</text>
+  <line x1="370" y1="260" x2="370" y2="234" stroke="#6B21A8" stroke-width="2.5" marker-end="url(#kgb)"/>
+
+  <line x1="480" y1="165" x2="516" y2="165" stroke="#003F8A" stroke-width="2.5" marker-end="url(#kgb)"/>
+
+  <!-- 두 색인 -->
+  <rect x="520" y="84" width="340 " height="150" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="690" y="112" font-size="13" font-weight="800" fill="#0F766E" text-anchor="middle">🕸 그래프 색인 (Neo4j)</text>
+  <text x="690" y="136" font-size="10.5" fill="#555555" text-anchor="middle">추출된 트리플이 노드·관계로 쌓인다</text>
+  <text x="690" y="156" font-size="10.5" fill="#555555" text-anchor="middle">— 관계의 사슬을 걷기 위한 색인</text>
+  <text x="690" y="182" font-size="10" fill="#666666" text-anchor="middle">커뮤니티 묶음·요약을 미리 만들어두기도</text>
+  <text x="690" y="200" font-size="10" fill="#666666" text-anchor="middle">(전역 질문 "전체 위험 요약해줘" 대비)</text>
+
+  <rect x="520" y="254" width="340" height="102" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="690" y="282" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">📍 벡터 색인 (pgvector·전용 벡터 DB)</text>
+  <text x="690" y="306" font-size="10.5" fill="#555555" text-anchor="middle">같은 노드·문단을 임베딩으로도 저장</text>
+  <text x="690" y="326" font-size="10.5" fill="#555555" text-anchor="middle">— 질문의 "진입점"을 찾기 위한 색인</text>
+  <text x="690" y="344" font-size="10" fill="#666666" text-anchor="middle">Neo4j는 자체 벡터 인덱스도 내장 (한 DB로 겸용 가능)</text>
+  <line x1="480" y1="200" x2="516" y2="290" stroke="#003F8A" stroke-width="2.5" marker-end="url(#kgb)"/>
+
+  <!-- 유지 루프 -->
+  <rect x="40" y="390" width="820" height="106 " rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="62" y="418" font-size="13" font-weight="800" fill="#B45309">⚠️ 구축보다 유지가 진짜 일이다 — GraphRAG의 숨은 비용</text>
+  <text x="62" y="444" font-size="10.5" fill="#555555">· 추출 품질: LLM이 관계를 놓치거나 지어낸다 → <tspan font-weight="700">표본 검수·평가 세트</tspan>가 필요 (「LLM-as-a-Judge」의 영역)</text>
+  <text x="62" y="466" font-size="10.5" fill="#555555">· 개체 통합: "B전자"·"비전자(주)"·"B Elec"이 같은 회사임을 알아보는 일(entity resolution)이 의외로 최대 난관</text>
+  <text x="62" y="488" font-size="10.5" fill="#555555">· 갱신: 문서가 바뀌면 그래프도 따라 바뀌어야 — 파이프라인 자동화(「CI/CD 정리」의 사고방식)가 없으면 그래프가 낡는다</text>
+
+  <!-- 하단 -->
+  <rect x="40" y="516" width="820" height="84" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="544" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">역할 요약: LLM = 읽고 뽑는 노동 · 온톨로지 = 뽑기의 규격 · 그래프 = 관계의 색인 · 벡터 = 진입의 색인</text>
+  <text x="450" y="566" font-size="11" fill="#AAB9CF" text-anchor="middle">과거에는 이 추출을 사람이 손으로 했다(그래서 온톨로지가 비쌌다) — LLM이 노동 비용을 무너뜨리며 지식 그래프가 부활한 것</text>
+  <text x="450" y="586" font-size="10.5" fill="#7FD1A8" text-anchor="middle">"코드가 싸지자 검증이 비싸졌다"의 데이터판: 추출이 싸지자, 규격(온톨로지)과 검수가 비싸졌다</text>
+</svg>

@@ -39,6 +39,29 @@
       ]
     },
     {
+      "id": "ontology-kg",
+      "title": "온톨로지와 지식 그래프",
+      "desc": "벡터가 문을 찾고, 그래프가 길을 걷고, 온톨로지가 법을 지킨다 — Neo4j·pgvector·GraphRAG의 분업",
+      "file": "docs/ontology-kg.html",
+      "group": "Software · Data",
+      "icon": "🕸️",
+      "gradient": [
+        "#0D1B2E",
+        "#BE185D"
+      ],
+      "tags": [
+        "온톨로지",
+        "Neo4j",
+        "GraphRAG"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/kg-layers.svg",
+        "docs/img/kg-trio.svg",
+        "docs/img/kg-build.svg"
+      ]
+    },
+    {
       "id": "nas-data-strategy",
       "title": "NAS와 개인 데이터 전략",
       "desc": "구글드라이브의 역할 재배치 — 3-2-1 백업, DAS vs NAS 정면 비교, 내 장비 배치도",

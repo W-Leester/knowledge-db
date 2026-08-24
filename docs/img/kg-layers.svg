@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="kgl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">온톨로지 · 지식 그래프 · 그래프 DB — 세 층의 관계</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">설계도(개념) → 건물(데이터) → 공법(저장 기술) — 경쟁자가 아니라 층이 다르다</text>
+
+  <!-- 온톨로지 층 -->
+  <rect x="40" y="84" width="820" height="150" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="3"/>
+  <text x="62" y="112" font-size="14.5" font-weight="800" fill="#6B21A8">1층 · 온톨로지 — 설계도 (개념·관계·규칙의 정의)</text>
+  <rect x="62" y="126" width="230" height="92" rx="10" fill="#FFFFFF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="177" y="148" font-size="10.5" font-weight="800" fill="#6B21A8" text-anchor="middle">개념 (Class)</text>
+  <text x="177" y="168" font-size="10" fill="#555555" text-anchor="middle">제품 · 부품 · 업체 · 지연이력</text>
+  <text x="177" y="186" font-size="10" fill="#555555" text-anchor="middle">"우리 세계에 무엇이 존재하나"</text>
+  <text x="177" y="206" font-size="9.5" fill="#666666" text-anchor="middle">= 어휘 사전</text>
+  <rect x="308" y="126" width="230" height="92" rx="10" fill="#FFFFFF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="423" y="148" font-size="10.5" font-weight="800" fill="#6B21A8" text-anchor="middle">관계 유형 (Relation)</text>
+  <text x="423" y="168" font-size="10" fill="#555555" text-anchor="middle">제품 —포함→ 부품</text>
+  <text x="423" y="186" font-size="10" fill="#555555" text-anchor="middle">업체 —납품→ 부품</text>
+  <text x="423" y="206" font-size="9.5" fill="#666666" text-anchor="middle">"어떤 연결이 허용되나"</text>
+  <rect x="554" y="126" width="284" height="92" rx="10" fill="#FFFFFF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="696" y="148" font-size="10.5" font-weight="800" fill="#6B21A8" text-anchor="middle">규칙 (Rule·제약)</text>
+  <text x="696" y="168" font-size="10" fill="#555555" text-anchor="middle">"처방은 의사만" · "부품은 반드시 업체가 있다"</text>
+  <text x="696" y="186" font-size="10" fill="#555555" text-anchor="middle">X treats Y ∧ Z is-a X → Z treats Y</text>
+  <text x="696" y="206" font-size="9.5" font-weight="700" fill="#6B21A8" text-anchor="middle">→ 안 적힌 사실의 추론 · 모순 탐지</text>
+
+  <line x1="450" y1="234" x2="450" y2="262" stroke="#003F8A" stroke-width="2.5" marker-end="url(#kgl)"/>
+  <text x="472" y="254" font-size="10" font-weight="700" fill="#555555">이 규격대로 데이터를 채우면 ↓</text>
+
+  <!-- 지식 그래프 층 -->
+  <rect x="40" y="266" width="820" height="180" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="3"/>
+  <text x="62" y="294" font-size="14.5" font-weight="800" fill="#0F766E">2층 · 지식 그래프 — 건물 (온톨로지 뼈대 + 실제 데이터의 살)</text>
+
+  <!-- 미니 그래프 -->
+  <circle cx="180" cy="370" r="34" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="180" y="366" font-size="10.5" font-weight="800" fill="#002C5F" text-anchor="middle">제품</text>
+  <text x="180" y="382" font-size="10" fill="#555555" text-anchor="middle">노트북A</text>
+  <circle cx="390" cy="330" r="34" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="390" y="326" font-size="10.5" font-weight="800" fill="#B45309" text-anchor="middle">부품</text>
+  <text x="390" y="342" font-size="10" fill="#555555" text-anchor="middle">배터리X</text>
+  <circle cx="600" cy="370" r="34" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="600" y="366" font-size="10.5" font-weight="800" fill="#DC2626" text-anchor="middle">업체</text>
+  <text x="600" y="382" font-size="10" fill="#555555" text-anchor="middle">B전자</text>
+  <circle cx="780" cy="330" r="34" fill="#F2EDE4" stroke="#8A8478" stroke-width="2.5"/>
+  <text x="780" y="326" font-size="10.5" font-weight="800" fill="#555555" text-anchor="middle">지연이력</text>
+  <text x="780" y="342" font-size="10" fill="#555555" text-anchor="middle">2025.11</text>
+  <line x1="214" y1="362" x2="356" y2="336" stroke="#003F8A" stroke-width="2" marker-end="url(#kgl)"/>
+  <text x="285" y="338" font-size="9.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">포함</text>
+  <line x1="566" y1="362" x2="424" y2="336" stroke="#003F8A" stroke-width="2" marker-end="url(#kgl)"/>
+  <text x="495" y="338" font-size="9.5" font-weight="700" fill="#DC2626" text-anchor="middle">납품</text>
+  <line x1="634" y1="362" x2="746" y2="338" stroke="#003F8A" stroke-width="2" marker-end="url(#kgl)"/>
+  <text x="690" y="340" font-size="9.5" font-weight="700" fill="#8A8478" text-anchor="middle">기록</text>
+  <text x="450" y="428" font-size="10.5" fill="#555555" text-anchor="middle">실존하는 노트북A·배터리X·B전자가 1층이 허용한 관계로만 이어진다 — 구글 지식 그래프·Palantir 온톨로지가 이 층의 거대판</text>
+
+  <line x1="450" y1="446" x2="450" y2="474" stroke="#003F8A" stroke-width="2.5" marker-end="url(#kgl)"/>
+  <text x="472" y="466" font-size="10" font-weight="700" fill="#555555">이것을 어디에 저장하나 ↓</text>
+
+  <!-- 저장 기술 층 -->
+  <rect x="40" y="478" width="820" height="106" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="62" y="506" font-size="14.5" font-weight="800" fill="#002C5F">3층 · 그래프 DB — 공법 (저장·질의 기술)</text>
+  <rect x="62" y="520" width="380" height="52" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="252" y="540" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">속성 그래프 진영 — Neo4j ★ 실무 표준</text>
+  <text x="252" y="560" font-size="9.5" fill="#555555" text-anchor="middle">노드·관계에 자유로운 속성 · Cypher 질의 — 개발 친화</text>
+  <rect x="458" y="520" width="380" height="52" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.2"/>
+  <text x="648" y="540" font-size="11" font-weight="800" fill="#555555" text-anchor="middle">RDF/OWL 진영 — 트리플 저장소</text>
+  <text x="648" y="560" font-size="9.5" fill="#555555" text-anchor="middle">시맨틱 웹 표준 · 표준 추론기 — 학술·공공 데이터 강세</text>
+
+  <!-- 하단 -->
+  <rect x="40" y="598" width="820" height="30" rx="8" fill="#0D1B2E"/>
+  <text x="450" y="618" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">한 줄: 온톨로지 없는 그래프 DB는 낙서장이 되고, 그래프 DB 없는 온톨로지는 빈 도면이다 — 지식 그래프는 둘의 결혼</text>
+</svg>
