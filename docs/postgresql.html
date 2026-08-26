@@ -582,11 +582,23 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
         <tr><td class="hl">시계열 (센서·지표)</td><td><strong>TimescaleDB</strong></td><td>🟡 대규모 IoT 인입이면 전문 시계열 DB 고려</td></tr>
         <tr><td class="hl">전문 검색 (Elasticsearch)</td><td>FTS 내장 (tsvector) + 확장</td><td>🟡 중소 규모는 충분 — 정교한 랭킹·대규모·한국어 형태소 분석은 전문 엔진</td></tr>
         <tr><td class="hl">작업 큐·스케줄</td><td><strong>pg_cron</strong> · SKIP LOCKED 패턴</td><td>🟡 가벼운 큐는 테이블로 — 대량 실시간 스트림이면 전용 큐(Kafka류)</td></tr>
+        <tr><td class="hl">그래프 질의 (Neo4j)</td><td><strong>Apache AGE</strong> — openCypher를 PG 안에서</td><td>🟡 가벼운 관계 질의는 충분 — 그래프가 <u>주인공</u>이 되면(대규모·알고리즘·시각화) Neo4j로 (「온톨로지와 지식 그래프」). <strong>Neo4j 자체는 PG 확장이 아니라 별도 DB</strong>다</td></tr>
         <tr><td class="hl">외부 데이터 연결</td><td><strong>FDW</strong> — 남의 DB·CSV·API를 "내 테이블인 척"</td><td>— (연합 조회 도구이지 대체가 아님)</td></tr>
         <tr><td class="hl">분산·샤딩</td><td><strong>Citus</strong> — 스케일마저 확장으로(§1)</td><td>🟡 진짜 필요해진 다음에 (§6)</td></tr>
         <tr><td class="hl">캐시 (Redis)</td><td>흉내는 있으나 —</td><td>🔴 <strong>흡수 대상이 아니다</strong> — 인메모리의 속도는 구조가 다르다. 「데이터베이스」 §9의 "곁들이는 것"</td></tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🧲</span>
+    <div><strong>흔한 오해 — "pgvector만 켜면 AI 검색이 되나?"</strong> 반만 맞다.
+    pgvector는 <u>좌표 보관함 + 거리 계산기</u>일 뿐, 텍스트를 좌표로 바꾸는 능력이 없다 —
+    파이프라인에 <strong>임베딩 모델</strong>이 반드시 낀다:
+    <span class="mono">문서 → [임베딩 모델] → 벡터 → pgvector 저장</span>, 질문도 같은 모델로 좌표화해서 검색.<br>
+    핵심 구분: <u>임베딩 모델 ≠ 생성 LLM</u>. 임베딩 모델은 작고 싸며(로컬에서 공짜 가능 — 「로컬 LLM 에이전트」의 스택),
+    <strong>검색까지만 쓸 거면 생성 LLM은 아예 불필요</strong>하다. 답변 문장까지 원할 때(RAG) 비로소 생성 모델이 붙는다 —
+    "AI처럼 검색"은 생성 LLM 없이 되지만, "아무 모델도 없이"는 안 된다.</div>
   </div>
 </section>
 

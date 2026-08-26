@@ -54,7 +54,7 @@
         "pgvector",
         "Just Use Postgres"
       ],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/pg-two-words.svg",
         "docs/img/pg-sockets.svg",
