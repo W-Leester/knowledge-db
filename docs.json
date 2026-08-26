@@ -39,6 +39,29 @@
       ]
     },
     {
+      "id": "postgresql",
+      "title": "PostgreSQL 해부",
+      "desc": "\"확장성\"이 왕을 만들었다 — 두 가지 확장성의 구분, 소켓 아키텍처, 전문 DB 흡수 지도, MySQL을 제친 다섯 요인",
+      "file": "docs/postgresql.html",
+      "group": "Software · Data",
+      "icon": "🐘",
+      "gradient": [
+        "#0D1B2E",
+        "#336791"
+      ],
+      "tags": [
+        "extensibility",
+        "pgvector",
+        "Just Use Postgres"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/pg-two-words.svg",
+        "docs/img/pg-sockets.svg",
+        "docs/img/pg-absorb.svg"
+      ]
+    },
+    {
       "id": "ontology-kg",
       "title": "온톨로지와 지식 그래프",
       "desc": "벡터가 문을 찾고, 그래프가 길을 걷고, 온톨로지가 법을 지킨다 — Neo4j·pgvector·GraphRAG의 분업",

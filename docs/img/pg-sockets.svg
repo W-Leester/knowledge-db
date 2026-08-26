@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 680" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="680" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">확장이 1급 시민인 설계 — 코어에 뚫려 있는 소켓들</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">다른 DB는 "기능을 추가해달라"고 개발사에 빌지만, Postgres는 소켓에 직접 꽂는다 — 1986년 설계 사상의 유산</text>
+
+  <!-- 코어 -->
+  <rect x="270" y="230" width="360" height="220" rx="18" fill="#336791"/>
+  <text x="450" y="268" font-size="16" font-weight="800" fill="#FFF" text-anchor="middle">🐘 PostgreSQL 코어</text>
+  <text x="450" y="294" font-size="10.5" fill="#CBDCF0" text-anchor="middle">파서 · 플래너 · 실행기 · 트랜잭션(MVCC) · WAL</text>
+  <text x="450" y="318" font-size="11" font-weight="700" fill="#FFF" text-anchor="middle">코어가 하는 일: "무엇이 오든</text>
+  <text x="450" y="336" font-size="11" font-weight="700" fill="#FFF" text-anchor="middle">똑같이 계획하고·실행하고·지킨다"</text>
+  <text x="450" y="366" font-size="10" fill="#CBDCF0" text-anchor="middle">확장이 가져온 타입·인덱스·함수도</text>
+  <text x="450" y="384" font-size="10" fill="#CBDCF0" text-anchor="middle">내장 기능과 똑같은 대우를 받는다</text>
+  <text x="450" y="410" font-size="10.5" font-weight="800" fill="#7FD1A8" text-anchor="middle">= "1급 시민(first-class)" 의 뜻</text>
+  <text x="450" y="432" font-size="9.5" fill="#CBDCF0" text-anchor="middle">트랜잭션·백업·복제가 확장 데이터에도 그대로 적용</text>
+
+  <!-- 소켓들 -->
+  <rect x="60" y="100" width="220" height="100" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="170" y="126" font-size="12.5" font-weight="800" fill="#0F766E" text-anchor="middle">소켓 ① 사용자 정의 타입</text>
+  <text x="170" y="148" font-size="10" fill="#555555" text-anchor="middle">"새로운 종류의 값"을 가르친다</text>
+  <text x="170" y="166" font-size="10" fill="#555555" text-anchor="middle">vector(1536) · 좌표 · IP 대역 …</text>
+  <text x="170" y="186" font-size="9.5" fill="#666666" text-anchor="middle">pgvector가 꽂는 곳</text>
+  <line x1="280" y1="170" x2="330" y2="248" stroke="#0F766E" stroke-width="2.5"/>
+
+  <rect x="620" y="100" width="220" height="100" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="730" y="126" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">소켓 ② 인덱스 방식</text>
+  <text x="730" y="148" font-size="10" fill="#555555" text-anchor="middle">"새로운 찾기 방법"을 가르친다</text>
+  <text x="730" y="166" font-size="10" fill="#555555" text-anchor="middle">B-tree 외에 GiST·GIN·HNSW …</text>
+  <text x="730" y="186" font-size="9.5" fill="#666666" text-anchor="middle">벡터 유사도·지리 검색이 빠른 이유</text>
+  <line x1="620" y1="170" x2="570" y2="248" stroke="#E8962A" stroke-width="2.5"/>
+
+  <rect x="40" y="290" width="180" height="100" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="130" y="316" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">소켓 ③ 함수·언어</text>
+  <text x="130" y="338" font-size="10" fill="#555555" text-anchor="middle">SQL 안에서 도는 코드</text>
+  <text x="130" y="356" font-size="10" fill="#555555" text-anchor="middle">PL/pgSQL · PL/Python …</text>
+  <text x="130" y="376" font-size="9.5" fill="#666666" text-anchor="middle">연산자도 새로 정의 가능</text>
+  <line x1="220" y1="340" x2="266" y2="340" stroke="#6B21A8" stroke-width="2.5"/>
+
+  <rect x="680" y="290" width="180" height="100" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="770" y="316" font-size="12.5" font-weight="800" fill="#DC2626" text-anchor="middle">소켓 ④ FDW</text>
+  <text x="770" y="338" font-size="10" fill="#555555" text-anchor="middle">외부 데이터 래퍼 —</text>
+  <text x="770" y="356" font-size="10" fill="#555555" text-anchor="middle">남의 DB·파일·API를</text>
+  <text x="770" y="374" font-size="10" fill="#555555" text-anchor="middle">"내 테이블인 척" 조회</text>
+  <line x1="680" y1="340" x2="634" y2="340" stroke="#DC2626" stroke-width="2.5"/>
+
+  <rect x="60" y="480" width="220" height="100" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="170" y="506" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">소켓 ⑤ 백그라운드 워커</text>
+  <text x="170" y="528" font-size="10" fill="#555555" text-anchor="middle">DB 안에서 도는 상주 일꾼</text>
+  <text x="170" y="546" font-size="10" fill="#555555" text-anchor="middle">스케줄러·압축·집계 …</text>
+  <text x="170" y="566" font-size="9.5" fill="#666666" text-anchor="middle">pg_cron·TimescaleDB가 꽂는 곳</text>
+  <line x1="280" y1="510" x2="330" y2="440" stroke="#1A5CB5" stroke-width="2.5"/>
+
+  <rect x="620" y="480" width="220" height="100" rx="12" fill="#F2EDE4" stroke="#8A8478" stroke-width="2.5"/>
+  <text x="730" y="506" font-size="12.5" font-weight="800" fill="#555555" text-anchor="middle">소켓 ⑥ 훅 (Hooks)</text>
+  <text x="730" y="528" font-size="10" fill="#555555" text-anchor="middle">플래너·실행기의 중간에</text>
+  <text x="730" y="546" font-size="10" fill="#555555" text-anchor="middle">끼어들 수 있는 지점들</text>
+  <text x="730" y="566" font-size="9.5" fill="#666666" text-anchor="middle">Citus(분산)·감사 도구가 꽂는 곳</text>
+  <line x1="620" y1="510" x2="570" y2="440" stroke="#8A8478" stroke-width="2.5"/>
+
+  <!-- 대비 -->
+  <rect x="300" y="490" width="300" height="90" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="450" y="514" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">비유의 완성 — USB 포트가 여섯 종류</text>
+  <text x="450" y="536" font-size="9.5" fill="#555555" text-anchor="middle">대부분의 DB: 밀봉된 가전 (기능 추가 = 제조사에 요청)</text>
+  <text x="450" y="554" font-size="9.5" fill="#555555" text-anchor="middle">Postgres: 포트 뚫린 본체 (기능 추가 = 누구나 꽂는다)</text>
+  <text x="450" y="572" font-size="9.5" font-weight="700" fill="#0F766E" text-anchor="middle">생태계가 폭발한 구조적 이유</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="608" width="840" height="56" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="632" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">기원: 1986년 버클리의 POSTGRES 프로젝트 — 이름부터 "Post-Ingres", 목표가 애초에 "확장 가능한 객체-관계형 DB"였다</text>
+  <text x="450" y="652" font-size="11" fill="#AAB9CF" text-anchor="middle">40년 전의 설계 사상이 AI 시대에 상환된 것 — pgvector가 하루아침에 가능했던 이유는 소켓이 이미 뚫려 있었기 때문</text>
+</svg>

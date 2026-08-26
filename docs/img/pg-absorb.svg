@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="pga" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="660" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">전문 DB 흡수 지도 — "그 DB 없이도 그 일이 된다"의 범위</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">단, 흡수에는 임계점이 있다 — 초록은 대체가 흔하고, 주황은 조건부, 빨강은 대체가 아니다</text>
+
+  <!-- 중앙 PG -->
+  <rect x="330" y="270" width="240" height="120" rx="16" fill="#336791"/>
+  <text x="450" y="310" font-size="16" font-weight="800" fill="#FFF" text-anchor="middle">🐘 PostgreSQL</text>
+  <text x="450" y="334" font-size="10.5" fill="#CBDCF0" text-anchor="middle">+ 확장 카트리지들</text>
+  <text x="450" y="356" font-size="10" fill="#CBDCF0" text-anchor="middle">한 DB · 한 백업 · 한 트랜잭션</text>
+  <text x="450" y="374" font-size="10" fill="#CBDCF0" text-anchor="middle">JOIN으로 전부 이어진다</text>
+
+  <!-- 흡수 대상들 -->
+  <rect x="60" y="90" width="220" height="96" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="170" y="114" font-size="12" font-weight="800" fill="#065F46" text-anchor="middle">📄 MongoDB (문서)</text>
+  <text x="170" y="136" font-size="10" fill="#555555" text-anchor="middle">→ <tspan class="mono" font-weight="700">JSONB</tspan> (코어 내장 + GIN 인덱스)</text>
+  <text x="170" y="154" font-size="10" fill="#555555" text-anchor="middle">유연 스키마 + 관계형을 한 테이블에</text>
+  <text x="170" y="174" font-size="9.5" font-weight="700" fill="#065F46" text-anchor="middle">🟢 대체가 가장 흔한 케이스</text>
+  <line x1="280" y1="150" x2="356" y2="272" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#pga)"/>
+
+  <rect x="620" y="90" width="220" height="96" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
+  <text x="730" y="114" font-size="12" font-weight="800" fill="#065F46" text-anchor="middle">📍 전용 벡터 DB</text>
+  <text x="730" y="136" font-size="10" fill="#555555" text-anchor="middle">→ <tspan class="mono" font-weight="700">pgvector</tspan> (+pgvectorscale)</text>
+  <text x="730" y="154" font-size="10" fill="#555555" text-anchor="middle">임베딩이 원본 데이터 옆에 산다</text>
+  <text x="730" y="174" font-size="9.5" font-weight="700" fill="#065F46" text-anchor="middle">🟢 AI 시대의 결정타 (§5)</text>
+  <line x1="620" y1="150" x2="544" y2="272" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#pga)"/>
+
+  <rect x="40" y="240" width="200" height="96" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+  <text x="140" y="264" font-size="12" font-weight="800" fill="#065F46" text-anchor="middle">🗺 지리 정보 시스템</text>
+  <text x="140" y="286" font-size="10" fill="#555555" text-anchor="middle">→ <tspan class="mono" font-weight="700">PostGIS</tspan></text>
+  <text x="140" y="304" font-size="10" fill="#555555" text-anchor="middle">확장 생태계의 원조 킬러앱</text>
+  <text x="140" y="324" font-size="9.5" font-weight="700" fill="#065F46" text-anchor="middle">🟢 이 분야의 사실상 표준</text>
+  <line x1="240" y1="300" x2="326" y2="316" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#pga)"/>
+
+  <rect x="660" y="240" width="200" height="96" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="760" y="264" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">⏱ 시계열 DB</text>
+  <text x="760" y="286" font-size="10" fill="#555555" text-anchor="middle">→ <tspan class="mono" font-weight="700">TimescaleDB</tspan></text>
+  <text x="760" y="304" font-size="10" fill="#555555" text-anchor="middle">센서·지표 데이터 압축·집계</text>
+  <text x="760" y="324" font-size="9.5" font-weight="700" fill="#B45309" text-anchor="middle">🟡 대규모 IoT는 전문 DB 고려</text>
+  <line x1="660" y1="300" x2="574" y2="316" stroke="#E8962A" stroke-width="2.5" marker-end="url(#pga)"/>
+
+  <rect x="60" y="400" width="220" height="96" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="170" y="424" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">🔎 Elasticsearch (검색)</text>
+  <text x="170" y="446" font-size="10" fill="#555555" text-anchor="middle">→ 전문 검색(FTS) 내장 + 확장</text>
+  <text x="170" y="464" font-size="10" fill="#555555" text-anchor="middle">중소 규모 검색은 충분</text>
+  <text x="170" y="484" font-size="9.5" font-weight="700" fill="#B45309" text-anchor="middle">🟡 랭킹·대규모·한국어 형태소는 전문</text>
+  <line x1="280" y1="430" x2="356" y2="386" stroke="#E8962A" stroke-width="2.5" marker-end="url(#pga)"/>
+
+  <rect x="620" y="400" width="220" height="96" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="730" y="424" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">📨 작업 큐 · 스케줄러</text>
+  <text x="730" y="446" font-size="10" fill="#555555" text-anchor="middle">→ <tspan class="mono" font-weight="700">pg_cron</tspan> · SKIP LOCKED 패턴</text>
+  <text x="730" y="464" font-size="10" fill="#555555" text-anchor="middle">가벼운 큐는 테이블로 충분</text>
+  <text x="730" y="484" font-size="9.5" font-weight="700" fill="#B45309" text-anchor="middle">🟡 대량 실시간이면 전용 큐로</text>
+  <line x1="620" y1="430" x2="544" y2="386" stroke="#E8962A" stroke-width="2.5" marker-end="url(#pga)"/>
+
+  <rect x="340" y="480" width="220" height="96" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="450" y="504" font-size="12" font-weight="800" fill="#DC2626" text-anchor="middle">⚡ Redis (캐시)</text>
+  <text x="450" y="526" font-size="10" fill="#555555" text-anchor="middle">UNLOGGED 테이블 등 흉내는 있지만</text>
+  <text x="450" y="544" font-size="10" fill="#555555" text-anchor="middle">인메모리의 속도는 구조적으로 다르다</text>
+  <text x="450" y="564" font-size="9.5" font-weight="700" fill="#DC2626" text-anchor="middle">🔴 흡수 대상이 아니다 — 곁들이는 것 (§3-1)</text>
+  <line x1="450" y1="480" x2="450" y2="394" stroke="#DC2626" stroke-width="2" stroke-dasharray="5 4"/>
+
+  <!-- 하단 -->
+  <rect x="30" y="596" width="840" height="52" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="618" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">"그냥 Postgres 써(Just Use Postgres)" 운동의 실체 — 전문 DB의 8할을 확장이 흡수하되, 임계점을 넘으면 전문 DB로</text>
+  <text x="450" y="638" font-size="11" fill="#AAB9CF" text-anchor="middle">「데이터베이스」 §5 Polyglot(적재적소 조합)의 반대 흐름이 아니라 — "조합의 시작점을 하나로 모으는" 진화형이다</text>
+</svg>

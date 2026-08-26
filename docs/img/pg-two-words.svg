@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">"확장성"은 두 단어다 — PostgreSQL이 왕이 된 건 왼쪽 때문이다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">한국어 "확장성"이 영어 두 단어를 뭉뚱그린다 — 갈라야 Postgres의 강점이 정확히 보인다</text>
+
+  <!-- Extensibility -->
+  <rect x="30" y="84" width="410" height="330" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="3"/>
+  <text x="235" y="114" font-size="15" font-weight="800" fill="#0F766E" text-anchor="middle">🧩 Extensibility — 기능 확장성</text>
+  <text x="235" y="136" font-size="11" fill="#555555" text-anchor="middle">"이 DB에 <tspan font-weight="800">새로운 능력</tspan>을 꽂을 수 있는가"</text>
+
+  <rect x="52" y="152" width="366" height="76" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="235" y="176" font-size="11" font-weight="800" fill="#0F766E" text-anchor="middle">질문의 예</text>
+  <text x="235" y="196" font-size="10.5" fill="#555555" text-anchor="middle">"벡터 검색이 필요한데 새 DB를 사야 하나?"</text>
+  <text x="235" y="214" font-size="10.5" fill="#555555" text-anchor="middle">→ 아니, <tspan class="mono" font-weight="700">CREATE EXTENSION vector;</tspan> 한 줄</text>
+
+  <rect x="52" y="240" width="366" height="76" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="235" y="264" font-size="11" font-weight="800" fill="#0F766E" text-anchor="middle">Postgres의 위치</text>
+  <text x="235" y="284" font-size="10.5" fill="#555555" text-anchor="middle"><tspan font-weight="800" fill="#0F766E">압도적 최강</tspan> — 처음부터 "확장이 1급 시민"으로</text>
+  <text x="235" y="302" font-size="10.5" fill="#555555" text-anchor="middle">설계된 유일한 주류 DB (§2의 소켓 구조)</text>
+
+  <rect x="52" y="328" width="366" height="70" rx="10" fill="#E6F7F1"/>
+  <text x="235" y="352" font-size="10.5" font-weight="700" fill="#065F46" text-anchor="middle">비유: 게임기 — 본체는 그대로 두고</text>
+  <text x="235" y="370" font-size="10.5" font-weight="700" fill="#065F46" text-anchor="middle">카트리지(확장)를 꽂아 새 게임을 얻는다</text>
+  <text x="235" y="388" font-size="9.5" fill="#666666" text-anchor="middle">pgvector · PostGIS · TimescaleDB · pg_cron …</text>
+
+  <!-- Scalability -->
+  <rect x="460" y="84" width="410" height="330" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="665" y="114" font-size="15" font-weight="800" fill="#002C5F" text-anchor="middle">📈 Scalability — 규모 확장성</text>
+  <text x="665" y="136" font-size="11" fill="#555555" text-anchor="middle">"부하가 커질 때 <tspan font-weight="800">몸집을 키울</tspan> 수 있는가"</text>
+
+  <rect x="482" y="152" width="366" height="76" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="665" y="176" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">질문의 예</text>
+  <text x="665" y="196" font-size="10.5" fill="#555555" text-anchor="middle">"사용자가 100배로 늘면 이 DB가 버티나?"</text>
+  <text x="665" y="214" font-size="10.5" fill="#555555" text-anchor="middle">→ 수직 확장·읽기 복제·샤딩의 사다리 (§6)</text>
+
+  <rect x="482" y="240" width="366" height="76" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="665" y="264" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">Postgres의 위치</text>
+  <text x="665" y="284" font-size="10.5" fill="#555555" text-anchor="middle"><tspan font-weight="800" fill="#B45309">준수하지만 최강은 아님</tspan> — 쓰기는 기본 단일 노드,</text>
+  <text x="665" y="302" font-size="10.5" fill="#555555" text-anchor="middle">수평 확장은 Cassandra류가 우위 (「데이터베이스」 §3-3)</text>
+
+  <rect x="482" y="328" width="366" height="70" rx="10" fill="#E8EEF7"/>
+  <text x="665" y="352" font-size="10.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">비유: 건물 — 층을 올리거나(수직)</text>
+  <text x="665" y="370" font-size="10.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">옆에 건물을 더 짓는다(수평)</text>
+  <text x="665" y="388" font-size="9.5" fill="#666666" text-anchor="middle">읽기 복제 · 파티셔닝 · Citus(샤딩)</text>
+
+  <!-- 정리 -->
+  <rect x="30" y="438" width="840" height="96" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="52" y="466" font-size="13" font-weight="800" fill="#002C5F">그래서 "Postgres가 뜬 이유는 확장성"이라는 문장의 정확한 버전은 —</text>
+  <text x="52" y="492" font-size="11.5" fill="#555555">"Postgres가 뜬 이유는 <tspan font-weight="800" fill="#0F766E">기능 확장성(extensibility)</tspan>이다. 규모 확장성(scalability)은 준수한 수준이고,</text>
+  <text x="52" y="514" font-size="11.5" fill="#555555">흥미롭게도 그 부족한 규모 확장성마저 <tspan font-weight="700">확장(Citus)으로 메꾼다</tspan> — 기능 확장성이 규모 확장성을 낳는 구조."</text>
+
+  <rect x="30" y="550" width="840" height="52" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="574" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">판별 습관: "확장성이 좋다"는 말을 들으면 물어라 — "능력이 늘어나는 쪽인가, 몸집이 커지는 쪽인가?"</text>
+  <text x="450" y="594" font-size="11" fill="#AAB9CF" text-anchor="middle">「개발 생태계 해부」의 "이름의 다의성"이 또 한 번 — 같은 단어, 다른 질문</text>
+</svg>
