@@ -333,6 +333,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#models">3. 주요 모델 해부</a>
     <a href="#quant">4. 극단 양자화 — Bonsai 27B</a>
     <a href="#usecase">5. 용도별 랭킹</a>
+    <a href="#embedding">5-1. 임베딩 모델 — 로컬의 텃밭</a>
     <a href="#verify">6. 직접 검증하는 법</a>
     <a href="#refs">7. 출처</a>
   </nav>
@@ -594,6 +595,76 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 </section>
 
 <!-- ═══════════ 6. VERIFY ═══════════ -->
+<!-- ═══════════ 5.5 EMBEDDING ═══════════ -->
+<section id="embedding">
+  <div class="section-header">
+    <div class="eyebrow">Embedding Models</div>
+    <h2>5-1. 임베딩 모델 — 생성과는 지형이 다른 로컬의 텃밭</h2>
+    <p>pgvector·RAG의 반쪽 — 그리고 "임베딩은 결혼이다"</p>
+  </div>
+
+  <p class="body">이 문서의 지금까지가 <u>생성 모델</u>(텍스트를 쓰는 쪽)이었다면, RAG·시맨틱 검색의 반쪽인
+  <strong>임베딩 모델</strong>(텍스트를 좌표로 바꾸는 쪽)은 지형이 완전히 다르다 —
+  그리고 <strong>로컬이 주류급으로 쓰이는 예외 지대</strong>다. 네 박자가 맞물린 결과다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:200px"></th><th>생성 LLM</th><th>임베딩 모델</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">프론티어 vs 오픈 격차</td><td>크다 → 클라우드 우세</td><td><strong>작다</strong> — 오픈 모델이 벤치마크(MTEB) 상위권 상시 점유</td></tr>
+        <tr><td class="hl">모델 크기</td><td>수십~수백 GB</td><td><strong>수백 MB~수 GB</strong> — 맥미니 기본형으로도 돈다</td></tr>
+        <tr><td class="hl">호출량</td><td>대화당 몇 번</td><td>문서 <strong>수만~수십만 건 일괄 색인</strong> — API면 비용이 쌓이는 쪽</td></tr>
+        <tr><td class="hl">종속의 무게</td><td>모델 교체 = 프롬프트 튜닝 정도</td><td>모델 교체 = <strong>전체 재색인</strong> (아래 콜아웃)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">💍</span>
+    <div><strong>임베딩 모델은 "결혼"이다 —</strong> 모델마다 좌표계가 달라 <u>서로 다른 모델의 벡터는 비교 불가</u>하고,
+    모델을 바꾸면 <u>저장된 벡터 전부를 다시 생성</u>(전체 재색인)해야 한다.
+    클라우드 API 의존 시 제공사가 구모델을 은퇴시키면 <strong>강제 재색인이 청구</strong>된다 — 실제로 일어나는 일이다.
+    「데이터베이스」 §9-C의 이사 비용 논리 그대로: <u>지금 뭘 고르느냐보다 못 빠져나오는 길을 피하는 것</u>이 중요하고,
+    로컬/오픈 모델은 모델 파일이 내 손에 있어 은퇴당하지 않는다.</div>
+  </div>
+
+  <h3><span class="num">A</span>무엇을 쓰나 — 용도별 지도 (전부 무료·로컬 구동 가능)</h3>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:200px">용도</th><th style="width:240px">모델</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">범용 다국어 기본값 ★</td><td><a href="https://huggingface.co/BAAI/bge-m3" target="_blank" rel="noopener">BAAI/bge-m3</a></td><td>100+ 언어 · MIT 라이선스 · <strong>2026 프로덕션 RAG의 사실상 기본값</strong> — 한국어 포함 다국어에서 상용 API와의 격차를 한 자릿수 %로 좁혔다는 평(개략)</td></tr>
+        <tr><td class="hl">+ 재순위화 짝꿍</td><td><a href="https://huggingface.co/BAAI/bge-reranker-v2-m3" target="_blank" rel="noopener">BAAI/bge-reranker-v2-m3</a></td><td>검색 상위 후보를 정밀 재정렬하는 리랭커 — bge-m3와 세트로 쓰는 표준 조합</td></tr>
+        <tr><td class="hl">한국어 특화</td><td><a href="https://huggingface.co/nlpai-lab/KURE-v1" target="_blank" rel="noopener">nlpai-lab/KURE-v1</a> · <a href="https://huggingface.co/nlpai-lab/KoE5" target="_blank" rel="noopener">KoE5</a></td><td>고려대 NLP&amp;AI 연구실 — 법률·의료·금융처럼 <u>한국어 도메인 어휘가 많은 문서</u>에서 다국어 모델 대비 우위 보고(개략). 커뮤니티 실사용 평도 좋은 편</td></tr>
+        <tr><td class="hl">한국어 보정판</td><td><a href="https://huggingface.co/dragonkue/BGE-m3-ko" target="_blank" rel="noopener">dragonkue/BGE-m3-ko</a></td><td>bge-m3를 한국어로 추가 학습한 커뮤니티 파생판</td></tr>
+        <tr><td class="hl">최고 성능 (여유 있을 때)</td><td><a href="https://huggingface.co/Qwen/Qwen3-Embedding-8B" target="_blank" rel="noopener">Qwen/Qwen3-Embedding-8B</a></td><td>오픈 최상위권 — 4bit 양자화 시 ~5GB(개략). 축소판 <a href="https://huggingface.co/Qwen/Qwen3-Embedding-0.6B" target="_blank" rel="noopener">0.6B</a>도 있어 구간 선택 가능</td></tr>
+        <tr><td class="hl">다국어 고전 강자</td><td><a href="https://huggingface.co/intfloat/multilingual-e5-large" target="_blank" rel="noopener">intfloat/multilingual-e5-large</a></td><td>bge-m3 이전 시대의 표준 — 자료·통합 사례가 많다</td></tr>
+        <tr><td class="hl">긴 문서·경량</td><td><a href="https://huggingface.co/nomic-ai/nomic-embed-text-v1.5" target="_blank" rel="noopener">nomic-ai/nomic-embed-text-v1.5</a></td><td>8K 토큰 컨텍스트 — 긴 문서 청크에 유리, Ollama 기본 제공 목록에 있어 시작이 쉽다</td></tr>
+        <tr><td class="hl">초경량 (영어 위주)</td><td><a href="https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2" target="_blank" rel="noopener">all-MiniLM-L6-v2</a></td><td>~90MB — 엣지·실험용 최소 사양. <u>한국어는 약하다</u></td></tr>
+        <tr><td class="hl">(참고) 레거시 한국어</td><td><a href="https://huggingface.co/jhgan/ko-sroberta-multitask" target="_blank" rel="noopener">jhgan/ko-sroberta-multitask</a></td><td>오랫동안 한국어 기본값이었던 고전 — 신규라면 위 모델들이 우선</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="num">B</span>실전 노트 — 메일·사내 문서 임베딩이라면</h3>
+
+  <div class="card-grid">
+    <div class="card"><h4>① 왜 이 용도가 로컬의 정석인가</h4><p>메일·사내 문서는 <strong>내용 전문이 임베딩 모델을 통과</strong>한다 — 클라우드 API를 쓰면 그 전문이 외부로 나간다는 뜻. 프라이버시 민감 코퍼스일수록 로컬 임베딩이 기본값이 된다.</p></div>
+    <div class="card"><h4>② 시작 조합 (검증된 무난함)</h4><p><strong>bge-m3 (+ 필요시 bge-reranker)</strong>로 시작 → 한국어 도메인 문서 비중이 크면 KURE-v1과 <u>내 데이터로 비교</u>. §6의 "나만의 벤치마크" 원칙이 임베딩에도 그대로 — 질문 20개로 검색 품질을 직접 재본다.</p></div>
+    <div class="card"><h4>③ 돌리는 법</h4><p>Ollama: <span class="mono">ollama pull bge-m3</span> 한 줄. 파이썬: sentence-transformers 라이브러리. 색인은 밤에 배치로 돌리면 M 시리즈 맥에서 수십만 건도 현실적이다 — API 비용 0원.</p></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>결정 요약 —</strong> 프로토타입·수천 건이면 클라우드 API도 무방하다(마찰 최소).
+    그러나 <u>대량 색인 · 프라이버시 코퍼스(메일!) · 이미 로컬 스택 보유</u> 중 하나라도 해당하면 로컬이 정답이고,
+    이 문서의 독자는 대개 셋 다 해당한다. pgvector(「PostgreSQL 해부」 §3)와 조합하면
+    <strong>색인 백만 건도 API 비용 0원</strong>의 시맨틱 검색이 완성된다 —
+    생성 LLM은 답변 문장이 필요해질 때 그때 붙인다.</div>
+  </div>
+</section>
+
 <section id="verify">
   <div class="section-header">
     <div class="eyebrow">Trust, but Verify</div>

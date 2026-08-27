@@ -519,7 +519,7 @@
         "gpt-oss",
         "Bonsai"
       ],
-      "version": 4,
+      "version": 5,
       "assets": [
         "docs/img/lm-principles.svg",
         "docs/img/lm-tiers.svg",
