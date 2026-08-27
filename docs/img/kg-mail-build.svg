@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="kmb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="720" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">구축 단계 — 메일 PST가 세 갈래로 갈라져 색인이 된다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">핵심 발견: 메일은 그래프의 상당 부분이 "공짜"다 — 헤더가 이미 구조화된 관계이므로</text>
+
+  <!-- 온톨로지 (맨 위) -->
+  <rect x="240" y="78" width="420" height="88" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="450" y="102" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">⚖️ 온톨로지 — 구축 전에 딱 한 번 설계 (문서 한 장이면 시작)</text>
+  <text x="450" y="124" font-size="10" fill="#555555" text-anchor="middle">개체: 사람 · 메일 · 스레드 · 첨부 · 조직 · 프로젝트 &#160;|&#160; 관계: 보냄·받음·참조·회신·소속·언급</text>
+  <text x="450" y="142" font-size="10" fill="#555555" text-anchor="middle">규칙: "회신은 원본보다 늦다" · "보낸이는 반드시 사람" · "스레드는 메일 1개 이상"</text>
+  <text x="450" y="159" font-size="9.5" font-weight="700" fill="#6B21A8" text-anchor="middle">→ 아래 모든 단계의 "규격서"로 상시 참조된다</text>
+
+  <!-- PST 입력 -->
+  <rect x="40" y="200" width="150" height="90" rx="12" fill="#F2EDE4" stroke="#8A8478" stroke-width="2"/>
+  <text x="115" y="228" font-size="13" font-weight="800" fill="#555555" text-anchor="middle">📮 메일 PST</text>
+  <text x="115" y="250" font-size="10" fill="#555555" text-anchor="middle">10만 통 (예)</text>
+  <text x="115" y="268" font-size="10" fill="#666666" text-anchor="middle">아웃룩 보관함</text>
+
+  <line x1="190" y1="245" x2="226" y2="245" stroke="#003F8A" stroke-width="2.5" marker-end="url(#kmb)"/>
+
+  <!-- 파싱 -->
+  <rect x="230" y="200" width="160" height="90" rx="12" fill="#FFFFFF" stroke="#8A8478" stroke-width="2"/>
+  <text x="310" y="228" font-size="12" font-weight="800" fill="#555555" text-anchor="middle">① 파싱 (도구)</text>
+  <text x="310" y="250" font-size="10" fill="#555555" text-anchor="middle">readpst류 → 메일별로</text>
+  <text x="310" y="268" font-size="10" fill="#555555" text-anchor="middle">헤더 + 본문 + 첨부 분리</text>
+  <text x="310" y="284" font-size="9" fill="#0F766E" font-weight="700" text-anchor="middle">모델 필요 없음</text>
+
+  <!-- 세 갈래 -->
+  <line x1="390" y1="225" x2="440" y2="345" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#kmb)"/>
+  <line x1="390" y1="245" x2="440" y2="465" stroke="#1A5CB5" stroke-width="2.5" marker-end="url(#kmb)"/>
+  <line x1="390" y1="265" x2="440" y2="580" stroke="#E8962A" stroke-width="2.5" marker-end="url(#kmb)"/>
+  <text x="404" y="320" font-size="10" font-weight="700" fill="#00AA6C">헤더</text>
+  <text x="404" y="440" font-size="10" font-weight="700" fill="#1A5CB5">본문</text>
+  <text x="404" y="556" font-size="10" font-weight="700" fill="#B45309">본문(선택)</text>
+
+  <!-- 갈래 A: 헤더 → 그래프 (공짜) -->
+  <rect x="444" y="316" width="256" height="106" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="3"/>
+  <text x="572" y="342" font-size="12" font-weight="800" fill="#065F46" text-anchor="middle">② 정형 그래프 — 공짜!</text>
+  <text x="572" y="364" font-size="10" fill="#555555" text-anchor="middle">보낸이·받는이·CC·회신 관계·스레드는</text>
+  <text x="572" y="382" font-size="10" fill="#555555" text-anchor="middle">헤더에 <tspan font-weight="800">이미 구조화</tspan>되어 있다</text>
+  <text x="572" y="402" font-size="9.5" font-weight="700" fill="#065F46" text-anchor="middle">LLM 불필요 — 파싱 결과를 그대로 노드·엣지로</text>
+  <text x="572" y="416" font-size="9" fill="#666666" text-anchor="middle">(사람)−[보냄]→(메일)−[속함]→(스레드)</text>
+
+  <!-- 갈래 B: 본문 → 임베딩 -->
+  <rect x="444" y="436" width="256" height="106" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="3"/>
+  <text x="572" y="462" font-size="12" font-weight="800" fill="#002C5F" text-anchor="middle">③ 임베딩 — 여기가 대량 작업</text>
+  <text x="572" y="484" font-size="10" fill="#555555" text-anchor="middle"><tspan font-weight="800">임베딩 모델</tspan>(bge-m3 등 로컬)이 메일 본문을</text>
+  <text x="572" y="502" font-size="10" fill="#555555" text-anchor="middle">청크마다 좌표로 — <tspan font-weight="700">10만 통 = 호출 10만+</tspan></text>
+  <text x="572" y="522" font-size="9.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">밤에 배치로 · 로컬이면 API 비용 0원</text>
+  <text x="572" y="536" font-size="9" fill="#666666" text-anchor="middle">메일 전문이 모델을 통과 → 프라이버시상 로컬 정석</text>
+
+  <!-- 갈래 C: LLM 추출 -->
+  <rect x="444" y="552" width="256" height="106" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="572" y="578" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">④ LLM 추출 — 선택 사항</text>
+  <text x="572" y="600" font-size="10" fill="#555555" text-anchor="middle"><tspan font-weight="800">생성 LLM</tspan>이 본문에서 헤더에 없는 것을 추출:</text>
+  <text x="572" y="618" font-size="10" fill="#555555" text-anchor="middle">언급된 프로젝트·금액·약속·조직</text>
+  <text x="572" y="638" font-size="9.5" font-weight="700" fill="#B45309" text-anchor="middle">온톨로지 규격에 맞춰서만 — 안 하면 생략 가능</text>
+  <text x="572" y="652" font-size="9" fill="#666666" text-anchor="middle">(②의 공짜 그래프만으로도 많은 질문이 풀린다)</text>
+
+  <!-- 저장소 -->
+  <rect x="740" y="316" width="130 " height="342" rx="14" fill="#336791"/>
+  <text x="805" y="344" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">🐘 저장</text>
+  <text x="805" y="368" font-size="9.5" fill="#CBDCF0" text-anchor="middle">(Postgres 한 채 가능)</text>
+  <rect x="752" y="382" width="106" height="56" rx="8" fill="#E6F7F1"/>
+  <text x="805" y="404" font-size="9.5" font-weight="800" fill="#065F46" text-anchor="middle">그래프</text>
+  <text x="805" y="420" font-size="8.5" fill="#555555" text-anchor="middle">AGE 또는 Neo4j</text>
+  <rect x="752" y="446" width="106" height="56" rx="8" fill="#E8EEF7"/>
+  <text x="805" y="468" font-size="9.5" font-weight="800" fill="#002C5F" text-anchor="middle">벡터</text>
+  <text x="805" y="484" font-size="8.5" fill="#555555" text-anchor="middle">pgvector</text>
+  <rect x="752" y="510" width="106" height="56" rx="8" fill="#FEF3E2"/>
+  <text x="805" y="532" font-size="9.5" font-weight="800" fill="#B45309" text-anchor="middle">원문·메타</text>
+  <text x="805" y="548" font-size="8.5" fill="#555555" text-anchor="middle">테이블 + JSONB</text>
+  <text x="805" y="590" font-size="9" fill="#CBDCF0" text-anchor="middle">한 백업 · 한 트랜잭션</text>
+  <text x="805" y="606" font-size="9" fill="#CBDCF0" text-anchor="middle">전부 JOIN 가능</text>
+  <text x="805" y="634" font-size="8.5" fill="#CBDCF0" text-anchor="middle">「PostgreSQL 해부」의</text>
+  <text x="805" y="648" font-size="8.5" fill="#CBDCF0" text-anchor="middle">그 구조 그대로</text>
+
+  <line x1="700" y1="369" x2="736" y2="369" stroke="#00AA6C" stroke-width="2.2" marker-end="url(#kmb)"/>
+  <line x1="700" y1="489" x2="736" y2="474" stroke="#1A5CB5" stroke-width="2.2" marker-end="url(#kmb)"/>
+  <line x1="700" y1="605" x2="736" y2="410 " stroke="#E8962A" stroke-width="2.2" marker-end="url(#kmb)"/>
+
+  <!-- 온톨로지 → 규격 화살표 -->
+  <line x1="450" y1="166" x2="530" y2="312" stroke="#6B21A8" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#kmb)"/>
+  <line x1="560" y1="166" x2="572" y2="548" stroke="#6B21A8" stroke-width="2" stroke-dasharray="5 4" opacity=".45"/>
+
+  <!-- 하단 -->
+  <rect x="30" y="676" width="840" height="34" rx="10" fill="#0D1B2E"/>
+  <text x="450" y="698" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">구축 요약: 임베딩 모델 = 10만+회 (배치·로컬 무료) · 생성 LLM = 0회여도 됨(추출은 선택) · 온톨로지 = 설계 1회 + 상시 규격</text>
+</svg>
