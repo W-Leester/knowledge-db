@@ -557,6 +557,29 @@
       ]
     },
     {
+      "id": "ai-orchestration",
+      "title": "AI 오케스트레이션",
+      "desc": "지휘자는 싸고 단원이 비싸다 — 패턴 6종, PC 사양의 진짜 의미, 그리고 오류의 복리",
+      "file": "docs/ai-orchestration.html",
+      "group": "AI · LLM",
+      "icon": "🎼",
+      "gradient": [
+        "#0D1B2E",
+        "#7E22CE"
+      ],
+      "tags": [
+        "오케스트레이션",
+        "심판 게이트",
+        "로컬 오케스트라"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/or-ladder.svg",
+        "docs/img/or-resources.svg",
+        "docs/img/or-patterns.svg"
+      ]
+    },
+    {
       "id": "claude-code-internals",
       "title": "Claude Code 내부 해부",
       "desc": "공개 소스로 본 에이전트 하네스 — 루프·도구·권한·압축·메모리, 그리고 llama.cpp 실전 연동",

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="orl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="660" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">진화 계보 — 한 번의 호출에서 오케스트라까지</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">각 단계는 앞 단계의 한계에서 태어났다 — 그리고 매 단계마다 "누가 다음을 정하는가"가 바뀐다</text>
+
+  <!-- 1 단일 호출 -->
+  <rect x="30" y="84" width="840" height="98" rx="14" fill="#F2EDE4" stroke="#8A8478" stroke-width="2"/>
+  <text x="52" y="112" font-size="14" font-weight="800" fill="#555555">① 단일 호출 — "질문 → 답"</text>
+  <rect x="52" y="124" width="70" height="34" rx="7" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.2"/>
+  <text x="87" y="146" font-size="10" fill="#555555" text-anchor="middle">질문</text>
+  <line x1="122" y1="141" x2="146" y2="141" stroke="#8A8478" stroke-width="2" marker-end="url(#orl)"/>
+  <rect x="150" y="124" width="70" height="34" rx="7" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.2"/>
+  <text x="185" y="146" font-size="10" font-weight="700" fill="#002C5F" text-anchor="middle">LLM</text>
+  <line x1="220" y1="141" x2="244" y2="141" stroke="#8A8478" stroke-width="2" marker-end="url(#orl)"/>
+  <rect x="248" y="124" width="70" height="34" rx="7" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.2"/>
+  <text x="283" y="146" font-size="10" fill="#555555" text-anchor="middle">답</text>
+  <text x="350" y="138" font-size="10.5" fill="#555555">누가 다음을 정하나: <tspan font-weight="700">없음</tspan> (한 번에 끝)</text>
+  <text x="350" y="158" font-size="10" fill="#DC2626">한계: 긴 작업·도구 사용·검증이 불가능</text>
+  <text x="720" y="148" font-size="10.5" font-weight="700" fill="#8A8478">챗봇의 세계</text>
+
+  <!-- 2 체인 -->
+  <rect x="30" y="194" width="840" height="98" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="52" y="222" font-size="14" font-weight="800" fill="#002C5F">② 체인 — "A의 출력이 B의 입력"</text>
+  <rect x="52" y="234" width="76" height="34" rx="7" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.2"/>
+  <text x="90" y="256" font-size="10" fill="#555555" text-anchor="middle">요약</text>
+  <line x1="128" y1="251" x2="152" y2="251" stroke="#1A5CB5" stroke-width="2" marker-end="url(#orl)"/>
+  <rect x="156" y="234" width="76" height="34" rx="7" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.2"/>
+  <text x="194" y="256" font-size="10" fill="#555555" text-anchor="middle">번역</text>
+  <line x1="232" y1="251" x2="256" y2="251" stroke="#1A5CB5" stroke-width="2" marker-end="url(#orl)"/>
+  <rect x="260" y="234" width="76" height="34" rx="7" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.2"/>
+  <text x="298" y="256" font-size="10" fill="#555555" text-anchor="middle">포맷</text>
+  <text x="360" y="248" font-size="10.5" fill="#555555">누가 다음을 정하나: <tspan font-weight="700">사람이 미리 고정</tspan> (직선)</text>
+  <text x="360" y="268" font-size="10" fill="#DC2626">한계: 상황에 따라 길을 바꿀 수 없다 — 예외에 취약</text>
+  <text x="720" y="258" font-size="10.5" font-weight="700" fill="#1A5CB5">프롬프트 체이닝</text>
+
+  <!-- 3 에이전트 루프 -->
+  <rect x="30" y="304" width="840" height="110" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="52" y="332" font-size="14" font-weight="800" fill="#0F766E">③ 에이전트 루프 — "모델이 도구를 쓰며 스스로 반복"</text>
+  <circle cx="96" cy="368" r="26" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+  <text x="96" y="364" font-size="9.5" font-weight="700" fill="#0F766E" text-anchor="middle">LLM</text>
+  <text x="96" y="378" font-size="8.5" fill="#555555" text-anchor="middle">판단</text>
+  <path d="M 122 358 C 160 336 200 336 236 356" fill="none" stroke="#0F766E" stroke-width="2" marker-end="url(#orl)"/>
+  <text x="179" y="336" font-size="9" fill="#0F766E" text-anchor="middle">도구 호출</text>
+  <circle cx="262" cy="368" r="26" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="262" y="372" font-size="9.5" fill="#555555" text-anchor="middle">도구</text>
+  <path d="M 236 380 C 200 400 160 400 122 380" fill="none" stroke="#0F766E" stroke-width="2" marker-end="url(#orl)"/>
+  <text x="179" y="408" font-size="9" fill="#0F766E" text-anchor="middle">결과 반영 → 반복</text>
+  <text x="330" y="356" font-size="10.5" fill="#555555">누가 다음을 정하나: <tspan font-weight="700">모델 스스로</tspan> (자율)</text>
+  <text x="330" y="376" font-size="10" fill="#555555">「로컬 LLM 에이전트」 §2 · 「Claude Code 내부 해부」의 그 루프</text>
+  <text x="330" y="398" font-size="10" fill="#DC2626">한계: 하나의 모델·하나의 맥락에 전부 의존 — 길어지면 흐트러지고, 검증자가 없다</text>
+
+  <!-- 4 오케스트레이션 -->
+  <rect x="30" y="426" width="840" height="164" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3.5"/>
+  <text x="52" y="454" font-size="14.5" font-weight="800" fill="#B45309">④ 오케스트레이션 — "지휘자가 여러 단원을 배치한다"</text>
+
+  <rect x="52" y="466" width="90" height="40" rx="8" fill="#0D1B2E"/>
+  <text x="97" y="482" font-size="10" font-weight="800" fill="#FFF" text-anchor="middle">지휘자</text>
+  <text x="97" y="496" font-size="8.5" fill="#AAB9CF" text-anchor="middle">(코드·상태기계)</text>
+  <line x1="142" y1="486" x2="166" y2="470" stroke="#B45309" stroke-width="2" marker-end="url(#orl)"/>
+  <line x1="142" y1="486" x2="166" y2="504" stroke="#B45309" stroke-width="2" marker-end="url(#orl)"/>
+  <rect x="170" y="452" width="86" height="34" rx="7" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.2"/>
+  <text x="213" y="473" font-size="9.5" fill="#002C5F" text-anchor="middle">에이전트 A</text>
+  <rect x="170" y="490" width="86" height="34" rx="7" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.2"/>
+  <text x="213" y="511" font-size="9.5" fill="#002C5F" text-anchor="middle">에이전트 B</text>
+  <line x1="256" y1="487" x2="280" y2="487" stroke="#B45309" stroke-width="2" marker-end="url(#orl)"/>
+  <rect x="284" y="470" width="86" height="34" rx="7" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="327" y="491" font-size="9.5" font-weight="700" fill="#6B21A8" text-anchor="middle">심판</text>
+  <path d="M 327 470 C 327 440 97 440 97 462" fill="none" stroke="#DC2626" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#orl)"/>
+  <text x="212" y="438" font-size="9" font-weight="700" fill="#DC2626" text-anchor="middle">불합격 → 재시도</text>
+
+  <text x="400" y="470" font-size="10.5" fill="#555555">누가 다음을 정하나: <tspan font-weight="800" fill="#B45309">지휘자(코드)가 흐름을, 모델은 각 칸의 일을</tspan></text>
+  <text x="400" y="492" font-size="10.5" fill="#555555">얻는 것: 분기·병렬·<u>검증 게이트</u>·재시도·모델 골라 쓰기(싼 것/비싼 것)</text>
+  <text x="400" y="514" font-size="10.5" fill="#555555">「클로드 확장하기」 §10 그래프 엔지니어링 = 이 흐름을 설계하는 일</text>
+  <text x="400" y="540" font-size="10" font-weight="700" fill="#B45309">핵심 전환: 자율성을 조금 포기하고 <u>통제와 검증</u>을 얻는다</text>
+  <text x="400" y="562" font-size="9.5" fill="#666666">— 에이전트 루프가 "믿고 맡기기"라면, 오케스트레이션은 "맡기되 확인하기"</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="606" width="840" height="42" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="626" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">관통하는 축: "다음 단계를 누가 정하는가" — 없음 → 사람이 고정 → 모델 자율 → 지휘자 코드 + 모델 자율의 혼합</text>
+  <text x="450" y="642" font-size="10" fill="#AAB9CF" text-anchor="middle">④가 ③보다 항상 낫지는 않다 — 단순한 일에 오케스트라는 과하다 (§7)</text>
+</svg>

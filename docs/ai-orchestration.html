@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 오케스트레이션 — 지휘자는 싸고, 단원이 비싸다</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #7E22CE 55%, #E8962A 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<style>
+/* ── 오케스트레이션 문서 전용 애니메이션 ── */
+.or-anim { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 14px 8px; margin: var(--sp-4) 0; }
+.or-anim figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding: 8px 0 6px; }
+/* ① 실행 흐름 */
+@keyframes orStage { 0%, 100% { opacity: .28; } }
+@keyframes orLit1 { 0%, 4% { opacity: .28; } 8%, 20% { opacity: 1; } 26%, 100% { opacity: .35; } }
+@keyframes orLit2 { 0%, 22% { opacity: .28; } 26%, 44% { opacity: 1; } 50%, 100% { opacity: .35; } }
+@keyframes orLit3 { 0%, 46% { opacity: .28; } 50%, 66% { opacity: 1; } 72%, 100% { opacity: .35; } }
+@keyframes orLit4 { 0%, 74% { opacity: .28; } 78%, 96% { opacity: 1; } 100% { opacity: .35; } }
+.or-l1 { opacity:.28; animation: orLit1 12s ease-in-out infinite; }
+.or-l2 { opacity:.28; animation: orLit2 12s ease-in-out infinite; }
+.or-l3 { opacity:.28; animation: orLit3 12s ease-in-out infinite; }
+.or-l4 { opacity:.28; animation: orLit4 12s ease-in-out infinite; }
+@keyframes orTask { 0%, 3% { transform: translateX(0); opacity: 0; } 7% { opacity: 1; } 22% { transform: translateX(150px); } 46% { transform: translateX(310px); } 70% { transform: translateX(470px); } 92% { transform: translateX(620px); opacity: 1; } 96%, 100% { transform: translateX(620px); opacity: 0; } }
+.or-task { animation: orTask 12s ease-in-out infinite; }
+@keyframes orRetry { 0%, 58% { opacity: 0; } 62% { opacity: 1; } 68% { opacity: .3; } 72% { opacity: 1; } 78%, 100% { opacity: 0; } }
+.or-retry { opacity: 0; animation: orRetry 12s ease-in-out infinite; }
+@keyframes orPar { 0%, 26% { opacity: .3; transform: scale(.94); } 32%, 44% { opacity: 1; transform: scale(1); } 50%, 100% { opacity: .4; transform: scale(1); } }
+.or-p1 { opacity:.3; transform-box: fill-box; transform-origin: center; animation: orPar 12s ease-in-out infinite; }
+.or-p2 { opacity:.3; transform-box: fill-box; transform-origin: center; animation: orPar 12s ease-in-out infinite .12s; }
+.or-p3 { opacity:.3; transform-box: fill-box; transform-origin: center; animation: orPar 12s ease-in-out infinite .24s; }
+/* ② 오류의 복리 */
+@keyframes orBar1 { 0%, 6% { transform: scaleY(0); } 14%, 100% { transform: scaleY(1); } }
+@keyframes orBar2 { 0%, 20% { transform: scaleY(0); } 28%, 100% { transform: scaleY(1); } }
+@keyframes orBar3 { 0%, 34% { transform: scaleY(0); } 42%, 100% { transform: scaleY(1); } }
+@keyframes orBar4 { 0%, 48% { transform: scaleY(0); } 56%, 100% { transform: scaleY(1); } }
+@keyframes orBar5 { 0%, 62% { transform: scaleY(0); } 70%, 100% { transform: scaleY(1); } }
+.or-b1 { transform-box: fill-box; transform-origin: bottom; animation: orBar1 10s ease-out infinite; }
+.or-b2 { transform-box: fill-box; transform-origin: bottom; animation: orBar2 10s ease-out infinite; }
+.or-b3 { transform-box: fill-box; transform-origin: bottom; animation: orBar3 10s ease-out infinite; }
+.or-b4 { transform-box: fill-box; transform-origin: bottom; animation: orBar4 10s ease-out infinite; }
+.or-b5 { transform-box: fill-box; transform-origin: bottom; animation: orBar5 10s ease-out infinite; }
+@keyframes orFinal { 0%, 76% { opacity: 0; } 84%, 100% { opacity: 1; } }
+.or-final { opacity: 0; animation: orFinal 10s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .or-anim * { animation: none !important; }
+  .or-l1,.or-l2,.or-l3,.or-l4,.or-p1,.or-p2,.or-p3 { opacity: 1 !important; transform: none !important; }
+  .or-task, .or-retry { opacity: 0; }
+  .or-b1,.or-b2,.or-b3,.or-b4,.or-b5 { transform: scaleY(1); }
+  .or-final { opacity: 1; }
+}
+@media (max-width: 720px) { .or-anim .fig-scroll svg { min-width: 860px; } }
+</style>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>AI<br>오케스트레이션</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#ladder">1. 진화 계보 — 호출에서 오케스트라로</a>
+    <a href="#flow">2. 실행 흐름 (동적)</a>
+    <a href="#patterns">3. 패턴 카탈로그 6종</a>
+    <a href="#resources">4. PC 사양은 얼마나 중요한가</a>
+    <a href="#compound">5. 오류의 복리 (동적)</a>
+    <a href="#tools">6. 도구 지형</a>
+    <a href="#practice">7. 실전 설계 원칙</a>
+    <a href="#refs">8. 함께 읽기</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.08</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">AI · Orchestration</div>
+  <h1>AI 오케스트레이션<br><span class="thin">지휘자는 싸고, 단원이 비싸다</span></h1>
+  <p class="sub">여러 모델과 에이전트를 하나의 흐름으로 조율하는 일 —
+  자율성을 조금 포기하고 <strong>통제와 검증</strong>을 얻는 설계다.
+  패턴 여섯 가지, "PC 사양이 좋으면 유리한가"의 정확한 답,
+  그리고 오케스트레이션에서 사양보다 더 자주 발목을 잡는 것(오류의 복리)까지 —
+  움직이는 그림으로 해부한다.</p>
+  <div class="tags">
+    <span class="tag">라우팅</span><span class="tag">병렬 팬아웃</span><span class="tag">심판 게이트</span>
+    <span class="tag">LangGraph</span><span class="tag">오류 복리</span><span class="tag">로컬 오케스트라</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 세 문장</h2>
+    <p>급한 사람을 위한 요약</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><h4>① 무엇인가</h4><p>여러 AI 호출·도구·에이전트를 정해진 흐름으로 조율하는 것. 에이전트 루프가 "믿고 맡기기"라면 오케스트레이션은 <strong>"맡기되 확인하기"</strong> — 자율성을 조금 내주고 통제·검증을 얻는다 (§1).</p></div>
+    <div class="card"><h4>② 사양이 중요한가</h4><p><strong>경우에 따라 완전히 갈린다.</strong> 지휘 자체는 거의 공짜라 클라우드 모델을 지휘하면 노트북으로도 충분하고, <u>로컬 모델을 지휘하면 메모리가 오케스트라의 규모 상한</u>이 된다 (§4).</p></div>
+    <div class="card"><h4>③ 진짜 병목</h4><p>대부분의 실패는 사양이 아니라 <strong>설계</strong>다. 검증 없이 단계를 이으면 오류가 복리로 증폭된다 — 90% 정확도 × 5단계 = 59% (§5).</p></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>이 문서의 위치 —</strong> 「클로드 확장하기」 §10의 그래프 엔지니어링이 <u>설계론</u>이라면,
+    이 문서는 그 <u>실행 형태와 자원 계산</u>이다. 「로컬 LLM 코딩 공장」의 Goal Runner가 소박한 오케스트레이터이고,
+    「LLM-as-a-Judge」는 이 문서 §3의 심판 패턴이 통째로 사는 곳이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. LADDER ═══════════ -->
+<section id="ladder">
+  <div class="section-header">
+    <div class="eyebrow">Evolution</div>
+    <h2>1. 진화 계보 — 한 번의 호출에서 오케스트라까지</h2>
+    <p>관통하는 축: "다음 단계를 누가 정하는가"</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/or-ladder.svg" alt="단일 호출, 체인, 에이전트 루프, 오케스트레이션의 4단계 진화와 각 단계의 한계"></div>
+    <figcaption>없음 → 사람이 고정 → 모델 자율 → 지휘자 코드 + 모델 자율의 혼합 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="callout amber">
+    <span class="icon">⚖️</span>
+    <div><strong>핵심 전환 —</strong> 에이전트 루프(③)는 모델에게 "알아서 해봐"라고 맡긴다.
+    강력하지만 <u>길어지면 흐트러지고, 검증자가 없다.</u> 오케스트레이션(④)은 흐름을 코드가 쥐고
+    각 칸의 판단만 모델에게 맡긴다 — <strong>자율성을 조금 포기하고 통제·검증·비용 최적화를 얻는 거래</strong>다.
+    단, ④가 ③보다 항상 낫지는 않다: 단순한 일에 오케스트라는 과하다(§7).</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. FLOW ═══════════ -->
+<section id="flow">
+  <div class="section-header">
+    <div class="eyebrow">In Motion</div>
+    <h2>2. 실행 흐름 — 지휘자가 실제로 하는 일</h2>
+    <p>작업 하나가 오케스트라를 통과하는 과정</p>
+  </div>
+
+  <figure class="or-anim">
+    <div class="fig-scroll">
+    <svg viewBox="0 0 900 400" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" style="width:100%;display:block">
+      <text x="450" y="28" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">"메일 800통에서 계약 이슈 리포트 만들기" — 지휘자의 한 사이클</text>
+
+      <line x1="90" y1="150" x2="800" y2="150" stroke="#D5CFBF" stroke-width="3"/>
+
+      <!-- 1 라우팅 -->
+      <g class="or-l1">
+        <rect x="50" y="96" width="130" height="108" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+        <text x="115" y="122" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">① 라우팅</text>
+        <text x="115" y="144" font-size="9.5" fill="#555555" text-anchor="middle">싼 모델이 분류</text>
+        <text x="115" y="162" font-size="9.5" fill="#555555" text-anchor="middle">10만 → 800통</text>
+        <text x="115" y="186" font-size="9" fill="#1A5CB5" font-weight="700" text-anchor="middle">비용 절감</text>
+      </g>
+
+      <!-- 2 병렬 -->
+      <g class="or-l2">
+        <rect x="210" y="96" width="130" height="108" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+        <text x="275" y="120" font-size="11.5" font-weight="800" fill="#0F766E" text-anchor="middle">② 병렬 처리</text>
+      </g>
+      <g class="or-p1"><rect x="224" y="130" width="34" height="26" rx="5" fill="#0F766E"/><text x="241" y="147" font-size="8" fill="#FFF" text-anchor="middle">W1</text></g>
+      <g class="or-p2"><rect x="258" y="130" width="34" height="26" rx="5" fill="#0F766E"/><text x="275" y="147" font-size="8" fill="#FFF" text-anchor="middle">W2</text></g>
+      <g class="or-p3"><rect x="292" y="130" width="34" height="26" rx="5" fill="#0F766E"/><text x="309" y="147" font-size="8" fill="#FFF" text-anchor="middle">W3</text></g>
+      <g class="or-l2">
+        <text x="275" y="176" font-size="9.5" fill="#555555" text-anchor="middle">동시 분석 — 속도</text>
+        <text x="275" y="192" font-size="9" fill="#666666" text-anchor="middle">로컬이면 메모리가 W 수를 정한다</text>
+      </g>
+
+      <!-- 3 심판 -->
+      <g class="or-l3">
+        <rect x="370" y="96" width="130" height="108" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="3"/>
+        <text x="435" y="122" font-size="11.5" font-weight="800" fill="#6B21A8" text-anchor="middle">③ 심판 게이트</text>
+        <text x="435" y="144" font-size="9.5" fill="#555555" text-anchor="middle">근거가 실제</text>
+        <text x="435" y="162" font-size="9.5" fill="#555555" text-anchor="middle">메일에 있나?</text>
+        <text x="435" y="186" font-size="9" font-weight="700" fill="#6B21A8" text-anchor="middle">오류 복리 차단 (§5)</text>
+      </g>
+      <!-- 재시도 화살표 -->
+      <g class="or-retry">
+        <path d="M 435 210 C 435 250 275 250 275 212" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-dasharray="6 4"/>
+        <polygon points="275,206 269,218 281,218" fill="#DC2626"/>
+        <rect x="290" y="228" width="130" height="24" rx="7" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+        <text x="355" y="245" font-size="9.5" font-weight="800" fill="#DC2626" text-anchor="middle">불합격 → 피드백 재시도</text>
+      </g>
+
+      <!-- 4 취합 -->
+      <g class="or-l4">
+        <rect x="530" y="96" width="130" height="108" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+        <text x="595" y="122" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">④ 취합·작성</text>
+        <text x="595" y="144" font-size="9.5" fill="#555555" text-anchor="middle">비싼 모델 1회</text>
+        <text x="595" y="162" font-size="9.5" fill="#555555" text-anchor="middle">최종 리포트</text>
+        <text x="595" y="186" font-size="9" fill="#B45309" font-weight="700" text-anchor="middle">가장 비싼 부품을 가장 적게</text>
+      </g>
+
+      <rect x="690" y="118" width="120" height="64" rx="12" fill="#0D1B2E"/>
+      <text x="750" y="144" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">📄 결과물</text>
+      <text x="750" y="164" font-size="9" fill="#AAB9CF" text-anchor="middle">근거 경로 포함</text>
+
+      <!-- 이동 펄스 -->
+      <g class="or-task">
+        <circle cx="115" cy="150" r="11" fill="#E8962A"/>
+        <text x="115" y="154" font-size="8.5" font-weight="800" fill="#FFF" text-anchor="middle">작업</text>
+      </g>
+
+      <!-- 지휘자 -->
+      <rect x="50" y="286" width="760" height="52" rx="12" fill="#0D1B2E"/>
+      <text x="430" y="308" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">🎼 지휘자 (코드) — 위 네 칸의 순서·분기·재시도·타임아웃을 쥐고 있다</text>
+      <text x="430" y="328" font-size="10" fill="#AAB9CF" text-anchor="middle">실체는 상태 기계 + 라우팅 + 호출 대기 — CPU 몇 %면 돈다. 무거운 것은 언제나 각 칸 안의 모델이다 (§4)</text>
+
+      <rect x="50" y="352" width="760" height="36" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.5"/>
+      <text x="430" y="375" font-size="11" font-weight="700" fill="#002C5F" text-anchor="middle">읽는 법: 칸이 차례로 밝아지고, 심판에서 불합격이 나면 병렬 처리로 되돌아간다 — 이 되돌림이 오케스트레이션의 심장</text>
+    </svg>
+    </div>
+    <figcaption>주황 펄스가 네 칸을 지나고, 심판에서 불합격 시 빨간 점선으로 재시도가 발생한다 (동작 줄이기 설정 시 정지)</figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════ 3. PATTERNS ═══════════ -->
+<section id="patterns">
+  <div class="section-header">
+    <div class="eyebrow">Pattern Catalog</div>
+    <h2>3. 패턴 카탈로그 — 지휘자가 쓰는 여섯 배치</h2>
+    <p>대부분의 오케스트레이션은 이 여섯의 조합이다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/or-patterns.svg" alt="라우팅, 병렬 팬아웃, 심판 게이트, 파이프라인, 반성 루프, 계층 위임 여섯 패턴과 조합 예시"></div>
+    <figcaption>①라우팅 ②병렬 ③심판 ④파이프라인 ⑤반성 ⑥계층 위임 — 그리고 실전 조합 예시 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">패턴</th><th style="width:230px">언제 쓰나</th><th>주의</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① 라우팅</td><td>입력의 종류가 다양할 때 — 싼 모델이 분류하고 비싼 모델은 필요할 때만</td><td>분류가 틀리면 이후 전부 헛일 — 분류기에도 검증이 필요</td></tr>
+        <tr><td class="hl">② 병렬 팬아웃</td><td>독립적인 조각이 많을 때 (문서 100개 요약, 다관점 검토)</td><td>로컬이면 <u>동시 실행 수 = 메모리 제약</u> (§4)</td></tr>
+        <tr><td class="hl">③ 심판 게이트 ★</td><td><strong>거의 항상</strong> — 단계가 둘 이상이면 사실상 필수</td><td>심판도 틀린다 — 「LLM-as-a-Judge」의 편향 대책 참조</td></tr>
+        <tr><td class="hl">④ 파이프라인</td><td>단계가 뚜렷하고 각 단계에 다른 전문성이 필요할 때</td><td>체인과의 차이는 <u>각 칸에 게이트·재시도가 붙는 것</u></td></tr>
+        <tr><td class="hl">⑤ 반성 루프</td><td>품질이 비용보다 중요할 때 (최종 산출물 다듬기)</td><td>비용이 배수로 — <strong>반복 상한을 반드시</strong> 건다</td></tr>
+        <tr><td class="hl">⑥ 계층 위임</td><td>일의 구조를 미리 알 수 없을 때 (관리자 AI가 쪼갠다)</td><td>가장 유연하지만 <u>가장 예측 불가</u> — 비용·시간 상한 필수</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════ 4. RESOURCES ═══════════ -->
+<section id="resources">
+  <div class="section-header">
+    <div class="eyebrow">The Hardware Question</div>
+    <h2>4. "PC 사양이 좋으면 유리한가" — 지휘자는 싸고 단원이 비싸다</h2>
+    <p>답이 갈리는 이유와, 내 장비별 번역</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/or-resources.svg" alt="오케스트레이션 자체는 비용이 거의 없고, 클라우드 단원이면 사양 무관, 로컬 단원이면 메모리가 규모를 정한다는 비교와 장비별 번역"></div>
+    <figcaption>케이스 ①클라우드 단원 = 사양 무관 · ②로컬 단원 = 메모리가 오케스트라 규모 · 그리고 장비 3종 번역 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">자원</th><th>오케스트레이션에서의 의미 (로컬 단원 기준)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">통합 메모리 ★</td><td><strong>"동시에 무대에 올릴 단원 수"</strong> — 워커+임베딩+심판을 갈아끼우지 않고 상주시킬 수 있는가. 부족하면 모델 스왑이 일어나 지휘가 멈춘다</td></tr>
+        <tr><td class="hl">메모리 (또 하나)</td><td><strong>병렬 세션 수</strong> — 에이전트 3개가 동시에 돌면 KV 캐시도 3벌 (「로컬 모델」 §2-1의 계산 × 세션 수)</td></tr>
+        <tr><td class="hl">CPU 코어</td><td>병렬 도구 실행·샌드박스 컨테이너 여러 개 (「로컬 LLM 코딩 공장」의 격리)</td></tr>
+        <tr><td class="hl">메모리 대역폭</td><td>각 단원의 응답 속도 — M 시리즈의 강점이 여기서 나온다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">💻</span>
+    <div><strong>내 장비 요약 —</strong>
+    <u>M5 Max 128GB</u>: 워커 27B(~29GB) + 임베딩(~2GB) + 심판 소형(~8GB)을 전부 동시 상주시키고 병렬 2~3개까지 —
+    <strong>"로컬 오케스트라"가 되는 사양</strong>이다.
+    <u>맥미니 16GB</u>: 로컬 오케스트라는 무리지만 <strong>클라우드 지휘자로는 완벽</strong>(24시간 상주 서버로 제격 —
+    「상주형 AI 에이전트」의 그 현상).
+    <u>윈도우 PC</u>: CPU 병렬성은 좋으나 VRAM 병목 — 지휘자·샌드박스 호스트 역할이 맞다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. COMPOUND ═══════════ -->
+<section id="compound">
+  <div class="section-header">
+    <div class="eyebrow">The Real Bottleneck</div>
+    <h2>5. 오류의 복리 — 사양보다 자주 발목을 잡는 것</h2>
+    <p>단계를 이으면 정확도는 곱해진다</p>
+  </div>
+
+  <figure class="or-anim">
+    <div class="fig-scroll">
+    <svg viewBox="0 0 900 420" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" style="width:100%;display:block">
+      <text x="450" y="28" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">각 단계가 90% 정확하다면 — 5단계를 이었을 때 최종 정확도는?</text>
+
+      <!-- 왼쪽: 게이트 없음 -->
+      <text x="230" y="58" font-size="12.5" font-weight="800" fill="#DC2626" text-anchor="middle">게이트 없이 이어 붙이면</text>
+      <line x1="60" y1="300" x2="410" y2="300" stroke="#555555" stroke-width="2"/>
+      <g class="or-b1"><rect x="76" y="120" width="52" height="180" rx="4" fill="#7FB5E8"/></g>
+      <text x="102" y="316" font-size="9" fill="#666666" text-anchor="middle">1단계</text>
+      <text x="102" y="112" font-size="9.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">90%</text>
+      <g class="or-b2"><rect x="142" y="138" width="52" height="162" rx="4" fill="#7FB5E8"/></g>
+      <text x="168" y="316" font-size="9" fill="#666666" text-anchor="middle">2단계</text>
+      <text x="168" y="130" font-size="9.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">81%</text>
+      <g class="or-b3"><rect x="208" y="154" width="52" height="146" rx="4" fill="#E8962A"/></g>
+      <text x="234" y="316" font-size="9" fill="#666666" text-anchor="middle">3단계</text>
+      <text x="234" y="146" font-size="9.5" font-weight="700" fill="#B45309" text-anchor="middle">73%</text>
+      <g class="or-b4"><rect x="274" y="168" width="52" height="132" rx="4" fill="#E8962A"/></g>
+      <text x="300" y="316" font-size="9" fill="#666666" text-anchor="middle">4단계</text>
+      <text x="300" y="160" font-size="9.5" font-weight="700" fill="#B45309" text-anchor="middle">66%</text>
+      <g class="or-b5"><rect x="340" y="182" width="52" height="118" rx="4" fill="#DC2626"/></g>
+      <text x="366" y="316" font-size="9" fill="#666666" text-anchor="middle">5단계</text>
+      <text x="366" y="174" font-size="9.5" font-weight="700" fill="#DC2626" text-anchor="middle">59%</text>
+      <g class="or-final">
+        <rect x="76" y="332" width="316" height="46" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+        <text x="234" y="352" font-size="11" font-weight="800" fill="#DC2626" text-anchor="middle">최종 59% — 열 번에 네 번은 틀린다</text>
+        <text x="234" y="370" font-size="9.5" fill="#555555" text-anchor="middle">각 단계는 "90%면 훌륭한데?"였는데도</text>
+      </g>
+
+      <!-- 오른쪽: 게이트 있음 -->
+      <text x="670" y="58" font-size="12.5" font-weight="800" fill="#0F766E" text-anchor="middle">단계마다 심판 게이트를 두면</text>
+      <line x1="500" y1="300" x2="850" y2="300" stroke="#555555" stroke-width="2"/>
+      <g class="or-b1"><rect x="516" y="120" width="52" height="180" rx="4" fill="#7FD1A8"/></g>
+      <text x="542" y="316" font-size="9" fill="#666666" text-anchor="middle">1단계</text>
+      <text x="542" y="112" font-size="9.5" font-weight="700" fill="#065F46" text-anchor="middle">~99%</text>
+      <g class="or-b2"><rect x="582" y="122" width="52" height="178" rx="4" fill="#7FD1A8"/></g>
+      <text x="608" y="316" font-size="9" fill="#666666" text-anchor="middle">2단계</text>
+      <text x="608" y="114" font-size="9.5" font-weight="700" fill="#065F46" text-anchor="middle">~98%</text>
+      <g class="or-b3"><rect x="648" y="125" width="52" height="175" rx="4" fill="#7FD1A8"/></g>
+      <text x="674" y="316" font-size="9" fill="#666666" text-anchor="middle">3단계</text>
+      <text x="674" y="117" font-size="9.5" font-weight="700" fill="#065F46" text-anchor="middle">~97%</text>
+      <g class="or-b4"><rect x="714" y="128" width="52" height="172" rx="4" fill="#7FD1A8"/></g>
+      <text x="740" y="316" font-size="9" fill="#666666" text-anchor="middle">4단계</text>
+      <text x="740" y="120" font-size="9.5" font-weight="700" fill="#065F46" text-anchor="middle">~96%</text>
+      <g class="or-b5"><rect x="780" y="131" width="52" height="169" rx="4" fill="#00AA6C"/></g>
+      <text x="806" y="316" font-size="9" fill="#666666" text-anchor="middle">5단계</text>
+      <text x="806" y="123" font-size="9.5" font-weight="700" fill="#065F46" text-anchor="middle">~95%</text>
+      <g class="or-final">
+        <rect x="516" y="332" width="316" height="46" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
+        <text x="674" y="352" font-size="11" font-weight="800" fill="#065F46" text-anchor="middle">최종 ~95% — 게이트가 복리를 끊는다</text>
+        <text x="674" y="370" font-size="9.5" fill="#555555" text-anchor="middle">틀린 것을 그 자리에서 잡아 재시도하므로</text>
+      </g>
+
+      <line x1="455" y1="70" x2="455" y2="380" stroke="#D5CFBF" stroke-width="2" stroke-dasharray="6 5"/>
+
+      <rect x="60" y="392" width="790" height="24" rx="7" fill="#0D1B2E"/>
+      <text x="455" y="409" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">수치는 개념 설명용 개략 — 요점은 "곱해진다"는 구조이지 특정 숫자가 아니다</text>
+    </svg>
+    </div>
+    <figcaption>왼쪽 막대가 단계마다 낮아지고, 오른쪽은 게이트 덕에 유지된다 — 이것이 심판 패턴이 "거의 항상 필수"인 이유 (동작 줄이기 설정 시 정지)</figcaption>
+  </figure>
+
+  <div class="callout red">
+    <span class="icon">📉</span>
+    <div><strong>이 그림이 말하는 것 —</strong> 각 단계가 "90%면 훌륭하지"라고 느껴져도,
+    다섯을 이으면 <u>열 번에 네 번은 틀린 결과</u>가 나온다. 그리고 오케스트레이션은 본질적으로 단계를 늘리는 일이라
+    <strong>검증 없는 오케스트레이션은 단계를 늘릴수록 나빠진다.</strong>
+    「AI 시대의 개발 프로세스」의 리뷰 피라미드, 「LLM-as-a-Judge」의 심판이
+    여기서는 "있으면 좋은 것"이 아니라 <u>구조를 성립시키는 전제</u>가 된다 —
+    그래서 §3의 패턴 중 ③(심판)만 "거의 항상"이라고 적었다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. TOOLS ═══════════ -->
+<section id="tools">
+  <div class="section-header">
+    <div class="eyebrow">Tooling</div>
+    <h2>6. 도구 지형 — 무엇으로 지휘하나</h2>
+    <p>추상화 수준이 다른 세 층 (2026.08 개략)</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">층</th><th style="width:230px">대표 도구</th><th>성격</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">코드 프레임워크</td><td>LangGraph · CrewAI · AutoGen</td><td>그래프·역할로 흐름을 코드로 정의 — 세밀한 통제, 학습 곡선 있음</td></tr>
+        <tr><td class="hl">에이전트 도구 내장</td><td><strong>Claude Code의 서브에이전트·워크플로</strong></td><td>이미 쓰는 도구 안에서 팬아웃·검증 — 별도 프레임워크 없이 시작 가능 (「클로드 확장하기」)</td></tr>
+        <tr><td class="hl">로우코드·노코드</td><td>n8n · Dify 류</td><td>화면에서 노드를 잇는다 — 비개발 협업·빠른 프로토타입에 유리</td></tr>
+        <tr><td class="hl">직접 구현</td><td>파이썬 스크립트 + 상태 기계</td><td><u>의외로 흔하고 충분하다</u> — 「로컬 LLM 코딩 공장」의 Goal Runner가 이 부류</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🛠</span>
+    <div><strong>프레임워크부터 고르지 말 것 —</strong> 오케스트레이션의 8할은 <u>패턴 선택(§3)과 게이트 배치(§5)</u>이고,
+    그것은 도구와 무관하다. 파이썬 for문과 if문으로 시작해서 <u>정말 필요해질 때</u> 프레임워크로 옮기는 편이
+    대개 빠르다 — 「CI/CD 정리」 §8의 "처음부터 쿠버네티스" 안티패턴과 같은 종류의 함정이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 7. PRACTICE ═══════════ -->
+<section id="practice">
+  <div class="section-header">
+    <div class="eyebrow">Design Principles</div>
+    <h2>7. 실전 설계 원칙</h2>
+    <p>언제 오케스트라를 부르고, 어떻게 무너지지 않게 하나</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:200px">원칙</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① 단순한 일엔 쓰지 않는다</td><td>한 번의 호출이나 에이전트 루프로 되는 일에 오케스트라는 과하다 — 단계가 늘수록 오류·비용·디버깅 난이도가 함께 는다</td></tr>
+        <tr><td class="hl">② 게이트 없는 단계 금지</td><td>§5의 이유로 — 단계를 추가하려면 <u>그 단계의 검증도 함께</u> 추가한다</td></tr>
+        <tr><td class="hl">③ 상한을 반드시 건다</td><td>반복 횟수·비용·시간 상한 — 특히 ⑤반성·⑥계층 위임은 <u>"얼마나 돌지 모른다"</u>는 문제를 안고 온다</td></tr>
+        <tr><td class="hl">④ 모델을 계급별로 쓴다</td><td>분류·필터는 싼 모델, 최종 작성만 비싼 모델 — 라우팅(①)의 본질적 효과</td></tr>
+        <tr><td class="hl">⑤ 관찰 가능하게 만든다</td><td>어느 칸에서 무엇이 오갔는지 로그가 없으면 디버깅이 불가능하다 — 「로컬 LLM 코딩 공장」의 jsonl 로깅이 그 최소형</td></tr>
+        <tr><td class="hl">⑥ 결정적인 것은 코드로</td><td>"숫자 합계"·"날짜 정렬" 같은 것을 모델에게 시키지 않는다 — 지휘자가 직접 계산하는 편이 정확하고 싸다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>맺음 —</strong> 오케스트레이션의 본질은 <u>"모델을 더 쓰는 것"이 아니라 "모델에게 맡길 범위를 정하는 것"</u>이다.
+    흐름·검증·계산은 코드가 쥐고, 판단과 언어만 모델에게 넘긴다 —
+    그래서 좋은 오케스트레이션일수록 <strong>모델 호출이 적고 검증이 많다.</strong>
+    그리고 사양 질문의 최종 답: <u>지휘는 노트북으로도 되고, 로컬 오케스트라는 메모리가 규모를 정하며,
+    사양보다 자주 발목을 잡는 것은 게이트 없는 설계다.</u></div>
+  </div>
+</section>
+
+<!-- ═══════════ 8. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">Related</div>
+    <h2>8. 함께 읽기</h2>
+    <p>이 문서에서 갈라지는 길들</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:280px">주제</th><th>문서</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">흐름 설계론 — 이 문서의 짝</td><td>「클로드 확장하기」 §8·§10 — 하네스·그래프 엔지니어링</td></tr>
+        <tr><td class="hl">심판 패턴의 교과서</td><td>「LLM-as-a-Judge」 — §3의 ③이 통째로 사는 곳</td></tr>
+        <tr><td class="hl">소박한 오케스트레이터의 실물</td><td>「로컬 LLM 코딩 공장」 — Goal Runner·샌드박스·로깅</td></tr>
+        <tr><td class="hl">로컬 단원의 메모리 계산</td><td>「현실적으로 사용해볼만한 로컬 모델」 §2-1·§5-1</td></tr>
+        <tr><td class="hl">에이전트 루프의 기초</td><td>「로컬 LLM 에이전트」 §2 · 「Claude Code 내부 해부」</td></tr>
+        <tr><td class="hl">상시 지휘 서버라는 형태</td><td>「상주형 AI 에이전트」 — 맥미니 가성비 현상의 정체</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/or-*.svg (3종) + 동적 도식 2종(실행 흐름·오류 복리, CSS 애니메이션) · 정확도 수치는 개념 설명용 개략 · 도구 목록은 2026.08 스냅샷
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="700" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">"PC 사양이 좋으면 유리한가" — 지휘자는 싸고, 단원이 비싸다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">답이 갈리는 이유: 단원(모델)이 어디서 도느냐에 따라 내 PC가 하는 일이 완전히 달라진다</text>
+
+  <!-- 지휘자 비용 -->
+  <rect x="30" y="84" width="840" height="96" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="52" y="112" font-size="14" font-weight="800" fill="#0F766E">🎼 오케스트레이션 "자체"의 비용 — 거의 0</text>
+  <text x="52" y="136" font-size="11" fill="#555555">지휘자의 실체는 <u>상태 기계 + JSON 라우팅 + 호출 대기</u>다 — 무거운 계산이 없다. CPU 몇 %, 메모리 수백 MB 수준.</text>
+  <text x="52" y="158" font-size="11" font-weight="700" fill="#0F766E">→ "오케스트레이션을 하려면 좋은 PC가 필요하다"는 명제 자체는 <u>틀렸다</u>. 문제는 언제나 단원(모델)이 어디 있느냐다.</text>
+
+  <!-- 케이스 1 -->
+  <rect x="30" y="196" width="410" height="270" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="235" y="224" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">케이스 ① 클라우드 단원 — 사양 무관</text>
+
+  <rect x="52" y="240" width="150" height="60" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="127" y="264" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">내 PC</text>
+  <text x="127" y="282" font-size="9.5" fill="#555555" text-anchor="middle">지휘봉만 흔든다</text>
+  <text x="222" y="275" font-size="16" fill="#8A8478">→</text>
+  <rect x="244" y="230" width="170" height="34" rx="7" fill="#F2EDE4" stroke="#8A8478" stroke-width="1.2"/>
+  <text x="329" y="252" font-size="9.5" fill="#555555" text-anchor="middle">☁️ 클라우드 모델 A</text>
+  <rect x="244" y="270" width="170" height="34" rx="7" fill="#F2EDE4" stroke="#8A8478" stroke-width="1.2"/>
+  <text x="329" y="292" font-size="9.5" fill="#555555" text-anchor="middle">☁️ 클라우드 모델 B</text>
+
+  <text x="52" y="330" font-size="10.5" fill="#555555">· 무거운 계산은 전부 남의 서버에서</text>
+  <text x="52" y="352" font-size="10.5" fill="#555555">· 내 PC가 하는 일: HTTP 요청·응답 대기·상태 관리</text>
+  <text x="52" y="374" font-size="10.5" fill="#555555">· <strong>맥미니 기본형으로 에이전트 수십 개 지휘 가능</strong></text>
+  <text x="52" y="400" font-size="10.5" font-weight="700" fill="#1A5CB5">「상주형 AI 에이전트」의 "맥미니 가성비" 현상이</text>
+  <text x="52" y="418" font-size="10.5" font-weight="700" fill="#1A5CB5">정확히 이 구조 때문이었다</text>
+  <text x="52" y="444" font-size="10" fill="#DC2626">병목은 사양이 아니라 <u>API 비용과 속도 제한</u>이 된다</text>
+
+  <!-- 케이스 2 -->
+  <rect x="460" y="196" width="410" height="270" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
+  <text x="665" y="224" font-size="14" font-weight="800" fill="#B45309" text-anchor="middle">케이스 ② 로컬 단원 — 사양 = 오케스트라 규모</text>
+
+  <rect x="482" y="240" width="366" height="120" rx="10" fill="#FFFFFF" stroke="#E8962A" stroke-width="2"/>
+  <text x="665" y="262" font-size="11" font-weight="800" fill="#B45309" text-anchor="middle">내 PC 안에 단원들이 동시 상주해야 한다</text>
+  <rect x="498" y="274" width="102" height="30" rx="6" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.2"/>
+  <text x="549" y="294" font-size="9" fill="#002C5F" text-anchor="middle">워커 27B ~29GB</text>
+  <rect x="608" y="274" width="102" height="30" rx="6" fill="#E6F7F1" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="659" y="294" font-size="9" fill="#065F46" text-anchor="middle">임베딩 ~2GB</text>
+  <rect x="718" y="274" width="114" height="30" rx="6" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.2"/>
+  <text x="775" y="294" font-size="9" fill="#6B21A8" text-anchor="middle">심판 소형 ~8GB</text>
+  <rect x="498" y="312" width="334" height="34" rx="6" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2"/>
+  <text x="665" y="326" font-size="9" fill="#991B1B" text-anchor="middle">+ KV 캐시 × 동시 세션 수 — 병렬 에이전트 3개면 3벌</text>
+  <text x="665" y="340" font-size="8.5" fill="#666666" text-anchor="middle">「로컬 모델」 §2-1의 계산이 세션 수만큼 곱해진다</text>
+
+  <text x="482" y="384" font-size="10.5" fill="#555555">· 메모리가 <strong>"동시에 무대에 올릴 단원 수"</strong>를 정한다</text>
+  <text x="482" y="406" font-size="10.5" fill="#555555">· 부족하면 모델 스왑 발생 → <u>지휘가 멈춘다</u>(로딩 대기)</text>
+  <text x="482" y="428" font-size="10.5" fill="#555555">· CPU 코어: 병렬 도구 실행·샌드박스 컨테이너</text>
+  <text x="482" y="450" font-size="10.5" font-weight="700" fill="#B45309">→ 여기서 "사양이 좋으면 유리한가"의 답은 <u>예</u></text>
+
+  <!-- 장비 번역 -->
+  <rect x="30" y="482" width="840" height="146" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="52" y="510" font-size="13.5" font-weight="800" fill="#002C5F">내 장비로 번역하면</text>
+  <rect x="52" y="522" width="256" height="92" rx="10" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
+  <text x="180" y="546" font-size="11.5" font-weight="800" fill="#0F766E" text-anchor="middle">💻 M5 Max 128GB</text>
+  <text x="180" y="568" font-size="9.5" fill="#555555" text-anchor="middle">워커+임베딩+심판을 <u>전부 동시 상주</u></text>
+  <text x="180" y="586" font-size="9.5" fill="#555555" text-anchor="middle">병렬 에이전트 2~3개까지 현실적</text>
+  <text x="180" y="605" font-size="9.5" font-weight="700" fill="#065F46" text-anchor="middle">"로컬 오케스트라"가 되는 사양</text>
+
+  <rect x="322" y="522" width="256" height="92" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="450" y="546" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">🖥 맥미니 16GB</text>
+  <text x="450" y="568" font-size="9.5" fill="#555555" text-anchor="middle">로컬 오케스트라는 무리 —</text>
+  <text x="450" y="586" font-size="9.5" fill="#555555" text-anchor="middle">그러나 <u>클라우드 지휘자로는 완벽</u></text>
+  <text x="450" y="605" font-size="9.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">24시간 상주 지휘 서버로 제격</text>
+
+  <rect x="592" y="522" width="256" height="92" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="720" y="546" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">🪟 9950X3D PC</text>
+  <text x="720" y="568" font-size="9.5" fill="#555555" text-anchor="middle">CPU 병렬성은 좋으나 VRAM 병목</text>
+  <text x="720" y="586" font-size="9.5" fill="#555555" text-anchor="middle">로컬 단원보다 <u>지휘자·샌드박스 호스트</u></text>
+  <text x="720" y="605" font-size="9.5" font-weight="700" fill="#B45309" text-anchor="middle">컨테이너 여러 개 돌리기에 유리</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="644" width="840" height="46" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="666" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">한 줄: 지휘는 노트북으로도 되고, 로컬 오케스트라는 메모리가 규모를 정한다</text>
+  <text x="450" y="683" font-size="10.5" fill="#AAB9CF" text-anchor="middle">그리고 사양보다 자주 발목을 잡는 것은 설계다 (§5의 오류 복리)</text>
+</svg>

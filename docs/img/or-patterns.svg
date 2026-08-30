@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="orp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="700" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">패턴 카탈로그 — 지휘자가 쓰는 여섯 가지 배치</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">대부분의 오케스트레이션은 이 여섯의 조합이다 — 새 프레임워크를 만나도 "어느 패턴인가"로 읽으면 된다</text>
+
+  <!-- 1 라우팅 -->
+  <rect x="30" y="84" width="278" height="180" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="169" y="110" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">① 라우팅 (분류 후 배정)</text>
+  <rect x="52" y="126" width="60" height="30" rx="6" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.2"/>
+  <text x="82" y="146" font-size="9" fill="#555555" text-anchor="middle">입력</text>
+  <line x1="112" y1="141" x2="132" y2="141" stroke="#1A5CB5" stroke-width="2" marker-end="url(#orp)"/>
+  <rect x="136" y="126" width="66" height="30" rx="6" fill="#0D1B2E"/>
+  <text x="169" y="146" font-size="9" font-weight="700" fill="#FFF" text-anchor="middle">분류기</text>
+  <line x1="202" y1="134" x2="222" y2="118" stroke="#1A5CB5" stroke-width="1.8" marker-end="url(#orp)"/>
+  <line x1="202" y1="141" x2="222" y2="141" stroke="#1A5CB5" stroke-width="1.8" marker-end="url(#orp)"/>
+  <line x1="202" y1="148" x2="222" y2="164" stroke="#1A5CB5" stroke-width="1.8" marker-end="url(#orp)"/>
+  <rect x="226" y="104" width="60" height="26" rx="5" fill="#E6F7F1" stroke="#0F766E" stroke-width="1"/>
+  <text x="256" y="121" font-size="8.5" fill="#065F46" text-anchor="middle">전문가 A</text>
+  <rect x="226" y="128" width="60" height="26" rx="5" fill="#E6F7F1" stroke="#0F766E" stroke-width="1"/>
+  <text x="256" y="145" font-size="8.5" fill="#065F46" text-anchor="middle">전문가 B</text>
+  <rect x="226" y="152" width="60" height="26" rx="5" fill="#E6F7F1" stroke="#0F766E" stroke-width="1"/>
+  <text x="256" y="169" font-size="8.5" fill="#065F46" text-anchor="middle">전문가 C</text>
+  <text x="52" y="200" font-size="10" fill="#555555">싸고 작은 모델이 종류를 판별하고,</text>
+  <text x="52" y="218" font-size="10" fill="#555555">비싼 모델은 필요한 것만 부른다</text>
+  <text x="52" y="242" font-size="9.5" font-weight="700" fill="#1A5CB5">효과: 비용 절감 · 전문화</text>
+
+  <!-- 2 병렬 팬아웃 -->
+  <rect x="316" y="84" width="278" height="180" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="455" y="110" font-size="13" font-weight="800" fill="#0F766E" text-anchor="middle">② 병렬 팬아웃·취합</text>
+  <rect x="338" y="126" width="56" height="30" rx="6" fill="#0D1B2E"/>
+  <text x="366" y="146" font-size="9" font-weight="700" fill="#FFF" text-anchor="middle">분배</text>
+  <line x1="394" y1="134" x2="414" y2="116" stroke="#0F766E" stroke-width="1.8" marker-end="url(#orp)"/>
+  <line x1="394" y1="141" x2="414" y2="141" stroke="#0F766E" stroke-width="1.8" marker-end="url(#orp)"/>
+  <line x1="394" y1="148" x2="414" y2="166" stroke="#0F766E" stroke-width="1.8" marker-end="url(#orp)"/>
+  <rect x="418" y="102" width="56" height="26" rx="5" fill="#FFFFFF" stroke="#0F766E" stroke-width="1"/>
+  <text x="446" y="119" font-size="8.5" fill="#555555" text-anchor="middle">작업 1</text>
+  <rect x="418" y="128" width="56" height="26" rx="5" fill="#FFFFFF" stroke="#0F766E" stroke-width="1"/>
+  <text x="446" y="145" font-size="8.5" fill="#555555" text-anchor="middle">작업 2</text>
+  <rect x="418" y="154" width="56" height="26" rx="5" fill="#FFFFFF" stroke="#0F766E" stroke-width="1"/>
+  <text x="446" y="171" font-size="8.5" fill="#555555" text-anchor="middle">작업 3</text>
+  <line x1="474" y1="116" x2="494" y2="134" stroke="#0F766E" stroke-width="1.8" marker-end="url(#orp)"/>
+  <line x1="474" y1="141" x2="494" y2="141" stroke="#0F766E" stroke-width="1.8" marker-end="url(#orp)"/>
+  <line x1="474" y1="166" x2="494" y2="148" stroke="#0F766E" stroke-width="1.8" marker-end="url(#orp)"/>
+  <rect x="498" y="126" width="56" height="30" rx="6" fill="#0D1B2E"/>
+  <text x="526" y="146" font-size="9" font-weight="700" fill="#FFF" text-anchor="middle">취합</text>
+  <text x="338" y="200" font-size="10" fill="#555555">독립적인 조각들을 동시에 —</text>
+  <text x="338" y="218" font-size="10" fill="#555555">문서 100개 요약, 여러 관점 검토</text>
+  <text x="338" y="242" font-size="9.5" font-weight="700" fill="#0F766E">효과: 속도 · 다관점</text>
+
+  <!-- 3 심판 -->
+  <rect x="602" y="84" width="268" height="180" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="3"/>
+  <text x="736" y="110" font-size="13" font-weight="800" fill="#6B21A8" text-anchor="middle">③ 심판 게이트 ★핵심</text>
+  <rect x="624" y="126" width="66" height="30" rx="6" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.2"/>
+  <text x="657" y="146" font-size="9" fill="#002C5F" text-anchor="middle">생성</text>
+  <line x1="690" y1="141" x2="710" y2="141" stroke="#6B21A8" stroke-width="2" marker-end="url(#orp)"/>
+  <rect x="714" y="126" width="66" height="30" rx="6" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="747" y="146" font-size="9" font-weight="700" fill="#6B21A8" text-anchor="middle">심판</text>
+  <line x1="780" y1="141" x2="800" y2="141" stroke="#00AA6C" stroke-width="2" marker-end="url(#orp)"/>
+  <rect x="804" y="126" width="46" height="30" rx="6" fill="#E6F7F1" stroke="#00AA6C" stroke-width="1.2"/>
+  <text x="827" y="146" font-size="9" fill="#065F46" text-anchor="middle">통과</text>
+  <path d="M 747 156 C 747 182 657 182 657 160" fill="none" stroke="#DC2626" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#orp)"/>
+  <text x="702" y="196" font-size="9" font-weight="700" fill="#DC2626" text-anchor="middle">불합격 → 피드백과 재시도</text>
+  <text x="624" y="220" font-size="10" fill="#555555">「LLM-as-a-Judge」가 통째로 이 자리</text>
+  <text x="624" y="242" font-size="9.5" font-weight="700" fill="#6B21A8">효과: 오류 복리 차단 (§5)</text>
+
+  <!-- 4 파이프라인 -->
+  <rect x="30" y="278" width="278" height="170" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="169" y="304" font-size="13" font-weight="800" fill="#B45309" text-anchor="middle">④ 파이프라인 (단계 전문화)</text>
+  <rect x="52" y="320" width="52" height="28" rx="6" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.2"/>
+  <text x="78" y="339" font-size="8.5" fill="#555555" text-anchor="middle">수집</text>
+  <line x1="104" y1="334" x2="118" y2="334" stroke="#E8962A" stroke-width="1.8" marker-end="url(#orp)"/>
+  <rect x="122" y="320" width="52" height="28" rx="6" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.2"/>
+  <text x="148" y="339" font-size="8.5" fill="#555555" text-anchor="middle">분석</text>
+  <line x1="174" y1="334" x2="188" y2="334" stroke="#E8962A" stroke-width="1.8" marker-end="url(#orp)"/>
+  <rect x="192" y="320" width="52" height="28" rx="6" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.2"/>
+  <text x="218" y="339" font-size="8.5" fill="#555555" text-anchor="middle">작성</text>
+  <line x1="244" y1="334" x2="258" y2="334" stroke="#E8962A" stroke-width="1.8" marker-end="url(#orp)"/>
+  <rect x="262" y="320" width="34" height="28" rx="6" fill="#0D1B2E"/>
+  <text x="279" y="339" font-size="8.5" fill="#FFF" text-anchor="middle">출력</text>
+  <text x="52" y="376" font-size="10" fill="#555555">단계마다 <u>다른 모델·다른 프롬프트</u>를</text>
+  <text x="52" y="394" font-size="10" fill="#555555">쓸 수 있다 — 각 칸이 작아 검증도 쉽다</text>
+  <text x="52" y="418" font-size="9.5" fill="#666666">체인과 다른 점: 각 칸에 게이트·재시도가 붙는다</text>
+  <text x="52" y="438" font-size="9.5" font-weight="700" fill="#B45309">효과: 전문화 · 디버깅 가능성</text>
+
+  <!-- 5 반성 루프 -->
+  <rect x="316" y="278" width="278" height="170" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="455" y="304" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">⑤ 반성 루프 (자기 개선)</text>
+  <circle cx="400" cy="352" r="28" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="400" y="349" font-size="9" font-weight="700" fill="#002C5F" text-anchor="middle">초안</text>
+  <text x="400" y="362" font-size="8" fill="#555555" text-anchor="middle">작성</text>
+  <path d="M 428 342 C 460 322 490 322 512 342" fill="none" stroke="#1A5CB5" stroke-width="2" marker-end="url(#orp)"/>
+  <circle cx="512" cy="352" r="28" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="512" y="349" font-size="9" font-weight="700" fill="#6B21A8" text-anchor="middle">비평</text>
+  <text x="512" y="362" font-size="8" fill="#555555" text-anchor="middle">지적</text>
+  <path d="M 512 380 C 490 400 460 400 428 366" fill="none" stroke="#1A5CB5" stroke-width="2" marker-end="url(#orp)"/>
+  <text x="455" y="404" font-size="9" fill="#1A5CB5" text-anchor="middle">고쳐 쓰기 → 반복 (횟수 상한 필수)</text>
+  <text x="338" y="426" font-size="9.5" fill="#555555">한 모델이 두 역할을 번갈아 하기도 한다</text>
+  <text x="338" y="442" font-size="9.5" font-weight="700" fill="#1A5CB5">효과: 품질 향상 · 단 비용은 배수로</text>
+
+  <!-- 6 계층 위임 -->
+  <rect x="602" y="278" width="268" height="170" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="736" y="304" font-size="13" font-weight="800" fill="#DC2626" text-anchor="middle">⑥ 계층 위임 (관리자-작업자)</text>
+  <rect x="700" y="318" width="72" height="28" rx="6" fill="#0D1B2E"/>
+  <text x="736" y="337" font-size="9" font-weight="700" fill="#FFF" text-anchor="middle">관리자 AI</text>
+  <line x1="712" y1="346" x2="676" y2="368" stroke="#DC2626" stroke-width="1.8" marker-end="url(#orp)"/>
+  <line x1="736" y1="346" x2="736" y2="368" stroke="#DC2626" stroke-width="1.8" marker-end="url(#orp)"/>
+  <line x1="760" y1="346" x2="796" y2="368" stroke="#DC2626" stroke-width="1.8" marker-end="url(#orp)"/>
+  <rect x="640" y="372" width="60" height="26" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1"/>
+  <text x="670" y="389" font-size="8.5" fill="#555555" text-anchor="middle">작업자 1</text>
+  <rect x="706" y="372" width="60" height="26" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1"/>
+  <text x="736" y="389" font-size="8.5" fill="#555555" text-anchor="middle">작업자 2</text>
+  <rect x="772" y="372" width="60" height="26" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1"/>
+  <text x="802" y="389" font-size="8.5" fill="#555555" text-anchor="middle">작업자 3</text>
+  <text x="624" y="420" font-size="10" fill="#555555">관리자가 <u>일을 쪼개고 배정</u>한다 —</text>
+  <text x="624" y="438" font-size="9.5" font-weight="700" fill="#DC2626">가장 유연하지만 가장 예측 불가 (§7 주의)</text>
+
+  <!-- 조합 예시 -->
+  <rect x="30" y="464" width="840" height="126" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="52" y="492" font-size="13" font-weight="800" fill="#002C5F">실전은 조합이다 — 예: "메일 10만 통에서 계약 관련 이슈 리포트 만들기"</text>
+  <text x="52" y="518" font-size="10.5" fill="#555555">① <tspan font-weight="700">라우팅</tspan>: 싼 모델이 계약 관련 메일만 골라낸다 (10만 → 800통)</text>
+  <text x="52" y="538" font-size="10.5" fill="#555555">② <tspan font-weight="700">병렬 팬아웃</tspan>: 800통을 조각내 동시 분석 → ④ <tspan font-weight="700">파이프라인</tspan>: 추출 → 정리 → 초안</text>
+  <text x="52" y="558" font-size="10.5" fill="#555555">③ <tspan font-weight="700">심판</tspan>: 근거가 실제 메일에 있는지 검증 → 불합격은 재시도 → ⑤ <tspan font-weight="700">반성</tspan>: 최종본 1회 다듬기</text>
+  <text x="52" y="580" font-size="10" font-weight="700" fill="#0F766E">→ 비싼 모델은 마지막 800통에만, 검증은 매 단계에 — 이것이 비용과 품질을 동시에 잡는 법</text>
+
+  <!-- 하단 -->
+  <rect x="30" y="606" width="840" height="80" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="632" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">고르는 순서: ① 라우팅으로 비용을 줄이고 → ③ 심판으로 품질을 지키고 → ② 병렬로 속도를 낸다</text>
+  <text x="450" y="654" font-size="11" fill="#AAB9CF" text-anchor="middle">⑤⑥은 강력하지만 비용·예측 불가성이 커서 마지막에 — 특히 ⑥은 "얼마나 돌지 모른다"는 문제를 안고 온다</text>
+  <text x="450" y="674" font-size="10.5" fill="#7FD1A8" text-anchor="middle">「클로드 확장하기」 §10 그래프 엔지니어링 = 이 패턴들을 그래프로 설계하는 일 · Workflow·서브에이전트가 그 도구</text>
+</svg>
