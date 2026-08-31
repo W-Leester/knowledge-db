@@ -33,7 +33,7 @@
   <!-- ② spawn -->
   <line x1="290" y1="222" x2="726" y2="222" stroke="#003F8A" stroke-width="2.5" marker-end="url(#fa)"/>
   <text x="500" y="212" font-size="14" font-weight="800" fill="#003F8A" text-anchor="middle">② 프로세스 실행(spawn) — npx가 패키지를 받아 로컬에서 시작</text>
-  <text x="500" y="240" font-size="12.5" fill="#8A8A8A" text-anchor="middle">stdin·stdout 파이프가 자동으로 연결됨 (포트 없음!)</text>
+  <text x="500" y="240" font-size="12.5" fill="#707070" text-anchor="middle">stdin·stdout 파이프가 자동으로 연결됨 (포트 없음!)</text>
 
   <!-- ③ initialize -->
   <line x1="180" y1="278" x2="720" y2="278" stroke="#003F8A" stroke-width="2.2" marker-end="url(#fa)"/>
@@ -48,7 +48,7 @@
 
   <!-- ⑤ tools/call -->
   <rect x="60" y="408" width="220" height="54" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
-  <text x="170" y="431" font-size="13.5" font-weight="800" fill="#B45309" text-anchor="middle">모델이 tool_call 출력</text>
+  <text x="170" y="431" font-size="13.5" font-weight="800" fill="#AF5109" text-anchor="middle">모델이 tool_call 출력</text>
   <text x="170" y="452" font-size="12" fill="#555555" text-anchor="middle">(§1의 에이전트 루프)</text>
 
   <line x1="180" y1="490" x2="720" y2="490" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#fg)"/>
@@ -58,7 +58,7 @@
 
   <!-- ⑥ 종료 -->
   <line x1="290" y1="566" x2="726" y2="558" stroke="#DC2626" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#fr)"/>
-  <text x="500" y="554" font-size="13" font-weight="800" fill="#DC2626" text-anchor="middle">⑥ 호스트 종료 → 자식 프로세스도 함께 종료</text>
+  <text x="500" y="554" font-size="13" font-weight="800" fill="#DA2323" text-anchor="middle">⑥ 호스트 종료 → 자식 프로세스도 함께 종료</text>
 
   <!-- 하단 -->
   <rect x="50" y="584" width="800" height="0" fill="none"/>

@@ -39,9 +39,9 @@
   <text x="450" y="342" font-size="15" font-weight="800" fill="#003F8A" text-anchor="middle">④ 공개키로 잠근 "우리 둘만의 비밀 재료" 전달 → 양쪽이 같은 대칭키 생성</text>
 
   <!-- ⑤ 암호화 통신 -->
-  <rect x="145" y="384" width="610" height="46" rx="23" fill="#00AA6C"/>
+  <rect x="145" y="384" width="610" height="46" rx="23" fill="#00A569"/>
   <text x="450" y="413" font-size="16" font-weight="800" fill="#FFFFFF" text-anchor="middle">⑤ 이후 모든 통신은 대칭키로 암호화 🔒 (도청·변조·사칭 차단)</text>
 
   <!-- 사이드 노트 -->
-  <text x="450" y="452" font-size="13" fill="#8A8A8A" text-anchor="middle">비대칭키(느림)는 "열쇠 전달"에만, 대칭키(빠름)는 "실제 대화"에 — 두 방식의 조합</text>
+  <text x="450" y="452" font-size="13" fill="#707070" text-anchor="middle">비대칭키(느림)는 "열쇠 전달"에만, 대칭키(빠름)는 "실제 대화"에 — 두 방식의 조합</text>
 </svg>

@@ -13,8 +13,8 @@
 
   <!-- DOS 계보 -->
   <rect x="55" y="76" width="230" height="60" rx="10" fill="#EDEAE4" stroke="#B5AFA5" stroke-width="1.5"/>
-  <text x="170" y="100" font-size="13.5" font-weight="800" fill="#8A8A8A" text-anchor="middle">소비자용 계보 (DOS 기반)</text>
-  <text x="170" y="122" font-size="11.5" fill="#8A8A8A" text-anchor="middle">Windows 95·98·ME — 불안정·보안 허술</text>
+  <text x="170" y="100" font-size="13.5" font-weight="800" fill="#666666" text-anchor="middle">소비자용 계보 (DOS 기반)</text>
+  <text x="170" y="122" font-size="11.5" fill="#666666" text-anchor="middle">Windows 95·98·ME — 불안정·보안 허술</text>
 
   <!-- NT 계보 -->
   <rect x="55" y="156" width="230" height="66" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
@@ -45,37 +45,37 @@
   <text x="52" y="330" font-size="14" font-weight="800" fill="#065F46">💰 ① 라이선스 무료</text>
   <text x="52" y="352" font-size="11.5" fill="#555555">서버 수백만 대 규모에서는 코어당</text>
   <text x="52" y="369" font-size="11.5" fill="#555555">라이선스 비용이 사업 구조를 바꾼다</text>
-  <text x="52" y="388" font-size="11" fill="#8A8A8A">(윈도우 인스턴스가 더 비싼 이유)</text>
+  <text x="52" y="388" font-size="11" fill="#737373">(윈도우 인스턴스가 더 비싼 이유)</text>
 
   <rect x="314" y="302" width="272" height="94" rx="12" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
   <text x="336" y="330" font-size="14" font-weight="800" fill="#065F46">🔧 ② 소스를 고칠 수 있다</text>
   <text x="336" y="352" font-size="11.5" fill="#555555">AWS는 자체 배포판, 구글은 커널 직접</text>
   <text x="336" y="369" font-size="11.5" fill="#555555">수정 — 자사 칩·네트워크에 맞춤 최적화</text>
-  <text x="336" y="388" font-size="11" fill="#8A8A8A">닫힌 OS는 벤더를 기다려야 한다</text>
+  <text x="336" y="388" font-size="11" fill="#737373">닫힌 OS는 벤더를 기다려야 한다</text>
 
   <rect x="598" y="302" width="272" height="94" rx="12" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
   <text x="620" y="330" font-size="14" font-weight="800" fill="#065F46">🖥 ③ GUI 없음이 기본값</text>
   <text x="620" y="352" font-size="11.5" fill="#555555">화면 없이 SSH로만 관리(headless) —</text>
   <text x="620" y="369" font-size="11.5" fill="#555555">가볍고 부팅이 빠르다</text>
-  <text x="620" y="388" font-size="11" fill="#8A8A8A">수백 대를 켜고 끄는 오토스케일링에 유리</text>
+  <text x="620" y="388" font-size="11" fill="#737373">수백 대를 켜고 끄는 오토스케일링에 유리</text>
 
   <rect x="30" y="410" width="272" height="94" rx="12" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
   <text x="52" y="438" font-size="14" font-weight="800" fill="#003F8A">📜 ④ 자동화 친화</text>
   <text x="52" y="460" font-size="11.5" fill="#555555">설정 = 텍스트 파일, 작업 = 명령어 →</text>
   <text x="52" y="477" font-size="11.5" fill="#555555">1,000대를 스크립트로 동일하게 구성</text>
-  <text x="52" y="496" font-size="11" fill="#8A8A8A">git으로 인프라를 버전 관리 (IaC)</text>
+  <text x="52" y="496" font-size="11" fill="#737373">git으로 인프라를 버전 관리 (IaC)</text>
 
   <rect x="314" y="410" width="272" height="94" rx="12" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
   <text x="336" y="438" font-size="14" font-weight="800" fill="#003F8A">📦 ⑤ 컨테이너 = 리눅스 기술</text>
   <text x="336" y="460" font-size="11.5" fill="#555555">Docker·쿠버네티스의 격리 기능은</text>
   <text x="336" y="477" font-size="11.5" fill="#555555">리눅스 커널 기능 그 자체다</text>
-  <text x="336" y="496" font-size="11" fill="#8A8A8A">현대 배포 표준이 리눅스를 전제로 성립</text>
+  <text x="336" y="496" font-size="11" fill="#737373">현대 배포 표준이 리눅스를 전제로 성립</text>
 
   <rect x="598" y="410" width="272" height="94" rx="12" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
   <text x="620" y="438" font-size="14" font-weight="800" fill="#003F8A">🕰 ⑥ 역사적 관성</text>
   <text x="620" y="460" font-size="11.5" fill="#555555">인터넷 자체가 Unix에서 자랐다 —</text>
   <text x="620" y="477" font-size="11.5" fill="#555555">TCP/IP도 BSD에서 구현됨</text>
-  <text x="620" y="496" font-size="11" fill="#8A8A8A">서버 SW·문서·인력이 전부 이쪽 기준</text>
+  <text x="620" y="496" font-size="11" fill="#737373">서버 SW·문서·인력이 전부 이쪽 기준</text>
 
   <!-- 결론 밴드 -->
   <rect x="30" y="524" width="840" height="112" rx="14" fill="#002C5F"/>

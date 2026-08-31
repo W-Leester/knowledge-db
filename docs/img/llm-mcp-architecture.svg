@@ -22,8 +22,8 @@
 
   <rect x="70" y="346" width="270" height="90" rx="12" fill="#FAF7F2" stroke="#B5AFA5" stroke-width="1.5"/>
   <text x="205" y="376" font-size="14" font-weight="800" fill="#555555" text-anchor="middle">📄 mcp.json 설정 파일</text>
-  <text x="205" y="400" font-size="12.5" fill="#8A8A8A" text-anchor="middle">"어떤 서버를 어떻게 띄울지" 등록</text>
-  <text x="205" y="422" font-size="12.5" fill="#8A8A8A" text-anchor="middle">→ 서버 추가 = 설정 몇 줄</text>
+  <text x="205" y="400" font-size="12.5" fill="#707070" text-anchor="middle">"어떤 서버를 어떻게 띄울지" 등록</text>
+  <text x="205" y="422" font-size="12.5" fill="#707070" text-anchor="middle">→ 서버 추가 = 설정 몇 줄</text>
 
   <!-- 서버들 -->
   <text x="640" y="92" font-size="16" font-weight="800" fill="#002C5F" text-anchor="middle">🧰 MCP 서버들 (이미 만들어져 있음)</text>

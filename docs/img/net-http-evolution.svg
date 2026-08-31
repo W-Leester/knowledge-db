@@ -11,16 +11,16 @@
   <!-- 파이프 1개에 순차 블록 -->
   <rect x="60" y="170" width="204" height="44" rx="8" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.5"/>
   <rect x="66" y="178" width="56" height="28" rx="5" fill="#1A5CB5"/>
-  <rect x="128" y="178" width="56" height="28" rx="5" fill="#5B8DD9"/>
+  <rect x="128" y="178" width="56" height="28" rx="5" fill="#3673D0"/>
   <rect x="190" y="178" width="56" height="28" rx="5" fill="#85ACE8"/>
   <text x="94" y="197" font-size="12.5" fill="#FFF" text-anchor="middle" font-weight="700">HTML</text>
-  <text x="156" y="197" font-size="12.5" fill="#FFF" text-anchor="middle" font-weight="700">CSS</text>
-  <text x="218" y="197" font-size="12.5" fill="#FFF" text-anchor="middle" font-weight="700">JS</text>
+  <text x="156" y="197" font-size="12.5" fill="#FFFFFF" text-anchor="middle" font-weight="700">CSS</text>
+  <text x="218" y="197" font-size="12.5" fill="#3D3D3D" text-anchor="middle" font-weight="700">JS</text>
   <text x="162" y="242" font-size="13.5" fill="#DC2626" text-anchor="middle" font-weight="700">앞 요청이 끝나야 다음 차례</text>
   <text x="162" y="264" font-size="13.5" fill="#DC2626" text-anchor="middle" font-weight="700">(Head-of-Line 블로킹)</text>
   <text x="162" y="300" font-size="13.5" fill="#555555" text-anchor="middle">해결책: 연결을 6개씩 열어서</text>
   <text x="162" y="322" font-size="13.5" fill="#555555" text-anchor="middle">병렬 다운로드 (브라우저 꼼수)</text>
-  <text x="162" y="358" font-size="13" fill="#8A8A8A" text-anchor="middle">텍스트 기반 프로토콜</text>
+  <text x="162" y="358" font-size="13" fill="#737373" text-anchor="middle">텍스트 기반 프로토콜</text>
 
   <!-- HTTP/2 -->
   <rect x="318" y="70" width="264" height="310" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>

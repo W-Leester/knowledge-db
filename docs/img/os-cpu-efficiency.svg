@@ -11,9 +11,9 @@
   <text x="140" y="144" font-size="13.5" font-weight="800" fill="#FFF" text-anchor="middle">P코어 (성능)</text>
   <text x="140" y="164" font-size="11" fill="#D6E3F5" text-anchor="middle">빌드·컴파일 담당</text>
 
-  <rect x="245" y="120" width="170" height="60" rx="9" fill="#00AA6C"/>
-  <text x="330" y="144" font-size="13.5" font-weight="800" fill="#FFF" text-anchor="middle">E코어 (효율)</text>
-  <text x="330" y="164" font-size="11" fill="#D9F5EA" text-anchor="middle">백그라운드·대기 담당</text>
+  <rect x="245" y="120" width="170" height="60" rx="9" fill="#008655"/>
+  <text x="330" y="144" font-size="13.5" font-weight="800" fill="#FFFFFF" text-anchor="middle">E코어 (효율)</text>
+  <text x="330" y="164" font-size="11" fill="#FFFFFF" text-anchor="middle">백그라운드·대기 담당</text>
 
   <text x="55" y="204" font-size="12" fill="#555555">· 메일 동기화·알림 같은 일에 큰 코어를 깨우지 않는다</text>
   <text x="55" y="224" font-size="12" fill="#555555">· E코어는 P코어의 약 1/10 전력으로 동작</text>
@@ -43,7 +43,7 @@
   <!-- ③ 성능/전력 곡선 -->
   <rect x="30" y="288" width="840" height="230" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
   <text x="52" y="316" font-size="15.5" font-weight="800" fill="#002C5F">③ 같은 성능을 훨씬 적은 전력으로 (성능/와트)</text>
-  <text x="846" y="316" font-size="12" fill="#8A8A8A" text-anchor="end">※ 개념 곡선 — 정확한 수치가 아니라 경향</text>
+  <text x="846" y="316" font-size="12" fill="#737373" text-anchor="end">※ 개념 곡선 — 정확한 수치가 아니라 경향</text>
 
   <!-- 축 -->
   <line x1="120" y1="470" x2="800" y2="470" stroke="#8A8A8A" stroke-width="2"/>
@@ -65,7 +65,7 @@
   <line x1="300" y1="344" x2="300" y2="470" stroke="#1A5CB5" stroke-width="1.5" stroke-dasharray="4 4"/>
   <line x1="760" y1="344" x2="760" y2="470" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4 4"/>
   <line x1="300" y1="344" x2="760" y2="344" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 4"/>
-  <text x="530" y="364" font-size="12" font-weight="700" fill="#8A8A8A" text-anchor="middle">↕ 비슷한 성능 구간</text>
+  <text x="530" y="364" font-size="12" font-weight="700" fill="#737373" text-anchor="middle">↕ 비슷한 성능 구간</text>
   <text x="300" y="490" font-size="12" font-weight="700" fill="#1A5CB5" text-anchor="middle">낮은 전력</text>
   <text x="760" y="490" font-size="12" font-weight="700" fill="#DC2626" text-anchor="middle">높은 전력</text>
 

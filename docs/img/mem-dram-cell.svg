@@ -107,7 +107,7 @@
   <text x="435" y="232" text-anchor="end" font-size="9" fill="#555555">LOW</text>
   <!-- Threshold line -->
   <line x1="440" y1="175" x2="740" y2="175" stroke="#DC2626" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="742" y="179" font-size="9" fill="#DC2626">임계값</text>
+  <text x="742" y="179" font-size="9" fill="#DA2323">임계값</text>
 
   <!-- Decay and refresh cycles -->
   <!-- Cycle 1: decay from 440,105 to about 480,175, then refresh spike -->
@@ -136,15 +136,15 @@
   <line x1="645" y1="105" x2="720" y2="105" stroke="#00AA6C" stroke-width="1" stroke-dasharray="3,3"/>
 
   <!-- Refresh pulse labels -->
-  <text x="478" y="92" text-anchor="middle" font-size="9" fill="#00AA6C" font-weight="600">↑ Refresh</text>
-  <text x="558" y="92" text-anchor="middle" font-size="9" fill="#00AA6C" font-weight="600">↑ Refresh</text>
-  <text x="645" y="92" text-anchor="middle" font-size="9" fill="#00AA6C" font-weight="600">↑ Refresh</text>
+  <text x="478" y="92" text-anchor="middle" font-size="9" fill="#008152" font-weight="600">↑ Refresh</text>
+  <text x="558" y="92" text-anchor="middle" font-size="9" fill="#008152" font-weight="600">↑ Refresh</text>
+  <text x="645" y="92" text-anchor="middle" font-size="9" fill="#008152" font-weight="600">↑ Refresh</text>
 
   <!-- Refresh interval brace -->
   <line x1="478" y1="237" x2="558" y2="237" stroke="#E8962A" stroke-width="1.5"/>
   <line x1="478" y1="233" x2="478" y2="241" stroke="#E8962A" stroke-width="1.5"/>
   <line x1="558" y1="233" x2="558" y2="241" stroke="#E8962A" stroke-width="1.5"/>
-  <text x="518" y="248" text-anchor="middle" font-size="10" fill="#E8962A" font-weight="600">Refresh 간격</text>
+  <text x="518" y="248" text-anchor="middle" font-size="10" fill="#A46512" font-weight="600">Refresh 간격</text>
 
   <!-- Labels and annotations below chart -->
   <rect x="420" y="265" width="340" height="40" fill="#E8EEF7" rx="4"/>
@@ -152,7 +152,7 @@
   <text x="590" y="297" text-anchor="middle" font-size="11" fill="#555555">일반 DRAM: 8,192 행 / 64ms = 매 7.8μs마다 한 행 Refresh</text>
 
   <rect x="420" y="312" width="340" height="52" fill="#FFF0F0" stroke="#DC2626" stroke-width="1" rx="4"/>
-  <text x="590" y="328" text-anchor="middle" font-size="11.5" fill="#DC2626" font-weight="700">Refresh 동안 메모리 접근 불가 → 레이턴시 발생</text>
+  <text x="590" y="328" text-anchor="middle" font-size="11.5" fill="#D52222" font-weight="700">Refresh 동안 메모리 접근 불가 → 레이턴시 발생</text>
   <text x="590" y="344" text-anchor="middle" font-size="10.5" fill="#555555">Refresh 동작: tRFC = 350~560ns (HBM3e 기준 더 빠름)</text>
   <text x="590" y="358" text-anchor="middle" font-size="10.5" fill="#555555">전력 소비의 ~10~15%를 Refresh가 차지</text>
 

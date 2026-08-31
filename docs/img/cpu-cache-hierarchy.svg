@@ -40,33 +40,33 @@
   <!-- Tier 0: Registers (narrowest top) -->
   <g id="tier-0">
     <polygon points="310,65 490,65 510,105 290,105" fill="url(#tier0grad)" stroke="#001020" stroke-width="1.5"/>
-    <text x="400" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">Registers</text>
-    <text x="400" y="97" text-anchor="middle" font-size="9" fill="#CCDDFF">~1 KB · 0.25 ns</text>
+    <text x="400" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#696969">Registers</text>
+    <text x="400" y="97" text-anchor="middle" font-size="9" fill="#0558FF">~1 KB · 0.25 ns</text>
     <animate attributeName="filter" values="none;url(#glow);none" dur="5s" begin="0s" repeatCount="indefinite"/>
   </g>
 
   <!-- Tier 1: L1 Cache -->
   <g id="tier-1">
     <polygon points="290,108 510,108 535,152 265,152" fill="url(#tier1grad)" stroke="#001A3A" stroke-width="1.5"/>
-    <text x="400" y="125" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">L1 Cache</text>
-    <text x="400" y="143" text-anchor="middle" font-size="9" fill="#CCDDFF">32–64 KB · 1 ns</text>
+    <text x="400" y="125" text-anchor="middle" font-size="12" font-weight="700" fill="#696969">L1 Cache</text>
+    <text x="400" y="143" text-anchor="middle" font-size="9" fill="#0558FF">32–64 KB · 1 ns</text>
     <animate attributeName="filter" values="none;url(#glow);none" dur="5s" begin="1s" repeatCount="indefinite"/>
   </g>
 
   <!-- Tier 2: L2 Cache -->
   <g id="tier-2">
     <polygon points="265,155 535,155 562,203 238,203" fill="url(#tier2grad)" stroke="#0D3A6A" stroke-width="1.5"/>
-    <text x="400" y="174" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">L2 Cache</text>
-    <text x="400" y="192" text-anchor="middle" font-size="9" fill="#EEF4FF">256 KB – 1 MB · 4 ns</text>
+    <text x="400" y="174" text-anchor="middle" font-size="12" font-weight="700" fill="#696969">L2 Cache</text>
+    <text x="400" y="192" text-anchor="middle" font-size="9" fill="#0059FD">256 KB – 1 MB · 4 ns</text>
     <animate attributeName="filter" values="none;url(#glow);none" dur="5s" begin="2s" repeatCount="indefinite"/>
   </g>
 
   <!-- Tier 3: L3 Cache -->
   <g id="tier-3">
     <polygon points="238,206 562,206 595,262 205,262" fill="url(#tier3grad)" stroke="#3A6A9A" stroke-width="1.5"/>
-    <text x="400" y="228" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">L3 Cache</text>
-    <text x="400" y="246" text-anchor="middle" font-size="9" fill="#EEF4FF">8 – 64 MB · 15 ns</text>
-    <text x="400" y="260" text-anchor="middle" font-size="8" fill="#EEF4FF">(모든 코어 공유)</text>
+    <text x="400" y="228" text-anchor="middle" font-size="12" font-weight="700" fill="#696969">L3 Cache</text>
+    <text x="400" y="246" text-anchor="middle" font-size="9" fill="#0059FD">8 – 64 MB · 15 ns</text>
+    <text x="400" y="260" text-anchor="middle" font-size="8" fill="#0059FD">(모든 코어 공유)</text>
     <animate attributeName="filter" values="none;url(#glow);none" dur="5s" begin="3s" repeatCount="indefinite"/>
   </g>
 
@@ -82,7 +82,7 @@
   <!-- NVMe SSD (optional base) -->
   <rect x="160" y="335" width="480" height="38" rx="4" fill="#EDE8DF" stroke="#B8B0A0" stroke-width="1.5"/>
   <text x="400" y="352" text-anchor="middle" font-size="12" font-weight="600" fill="#666655">NVMe SSD (Storage)</text>
-  <text x="400" y="367" text-anchor="middle" font-size="9" fill="#888877">수 TB · 50–100 µs  (참고용 — 메모리 계층 외부)</text>
+  <text x="400" y="367" text-anchor="middle" font-size="9" fill="#67675A">수 TB · 50–100 µs  (참고용 — 메모리 계층 외부)</text>
 
   <!-- Right side annotation bar -->
   <!-- Speed arrow (pointing up = fast) -->
@@ -103,14 +103,14 @@
   <line x1="665" y1="335" x2="665" y2="70" stroke="none"/>
   <line x1="665" y1="70" x2="665" y2="335" stroke="#555555" stroke-width="2" stroke-dasharray="4,3"/>
 
-  <text x="680" y="310" font-size="9" fill="#DC2626" font-weight="700">느림 ↓</text>
+  <text x="680" y="310" font-size="9" fill="#CD2121" font-weight="700">느림 ↓</text>
   <text x="680" y="323" font-size="9" fill="#555555">높은 지연</text>
 
   <!-- Capacity arrow (pointing down = larger) -->
   <line x1="725" y1="70" x2="725" y2="335" stroke="#00AA6C" stroke-width="2.5"/>
   <polygon points="721,330 725,340 729,330" fill="#00AA6C"/>
   <text x="738" y="90" font-size="9" fill="#555555">용량 작음</text>
-  <text x="738" y="310" font-size="9" fill="#00AA6C" font-weight="700">용량 큼 ↓</text>
+  <text x="738" y="310" font-size="9" fill="#00774C" font-weight="700">용량 큼 ↓</text>
 
   <!-- Left annotations: latency callouts -->
   <line x1="290" y1="85" x2="145" y2="85" stroke="#002C5F" stroke-width="1" stroke-dasharray="3,3"/>
@@ -129,16 +129,16 @@
   <text x="101" y="188" text-anchor="middle" font-size="7" fill="#DDEEFF">12 cycles</text>
 
   <line x1="205" y1="234" x2="145" y2="234" stroke="#5A8EBB" stroke-width="1" stroke-dasharray="3,3"/>
-  <rect x="60" y="224" width="82" height="22" rx="3" fill="#5A8EBB"/>
+  <rect x="60" y="224" width="82" height="22" rx="3" fill="#4377A4"/>
   <text x="101" y="234" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">~15 ns</text>
-  <text x="101" y="244" text-anchor="middle" font-size="7" fill="#EEEEFF">40 cycles</text>
+  <text x="101" y="244" text-anchor="middle" font-size="7" fill="#FFFFFF">40 cycles</text>
 
   <line x1="160" y1="297" x2="145" y2="297" stroke="#7799AA" stroke-width="1" stroke-dasharray="3,3"/>
-  <rect x="35" y="287" width="107" height="22" rx="3" fill="#889FAA"/>
+  <rect x="35" y="287" width="107" height="22" rx="3" fill="#5E7783"/>
   <text x="88" y="297" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">60–100 ns</text>
-  <text x="88" y="307" text-anchor="middle" font-size="7" fill="#EEEEFF">200+ cycles</text>
+  <text x="88" y="307" text-anchor="middle" font-size="7" fill="#FFFFFF">200+ cycles</text>
 
   <!-- Bottom note -->
   <text x="400" y="418" text-anchor="middle" font-size="10" fill="#555555">캐시 히트율(Cache Hit Rate)이 높을수록 CPU 성능이 향상됩니다</text>
-  <text x="400" y="433" text-anchor="middle" font-size="9" fill="#888888">L1 히트율 ~95%  |  L2 히트율 ~80%  |  L3 히트율 ~60%  (일반적인 워크로드 기준)</text>
+  <text x="400" y="433" text-anchor="middle" font-size="9" fill="#696969">L1 히트율 ~95%  |  L2 히트율 ~80%  |  L3 히트율 ~60%  (일반적인 워크로드 기준)</text>
 </svg>

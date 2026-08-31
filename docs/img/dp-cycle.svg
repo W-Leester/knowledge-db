@@ -34,7 +34,7 @@
   <text x="628" y="120" font-size="14" font-weight="800" fill="#9F1239" text-anchor="middle">④ 기능 단위 사이클 — 기능마다 반복</text>
 
   <rect x="428" y="138" width="400" height="54" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.8"/>
-  <text x="628" y="160" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">④-1 과녁 세우기</text>
+  <text x="628" y="160" font-size="12" font-weight="800" fill="#AF5109" text-anchor="middle">④-1 과녁 세우기</text>
   <text x="628" y="180" font-size="10" fill="#555555" text-anchor="middle">이 기능의 수용 기준 → 테스트로 먼저 (한 입 크기로 자르기)</text>
 
   <line x1="628" y1="192" x2="628" y2="208" stroke="#003F8A" stroke-width="2" marker-end="url(#dca)"/>
@@ -68,7 +68,7 @@
   <!-- 마무리 -->
   <line x1="180" y1="334" x2="180" y2="360" stroke="#8A8A8A" stroke-width="1.5" stroke-dasharray="4 4"/>
   <rect x="40" y="364" width="280" height="60" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
-  <text x="180" y="388" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">⑤ 다듬기 (주기적)</text>
+  <text x="180" y="388" font-size="12.5" font-weight="800" fill="#AF5109" text-anchor="middle">⑤ 다듬기 (주기적)</text>
   <text x="180" y="410" font-size="10" fill="#555555" text-anchor="middle">리팩토링·문서화·의존성 정리 — AI에게 맡기기 좋은 일</text>
 
   <line x1="180" y1="424" x2="180" y2="444" stroke="#003F8A" stroke-width="2.2" marker-end="url(#dca)"/>

@@ -64,7 +64,7 @@
 
   <!-- 오른쪽: 현장에 꽂는 쪽 -->
   <rect x="566" y="84" width="290" height="530" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
-  <text x="711" y="112" font-size="13" font-weight="800" fill="#B45309" text-anchor="middle">현장에 꽂는 쪽 (마지막 1마일)</text>
+  <text x="711" y="112" font-size="13" font-weight="800" fill="#AF5109" text-anchor="middle">현장에 꽂는 쪽 (마지막 1마일)</text>
   <text x="711" y="132" font-size="9.5" fill="#666666" text-anchor="middle">도메인 지식이 기술 깊이보다 중요해지는 구간</text>
 
   <rect x="582" y="146" width="258" height="86" rx="10" fill="#FFFFFF" stroke="#E8962A" stroke-width="2.5"/>

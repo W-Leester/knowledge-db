@@ -28,11 +28,11 @@
 
   <!-- 마지막 1마일 -->
   <rect x="480" y="84" width="240" height="106" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="3.5"/>
-  <text x="600" y="112" font-size="13.5" font-weight="800" fill="#DC2626" text-anchor="middle">⚠️ 마지막 1마일</text>
+  <text x="600" y="112" font-size="13.5" font-weight="800" fill="#C82020" text-anchor="middle">⚠️ 마지막 1마일</text>
   <text x="600" y="134" font-size="10" fill="#555555" text-anchor="middle">이 회사의 데이터 형식 · 레거시 시스템</text>
   <text x="600" y="152" font-size="10" fill="#555555" text-anchor="middle">현장의 업무 순서 · 예외 처리 규칙</text>
   <text x="600" y="170" font-size="10" fill="#555555" text-anchor="middle">담당자의 손버릇 · 조직의 승인 절차</text>
-  <text x="600" y="185" font-size="9.5" font-weight="700" fill="#DC2626" text-anchor="middle">누구의 몫도 아니었던 구간</text>
+  <text x="600" y="185" font-size="9.5" font-weight="700" fill="#C82020" text-anchor="middle">누구의 몫도 아니었던 구간</text>
 
   <line x1="720" y1="137" x2="756" y2="137" stroke="#003F8A" stroke-width="2.5" marker-end="url(#jtl)"/>
 
@@ -44,7 +44,7 @@
   <!-- 실패 경로 -->
   <path d="M 600 190 C 600 240 460 250 420 254" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#jtr)"/>
   <rect x="120" y="230" width="300" height="76" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
-  <text x="270" y="256" font-size="12.5" font-weight="800" fill="#DC2626" text-anchor="middle">여기서 막히면 = 파일럿 실패</text>
+  <text x="270" y="256" font-size="12.5" font-weight="800" fill="#C82020" text-anchor="middle">여기서 막히면 = 파일럿 실패</text>
   <text x="270" y="278" font-size="10.5" fill="#555555" text-anchor="middle">"모델은 인상적인데 우리 업무엔 안 맞네요"</text>
   <text x="270" y="296" font-size="10" fill="#666666" text-anchor="middle">엔터프라이즈 AI 도입 실패의 주된 원인으로 지목된다</text>
 
@@ -52,12 +52,12 @@
   <text x="450" y="346" font-size="15" font-weight="800" fill="#002C5F" text-anchor="middle">이 구간을 누가 뚫는가 — 두 가지 답</text>
 
   <rect x="60" y="364" width="380" height="150" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
-  <text x="250" y="392" font-size="13.5" font-weight="800" fill="#B45309" text-anchor="middle">답 ① 엔지니어를 현장에 보낸다</text>
+  <text x="250" y="392" font-size="13.5" font-weight="800" fill="#AF5109" text-anchor="middle">답 ① 엔지니어를 현장에 보낸다</text>
   <text x="250" y="414" font-size="11" font-weight="700" fill="#002C5F" text-anchor="middle">= FDE (외부 → 내부)</text>
   <text x="80" y="440" font-size="10.5" fill="#555555">· 기술은 이미 있고, 도메인을 배운다</text>
   <text x="80" y="460" font-size="10.5" fill="#555555">· 배운 패턴을 <u>제품으로 역류</u>시킨다</text>
   <text x="80" y="480" font-size="10.5" fill="#555555">· 다음 고객은 더 싸게 — 학습이 자산이 된다</text>
-  <text x="80" y="502" font-size="10" font-weight="700" fill="#B45309">비용: 도메인 흡수에 수개월 + 높은 인건비</text>
+  <text x="80" y="502" font-size="10" font-weight="700" fill="#AF5109">비용: 도메인 흡수에 수개월 + 높은 인건비</text>
 
   <rect x="460" y="364" width="380" height="150" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="3"/>
   <text x="650" y="392" font-size="13.5" font-weight="800" fill="#0F766E" text-anchor="middle">답 ② 현장 사람에게 기술을 준다</text>

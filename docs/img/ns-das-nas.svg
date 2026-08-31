@@ -26,9 +26,9 @@
 
   <text x="60" y="234" font-size="11.5" fill="#065F46">✅ 내장급 속도 — 편집·작업 공간으로도 사용 가능</text>
   <text x="60" y="258" font-size="11.5" fill="#065F46">✅ 싸고 단순 — 관리랄 게 없다 (그냥 큰 디스크)</text>
-  <text x="60" y="282" font-size="11.5" fill="#DC2626">❌ 꽂힌 그 컴퓨터만 사용 — 공유 불가</text>
-  <text x="60" y="306" font-size="11.5" fill="#DC2626">❌ 컴퓨터가 꺼지면 같이 잔다 — 상시 서비스 불가</text>
-  <text x="60" y="330" font-size="11.5" fill="#DC2626">❌ 스냅샷·앱 같은 "지능"이 없다 (OS 기능에 의존)</text>
+  <text x="60" y="282" font-size="11.5" fill="#CD2121">❌ 꽂힌 그 컴퓨터만 사용 — 공유 불가</text>
+  <text x="60" y="306" font-size="11.5" fill="#CD2121">❌ 컴퓨터가 꺼지면 같이 잔다 — 상시 서비스 불가</text>
+  <text x="60" y="330" font-size="11.5" fill="#CD2121">❌ 스냅샷·앱 같은 "지능"이 없다 (OS 기능에 의존)</text>
   <text x="235" y="362" font-size="11.5" font-weight="800" fill="#1A5CB5" text-anchor="middle">= "내 컴퓨터의 창고 증축"</text>
 
   <!-- NAS -->
@@ -60,7 +60,7 @@
   <text x="665" y="304" font-size="9" fill="#666666" text-anchor="middle">스냅샷 · 동기화 · Docker · 사진</text>
 
   <text x="490" y="340" font-size="11.5" fill="#065F46">✅ 모든 기기가 공유 · 항상 켜져 있어 서비스가 산다</text>
-  <text x="490" y="362" font-size="11.5" fill="#DC2626">❌ LAN 속도 상한 · 관리 책임(업데이트·보안)이 내 몫</text>
+  <text x="490" y="362" font-size="11.5" fill="#D52222">❌ LAN 속도 상한 · 관리 책임(업데이트·보안)이 내 몫</text>
 
   <!-- 판단 플로우 -->
   <rect x="30" y="400" width="840" height="150" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
@@ -74,8 +74,8 @@
   <text x="450" y="494" font-size="12.5" font-weight="800" fill="#0F766E" text-anchor="middle">→ NAS의 존재 이유</text>
   <text x="450" y="518" font-size="9.5" fill="#666666" text-anchor="middle">기기 3대 + 상주 서비스면 여기</text>
   <rect x="592" y="446" width="256" height="88" rx="10" fill="#FEF3E2"/>
-  <text x="720" y="470" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">둘 다?</text>
-  <text x="720" y="494" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">→ 병행이 정답</text>
+  <text x="720" y="470" font-size="11.5" font-weight="800" fill="#AF5109" text-anchor="middle">둘 다?</text>
+  <text x="720" y="494" font-size="12.5" font-weight="800" fill="#AF5109" text-anchor="middle">→ 병행이 정답</text>
   <text x="720" y="518" font-size="9.5" fill="#666666" text-anchor="middle">DAS=고속 작업 · NAS=공유·백업 허브</text>
 
   <rect x="30" y="566" width="840" height="40" rx="10" fill="#0D1B2E"/>

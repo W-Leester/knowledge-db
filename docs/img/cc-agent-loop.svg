@@ -9,7 +9,7 @@
   </defs>
   <rect width="900" height="620" fill="#FAF7F2"/>
   <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">에이전트 루프의 실제 — query.ts의 queryLoop() 한 턴</text>
-  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">while(true) async generator — 매 반복이 "모델 호출 1회 + 도구 실행"이고, State가 턴을 넘어 이어진다</text>
+  <text x="450" y="58" font-size="13" fill="#707070" text-anchor="middle">while(true) async generator — 매 반복이 "모델 호출 1회 + 도구 실행"이고, State가 턴을 넘어 이어진다</text>
 
   <!-- State 박스 (왼쪽 세로) -->
   <rect x="30" y="86" width="180" height="470" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
@@ -31,8 +31,8 @@
   <text x="120" y="416" font-size="10" fill="#555555" text-anchor="middle">메모리·스킬 발견을</text>
   <text x="120" y="432" font-size="10" fill="#555555" text-anchor="middle">모델 스트리밍 중</text>
   <text x="120" y="448" font-size="10" fill="#555555" text-anchor="middle">병렬로 미리 수행</text>
-  <text x="120" y="482" font-size="10.5" fill="#8A8A8A" text-anchor="middle">"틈새 시간에 미리"</text>
-  <text x="120" y="500" font-size="10.5" fill="#8A8A8A" text-anchor="middle">— 지연 숨김 최적화</text>
+  <text x="120" y="482" font-size="10.5" fill="#696969" text-anchor="middle">"틈새 시간에 미리"</text>
+  <text x="120" y="500" font-size="10.5" fill="#696969" text-anchor="middle">— 지연 숨김 최적화</text>
   <text x="120" y="534" font-size="10.5" fill="#6B21A8" text-anchor="middle" font-weight="700">= 로컬 하네스의</text>
   <text x="120" y="550" font-size="10.5" fill="#6B21A8" text-anchor="middle" font-weight="700">"고급" 요소</text>
 
@@ -44,7 +44,7 @@
 
   <!-- 2 자동 압축 체크 -->
   <rect x="250" y="158" width="290" height="52" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
-  <text x="395" y="180" font-size="13" font-weight="800" fill="#DC2626" text-anchor="middle">② 토큰 임계치 체크 → 필요시 압축</text>
+  <text x="395" y="180" font-size="13" font-weight="800" fill="#C82020" text-anchor="middle">② 토큰 임계치 체크 → 필요시 압축</text>
   <text x="395" y="199" font-size="10.5" fill="#555555" text-anchor="middle">컨텍스트가 차면 autoCompact로 이력 요약 (§압축)</text>
 
   <!-- 3 API 호출 -->
@@ -54,7 +54,7 @@
 
   <!-- 4 응답 분기 -->
   <rect x="250" y="290" width="290" height="52" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
-  <text x="395" y="312" font-size="13" font-weight="800" fill="#B45309" text-anchor="middle">④ 응답에 tool_use가 있나?</text>
+  <text x="395" y="312" font-size="13" font-weight="800" fill="#AF5109" text-anchor="middle">④ 응답에 tool_use가 있나?</text>
   <text x="395" y="331" font-size="10.5" fill="#555555" text-anchor="middle">없으면 → 최종 답변, 루프 종료 (terminal 반환)</text>
 
   <!-- 5 도구 실행 -->
@@ -92,5 +92,5 @@
   <text x="755" y="492" font-size="10.5" fill="#555555" text-anchor="middle">차이는 그 주위의</text>
   <text x="755" y="508" font-size="10.5" fill="#555555" text-anchor="middle">압축·프리페치·예산·</text>
   <text x="755" y="524" font-size="10.5" fill="#555555" text-anchor="middle">권한·State 관리</text>
-  <text x="755" y="546" font-size="10" fill="#8A8A8A" text-anchor="middle">= "프로덕션 하네스"의 두께</text>
+  <text x="755" y="546" font-size="10" fill="#737373" text-anchor="middle">= "프로덕션 하네스"의 두께</text>
 </svg>

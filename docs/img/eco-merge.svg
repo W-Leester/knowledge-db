@@ -30,7 +30,7 @@
   <text x="52" y="314" font-size="11" font-weight="700" fill="#555555">테스트·린트:</text>
   <rect x="146" y="300" width="46" height="22" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.2"/><text x="169" y="315" font-size="9.5" fill="#555555" text-anchor="middle" font-weight="700">Jest</text>
   <rect x="198" y="300" width="56" height="22" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.2"/><text x="226" y="315" font-size="9.5" fill="#555555" text-anchor="middle" font-weight="700">ESLint</text>
-  <text x="235" y="352" font-size="10.5" font-weight="700" fill="#DC2626" text-anchor="middle">→ "JS 피로감"의 정체 — 배우기 전에 고르다 지친다</text>
+  <text x="235" y="352" font-size="10.5" font-weight="700" fill="#C82020" text-anchor="middle">→ "JS 피로감"의 정체 — 배우기 전에 고르다 지친다</text>
   <text x="235" y="370" font-size="9.5" fill="#666666" text-anchor="middle">층 구분 없이는 이 이름들이 전부 "개발환경"으로 뭉개진다</text>
 
   <!-- 통합의 세계 -->

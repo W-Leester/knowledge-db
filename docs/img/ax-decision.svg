@@ -20,9 +20,9 @@
   <text x="450" y="124" font-size="10" fill="#AAB9CF" text-anchor="middle">크로스플랫폼 프레임워크 사용 포함</text>
 
   <line x1="570" y1="108" x2="660" y2="108" stroke="#DC2626" stroke-width="2.5" marker-end="url(#axdr)"/>
-  <text x="612" y="98" font-size="11" font-weight="800" fill="#DC2626" text-anchor="middle">예</text>
+  <text x="612" y="98" font-size="11" font-weight="800" fill="#DA2323" text-anchor="middle">예</text>
   <rect x="664" y="80" width="206" height="70" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
-  <text x="767" y="106" font-size="12.5" font-weight="800" fill="#DC2626" text-anchor="middle">풀 Xcode 의무</text>
+  <text x="767" y="106" font-size="12.5" font-weight="800" fill="#C82020" text-anchor="middle">풀 Xcode 의무</text>
   <text x="767" y="126" font-size="10" fill="#555555" text-anchor="middle">예외 없음 — RN·Flutter도</text>
   <text x="767" y="141" font-size="10" fill="#555555" text-anchor="middle">내부적으로 Xcode 호출</text>
 
@@ -37,7 +37,7 @@
   <line x1="570" y1="208" x2="660" y2="208" stroke="#E8962A" stroke-width="2.5" marker-end="url(#axd)"/>
   <text x="612" y="198" font-size="11" font-weight="800" fill="#B45309" text-anchor="middle">예</text>
   <rect x="664" y="180" width="206" height="70" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
-  <text x="767" y="206" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">툴체인 의무 · IDE 선택</text>
+  <text x="767" y="206" font-size="12.5" font-weight="800" fill="#AF5109" text-anchor="middle">툴체인 의무 · IDE 선택</text>
   <text x="767" y="226" font-size="10" fill="#555555" text-anchor="middle">편하려면 Xcode, 원리상은</text>
   <text x="767" y="241" font-size="10" fill="#555555" text-anchor="middle">xcodebuild·SwiftPM으로 가능</text>
 

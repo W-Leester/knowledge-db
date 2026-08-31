@@ -26,7 +26,7 @@
 
   <!-- TS5 + DAS (맥북 아래) -->
   <rect x="40" y="220" width="260" height="96" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
-  <text x="170" y="246" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">🔌 TS5 Plus + DAS (선택)</text>
+  <text x="170" y="246" font-size="12.5" font-weight="800" fill="#AF5109" text-anchor="middle">🔌 TS5 Plus + DAS (선택)</text>
   <text x="170" y="268" font-size="10.5" fill="#555555" text-anchor="middle">썬더볼트 외장 — 고속 작업 공간</text>
   <text x="170" y="286" font-size="10.5" fill="#555555" text-anchor="middle">대용량 임시 데이터 · 즉석 미러</text>
   <text x="170" y="304" font-size="9.5" fill="#666666" text-anchor="middle">책상에 있을 때의 "옆자리 창고"</text>
@@ -59,7 +59,7 @@
 
   <!-- 클라우드 (하단) -->
   <rect x="660" y="420" width="210" height="90" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
-  <text x="765" y="448" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">☁️ 클라우드 (축소 유지)</text>
+  <text x="765" y="448" font-size="12" font-weight="800" fill="#AF5109" text-anchor="middle">☁️ 클라우드 (축소 유지)</text>
   <text x="765" y="470" font-size="10" fill="#555555" text-anchor="middle">문서·사진·코드 소량만</text>
   <text x="765" y="488" font-size="10" fill="#555555" text-anchor="middle">NAS가 암호화 자동 업로드</text>
   <line x1="620" y1="452" x2="656" y2="452" stroke="#003F8A" stroke-width="2" marker-end="url(#nra)"/>

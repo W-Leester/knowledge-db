@@ -60,9 +60,9 @@
   <text x="128" y="155" font-size="8" fill="#003F8A">64 GB/s</text>
 
   <!-- GPU chip -->
-  <rect x="220" y="85" width="110" height="55" rx="6" fill="#00AA6C"/>
+  <rect x="220" y="85" width="110" height="55" rx="6" fill="#008655"/>
   <text x="275" y="108" class="chip-text">GPU</text>
-  <text x="275" y="124" font-size="8" fill="#CCF5E7" text-anchor="middle">CUDA Cores</text>
+  <text x="275" y="124" font-size="8" fill="#FFFFFF" text-anchor="middle">CUDA Cores</text>
 
   <!-- GPU GDDR6 -->
   <rect x="220" y="160" width="110" height="38" rx="5" class="mem-gddr"/>
@@ -84,7 +84,7 @@
   <rect x="163" y="89" width="70" height="22" rx="4" fill="#FDECEA" stroke="#DC2626" stroke-width="1">
     <animate attributeName="opacity" values="1;0.4;1" dur="1.2s" repeatCount="indefinite"/>
   </rect>
-  <text x="198" y="104" font-size="8" font-weight="700" fill="#DC2626" text-anchor="middle">
+  <text x="198" y="104" font-size="8" font-weight="700" fill="#D12222" text-anchor="middle">
     <animate attributeName="opacity" values="1;0.4;1" dur="1.2s" repeatCount="indefinite"/>
     PCIe 64 GB/s
   </text>
@@ -95,7 +95,7 @@
 
   <!-- Data copy annotation -->
   <rect x="55" y="214" width="285" height="38" rx="6" fill="#FEF3C7" stroke="#E8962A" stroke-width="1"/>
-  <text x="197" y="230" font-size="9" font-weight="700" fill="#B45309" text-anchor="middle">데이터 복사 필요</text>
+  <text x="197" y="230" font-size="9" font-weight="700" fill="#AF5109" text-anchor="middle">데이터 복사 필요</text>
   <text x="197" y="245" font-size="8" fill="#92400E" text-anchor="middle">CPU 메모리 → GPU 메모리 전송 (latency + power)</text>
 
   <!-- Separate memories note -->
@@ -123,7 +123,7 @@
 
   <!-- SoC die background -->
   <rect x="463" y="124" width="263" height="168" rx="12" fill="#FFFFFF" stroke="#002C5F" stroke-width="1.5"/>
-  <text x="595" y="143" font-size="10" font-weight="600" fill="#002C5F" text-anchor="middle">Apple M4 SoC Die</text>
+  <text x="595" y="143" font-size="10" font-weight="600" fill="#FFFFFF" text-anchor="middle">Apple M4 SoC Die</text>
 
   <!-- CPU cluster -->
   <rect x="478" y="152" width="72" height="52" rx="6" fill="#003F8A"/>
@@ -131,18 +131,18 @@
   <text x="514" y="188" font-size="7" fill="#AAC4E8" text-anchor="middle">P+E Cores</text>
 
   <!-- GPU cluster -->
-  <rect x="558" y="152" width="72" height="52" rx="6" fill="#00AA6C"/>
+  <rect x="558" y="152" width="72" height="52" rx="6" fill="#008655"/>
   <text x="594" y="174" class="chip-text">GPU</text>
-  <text x="594" y="188" font-size="7" fill="#CCF5E7" text-anchor="middle">38 cores</text>
+  <text x="594" y="188" font-size="7" fill="#FFFFFF" text-anchor="middle">38 cores</text>
 
   <!-- NPU / Neural Engine -->
   <rect x="638" y="152" width="72" height="52" rx="6" fill="#E8962A"/>
   <text x="674" y="174" class="chip-text">NPU</text>
-  <text x="674" y="188" font-size="7" fill="#FEF0D9" text-anchor="middle">Neural Eng.</text>
+  <text x="674" y="188" font-size="7" fill="#513302" text-anchor="middle">Neural Eng.</text>
 
   <!-- Internal bus -->
   <rect x="478" y="212" width="232" height="12" rx="3" fill="#002C5F" opacity="0.15"/>
-  <text x="594" y="221" font-size="8" fill="#002C5F" text-anchor="middle" font-weight="600">On-Die High-Bandwidth Fabric</text>
+  <text x="594" y="221" font-size="8" fill="#4099FF" text-anchor="middle" font-weight="600">On-Die High-Bandwidth Fabric</text>
 
   <!-- Animated data flow arrows inside SoC: CPU <-> GPU <-> NPU -->
   <line x1="550" y1="176" x2="558" y2="176" stroke="#FFFFFF" stroke-width="2" marker-end="url(#arrWhite)">
@@ -161,7 +161,7 @@
   <!-- Labels below chips -->
   <text x="594" y="244" font-size="9" font-weight="700" fill="#002C5F" text-anchor="middle">CPU ↔ GPU ↔ NPU — 동일 메모리 풀</text>
   <text x="594" y="258" font-size="9" fill="#555555" text-anchor="middle">복사 없음, 대역폭 공유, 지연 최소화</text>
-  <text x="594" y="276" font-size="9" font-weight="700" fill="#00AA6C" text-anchor="middle">M4 Max: CPU+GPU+NPU → 410 GB/s 공유 대역폭</text>
+  <text x="594" y="276" font-size="9" font-weight="700" fill="#008655" text-anchor="middle">M4 Max: CPU+GPU+NPU → 410 GB/s 공유 대역폭</text>
 
   <!-- Smooth flow arrows (memory <-> SoC, animated) -->
   <line x1="514" y1="148" x2="514" y2="134" stroke="#003F8A" stroke-width="1.5" marker-end="url(#arrNavy)">
@@ -188,13 +188,13 @@
 
   <!-- Left side summary -->
   <rect x="40" y="372" width="340" height="50" rx="6" fill="#FDECEA"/>
-  <text x="210" y="390" font-size="10" font-weight="700" fill="#DC2626" text-anchor="middle">분리 메모리 단점</text>
+  <text x="210" y="390" font-size="10" font-weight="700" fill="#D12222" text-anchor="middle">분리 메모리 단점</text>
   <text x="210" y="404" font-size="9" fill="#7F1D1D" text-anchor="middle">PCIe 대역폭 병목 · 데이터 복사 오버헤드 · 높은 전력 소비</text>
   <text x="210" y="418" font-size="9" fill="#7F1D1D" text-anchor="middle">CPU 64 GB/s vs GPU 672 GB/s — 불균형한 대역폭</text>
 
   <!-- Right side summary -->
   <rect x="420" y="372" width="340" height="50" rx="6" fill="#E8F5F0"/>
-  <text x="590" y="390" font-size="10" font-weight="700" fill="#00AA6C" text-anchor="middle">통합 메모리 장점</text>
+  <text x="590" y="390" font-size="10" font-weight="700" fill="#007C4F" text-anchor="middle">통합 메모리 장점</text>
   <text x="590" y="404" font-size="9" fill="#065F46" text-anchor="middle">복사 불필요 · 단일 주소 공간 · 저전력 LPDDR5X</text>
   <text x="590" y="418" font-size="9" fill="#065F46" text-anchor="middle">M4 Max 410 GB/s — CPU·GPU·NPU 동시 활용</text>
 </svg>

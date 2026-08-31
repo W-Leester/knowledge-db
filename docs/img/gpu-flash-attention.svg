@@ -39,20 +39,20 @@
   <!-- ======================================= -->
   <!-- LEFT SIDE: Standard Attention           -->
   <!-- ======================================= -->
-  <text x="200" y="60" text-anchor="middle" font-size="13" font-weight="700" fill="#DC2626">Standard Attention</text>
+  <text x="200" y="60" text-anchor="middle" font-size="13" font-weight="700" fill="#CD2121">Standard Attention</text>
 
   <!-- GPU SM (SRAM) small box - left -->
   <rect x="20" y="72" width="130" height="50" rx="6" fill="#E8EEF7" stroke="#002C5F" stroke-width="2"/>
   <text x="85" y="90" text-anchor="middle" font-size="9" font-weight="700" fill="#002C5F">GPU SM</text>
   <text x="85" y="103" text-anchor="middle" font-size="8" fill="#555555">SRAM ~20MB</text>
-  <text x="85" y="114" text-anchor="middle" font-size="7" fill="#888888">(on-chip, fast)</text>
+  <text x="85" y="114" text-anchor="middle" font-size="7" fill="#696969">(on-chip, fast)</text>
 
   <!-- HBM large box - left -->
   <rect x="20" y="350" width="340" height="65" rx="6" fill="#1D4ED8" stroke="#001A3A" stroke-width="2"/>
   <text x="190" y="370" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">HBM (High Bandwidth Memory)</text>
-  <text x="190" y="385" text-anchor="middle" font-size="9" fill="#AACCFF">80 GB  ·  3.35 TB/s  (H100 SXM)</text>
-  <text x="190" y="398" text-anchor="middle" font-size="8" fill="#7799DD">off-chip — 수백 ns 지연</text>
-  <text x="190" y="410" text-anchor="middle" font-size="8" fill="#7799DD">Q, K, V 행렬 저장  ·  중간 결과 저장</text>
+  <text x="190" y="385" text-anchor="middle" font-size="9" fill="#BED8FF">80 GB  ·  3.35 TB/s  (H100 SXM)</text>
+  <text x="190" y="398" text-anchor="middle" font-size="8" fill="#CDD9F2">off-chip — 수백 ns 지연</text>
+  <text x="190" y="410" text-anchor="middle" font-size="8" fill="#CDD9F2">Q, K, V 행렬 저장  ·  중간 결과 저장</text>
 
   <!-- Standard Attention Steps: Q,K,V loaded from HBM to SM -->
   <!-- Step 1: Load Q, K from HBM → SM -->
@@ -63,13 +63,13 @@
   <!-- Intermediate matrices in HBM area -->
   <!-- S matrix (QKᵀ) -->
   <rect x="30" y="295" width="70" height="45" rx="4" fill="#FCA5A5" stroke="#DC2626" stroke-width="1.5"/>
-  <text x="65" y="313" text-anchor="middle" font-size="9" font-weight="700" fill="#991B1B">S = QKᵀ</text>
+  <text x="65" y="313" text-anchor="middle" font-size="9" font-weight="700" fill="#901919">S = QKᵀ</text>
   <text x="65" y="326" text-anchor="middle" font-size="7" fill="#7F1D1D">N×N matrix</text>
   <text x="65" y="337" text-anchor="middle" font-size="7" fill="#7F1D1D">(O(N²) memory)</text>
 
   <!-- P matrix (softmax(S)) -->
   <rect x="115" y="295" width="70" height="45" rx="4" fill="#FCA5A5" stroke="#DC2626" stroke-width="1.5"/>
-  <text x="150" y="313" text-anchor="middle" font-size="9" font-weight="700" fill="#991B1B">P = softmax</text>
+  <text x="150" y="313" text-anchor="middle" font-size="9" font-weight="700" fill="#901919">P = softmax</text>
   <text x="150" y="326" text-anchor="middle" font-size="7" fill="#7F1D1D">N×N matrix</text>
   <text x="150" y="337" text-anchor="middle" font-size="7" fill="#7F1D1D">(O(N²) memory)</text>
 
@@ -140,24 +140,24 @@
 
   <!-- Round trip counter -->
   <rect x="20" y="130" width="130" height="55" rx="5" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
-  <text x="85" y="148" text-anchor="middle" font-size="9" font-weight="700" fill="#DC2626">HBM 왕복 횟수</text>
+  <text x="85" y="148" text-anchor="middle" font-size="9" font-weight="700" fill="#C82020">HBM 왕복 횟수</text>
   <text x="85" y="163" text-anchor="middle" font-size="22" font-weight="900" fill="#DC2626">4×</text>
   <text x="85" y="178" text-anchor="middle" font-size="8" fill="#991B1B">읽기+쓰기 반복</text>
 
   <!-- Complexity label -->
   <rect x="20" y="255" width="340" height="32" rx="4" fill="#FEE2E2" stroke="#DC2626" stroke-width="1"/>
-  <text x="190" y="268" text-anchor="middle" font-size="10" font-weight="700" fill="#DC2626">O(N²) HBM 접근 — N 증가 시 폭발적 증가</text>
+  <text x="190" y="268" text-anchor="middle" font-size="10" font-weight="700" fill="#C82020">O(N²) HBM 접근 — N 증가 시 폭발적 증가</text>
   <text x="190" y="282" text-anchor="middle" font-size="9" fill="#7F1D1D">N=4096 기준: ~67M 원소 × FP16 = ~128MB 매번 읽고 씀</text>
 
   <!-- ======================================= -->
   <!-- RIGHT SIDE: Flash Attention             -->
   <!-- ======================================= -->
-  <text x="600" y="60" text-anchor="middle" font-size="13" font-weight="700" fill="#00AA6C">Flash Attention</text>
+  <text x="600" y="60" text-anchor="middle" font-size="13" font-weight="700" fill="#00774C">Flash Attention</text>
   <text x="600" y="74" text-anchor="middle" font-size="9" fill="#555555">(Dao et al., 2022 / 2023)</text>
 
   <!-- GPU SM (SRAM) - larger, tiled blocks shown -->
   <rect x="420" y="80" width="350" height="130" rx="6" fill="#E8F8F1" stroke="#00AA6C" stroke-width="2.5" filter="url(#green-glow)"/>
-  <text x="595" y="98" text-anchor="middle" font-size="10" font-weight="700" fill="#00AA6C">GPU SM — SRAM (On-Chip)</text>
+  <text x="595" y="98" text-anchor="middle" font-size="10" font-weight="700" fill="#007C4F">GPU SM — SRAM (On-Chip)</text>
   <text x="595" y="112" text-anchor="middle" font-size="8" fill="#555555">~20MB · 수 ns 접근 시간</text>
 
   <!-- Tiled blocks inside SRAM -->
@@ -203,16 +203,16 @@
   <!-- HBM - right side -->
   <rect x="420" y="350" width="350" height="65" rx="6" fill="#1D4ED8" stroke="#001A3A" stroke-width="2"/>
   <text x="595" y="370" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">HBM (High Bandwidth Memory)</text>
-  <text x="595" y="385" text-anchor="middle" font-size="9" fill="#AACCFF">80 GB  ·  3.35 TB/s  (H100 SXM)</text>
-  <text x="595" y="398" text-anchor="middle" font-size="8" fill="#7799DD">Q, K, V 원본 저장  ·  최종 O만 기록</text>
-  <text x="595" y="410" text-anchor="middle" font-size="8" fill="#7799DD">HBM 접근: 타일 로드 + 결과 저장 = O(N)</text>
+  <text x="595" y="385" text-anchor="middle" font-size="9" fill="#BED8FF">80 GB  ·  3.35 TB/s  (H100 SXM)</text>
+  <text x="595" y="398" text-anchor="middle" font-size="8" fill="#CDD9F2">Q, K, V 원본 저장  ·  최종 O만 기록</text>
+  <text x="595" y="410" text-anchor="middle" font-size="8" fill="#CDD9F2">HBM 접근: 타일 로드 + 결과 저장 = O(N)</text>
 
   <!-- Flash Attention arrows -->
   <!-- Load Q,K,V tiles (1 time each, sequential tiles) -->
   <line x1="505" y1="349" x2="490" y2="212" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#arr-green)">
     <animate attributeName="opacity" values="0;1;1;0" dur="3s" begin="0.2s" repeatCount="indefinite"/>
   </line>
-  <rect x="420" y="270" width="95" height="16" rx="3" fill="#00AA6C">
+  <rect x="420" y="270" width="95" height="16" rx="3" fill="#008655">
     <animate attributeName="opacity" values="0;1;1;0" dur="3s" begin="0.2s" repeatCount="indefinite"/>
   </rect>
   <text x="467" y="282" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">
@@ -224,7 +224,7 @@
   <line x1="685" y1="212" x2="685" y2="349" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#arr-green)">
     <animate attributeName="opacity" values="0;0;1;1" dur="3s" begin="0.5s" repeatCount="indefinite"/>
   </line>
-  <rect x="625" y="270" width="95" height="16" rx="3" fill="#00AA6C">
+  <rect x="625" y="270" width="95" height="16" rx="3" fill="#008655">
     <animate attributeName="opacity" values="0;0;1;1" dur="3s" begin="0.5s" repeatCount="indefinite"/>
   </rect>
   <text x="672" y="282" text-anchor="middle" font-size="8" fill="#FFFFFF" font-weight="700">
@@ -234,8 +234,8 @@
 
   <!-- Round trip counter - right -->
   <rect x="420" y="255" width="115" height="65" rx="5" fill="#D1FAE5" stroke="#00AA6C" stroke-width="2"/>
-  <text x="477" y="273" text-anchor="middle" font-size="9" font-weight="700" fill="#00AA6C">HBM 왕복 횟수</text>
-  <text x="477" y="295" text-anchor="middle" font-size="22" font-weight="900" fill="#00AA6C">1×</text>
+  <text x="477" y="273" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">HBM 왕복 횟수</text>
+  <text x="477" y="295" text-anchor="middle" font-size="22" font-weight="900" fill="#009B62">1×</text>
   <text x="477" y="313" text-anchor="middle" font-size="8" fill="#065F46">최종 결과만 기록</text>
 
   <!-- Complexity label - right -->
@@ -247,5 +247,5 @@
   <text x="60" y="432" font-size="8" font-weight="700" fill="#555555">비교</text>
   <text x="60" y="443" font-size="8" fill="#DC2626">Standard: HBM 읽기/쓰기 O(N²)  ·  느림  ·  메모리 부족 (긴 시퀀스)</text>
   <text x="440" y="432" font-size="8" font-weight="700" fill="#555555">Flash:</text>
-  <text x="462" y="432" font-size="8" fill="#00AA6C">HBM 접근 O(N)  ·  2-4× 빠름  ·  긴 시퀀스(100K+) 지원 가능</text>
+  <text x="462" y="432" font-size="8" fill="#008655">HBM 접근 O(N)  ·  2-4× 빠름  ·  긴 시퀀스(100K+) 지원 가능</text>
 </svg>

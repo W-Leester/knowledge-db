@@ -6,7 +6,7 @@
   </defs>
   <rect width="900" height="520" fill="#FAF7F2"/>
   <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">macOS의 상응물 — Apple Events: "앱에게 명령 메시지를 보낸다"</text>
-  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">COM이 "객체를 노출"한다면, 맥은 "앱에게 높은 수준의 명령을 편지처럼 보낸다" — 발상이 다르다</text>
+  <text x="450" y="58" font-size="13" fill="#707070" text-anchor="middle">COM이 "객체를 노출"한다면, 맥은 "앱에게 높은 수준의 명령을 편지처럼 보낸다" — 발상이 다르다</text>
 
   <!-- 스크립트 언어 -->
   <rect x="30" y="86" width="220" height="330" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
@@ -35,17 +35,17 @@
   <text x="430" y="220" font-size="11" fill="#555555" text-anchor="middle">고수준 명령 메시지 (IPC)</text>
   <rect x="352" y="238" width="156" height="44" rx="8" fill="#FFFFFF"/>
   <text x="430" y="260" font-size="11" fill="#B45309" text-anchor="middle" font-weight="700">동사 + 명사</text>
-  <text x="430" y="276" font-size="9.5" fill="#8A8A8A" text-anchor="middle">"열어라(파일을)"</text>
+  <text x="430" y="276" font-size="9.5" fill="#737373" text-anchor="middle">"열어라(파일을)"</text>
   <text x="430" y="304" font-size="10.5" fill="#555555" text-anchor="middle">각 앱의 어휘(사전)는</text>
   <text x="430" y="322" font-size="10.5" fill="#555555" text-anchor="middle">.sdef에 정의</text>
-  <text x="430" y="340" font-size="9.5" fill="#8A8A8A" text-anchor="middle">(COM의 타입 라이브러리 격)</text>
+  <text x="430" y="340" font-size="9.5" fill="#6E6E6E" text-anchor="middle">(COM의 타입 라이브러리 격)</text>
 
   <!-- 대상 앱 -->
   <rect x="620" y="150" width="250" height="120" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
   <text x="745" y="180" font-size="14" font-weight="800" fill="#065F46" text-anchor="middle">대상 앱 (스크립트 가능)</text>
   <text x="745" y="204" font-size="11.5" fill="#555555" text-anchor="middle">Finder · Mail · Safari · Notes ·</text>
   <text x="745" y="224" font-size="11.5" fill="#555555" text-anchor="middle">Music · Keynote · Terminal…</text>
-  <text x="745" y="250" font-size="10.5" fill="#8A8A8A" text-anchor="middle">앱이 "스크립트 사전"을 제공해야 조종 가능</text>
+  <text x="745" y="250" font-size="10.5" fill="#6E6E6E" text-anchor="middle">앱이 "스크립트 사전"을 제공해야 조종 가능</text>
 
   <line x1="250" y1="255" x2="326" y2="240" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ea)"/>
   <line x1="530" y1="220" x2="616" y2="210" stroke="#003F8A" stroke-width="2.5" marker-end="url(#ea)"/>
@@ -55,11 +55,11 @@
   <text x="745" y="318" font-size="13" font-weight="800" fill="#6B21A8" text-anchor="middle">🖱 API 없는 앱이라면?</text>
   <text x="745" y="342" font-size="11" fill="#555555" text-anchor="middle">접근성 API (AXUIElement)로</text>
   <text x="745" y="360" font-size="11" fill="#555555" text-anchor="middle">버튼·필드를 직접 조작</text>
-  <text x="745" y="384" font-size="10.5" fill="#8A8A8A" text-anchor="middle">Windows의 UI Automation에 해당</text>
-  <text x="745" y="402" font-size="10.5" fill="#8A8A8A" text-anchor="middle">(GUI 강제 제어 — 최후 수단)</text>
+  <text x="745" y="384" font-size="10.5" fill="#696969" text-anchor="middle">Windows의 UI Automation에 해당</text>
+  <text x="745" y="402" font-size="10.5" fill="#696969" text-anchor="middle">(GUI 강제 제어 — 최후 수단)</text>
 
   <!-- 하단 권한 경고 -->
   <rect x="30" y="438" width="840" height="66" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.5"/>
-  <text x="52" y="466" font-size="13" font-weight="800" fill="#B45309">🔐 결정적 차이: macOS는 권한을 강하게 묻는다</text>
+  <text x="52" y="466" font-size="13" font-weight="800" fill="#AF5109">🔐 결정적 차이: macOS는 권한을 강하게 묻는다</text>
   <text x="52" y="490" font-size="11.5" fill="#555555">한 앱이 다른 앱을 제어하려 하면 "○○이 △△을 제어하려 합니다" 허용 창(TCC)이 뜬다. 접근성도 별도 권한 필요 — 보안이 기본값.</text>
 </svg>

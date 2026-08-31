@@ -15,9 +15,9 @@
   <text x="175" y="71" text-anchor="middle" class="era" fill="#FFFFFF">RDBMS 독주 시대 (1970~2005)</text>
 
   <rect x="318" y="50" width="230" height="34" fill="#E8962A" rx="6"/>
-  <text x="433" y="71" text-anchor="middle" class="era" fill="#FFFFFF">NoSQL 폭발기 (2006~2012)</text>
+  <text x="433" y="71" text-anchor="middle" class="era" fill="#3B3B3B">NoSQL 폭발기 (2006~2012)</text>
 
-  <rect x="556" y="50" width="204" height="34" fill="#00AA6C" rx="6"/>
+  <rect x="556" y="50" width="204" height="34" fill="#008655" rx="6"/>
   <text x="658" y="71" text-anchor="middle" class="era" fill="#FFFFFF">전문화·다양화 (2012~현재)</text>
 
   <!-- Main timeline axis -->
@@ -58,21 +58,21 @@
   <circle cx="345" cy="240" r="6" fill="#E8962A"/>
   <line x1="345" y1="234" x2="345" y2="130" stroke="#E8962A" stroke-width="1.2" stroke-dasharray="3,2"/>
   <rect x="308" y="98" width="88" height="36" fill="#FEF3E2" stroke="#E8962A" stroke-width="1" rx="4"/>
-  <text x="352" y="112" text-anchor="middle" class="year" fill="#B45309">2006</text>
+  <text x="352" y="112" text-anchor="middle" class="year" fill="#AF5109">2006</text>
   <text x="352" y="126" text-anchor="middle" class="event">Google Bigtable 논문</text>
 
   <!-- 2007 Dynamo -->
   <circle cx="400" cy="240" r="6" fill="#E8962A"/>
   <line x1="400" y1="234" x2="400" y2="185" stroke="#E8962A" stroke-width="1.2" stroke-dasharray="3,2"/>
   <rect x="356" y="152" width="94" height="36" fill="#FEF3E2" stroke="#E8962A" stroke-width="1" rx="4"/>
-  <text x="403" y="166" text-anchor="middle" class="year" fill="#B45309">2007</text>
+  <text x="403" y="166" text-anchor="middle" class="year" fill="#AF5109">2007</text>
   <text x="403" y="180" text-anchor="middle" class="event">Amazon Dynamo 논문</text>
 
   <!-- 2008-09 Cassandra / MongoDB / Redis -->
   <circle cx="470" cy="240" r="6" fill="#E8962A"/>
   <line x1="470" y1="234" x2="470" y2="130" stroke="#E8962A" stroke-width="1.2" stroke-dasharray="3,2"/>
   <rect x="415" y="86" width="112" height="48" fill="#FEF3E2" stroke="#E8962A" stroke-width="1" rx="4"/>
-  <text x="471" y="100" text-anchor="middle" class="year" fill="#B45309">2008~09</text>
+  <text x="471" y="100" text-anchor="middle" class="year" fill="#AF5109">2008~09</text>
   <text x="471" y="114" text-anchor="middle" class="event">Cassandra·MongoDB</text>
   <text x="471" y="128" text-anchor="middle" class="event">Redis·Neo4j 등장</text>
 

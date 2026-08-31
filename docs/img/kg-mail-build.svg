@@ -34,7 +34,7 @@
   <line x1="390" y1="225" x2="440" y2="345" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#kmb)"/>
   <line x1="390" y1="245" x2="440" y2="465" stroke="#1A5CB5" stroke-width="2.5" marker-end="url(#kmb)"/>
   <line x1="390" y1="265" x2="440" y2="580" stroke="#E8962A" stroke-width="2.5" marker-end="url(#kmb)"/>
-  <text x="404" y="320" font-size="10" font-weight="700" fill="#00AA6C">헤더</text>
+  <text x="404" y="320" font-size="10" font-weight="700" fill="#007C4F">헤더</text>
   <text x="404" y="440" font-size="10" font-weight="700" fill="#1A5CB5">본문</text>
   <text x="404" y="556" font-size="10" font-weight="700" fill="#B45309">본문(선택)</text>
 
@@ -56,16 +56,16 @@
 
   <!-- 갈래 C: LLM 추출 -->
   <rect x="444" y="552" width="256" height="106" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
-  <text x="572" y="578" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">④ LLM 추출 — 선택 사항</text>
+  <text x="572" y="578" font-size="12" font-weight="800" fill="#AF5109" text-anchor="middle">④ LLM 추출 — 선택 사항</text>
   <text x="572" y="600" font-size="10" fill="#555555" text-anchor="middle"><tspan font-weight="800">생성 LLM</tspan>이 본문에서 헤더에 없는 것을 추출:</text>
   <text x="572" y="618" font-size="10" fill="#555555" text-anchor="middle">언급된 프로젝트·금액·약속·조직</text>
-  <text x="572" y="638" font-size="9.5" font-weight="700" fill="#B45309" text-anchor="middle">온톨로지 규격에 맞춰서만 — 안 하면 생략 가능</text>
+  <text x="572" y="638" font-size="9.5" font-weight="700" fill="#AF5109" text-anchor="middle">온톨로지 규격에 맞춰서만 — 안 하면 생략 가능</text>
   <text x="572" y="652" font-size="9" fill="#666666" text-anchor="middle">(②의 공짜 그래프만으로도 많은 질문이 풀린다)</text>
 
   <!-- 저장소 -->
   <rect x="740" y="316" width="130 " height="342" rx="14" fill="#336791"/>
   <text x="805" y="344" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">🐘 저장</text>
-  <text x="805" y="368" font-size="9.5" fill="#CBDCF0" text-anchor="middle">(Postgres 한 채 가능)</text>
+  <text x="805" y="368" font-size="9.5" fill="#D7E4F3" text-anchor="middle">(Postgres 한 채 가능)</text>
   <rect x="752" y="382" width="106" height="56" rx="8" fill="#E6F7F1"/>
   <text x="805" y="404" font-size="9.5" font-weight="800" fill="#065F46" text-anchor="middle">그래프</text>
   <text x="805" y="420" font-size="8.5" fill="#555555" text-anchor="middle">AGE 또는 Neo4j</text>
@@ -73,12 +73,12 @@
   <text x="805" y="468" font-size="9.5" font-weight="800" fill="#002C5F" text-anchor="middle">벡터</text>
   <text x="805" y="484" font-size="8.5" fill="#555555" text-anchor="middle">pgvector</text>
   <rect x="752" y="510" width="106" height="56" rx="8" fill="#FEF3E2"/>
-  <text x="805" y="532" font-size="9.5" font-weight="800" fill="#B45309" text-anchor="middle">원문·메타</text>
+  <text x="805" y="532" font-size="9.5" font-weight="800" fill="#AF5109" text-anchor="middle">원문·메타</text>
   <text x="805" y="548" font-size="8.5" fill="#555555" text-anchor="middle">테이블 + JSONB</text>
-  <text x="805" y="590" font-size="9" fill="#CBDCF0" text-anchor="middle">한 백업 · 한 트랜잭션</text>
-  <text x="805" y="606" font-size="9" fill="#CBDCF0" text-anchor="middle">전부 JOIN 가능</text>
-  <text x="805" y="634" font-size="8.5" fill="#CBDCF0" text-anchor="middle">「PostgreSQL 해부」의</text>
-  <text x="805" y="648" font-size="8.5" fill="#CBDCF0" text-anchor="middle">그 구조 그대로</text>
+  <text x="805" y="590" font-size="9" fill="#D7E4F3" text-anchor="middle">한 백업 · 한 트랜잭션</text>
+  <text x="805" y="606" font-size="9" fill="#D7E4F3" text-anchor="middle">전부 JOIN 가능</text>
+  <text x="805" y="634" font-size="8.5" fill="#D7E4F3" text-anchor="middle">「PostgreSQL 해부」의</text>
+  <text x="805" y="648" font-size="8.5" fill="#D7E4F3" text-anchor="middle">그 구조 그대로</text>
 
   <line x1="700" y1="369" x2="736" y2="369" stroke="#00AA6C" stroke-width="2.2" marker-end="url(#kmb)"/>
   <line x1="700" y1="489" x2="736" y2="474" stroke="#1A5CB5" stroke-width="2.2" marker-end="url(#kmb)"/>

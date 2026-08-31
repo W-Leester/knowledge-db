@@ -19,7 +19,7 @@
   <text x="82" y="238" font-size="15" font-weight="800" fill="#B45309">BaaS — 백엔드 부품을 빌린다</text>
   <text x="82" y="262" font-size="11" fill="#555555">Supabase · Firebase — 인증·DB·스토리지·API가 부품으로 제공</text>
   <text x="82" y="282" font-size="11" fill="#555555">내가 신경 쓸 것: 내 앱 코드 + 부품 조립 (RLS·키 관리)</text>
-  <text x="82" y="301" font-size="10.5" font-weight="700" fill="#B45309">← 「데이터베이스」 §7·§9에서 배운 그 층</text>
+  <text x="82" y="301" font-size="10.5" font-weight="700" fill="#AF5109">← 「데이터베이스」 §7·§9에서 배운 그 층</text>
 
   <rect x="60" y="324" width="560" height="104" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
   <text x="82" y="354" font-size="15" font-weight="800" fill="#002C5F">PaaS — 실행 환경을 빌린다</text>
@@ -31,13 +31,13 @@
   <text x="82" y="470" font-size="15" font-weight="800" fill="#DC2626">IaaS — 서버(빈 방)를 빌린다</text>
   <text x="82" y="494" font-size="11" fill="#555555">AWS EC2 · 가상 서버 — OS 설치부터 보안 패치까지 전부 내 일</text>
   <text x="82" y="514" font-size="11" fill="#555555">내가 신경 쓸 것: OS·미들웨어·DB·백업·확장·장애 대응 전부</text>
-  <text x="82" y="533" font-size="10.5" font-weight="700" fill="#DC2626">← §9의 "직접 정비하는 트럭"이 사는 층</text>
+  <text x="82" y="533" font-size="10.5" font-weight="700" fill="#C82020">← §9의 "직접 정비하는 트럭"이 사는 층</text>
 
   <!-- 오른쪽 화살표: 책임 방향 -->
   <line x1="660" y1="120" x2="660" y2="520" stroke="#8A8478" stroke-width="2.5" marker-end="url(#sla)"/>
   <text x="682" y="140" font-size="11.5" font-weight="800" fill="#0F766E">내 책임 적음</text>
   <text x="682" y="160" font-size="10" fill="#666666">(대신 자유도·마진 낮음)</text>
-  <text x="682" y="500" font-size="11.5" font-weight="800" fill="#DC2626">내 책임 전부</text>
+  <text x="682" y="500" font-size="11.5" font-weight="800" fill="#DA2323">내 책임 전부</text>
   <text x="682" y="520" font-size="10" fill="#666666">(대신 자유도 최대)</text>
 
   <text x="770" y="300" font-size="11" fill="#555555" text-anchor="middle">비유: 호텔(SaaS)</text>

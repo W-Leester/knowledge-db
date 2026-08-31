@@ -213,10 +213,10 @@
   <text x="555" y="122" font-size="9" fill="#1A1A1A">r=0,c=1 / r=1,c=0</text>
   <!-- t=2 -->
   <rect x="512" y="134" width="36" height="20" rx="3" fill="#60A8E8" stroke="#002C5F" stroke-width="1"/>
-  <text x="530" y="148" font-size="9" fill="#FFFFFF" text-anchor="middle" font-weight="700">t=2</text>
+  <text x="530" y="148" font-size="9" fill="#383838" text-anchor="middle" font-weight="700">t=2</text>
   <text x="555" y="148" font-size="9" fill="#1A1A1A">r=0,c=2 / r=1,c=1 / r=2,c=0</text>
   <!-- t=3 -->
-  <rect x="512" y="160" width="36" height="20" rx="3" fill="#2C87D8" stroke="#002C5F" stroke-width="1"/>
+  <rect x="512" y="160" width="36" height="20" rx="3" fill="#2477C2" stroke="#002C5F" stroke-width="1"/>
   <text x="530" y="174" font-size="9" fill="#FFFFFF" text-anchor="middle" font-weight="700">t=3</text>
   <text x="555" y="174" font-size="9" fill="#1A1A1A">대각선 4개 PE 동시 활성</text>
 

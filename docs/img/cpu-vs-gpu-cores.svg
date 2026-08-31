@@ -102,7 +102,7 @@
 
   <!-- GPU chip outline -->
   <rect x="420" y="65" width="360" height="320" rx="8" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
-  <text x="600" y="82" text-anchor="middle" font-size="9" fill="#00AA6C" font-weight="700">GPU DIE — 10×20 = 200 CUDA Cores (representative)</text>
+  <text x="600" y="82" text-anchor="middle" font-size="9" fill="#008655" font-weight="700">GPU DIE — 10×20 = 200 CUDA Cores (representative)</text>
 
   <!-- 10×20 grid of tiny GPU cores with wave animation -->
   <!-- Each cell is 14×12 with 3px gap: total width=170×17=... let's do 16w+2gap=18 per cell, 20 cols = 360 - 40 margins -->

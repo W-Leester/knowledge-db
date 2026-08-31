@@ -6,7 +6,7 @@
   </defs>
   <rect width="900" height="680" fill="#FAF7F2"/>
   <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">무엇 위에 상주시키나 — 갈림길은 "LLM을 어디서 돌리느냐"</text>
-  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">하네스 자체는 깃털처럼 가볍다 — 무거워지는 건 로컬 LLM을 얹는 순간이다</text>
+  <text x="450" y="58" font-size="13" fill="#707070" text-anchor="middle">하네스 자체는 깃털처럼 가볍다 — 무거워지는 건 로컬 LLM을 얹는 순간이다</text>
 
   <!-- 분기점 -->
   <rect x="330" y="76" width="240" height="48" rx="24" fill="#0D1B2E"/>
@@ -36,7 +36,7 @@
   <text x="500" y="274" font-size="11.5" fill="#555555"><tspan font-weight="800" fill="#9F1239">32GB</tspan> 통합 → 30B급 MoE 쾌적 — 상주 비서 주력 가능</text>
   <text x="500" y="300" font-size="11.5" fill="#555555"><tspan font-weight="800" fill="#9F1239">24GB VRAM</tspan>(RTX 3090·4090) → 속도 최고, 전기·소음 부담</text>
   <text x="500" y="326" font-size="11.5" fill="#555555"><tspan font-weight="800" fill="#9F1239">48GB+</tspan> → 70B급·대형 MoE — 여기부턴 취미가 아니라 장비</text>
-  <text x="500" y="346" font-size="10" fill="#8A8A8A">양자화(Q4) 기준 개략치 — 컨텍스트 길이만큼 메모리가 더 든다</text>
+  <text x="500" y="346" font-size="10" fill="#737373">양자화(Q4) 기준 개략치 — 컨텍스트 길이만큼 메모리가 더 든다</text>
 
   <!-- 맥미니 하이라이트 -->
   <rect x="30" y="400" width="840" height="164" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
@@ -52,7 +52,7 @@
   <rect x="60" y="612" width="90" height="22" rx="6" fill="#E6F7F1"/><text x="105" y="627" font-size="10.5" font-weight="700" fill="#065F46" text-anchor="middle">파이 ~3W</text>
   <rect x="160" y="612" width="110" height="22" rx="6" fill="#E6F7F1"/><text x="215" y="627" font-size="10.5" font-weight="700" fill="#065F46" text-anchor="middle">맥미니 idle ~4W</text>
   <rect x="280" y="612" width="100" height="22" rx="6" fill="#E6F7F1"/><text x="330" y="627" font-size="10.5" font-weight="700" fill="#065F46" text-anchor="middle">N100 ~6W</text>
-  <rect x="390" y="612" width="170" height="22" rx="6" fill="#FEF3E2"/><text x="475" y="627" font-size="10.5" font-weight="700" fill="#B45309" text-anchor="middle">일반 데스크톱 idle 40~60W</text>
-  <rect x="570" y="612" width="270" height="22" rx="6" fill="#FEE2E2"/><text x="705" y="627" font-size="10.5" font-weight="700" fill="#DC2626" text-anchor="middle">GPU 데스크톱 idle 60W+ · 추론 시 300W+</text>
-  <text x="450" y="662" font-size="11" fill="#8A8A8A" text-anchor="middle">같은 "상주"라도 연간 전기료가 수만 원 vs 수십만 원으로 갈린다 — 상시 가동 기기는 idle 전력이 스펙이다</text>
+  <rect x="390" y="612" width="170" height="22" rx="6" fill="#FEF3E2"/><text x="475" y="627" font-size="10.5" font-weight="700" fill="#AF5109" text-anchor="middle">일반 데스크톱 idle 40~60W</text>
+  <rect x="570" y="612" width="270" height="22" rx="6" fill="#FEE2E2"/><text x="705" y="627" font-size="10.5" font-weight="700" fill="#C82020" text-anchor="middle">GPU 데스크톱 idle 60W+ · 추론 시 300W+</text>
+  <text x="450" y="662" font-size="11" fill="#707070" text-anchor="middle">같은 "상주"라도 연간 전기료가 수만 원 vs 수십만 원으로 갈린다 — 상시 가동 기기는 idle 전력이 스펙이다</text>
 </svg>

@@ -20,9 +20,9 @@
   <text x="120" y="146" text-anchor="middle" font-size="8.5" fill="#E8EEF7">Origin Server</text>
 
   <!-- edge servers -->
-  <rect x="290" y="76" width="92" height="46" fill="#00AA6C" rx="6"/>
-  <text x="336" y="94" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">서울 엣지</text>
-  <text x="336" y="110" text-anchor="middle" font-size="7.5" fill="#E6F7F1">복사본 보유 ✓</text>
+  <rect x="290" y="76" width="92" height="46" fill="#008655" rx="6"/>
+  <text x="336" y="94" text-anchor="middle" font-size="9" fill="#FFFFFF" font-weight="700">서울 엣지</text>
+  <text x="336" y="110" text-anchor="middle" font-size="7.5" fill="#FFFFFF">복사본 보유 ✓</text>
 
   <rect x="290" y="132" width="92" height="42" fill="#1A5CB5" rx="6"/>
   <text x="336" y="149" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">도쿄 엣지</text>
@@ -32,14 +32,14 @@
   <text x="336" y="201" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">런던 엣지</text>
   <text x="336" y="216" text-anchor="middle" font-size="7.5" fill="#E8EEF7">복사본 보유 ✓</text>
 
-  <rect x="290" y="236" width="92" height="34" fill="#5B8DD9" rx="6"/>
-  <text x="336" y="257" text-anchor="middle" font-size="8.5" fill="#FFF" font-weight="700">상파울루 … 등</text>
+  <rect x="290" y="236" width="92" height="34" fill="#3673D0" rx="6"/>
+  <text x="336" y="257" text-anchor="middle" font-size="8.5" fill="#FFFFFF" font-weight="700">상파울루 … 등</text>
 
   <!-- copy arrows origin -> edges -->
   <line x1="182" y1="108" x2="286" y2="98" stroke="#8A8A8A" stroke-width="1.3" stroke-dasharray="4,3"/>
   <line x1="182" y1="122" x2="286" y2="150" stroke="#8A8A8A" stroke-width="1.3" stroke-dasharray="4,3"/>
   <line x1="182" y1="136" x2="286" y2="202" stroke="#8A8A8A" stroke-width="1.3" stroke-dasharray="4,3"/>
-  <text x="226" y="90" font-size="8.5" fill="#8A8A8A">미리 복사 (캐싱)</text>
+  <text x="226" y="90" font-size="8.5" fill="#737373">미리 복사 (캐싱)</text>
 
   <!-- user -->
   <rect x="530" y="80" width="110" height="52" fill="#1A1A1A" rx="6"/>
@@ -55,7 +55,7 @@
   <!-- slow path: user to origin (crossed out) -->
   <path d="M 585 134 Q 500 250 184 165" fill="none" stroke="#DC2626" stroke-width="2" stroke-dasharray="7,4"/>
   <rect x="430" y="218" width="188" height="20" fill="#FEE2E2" stroke="#DC2626" rx="10"/>
-  <text x="524" y="232" text-anchor="middle" font-size="9.5" fill="#DC2626" font-weight="700">태평양 왕복 ~200ms — 이 경로를 차단</text>
+  <text x="524" y="232" text-anchor="middle" font-size="9.5" fill="#C82020" font-weight="700">태평양 왕복 ~200ms — 이 경로를 차단</text>
 
   <!-- analogy -->
   <rect x="655" y="150" width="106" height="120" fill="#FAF7F2" stroke="#D5CFBF" rx="6"/>
@@ -80,18 +80,18 @@
 
   <!-- private -->
   <rect x="284" y="334" width="222" height="98" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="6"/>
-  <text x="395" y="354" text-anchor="middle" font-size="10.5" fill="#DC2626" font-weight="700">🔒 Private</text>
+  <text x="395" y="354" text-anchor="middle" font-size="10.5" fill="#C82020" font-weight="700">🔒 Private</text>
   <text x="395" y="374" text-anchor="middle" font-size="9" fill="#555">URL을 알아도 접근 불가</text>
   <text x="395" y="392" text-anchor="middle" font-size="9" fill="#555">예: 개인 사진, 결제 영수증,</text>
   <text x="395" y="406" text-anchor="middle" font-size="9" fill="#555">회사 기밀 문서</text>
 
   <!-- presigned -->
   <rect x="522" y="334" width="232" height="98" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.5" rx="6"/>
-  <text x="638" y="354" text-anchor="middle" font-size="10.5" fill="#B45309" font-weight="700">🎟 Presigned URL (임시 서명)</text>
+  <text x="638" y="354" text-anchor="middle" font-size="10.5" fill="#AF5109" font-weight="700">🎟 Presigned URL (임시 서명)</text>
   <text x="638" y="372" text-anchor="middle" font-size="8.5" fill="#555">서버가 "이 사람은 권한 있음"이라고</text>
   <text x="638" y="385" text-anchor="middle" font-size="8.5" fill="#555">서명한 <tspan font-weight="700" fill="#B45309">시간제한 임시 URL</tspan> 발급</text>
-  <text x="638" y="403" text-anchor="middle" font-size="8" fill="#8A8A8A" class="mono">...profile.jpg?expires=600&amp;sig=a1b2</text>
-  <text x="638" y="420" text-anchor="middle" font-size="8.5" fill="#DC2626" font-weight="600">10분 뒤 만료 — 영화표처럼 그 시간에만 유효</text>
+  <text x="638" y="403" text-anchor="middle" font-size="8" fill="#6E6E6E" class="mono">...profile.jpg?expires=600&amp;sig=a1b2</text>
+  <text x="638" y="420" text-anchor="middle" font-size="8.5" fill="#D52222" font-weight="600">10분 뒤 만료 — 영화표처럼 그 시간에만 유효</text>
 
   <!-- bottom line -->
   <text x="400" y="468" text-anchor="middle" font-size="11" fill="#002C5F" font-weight="700">현대 스토리지 = 저장(S3) + 전달(CDN) + 접근 제어(권한·서명)가 하나의 시스템으로 설계된다</text>

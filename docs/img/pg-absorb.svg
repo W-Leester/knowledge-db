@@ -11,9 +11,9 @@
   <!-- 중앙 PG -->
   <rect x="330" y="270" width="240" height="120" rx="16" fill="#336791"/>
   <text x="450" y="310" font-size="16" font-weight="800" fill="#FFF" text-anchor="middle">🐘 PostgreSQL</text>
-  <text x="450" y="334" font-size="10.5" fill="#CBDCF0" text-anchor="middle">+ 확장 카트리지들</text>
-  <text x="450" y="356" font-size="10" fill="#CBDCF0" text-anchor="middle">한 DB · 한 백업 · 한 트랜잭션</text>
-  <text x="450" y="374" font-size="10" fill="#CBDCF0" text-anchor="middle">JOIN으로 전부 이어진다</text>
+  <text x="450" y="334" font-size="10.5" fill="#D7E4F3" text-anchor="middle">+ 확장 카트리지들</text>
+  <text x="450" y="356" font-size="10" fill="#D7E4F3" text-anchor="middle">한 DB · 한 백업 · 한 트랜잭션</text>
+  <text x="450" y="374" font-size="10" fill="#D7E4F3" text-anchor="middle">JOIN으로 전부 이어진다</text>
 
   <!-- 흡수 대상들 -->
   <rect x="60" y="90" width="220" height="96" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>
@@ -38,31 +38,31 @@
   <line x1="240" y1="300" x2="326" y2="316" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#pga)"/>
 
   <rect x="660" y="240" width="200" height="96" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
-  <text x="760" y="264" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">⏱ 시계열 DB</text>
+  <text x="760" y="264" font-size="12" font-weight="800" fill="#AF5109" text-anchor="middle">⏱ 시계열 DB</text>
   <text x="760" y="286" font-size="10" fill="#555555" text-anchor="middle">→ <tspan class="mono" font-weight="700">TimescaleDB</tspan></text>
   <text x="760" y="304" font-size="10" fill="#555555" text-anchor="middle">센서·지표 데이터 압축·집계</text>
-  <text x="760" y="324" font-size="9.5" font-weight="700" fill="#B45309" text-anchor="middle">🟡 대규모 IoT는 전문 DB 고려</text>
+  <text x="760" y="324" font-size="9.5" font-weight="700" fill="#AF5109" text-anchor="middle">🟡 대규모 IoT는 전문 DB 고려</text>
   <line x1="660" y1="300" x2="574" y2="316" stroke="#E8962A" stroke-width="2.5" marker-end="url(#pga)"/>
 
   <rect x="60" y="400" width="220" height="96" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
-  <text x="170" y="424" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">🔎 Elasticsearch (검색)</text>
+  <text x="170" y="424" font-size="12" font-weight="800" fill="#AF5109" text-anchor="middle">🔎 Elasticsearch (검색)</text>
   <text x="170" y="446" font-size="10" fill="#555555" text-anchor="middle">→ 전문 검색(FTS) 내장 + 확장</text>
   <text x="170" y="464" font-size="10" fill="#555555" text-anchor="middle">중소 규모 검색은 충분</text>
-  <text x="170" y="484" font-size="9.5" font-weight="700" fill="#B45309" text-anchor="middle">🟡 랭킹·대규모·한국어 형태소는 전문</text>
+  <text x="170" y="484" font-size="9.5" font-weight="700" fill="#AF5109" text-anchor="middle">🟡 랭킹·대규모·한국어 형태소는 전문</text>
   <line x1="280" y1="430" x2="356" y2="386" stroke="#E8962A" stroke-width="2.5" marker-end="url(#pga)"/>
 
   <rect x="620" y="400" width="220" height="96" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
-  <text x="730" y="424" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">📨 작업 큐 · 스케줄러</text>
+  <text x="730" y="424" font-size="12" font-weight="800" fill="#AF5109" text-anchor="middle">📨 작업 큐 · 스케줄러</text>
   <text x="730" y="446" font-size="10" fill="#555555" text-anchor="middle">→ <tspan class="mono" font-weight="700">pg_cron</tspan> · SKIP LOCKED 패턴</text>
   <text x="730" y="464" font-size="10" fill="#555555" text-anchor="middle">가벼운 큐는 테이블로 충분</text>
-  <text x="730" y="484" font-size="9.5" font-weight="700" fill="#B45309" text-anchor="middle">🟡 대량 실시간이면 전용 큐로</text>
+  <text x="730" y="484" font-size="9.5" font-weight="700" fill="#AF5109" text-anchor="middle">🟡 대량 실시간이면 전용 큐로</text>
   <line x1="620" y1="430" x2="544" y2="386" stroke="#E8962A" stroke-width="2.5" marker-end="url(#pga)"/>
 
   <rect x="340" y="480" width="220" height="96" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
-  <text x="450" y="504" font-size="12" font-weight="800" fill="#DC2626" text-anchor="middle">⚡ Redis (캐시)</text>
+  <text x="450" y="504" font-size="12" font-weight="800" fill="#C82020" text-anchor="middle">⚡ Redis (캐시)</text>
   <text x="450" y="526" font-size="10" fill="#555555" text-anchor="middle">UNLOGGED 테이블 등 흉내는 있지만</text>
   <text x="450" y="544" font-size="10" fill="#555555" text-anchor="middle">인메모리의 속도는 구조적으로 다르다</text>
-  <text x="450" y="564" font-size="9.5" font-weight="700" fill="#DC2626" text-anchor="middle">🔴 흡수 대상이 아니다 — 곁들이는 것 (§3-1)</text>
+  <text x="450" y="564" font-size="9.5" font-weight="700" fill="#C82020" text-anchor="middle">🔴 흡수 대상이 아니다 — 곁들이는 것 (§3-1)</text>
   <line x1="450" y1="480" x2="450" y2="394" stroke="#DC2626" stroke-width="2" stroke-dasharray="5 4"/>
 
   <!-- 하단 -->

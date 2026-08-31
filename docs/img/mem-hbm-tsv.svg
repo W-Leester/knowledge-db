@@ -21,7 +21,7 @@
   <line x1="28" y1="65" x2="28" y2="375" stroke="#E8962A" stroke-width="1.5"/>
   <line x1="24" y1="65" x2="32" y2="65" stroke="#E8962A" stroke-width="1.5"/>
   <line x1="24" y1="375" x2="32" y2="375" stroke="#E8962A" stroke-width="1.5"/>
-  <text x="22" y="220" text-anchor="middle" font-size="10" fill="#E8962A" font-weight="600" transform="rotate(-90,22,220)">약 720μm (HBM3e 8-Hi)</text>
+  <text x="22" y="220" text-anchor="middle" font-size="10" fill="#A46512" font-weight="600" transform="rotate(-90,22,220)">약 720μm (HBM3e 8-Hi)</text>
 
   <!-- Silicon Interposer (bottom, widest) -->
   <rect x="40" y="370" width="480" height="30" fill="#8B4513" rx="3"/>
@@ -30,7 +30,7 @@
 
   <!-- Base Die (logic die) -->
   <rect x="60" y="343" width="440" height="25" fill="#6B3FA0" rx="2"/>
-  <text x="280" y="360" text-anchor="middle" font-size="10" fill="#FFFFFF" font-weight="600">Base Die (로직 다이) — 메모리 컨트롤러 내장</text>
+  <text x="280" y="360" text-anchor="middle" font-size="10" fill="#5C5C5C" font-weight="600">Base Die (로직 다이) — 메모리 컨트롤러 내장</text>
 
   <!-- 8 DRAM Core Dies -->
   <!-- Die colors alternating slightly -->
@@ -150,7 +150,7 @@
   <!-- Callout labels on right side of diagram -->
   <!-- TSV callout -->
   <line x1="443" y1="220" x2="485" y2="220" stroke="#D4AF37" stroke-width="1" stroke-dasharray="3,2"/>
-  <text x="488" y="217" class="label" fill="#D4AF37" font-weight="600">TSV (Through Silicon Via)</text>
+  <text x="488" y="217" class="label" fill="#8C721E" font-weight="600">TSV (Through Silicon Via)</text>
   <text x="488" y="229" class="label-small">관통 전극 — 다이 간 직통 연결</text>
 
   <!-- Micro bump callout -->
@@ -179,7 +179,7 @@
 
   <!-- GDDR6X chip footprint -->
   <rect x="685" y="90" width="90" height="50" fill="#FFF0D0" stroke="#E8962A" stroke-width="2" rx="4"/>
-  <text x="730" y="113" text-anchor="middle" font-size="10" fill="#E8962A" font-weight="700">GDDR6X</text>
+  <text x="730" y="113" text-anchor="middle" font-size="10" fill="#975D10" font-weight="700">GDDR6X</text>
   <text x="730" y="127" text-anchor="middle" font-size="9" fill="#555555">~67mm²</text>
 
   <text x="675" y="160" text-anchor="middle" font-size="10" fill="#002C5F" font-weight="600">HBM: 작은 면적,</text>
@@ -192,27 +192,27 @@
   <!-- Row: BW -->
   <text x="578" y="220" font-size="10" fill="#555555" font-weight="600">대역폭:</text>
   <text x="578" y="234" font-size="10" fill="#002C5F">HBM3e: 9.8 TB/s/stack</text>
-  <text x="578" y="248" font-size="10" fill="#E8962A">GDDR7: ~112 GB/s/chip</text>
+  <text x="578" y="248" font-size="10" fill="#A06211">GDDR7: ~112 GB/s/chip</text>
 
   <line x1="578" y1="255" x2="772" y2="255" stroke="#D5CFBF" stroke-width="0.5"/>
 
   <!-- Row: Pins -->
   <text x="578" y="270" font-size="10" fill="#555555" font-weight="600">핀 수:</text>
   <text x="578" y="284" font-size="10" fill="#002C5F">HBM3e: 1024-bit</text>
-  <text x="578" y="298" font-size="10" fill="#E8962A">GDDR7: 16-bit × 칩당</text>
+  <text x="578" y="298" font-size="10" fill="#A06211">GDDR7: 16-bit × 칩당</text>
 
   <line x1="578" y1="305" x2="772" y2="305" stroke="#D5CFBF" stroke-width="0.5"/>
 
   <!-- Row: Voltage -->
   <text x="578" y="320" font-size="10" fill="#555555" font-weight="600">전압:</text>
   <text x="578" y="334" font-size="10" fill="#002C5F">HBM3e: 1.1V</text>
-  <text x="578" y="348" font-size="10" fill="#E8962A">GDDR7: 1.1V</text>
+  <text x="578" y="348" font-size="10" fill="#A06211">GDDR7: 1.1V</text>
 
   <line x1="578" y1="355" x2="772" y2="355" stroke="#D5CFBF" stroke-width="0.5"/>
 
   <!-- Where used -->
-  <text x="578" y="370" font-size="9" fill="#555555" font-weight="600">사용처:</text>
-  <text x="578" y="382" font-size="9" fill="#002C5F">HBM: H100, A100, MI300X</text>
+  <text x="578" y="370" font-size="9" fill="#979797" font-weight="600">사용처:</text>
+  <text x="578" y="382" font-size="9" fill="#4099FF">HBM: H100, A100, MI300X</text>
   <text x="578" y="394" font-size="9" fill="#E8962A">GDDR7: RTX 5090, RX 9070</text>
 
   <!-- Bottom note in right panel -->

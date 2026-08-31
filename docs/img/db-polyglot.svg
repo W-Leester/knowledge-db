@@ -84,5 +84,5 @@
   <!-- Bottom note -->
   <rect x="45" y="450" width="710" height="1" fill="none"/>
   <text x="400" y="463" text-anchor="middle" font-size="11" fill="#002C5F" font-weight="700">핵심 철학: "만능 DB는 없다" — 데이터의 성격(정합성·속도·규모·형태)에 따라 최적의 저장소를 조합한다</text>
-  <text x="400" y="477" text-anchor="middle" font-size="9.5" fill="#8A8A8A">점선 = CDC(Change Data Capture)·Kafka 등으로 원본(MySQL) 변경사항을 다른 저장소에 동기화</text>
+  <text x="400" y="477" text-anchor="middle" font-size="9.5" fill="#696969">점선 = CDC(Change Data Capture)·Kafka 등으로 원본(MySQL) 변경사항을 다른 저장소에 동기화</text>
 </svg>

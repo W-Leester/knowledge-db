@@ -6,7 +6,7 @@
   </defs>
   <rect width="900" height="620" fill="#FAF7F2"/>
   <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">llama.cpp 연동 — 하네스 요소를 서버 기능에 직접 매핑</text>
-  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">서비스 계층의 "API 호출"만 llama-server로 바꾸면, 오케스트레이션은 그대로 재사용된다</text>
+  <text x="450" y="58" font-size="13" fill="#707070" text-anchor="middle">서비스 계층의 "API 호출"만 llama-server로 바꾸면, 오케스트레이션은 그대로 재사용된다</text>
 
   <!-- 왼쪽: 하네스 요소 -->
   <rect x="30" y="80" width="240" height="500" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
@@ -31,7 +31,7 @@
     <text x="150" y="446" text-anchor="middle" font-weight="700" fill="#B45309">컨텍스트 창 크기 (§5)</text>
     <text x="150" y="464" text-anchor="middle" font-size="10.5">유효창 계산의 기준값</text>
     <rect x="48" y="484" width="204" height="76" rx="8" fill="#FEE2E2"/>
-    <text x="150" y="508" text-anchor="middle" font-weight="800" fill="#DC2626">약한 로컬 모델 보완 (§10)</text>
+    <text x="150" y="508" text-anchor="middle" font-weight="800" fill="#C82020">약한 로컬 모델 보완 (§10)</text>
     <text x="150" y="528" text-anchor="middle" font-size="10.5">형식 안 지키는 문제를</text>
     <text x="150" y="544" text-anchor="middle" font-size="10.5">"파서 레벨 가드"로</text>
   </g>

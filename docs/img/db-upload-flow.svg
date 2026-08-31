@@ -11,7 +11,7 @@
   <text x="400" y="26" text-anchor="middle" class="title">실전 — 인스타그램에 사진 한 장이 올라가는 전체 여정</text>
 
   <!-- ═══ Upload phase (top row) ═══ -->
-  <text x="46" y="58" font-size="11.5" fill="#B45309" font-weight="700">📤 업로드 단계</text>
+  <text x="46" y="58" font-size="11.5" fill="#AA4F09" font-weight="700">📤 업로드 단계</text>
 
   <!-- 1 user phone -->
   <rect x="40" y="70" width="130" height="76" fill="#1A1A1A" rx="8"/>
@@ -40,8 +40,8 @@
   <circle cx="410" cy="88" r="9" fill="#002C5F"/>
   <text x="410" y="92" text-anchor="middle" class="step-num">3</text>
   <text x="439" y="93" text-anchor="middle" class="box-title">🪣 S3 스토리지</text>
-  <text x="457" y="110" text-anchor="middle" font-size="8.5" fill="#FEF3E2">파일 저장 + 복제</text>
-  <text x="457" y="123" text-anchor="middle" font-size="8.5" fill="#FEF3E2">(원본은 여기!)</text>
+  <text x="457" y="110" text-anchor="middle" font-size="8.5" fill="#543403">파일 저장 + 복제</text>
+  <text x="457" y="123" text-anchor="middle" font-size="8.5" fill="#543403">(원본은 여기!)</text>
 
   <line x1="524" y1="108" x2="560" y2="108" stroke="#002C5F" stroke-width="2.5"/>
   <polygon points="564,108 554,103 554,113" fill="#002C5F"/>
@@ -68,10 +68,10 @@
 
   <!-- KEY principle box -->
   <rect x="46" y="176" width="350" height="86" fill="#FEE2E2" stroke="#DC2626" stroke-width="2" rx="8"/>
-  <text x="221" y="200" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="800">⚠ 철칙: 파일은 DB에 절대 넣지 않는다</text>
+  <text x="221" y="200" text-anchor="middle" font-size="12" fill="#C82020" font-weight="800">⚠ 철칙: 파일은 DB에 절대 넣지 않는다</text>
   <text x="221" y="221" text-anchor="middle" font-size="9.5" fill="#555">DB는 텍스트·숫자·짧은 주소에 최적화된 도구.</text>
   <text x="221" y="236" text-anchor="middle" font-size="9.5" fill="#555">무거운 바이너리를 넣으면 들어는 가지만 전체가 느려진다.</text>
-  <text x="221" y="253" text-anchor="middle" font-size="9.5" fill="#DC2626" font-weight="700">파일 → 스토리지에 / DB → 파일의 "위치(URL)"만</text>
+  <text x="221" y="253" text-anchor="middle" font-size="9.5" fill="#C82020" font-weight="700">파일 → 스토리지에 / DB → 파일의 "위치(URL)"만</text>
 
   <!-- ═══ View phase (bottom row) ═══ -->
   <text x="46" y="296" font-size="11.5" fill="#065F46" font-weight="700">📥 조회 단계 (다른 사용자가 게시물을 볼 때)</text>
@@ -88,12 +88,12 @@
   <polygon points="282,346 272,341 272,351" fill="#00AA6C"/>
 
   <!-- 7 -->
-  <rect x="286" y="308" width="230" height="76" fill="#00AA6C" rx="8"/>
+  <rect x="286" y="308" width="230" height="76" fill="#008655" rx="8"/>
   <circle cx="304" cy="326" r="9" fill="#002C5F"/>
   <text x="304" y="330" text-anchor="middle" class="step-num">7</text>
   <text x="401" y="330" text-anchor="middle" class="box-title">화면이 URL로 이미지 요청 →</text>
-  <text x="401" y="348" text-anchor="middle" font-size="8.5" fill="#E6F7F1">CDN이 가장 가까운 엣지 서버에서</text>
-  <text x="401" y="361" text-anchor="middle" font-size="8.5" fill="#E6F7F1">이미지를 즉시 전달 ⚡</text>
+  <text x="401" y="348" text-anchor="middle" font-size="8.5" fill="#FFFFFF">CDN이 가장 가까운 엣지 서버에서</text>
+  <text x="401" y="361" text-anchor="middle" font-size="8.5" fill="#FFFFFF">이미지를 즉시 전달 ⚡</text>
 
   <line x1="518" y1="346" x2="554" y2="346" stroke="#00AA6C" stroke-width="2.5"/>
   <polygon points="558,346 548,341 548,351" fill="#00AA6C"/>

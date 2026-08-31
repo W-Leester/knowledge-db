@@ -21,9 +21,9 @@
 
   <line x1="290" y1="107" x2="200" y2="107" stroke="#DC2626" stroke-width="2.5"/>
   <line x1="200" y1="107" x2="200" y2="152" stroke="#DC2626" stroke-width="2.5" marker-end="url(#dtr)"/>
-  <text x="243" y="98" font-size="11" font-weight="800" fill="#DC2626" text-anchor="middle">예</text>
+  <text x="243" y="98" font-size="11" font-weight="800" fill="#DA2323" text-anchor="middle">예</text>
   <rect x="60" y="156" width="280" height="56" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
-  <text x="200" y="180" font-size="12" font-weight="800" fill="#DC2626" text-anchor="middle">🚫 구글 시트·노션은 여기서 탈락</text>
+  <text x="200" y="180" font-size="12" font-weight="800" fill="#C82020" text-anchor="middle">🚫 구글 시트·노션은 여기서 탈락</text>
   <text x="200" y="199" font-size="10" fill="#555555" text-anchor="middle">→ Q2로 (제대로 된 DB 중에서 고른다)</text>
 
   <line x1="450" y1="134" x2="450" y2="238" stroke="#003F8A" stroke-width="2.5" marker-end="url(#dta)"/>
@@ -86,15 +86,15 @@
   <line x1="450" y1="468" x2="450" y2="500" stroke="#003F8A" stroke-width="2.2" marker-end="url(#dta)"/>
   <text x="410" y="490" font-size="10" font-weight="700" fill="#B45309">예 · 잘 모르겠다</text>
   <rect x="330" y="504" width="212" height="86" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
-  <text x="436" y="528" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">Supabase ★ 기본값</text>
+  <text x="436" y="528" font-size="12.5" font-weight="800" fill="#AF5109" text-anchor="middle">Supabase ★ 기본값</text>
   <text x="436" y="548" font-size="9.5" fill="#555555" text-anchor="middle">Postgres + 인증 + API + 실시간</text>
   <text x="436" y="566" font-size="9.5" fill="#555555" text-anchor="middle">SQL·관계 설계 자유 · 이사도 쉽다</text>
   <text x="436" y="582" font-size="9.5" fill="#666666" text-anchor="middle">→ RLS·키 학습 필요 (§9-D)</text>
 
   <line x1="650" y1="468" x2="650" y2="500" stroke="#DC2626" stroke-width="2.2" marker-end="url(#dtr)"/>
-  <text x="700" y="490" font-size="10" font-weight="700" fill="#DC2626">아니오 + 모바일 우선</text>
+  <text x="700" y="490" font-size="10" font-weight="700" fill="#DA2323">아니오 + 모바일 우선</text>
   <rect x="554" y="504" width="212" height="86" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
-  <text x="660" y="528" font-size="12.5" font-weight="800" fill="#DC2626" text-anchor="middle">🔥 Firebase</text>
+  <text x="660" y="528" font-size="12.5" font-weight="800" fill="#C82020" text-anchor="middle">🔥 Firebase</text>
   <text x="660" y="548" font-size="9.5" fill="#555555" text-anchor="middle">NoSQL · 모바일 SDK·오프라인 강세</text>
   <text x="660" y="566" font-size="9.5" fill="#555555" text-anchor="middle">설정 최소 — 가장 빠른 출발</text>
   <text x="660" y="582" font-size="9.5" fill="#991B1B" text-anchor="middle">→ 관계형으로 이사는 재설계급 (§9-C)</text>
@@ -103,7 +103,7 @@
   <rect x="30" y="608" width="840" height="94" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
   <text x="450" y="632" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">트리 밖의 특수 케이스 — 메인 DB에 "곁들이는" 것들</text>
   <rect x="52" y="644" width="188" height="44" rx="9" fill="#FEE2E2"/>
-  <text x="146" y="662" font-size="10.5" font-weight="800" fill="#DC2626" text-anchor="middle">캐시·세션·랭킹</text>
+  <text x="146" y="662" font-size="10.5" font-weight="800" fill="#C82020" text-anchor="middle">캐시·세션·랭킹</text>
   <text x="146" y="679" font-size="9.5" fill="#555555" text-anchor="middle">→ Redis (§3-1)</text>
   <rect x="252" y="644" width="188" height="44" rx="9" fill="#F3E8FF"/>
   <text x="346" y="662" font-size="10.5" font-weight="800" fill="#6B21A8" text-anchor="middle">구조가 자주 바뀌는 데이터</text>

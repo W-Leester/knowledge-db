@@ -23,7 +23,7 @@
 
   <!-- 48-64 -->
   <rect x="30" y="350" width="840" height="76" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
-  <text x="52" y="376" font-size="13" font-weight="800" fill="#B45309">⚙️ 48~64GB (맥 64GB·듀얼 GPU)</text>
+  <text x="52" y="376" font-size="13" font-weight="800" fill="#AF5109">⚙️ 48~64GB (맥 64GB·듀얼 GPU)</text>
   <text x="52" y="400" font-size="11.5" fill="#555555"><tspan font-weight="800" fill="#B45309">Qwen 3.6 27B 8bit + 풀컨텍스트</tspan> · <tspan font-weight="800" fill="#B45309">35B-A3B</tspan>(빠른 왕복) · Qwen3-Coder-Next(64GB 정조준) · Gemma 4 26B-A4B</text>
   <text x="52" y="418" font-size="10.5" fill="#666666">"모델을 키우는" 구간이 아니라 "품질 타협을 없애는" 구간 — 8bit·긴 컨텍스트·둘째 모델의 여유</text>
 

@@ -16,7 +16,7 @@
   <text x="132" y="172" font-size="9" fill="#666666" text-anchor="middle">단계 ①② 주역</text>
 
   <rect x="248" y="80" width="205" height="108" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
-  <text x="350" y="108" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">⌨️ 코드 생성기</text>
+  <text x="350" y="108" font-size="12.5" font-weight="800" fill="#AF5109" text-anchor="middle">⌨️ 코드 생성기</text>
   <text x="350" y="130" font-size="10" fill="#555555" text-anchor="middle">스펙 → 구현. 가장 유명하지만</text>
   <text x="350" y="148" font-size="10" fill="#555555" text-anchor="middle">전체 시간의 일부일 뿐</text>
   <text x="350" y="172" font-size="9" fill="#666666" text-anchor="middle">단계 ④-2</text>
@@ -28,7 +28,7 @@
   <text x="568" y="172" font-size="9" fill="#666666" text-anchor="middle">기존 코드 위에서 일할 때 필수</text>
 
   <rect x="684" y="80" width="186" height="108" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
-  <text x="777" y="108" font-size="12.5" font-weight="800" fill="#DC2626" text-anchor="middle">🐛 디버거</text>
+  <text x="777" y="108" font-size="12.5" font-weight="800" fill="#C82020" text-anchor="middle">🐛 디버거</text>
   <text x="777" y="130" font-size="10" fill="#555555" text-anchor="middle">에러 로그 해석 → 원인 가설</text>
   <text x="777" y="148" font-size="10" fill="#555555" text-anchor="middle">→ 수정 제안·적용</text>
   <text x="777" y="172" font-size="9" fill="#666666" text-anchor="middle">④-3의 자동 수정 루프</text>
@@ -52,7 +52,7 @@
   <text x="568" y="296" font-size="9" fill="#666666" text-anchor="middle">단계 ⑤ — 맡기기 가장 좋은 일</text>
 
   <rect x="684" y="204" width="186" height="108" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
-  <text x="777" y="232" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">🎓 과외 교사</text>
+  <text x="777" y="232" font-size="12.5" font-weight="800" fill="#AF5109" text-anchor="middle">🎓 과외 교사</text>
   <text x="777" y="254" font-size="10" fill="#555555" text-anchor="middle">새 스택·개념을 내 코드로</text>
   <text x="777" y="272" font-size="10" fill="#555555" text-anchor="middle">설명받으며 배움</text>
   <text x="777" y="296" font-size="9" fill="#666666" text-anchor="middle">전 단계에 걸침</text>

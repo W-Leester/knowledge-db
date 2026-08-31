@@ -12,7 +12,7 @@
   <rect x="30" y="84" width="560" height="96" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="3"/>
   <text x="52" y="112" font-size="14" font-weight="800" fill="#DC2626">🔒 아이폰·아이패드 앱 — 유일한 "무슨 일이 있어도" 구역</text>
   <text x="52" y="136" font-size="11" fill="#555555">풀 Xcode 의무: SDK·시뮬레이터·실기기 설치·스토어 제출 전부 애플 사슬</text>
-  <text x="52" y="156" font-size="11" fill="#B45309" font-weight="700">크로스플랫폼(RN·Flutter·Unity)도 탈출구 아님 — iOS 빌드 때 내부적으로 Xcode를 호출한다 (§6)</text>
+  <text x="52" y="156" font-size="11" fill="#A54C08" font-weight="700">크로스플랫폼(RN·Flutter·Unity)도 탈출구 아님 — iOS 빌드 때 내부적으로 Xcode를 호출한다 (§6)</text>
   <text x="52" y="173" font-size="9.5" fill="#666666">사이드로드·개인 설치조차 애플 서명 체계를 지난다</text>
 
   <rect x="30" y="192" width="560" height="82" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
@@ -36,7 +36,7 @@
   <text x="52" y="532" font-size="10" fill="#666666">이 지식 베이스가 살아 있는 증거 — "폰에서 쓰는 앱"의 상당수는 이 칸으로 충분</text>
 
   <line x1="610" y1="120" x2="610" y2="500" stroke="#8A8478" stroke-width="2" marker-end="url(#axl)"/>
-  <text x="628" y="140" font-size="11" font-weight="800" fill="#DC2626">조임</text>
+  <text x="628" y="140" font-size="11" font-weight="800" fill="#DA2323">조임</text>
   <text x="628" y="500" font-size="11" font-weight="800" fill="#0F766E">자유</text>
 
   <!-- 배포 축 -->
@@ -51,12 +51,12 @@
   <text x="765" y="226" font-size="10" fill="#555555" text-anchor="middle">완전 자유 구역</text>
 
   <rect x="682" y="258" width="166" height="86" rx="10" fill="#FEF3E2"/>
-  <text x="765" y="282" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">남에게 나눠준다</text>
+  <text x="765" y="282" font-size="11.5" font-weight="800" fill="#AF5109" text-anchor="middle">남에게 나눠준다</text>
   <text x="765" y="304" font-size="10" fill="#555555" text-anchor="middle">코드 서명 + 공증</text>
   <text x="765" y="322" font-size="10" fill="#555555" text-anchor="middle">(게이트키퍼 통과 의식)</text>
 
   <rect x="682" y="354" width="166" height="86" rx="10" fill="#FEE2E2"/>
-  <text x="765" y="378" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">스토어에 올린다</text>
+  <text x="765" y="378" font-size="11.5" font-weight="800" fill="#C82020" text-anchor="middle">스토어에 올린다</text>
   <text x="765" y="400" font-size="10" fill="#555555" text-anchor="middle">전체 사슬 + 심사</text>
   <text x="765" y="418" font-size="10" fill="#555555" text-anchor="middle">개발자 계정(연회비)</text>
 

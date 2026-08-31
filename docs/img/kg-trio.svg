@@ -20,8 +20,8 @@
   <text x="46" y="270" font-size="10" fill="#065F46">"환불 규정 비슷한 내용 찾아줘"</text>
   <text x="46" y="288" font-size="10" fill="#065F46">— 표현이 달라도("반품") 찾는다</text>
   <text x="46" y="314" font-size="10.5" fill="#555555">못하는 것:</text>
-  <text x="46" y="332" font-size="10" fill="#DC2626">관계 추적 — 3단계 건너는 질문에서</text>
-  <text x="46" y="348" font-size="10" fill="#DC2626">무너진다 ("근처"는 알아도 "길"을 모름)</text>
+  <text x="46" y="332" font-size="10" fill="#CD2121">관계 추적 — 3단계 건너는 질문에서</text>
+  <text x="46" y="348" font-size="10" fill="#CD2121">무너진다 ("근처"는 알아도 "길"을 모름)</text>
 
   <!-- 그래프 -->
   <rect x="314" y="84" width="272" height="290" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
@@ -38,7 +38,7 @@
   <text x="330" y="308" font-size="10" fill="#065F46">"A 부품 업체 중 지연 이력 있는 곳?"</text>
   <text x="330" y="324" font-size="10" fill="#065F46">— 다단계 추적이 본질 (JOIN 지옥의 해방)</text>
   <text x="330" y="348" font-size="10.5" fill="#555555">못하는 것: <tspan fill="#DC2626">뉘앙스 — "환불"과 "반품"이</tspan></text>
-  <text x="330" y="364" font-size="10" fill="#DC2626">다른 노드로 적혀 있으면 못 잇는다</text>
+  <text x="330" y="364" font-size="10" fill="#D52222">다른 노드로 적혀 있으면 못 잇는다</text>
 
   <!-- 온톨로지 -->
   <rect x="598" y="84" width="272" height="290" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
@@ -52,8 +52,8 @@
   <text x="614" y="288" font-size="10" fill="#065F46">모순 탐지 · 추론 · AI 환각의 구조적 차단</text>
   <text x="614" y="306" font-size="10" fill="#065F46">("그 관계 유형은 존재하지 않는다")</text>
   <text x="614" y="332" font-size="10.5" fill="#555555">못하는 것:</text>
-  <text x="614" y="350" font-size="10" fill="#DC2626">스스로는 데이터가 없다 — 도면일 뿐,</text>
-  <text x="614" y="366" font-size="10" fill="#DC2626">채우는 것은 그래프·문서의 몫</text>
+  <text x="614" y="350" font-size="10" fill="#CD2121">스스로는 데이터가 없다 — 도면일 뿐,</text>
+  <text x="614" y="366" font-size="10" fill="#CD2121">채우는 것은 그래프·문서의 몫</text>
 
   <!-- 분업 요약 -->
   <rect x="30" y="398" width="840" height="120" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>

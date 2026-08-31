@@ -44,7 +44,7 @@
   <text x="720" y="198" font-size="14.5" font-weight="800" fill="#065F46" text-anchor="middle">설계도(POSIX)만 보고 재구현</text>
   <text x="720" y="222" font-size="12.5" fill="#555555" text-anchor="middle">커널: 새 코드 · 도구: GNU 프로젝트</text>
   <text x="720" y="244" font-size="12.5" fill="#555555" text-anchor="middle">무료 + 오픈소스(GPL) + 아무 PC나</text>
-  <text x="720" y="270" font-size="11.5" font-weight="700" fill="#00AA6C" text-anchor="middle">= "Unix-like" — 족보 없이 같은 문법</text>
+  <text x="720" y="270" font-size="11.5" font-weight="700" fill="#007C4F" text-anchor="middle">= "Unix-like" — 족보 없이 같은 문법</text>
 
   <line x1="544" y1="243" x2="576" y2="243" stroke="#E8962A" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#vo)"/>
   <text x="560" y="230" font-size="10.5" fill="#B45309" text-anchor="middle">참조</text>
@@ -61,7 +61,7 @@
   <text x="62" y="492" font-size="15" font-weight="800" fill="#DC2626">⚠️ 실무에 남는 흔적 — "같은 표준, 다른 구현"</text>
   <text x="62" y="520" font-size="12.5" fill="#555555">POSIX가 보장하는 공통 문법 위에서, 명령어의 세부 구현이 갈린다:</text>
   <text x="62" y="544" font-size="12.5" fill="#555555">· macOS의 <tspan font-family="'JetBrains Mono', monospace" font-size="11.5">sed·date·grep</tspan> = <tspan font-weight="700" fill="#1A5CB5">BSD 구현</tspan> (혈통 쪽) · Linux의 것 = <tspan font-weight="700" fill="#065F46">GNU 구현</tspan> (재구현 쪽)</text>
-  <text x="62" y="568" font-size="12.5" font-weight="700" fill="#DC2626">· 그래서 리눅스용 스크립트가 맥에서 미묘하게 안 돌 때 — "버그"가 아니라 "BSD/GNU 차이"다</text>
+  <text x="62" y="568" font-size="12.5" font-weight="700" fill="#C82020">· 그래서 리눅스용 스크립트가 맥에서 미묘하게 안 돌 때 — "버그"가 아니라 "BSD/GNU 차이"다</text>
 
   <text x="450" y="614" font-size="14" font-weight="700" fill="#002C5F" text-anchor="middle">한 줄 요약: Unix는 원조이자 상표, Linux는 철학을 무료로 재구현해 왕좌를 이어받은 후계자</text>
 </svg>

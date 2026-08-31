@@ -25,7 +25,7 @@
   <rect x="50" y="292" width="360" height="30" rx="8" fill="#E8EEF7"/>
   <text x="64" y="312" font-size="11.5" fill="#002C5F"><tspan font-weight="800">6.</tspan> 검색·필터링·통계가 중요한가요?</text>
   <rect x="50" y="326" width="360" height="30" rx="8" fill="#FEF3E2"/>
-  <text x="64" y="346" font-size="11.5" fill="#B45309"><tspan font-weight="800">7.</tspan> 지금은 실험인가요, 실제 운영인가요?</text>
+  <text x="64" y="346" font-size="11.5" fill="#AF5109"><tspan font-weight="800">7.</tspan> 지금은 실험인가요, 실제 운영인가요?</text>
 
   <line x1="434" y1="222" x2="470" y2="222" stroke="#003F8A" stroke-width="2.5" marker-end="url(#dsq)"/>
 
@@ -39,7 +39,7 @@
 
   <rect x="492" y="180" width="360" height="52" rx="8" fill="#FEF3E2"/>
   <text x="506" y="200" font-size="10.5" fill="#555555">회원가입 · 사용자별 데이터 분리 · 결제 가능성</text>
-  <text x="506" y="220" font-size="11.5" font-weight="800" fill="#B45309">→ 관리형 Postgres 계열 (Supabase)</text>
+  <text x="506" y="220" font-size="11.5" font-weight="800" fill="#AF5109">→ 관리형 Postgres 계열 (Supabase)</text>
 
   <rect x="492" y="238" width="360" height="52" rx="8" fill="#E8EEF7"/>
   <text x="506" y="258" font-size="10.5" fill="#555555">인터넷 없이 내 컴퓨터에서만 도는 개인용 앱</text>
@@ -53,17 +53,17 @@
   <text x="450" y="398" font-size="15" font-weight="800" fill="#002C5F" text-anchor="middle">질문들이 실제로 묻는 것 — 다섯 가지 책임</text>
 
   <rect x="30" y="414" width="160" height="86" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.8"/>
-  <text x="110" y="438" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">개인정보 책임</text>
+  <text x="110" y="438" font-size="11.5" font-weight="800" fill="#C82020" text-anchor="middle">개인정보 책임</text>
   <text x="110" y="460" font-size="10" fill="#555555" text-anchor="middle">회원 정보를 받는 순간</text>
   <text x="110" y="478" font-size="10" fill="#555555" text-anchor="middle">생긴다 (질문 2·3)</text>
 
   <rect x="202" y="414" width="160" height="86" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.8"/>
-  <text x="282" y="438" font-size="11.5" font-weight="800" fill="#DC2626" text-anchor="middle">보안 책임</text>
+  <text x="282" y="438" font-size="11.5" font-weight="800" fill="#C82020" text-anchor="middle">보안 책임</text>
   <text x="282" y="460" font-size="10" fill="#555555" text-anchor="middle">결제를 다루는 순간</text>
   <text x="282" y="478" font-size="10" fill="#555555" text-anchor="middle">(질문 4·7)</text>
 
   <rect x="374" y="414" width="160" height="86" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.8"/>
-  <text x="454" y="438" font-size="11.5" font-weight="800" fill="#B45309" text-anchor="middle">백업 책임</text>
+  <text x="454" y="438" font-size="11.5" font-weight="800" fill="#AF5109" text-anchor="middle">백업 책임</text>
   <text x="454" y="460" font-size="10" fill="#555555" text-anchor="middle">사용자가 쌓은 데이터를</text>
   <text x="454" y="478" font-size="10" fill="#555555" text-anchor="middle">보관하는 순간 (질문 4)</text>
 

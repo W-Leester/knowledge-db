@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
   <rect width="900" height="600" fill="#FAF7F2"/>
   <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">매 요청의 컨텍스트 조립 — 세 조각 + "변동성 낮은 것 앞으로"</text>
-  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">이 순서가 프롬프트 캐시의 안정적 프리픽스를 만든다 — 로컬 하네스가 그대로 베낄 청사진</text>
+  <text x="450" y="58" font-size="13" fill="#707070" text-anchor="middle">이 순서가 프롬프트 캐시의 안정적 프리픽스를 만든다 — 로컬 하네스가 그대로 베낄 청사진</text>
 
   <!-- ① system 필드 -->
   <rect x="30" y="80" width="560" height="360" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2.5"/>
@@ -13,15 +13,15 @@
   <text x="66" y="164" font-size="11" fill="#555555">1. 정체성 (SW 엔지니어링 에이전트)  ·  2. 시스템 규약(출력·권한·태그 의미)</text>
   <text x="66" y="184" font-size="11" fill="#555555">3. 작업 철학(과잉추상 금지·완료 전 검증)  ·  4. 위험 액션 확인</text>
   <text x="66" y="204" font-size="11" fill="#555555">5. 툴 사용법(전용 툴 우선·병렬 극대화)  ·  6. 톤·스타일  ·  7. 간결성</text>
-  <text x="66" y="230" font-size="10.5" fill="#8A8A8A">"변하지 않는 것을 앞에" — 캐시가 이 프리픽스를 재사용</text>
-  <text x="66" y="250" font-size="10.5" fill="#8A8A8A">──────── 경계 마커(SYSTEM_PROMPT_DYNAMIC_BOUNDARY) ────────</text>
+  <text x="66" y="230" font-size="10.5" fill="#696969">"변하지 않는 것을 앞에" — 캐시가 이 프리픽스를 재사용</text>
+  <text x="66" y="250" font-size="10.5" fill="#696969">──────── 경계 마커(SYSTEM_PROMPT_DYNAMIC_BOUNDARY) ────────</text>
 
   <!-- 동적 -->
   <rect x="50" y="280" width="520" height="96" rx="10" fill="#FEF3E2"/>
-  <text x="66" y="302" font-size="12.5" font-weight="800" fill="#B45309">🔁 동적 섹션 (세션마다 변함)</text>
+  <text x="66" y="302" font-size="12.5" font-weight="800" fill="#AF5109">🔁 동적 섹션 (세션마다 변함)</text>
   <text x="66" y="324" font-size="11" fill="#555555">메모리 지침 · 환경정보(cwd·OS·모델·cutoff) · 언어 · MCP 서버 지침 ·</text>
   <text x="66" y="344" font-size="11" fill="#555555">스킬 지침 · (플래그별) 토큰 예산 등</text>
-  <text x="66" y="366" font-size="10.5" fill="#8A8A8A">자주 바뀌는 값(MCP 목록 등)은 캐시를 깨므로 뒤로 / 별도로 뺌</text>
+  <text x="66" y="366" font-size="10.5" fill="#6E6E6E">자주 바뀌는 값(MCP 목록 등)은 캐시를 깨므로 뒤로 / 별도로 뺌</text>
 
   <!-- systemContext append -->
   <rect x="50" y="386" width="520" height="44" rx="10" fill="#E6F7F1"/>
@@ -31,14 +31,14 @@
   <!-- ② user 메시지 (프리펜드) -->
   <rect x="610" y="80" width="260" height="200" rx="14" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2.5"/>
   <text x="740" y="106" font-size="14" font-weight="800" fill="#6B21A8" text-anchor="middle">② 첫 user 메시지</text>
-  <text x="740" y="128" font-size="11" fill="#8A8A8A" text-anchor="middle">userContext를 prepend</text>
+  <text x="740" y="128" font-size="11" fill="#737373" text-anchor="middle">userContext를 prepend</text>
   <rect x="628" y="142" width="224" height="120" rx="9" fill="#F3E8FF"/>
   <text x="740" y="164" font-size="11.5" font-weight="800" fill="#6B21A8" text-anchor="middle">&lt;system-reminder&gt;</text>
   <text x="644" y="188" font-size="10.5" fill="#555555"># CLAUDE.md 병합본</text>
   <text x="644" y="208" font-size="10.5" fill="#555555">  (계층: enterprise→</text>
   <text x="644" y="224" font-size="10.5" fill="#555555">   user→project→local)</text>
   <text x="644" y="244" font-size="10.5" fill="#555555"># currentDate (오늘)</text>
-  <text x="740" y="270" font-size="9.5" fill="#8A8A8A" text-anchor="middle">"관련 있을 때만 참고" 경고 포함</text>
+  <text x="740" y="270" font-size="9.5" fill="#737373" text-anchor="middle">"관련 있을 때만 참고" 경고 포함</text>
 
   <!-- ③ 실제 대화 -->
   <rect x="610" y="296" width="260" height="144" rx="14" fill="#FFFFFF" stroke="#00AA6C" stroke-width="2"/>
@@ -47,7 +47,7 @@
   <text x="740" y="364" font-size="11" fill="#555555" text-anchor="middle">tool_use / tool_result</text>
   <text x="740" y="388" font-size="11" fill="#555555" text-anchor="middle">…에이전트 루프가</text>
   <text x="740" y="406" font-size="11" fill="#555555" text-anchor="middle">여기에 계속 append</text>
-  <text x="740" y="430" font-size="10" fill="#8A8A8A" text-anchor="middle">(§에이전트 루프)</text>
+  <text x="740" y="430" font-size="10" fill="#737373" text-anchor="middle">(§에이전트 루프)</text>
 
   <!-- 하단 -->
   <rect x="30" y="456" width="840" height="120" rx="14" fill="#0D1B2E"/>

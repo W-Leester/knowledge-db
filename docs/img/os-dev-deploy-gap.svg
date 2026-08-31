@@ -50,7 +50,7 @@
   <text x="145" y="392" font-size="11.5" fill="#555555" text-anchor="middle">CRLF 줄바꿈</text>
 
   <rect x="290" y="326" width="180" height="72" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
-  <text x="380" y="350" font-size="13.5" font-weight="800" fill="#B45309" text-anchor="middle">🔄 변환 계층</text>
+  <text x="380" y="350" font-size="13.5" font-weight="800" fill="#AF5109" text-anchor="middle">🔄 변환 계층</text>
   <text x="380" y="371" font-size="11.5" fill="#555555" text-anchor="middle">WSL2 · Git Bash</text>
   <text x="380" y="388" font-size="11.5" fill="#555555" text-anchor="middle">경로·개행 변환 설정</text>
 
@@ -64,7 +64,7 @@
 
   <rect x="740" y="326" width="105" height="72" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
   <text x="792" y="360" font-size="20" font-weight="800" fill="#DC2626" text-anchor="middle">🐛</text>
-  <text x="792" y="384" font-size="12" font-weight="700" fill="#DC2626" text-anchor="middle">환경 버그</text>
+  <text x="792" y="384" font-size="12" font-weight="700" fill="#C82020" text-anchor="middle">환경 버그</text>
 
   <text x="55" y="428" font-size="13" fill="#555555">· <tspan font-weight="700" fill="#DC2626">CRLF 지옥</tspan> — 셸 스크립트 첫 줄에 보이지 않는 \r이 붙어 리눅스에서 "command not found"</text>
   <text x="55" y="450" font-size="13" fill="#555555">· <tspan font-weight="700" fill="#DC2626">대소문자</tspan> — Windows는 Header.js = header.js로 취급, 리눅스는 다른 파일 → 배포 후에만 터지는 import 오류</text>

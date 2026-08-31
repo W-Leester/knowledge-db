@@ -11,10 +11,10 @@
   <text x="48" y="182" font-size="10.5" fill="#555555">· 명단 수집 · 콘텐츠 목록 관리</text>
   <text x="48" y="202" font-size="10.5" fill="#555555">· 나 혼자 쓰는 작은 업무 도구</text>
   <text x="48" y="222" font-size="10.5" fill="#555555">· 아이디어를 빠르게 검증할 때</text>
-  <text x="48" y="250" font-size="11" font-weight="700" fill="#DC2626">한계가 오는 순간</text>
+  <text x="48" y="250" font-size="11" font-weight="700" fill="#D52222">한계가 오는 순간</text>
   <text x="48" y="272" font-size="10.5" fill="#555555">주문·고객정보·배송상태·권한이</text>
   <text x="48" y="290" font-size="10.5" fill="#555555">늘어나면 — "자전거로 택배 사업"</text>
-  <text x="48" y="314" font-size="10" font-weight="700" fill="#DC2626">개인정보·결제는 절대 금지</text>
+  <text x="48" y="314" font-size="10" font-weight="700" fill="#D52222">개인정보·결제는 절대 금지</text>
 
   <!-- 소형차 -->
   <rect x="314" y="80" width="272" height="250" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
@@ -24,7 +24,7 @@
   <text x="332" y="182" font-size="10.5" fill="#555555">· 혼자 쓰는 앱 · 데스크톱 도구</text>
   <text x="332" y="202" font-size="10.5" fill="#555555">· 로컬에서 도는 프로그램·프로토타입</text>
   <text x="332" y="222" font-size="10.5" fill="#555555">· 파일 하나로 관리 — 설치·운영 부담 0</text>
-  <text x="332" y="250" font-size="11" font-weight="700" fill="#DC2626">한계가 오는 순간</text>
+  <text x="332" y="250" font-size="11" font-weight="700" fill="#CD2121">한계가 오는 순간</text>
   <text x="332" y="272" font-size="10.5" fill="#555555">사용자가 늘고, 여러 명이 동시에</text>
   <text x="332" y="290" font-size="10.5" fill="#555555">쓰고, 권한 구조가 복잡해질 때</text>
   <text x="332" y="314" font-size="10" font-weight="700" fill="#065F46">"아직 서비스가 될지 모를 때"의 정답</text>
@@ -32,27 +32,27 @@
   <!-- 중형차 -->
   <rect x="598" y="80" width="272" height="250" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
   <text x="734" y="110" font-size="15" font-weight="800" fill="#B45309" text-anchor="middle">🚙 기사 딸린 중형차</text>
-  <text x="734" y="130" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">— Supabase</text>
+  <text x="734" y="130" font-size="12" font-weight="800" fill="#AF5109" text-anchor="middle">— Supabase</text>
   <text x="734" y="150" font-size="10.5" fill="#666666" text-anchor="middle">Postgres 엔진 + 인증·API·스토리지</text>
-  <text x="616" y="176" font-size="11" font-weight="700" fill="#B45309">맞는 경우</text>
+  <text x="616" y="176" font-size="11" font-weight="700" fill="#AF5109">맞는 경우</text>
   <text x="616" y="198" font-size="10.5" fill="#555555">· 회원가입이 있는 웹서비스</text>
   <text x="616" y="218" font-size="10.5" fill="#555555">· 사용자별 데이터 분리가 필요</text>
   <text x="616" y="238" font-size="10.5" fill="#555555">· 나중에 결제까지 붙일 계획</text>
-  <text x="616" y="266" font-size="11" font-weight="700" fill="#DC2626">대가 (§9-C)</text>
+  <text x="616" y="266" font-size="11" font-weight="700" fill="#D52222">대가 (§9-C)</text>
   <text x="616" y="288" font-size="10.5" fill="#555555">RLS(행 단위 보안)와 키 관리를</text>
   <text x="616" y="306" font-size="10.5" fill="#555555">이해해야 한다 — 편하지만 공짜는 아님</text>
 
   <!-- 트럭 -->
   <rect x="30" y="344" width="272" height="230" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
   <text x="166" y="374" font-size="15" font-weight="800" fill="#DC2626" text-anchor="middle">🚚 직접 정비하는 트럭</text>
-  <text x="166" y="394" font-size="12" font-weight="800" fill="#DC2626" text-anchor="middle">— PostgreSQL 직접 운영</text>
+  <text x="166" y="394" font-size="12" font-weight="800" fill="#C82020" text-anchor="middle">— PostgreSQL 직접 운영</text>
   <text x="48" y="420" font-size="10.5" fill="#555555">힘 좋고 자유도 최고 — 그러나 서버·백업·</text>
   <text x="48" y="438" font-size="10.5" fill="#555555">보안·계정·장애를 전부 내가 본다</text>
-  <text x="48" y="466" font-size="11" font-weight="700" fill="#DC2626">초보에게 권하지 않는 이유</text>
+  <text x="48" y="466" font-size="11" font-weight="700" fill="#C82020">초보에게 권하지 않는 이유</text>
   <text x="48" y="488" font-size="10.5" fill="#555555">앱 하나 만들려다 새벽 2시에</text>
   <text x="48" y="506" font-size="10.5" fill="#555555">DB 로그를 들여다보게 된다</text>
   <text x="48" y="530" font-size="10" fill="#666666">낭만은 있지만 건강에는 별로다</text>
-  <text x="48" y="556" font-size="10" font-weight="700" fill="#B45309">필요해진 뒤에 가도 늦지 않다</text>
+  <text x="48" y="556" font-size="10" font-weight="700" fill="#A54C08">필요해진 뒤에 가도 늦지 않다</text>
 
   <!-- 서랍장 -->
   <rect x="314" y="344" width="272" height="230" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
@@ -60,7 +60,7 @@
   <text x="450" y="394" font-size="10.5" fill="#666666" text-anchor="middle">표 구조 대신 문서·JSON 덩어리를 유연하게</text>
   <text x="332" y="420" font-size="11" font-weight="700" fill="#6B21A8">맞는 경우</text>
   <text x="332" y="442" font-size="10.5" fill="#555555">설정값·로그·구조가 자주 바뀌는 데이터</text>
-  <text x="332" y="470" font-size="11" font-weight="700" fill="#DC2626">관계 설계 없이 시작하면</text>
+  <text x="332" y="470" font-size="11" font-weight="700" fill="#CD2121">관계 설계 없이 시작하면</text>
   <text x="332" y="492" font-size="10.5" fill="#555555">"주문 내역은 어디 있지? 이 댓글은</text>
   <text x="332" y="510" font-size="10.5" fill="#555555">어느 글과 연결됐지?"가 시작된다</text>
   <text x="332" y="536" font-size="10" fill="#666666">양말·여권·세금계산서를 한 칸에 넣으면</text>
@@ -74,7 +74,7 @@
   <text x="616" y="442" font-size="10.5" fill="#555555">· CSV·로그를 빠르게 읽고 분석</text>
   <text x="616" y="462" font-size="10.5" fill="#555555">· 리포트·대시보드 뽑기</text>
   <text x="616" y="482" font-size="10.5" fill="#555555">· 통계 산출</text>
-  <text x="616" y="510" font-size="11" font-weight="700" fill="#DC2626">맞지 않는 경우</text>
+  <text x="616" y="510" font-size="11" font-weight="700" fill="#D52222">맞지 않는 경우</text>
   <text x="616" y="532" font-size="10.5" fill="#555555">회원가입·주문 같은 서비스의</text>
   <text x="616" y="550" font-size="10.5" fill="#555555">메인 저장소 역할</text>
 

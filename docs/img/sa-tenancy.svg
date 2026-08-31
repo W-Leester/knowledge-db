@@ -13,7 +13,7 @@
 
   <!-- 왼쪽: 싱글 테넌트 -->
   <rect x="30" y="84" width="250" height="290" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
-  <text x="155" y="112" font-size="13.5" font-weight="800" fill="#DC2626" text-anchor="middle">옛날: 고객마다 집 한 채</text>
+  <text x="155" y="112" font-size="13.5" font-weight="800" fill="#C82020" text-anchor="middle">옛날: 고객마다 집 한 채</text>
   <text x="155" y="132" font-size="10.5" fill="#666666" text-anchor="middle">(싱글 테넌트 · 온프레미스)</text>
   <rect x="52" y="148" width="90" height="70" rx="8" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
   <text x="97" y="178" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">고객 A 서버</text>
@@ -24,7 +24,7 @@
   <rect x="52" y="232" width="90" height="70" rx="8" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
   <text x="97" y="262" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">고객 C 서버</text>
   <text x="97" y="282" font-size="9.5" fill="#666666" text-anchor="middle">앱+DB 한 벌</text>
-  <text x="155" y="330" font-size="10.5" font-weight="700" fill="#DC2626" text-anchor="middle">고객 100명 = 서버 100벌</text>
+  <text x="155" y="330" font-size="10.5" font-weight="700" fill="#C82020" text-anchor="middle">고객 100명 = 서버 100벌</text>
   <text x="155" y="350" font-size="10" fill="#555555" text-anchor="middle">업데이트도 100번 — 비용이 정비례</text>
 
   <!-- 오른쪽: 멀티 테넌트 건물 -->
@@ -44,7 +44,7 @@
   <text x="432" y="286" font-size="9.5" fill="#555555" text-anchor="middle">A의 행들만</text>
   <text x="432" y="304" font-size="9.5" fill="#666666" text-anchor="middle">A 사용자에게만 보임</text>
   <rect x="522" y="244" width="140" height="76" rx="8" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.5"/>
-  <text x="592" y="266" font-size="10.5" font-weight="800" fill="#B45309" text-anchor="middle">🏠 tenant_id = B</text>
+  <text x="592" y="266" font-size="10.5" font-weight="800" fill="#AF5109" text-anchor="middle">🏠 tenant_id = B</text>
   <text x="592" y="286" font-size="9.5" fill="#555555" text-anchor="middle">B의 행들만</text>
   <text x="592" y="304" font-size="9.5" fill="#666666" text-anchor="middle">B 사용자에게만 보임</text>
   <rect x="682" y="244" width="140" height="76" rx="8" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
@@ -64,11 +64,11 @@
 
   <!-- 사고 경고 -->
   <rect x="600" y="394" width="270" height="150" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
-  <text x="735" y="420" font-size="12" font-weight="800" fill="#DC2626" text-anchor="middle">⚠️ 벽이 뚫리면 = 사업 종료급</text>
+  <text x="735" y="420" font-size="12" font-weight="800" fill="#C82020" text-anchor="middle">⚠️ 벽이 뚫리면 = 사업 종료급</text>
   <text x="618" y="446" font-size="10" fill="#555555">A 고객 화면에 B 고객 데이터가 뜨는</text>
   <text x="618" y="464" font-size="10" fill="#555555">사고는 SaaS 최악의 시나리오 —</text>
   <text x="618" y="482" font-size="10" fill="#555555">신뢰가 상품인 사업에서 회복 불능</text>
-  <text x="618" y="508" font-size="10" font-weight="700" fill="#DC2626">→ RLS는 기능이 아니라 생존 장치</text>
+  <text x="618" y="508" font-size="10" font-weight="700" fill="#C82020">→ RLS는 기능이 아니라 생존 장치</text>
   <text x="618" y="528" font-size="9.5" fill="#666666">테스트: "다른 계정으로 남의 ID 조회" 필수</text>
 
   <!-- 하단 -->

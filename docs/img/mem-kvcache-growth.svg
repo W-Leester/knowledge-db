@@ -30,11 +30,11 @@
 
   <!-- Overflow region shading (above H200=141GB, y=72) -->
   <rect x="65" y="35" width="490" height="37" fill="#DC2626" opacity="0.08"/>
-  <text x="310" y="55" text-anchor="middle" font-size="10" fill="#DC2626" opacity="0.7">KV-Cache 메모리 초과 영역</text>
+  <text x="310" y="55" text-anchor="middle" font-size="10" fill="#FEF9F9" opacity="0.7">KV-Cache 메모리 초과 영역</text>
 
   <!-- H200 141GB line -->
   <line x1="65" y1="72" x2="555" y2="72" stroke="#00AA6C" stroke-width="1.5" stroke-dasharray="8,4"/>
-  <text x="558" y="76" font-size="9.5" fill="#00AA6C" font-weight="600">H200 141GB</text>
+  <text x="558" y="76" font-size="9.5" fill="#00774C" font-weight="600">H200 141GB</text>
 
   <!-- H100/A100 80GB line -->
   <line x1="65" y1="190" x2="555" y2="190" stroke="#003F8A" stroke-width="1.5" stroke-dasharray="8,4"/>
@@ -144,7 +144,7 @@
   <!-- Annotation: 128K on Llama70B -->
   <circle cx="409" cy="264" r="4" fill="#E8962A"/>
   <line x1="409" y1="264" x2="450" y2="240" stroke="#E8962A" stroke-width="1" stroke-dasharray="3,2"/>
-  <text x="453" y="237" font-size="9" fill="#E8962A" font-weight="600">~42 GB</text>
+  <text x="453" y="237" font-size="9" fill="#A46512" font-weight="600">~42 GB</text>
   <text x="453" y="248" font-size="9" fill="#555555">Llama 70B 128K</text>
 
   <!-- ===== Formula box (right) ===== -->
@@ -176,7 +176,7 @@
   <rect x="570" y="245" width="220" height="80" fill="#002C5F" rx="5"/>
   <text x="680" y="263" text-anchor="middle" font-size="11" fill="#FFFFFF" font-weight="700">H200이 추론에서 유리한 이유</text>
   <text x="680" y="279" text-anchor="middle" font-size="10" fill="#E8EEF7">141GB → 더 긴 컨텍스트 처리</text>
-  <text x="680" y="294" text-anchor="middle" font-size="10" fill="#00AA6C" font-weight="600">128K ctx × batch=3 가능</text>
+  <text x="680" y="294" text-anchor="middle" font-size="10" fill="#00AF6F" font-weight="600">128K ctx × batch=3 가능</text>
   <text x="680" y="309" text-anchor="middle" font-size="9" fill="#A0B8D8">(H100 80GB 대비 ~1.76× 용량)</text>
   <text x="680" y="322" text-anchor="middle" font-size="9" fill="#A0B8D8">+ 4.8TB/s → 빠른 KV 로딩</text>
 
@@ -185,6 +185,6 @@
   <text x="680" y="353" text-anchor="middle" font-size="11" fill="#002C5F" font-weight="700">배치 크기와 메모리</text>
   <text x="578" y="369" font-size="9" fill="#555555">batch=1: KV 최소, 처리량 ↓</text>
   <text x="578" y="383" font-size="9" fill="#555555">batch↑: 메모리 선형 증가</text>
-  <text x="578" y="397" font-size="9" fill="#DC2626" font-weight="600">→ 메모리 용량이 추론 처리량 결정</text>
+  <text x="578" y="397" font-size="9" fill="#DA2323" font-weight="600">→ 메모리 용량이 추론 처리량 결정</text>
   <text x="578" y="411" font-size="9" fill="#555555">KV 캐시 압축 기법으로 완화 가능</text>
 </svg>

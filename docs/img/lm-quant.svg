@@ -39,7 +39,7 @@
   <text x="52" y="476" font-size="10" fill="#666666">+ 1/8만 읽으므로 대역폭 병목에서 속도도 유리 (원칙②)</text>
 
   <rect x="460" y="366" width="410" height="120" rx="14" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
-  <text x="482" y="394" font-size="13" font-weight="800" fill="#DC2626">⚠️ "90%"를 읽는 법</text>
+  <text x="482" y="394" font-size="13" font-weight="800" fill="#C82020">⚠️ "90%"를 읽는 법</text>
   <text x="482" y="418" font-size="11" fill="#555555">· 유지율은 벤치마크 평균 — 열화는 긴 다단계</text>
   <text x="494" y="436" font-size="11" fill="#555555">추론·코딩 에이전트 같은 꼬리에서 먼저 나타남</text>
   <text x="482" y="458" font-size="11" fill="#555555">· "대화·요약은 거의 원본, 밤샘 루프의 일꾼은</text>

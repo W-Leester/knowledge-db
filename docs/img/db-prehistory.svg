@@ -19,16 +19,16 @@
   <text x="132" y="96" text-anchor="middle" class="prob-title">① 중복 데이터</text>
   <text x="132" y="115" text-anchor="middle" class="small">고객파일에도, 주문파일에도</text>
   <text x="132" y="129" text-anchor="middle" class="small">홍길동 주소가 따로 저장</text>
-  <text x="132" y="148" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">이사 시 한 곳만 수정하면</text>
-  <text x="132" y="162" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">→ 어느 게 맞는지 아무도 모름</text>
+  <text x="132" y="148" text-anchor="middle" class="small" fill="#C82020" font-weight="700">이사 시 한 곳만 수정하면</text>
+  <text x="132" y="162" text-anchor="middle" class="small" fill="#C82020" font-weight="700">→ 어느 게 맞는지 아무도 모름</text>
 
   <!-- problem 2 -->
   <rect x="230" y="76" width="172" height="100" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="6"/>
   <text x="316" y="96" text-anchor="middle" class="prob-title">② 데이터 불일치</text>
   <text x="316" y="115" text-anchor="middle" class="small">A파일: 재고 100개</text>
   <text x="316" y="129" text-anchor="middle" class="small">B파일: 재고 80개</text>
-  <text x="316" y="148" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">파일이 늘수록</text>
-  <text x="316" y="162" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">모순이 폭발적으로 증가</text>
+  <text x="316" y="148" text-anchor="middle" class="small" fill="#C82020" font-weight="700">파일이 늘수록</text>
+  <text x="316" y="162" text-anchor="middle" class="small" fill="#C82020" font-weight="700">모순이 폭발적으로 증가</text>
 
   <!-- problem 3 -->
   <rect x="414" y="76" width="172" height="100" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="6"/>
@@ -36,15 +36,15 @@
   <text x="500" y="115" text-anchor="middle" class="small">Ctrl+F도 없던 시절 —</text>
   <text x="500" y="129" text-anchor="middle" class="small">프로그램을 짜서 파일 전체를</text>
   <text x="500" y="143" text-anchor="middle" class="small">처음부터 끝까지 순차 스캔</text>
-  <text x="500" y="162" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">수만 건이면 하세월</text>
+  <text x="500" y="162" text-anchor="middle" class="small" fill="#C82020" font-weight="700">수만 건이면 하세월</text>
 
   <!-- problem 4 -->
   <rect x="598" y="76" width="156" height="100" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="6"/>
   <text x="676" y="96" text-anchor="middle" class="prob-title">④ 동시 수정 충돌</text>
   <text x="676" y="115" text-anchor="middle" class="small">A와 B가 같은 파일을</text>
   <text x="676" y="129" text-anchor="middle" class="small">동시에 열어 수정·저장</text>
-  <text x="676" y="148" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">한 명의 수정본이</text>
-  <text x="676" y="162" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">그대로 증발</text>
+  <text x="676" y="148" text-anchor="middle" class="small" fill="#C82020" font-weight="700">한 명의 수정본이</text>
+  <text x="676" y="162" text-anchor="middle" class="small" fill="#C82020" font-weight="700">그대로 증발</text>
 
   <!-- arrow down -->
   <line x1="400" y1="196" x2="400" y2="216" stroke="#002C5F" stroke-width="2.5"/>
@@ -60,22 +60,22 @@
 
   <!-- tree diagram -->
   <circle cx="145" cy="285" r="14" fill="#002C5F"/>
-  <text x="145" y="289" text-anchor="middle" font-size="8" fill="#FFF" font-weight="700">회사</text>
+  <text x="145" y="289" text-anchor="middle" font-size="8" fill="#737373" font-weight="700">회사</text>
   <line x1="145" y1="299" x2="95" y2="325" stroke="#8A8A8A" stroke-width="1.5"/>
   <line x1="145" y1="299" x2="195" y2="325" stroke="#8A8A8A" stroke-width="1.5"/>
   <circle cx="95" cy="335" r="12" fill="#1A5CB5"/>
-  <text x="95" y="339" text-anchor="middle" font-size="7.5" fill="#FFF" font-weight="700">부서A</text>
+  <text x="95" y="339" text-anchor="middle" font-size="7.5" fill="#737373" font-weight="700">부서A</text>
   <circle cx="195" cy="335" r="12" fill="#1A5CB5"/>
-  <text x="195" y="339" text-anchor="middle" font-size="7.5" fill="#FFF" font-weight="700">부서B</text>
+  <text x="195" y="339" text-anchor="middle" font-size="7.5" fill="#737373" font-weight="700">부서B</text>
   <line x1="95" y1="347" x2="70" y2="368" stroke="#8A8A8A" stroke-width="1.5"/>
   <line x1="95" y1="347" x2="120" y2="368" stroke="#8A8A8A" stroke-width="1.5"/>
   <line x1="195" y1="347" x2="195" y2="368" stroke="#8A8A8A" stroke-width="1.5"/>
   <circle cx="70" cy="376" r="10" fill="#5B8DD9"/>
   <circle cx="120" cy="376" r="10" fill="#5B8DD9"/>
   <circle cx="195" cy="376" r="10" fill="#5B8DD9"/>
-  <text x="70" y="380" text-anchor="middle" font-size="7" fill="#FFF">직원</text>
-  <text x="120" y="380" text-anchor="middle" font-size="7" fill="#FFF">직원</text>
-  <text x="195" y="380" text-anchor="middle" font-size="7" fill="#FFF">직원</text>
+  <text x="70" y="380" text-anchor="middle" font-size="7" fill="#737373">직원</text>
+  <text x="120" y="380" text-anchor="middle" font-size="7" fill="#737373">직원</text>
+  <text x="195" y="380" text-anchor="middle" font-size="7" fill="#737373">직원</text>
 
   <text x="145" y="408" text-anchor="middle" class="small">조직도처럼 나무(트리) 구조로 저장</text>
   <text x="145" y="426" text-anchor="middle" class="small" fill="#DC2626" font-weight="700">한계: 위아래로만 이동 가능 —</text>
@@ -125,9 +125,9 @@
     <rect x="590" y="276" width="50" height="16" fill="#002C5F"/>
     <rect x="640" y="276" width="50" height="16" fill="#002C5F"/>
     <rect x="690" y="276" width="52" height="16" fill="#002C5F"/>
-    <text x="615" y="288" text-anchor="middle" font-size="7.5" fill="#FFF">이름</text>
-    <text x="665" y="288" text-anchor="middle" font-size="7.5" fill="#FFF">전화번호</text>
-    <text x="716" y="288" text-anchor="middle" font-size="7.5" fill="#FFF">이메일</text>
+    <text x="615" y="288" text-anchor="middle" font-size="7.5" fill="#737373">이름</text>
+    <text x="665" y="288" text-anchor="middle" font-size="7.5" fill="#737373">전화번호</text>
+    <text x="716" y="288" text-anchor="middle" font-size="7.5" fill="#737373">이메일</text>
     <rect x="590" y="292" width="50" height="14" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
     <rect x="640" y="292" width="50" height="14" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>
     <rect x="690" y="292" width="52" height="14" fill="#FFF" stroke="#D5CFBF" stroke-width="0.5"/>

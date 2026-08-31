@@ -9,7 +9,7 @@
   </defs>
   <rect width="900" height="620" fill="#FAF7F2"/>
   <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">언어 · 런타임 · 프레임워크 — 무엇이 무엇인가</text>
-  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">언어는 "규칙", 런타임은 "실행하는 엔진", 프레임워크는 "미리 지어진 뼈대"</text>
+  <text x="450" y="58" font-size="13" fill="#707070" text-anchor="middle">언어는 "규칙", 런타임은 "실행하는 엔진", 프레임워크는 "미리 지어진 뼈대"</text>
 
   <!-- 4단 스택 -->
   <rect x="60" y="82" width="380" height="66" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
@@ -41,8 +41,8 @@
   <text x="490" y="242" font-size="12.5" fill="#555555"><tspan font-weight="800" fill="#065F46">프레임워크</tspan> = 이미 세워진 골조 +</text>
   <text x="510" y="262" font-size="12.5" fill="#555555">배관·전기 규격 (구조가 정해짐)</text>
   <text x="490" y="300" font-size="12.5" fill="#555555"><tspan font-weight="800" fill="#6B21A8">내 코드</tspan> = 그 안에서 방을 꾸미는 것</text>
-  <text x="490" y="338" font-size="11.5" fill="#8A8A8A">→ 골조를 매번 새로 안 지어도 되니</text>
-  <text x="510" y="356" font-size="11.5" fill="#8A8A8A">빨리·안정적으로 완성</text>
+  <text x="490" y="338" font-size="11.5" fill="#737373">→ 골조를 매번 새로 안 지어도 되니</text>
+  <text x="510" y="356" font-size="11.5" fill="#737373">빨리·안정적으로 완성</text>
 
   <!-- 라이브러리 vs 프레임워크 -->
   <text x="450" y="418" font-size="15.5" font-weight="800" fill="#002C5F" text-anchor="middle">헷갈리는 것: 라이브러리 vs 프레임워크 — "누가 누구를 부르나"</text>
@@ -55,7 +55,7 @@
   <text x="340" y="498" font-size="11.5" font-weight="700" fill="#002C5F" text-anchor="middle">라이브러리</text>
   <line x1="230" y1="493" x2="266" y2="493" stroke="#1A5CB5" stroke-width="2.5" marker-end="url(#rfa)"/>
   <text x="250" y="534" font-size="11.5" fill="#555555" text-anchor="middle"><strong>내가</strong> 필요할 때 <strong>부른다</strong></text>
-  <text x="250" y="554" font-size="10.5" fill="#8A8A8A" text-anchor="middle">주도권이 내 코드에 있음</text>
+  <text x="250" y="554" font-size="10.5" fill="#696969" text-anchor="middle">주도권이 내 코드에 있음</text>
 
   <rect x="460" y="436" width="380" height="130" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
   <text x="650" y="462" font-size="13.5" font-weight="800" fill="#065F46" text-anchor="middle">🏗 프레임워크 = 골조</text>
@@ -65,7 +65,7 @@
   <text x="740" y="498" font-size="11.5" font-weight="700" fill="#065F46" text-anchor="middle">내 코드</text>
   <line x1="630" y1="493" x2="666" y2="493" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#rfg)"/>
   <text x="650" y="534" font-size="11.5" fill="#555555" text-anchor="middle"><strong>프레임워크가</strong> 내 코드를 <strong>부른다</strong></text>
-  <text x="650" y="554" font-size="10.5" fill="#8A8A8A" text-anchor="middle">"제어의 역전" — 주도권이 뼈대에</text>
+  <text x="650" y="554" font-size="10.5" fill="#6E6E6E" text-anchor="middle">"제어의 역전" — 주도권이 뼈대에</text>
 
   <!-- 하단 -->
   <rect x="30" y="582" width="840" height="34" rx="8" fill="#0D1B2E"/>

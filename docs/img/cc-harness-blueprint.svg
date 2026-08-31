@@ -6,7 +6,7 @@
   </defs>
   <rect width="900" height="640" fill="#FAF7F2"/>
   <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">로컬 LLM 하네스 청사진 — 필수부터 붙여 나가는 사다리</text>
-  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">Claude Code의 51만 줄 = 이 골격 + 주변의 회복·최적화 로직. 아래 순서로 쌓으면 된다</text>
+  <text x="450" y="58" font-size="13" fill="#707070" text-anchor="middle">Claude Code의 51만 줄 = 이 골격 + 주변의 회복·최적화 로직. 아래 순서로 쌓으면 된다</text>
 
   <!-- L0 필수 -->
   <rect x="30" y="78" width="840" height="150" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2.5"/>

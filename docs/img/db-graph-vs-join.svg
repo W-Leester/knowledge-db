@@ -16,7 +16,7 @@
   <!-- friends table -->
   <g class="mono">
     <rect x="55" y="82" width="140" height="20" fill="#002C5F"/>
-    <text x="125" y="96" text-anchor="middle" font-size="9.5" fill="#FFF" font-weight="700">friends 테이블</text>
+    <text x="125" y="96" text-anchor="middle" font-size="9.5" fill="#696969" font-weight="700">friends 테이블</text>
     <rect x="55" y="102" width="70" height="18" fill="#E8EEF7" stroke="#D5CFBF" stroke-width="0.5"/>
     <rect x="125" y="102" width="70" height="18" fill="#E8EEF7" stroke="#D5CFBF" stroke-width="0.5"/>
     <text x="90" y="115" text-anchor="middle" font-size="8.5" fill="#002C5F" font-weight="700">user_id</text>
@@ -62,7 +62,7 @@
   <text x="60" y="300" font-size="9.5" fill="#DC2626" font-weight="700">4단계 → 인덱스를 타도 중간 결과가 폭발 (수십 초~불능)</text>
 
   <rect x="50" y="315" width="320" height="64" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="5"/>
-  <text x="210" y="335" text-anchor="middle" font-size="10.5" fill="#DC2626" font-weight="700">관계 깊이 ↑ = JOIN 횟수 ↑ = 비용 기하급수적 ↑</text>
+  <text x="210" y="335" text-anchor="middle" font-size="10.5" fill="#C82020" font-weight="700">관계 깊이 ↑ = JOIN 횟수 ↑ = 비용 기하급수적 ↑</text>
   <text x="210" y="352" text-anchor="middle" font-size="9.5" fill="#555555">매 단계마다 인덱스 룩업 + 중간 결과 집합 생성을 반복</text>
   <text x="210" y="368" text-anchor="middle" font-size="9.5" fill="#555555">데이터가 클수록 (1억 행) 기울기가 가팔라짐</text>
 
@@ -99,17 +99,17 @@
 
   <!-- nodes -->
   <circle cx="480" cy="210" r="24" fill="#002C5F"/>
-  <text x="480" y="214" text-anchor="middle" font-size="9.5" fill="#FFF" font-weight="700">원영</text>
+  <text x="480" y="214" text-anchor="middle" font-size="9.5" fill="#737373" font-weight="700">원영</text>
   <circle cx="565" cy="185" r="19" fill="#1A5CB5"/>
-  <text x="565" y="189" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">민수</text>
+  <text x="565" y="189" text-anchor="middle" font-size="9" fill="#737373" font-weight="700">민수</text>
   <circle cx="560" cy="250" r="19" fill="#1A5CB5"/>
-  <text x="560" y="254" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">지은</text>
+  <text x="560" y="254" text-anchor="middle" font-size="9" fill="#737373" font-weight="700">지은</text>
   <circle cx="655" cy="175" r="19" fill="#00AA6C"/>
-  <text x="655" y="179" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">철수</text>
+  <text x="655" y="179" text-anchor="middle" font-size="9" fill="#737373" font-weight="700">철수</text>
   <circle cx="660" cy="225" r="19" fill="#00AA6C"/>
-  <text x="660" y="229" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">수진</text>
+  <text x="660" y="229" text-anchor="middle" font-size="9" fill="#737373" font-weight="700">수진</text>
   <circle cx="660" cy="270" r="19" fill="#00AA6C"/>
-  <text x="660" y="274" text-anchor="middle" font-size="9" fill="#FFF" font-weight="700">태호</text>
+  <text x="660" y="274" text-anchor="middle" font-size="9" fill="#737373" font-weight="700">태호</text>
 
   <text x="700" y="200" font-size="9" fill="#065F46" font-weight="700">← 결과:</text>
   <text x="700" y="212" font-size="9" fill="#065F46">friend-of-</text>

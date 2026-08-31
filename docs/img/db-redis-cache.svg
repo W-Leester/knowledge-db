@@ -21,7 +21,7 @@
   <!-- Redis -->
   <rect x="330" y="70" width="170" height="110" fill="#DC2626" rx="8"/>
   <text x="415" y="100" text-anchor="middle" class="box-title">Redis</text>
-  <text x="415" y="118" text-anchor="middle" font-size="10" fill="#FEE2E2">인메모리 캐시</text>
+  <text x="415" y="118" text-anchor="middle" font-size="10" fill="#FFFBFB">인메모리 캐시</text>
   <rect x="348" y="130" width="134" height="36" fill="#FFFFFF" opacity="0.92" rx="4"/>
   <text x="415" y="145" text-anchor="middle" font-size="10.5" fill="#DC2626" font-weight="700">응답: ~0.1ms</text>
   <text x="415" y="159" text-anchor="middle" font-size="9" fill="#555555">RAM에서 즉시 반환</text>
@@ -38,7 +38,7 @@
   <path d="M 200 175 Q 250 130 328 118" fill="none" stroke="#DC2626" stroke-width="2.5"/>
   <polygon points="328,118 318,115 320,124" fill="#DC2626"/>
   <rect x="216" y="106" width="96" height="22" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="11"/>
-  <text x="264" y="121" text-anchor="middle" class="step" fill="#DC2626">① 캐시 먼저 조회</text>
+  <text x="264" y="121" text-anchor="middle" class="step" fill="#C82020">① 캐시 먼저 조회</text>
 
   <!-- Cache HIT return -->
   <path d="M 328 150 Q 255 165 202 185" fill="none" stroke="#00AA6C" stroke-width="2.5" stroke-dasharray="6,3"/>
@@ -56,17 +56,17 @@
   <path d="M 435 278 Q 450 230 435 182" fill="none" stroke="#E8962A" stroke-width="2.5"/>
   <polygon points="435,182 431,192 440,191" fill="#E8962A"/>
   <rect x="452" y="218" width="130" height="22" fill="#FEF3E2" stroke="#E8962A" stroke-width="1" rx="11"/>
-  <text x="517" y="233" text-anchor="middle" class="step" fill="#B45309">③ 결과를 캐시에 저장</text>
-  <text x="517" y="252" text-anchor="middle" font-size="9" fill="#8A8A8A">TTL(만료시간) 설정 — 예: 60초</text>
+  <text x="517" y="233" text-anchor="middle" class="step" fill="#AF5109">③ 결과를 캐시에 저장</text>
+  <text x="517" y="252" text-anchor="middle" font-size="9" fill="#696969">TTL(만료시간) 설정 — 예: 60초</text>
 
   <!-- Right panel: why & numbers -->
   <rect x="610" y="60" width="160" height="180" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="6"/>
   <text x="690" y="82" text-anchor="middle" font-size="11.5" font-weight="700" fill="#002C5F">속도 차이 체감</text>
   <!-- bar: redis -->
-  <text x="622" y="106" font-size="9.5" fill="#DC2626" font-weight="700">Redis 0.1ms</text>
+  <text x="622" y="106" font-size="9.5" fill="#FEF9F9" font-weight="700">Redis 0.1ms</text>
   <rect x="622" y="112" width="4" height="12" fill="#DC2626" rx="2"/>
   <!-- bar: mysql -->
-  <text x="622" y="146" font-size="9.5" fill="#003F8A" font-weight="700">MySQL 10ms</text>
+  <text x="622" y="146" font-size="9.5" fill="#76B4FF" font-weight="700">MySQL 10ms</text>
   <rect x="622" y="152" width="136" height="12" fill="#003F8A" rx="2"/>
   <text x="690" y="186" text-anchor="middle" font-size="10.5" fill="#1A1A1A" font-weight="700">약 100배 차이</text>
   <text x="690" y="204" text-anchor="middle" font-size="9" fill="#555555">(디스크 DB 대비</text>

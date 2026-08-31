@@ -37,13 +37,13 @@
 
   <!-- 3차 -->
   <rect x="30" y="398" width="840" height="100" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
-  <text x="52" y="426" font-size="13.5" font-weight="800" fill="#B45309">3차 사본 — 클라우드 (집 밖 · 최후의 보루 · 소량)</text>
+  <text x="52" y="426" font-size="13.5" font-weight="800" fill="#AF5109">3차 사본 — 클라우드 (집 밖 · 최후의 보루 · 소량)</text>
   <text x="52" y="450" font-size="11.5" fill="#555555">진짜 잃으면 안 되는 것만: 문서 · 사진 원본 · 코드 — 구글드라이브를 유지하되 <tspan font-weight="800">용량 다이어트</tspan>,</text>
   <text x="52" y="470" font-size="11.5" fill="#555555">또는 NAS 백업 앱이 B2/S3류 저가 스토리지에 암호화 업로드 — 요금은 줄고 역할은 "최후의 보루"로</text>
   <text x="52" y="488" font-size="9.5" fill="#666666">모델·미디어처럼 다시 받을 수 있는 것은 올리지 않는다 — 오프사이트는 "복구 불가능한 것" 전용</text>
 
   <!-- 경고 -->
   <rect x="30" y="514" width="840" height="50" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
-  <text x="450" y="536" font-size="12.5" font-weight="800" fill="#DC2626" text-anchor="middle">🔥 함정: NAS만 사서 구글드라이브를 끊으면 3-2-1의 "1"이 사라진다 — 화재·도난·낙뢰면 PC와 NAS가 함께 죽는다</text>
+  <text x="450" y="536" font-size="12.5" font-weight="800" fill="#C82020" text-anchor="middle">🔥 함정: NAS만 사서 구글드라이브를 끊으면 3-2-1의 "1"이 사라진다 — 화재·도난·낙뢰면 PC와 NAS가 함께 죽는다</text>
   <text x="450" y="556" font-size="11" fill="#555555" text-anchor="middle">NAS는 구글드라이브의 "대체"가 아니라 "역할 재배치" — 클라우드는 축소하되 유지하는 것이 정석</text>
 </svg>

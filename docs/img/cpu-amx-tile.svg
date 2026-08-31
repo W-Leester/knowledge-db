@@ -30,7 +30,7 @@
   <!-- Each cell: 14w × 12h -->
   <!-- Show 16 rows × 8 cols (abbreviated from 64 cols) -->
 
-  <text x="142" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="#002C5F">Tile A  (16 × 64, BF16)</text>
+  <text x="142" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF">Tile A  (16 × 64, BF16)</text>
 
   <!-- Matrix A grid: 8 cols × 16 rows = 128 cells shown, label says ×8 for brevity -->
   <!-- Cols 0-7 shown (of 64), indicate truncation -->
@@ -39,7 +39,7 @@
 
   <!-- Row highlight animation for A -->
   <g id="a-highlight-row">
-    <rect x="30" y="68" width="126" height="11" fill="#5588CC" opacity="0.5" id="a-row-hi">
+    <rect x="30" y="68" width="126" height="11" fill="#3A75C3" opacity="0.5" id="a-row-hi">
       <animate attributeName="y" values="68;68;68;80;80;80;92;92;92;104;104;104;116;116;116;128;128;128;140;140;140;152;152;152;164;164;164;176;176;176;188;188;188;200;200;200;212;212;212;224;224;224;236;236;236;248;248;248;260;260;260;272;272;272" dur="4s" repeatCount="indefinite"/>
     </rect>
   </g>
@@ -102,7 +102,7 @@
   <text x="185" y="185" text-anchor="middle" font-size="28" font-weight="700" fill="#1A1A1A">×</text>
 
   <!-- ===== MATRIX B: 8 rows × 16 cols shown (representing 64×16) ===== -->
-  <text x="310" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="#00AA6C">Tile B  (64 × 16, BF16)</text>
+  <text x="310" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF">Tile B  (64 × 16, BF16)</text>
 
   <!-- Column highlight animation for B -->
   <g id="b-highlight-col">
@@ -129,7 +129,7 @@
   <rect x="260" y="68" width="13" height="96" fill="#009960" stroke="#005533" stroke-width="0.5" opacity="0.7"/>
   <rect x="274" y="68" width="13" height="96" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.65"/>
   <rect x="288" y="68" width="13" height="96" fill="#009960" stroke="#005533" stroke-width="0.5" opacity="0.6"/>
-  <rect x="302" y="68" width="13" height="96" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.55"/>
+  <rect x="302" y="68" width="13" height="96" fill="#008655" stroke="#005533" stroke-width="0.5" opacity="0.55"/>
   <rect x="316" y="68" width="13" height="96" fill="#009960" stroke="#005533" stroke-width="0.5" opacity="0.5"/>
   <rect x="330" y="68" width="13" height="96" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.45"/>
   <rect x="344" y="68" width="13" height="96" fill="#009960" stroke="#005533" stroke-width="0.5" opacity="0.4"/>
@@ -140,17 +140,17 @@
   <rect x="414" y="68" width="13" height="96" fill="#00AA6C" stroke="#005533" stroke-width="0.5" opacity="0.15"/>
 
   <!-- Rows continue (truncation) -->
-  <text x="310" y="180" text-anchor="middle" font-size="16" fill="#00AA6C" font-weight="700">⋮</text>
+  <text x="310" y="180" text-anchor="middle" font-size="16" fill="#00965F" font-weight="700">⋮</text>
   <text x="204" y="298" font-size="9" fill="#555555">(64 rows ↓)</text>
   <text x="280" y="298" font-size="9" fill="#555555">16 cols</text>
-  <text x="204" y="310" font-size="8" fill="#00AA6C">K=64</text>
-  <text x="204" y="321" font-size="8" fill="#00AA6C">N=16</text>
+  <text x="204" y="310" font-size="8" fill="#00774C">K=64</text>
+  <text x="204" y="321" font-size="8" fill="#00774C">N=16</text>
 
   <!-- ===== OPERATOR = ===== -->
   <text x="452" y="185" text-anchor="middle" font-size="28" font-weight="700" fill="#1A1A1A">=</text>
 
   <!-- ===== MATRIX C: 16×16 result ===== -->
-  <text x="584" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="#E8962A">Tile C  (16 × 16, FP32)</text>
+  <text x="584" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="#76490D">Tile C  (16 × 16, FP32)</text>
 
   <!-- C grid 16×16, each cell 16×16 -->
   <!-- x start=474, y start=68, cell=16+1=17 -->
@@ -198,11 +198,11 @@
     <animate attributeName="y" values="68;68;84;84;100;100;116;116;132;132;148;148;164;164;180;180;68" dur="4s" repeatCount="indefinite"/>
   </rect>
 
-  <text x="474" y="323" font-size="8" fill="#CC7700">M=16, N=16</text>
+  <text x="474" y="323" font-size="8" fill="#995900">M=16, N=16</text>
 
   <!-- C dimension labels -->
-  <text x="606" y="298" font-size="9" fill="#CC7700">16 × 16</text>
-  <text x="606" y="310" font-size="9" fill="#CC7700">FP32 result</text>
+  <text x="606" y="298" font-size="9" fill="#7A4700">16 × 16</text>
+  <text x="606" y="310" font-size="9" fill="#995900">FP32 result</text>
 
   <!-- === OPERATION FORMULA === -->
   <rect x="20" y="335" width="760" height="45" rx="6" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1.5"/>
@@ -216,7 +216,7 @@
   <text x="205" y="433" text-anchor="middle" font-size="9" fill="#555555">여러 루프 반복 필요, 레지스터 pressure 높음</text>
 
   <rect x="410" y="390" width="370" height="48" rx="5" fill="#E8F8F1" stroke="#00AA6C" stroke-width="1"/>
-  <text x="595" y="406" text-anchor="middle" font-size="9" font-weight="700" fill="#00AA6C">AMX TDPBF16PS (After AMX)</text>
+  <text x="595" y="406" text-anchor="middle" font-size="9" font-weight="700" fill="#007C4F">AMX TDPBF16PS (After AMX)</text>
   <text x="595" y="420" text-anchor="middle" font-size="9" fill="#555555">단일 명령어로 16×64×16 = 16,384 MAC</text>
   <text x="595" y="433" text-anchor="middle" font-size="9" fill="#006644">AI 추론 처리량 최대 8× 향상</text>
 </svg>

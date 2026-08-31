@@ -34,20 +34,20 @@
   <text x="443" y="48" font-size="10" font-weight="700" fill="#065F46" text-anchor="middle">매달 갱신 결제</text>
 
   <line x1="520" y1="138" x2="596" y2="138" stroke="#DC2626" stroke-width="2.5" marker-end="url(#ssr)"/>
-  <text x="558" y="128" font-size="10" font-weight="700" fill="#DC2626" text-anchor="middle">갱신 실패</text>
+  <text x="558" y="128" font-size="10" font-weight="700" fill="#DA2323" text-anchor="middle">갱신 실패</text>
 
   <!-- 연체 -->
   <rect x="600" y="92" width="260" height="92" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
-  <text x="730" y="120" font-size="13" font-weight="800" fill="#B45309" text-anchor="middle">⏳ 연체 (Past Due) — 더닝</text>
+  <text x="730" y="120" font-size="13" font-weight="800" fill="#AF5109" text-anchor="middle">⏳ 연체 (Past Due) — 더닝</text>
   <text x="730" y="142" font-size="10" fill="#555555" text-anchor="middle">카드 만료·한도 초과가 대부분 —</text>
   <text x="730" y="158" font-size="10" fill="#555555" text-anchor="middle">며칠 간격 재시도 + 독촉 메일 자동화</text>
-  <text x="730" y="176" font-size="9.5" font-weight="700" fill="#B45309" text-anchor="middle">여기서 살리는 매출이 의외로 크다 (비자발 이탈)</text>
+  <text x="730" y="176" font-size="9.5" font-weight="700" fill="#AF5109" text-anchor="middle">여기서 살리는 매출이 의외로 크다 (비자발 이탈)</text>
 
   <path d="M 700 184 C 660 240 520 220 500 180" fill="none" stroke="#00AA6C" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ssg)"/>
   <text x="622" y="234" font-size="10" font-weight="700" fill="#065F46" text-anchor="middle">재시도 성공 → 활성 복귀</text>
 
   <line x1="770" y1="184" x2="770" y2="266" stroke="#DC2626" stroke-width="2.5" marker-end="url(#ssr)"/>
-  <text x="792" y="230" font-size="10" font-weight="700" fill="#DC2626">전부 실패</text>
+  <text x="792" y="230" font-size="10" font-weight="700" fill="#DA2323">전부 실패</text>
 
   <!-- 취소 예약 -->
   <rect x="120" y="260" width="260" height="86" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
@@ -63,12 +63,12 @@
 
   <!-- 만료 -->
   <rect x="520" y="290" width="240" height="86" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
-  <text x="640" y="318" font-size="13" font-weight="800" fill="#DC2626" text-anchor="middle">⛔ 만료 (Churned)</text>
+  <text x="640" y="318" font-size="13" font-weight="800" fill="#C82020" text-anchor="middle">⛔ 만료 (Churned)</text>
   <text x="640" y="340" font-size="10" fill="#555555" text-anchor="middle">접근 차단 — 단 데이터는 유예 기간 보관</text>
   <text x="640" y="360" font-size="9.5" fill="#666666" text-anchor="middle">(재가입 대비 + 데이터 반환 의무 — 30~90일 관례)</text>
 
   <line x1="380" y1="316" x2="516" y2="322" stroke="#DC2626" stroke-width="2.2" marker-end="url(#ssr)"/>
-  <text x="448" y="308" font-size="10" font-weight="700" fill="#DC2626" text-anchor="middle">기간 만료</text>
+  <text x="448" y="308" font-size="10" font-weight="700" fill="#DA2323" text-anchor="middle">기간 만료</text>
 
   <path d="M 640 376 C 620 440 420 440 400 190" fill="none" stroke="#00AA6C" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ssg)"/>
   <text x="530" y="436" font-size="10" font-weight="700" fill="#065F46" text-anchor="middle">재활성화 (win-back 메일이 노리는 것)</text>

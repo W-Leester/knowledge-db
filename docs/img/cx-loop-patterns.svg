@@ -21,7 +21,7 @@
   <text x="220" y="141" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">📋 계획</text>
 
   <rect x="140" y="180" width="160" height="46" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
-  <text x="220" y="209" font-size="13.5" font-weight="800" fill="#B45309" text-anchor="middle">⚙️ 실행 (도구)</text>
+  <text x="220" y="209" font-size="13.5" font-weight="800" fill="#AF5109" text-anchor="middle">⚙️ 실행 (도구)</text>
 
   <rect x="140" y="248" width="160" height="46" rx="10" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
   <text x="220" y="277" font-size="13.5" font-weight="800" fill="#065F46" text-anchor="middle">🔍 검증 ★핵심</text>
@@ -31,15 +31,15 @@
 
   <!-- 검증 분기 -->
   <line x1="300" y1="271" x2="360" y2="271" stroke="#00AA6C" stroke-width="2.5" marker-end="url(#lg2)"/>
-  <rect x="318" y="300" width="84" height="36" rx="18" fill="#00AA6C"/>
-  <text x="360" y="323" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">✅ 완료</text>
+  <rect x="318" y="300" width="84" height="36" rx="18" fill="#008655"/>
+  <text x="360" y="323" font-size="12.5" font-weight="800" fill="#FFFFFF" text-anchor="middle">✅ 완료</text>
   <text x="360" y="258" font-size="11" fill="#065F46" text-anchor="middle">통과</text>
 
   <path d="M 140 271 C 80 271 80 141 136 138" fill="none" stroke="#DC2626" stroke-width="2.5" marker-end="url(#lr2)"/>
   <text x="72" y="210" font-size="11.5" font-weight="700" fill="#DC2626" text-anchor="middle" transform="rotate(-90 72 210)">실패 → 수정 재계획</text>
 
   <rect x="52" y="348" width="336" height="34" rx="9" fill="#FEE2E2"/>
-  <text x="220" y="370" font-size="12" font-weight="700" fill="#DC2626" text-anchor="middle">⏱ 정지 조건: 반복 상한 · 예산 · 진전 없음 감지</text>
+  <text x="220" y="370" font-size="12" font-weight="700" fill="#C82020" text-anchor="middle">⏱ 정지 조건: 반복 상한 · 예산 · 진전 없음 감지</text>
 
   <!-- 우: 패턴 3종 -->
   <rect x="440" y="64" width="430" height="330" rx="14" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2.5"/>
@@ -47,7 +47,7 @@
 
   <!-- 패턴1: 오류 재주입 -->
   <rect x="462" y="110" width="386" height="80" rx="10" fill="#FEF3E2"/>
-  <text x="478" y="136" font-size="13" font-weight="800" fill="#B45309">① 오류 재주입 — 실패를 숨기지 않는다</text>
+  <text x="478" y="136" font-size="13" font-weight="800" fill="#AF5109">① 오류 재주입 — 실패를 숨기지 않는다</text>
   <text x="478" y="158" font-size="11.5" fill="#555555">도구 오류·테스트 실패 메시지를 그대로 모델에게 →</text>
   <text x="478" y="176" font-size="11.5" fill="#555555">스스로 원인을 보고 고친다. 에이전트다움의 절반이 여기서 나온다.</text>
 
@@ -75,7 +75,7 @@
   <text x="450" y="516" font-size="11" fill="#C7D5EA" text-anchor="middle">외부에 드러나는 것: push·배포,</text>
   <text x="450" y="534" font-size="11" fill="#C7D5EA" text-anchor="middle">메시지 발송, 데이터 삭제</text>
   <rect x="598" y="468" width="240" height="88" rx="10" fill="rgba(255,255,255,.08)"/>
-  <text x="718" y="494" font-size="12.5" font-weight="800" fill="#DC2626" text-anchor="middle">훅으로 원천 차단</text>
+  <text x="718" y="494" font-size="12.5" font-weight="800" fill="#E35252" text-anchor="middle">훅으로 원천 차단</text>
   <text x="718" y="516" font-size="11" fill="#C7D5EA" text-anchor="middle">절대 일어나면 안 되는 것:</text>
   <text x="718" y="534" font-size="11" fill="#C7D5EA" text-anchor="middle">rm -rf, 시크릿 노출, main 직push</text>
 </svg>

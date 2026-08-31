@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
   <rect width="900" height="560" fill="#FAF7F2"/>
   <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">"무엇을 만들 때 무엇을" — 용도별 언어 지도</text>
-  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">언어에 우열은 없다. 용도에 맞는 도구가 있을 뿐 — 각 칸의 굵은 것이 기본값</text>
+  <text x="450" y="58" font-size="13" fill="#707070" text-anchor="middle">언어에 우열은 없다. 용도에 맞는 도구가 있을 뿐 — 각 칸의 굵은 것이 기본값</text>
 
   <!-- 6개 용도 카드 -->
   <rect x="30" y="78" width="272" height="150" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
@@ -9,48 +9,48 @@
   <text x="52" y="132" font-size="12.5" fill="#002C5F" font-weight="700">JavaScript / TypeScript</text>
   <text x="52" y="152" font-size="11" fill="#555555">브라우저가 유일하게 아는 언어</text>
   <text x="52" y="172" font-size="11" fill="#555555">프레임워크: React · Vue · Svelte</text>
-  <text x="52" y="196" font-size="10.5" fill="#8A8A8A">사실상 선택지가 JS 계열뿐 —</text>
-  <text x="52" y="214" font-size="10.5" fill="#8A8A8A">그래서 타입 안전한 TS가 대세</text>
+  <text x="52" y="196" font-size="10.5" fill="#696969">사실상 선택지가 JS 계열뿐 —</text>
+  <text x="52" y="214" font-size="10.5" fill="#696969">그래서 타입 안전한 TS가 대세</text>
 
   <rect x="314" y="78" width="272" height="150" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
   <text x="336" y="106" font-size="14" font-weight="800" fill="#065F46">🤖 AI · 데이터</text>
   <text x="336" y="132" font-size="12.5" fill="#065F46" font-weight="700">Python</text>
   <text x="336" y="152" font-size="11" fill="#555555">PyTorch·NumPy·pandas 생태계 독점</text>
   <text x="336" y="172" font-size="11" fill="#555555">(속도 필요한 밑단은 C++/CUDA)</text>
-  <text x="336" y="196" font-size="10.5" fill="#8A8A8A">"파이썬으로 실험, C++로 가속"</text>
-  <text x="336" y="214" font-size="10.5" fill="#8A8A8A">— 이 문서함의 로컬 LLM 스택 그대로</text>
+  <text x="336" y="196" font-size="10.5" fill="#6E6E6E">"파이썬으로 실험, C++로 가속"</text>
+  <text x="336" y="214" font-size="10.5" fill="#6E6E6E">— 이 문서함의 로컬 LLM 스택 그대로</text>
 
   <rect x="598" y="78" width="272" height="150" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
   <text x="620" y="106" font-size="14" font-weight="800" fill="#DC2626">⚙️ 시스템 · 고성능</text>
-  <text x="620" y="132" font-size="12.5" fill="#DC2626" font-weight="700">Rust / C / C++ / Zig</text>
+  <text x="620" y="132" font-size="12.5" fill="#C82020" font-weight="700">Rust / C / C++ / Zig</text>
   <text x="620" y="152" font-size="11" fill="#555555">OS·게임엔진·DB·추론엔진(llama.cpp)</text>
   <text x="620" y="172" font-size="11" fill="#555555">밀리초·메모리가 진짜 병목인 곳</text>
-  <text x="620" y="196" font-size="10.5" fill="#8A8A8A">Rust = 안전 + 속도(신규 선호)</text>
-  <text x="620" y="214" font-size="10.5" fill="#8A8A8A">C/C++ = 오래된 방대한 자산</text>
+  <text x="620" y="196" font-size="10.5" fill="#666666">Rust = 안전 + 속도(신규 선호)</text>
+  <text x="620" y="214" font-size="10.5" fill="#666666">C/C++ = 오래된 방대한 자산</text>
 
   <rect x="30" y="240" width="272" height="150" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
   <text x="52" y="268" font-size="14" font-weight="800" fill="#B45309">🖥 서버 (백엔드)</text>
-  <text x="52" y="294" font-size="12" fill="#B45309" font-weight="700">다양 — 용도에 따라</text>
+  <text x="52" y="294" font-size="12" fill="#AF5109" font-weight="700">다양 — 용도에 따라</text>
   <text x="52" y="314" font-size="11" fill="#555555">JS/TS(Node·Bun) · Python(FastAPI)</text>
   <text x="52" y="334" font-size="11" fill="#555555">Go(동시성·간결) · Java/Kotlin(대기업)</text>
   <text x="52" y="354" font-size="11" fill="#555555">C#(.NET) · Ruby(빠른 MVP)</text>
-  <text x="52" y="378" font-size="10.5" fill="#8A8A8A">"정답 없음" — DB 문서의 그 다양성</text>
+  <text x="52" y="378" font-size="10.5" fill="#6E6E6E">"정답 없음" — DB 문서의 그 다양성</text>
 
   <rect x="314" y="240" width="272" height="150" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
   <text x="336" y="268" font-size="14" font-weight="800" fill="#6B21A8">📱 모바일 앱</text>
   <text x="336" y="294" font-size="12" fill="#6B21A8" font-weight="700">플랫폼별</text>
   <text x="336" y="314" font-size="11" fill="#555555">iOS: Swift · Android: Kotlin</text>
   <text x="336" y="334" font-size="11" fill="#555555">크로스: React Native·Flutter(Dart)</text>
-  <text x="336" y="358" font-size="10.5" fill="#8A8A8A">"한 번 짜서 양쪽" vs "네이티브 성능"</text>
-  <text x="336" y="376" font-size="10.5" fill="#8A8A8A">의 트레이드오프</text>
+  <text x="336" y="358" font-size="10.5" fill="#696969">"한 번 짜서 양쪽" vs "네이티브 성능"</text>
+  <text x="336" y="376" font-size="10.5" fill="#696969">의 트레이드오프</text>
 
   <rect x="598" y="240" width="272" height="150" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
   <text x="620" y="268" font-size="14" font-weight="800" fill="#002C5F">🔧 스크립트 · 자동화</text>
   <text x="620" y="294" font-size="12" fill="#002C5F" font-weight="700">Python · Bash · JS</text>
   <text x="620" y="314" font-size="11" fill="#555555">짧게 짜서 바로 실행 — 편의 도구</text>
   <text x="620" y="334" font-size="11" fill="#555555">(윈도우는 PowerShell — COM 문서)</text>
-  <text x="620" y="358" font-size="10.5" fill="#8A8A8A">성능보다 "빨리 짜고 버리기"가 중요</text>
-  <text x="620" y="376" font-size="10.5" fill="#8A8A8A">→ 바이브코딩의 홈그라운드</text>
+  <text x="620" y="358" font-size="10.5" fill="#696969">성능보다 "빨리 짜고 버리기"가 중요</text>
+  <text x="620" y="376" font-size="10.5" fill="#696969">→ 바이브코딩의 홈그라운드</text>
 
   <!-- 데이터 계층 -->
   <rect x="30" y="402" width="840" height="52" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>

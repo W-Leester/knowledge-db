@@ -6,7 +6,7 @@
   <!-- 스펙트럼 축 -->
   <line x1="80" y1="96" x2="820" y2="96" stroke="#8A8478" stroke-width="2.5"/>
   <text x="80" y="84" font-size="10.5" font-weight="700" fill="#0F766E">좁은 착각 (가볍다)</text>
-  <text x="820" y="84" font-size="10.5" font-weight="700" fill="#DC2626" text-anchor="end">넓은 착각 (무겁다)</text>
+  <text x="820" y="84" font-size="10.5" font-weight="700" fill="#DA2323" text-anchor="end">넓은 착각 (무겁다)</text>
 
   <!-- venv -->
   <rect x="40" y="116" width="196" height="230" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
@@ -23,7 +23,7 @@
 
   <!-- 컨테이너 -->
   <rect x="248" y="116" width="196" height="230" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
-  <text x="346" y="144" font-size="13" font-weight="800" fill="#B45309" text-anchor="middle">📦 컨테이너</text>
+  <text x="346" y="144" font-size="13" font-weight="800" fill="#AF5109" text-anchor="middle">📦 컨테이너</text>
   <rect x="264" y="158" width="164" height="44" rx="8" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.2"/>
   <text x="346" y="176" font-size="10" font-weight="700" fill="#B45309" text-anchor="middle">속이는 것:</text>
   <text x="346" y="193" font-size="10.5" font-weight="800" fill="#B45309" text-anchor="middle">"너의 OS 세계"</text>
@@ -36,7 +36,7 @@
 
   <!-- VM -->
   <rect x="456" y="116" width="196" height="230" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
-  <text x="554" y="144" font-size="13" font-weight="800" fill="#DC2626" text-anchor="middle">🖥 가상머신 (가상 OS)</text>
+  <text x="554" y="144" font-size="13" font-weight="800" fill="#C82020" text-anchor="middle">🖥 가상머신 (가상 OS)</text>
   <rect x="472" y="158" width="164" height="44" rx="8" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.2"/>
   <text x="554" y="176" font-size="10" font-weight="700" fill="#DC2626" text-anchor="middle">속이는 것:</text>
   <text x="554" y="193" font-size="10.5" font-weight="800" fill="#DC2626" text-anchor="middle">"하드웨어 전체"</text>

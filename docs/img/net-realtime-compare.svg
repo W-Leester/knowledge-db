@@ -23,8 +23,8 @@
     <line x1="620" y1="115" x2="690" y2="115" stroke="#1A5CB5" marker-end="url(#ra)"/>
     <line x1="690" y1="130" x2="620" y2="130" stroke="#00AA6C" marker-end="url(#rg)"/>
   </g>
-  <text x="415" y="105" font-size="12" fill="#8A8A8A" text-anchor="middle">있어?/없어</text>
-  <text x="535" y="105" font-size="12" fill="#8A8A8A" text-anchor="middle">있어?/없어</text>
+  <text x="415" y="105" font-size="12" fill="#737373" text-anchor="middle">있어?/없어</text>
+  <text x="535" y="105" font-size="12" fill="#737373" text-anchor="middle">있어?/없어</text>
   <text x="655" y="105" font-size="12" fill="#065F46" text-anchor="middle" font-weight="700">있어?/있다!</text>
   <text x="380" y="172" font-size="13" fill="#DC2626" font-weight="700">단순하지만 빈 요청 낭비 + 주기만큼 지연</text>
 
@@ -34,7 +34,7 @@
   <text x="50" y="259" font-size="13.5" fill="#555555">물어보고 답이 생길 때까지 기다림</text>
   <line x1="380" y1="235" x2="450" y2="235" stroke="#1A5CB5" stroke-width="2.2" marker-end="url(#ra)"/>
   <rect x="452" y="226" width="180" height="18" rx="9" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.5"/>
-  <text x="542" y="240" font-size="12" fill="#B45309" text-anchor="middle" font-weight="700">서버가 붙잡고 대기…</text>
+  <text x="542" y="240" font-size="12" fill="#AF5109" text-anchor="middle" font-weight="700">서버가 붙잡고 대기…</text>
   <line x1="634" y1="250" x2="380" y2="250" stroke="#00AA6C" stroke-width="2.2" marker-end="url(#rg)"/>
   <text x="507" y="268" font-size="12" fill="#065F46" font-weight="700" text-anchor="middle">이벤트 발생 즉시 응답 → 다시 물어봄</text>
   <text x="380" y="290" font-size="13" fill="#555555">지연은 해결, 연결을 계속 다시 맺는 비용은 여전</text>
@@ -44,7 +44,7 @@
   <text x="50" y="352" font-size="16" font-weight="800" fill="#002C5F">③ SSE (Server-Sent Events)</text>
   <text x="50" y="375" font-size="13.5" fill="#555555">한 번 연결하면 서버가 계속 흘려보냄</text>
   <line x1="380" y1="348" x2="440" y2="348" stroke="#1A5CB5" stroke-width="2.2" marker-end="url(#ra)"/>
-  <text x="410" y="338" font-size="12" fill="#8A8A8A" text-anchor="middle">1회 연결</text>
+  <text x="410" y="338" font-size="12" fill="#737373" text-anchor="middle">1회 연결</text>
   <g stroke="#00AA6C" stroke-width="2.2">
     <line x1="480" y1="360" x2="420" y2="360" marker-end="url(#rg)"/>
     <line x1="560" y1="360" x2="500" y2="360" marker-end="url(#rg)"/>
@@ -58,8 +58,8 @@
   <text x="50" y="468" font-size="16" font-weight="800" fill="#065F46">④ WebSocket</text>
   <text x="50" y="491" font-size="13.5" fill="#555555">HTTP로 악수 후 전용 양방향 통로로 전환</text>
   <line x1="380" y1="462" x2="440" y2="462" stroke="#1A5CB5" stroke-width="2.2" marker-end="url(#ra)"/>
-  <text x="412" y="452" font-size="12" fill="#8A8A8A" text-anchor="middle">101 업그레이드</text>
-  <rect x="452" y="452" width="300" height="22" rx="11" fill="#00AA6C"/>
+  <text x="412" y="452" font-size="12" fill="#6E6E6E" text-anchor="middle">101 업그레이드</text>
+  <rect x="452" y="452" width="300" height="22" rx="11" fill="#008655"/>
   <text x="602" y="468" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="800">⇄ 상시 연결 — 양쪽 모두 아무 때나 전송</text>
   <text x="602" y="500" font-size="12.5" fill="#065F46" text-anchor="middle" font-weight="700">채팅 · 게임 · 협업 편집 · 실시간 시세 (Supabase Realtime도 이것)</text>
   <text x="380" y="524" font-size="13" fill="#555555">가장 강력, 대신 연결 관리(끊김·재접속)는 직접 챙겨야</text>

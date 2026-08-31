@@ -36,13 +36,13 @@
   <text x="771" y="249" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">🚀 프로덕션</text>
   <text x="771" y="266" font-size="9.5" fill="#AAB9CF" text-anchor="middle">실제 사용자에게</text>
   <text x="574" y="300" font-size="10.5" fill="#555555">뜻: "언제든 배포할 수 있는 상태를 항상 유지한다"</text>
-  <text x="574" y="320" font-size="10.5" font-weight="700" fill="#B45309">배포 시점은 사람이 정한다 — 대부분의 팀이 여기</text>
+  <text x="574" y="320" font-size="10.5" font-weight="700" fill="#AF5109">배포 시점은 사람이 정한다 — 대부분의 팀이 여기</text>
 
   <!-- Continuous Deployment -->
   <rect x="552" y="378" width="318" height="150" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="3"/>
   <text x="711" y="406" font-size="14.5" font-weight="800" fill="#0F766E" text-anchor="middle">Continuous Deployment (지속적 배포)</text>
   <rect x="574" y="420" width="90" height="46" rx="9" fill="#F2EDE4" stroke="#B5AFA5" stroke-width="1.5" stroke-dasharray="5 4"/>
-  <text x="619" y="439" font-size="10.5" font-weight="700" fill="#8A8478" text-anchor="middle">사람 없음</text>
+  <text x="619" y="439" font-size="10.5" font-weight="700" fill="#6F6A60" text-anchor="middle">사람 없음</text>
   <text x="619" y="456" font-size="9.5" fill="#666666" text-anchor="middle">(자동)</text>
   <line x1="664" y1="443" x2="690" y2="443" stroke="#00AA6C" stroke-width="2.2" marker-end="url(#cca)"/>
   <rect x="694" y="420" width="154" height="46" rx="9" fill="#0D1B2E"/>

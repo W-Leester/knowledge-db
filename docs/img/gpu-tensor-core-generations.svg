@@ -16,7 +16,7 @@
 
   <!-- Title -->
   <text x="400" y="25" text-anchor="middle" font-size="15" font-weight="700" fill="#002C5F">GPU Tensor Core 세대별 발전</text>
-  <text x="400" y="43" text-anchor="middle" font-size="10" fill="#555555">FP8 (Hopper)부터 학습에 저정밀도 사용 가능 → 메모리 2× 절약, 처리량 2× 향상</text>
+  <text x="400" y="43" text-anchor="middle" font-size="10" fill="#EBEBEB">FP8 (Hopper)부터 학습에 저정밀도 사용 가능 → 메모리 2× 절약, 처리량 2× 향상</text>
 
   <!-- Timeline axis (drawn with animation) -->
   <g clip-path="url(#timeline-clip)">
@@ -81,9 +81,9 @@
   <!-- Card above -->
   <rect x="314" y="50" width="155" height="72" rx="6" fill="#1A6BB5" stroke="#0D3A6A" stroke-width="1.5"/>
   <text x="392" y="67" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">Ampere</text>
-  <text x="392" y="80" text-anchor="middle" font-size="9" fill="#CCDDFF">GA102 · 2020</text>
+  <text x="392" y="80" text-anchor="middle" font-size="9" fill="#E6EEFF">GA102 · 2020</text>
   <text x="392" y="93" text-anchor="middle" font-size="9" fill="#DDEEFF">312 TFLOPS (TF32)</text>
-  <text x="392" y="106" text-anchor="middle" font-size="8" fill="#AACCFF">A100 · RTX 30 Series</text>
+  <text x="392" y="106" text-anchor="middle" font-size="8" fill="#E2EEFF">A100 · RTX 30 Series</text>
   <text x="390" y="148" text-anchor="middle" font-size="9" fill="#555555">2020</text>
 
   <!-- New: BF16 + TF32 added -->
@@ -91,7 +91,7 @@
   <text x="329" y="181" text-anchor="middle" font-size="7" fill="#FFFFFF">FP32</text>
   <rect x="347" y="170" width="30" height="14" rx="7" fill="#1D4ED8"/>
   <text x="362" y="181" text-anchor="middle" font-size="7" fill="#FFFFFF">FP16</text>
-  <rect x="380" y="170" width="28" height="14" rx="7" fill="#0D9488"/>
+  <rect x="380" y="170" width="28" height="14" rx="7" fill="#0B8177"/>
   <text x="394" y="181" text-anchor="middle" font-size="7" fill="#FFFFFF">BF16</text>
   <rect x="411" y="170" width="28" height="14" rx="7" fill="#047857"/>
   <text x="425" y="181" text-anchor="middle" font-size="7" fill="#FFFFFF">INT8</text>
@@ -100,7 +100,7 @@
 
   <!-- NEW badge for BF16 -->
   <rect x="380" y="158" width="24" height="10" rx="4" fill="#E8962A"/>
-  <text x="392" y="166" text-anchor="middle" font-size="6" fill="#FFFFFF" font-weight="700">NEW</text>
+  <text x="392" y="166" text-anchor="middle" font-size="6" fill="#3B3B3B" font-weight="700">NEW</text>
 
   <!-- ===== HOPPER (2022) ===== -->
   <circle cx="560" cy="130" r="10" fill="#00AA6C" stroke="#FFFFFF" stroke-width="2.5">
@@ -108,13 +108,13 @@
   </circle>
   <line x1="560" y1="140" x2="560" y2="215" stroke="#00AA6C" stroke-width="1.5" stroke-dasharray="4,3"/>
   <!-- Card below -->
-  <rect x="480" y="215" width="162" height="88" rx="6" fill="#00AA6C" stroke="#005533" stroke-width="1.5"/>
+  <rect x="480" y="215" width="162" height="88" rx="6" fill="#008655" stroke="#005533" stroke-width="1.5"/>
   <text x="561" y="232" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">Hopper</text>
-  <text x="561" y="245" text-anchor="middle" font-size="9" fill="#CCFFE8">GH100 · 2022</text>
+  <text x="561" y="245" text-anchor="middle" font-size="9" fill="#FFFFFF">GH100 · 2022</text>
   <text x="561" y="258" text-anchor="middle" font-size="9" fill="#FFFFFF">989 TFLOPS (FP8)</text>
-  <text x="561" y="271" text-anchor="middle" font-size="8" fill="#CCFFE8">H100 SXM — AI 표준</text>
-  <text x="561" y="284" text-anchor="middle" font-size="8" fill="#CCFFE8">NVLink 4 · HBM3</text>
-  <text x="561" y="297" text-anchor="middle" font-size="8" fill="#CCFFE8">Transformer Engine</text>
+  <text x="561" y="271" text-anchor="middle" font-size="8" fill="#FFFFFF">H100 SXM — AI 표준</text>
+  <text x="561" y="284" text-anchor="middle" font-size="8" fill="#FFFFFF">NVLink 4 · HBM3</text>
+  <text x="561" y="297" text-anchor="middle" font-size="8" fill="#FFFFFF">Transformer Engine</text>
   <text x="560" y="148" text-anchor="middle" font-size="9" fill="#555555">2022</text>
 
   <!-- Precision pills for Hopper -->
@@ -122,9 +122,9 @@
   <text x="495" y="181" text-anchor="middle" font-size="7" fill="#FFFFFF">FP32</text>
   <rect x="513" y="170" width="30" height="14" rx="7" fill="#1D4ED8"/>
   <text x="528" y="181" text-anchor="middle" font-size="7" fill="#FFFFFF">FP16</text>
-  <rect x="546" y="170" width="28" height="14" rx="7" fill="#0D9488"/>
+  <rect x="546" y="170" width="28" height="14" rx="7" fill="#0B8177"/>
   <text x="560" y="181" text-anchor="middle" font-size="7" fill="#FFFFFF">BF16</text>
-  <rect x="577" y="170" width="28" height="14" rx="7" fill="#EA580C"/>
+  <rect x="577" y="170" width="28" height="14" rx="7" fill="#C84B0A"/>
   <text x="591" y="181" text-anchor="middle" font-size="7" fill="#FFFFFF">FP8</text>
   <rect x="608" y="170" width="28" height="14" rx="7" fill="#047857"/>
   <text x="622" y="181" text-anchor="middle" font-size="7" fill="#FFFFFF">INT8</text>
@@ -139,10 +139,10 @@
   <line x1="720" y1="121" x2="720" y2="50" stroke="#E8962A" stroke-width="1.5" stroke-dasharray="4,3"/>
   <!-- Card above -->
   <rect x="638" y="50" width="155" height="72" rx="6" fill="#E8962A" stroke="#CC7700" stroke-width="1.5"/>
-  <text x="716" y="67" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">Blackwell</text>
-  <text x="716" y="80" text-anchor="middle" font-size="9" fill="#FFF0CC">GB100 · 2024</text>
-  <text x="716" y="93" text-anchor="middle" font-size="9" fill="#FFFFFF">4,500 TFLOPS (FP8)</text>
-  <text x="716" y="106" text-anchor="middle" font-size="8" fill="#FFF0CC">B200 · GB200 NVL</text>
+  <text x="716" y="67" text-anchor="middle" font-size="11" font-weight="700" fill="#3B3B3B">Blackwell</text>
+  <text x="716" y="80" text-anchor="middle" font-size="9" fill="#4D3600">GB100 · 2024</text>
+  <text x="716" y="93" text-anchor="middle" font-size="9" fill="#3B3B3B">4,500 TFLOPS (FP8)</text>
+  <text x="716" y="106" text-anchor="middle" font-size="8" fill="#4D3600">B200 · GB200 NVL</text>
   <text x="720" y="148" text-anchor="middle" font-size="9" fill="#555555">2024</text>
 
   <!-- Precision pills for Blackwell -->
@@ -150,9 +150,9 @@
   <text x="653" y="181" text-anchor="middle" font-size="7" fill="#FFFFFF">FP32</text>
   <rect x="671" y="170" width="30" height="14" rx="7" fill="#1D4ED8"/>
   <text x="686" y="181" text-anchor="middle" font-size="7" fill="#FFFFFF">FP16</text>
-  <rect x="704" y="170" width="28" height="14" rx="7" fill="#0D9488"/>
+  <rect x="704" y="170" width="28" height="14" rx="7" fill="#0B8177"/>
   <text x="718" y="181" text-anchor="middle" font-size="7" fill="#FFFFFF">BF16</text>
-  <rect x="735" y="170" width="28" height="14" rx="7" fill="#EA580C"/>
+  <rect x="735" y="170" width="28" height="14" rx="7" fill="#C84B0A"/>
   <text x="749" y="181" text-anchor="middle" font-size="7" fill="#FFFFFF">FP8</text>
 
   <!-- NEW FP4 badge -->
@@ -185,7 +185,7 @@
 
   <!-- Hopper: 989 → 13.2px -->
   <rect x="530" y="377" width="30" height="13" rx="1" fill="#00AA6C"/>
-  <text x="545" y="403" text-anchor="middle" font-size="8" fill="#00AA6C">989</text>
+  <text x="545" y="403" text-anchor="middle" font-size="8" fill="#00774C">989</text>
   <text x="545" y="413" text-anchor="middle" font-size="7" fill="#555555">Hopper</text>
 
   <!-- Blackwell: 4500 → 60px -->
@@ -193,7 +193,7 @@
     <animate attributeName="height" from="0" to="60" dur="1.5s" fill="freeze" begin="1.5s"/>
     <animate attributeName="y" from="390" to="330" dur="1.5s" fill="freeze" begin="1.5s"/>
   </rect>
-  <text x="710" y="403" text-anchor="middle" font-size="8" fill="#E8962A" font-weight="700">4,500</text>
+  <text x="710" y="403" text-anchor="middle" font-size="8" fill="#975D10" font-weight="700">4,500</text>
   <text x="710" y="413" text-anchor="middle" font-size="7" fill="#555555">Blackwell</text>
 
   <!-- Bar base line -->
@@ -215,5 +215,5 @@
   <rect x="381" y="425" width="16" height="10" rx="5" fill="#6B21A8"/>
   <text x="401" y="434" font-size="8" fill="#555555">INT4</text>
 
-  <text x="500" y="435" text-anchor="middle" font-size="8" fill="#888888">* Tensor Core 스파스 처리(2:4) 포함 수치</text>
+  <text x="500" y="435" text-anchor="middle" font-size="8" fill="#696969">* Tensor Core 스파스 처리(2:4) 포함 수치</text>
 </svg>

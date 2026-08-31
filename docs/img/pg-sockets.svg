@@ -6,13 +6,13 @@
   <!-- 코어 -->
   <rect x="270" y="230" width="360" height="220" rx="18" fill="#336791"/>
   <text x="450" y="268" font-size="16" font-weight="800" fill="#FFF" text-anchor="middle">🐘 PostgreSQL 코어</text>
-  <text x="450" y="294" font-size="10.5" fill="#CBDCF0" text-anchor="middle">파서 · 플래너 · 실행기 · 트랜잭션(MVCC) · WAL</text>
+  <text x="450" y="294" font-size="10.5" fill="#D7E4F3" text-anchor="middle">파서 · 플래너 · 실행기 · 트랜잭션(MVCC) · WAL</text>
   <text x="450" y="318" font-size="11" font-weight="700" fill="#FFF" text-anchor="middle">코어가 하는 일: "무엇이 오든</text>
   <text x="450" y="336" font-size="11" font-weight="700" fill="#FFF" text-anchor="middle">똑같이 계획하고·실행하고·지킨다"</text>
-  <text x="450" y="366" font-size="10" fill="#CBDCF0" text-anchor="middle">확장이 가져온 타입·인덱스·함수도</text>
-  <text x="450" y="384" font-size="10" fill="#CBDCF0" text-anchor="middle">내장 기능과 똑같은 대우를 받는다</text>
-  <text x="450" y="410" font-size="10.5" font-weight="800" fill="#7FD1A8" text-anchor="middle">= "1급 시민(first-class)" 의 뜻</text>
-  <text x="450" y="432" font-size="9.5" fill="#CBDCF0" text-anchor="middle">트랜잭션·백업·복제가 확장 데이터에도 그대로 적용</text>
+  <text x="450" y="366" font-size="10" fill="#D7E4F3" text-anchor="middle">확장이 가져온 타입·인덱스·함수도</text>
+  <text x="450" y="384" font-size="10" fill="#D7E4F3" text-anchor="middle">내장 기능과 똑같은 대우를 받는다</text>
+  <text x="450" y="410" font-size="10.5" font-weight="800" fill="#C6EBD8" text-anchor="middle">= "1급 시민(first-class)" 의 뜻</text>
+  <text x="450" y="432" font-size="9.5" fill="#D7E4F3" text-anchor="middle">트랜잭션·백업·복제가 확장 데이터에도 그대로 적용</text>
 
   <!-- 소켓들 -->
   <rect x="60" y="100" width="220" height="100" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
@@ -23,7 +23,7 @@
   <line x1="280" y1="170" x2="330" y2="248" stroke="#0F766E" stroke-width="2.5"/>
 
   <rect x="620" y="100" width="220" height="100" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
-  <text x="730" y="126" font-size="12.5" font-weight="800" fill="#B45309" text-anchor="middle">소켓 ② 인덱스 방식</text>
+  <text x="730" y="126" font-size="12.5" font-weight="800" fill="#AF5109" text-anchor="middle">소켓 ② 인덱스 방식</text>
   <text x="730" y="148" font-size="10" fill="#555555" text-anchor="middle">"새로운 찾기 방법"을 가르친다</text>
   <text x="730" y="166" font-size="10" fill="#555555" text-anchor="middle">B-tree 외에 GiST·GIN·HNSW …</text>
   <text x="730" y="186" font-size="9.5" fill="#666666" text-anchor="middle">벡터 유사도·지리 검색이 빠른 이유</text>
@@ -37,7 +37,7 @@
   <line x1="220" y1="340" x2="266" y2="340" stroke="#6B21A8" stroke-width="2.5"/>
 
   <rect x="680" y="290" width="180" height="100" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
-  <text x="770" y="316" font-size="12.5" font-weight="800" fill="#DC2626" text-anchor="middle">소켓 ④ FDW</text>
+  <text x="770" y="316" font-size="12.5" font-weight="800" fill="#C82020" text-anchor="middle">소켓 ④ FDW</text>
   <text x="770" y="338" font-size="10" fill="#555555" text-anchor="middle">외부 데이터 래퍼 —</text>
   <text x="770" y="356" font-size="10" fill="#555555" text-anchor="middle">남의 DB·파일·API를</text>
   <text x="770" y="374" font-size="10" fill="#555555" text-anchor="middle">"내 테이블인 척" 조회</text>

@@ -16,17 +16,17 @@
 
   <!-- 왜 필요한가 (좌측 배경 설명) -->
   <rect x="30" y="84" width="380" height="120" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
-  <text x="52" y="112" font-size="12.5" font-weight="800" fill="#DC2626">이 장치가 없을 때의 사고</text>
+  <text x="52" y="112" font-size="12.5" font-weight="800" fill="#C82020">이 장치가 없을 때의 사고</text>
   <text x="52" y="136" font-size="10.5" fill="#555555">서버 API를 v2로 바꿈 → 스토어 심사·사용자 업데이트는</text>
   <text x="52" y="154" font-size="10.5" fill="#555555">며칠~몇 주 걸림 → 그 사이 <tspan font-weight="700">구버전 앱 전원이 오류</tspan></text>
   <text x="52" y="172" font-size="10.5" fill="#555555">→ 별점 1점 폭탄 · "앱이 고장났어요" CS 폭주</text>
-  <text x="52" y="192" font-size="10" font-weight="700" fill="#DC2626">SaaS의 "전원 동시 최신"(§2)이 앱에선 성립하지 않는다</text>
+  <text x="52" y="192" font-size="10" font-weight="700" fill="#C82020">SaaS의 "전원 동시 최신"(§2)이 앱에선 성립하지 않는다</text>
 
   <rect x="470" y="84" width="400" height="120" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
   <text x="492" y="112" font-size="12.5" font-weight="800" fill="#0F766E">해법 — 서버가 내려주는 작은 JSON 하나</text>
-  <text x="492" y="138" font-size="10.5" fill="#7FD1A8" font-family="'JetBrains Mono', monospace" >{ "min_version": "1.2.0",</text>
-  <text x="492" y="158" font-size="10.5" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">  "latest_version": "1.4.1",</text>
-  <text x="492" y="178" font-size="10.5" fill="#7FD1A8" font-family="'JetBrains Mono', monospace">  "maintenance": false, "notice": "" }</text>
+  <text x="492" y="138" font-size="10.5" fill="#2C7B54" font-family="'JetBrains Mono', monospace" >{ "min_version": "1.2.0",</text>
+  <text x="492" y="158" font-size="10.5" fill="#2C7B54" font-family="'JetBrains Mono', monospace">  "latest_version": "1.4.1",</text>
+  <text x="492" y="178" font-size="10.5" fill="#2C7B54" font-family="'JetBrains Mono', monospace">  "maintenance": false, "notice": "" }</text>
   <text x="492" y="198" font-size="10" fill="#555555">앱이 시작할 때마다 이걸 읽고 스스로 판단한다 — 아래 흐름</text>
 
   <!-- 흐름도 -->
@@ -48,9 +48,9 @@
   <text x="450" y="440" font-size="9.5" fill="#666666" text-anchor="middle">점검 중인가</text>
 
   <line x1="550" y1="426" x2="640" y2="426" stroke="#DC2626" stroke-width="2.5" marker-end="url(#aur)"/>
-  <text x="595" y="416" font-size="10" font-weight="800" fill="#DC2626" text-anchor="middle">예</text>
+  <text x="595" y="416" font-size="10" font-weight="800" fill="#DA2323" text-anchor="middle">예</text>
   <rect x="644" y="398" width="226" height="76" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
-  <text x="757" y="424" font-size="12" font-weight="800" fill="#B45309" text-anchor="middle">🔧 점검 화면</text>
+  <text x="757" y="424" font-size="12" font-weight="800" fill="#AF5109" text-anchor="middle">🔧 점검 화면</text>
   <text x="757" y="444" font-size="9.5" fill="#555555" text-anchor="middle">notice 문구 표시 · 진입 차단</text>
   <text x="757" y="462" font-size="9.5" fill="#666666" text-anchor="middle">에러 화면이 아니라 "안내" — 신뢰의 차이</text>
 
@@ -63,9 +63,9 @@
   <text x="450" y="520" font-size="9.5" fill="#666666" text-anchor="middle">너무 낡았는가</text>
 
   <line x1="565" y1="506" x2="640" y2="506" stroke="#DC2626" stroke-width="2.5" marker-end="url(#aur)"/>
-  <text x="600" y="496" font-size="10" font-weight="800" fill="#DC2626" text-anchor="middle">예</text>
+  <text x="600" y="496" font-size="10" font-weight="800" fill="#DA2323" text-anchor="middle">예</text>
   <rect x="644" y="482" width="226" height="76" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.5"/>
-  <text x="757" y="506" font-size="12" font-weight="800" fill="#DC2626" text-anchor="middle">⛔ 강제 업데이트 화면</text>
+  <text x="757" y="506" font-size="12" font-weight="800" fill="#C82020" text-anchor="middle">⛔ 강제 업데이트 화면</text>
   <text x="757" y="526" font-size="9.5" fill="#555555" text-anchor="middle">스토어로 보내는 버튼만 — 우회 불가</text>
   <text x="757" y="544" font-size="9.5" fill="#666666" text-anchor="middle">min_version은 신중히 올린다 (강제는 최후수단)</text>
 

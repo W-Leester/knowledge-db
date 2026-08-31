@@ -31,7 +31,7 @@
   <line x1="614" y1="156" x2="646" y2="156" stroke="#003F8A" stroke-width="2.2" marker-end="url(#kmq)"/>
 
   <rect x="650" y="126" width="200" height="60" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
-  <text x="750" y="150" font-size="10.5" font-weight="800" fill="#DC2626" text-anchor="middle">생성 LLM ① (마지막 1회)</text>
+  <text x="750" y="150" font-size="10.5" font-weight="800" fill="#C82020" text-anchor="middle">생성 LLM ① (마지막 1회)</text>
   <text x="750" y="168" font-size="9.5" fill="#555555" text-anchor="middle">찾은 메일들 요약·답변 작성</text>
 
   <text x="52" y="216" font-size="10.5" fill="#555555">호출 집계: 임베딩 1회 + 생성 1회 — 그래프·온톨로지는 <tspan font-weight="700">등판하지 않는다</tspan> (표준 RAG로 충분한 질문)</text>
@@ -39,7 +39,7 @@
 
   <!-- 질문 B: 멀티홉 -->
   <rect x="30" y="284" width="840" height="330" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
-  <text x="52" y="312" font-size="13.5" font-weight="800" fill="#B45309">질문 B — "작년 B전자와의 단가 협상 스레드에서 최종 합의 금액은?" (멀티홉형: 그래프가 주인공)</text>
+  <text x="52" y="312" font-size="13.5" font-weight="800" fill="#AF5109">질문 B — "작년 B전자와의 단가 협상 스레드에서 최종 합의 금액은?" (멀티홉형: 그래프가 주인공)</text>
 
   <rect x="52" y="330" width="150" height="56" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
   <text x="127" y="352" font-size="10.5" font-weight="800" fill="#002C5F" text-anchor="middle">임베딩 모델 ①</text>
@@ -54,7 +54,7 @@
   <rect x="444" y="322" width="406" height="180" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
   <text x="647" y="346" font-size="11.5" font-weight="800" fill="#0F766E" text-anchor="middle">그래프 걷기 — 공짜 그래프(헤더)가 여기서 일한다</text>
   <circle cx="500" cy="392" r="26" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
-  <text x="500" y="388" font-size="9" font-weight="800" fill="#DC2626" text-anchor="middle">:조직</text>
+  <text x="500" y="388" font-size="9" font-weight="800" fill="#D52222" text-anchor="middle">:조직</text>
   <text x="500" y="401" font-size="8.5" fill="#555555" text-anchor="middle">B전자</text>
   <circle cx="590" cy="440" r="26" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
   <text x="590" y="436" font-size="9" font-weight="800" fill="#002C5F" text-anchor="middle">:사람</text>
@@ -63,7 +63,7 @@
   <text x="690" y="388" font-size="9" font-weight="800" fill="#6B21A8" text-anchor="middle">:스레드</text>
   <text x="690" y="401" font-size="8.5" fill="#555555" text-anchor="middle">단가 협상</text>
   <circle cx="790" cy="440" r="26" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
-  <text x="790" y="436" font-size="9" font-weight="800" fill="#B45309" text-anchor="middle">:메일</text>
+  <text x="790" y="436" font-size="9" font-weight="800" fill="#AF5109" text-anchor="middle">:메일</text>
   <text x="790" y="449" font-size="8.5" fill="#555555" text-anchor="middle">최신 회신</text>
   <line x1="522" y1="406" x2="566" y2="428" stroke="#0F766E" stroke-width="2" marker-end="url(#kmg)"/>
   <line x1="612" y1="426" x2="666" y2="404" stroke="#0F766E" stroke-width="2" marker-end="url(#kmg)"/>
@@ -86,7 +86,7 @@
   <text x="72" y="584" font-size="9.5" fill="#666666">SQL 한 번으로 원문 JOIN (같은 Postgres 안이므로)</text>
 
   <rect x="630" y="520" width="220" height="76" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
-  <text x="740" y="546" font-size="10.5" font-weight="800" fill="#DC2626" text-anchor="middle">생성 LLM ① (마지막 1회)</text>
+  <text x="740" y="546" font-size="10.5" font-weight="800" fill="#C82020" text-anchor="middle">생성 LLM ① (마지막 1회)</text>
   <text x="740" y="566" font-size="9.5" fill="#555555" text-anchor="middle">"최종 합의 금액은 ○○원입니다</text>
   <text x="740" y="582" font-size="9.5" fill="#555555" text-anchor="middle">(12/18 김부장 회신 기준)"</text>
   <line x1="612" y1="558" x2="626" y2="558" stroke="#003F8A" stroke-width="2.2" marker-end="url(#kmq)"/>

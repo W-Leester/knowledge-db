@@ -22,13 +22,13 @@
   <text x="293" y="104" text-anchor="middle" class="mod-title">스토리지 (S3)</text>
   <text x="293" y="121" text-anchor="middle" font-size="8" fill="#E8EEF7">따로 생성·설정</text>
 
-  <rect x="52" y="152" width="150" height="56" fill="#5B8DD9" rx="6"/>
+  <rect x="52" y="152" width="150" height="56" fill="#3673D0" rx="6"/>
   <text x="127" y="174" text-anchor="middle" class="mod-title">인증 (직접 구현)</text>
-  <text x="127" y="191" text-anchor="middle" font-size="8" fill="#E8EEF7">JWT·소셜로그인 코딩</text>
+  <text x="127" y="191" text-anchor="middle" font-size="8" fill="#FFFFFF">JWT·소셜로그인 코딩</text>
 
-  <rect x="218" y="152" width="150" height="56" fill="#8A8A8A" rx="6"/>
+  <rect x="218" y="152" width="150" height="56" fill="#737373" rx="6"/>
   <text x="293" y="174" text-anchor="middle" class="mod-title">API 서버 (직접 개발)</text>
-  <text x="293" y="191" text-anchor="middle" font-size="8" fill="#F0EDE8">CRUD 엔드포인트 코딩</text>
+  <text x="293" y="191" text-anchor="middle" font-size="8" fill="#FFFFFF">CRUD 엔드포인트 코딩</text>
 
   <!-- glue code lines -->
   <line x1="127" y1="140" x2="127" y2="150" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="3,2"/>
@@ -39,7 +39,7 @@
   <line x1="260" y1="140" x2="160" y2="152" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="3,2"/>
 
   <rect x="52" y="222" width="316" height="34" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="5"/>
-  <text x="210" y="236" text-anchor="middle" font-size="9.5" fill="#DC2626" font-weight="700">점선 = 서로 연결하는 코드를 전부 직접 작성</text>
+  <text x="210" y="236" text-anchor="middle" font-size="9.5" fill="#C82020" font-weight="700">점선 = 서로 연결하는 코드를 전부 직접 작성</text>
   <text x="210" y="250" text-anchor="middle" font-size="8.5" fill="#555">권한 관리도 서비스마다 제각각 — 초보자에겐 세팅 자체가 장벽</text>
 
   <rect x="52" y="266" width="316" height="94" fill="#FAF7F2" stroke="#D5CFBF" rx="6"/>
@@ -70,11 +70,11 @@
 
   <rect x="462" y="184" width="276" height="40" fill="#E8962A" rx="6"/>
   <text x="474" y="201" class="mod-title">③ 스토리지 (S3 구조 기반)</text>
-  <text x="474" y="216" font-size="8" fill="#FEF3E2">파일 → URL 발급 + DB 사용자 정보와 RLS 권한 연동</text>
+  <text x="474" y="216" font-size="8" fill="#543403">파일 → URL 발급 + DB 사용자 정보와 RLS 권한 연동</text>
 
-  <rect x="462" y="230" width="276" height="40" fill="#00AA6C" rx="6"/>
+  <rect x="462" y="230" width="276" height="40" fill="#008655" rx="6"/>
   <text x="474" y="247" class="mod-title">④ API 자동 생성</text>
-  <text x="474" y="262" font-size="8" fill="#E6F7F1">테이블을 만들면 CRUD API가 즉시 생성 — 백엔드 코드 불필요</text>
+  <text x="474" y="262" font-size="8" fill="#FFFFFF">테이블을 만들면 CRUD API가 즉시 생성 — 백엔드 코드 불필요</text>
 
   <rect x="462" y="276" width="276" height="40" fill="#6B21A8" rx="6"/>
   <text x="474" y="293" class="mod-title">⑤ 실시간 (Realtime)</text>
@@ -87,7 +87,7 @@
   <rect x="30" y="388" width="740" height="66" fill="#FFFFFF" stroke="#D5CFBF" stroke-width="1" rx="8"/>
   <text x="46" y="408" font-size="11" fill="#002C5F" font-weight="700">선배 Firebase(구글)와의 차이</text>
   <g font-size="9.5">
-    <text x="60" y="428" fill="#8A8A8A" font-weight="700">Firebase:</text>
+    <text x="60" y="428" fill="#737373" font-weight="700">Firebase:</text>
     <text x="122" y="428" fill="#555">NoSQL 기반 · 복잡한 관계·쿼리 어려움 · 구글 독점(정책 변경 시 종속)</text>
     <text x="60" y="446" fill="#065F46" font-weight="700">Supabase:</text>
     <text x="128" y="446" fill="#555">PostgreSQL 기반 · SQL·JOIN 자유 · 오픈소스 — <tspan font-weight="700" fill="#002C5F">"Firebase처럼 편하게, 제대로 된 SQL로"</tspan></text>

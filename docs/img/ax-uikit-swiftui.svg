@@ -24,7 +24,7 @@
   <text x="50" y="298" font-size="10.5" fill="#555555">· 화면 갱신을 <tspan font-weight="700">내가 일일이 명령</tspan>한다</text>
   <text x="50" y="318" font-size="10.5" fill="#555555">· 17년 넘게 쌓인 자료·라이브러리·해답</text>
   <text x="50" y="338" font-size="10.5" fill="#555555">· 세밀한 제어가 필요할 때 강하다</text>
-  <text x="50" y="360" font-size="10.5" fill="#B45309" font-weight="700">· 코드가 길고, 갱신을 빠뜨리면 화면이 어긋난다</text>
+  <text x="50" y="360" font-size="10.5" fill="#AA4F09" font-weight="700">· 코드가 길고, 갱신을 빠뜨리면 화면이 어긋난다</text>
 
   <!-- SwiftUI -->
   <rect x="465" y="84" width="405" height="290" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
@@ -38,11 +38,11 @@
   <text x="501" y="228" font-size="10" fill="#AAB9CF" font-family="'JetBrains Mono', monospace">// count가 바뀌면 화면은 프레임워크가</text>
   <text x="501" y="244" font-size="10" fill="#AAB9CF" font-family="'JetBrains Mono', monospace">// 알아서 다시 그린다 — 갱신 코드 없음</text>
 
-  <text x="485" y="276" font-size="11" font-weight="700" fill="#B45309">특징</text>
+  <text x="485" y="276" font-size="11" font-weight="700" fill="#AF5109">특징</text>
   <text x="485" y="298" font-size="10.5" fill="#555555">· 갱신은 <tspan font-weight="700">프레임워크가</tspan> 한다 (제어의 역전)</text>
   <text x="485" y="318" font-size="10.5" fill="#555555">· 코드가 짧고, 실시간 미리보기가 강력</text>
   <text x="485" y="338" font-size="10.5" fill="#555555">· 워치·비전OS 등 새 플랫폼의 기본 도구</text>
-  <text x="485" y="360" font-size="10.5" fill="#DC2626" font-weight="700">· 역사가 짧아 아주 특수한 커스텀은 아직 빈틈</text>
+  <text x="485" y="360" font-size="10.5" fill="#D52222" font-weight="700">· 역사가 짧아 아주 특수한 커스텀은 아직 빈틈</text>
 
   <!-- 평행 비유 -->
   <rect x="30" y="392" width="840" height="96" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>

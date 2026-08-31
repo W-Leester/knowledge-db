@@ -20,21 +20,21 @@
   <text x="120" y="185" font-size="17" font-weight="800" fill="#002C5F" text-anchor="middle">작업 폴더</text>
   <text x="120" y="212" font-size="13.5" fill="#555555" text-anchor="middle">지금 편집 중인</text>
   <text x="120" y="232" font-size="13.5" fill="#555555" text-anchor="middle">실제 파일들</text>
-  <text x="120" y="262" font-size="13" fill="#8A8A8A" text-anchor="middle" font-family="'JetBrains Mono', monospace">*.html, *.css …</text>
+  <text x="120" y="262" font-size="13" fill="#696969" text-anchor="middle" font-family="'JetBrains Mono', monospace">*.html, *.css …</text>
 
   <!-- 스테이징 -->
   <rect x="232" y="150" width="156" height="130" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
   <text x="310" y="185" font-size="17" font-weight="800" fill="#002C5F" text-anchor="middle">스테이징</text>
   <text x="310" y="212" font-size="13.5" fill="#555555" text-anchor="middle">"다음 커밋에 넣을</text>
   <text x="310" y="232" font-size="13.5" fill="#555555" text-anchor="middle">변경분" 대기석</text>
-  <text x="310" y="262" font-size="13" fill="#8A8A8A" text-anchor="middle" font-family="'JetBrains Mono', monospace">index</text>
+  <text x="310" y="262" font-size="13" fill="#6E6E6E" text-anchor="middle" font-family="'JetBrains Mono', monospace">index</text>
 
   <!-- 로컬 저장소 -->
   <rect x="422" y="150" width="156" height="130" rx="12" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
   <text x="500" y="185" font-size="17" font-weight="800" fill="#002C5F" text-anchor="middle">로컬 저장소</text>
   <text x="500" y="212" font-size="13.5" fill="#555555" text-anchor="middle">커밋 이력 전체가</text>
   <text x="500" y="232" font-size="13.5" fill="#555555" text-anchor="middle">여기 저장된다</text>
-  <text x="500" y="262" font-size="13" fill="#8A8A8A" text-anchor="middle" font-family="'JetBrains Mono', monospace">.git/</text>
+  <text x="500" y="262" font-size="13" fill="#6E6E6E" text-anchor="middle" font-family="'JetBrains Mono', monospace">.git/</text>
 
   <!-- add / commit 화살표 -->
   <line x1="198" y1="205" x2="228" y2="205" stroke="#003F8A" stroke-width="2.5" marker-end="url(#arrow)"/>
@@ -56,7 +56,7 @@
 
   <!-- push / pull 화살표 -->
   <line x1="582" y1="188" x2="662" y2="188" stroke="#00AA6C" stroke-width="3" marker-end="url(#arrowG)"/>
-  <text x="622" y="176" font-size="15" font-weight="800" fill="#00AA6C" text-anchor="middle" font-family="'JetBrains Mono', monospace">push</text>
+  <text x="622" y="176" font-size="15" font-weight="800" fill="#00A066" text-anchor="middle" font-family="'JetBrains Mono', monospace">push</text>
 
   <line x1="662" y1="242" x2="582" y2="242" stroke="#1A5CB5" stroke-width="3" marker-end="url(#arrow)"/>
   <text x="622" y="268" font-size="15" font-weight="800" fill="#1A5CB5" text-anchor="middle" font-family="'JetBrains Mono', monospace">pull</text>

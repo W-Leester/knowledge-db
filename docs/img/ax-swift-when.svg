@@ -44,18 +44,18 @@
   <text x="623" y="232" font-size="10.5" fill="#555555">· 극한의 성능·부드러움이 상품</text>
   <text x="633" y="248" font-size="10.5" fill="#555555">(고급 카메라·게임·그래픽)</text>
   <text x="623" y="270" font-size="10.5" fill="#555555">· 비전OS·워치 등 새 플랫폼 주력</text>
-  <text x="623" y="298" font-size="10" font-weight="700" fill="#DC2626">→ 대가: 안드로이드를 따로 만든다</text>
+  <text x="623" y="298" font-size="10" font-weight="700" fill="#C82020">→ 대가: 안드로이드를 따로 만든다</text>
   <text x="623" y="318" font-size="10" fill="#666666">개발 비용이 사실상 두 배 —</text>
   <text x="623" y="334" font-size="10" fill="#666666">그만한 이유가 있을 때만</text>
 
   <!-- 오해 정정 -->
   <rect x="40" y="366" width="400" height="150" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
-  <text x="62" y="394" font-size="12.5" font-weight="800" fill="#B45309">흔한 오해 — "결국 Swift로 다시 짜야 한다"</text>
+  <text x="62" y="394" font-size="12.5" font-weight="800" fill="#AF5109">흔한 오해 — "결국 Swift로 다시 짜야 한다"</text>
   <text x="62" y="420" font-size="10.5" fill="#555555">아니다. 크로스플랫폼은 <tspan font-weight="700">Xcode 툴체인</tspan>을 못 벗어날 뿐,</text>
   <text x="62" y="438" font-size="10.5" fill="#555555">코드를 Swift로 옮기라는 뜻이 아니다.</text>
   <text x="62" y="462" font-size="10.5" fill="#555555">React Native 앱도 내 코드는 100% JS이고,</text>
   <text x="62" y="480" font-size="10.5" fill="#555555">Xcode는 빌드·서명 때만 뒤에서 돈다.</text>
-  <text x="62" y="504" font-size="10.5" font-weight="700" fill="#B45309">의무는 "언어"가 아니라 "출고 라인"이다</text>
+  <text x="62" y="504" font-size="10.5" font-weight="700" fill="#AF5109">의무는 "언어"가 아니라 "출고 라인"이다</text>
 
   <!-- 백엔드 케이스 -->
   <rect x="460" y="366" width="400" height="150" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>

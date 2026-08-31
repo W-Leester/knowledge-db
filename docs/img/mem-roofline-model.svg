@@ -52,9 +52,9 @@
   <text x="160" y="178" text-anchor="middle" class="region-label" fill="#DC2626" opacity="0.8">Bound</text>
   <text x="160" y="196" text-anchor="middle" class="region-label" fill="#DC2626" opacity="0.8">영역</text>
 
-  <text x="500" y="100" text-anchor="middle" class="region-label" fill="#00AA6C" opacity="0.9">Compute</text>
-  <text x="500" y="118" text-anchor="middle" class="region-label" fill="#00AA6C" opacity="0.9">Bound</text>
-  <text x="500" y="136" text-anchor="middle" class="region-label" fill="#00AA6C" opacity="0.9">영역</text>
+  <text x="500" y="100" text-anchor="middle" class="region-label" fill="#008655" opacity="0.9">Compute</text>
+  <text x="500" y="118" text-anchor="middle" class="region-label" fill="#008655" opacity="0.9">Bound</text>
+  <text x="500" y="136" text-anchor="middle" class="region-label" fill="#008655" opacity="0.9">영역</text>
 
   <!-- Memory bandwidth ceiling line (diagonal) -->
   <!-- from (0.1, 2e11) to (5, 1e13) -->
@@ -71,8 +71,8 @@
   <!-- Ridge point -->
   <circle cx="326" cy="30" r="5" fill="#E8962A" stroke="#FFFFFF" stroke-width="1.5"/>
   <line x1="326" y1="30" x2="326" y2="370" stroke="#E8962A" stroke-width="1" stroke-dasharray="5,4"/>
-  <text x="328" y="390" font-size="11" fill="#E8962A" font-weight="700" text-anchor="middle">Ridge Point</text>
-  <text x="328" y="404" font-size="10" fill="#E8962A" text-anchor="middle">(~5 FLOP/Byte)</text>
+  <text x="328" y="390" font-size="11" fill="#975D10" font-weight="700" text-anchor="middle">Ridge Point</text>
+  <text x="328" y="404" font-size="10" fill="#975D10" text-anchor="middle">(~5 FLOP/Byte)</text>
 
   <!-- Workload points -->
   <!-- LLM Inference batch=1: very low intensity ~0.15 FLOP/Byte -->
@@ -96,7 +96,7 @@
   <circle cx="348" cy="109" r="7" fill="#E8962A" stroke="#FFFFFF" stroke-width="1.5" opacity="0">
     <animate attributeName="opacity" from="0" to="1" begin="1.2s" dur="0.5s" fill="freeze"/>
   </circle>
-  <text x="355" y="104" class="point-label" fill="#E8962A" opacity="0">
+  <text x="355" y="104" class="point-label" fill="#A46512" opacity="0">
     <animate attributeName="opacity" from="0" to="1" begin="1.2s" dur="0.5s" fill="freeze"/>
     LLM 학습
   </text>
@@ -107,7 +107,7 @@
   <circle cx="483" cy="64" r="7" fill="#00AA6C" stroke="#FFFFFF" stroke-width="1.5" opacity="0">
     <animate attributeName="opacity" from="0" to="1" begin="1.9s" dur="0.5s" fill="freeze"/>
   </circle>
-  <text x="490" y="59" class="point-label" fill="#00AA6C" opacity="0">
+  <text x="490" y="59" class="point-label" fill="#008655" opacity="0">
     <animate attributeName="opacity" from="0" to="1" begin="1.9s" dur="0.5s" fill="freeze"/>
     CNN 학습
   </text>

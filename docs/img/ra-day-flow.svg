@@ -6,7 +6,7 @@
   </defs>
   <rect width="900" height="600" fill="#FAF7F2"/>
   <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">조합 사용 시나리오 — 개발자의 하루</text>
-  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">경쟁이 아니라 분업 — 책상에선 코딩 에이전트, 그 외 모든 시간은 상주형이 커버한다</text>
+  <text x="450" y="58" font-size="13" fill="#707070" text-anchor="middle">경쟁이 아니라 분업 — 책상에선 코딩 에이전트, 그 외 모든 시간은 상주형이 커버한다</text>
 
   <!-- 타임라인 축 -->
   <line x1="80" y1="90" x2="80" y2="540" stroke="#B5AFA5" stroke-width="2"/>
@@ -22,7 +22,7 @@
   <circle cx="80" cy="190" r="7" fill="#B45309"/>
   <text x="40" y="195" font-size="12" font-weight="800" fill="#555555" text-anchor="middle">09:00</text>
   <rect x="110" y="164" width="760" height="56" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.8"/>
-  <text x="130" y="188" font-size="12.5" font-weight="800" fill="#B45309">💻 책상 — Claude Code로 본업 (세션형 코딩 에이전트)</text>
+  <text x="130" y="188" font-size="12.5" font-weight="800" fill="#AF5109">💻 책상 — Claude Code로 본업 (세션형 코딩 에이전트)</text>
   <text x="130" y="208" font-size="11.5" fill="#555555">저장소 열고 기능 구현·테스트·커밋 — 코드 작업의 깊이는 전용 코딩 에이전트가 가장 강하다</text>
 
   <!-- 12:30 -->

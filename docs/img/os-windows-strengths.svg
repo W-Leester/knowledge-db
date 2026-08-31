@@ -17,7 +17,7 @@
   <text x="166" y="228" font-size="12" fill="#555555" text-anchor="middle">모델 학습·파인튜닝 속도 압도</text>
 
   <rect x="52" y="246" width="228" height="30" rx="7" fill="#FEE2E2"/>
-  <text x="166" y="266" font-size="11.5" font-weight="700" fill="#DC2626" text-anchor="middle">🍎 맥은 CUDA 사용 불가</text>
+  <text x="166" y="266" font-size="11.5" font-weight="700" fill="#C82020" text-anchor="middle">🍎 맥은 CUDA 사용 불가</text>
 
   <!-- ② 게임 -->
   <rect x="314" y="56" width="272" height="232" rx="14" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2.5"/>
@@ -34,7 +34,7 @@
   <text x="450" y="228" font-size="12" fill="#555555" text-anchor="middle">VR·안티치트 등 주변 생태계</text>
 
   <rect x="336" y="246" width="228" height="30" rx="7" fill="#FEE2E2"/>
-  <text x="450" y="266" font-size="11.5" font-weight="700" fill="#DC2626" text-anchor="middle">🍎 맥은 출시 게임 자체가 적다</text>
+  <text x="450" y="266" font-size="11.5" font-weight="700" fill="#C82020" text-anchor="middle">🍎 맥은 출시 게임 자체가 적다</text>
 
   <!-- ③ 엔터프라이즈 -->
   <rect x="598" y="56" width="272" height="232" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2.5"/>
@@ -51,7 +51,7 @@
   <text x="734" y="228" font-size="12" fill="#555555" text-anchor="middle">사내 시스템·그룹웨어·액티브X 잔재</text>
 
   <rect x="620" y="246" width="228" height="30" rx="7" fill="#FEE2E2"/>
-  <text x="734" y="266" font-size="11.5" font-weight="700" fill="#DC2626" text-anchor="middle">🍎 대체 불가한 경우가 흔함</text>
+  <text x="734" y="266" font-size="11.5" font-weight="700" fill="#C82020" text-anchor="middle">🍎 대체 불가한 경우가 흔함</text>
 
   <!-- 하단: 가성비 + WSL -->
   <rect x="30" y="308" width="410" height="150" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
@@ -59,7 +59,7 @@
   <text x="52" y="364" font-size="12.5" fill="#555555">· 같은 예산이면 더 높은 사양 (RAM·SSD·GPU)</text>
   <text x="52" y="386" font-size="12.5" fill="#555555">· 부품 교체·업그레이드 가능 — 오래 쓰며 개선</text>
   <text x="52" y="408" font-size="12.5" fill="#555555">· 제조사·폼팩터 선택지가 압도적으로 넓다</text>
-  <text x="52" y="432" font-size="12.5" font-weight="700" fill="#B45309">· 맥은 구매 시점의 메모리 용량이 수명 내내 고정</text>
+  <text x="52" y="432" font-size="12.5" font-weight="700" fill="#AF5109">· 맥은 구매 시점의 메모리 용량이 수명 내내 고정</text>
 
   <rect x="460" y="308" width="410" height="150" rx="14" fill="#E6F7F1" stroke="#00AA6C" stroke-width="2"/>
   <text x="482" y="338" font-size="15.5" font-weight="800" fill="#065F46">⑤ WSL2 — 격차를 좁힌 결정적 카드</text>

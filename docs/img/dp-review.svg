@@ -20,7 +20,7 @@
 
   <!-- 왼쪽: 왜 여전히 필요한가 -->
   <rect x="30" y="90" width="200" height="248" rx="12" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
-  <text x="130" y="116" font-size="12" font-weight="800" fill="#DC2626" text-anchor="middle">AI 코드의 실패 방식</text>
+  <text x="130" y="116" font-size="12" font-weight="800" fill="#C82020" text-anchor="middle">AI 코드의 실패 방식</text>
   <text x="44" y="140" font-size="10" fill="#555555">· 그럴듯하게 틀림 — 읽으면</text>
   <text x="52" y="154" font-size="10" fill="#555555">맞아 보이는 미묘한 오류</text>
   <text x="44" y="176" font-size="10" fill="#555555">· 없는 API를 자신 있게 호출</text>
@@ -30,7 +30,7 @@
   <text x="52" y="248" font-size="10" fill="#555555">비밀키 하드코딩)</text>
   <text x="44" y="270" font-size="10" fill="#555555">· 테스트를 통과"만" 하도록</text>
   <text x="52" y="284" font-size="10" fill="#555555">과녁에 과적합</text>
-  <text x="44" y="312" font-size="10" font-weight="700" fill="#DC2626">→ 전부 "실행"만으론 안 잡힘</text>
+  <text x="44" y="312" font-size="10" font-weight="700" fill="#C82020">→ 전부 "실행"만으론 안 잡힘</text>
   <text x="52" y="328" font-size="10" fill="#666666">그래서 리뷰가 남는다</text>
 
   <!-- 오른쪽: 사람이 반드시 보는 곳 -->

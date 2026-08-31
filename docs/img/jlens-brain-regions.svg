@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
   <rect width="900" height="660" fill="#FAF7F2"/>
   <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">기능은 어디에 사는가 — 뇌는 "장소", 트랜스포머는 "방향"</text>
-  <text x="450" y="58" font-size="13" fill="#8A8A8A" text-anchor="middle">※ 뇌 그림은 위치를 나타내는 모식도이며 해부학적으로 정밀하지 않다</text>
+  <text x="450" y="58" font-size="13" fill="#707070" text-anchor="middle">※ 뇌 그림은 위치를 나타내는 모식도이며 해부학적으로 정밀하지 않다</text>
 
   <!-- 좌: 뇌 모식도 -->
   <rect x="30" y="76" width="420" height="380" rx="16" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.5"/>
@@ -17,31 +17,31 @@
 
   <!-- 영역 마커들 -->
   <circle cx="110" cy="228" r="15" fill="#002C5F"/>
-  <text x="110" y="233" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">1</text>
+  <text x="110" y="233" font-size="13" font-weight="800" fill="#737373" text-anchor="middle">1</text>
   <text x="96" y="200" font-size="12" font-weight="700" fill="#002C5F" text-anchor="middle">전전두엽</text>
 
   <circle cx="196" cy="196" r="15" fill="#6B21A8"/>
-  <text x="196" y="201" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">2</text>
+  <text x="196" y="201" font-size="13" font-weight="800" fill="#737373" text-anchor="middle">2</text>
   <text x="186" y="170" font-size="12" font-weight="700" fill="#6B21A8" text-anchor="middle">전대상피질</text>
 
   <circle cx="290" cy="180" r="15" fill="#1A5CB5"/>
-  <text x="290" y="185" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">3</text>
+  <text x="290" y="185" font-size="13" font-weight="800" fill="#737373" text-anchor="middle">3</text>
   <text x="300" y="156" font-size="12" font-weight="700" fill="#1A5CB5" text-anchor="middle">두정엽</text>
 
   <circle cx="212" cy="268" r="15" fill="#00AA6C"/>
-  <text x="212" y="273" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">4</text>
+  <text x="212" y="273" font-size="13" font-weight="800" fill="#737373" text-anchor="middle">4</text>
   <text x="196" y="300" font-size="12" font-weight="700" fill="#065F46" text-anchor="middle">기저핵</text>
 
   <circle cx="288" cy="292" r="15" fill="#E8962A"/>
-  <text x="288" y="297" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">5</text>
+  <text x="288" y="297" font-size="13" font-weight="800" fill="#737373" text-anchor="middle">5</text>
   <text x="316" y="316" font-size="12" font-weight="700" fill="#B45309" text-anchor="middle">해마</text>
 
   <circle cx="366" cy="228" r="15" fill="#8A8A8A"/>
-  <text x="366" y="233" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">6</text>
+  <text x="366" y="233" font-size="13" font-weight="800" fill="#737373" text-anchor="middle">6</text>
   <text x="378" y="202" font-size="12" font-weight="700" fill="#555555" text-anchor="middle">감각 피질</text>
 
   <text x="240" y="404" font-size="12.5" font-weight="700" fill="#DC2626" text-anchor="middle">손상되면 그 기능이 특정적으로 무너진다</text>
-  <text x="240" y="426" font-size="11.5" fill="#8A8A8A" text-anchor="middle">→ "어디를 다쳤나"로 증상을 예측할 수 있다</text>
+  <text x="240" y="426" font-size="11.5" fill="#737373" text-anchor="middle">→ "어디를 다쳤나"로 증상을 예측할 수 있다</text>
 
   <!-- 우: 트랜스포머 -->
   <rect x="480" y="76" width="390" height="380" rx="16" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2.5"/>
@@ -68,7 +68,7 @@
     <line x1="690" y1="244" x2="762" y2="290" stroke="#00AA6C"/>
   </g>
   <circle cx="690" cy="196" r="7" fill="#8A8A8A"/>
-  <text x="700" y="216" font-size="10.5" fill="#8A8A8A">같은 활성화 벡터</text>
+  <text x="700" y="216" font-size="10.5" fill="#737373">같은 활성화 벡터</text>
 
   <text x="790" y="134" font-size="11" font-weight="700" fill="#002C5F">계획 방향</text>
   <text x="790" y="184" font-size="11" font-weight="700" fill="#6B21A8">오류감지 방향</text>
@@ -76,7 +76,7 @@
   <text x="790" y="294" font-size="11" font-weight="700" fill="#065F46">선택 방향</text>
 
   <text x="675" y="376" font-size="12.5" font-weight="700" fill="#6B21A8" text-anchor="middle">기능들이 같은 뉴런들에 겹쳐 인코딩된다(중첩)</text>
-  <text x="675" y="398" font-size="11.5" fill="#8A8A8A" text-anchor="middle">→ "어느 뉴런"이 아니라 "어느 방향"을 물어야 한다</text>
+  <text x="675" y="398" font-size="11.5" fill="#737373" text-anchor="middle">→ "어느 뉴런"이 아니라 "어느 방향"을 물어야 한다</text>
   <text x="675" y="426" font-size="11.5" font-weight="700" fill="#DC2626" text-anchor="middle">그래서 J-lens 같은 "방향 찾기" 도구가 필요해졌다</text>
 
   <!-- 하단 -->

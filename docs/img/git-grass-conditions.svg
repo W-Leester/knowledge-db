@@ -72,6 +72,6 @@
 
   <!-- 결과 -->
   <line x1="442" y1="380" x2="442" y2="404" stroke="#00AA6C" stroke-width="3" marker-end="url(#garrow)"/>
-  <rect x="272" y="410" width="340" height="42" rx="21" fill="#00AA6C"/>
+  <rect x="272" y="410" width="340" height="42" rx="21" fill="#00A569"/>
   <text x="442" y="437" font-size="16.5" font-weight="800" fill="#FFFFFF" text-anchor="middle">🌱 잔디 1칸 — 날짜는 커밋 시각(로컬 시간) 기준</text>
 </svg>

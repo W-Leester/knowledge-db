@@ -19,7 +19,7 @@
   <rect x="76" y="204" width="136" height="26" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1"/>
   <text x="144" y="221" font-size="9.5" fill="#555555" text-anchor="middle">라이브러리·명령어</text>
   <rect x="76" y="236" width="136" height="34" rx="5" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
-  <text x="144" y="251" font-size="9.5" font-weight="800" fill="#DC2626" text-anchor="middle">게스트 OS 통째</text>
+  <text x="144" y="251" font-size="9.5" font-weight="800" fill="#C82020" text-anchor="middle">게스트 OS 통째</text>
   <text x="144" y="264" font-size="8.5" fill="#991B1B" text-anchor="middle">커널 포함 (배분자 2층!)</text>
   <rect x="76" y="276" width="136" height="26" rx="5" fill="#F2EDE4"/>
   <text x="144" y="293" font-size="9.5" fill="#555555" text-anchor="middle">가상 하드웨어</text>
@@ -31,7 +31,7 @@
   <rect x="258" y="204" width="136" height="26" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1"/>
   <text x="326" y="221" font-size="9.5" fill="#555555" text-anchor="middle">라이브러리·명령어</text>
   <rect x="258" y="236" width="136" height="34" rx="5" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
-  <text x="326" y="251" font-size="9.5" font-weight="800" fill="#DC2626" text-anchor="middle">게스트 OS 또 통째</text>
+  <text x="326" y="251" font-size="9.5" font-weight="800" fill="#C82020" text-anchor="middle">게스트 OS 또 통째</text>
   <text x="326" y="264" font-size="8.5" fill="#991B1B" text-anchor="middle">커널 또 포함</text>
   <rect x="258" y="276" width="136" height="26" rx="5" fill="#F2EDE4"/>
   <text x="326" y="293" font-size="9.5" fill="#555555" text-anchor="middle">가상 하드웨어</text>
@@ -54,7 +54,7 @@
   <rect x="502" y="244" width="82" height="26" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1"/>
   <text x="543" y="261" font-size="9" fill="#555555" text-anchor="middle">라이브러리</text>
   <rect x="502" y="276" width="82" height="28" rx="5" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.2"/>
-  <text x="543" y="288" font-size="8.5" font-weight="700" fill="#B45309" text-anchor="middle">한도 딱지</text>
+  <text x="543" y="288" font-size="8.5" font-weight="700" fill="#AF5109" text-anchor="middle">한도 딱지</text>
   <text x="543" y="299" font-size="8" fill="#666666" text-anchor="middle">CPU 2 · 4GB</text>
 
   <rect x="612" y="176" width="106" height="140" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
@@ -64,7 +64,7 @@
   <rect x="624" y="244" width="82" height="26" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1"/>
   <text x="665" y="261" font-size="9" fill="#555555" text-anchor="middle">라이브러리</text>
   <rect x="624" y="276" width="82" height="28" rx="5" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.2"/>
-  <text x="665" y="288" font-size="8.5" font-weight="700" fill="#B45309" text-anchor="middle">한도 딱지</text>
+  <text x="665" y="288" font-size="8.5" font-weight="700" fill="#AF5109" text-anchor="middle">한도 딱지</text>
   <text x="665" y="299" font-size="8" fill="#666666" text-anchor="middle">CPU 1 · 2GB</text>
 
   <rect x="734" y="176" width="106" height="140" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
@@ -74,7 +74,7 @@
   <rect x="746" y="244" width="82" height="26" rx="5" fill="#FFFFFF" stroke="#8A8478" stroke-width="1"/>
   <text x="787" y="261" font-size="9" fill="#555555" text-anchor="middle">라이브러리</text>
   <rect x="746" y="276" width="82" height="28" rx="5" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.2"/>
-  <text x="787" y="288" font-size="8.5" font-weight="700" fill="#B45309" text-anchor="middle">한도 딱지</text>
+  <text x="787" y="288" font-size="8.5" font-weight="700" fill="#AF5109" text-anchor="middle">한도 딱지</text>
   <text x="787" y="299" font-size="8" fill="#666666" text-anchor="middle">CPU 4 · 8GB</text>
 
   <text x="665" y="160" font-size="9.5" fill="#666666" text-anchor="middle">OS(커널)는 없음 — 건물의 것을 같이 쓴다. 그래서 MB 단위·시작 수 초</text>
