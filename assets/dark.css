@@ -55,6 +55,16 @@
 }
 
 /* SVG 다이어그램은 라이트 배경 전제로 그려져 있음 → 밝은 매트 위에 표시 */
+/* 인라인 동적 도식(figure.XX-anim)도 정적 도식과 동일하게 밝은 매트 —
+   내부 SVG가 라이트 배경 전제로 그려져 있어, 래퍼가 어두워지면 글자가 묻힌다 (실사고) */
+:root[data-theme="dark"] figure[class*="-anim"] {
+  background: #F5F1E8 !important;
+  border-color: #D5CFBF !important;
+}
+:root[data-theme="dark"] figure[class*="-anim"] figcaption {
+  color: #666666 !important;
+}
+
 :root[data-theme="dark"] img[src*="img/"] {
   background: #F5F1E8;
   border-radius: 10px;
