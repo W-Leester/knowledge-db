@@ -25,12 +25,12 @@
   <text x="240" y="466" font-size="12.5" font-weight="800" fill="#AF5109" text-anchor="middle">① 셀프 어텐션 — 회의실</text>
   <text x="80" y="490" font-size="10" fill="#555555">각 토큰이 세 장의 카드를 만든다:</text>
   <rect x="80" y="500" width="100" height="26" rx="6" fill="#FFFFFF" stroke="#CD2121" stroke-width="1.5"/>
-  <text x="130" y="517" font-size="9.5" font-weight="700" fill="#CD2121" text-anchor="middle">Q 질문</text>
+  <text x="130" y="517" font-size="9.5" font-weight="700" fill="#B91C1C" text-anchor="middle">Q 질문</text>
   <rect x="190" y="500" width="100" height="26" rx="6" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
   <text x="240" y="517" font-size="9.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">K 명찰</text>
   <rect x="300" y="500" width="100" height="26" rx="6" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/>
   <text x="350" y="517" font-size="9.5" font-weight="700" fill="#0F766E" text-anchor="middle">V 내용</text>
-  <text x="80" y="548" font-size="10" fill="#555555">내 <tspan font-weight="700" fill="#CD2121">질문(Q)</tspan>을 모든 토큰의 <tspan font-weight="700" fill="#1A5CB5">명찰(K)</tspan>과 대조해 관련도를 재고,</text>
+  <text x="80" y="548" font-size="10" fill="#555555">내 <tspan font-weight="700" fill="#B91C1C">질문(Q)</tspan>을 모든 토큰의 <tspan font-weight="700" fill="#1A5CB5">명찰(K)</tspan>과 대조해 관련도를 재고,</text>
   <text x="80" y="566" font-size="10" fill="#555555">관련도만큼 각자의 <tspan font-weight="700" fill="#0F766E">내용(V)</tspan>을 가중 평균해 가져온다</text>
   <text x="240" y="584" font-size="9.5" font-weight="700" fill="#AF5109" text-anchor="middle">= "모두가 모두를 동시에 본다" (§3-1 동적 도식)</text>
 
@@ -68,12 +68,12 @@
   <text x="492" y="236" font-size="10" fill="#1A5CB5" font-weight="700">한 층의 회의를 수십 번 반복하며 이해가 깊어진다</text>
 
   <rect x="470" y="276" width="400" height="150" rx="12" fill="#FEE2E2" stroke="#CD2121" stroke-width="2"/>
-  <text x="492" y="302" font-size="12.5" font-weight="800" fill="#CD2121">생성은 여전히 한 토큰씩이다</text>
+  <text x="492" y="302" font-size="12.5" font-weight="800" fill="#B91C1C">생성은 여전히 한 토큰씩이다</text>
   <text x="492" y="326" font-size="10.5" fill="#555555">학습·이해(읽기)는 전체 병렬인데, <tspan font-weight="700">생성(쓰기)은</tspan></text>
   <text x="492" y="346" font-size="10.5" fill="#555555"><tspan font-weight="700">"다음 토큰 하나 예측 → 붙이고 → 다시 예측"의 반복</tspan></text>
   <text x="492" y="370" font-size="10.5" fill="#555555">이때 이전 토큰들의 K·V 카드를 다시 계산하지 않으려고</text>
-  <text x="492" y="390" font-size="10.5" fill="#555555">저장해두는 것이 <tspan font-weight="800" fill="#CD2121">KV 캐시</tspan> —</text>
-  <text x="492" y="410" font-size="10" font-weight="700" fill="#CD2121">「로컬 모델」 §2-1에서 메모리를 잡아먹던 그 정체</text>
+  <text x="492" y="390" font-size="10.5" fill="#555555">저장해두는 것이 <tspan font-weight="800" fill="#B91C1C">KV 캐시</tspan> —</text>
+  <text x="492" y="410" font-size="10" font-weight="700" fill="#B91C1C">「로컬 모델」 §2-1에서 메모리를 잡아먹던 그 정체</text>
 
   <rect x="470" y="442" width="400" height="168" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
   <text x="492" y="468" font-size="12.5" font-weight="800" fill="#002C5F">GPT·BERT·Claude는 뭐가 다른가</text>
