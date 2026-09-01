@@ -455,6 +455,29 @@
       ]
     },
     {
+      "id": "transformer",
+      "title": "트랜스포머 해부",
+      "desc": "LLM의 심장 — 모두가 모두를 동시에 본다: 회의실 비유, RNN에서의 계보, n²의 청구서, 그리고 2026 도전자들",
+      "file": "docs/transformer.html",
+      "group": "AI · LLM",
+      "icon": "🔦",
+      "gradient": [
+        "#0D1B2E",
+        "#D97706"
+      ],
+      "tags": [
+        "Self-Attention",
+        "RNN·LSTM",
+        "Mamba·하이브리드"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/tf-history.svg",
+        "docs/img/tf-architecture.svg",
+        "docs/img/tf-challengers.svg"
+      ]
+    },
+    {
       "id": "local-llm-agent",
       "title": "로컬 LLM 에이전트",
       "desc": "도구 호출·MCP·RAG로 내 컴퓨터의 Qwen에게 날개 달기",

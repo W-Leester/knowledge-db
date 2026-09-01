@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 760" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="tfa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="760" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">트랜스포머 한 층의 해부 — 그리고 이 층을 수십 번 쌓는다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">데이터는 아래에서 위로 흐른다 — 왼쪽이 구조, 오른쪽이 "무슨 일이 벌어지나"</text>
+
+  <!-- 입력부 -->
+  <rect x="60" y="640" width="360" height="76" rx="12" fill="#F2EDE4" stroke="#8A8478" stroke-width="2"/>
+  <text x="240" y="666" font-size="12.5" font-weight="800" fill="#555555" text-anchor="middle">⓪ 토큰화 + 임베딩 + 위치 인코딩</text>
+  <text x="240" y="688" font-size="10" fill="#555555" text-anchor="middle">글 → 토큰 조각 → 의미 좌표(벡터) + "몇 번째인가" 좌표</text>
+  <text x="240" y="706" font-size="9.5" fill="#666666" text-anchor="middle">순서 정보를 좌표에 심는 이유: attention 자체는 순서를 모르므로</text>
+
+  <line x1="240" y1="640" x2="240" y2="614" stroke="#003F8A" stroke-width="2.5" marker-end="url(#tfa)"/>
+
+  <!-- 층 박스 -->
+  <rect x="40" y="120" width="400" height="490" rx="16" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="3"/>
+  <text x="240" y="150" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">🔁 트랜스포머 블록 (× 수십 층)</text>
+
+  <!-- self-attention -->
+  <rect x="64" y="440" width="352" height="150 " rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="240" y="466" font-size="12.5" font-weight="800" fill="#AF5109" text-anchor="middle">① 셀프 어텐션 — 회의실</text>
+  <text x="80" y="490" font-size="10" fill="#555555">각 토큰이 세 장의 카드를 만든다:</text>
+  <rect x="80" y="500" width="100" height="26" rx="6" fill="#FFFFFF" stroke="#CD2121" stroke-width="1.5"/>
+  <text x="130" y="517" font-size="9.5" font-weight="700" fill="#CD2121" text-anchor="middle">Q 질문</text>
+  <rect x="190" y="500" width="100" height="26" rx="6" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="240" y="517" font-size="9.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">K 명찰</text>
+  <rect x="300" y="500" width="100" height="26" rx="6" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="350" y="517" font-size="9.5" font-weight="700" fill="#0F766E" text-anchor="middle">V 내용</text>
+  <text x="80" y="548" font-size="10" fill="#555555">내 <tspan font-weight="700" fill="#CD2121">질문(Q)</tspan>을 모든 토큰의 <tspan font-weight="700" fill="#1A5CB5">명찰(K)</tspan>과 대조해 관련도를 재고,</text>
+  <text x="80" y="566" font-size="10" fill="#555555">관련도만큼 각자의 <tspan font-weight="700" fill="#0F766E">내용(V)</tspan>을 가중 평균해 가져온다</text>
+  <text x="240" y="584" font-size="9.5" font-weight="700" fill="#AF5109" text-anchor="middle">= "모두가 모두를 동시에 본다" (§3-1 동적 도식)</text>
+
+  <line x1="240" y1="440" x2="240" y2="414" stroke="#003F8A" stroke-width="2.5" marker-end="url(#tfa)"/>
+  <text x="258" y="432" font-size="9" fill="#666666">+ 잔차 연결·정규화</text>
+
+  <!-- multi-head -->
+  <rect x="64" y="330" width="352" height="84" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="240" y="356" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">② 멀티 헤드 — 회의실이 여러 개</text>
+  <text x="80" y="380" font-size="10" fill="#555555">같은 문장을 8~수십 개의 "관점"이 병렬로 본다 —</text>
+  <text x="80" y="398" font-size="10" fill="#555555">어떤 머리는 문법 관계를, 어떤 머리는 지시어를, 어떤 머리는 의미를</text>
+
+  <line x1="240" y1="330" x2="240" y2="304" stroke="#003F8A" stroke-width="2.5" marker-end="url(#tfa)"/>
+
+  <!-- FFN -->
+  <rect x="64" y="220" width="352" height="84" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="240" y="246" font-size="12.5" font-weight="800" fill="#0F766E" text-anchor="middle">③ FFN (피드포워드) — 각자 소화하는 시간</text>
+  <text x="80" y="270" font-size="10" fill="#555555">회의(어텐션)에서 모은 정보를 토큰마다 <tspan font-weight="700">따로</tspan> 곱씹는 큰 신경망 —</text>
+  <text x="80" y="288" font-size="10" fill="#555555">파라미터의 대부분이 여기 산다. MoE는 이 부분을 전문가 여럿으로 쪼갠 것</text>
+
+  <line x1="240" y1="220" x2="240" y2="196" stroke="#003F8A" stroke-width="2.5" marker-end="url(#tfa)"/>
+  <text x="240" y="184" font-size="10.5" font-weight="700" fill="#002C5F" text-anchor="middle">↑ 다음 층으로 — 같은 구조를 수십 번</text>
+
+  <!-- 출력 -->
+  <line x1="240" y1="120" x2="240" y2="96" stroke="#003F8A" stroke-width="2.5" marker-end="url(#tfa)"/>
+  <rect x="120" y="66" width="240" height="30" rx="10" fill="#0D1B2E"/>
+  <text x="240" y="86" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">다음 토큰 확률 → 하나 뽑고 반복</text>
+
+  <!-- 오른쪽 설명 -->
+  <rect x="470" y="120" width="400" height="140" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="492" y="146" font-size="12.5" font-weight="800" fill="#002C5F">층을 쌓으면 무슨 일이 생기나</text>
+  <text x="492" y="170" font-size="10.5" fill="#555555">아래층: 붙어 있는 단어들의 관계 (문법 조각)</text>
+  <text x="492" y="190" font-size="10.5" fill="#555555">중간층: 구·절 단위의 의미</text>
+  <text x="492" y="210" font-size="10.5" fill="#555555">위층: 문서 전체의 주제·추론</text>
+  <text x="492" y="236" font-size="10" fill="#1A5CB5" font-weight="700">한 층의 회의를 수십 번 반복하며 이해가 깊어진다</text>
+
+  <rect x="470" y="276" width="400" height="150" rx="12" fill="#FEE2E2" stroke="#CD2121" stroke-width="2"/>
+  <text x="492" y="302" font-size="12.5" font-weight="800" fill="#CD2121">생성은 여전히 한 토큰씩이다</text>
+  <text x="492" y="326" font-size="10.5" fill="#555555">학습·이해(읽기)는 전체 병렬인데, <tspan font-weight="700">생성(쓰기)은</tspan></text>
+  <text x="492" y="346" font-size="10.5" fill="#555555"><tspan font-weight="700">"다음 토큰 하나 예측 → 붙이고 → 다시 예측"의 반복</tspan></text>
+  <text x="492" y="370" font-size="10.5" fill="#555555">이때 이전 토큰들의 K·V 카드를 다시 계산하지 않으려고</text>
+  <text x="492" y="390" font-size="10.5" fill="#555555">저장해두는 것이 <tspan font-weight="800" fill="#CD2121">KV 캐시</tspan> —</text>
+  <text x="492" y="410" font-size="10" font-weight="700" fill="#CD2121">「로컬 모델」 §2-1에서 메모리를 잡아먹던 그 정체</text>
+
+  <rect x="470" y="442" width="400" height="168" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="492" y="468" font-size="12.5" font-weight="800" fill="#002C5F">GPT·BERT·Claude는 뭐가 다른가</text>
+  <text x="492" y="492" font-size="10.5" fill="#555555">· <tspan font-weight="700">GPT·Claude·Qwen (디코더형)</tspan>: 왼쪽만 보며</text>
+  <text x="492" y="510" font-size="10.5" fill="#555555">&#160;&#160;다음 토큰을 예측 — 생성에 특화, 지금의 LLM 전부</text>
+  <text x="492" y="534" font-size="10.5" fill="#555555">· <tspan font-weight="700">BERT (인코더형)</tspan>: 양방향으로 보며 빈칸 맞히기 —</text>
+  <text x="492" y="552" font-size="10.5" fill="#555555">&#160;&#160;이해·분류·임베딩에 특화 (ko-sroberta가 이 혈통)</text>
+  <text x="492" y="576" font-size="10.5" fill="#555555">· 원조 논문은 인코더+디코더 (번역용)</text>
+  <text x="492" y="598" font-size="10" fill="#666666">전부 같은 블록의 배치만 다른 변형이다</text>
+
+  <!-- 하단 -->
+  <rect x="470" y="626" width="400" height="90" rx="12" fill="#0D1B2E"/>
+  <text x="670" y="654" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">한 줄 요약</text>
+  <text x="670" y="678" font-size="10.5" fill="#AAB9CF" text-anchor="middle">임베딩으로 좌표를 만들고 → 어텐션 회의로 문맥을 섞고</text>
+  <text x="670" y="696" font-size="10.5" fill="#AAB9CF" text-anchor="middle">→ FFN으로 소화하고 → 수십 층 반복 → 다음 토큰</text>
+
+  <rect x="30" y="726" width="840" height="26" rx="8" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="450" y="744" font-size="10.5" font-weight="700" fill="#002C5F" text-anchor="middle">놀라운 사실: 이 단순한 블록 하나의 반복이 번역·코딩·추론의 전부다 — 특별한 부품이 없다는 것이 트랜스포머의 특별함</text>
+</svg>

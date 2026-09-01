@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="720" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">도전자 지도 (2026) — 전복이 아니라 침투, 순혈이 아니라 혼혈</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">공격 지점은 하나다: 트랜스포머의 O(n²) 비용 — 각자 다른 방식으로 그 청구서를 찢으려 한다</text>
+
+  <!-- 중앙: 트랜스포머 -->
+  <rect x="330" y="290" width="240" height="130" rx="16" fill="#0D1B2E"/>
+  <text x="450" y="322" font-size="14.5" font-weight="800" fill="#FFF" text-anchor="middle">🏰 Transformer</text>
+  <text x="450" y="344" font-size="10" fill="#AAB9CF" text-anchor="middle">현재 프론티어 전원의 기반</text>
+  <text x="450" y="364" font-size="10" fill="#AAB9CF" text-anchor="middle">GPT · Claude · Gemini · Qwen …</text>
+  <text x="450" y="390" font-size="10.5" font-weight="700" fill="#7FD1A8" text-anchor="middle">약점: 문맥 n²로 비용 폭증</text>
+  <text x="450" y="408" font-size="9.5" fill="#AAB9CF" text-anchor="middle">+ KV 캐시가 메모리를 먹는다</text>
+
+  <!-- SSM/Mamba -->
+  <rect x="40" y="100" width="280" height="150" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="180" y="128" font-size="13.5" font-weight="800" fill="#0F766E" text-anchor="middle">🐍 SSM · Mamba (-2)</text>
+  <text x="60" y="152" font-size="10.5" fill="#555555">원리: 전체 회의 대신 <tspan font-weight="700">요약 노트 한 권</tspan>을</text>
+  <text x="60" y="170" font-size="10.5" fill="#555555">들고 가며 갱신 — 문맥 비용이 선형 O(n)</text>
+  <text x="60" y="192" font-size="10.5" fill="#0F766E" font-weight="700">강점: 긴 문맥·추론 속도 (5배급 처리량 보고)</text>
+  <text x="60" y="212" font-size="10.5" fill="#CD2121" font-weight="700">약점: "노트에 안 적은 것"은 못 돌아본다</text>
+  <text x="60" y="230" font-size="9.5" fill="#666666">— 정밀 참조·인컨텍스트 학습에서 순혈 어텐션에 밀림</text>
+
+  <!-- RWKV -->
+  <rect x="40" y="280" width="280" height="120" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="180" y="308" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">🔄 RWKV · xLSTM</text>
+  <text x="60" y="332" font-size="10.5" fill="#555555">RNN의 부활 — <tspan font-weight="700">학습은 트랜스포머처럼 병렬,</tspan></text>
+  <text x="60" y="350" font-size="10.5" fill="#555555"><tspan font-weight="700">추론은 RNN처럼 가볍게</tspan> (상태 하나만 유지)</text>
+  <text x="60" y="372" font-size="10.5" fill="#0F766E" font-weight="700">강점: 엣지·저사양 — KV 캐시가 아예 없다</text>
+  <text x="60" y="390" font-size="9.5" fill="#666666">폰·임베디드처럼 메모리가 귀한 곳의 후보</text>
+
+  <!-- 확산 LLM -->
+  <rect x="40" y="430" width="280" height="150" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="180" y="458" font-size="13.5" font-weight="800" fill="#6B21A8" text-anchor="middle">🌫 확산 LLM (Diffusion)</text>
+  <text x="60" y="482" font-size="10.5" fill="#555555">원리: 한 토큰씩 쓰는 대신 <tspan font-weight="700">전체 초안을</tspan></text>
+  <text x="60" y="500" font-size="10.5" fill="#555555"><tspan font-weight="700">놓고 반복해서 다듬는다</tspan> (이미지 생성과 동족)</text>
+  <text x="60" y="522" font-size="10.5" fill="#0F766E" font-weight="700">강점: 속도 — Mercury 2 ~1,000tok/s,</text>
+  <text x="60" y="540" font-size="10.5" fill="#0F766E" font-weight="700">Gemini Diffusion ~1,479tok/s (개략)</text>
+  <text x="60" y="562" font-size="9.5" fill="#666666">주의: 블록 내부가 병렬일 뿐 — 초저지연 코딩 보조가 주 전장</text>
+
+  <!-- 하이브리드 (오른쪽 크게) -->
+  <rect x="580" y="100" width="290" height="220" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3.5"/>
+  <text x="725" y="128" font-size="14" font-weight="800" fill="#AF5109" text-anchor="middle">⭐ 하이브리드 — 2026의 실질 대세</text>
+  <text x="600" y="152" font-size="10.5" fill="#555555">순혈 대결이 아니라 <tspan font-weight="700">혼합 비율</tspan>의 문제로:</text>
+  <text x="600" y="172" font-size="10.5" fill="#555555">대부분 층은 선형(SSM·linear attention)으로 싸게,</text>
+  <text x="600" y="190" font-size="10.5" fill="#555555">몇 층만 진짜 어텐션으로 정밀하게</text>
+  <rect x="600" y="204" width="250" height="30" rx="7" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.2"/>
+  <text x="725" y="224" font-size="9.5" fill="#555555" text-anchor="middle">Jamba: Mamba-2 43% + 어텐션 7% + MLP 50%</text>
+  <rect x="600" y="240" width="250" height="30" rx="7" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.2"/>
+  <text x="725" y="260" font-size="9.5" fill="#555555" text-anchor="middle">Qwen3-Next: Gated DeltaNet + 어텐션 + MoE</text>
+  <text x="725" y="290" font-size="10" font-weight="700" fill="#AF5109" text-anchor="middle">"어느 쪽이 이기나"의 답이 "섞는다"였던 것</text>
+  <text x="725" y="308" font-size="9.5" fill="#666666" text-anchor="middle">IBM Granite·Nemotron 등 합류 — 침투는 이 문으로</text>
+
+  <!-- MoE 주의 -->
+  <rect x="580" y="350" width="290" height="110" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
+  <text x="725" y="378" font-size="12.5" font-weight="800" fill="#555555" text-anchor="middle">⚠️ MoE는 도전자가 아니다</text>
+  <text x="600" y="402" font-size="10.5" fill="#555555">gpt-oss·Qwen MoE의 "전문가 혼합"은 트랜스포머</text>
+  <text x="600" y="420" font-size="10.5" fill="#555555"><tspan font-weight="700">내부의 FFN을 쪼갠 변형</tspan>이지 대체 구조가 아니다</text>
+  <text x="600" y="444" font-size="9.5" fill="#666666">(「로컬 모델」에서 본 MoE 모델들 = 여전히 트랜스포머)</text>
+
+  <!-- 장기 연구 -->
+  <rect x="580" y="490" width="290" height="90" rx="14" fill="#F2EDE4" stroke="#8A8478" stroke-width="2"/>
+  <text x="725" y="518" font-size="12.5" font-weight="800" fill="#555555" text-anchor="middle">🔭 더 먼 수평선</text>
+  <text x="600" y="542" font-size="10" fill="#555555">Titans(학습하는 장기 기억) · JEPA(예측 세계 모델 —</text>
+  <text x="600" y="560" font-size="10" fill="#555555">"다음 토큰"이 아니라 "다음 상태"를 예측하자는 진영)</text>
+
+  <!-- 연결선 -->
+  <line x1="320" y1="175" x2="360" y2="290" stroke="#0F766E" stroke-width="2" stroke-dasharray="6 4"/>
+  <line x1="320" y1="340" x2="330" y2="345" stroke="#1A5CB5" stroke-width="2" stroke-dasharray="6 4"/>
+  <line x1="320" y1="505" x2="360" y2="420" stroke="#6B21A8" stroke-width="2" stroke-dasharray="6 4"/>
+  <line x1="580" y1="210" x2="540" y2="290" stroke="#E8962A" stroke-width="2.5"/>
+  <line x1="580" y1="405" x2="570" y2="380" stroke="#B5AFA5" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- 하단: 왜 아직 왕좌인가 -->
+  <rect x="30" y="606" width="840" height="96" rx="14" fill="#0D1B2E"/>
+  <text x="450" y="634" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">그런데 왜 왕좌는 아직 트랜스포머인가 — "하드웨어 복권"</text>
+  <text x="450" y="658" font-size="10.5" fill="#AAB9CF" text-anchor="middle">지난 8년간 GPU·소프트웨어·인력·노하우 전부가 트랜스포머에 최적화됐다 — 새 구조는 모델 성능만이 아니라</text>
+  <text x="450" y="678" font-size="10.5" fill="#AAB9CF" text-anchor="middle">이 생태계 관성 전체와 싸워야 한다 (「PostgreSQL 해부」에서 본 승리 공식의 재현: 구조가 생태계를 만들면 생태계가 구조를 지킨다)</text>
+  <text x="450" y="696" font-size="10" fill="#7FD1A8" text-anchor="middle">그래서 현실적 침투 경로가 "전복"이 아니라 "하이브리드의 비율 확대"인 것이다</text>
+</svg>
