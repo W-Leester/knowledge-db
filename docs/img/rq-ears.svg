@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">EARS — 다섯 가지 틀만 쓰는 요구사항 문법</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">롤스로이스 항공엔진 제어 팀이 감항 규정을 분석하다 만든 방식 (2009) — 자유 문장을 살짝 구속해 모호함을 걷어낸다</text>
+
+  <!-- 공통 뼈대 -->
+  <rect x="40" y="80" width="830" height="60" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="106" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">공통 뼈대: [조건] + 시스템은 + [응답]해야 한다 — 조건의 종류가 다섯 가지 패턴을 가른다</text>
+  <text x="450" y="128" font-size="10.5" fill="#AAB9CF" text-anchor="middle">절의 순서가 고정되고 쓸 수 있는 접속어가 제한된다 — 그래서 읽는 사람마다 다르게 해석할 여지가 줄어든다</text>
+
+  <!-- 1 Ubiquitous -->
+  <rect x="40" y="158" width="410" height="104" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="62" y="184" font-size="13" font-weight="800" fill="#002C5F">① 상시 (Ubiquitous)</text>
+  <text x="62" y="206" font-size="10.5" fill="#1A5CB5" font-weight="700">시스템은 [항상] ~해야 한다</text>
+  <text x="62" y="228" font-size="10" fill="#555555">"시스템은 모든 비밀번호를 해시하여 저장해야 한다"</text>
+  <text x="62" y="248" font-size="9.5" fill="#666666">조건 없음 — 늘 성립하는 성질</text>
+
+  <!-- 2 Event -->
+  <rect x="460" y="158" width="410" height="104" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="482" y="184" font-size="13" font-weight="800" fill="#0F766E">② 이벤트 구동 (Event-driven)</text>
+  <text x="482" y="206" font-size="10.5" fill="#0F766E" font-weight="700">[사건]이 발생하면 시스템은 ~해야 한다 (When)</text>
+  <text x="482" y="228" font-size="10" fill="#555555">"수집이 완료되면 시스템은 요약 메일을 발송해야 한다"</text>
+  <text x="482" y="248" font-size="9.5" fill="#666666">한 번 일어나는 계기에 대한 반응</text>
+
+  <!-- 3 State -->
+  <rect x="40" y="276" width="410" height="104" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="62" y="302" font-size="13" font-weight="800" fill="#6B21A8">③ 상태 구동 (State-driven)</text>
+  <text x="62" y="324" font-size="10.5" fill="#6B21A8" font-weight="700">[상태]인 동안 시스템은 ~해야 한다 (While)</text>
+  <text x="62" y="346" font-size="10" fill="#555555">"점검 모드인 동안 시스템은 쓰기 요청을 거부해야 한다"</text>
+  <text x="62" y="366" font-size="9.5" fill="#666666">지속되는 조건 — 이벤트와 헷갈리기 쉬운 지점</text>
+
+  <!-- 4 Unwanted -->
+  <rect x="460" y="276" width="410" height="104" rx="12" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2.5"/>
+  <text x="482" y="302" font-size="13" font-weight="800" fill="#B91C1C">④ 원치 않는 동작 (Unwanted behaviour)</text>
+  <text x="482" y="324" font-size="10.5" fill="#B91C1C" font-weight="700">만약 [문제]라면 시스템은 ~해야 한다 (If … then)</text>
+  <text x="482" y="346" font-size="10" fill="#555555">"만약 소스 응답이 30초를 넘기면 시스템은 해당 소스를 건너뛰고 기록해야 한다"</text>
+  <text x="482" y="366" font-size="9.5" fill="#666666">가장 잘 빠지는 패턴 — 정상 흐름만 쓰고 끝내는 문서가 대부분</text>
+
+  <!-- 5 Optional -->
+  <rect x="40" y="394" width="410" height="104" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="62" y="420" font-size="13" font-weight="800" fill="#AF5109">⑤ 선택 기능 (Optional feature)</text>
+  <text x="62" y="442" font-size="10.5" fill="#AF5109" font-weight="700">[기능]이 있는 경우 시스템은 ~해야 한다 (Where)</text>
+  <text x="62" y="464" font-size="10" fill="#555555">"프리미엄 플랜인 경우 시스템은 키워드를 50개까지 허용해야 한다"</text>
+  <text x="62" y="484" font-size="9.5" fill="#666666">제품 변형·플랜 차이를 표현</text>
+
+  <!-- 복합 -->
+  <rect x="460" y="394" width="410" height="104" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
+  <text x="482" y="420" font-size="13" font-weight="800" fill="#555555">+ 복합 (Complex)</text>
+  <text x="482" y="442" font-size="10.5" fill="#555555" font-weight="700">While + When, If + While … 조합</text>
+  <text x="482" y="464" font-size="10" fill="#555555">"점검 모드인 동안 관리자 로그인이 발생하면 시스템은 경고 배너를 표시해야 한다"</text>
+  <text x="482" y="484" font-size="9.5" fill="#666666">조합해도 절의 순서는 그대로 — 조건들 먼저, 응답은 마지막</text>
+
+  <!-- 체크 -->
+  <rect x="40" y="514" width="830" height="60" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
+  <text x="62" y="538" font-size="11.5" font-weight="800" fill="#0F766E">쓰고 나서 확인하는 것: 다섯 틀 중 어디에 들어가나? 안 들어가면 대개 두 문장이 섞였거나, 조건이 빠졌거나, 설계가 끼어든 것</text>
+  <text x="62" y="560" font-size="10.5" fill="#555555">INCOSE 작성 규칙(41개)·ISO/IEC/IEEE 29148과 함께 쓰인다 — 도구(Jama·QVscribe 등)가 이 패턴 준수를 자동 채점하기도 한다</text>
+
+  <rect x="40" y="586" width="830" height="40" rx="10" fill="#0D1B2E"/>
+  <text x="450" y="611" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">AI에게 명세를 줄 때 특히 강력하다 — 조건과 응답이 분리된 문장은 그대로 테스트 케이스가 된다 (§10)</text>
+</svg>

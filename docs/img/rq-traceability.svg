@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="rqt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="700" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">추적성의 척추 — Azure DevOps 계층이 문서를 "관리 가능한 항목"으로 바꾼다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">위로는 "이 작업이 왜 필요한가", 아래로는 "무엇을 만들었고 어떻게 확인했나"가 링크로 이어진다</text>
+
+  <!-- 세로 척추 -->
+  <rect x="60" y="88" width="420" height="90" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="82" y="114" font-size="13" font-weight="800" fill="#6B21A8">Epic — 수개월 · 전략 목표</text>
+  <text x="82" y="136" font-size="10.5" fill="#555555">"정보 수집 자동화로 주당 4시간 절감"</text>
+  <text x="82" y="158" font-size="9.5" fill="#666666">↔ 비즈니스 요구사항 층 (비전과 범위 문서)</text>
+
+  <line x1="270" y1="178" x2="270" y2="200" stroke="#003F8A" stroke-width="2.5" marker-end="url(#rqt)"/>
+
+  <rect x="60" y="204" width="420" height="90" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="82" y="230" font-size="13" font-weight="800" fill="#002C5F">Feature — 출시 가능한 능력 단위</text>
+  <text x="82" y="252" font-size="10.5" fill="#555555">"키워드 기반 기사 수집"</text>
+  <text x="82" y="274" font-size="9.5" fill="#666666">↔ 사용자 요구사항의 묶음</text>
+
+  <line x1="270" y1="294" x2="270" y2="316" stroke="#003F8A" stroke-width="2.5" marker-end="url(#rqt)"/>
+
+  <rect x="60" y="320" width="420" height="118" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="3"/>
+  <text x="82" y="346" font-size="13" font-weight="800" fill="#0F766E">User Story / PBI — 스프린트 안에 끝나는 조각 ★</text>
+  <text x="82" y="368" font-size="10.5" fill="#555555">"매일 아침 키워드 기사 요약 메일 받기"</text>
+  <text x="82" y="390" font-size="10.5" fill="#0F766E" font-weight="700">+ 수용 기준 (Given/When/Then) — 이것이 없으면 "준비됨"이 아니다</text>
+  <text x="82" y="410" font-size="9.5" fill="#666666">↔ 기능 요구사항 + 품질 속성 층 · CMMI 템플릿에서는 Requirement 항목</text>
+  <text x="82" y="428" font-size="9.5" fill="#666666">속성: ID · 우선순위 · 상태 · 출처 · 근거 · 담당 · 릴리스</text>
+
+  <line x1="270" y1="438" x2="270" y2="460" stroke="#003F8A" stroke-width="2.5" marker-end="url(#rqt)"/>
+
+  <rect x="60" y="464" width="420" height="80" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="82" y="490" font-size="13" font-weight="800" fill="#AF5109">Task — 실제 작업</text>
+  <text x="82" y="512" font-size="10.5" fill="#555555">"RSS 파서 구현" · "메일 템플릿 작성" · "재시도 로직"</text>
+  <text x="82" y="532" font-size="9.5" fill="#666666">↔ 설계·코드 (커밋·PR이 여기 링크된다)</text>
+
+  <!-- 오른쪽: 테스트 -->
+  <rect x="520" y="320" width="350" height="118" rx="12" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+  <text x="695" y="346" font-size="12.5" font-weight="800" fill="#0F766E" text-anchor="middle">🧪 Test Case (Test Plans)</text>
+  <text x="540" y="370" font-size="10" fill="#555555">"Tested By" 링크로 스토리에 붙는다</text>
+  <text x="540" y="390" font-size="10" fill="#555555">수용 기준 한 줄 = 테스트 케이스 한 건</text>
+  <text x="540" y="412" font-size="10" font-weight="700" fill="#0F766E">통과/실패가 스토리 상태로 굴러 올라간다</text>
+  <text x="540" y="430" font-size="9.5" fill="#666666">→ "요구사항이 검증됐나"를 도구가 답한다</text>
+  <line x1="480" y1="379" x2="516" y2="379" stroke="#0F766E" stroke-width="2.5" stroke-dasharray="6 4"/>
+
+  <!-- 오른쪽 위: 네 방향 -->
+  <rect x="520" y="88" width="350" height="206" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="695" y="114" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">추적성의 네 방향</text>
+  <text x="540" y="140" font-size="10.5" fill="#555555"><tspan font-weight="700" fill="#6B21A8">위로(상위)</tspan>: 이 스토리는 어느 Feature·Epic 때문인가</text>
+  <text x="540" y="162" font-size="10.5" fill="#555555"><tspan font-weight="700" fill="#AF5109">아래로(하위)</tspan>: 이 스토리로 어떤 Task·코드가 나왔나</text>
+  <text x="540" y="184" font-size="10.5" fill="#555555"><tspan font-weight="700" fill="#1A5CB5">앞으로(전방)</tspan>: 요구사항 → 설계 → 코드 → 테스트</text>
+  <text x="540" y="206" font-size="10.5" fill="#555555"><tspan font-weight="700" fill="#0F766E">뒤로(후방)</tspan>: 이 코드는 어느 요구사항 때문에 존재하나</text>
+  <text x="540" y="234" font-size="10" font-weight="700" fill="#B91C1C">후방 추적이 "고아 코드"를 찾는다 —</text>
+  <text x="540" y="252" font-size="10" fill="#555555">요구사항 없이 생긴 기능은 대개 아무도 원하지 않은 것</text>
+  <text x="540" y="276" font-size="9.5" fill="#666666">전방 추적이 "누락"을, 후방 추적이 "과잉"을 잡는다</text>
+
+  <!-- 오른쪽 아래: 진행 -->
+  <rect x="520" y="464" width="350" height="80" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="695" y="490" font-size="12" font-weight="800" fill="#002C5F" text-anchor="middle">진행률이 위로 굴러 올라간다</text>
+  <text x="540" y="514" font-size="10" fill="#555555">스토리 완료 → Feature 진행률 → Epic 진행률</text>
+  <text x="540" y="532" font-size="10" fill="#555555">"이 Epic이 어디까지 왔나"를 세지 않고 안다</text>
+
+  <!-- 하단 -->
+  <rect x="60" y="566" width="810" height="60" rx="12" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2"/>
+  <text x="82" y="590" font-size="12" font-weight="800" fill="#B91C1C">변경이 왔을 때 이 척추가 하는 일 — 영향 분석</text>
+  <text x="82" y="612" font-size="10.5" fill="#555555">요구사항 하나를 바꾸면 링크를 따라 "무엇이 흔들리나"가 즉시 나온다 (§8-1 동적 도식). 척추가 없으면 사람의 기억에 의존한다</text>
+
+  <rect x="60" y="640" width="810" height="44" rx="10" fill="#0D1B2E"/>
+  <text x="465" y="658" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">Azure DevOps 프로세스 템플릿 4종: Basic · Agile(User Story) · Scrum(PBI) · CMMI(Requirement) — 이름만 다르고 척추는 같다</text>
+  <text x="465" y="676" font-size="10" fill="#AAB9CF" text-anchor="middle">개인 프로젝트라면 GitHub Issues + 라벨로도 같은 척추를 흉내 낼 수 있다 — 핵심은 도구가 아니라 링크</text>
+</svg>

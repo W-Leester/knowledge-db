@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="rqs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">GitHub Spec Kit — Wiegers의 층위가 AI 에이전트 워크플로로 환생하다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">"요구사항과 설계를 분리하라"는 40년 된 원칙이 파일 경계로 강제된다 — 2025.09 공개, MS Learn 공식 교육 모듈</text>
+
+  <!-- 왼쪽 열: Spec Kit 파일 -->
+  <text x="230" y="86" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">Spec Kit의 4파일 흐름</text>
+  <text x="680" y="86" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">전통 요구사항 공학의 대응물</text>
+
+  <!-- 0 constitution -->
+  <rect x="40" y="104" width="380" height="94" rx="12" fill="#0D1B2E"/>
+  <text x="62" y="130" font-size="13" font-weight="800" fill="#FFF">⓪ constitution.md — 불변 원칙</text>
+  <text x="62" y="152" font-size="10" fill="#AAB9CF">코딩 규칙 · 품질 기준 · 금지 사항 · 라이선스 정책</text>
+  <text x="62" y="170" font-size="10" fill="#AAB9CF">구현 전에 정하고, 이후 모든 단계가 이것을 위반하지 못한다</text>
+  <text x="62" y="188" font-size="9.5" fill="#7FD1A8">이 저장소의 rules/LICENSE-RULES.md가 그 한 조각</text>
+  <line x1="420" y1="151" x2="476" y2="151" stroke="#6B21A8" stroke-width="2" stroke-dasharray="6 4"/>
+  <rect x="480" y="104" width="390" height="94" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="502" y="130" font-size="12" font-weight="800" fill="#6B21A8">제약 · 비즈니스 규칙 · 품질 정책</text>
+  <text x="502" y="152" font-size="10" fill="#555555">비전과 범위 문서의 "제약" 절 + 별도 관리하던 비즈니스 규칙</text>
+  <text x="502" y="170" font-size="10" fill="#555555">전통 방식에서는 흩어져 있던 것이 한 파일로 모였다</text>
+
+  <line x1="230" y1="198" x2="230" y2="220" stroke="#003F8A" stroke-width="2.5" marker-end="url(#rqs)"/>
+
+  <!-- 1 specify -->
+  <rect x="40" y="224" width="380" height="94" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="62" y="250" font-size="13" font-weight="800" fill="#002C5F">① /specify → spec.md — 무엇을, 왜</text>
+  <text x="62" y="272" font-size="10" fill="#555555">사용자 시나리오 · 기능 요구사항 · 수용 기준 · 범위 밖</text>
+  <text x="62" y="290" font-size="10" font-weight="700" fill="#B91C1C">기술 언급 금지 — 스택·DB·프레임워크가 나오면 반려</text>
+  <text x="62" y="308" font-size="9.5" fill="#666666">에이전트가 모호한 부분을 [NEEDS CLARIFICATION]으로 표시한다</text>
+  <line x1="420" y1="271" x2="476" y2="271" stroke="#6B21A8" stroke-width="2" stroke-dasharray="6 4"/>
+  <rect x="480" y="224" width="390" height="94" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="502" y="250" font-size="12" font-weight="800" fill="#002C5F">사용자 요구사항 + 기능 요구사항 (SRS의 앞부분)</text>
+  <text x="502" y="272" font-size="10" fill="#555555">Wiegers의 ②③층. [NEEDS CLARIFICATION]은 SRS의</text>
+  <text x="502" y="290" font-size="10" fill="#555555">"미결 사항(TBD) 목록"과 정확히 같은 장치다</text>
+
+  <line x1="230" y1="318" x2="230" y2="340" stroke="#003F8A" stroke-width="2.5" marker-end="url(#rqs)"/>
+
+  <!-- 2 plan -->
+  <rect x="40" y="344" width="380" height="94" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="62" y="370" font-size="13" font-weight="800" fill="#0F766E">② /plan → plan.md — 어떻게</text>
+  <text x="62" y="392" font-size="10" fill="#555555">여기서 비로소 기술 스택 · 데이터 모델 · API 계약 · 구조를 정한다</text>
+  <text x="62" y="410" font-size="10" fill="#555555">spec.md를 입력으로 받고, constitution을 위반하면 안 된다</text>
+  <text x="62" y="428" font-size="9.5" fill="#666666">같은 spec에서 다른 plan 여러 개를 뽑아 비교할 수도 있다</text>
+  <line x1="420" y1="391" x2="476" y2="391" stroke="#6B21A8" stroke-width="2" stroke-dasharray="6 4"/>
+  <rect x="480" y="344" width="390" height="94" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
+  <text x="502" y="370" font-size="12" font-weight="800" fill="#0F766E">설계 문서 (What/How 경계의 아래쪽)</text>
+  <text x="502" y="392" font-size="10" fill="#555555">§2에서 그은 빨간 점선이 spec.md와 plan.md 사이의</text>
+  <text x="502" y="410" font-size="10" fill="#555555">파일 경계로 물리화됐다 — "요구사항으로 위장한 설계"가 구조적으로 막힌다</text>
+
+  <line x1="230" y1="438" x2="230" y2="460" stroke="#003F8A" stroke-width="2.5" marker-end="url(#rqs)"/>
+
+  <!-- 3 tasks -->
+  <rect x="40" y="464" width="380" height="80" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="62" y="490" font-size="13" font-weight="800" fill="#AF5109">③ /tasks → tasks.md — 구현 단위</text>
+  <text x="62" y="512" font-size="10" fill="#555555">plan을 작은 작업으로 쪼갠다 · 병렬 가능 표시 · 순서</text>
+  <text x="62" y="530" font-size="9.5" fill="#666666">→ ④ /implement: 에이전트가 하나씩 구현하며 테스트</text>
+  <line x1="420" y1="503" x2="476" y2="503" stroke="#6B21A8" stroke-width="2" stroke-dasharray="6 4"/>
+  <rect x="480" y="464" width="390" height="80" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="502" y="490" font-size="12" font-weight="800" fill="#AF5109">Task 계층 (Azure DevOps의 맨 아래 칸)</text>
+  <text x="502" y="512" font-size="10" fill="#555555">추적성 척추의 하위 방향 — 각 task가 spec의 어느 항목 때문인지</text>
+  <text x="502" y="530" font-size="10" fill="#555555">파일 안에서 이어진다</text>
+
+  <!-- 하단 -->
+  <rect x="40" y="562" width="830" height="64" rx="12" fill="#0D1B2E"/>
+  <text x="455" y="586" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">바뀐 것은 "누가 읽느냐"뿐이다 — 사람이 읽던 SRS를 이제 에이전트가 읽는다. 그래서 검증 가능성·모호성 제거가 더 중요해졌다</text>
+  <text x="455" y="608" font-size="10.5" fill="#AAB9CF" text-anchor="middle">사람은 모호한 문장을 물어보지만, 에이전트는 그럴듯하게 채운다 (§7-1 동적 도식) · 별 9.3만+ (2026.05 개략)</text>
+</svg>

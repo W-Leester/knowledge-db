@@ -408,6 +408,31 @@
       ]
     },
     {
+      "id": "software-requirements",
+      "title": "소프트웨어 요구사항 작성과 관리",
+      "desc": "세 층위 분리 · EARS 문법 · 수용 기준 · 추적성 관리, 그리고 GitHub Spec Kit으로 이어지는 AI 시대의 명세",
+      "file": "docs/software-requirements.html",
+      "group": "Software · Dev",
+      "icon": "📋",
+      "gradient": [
+        "#0D1B2E",
+        "#0F766E"
+      ],
+      "tags": [
+        "세 층위",
+        "EARS",
+        "추적성",
+        "Spec Kit"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/rq-three-levels.svg",
+        "docs/img/rq-ears.svg",
+        "docs/img/rq-traceability.svg",
+        "docs/img/rq-speckit.svg"
+      ]
+    },
+    {
       "id": "ai-dev-process",
       "title": "AI 시대의 개발 프로세스",
       "desc": "코드는 싸졌고 검증이 비싸졌다 — 순서·LLM의 역할·리뷰 피라미드까지 작업 흐름의 재설계",

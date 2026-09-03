@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>소프트웨어 요구사항 작성과 관리 — 검증 가능하게 적는 기술</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #0F766E 55%, #6B21A8 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<style>
+/* ── 요구사항 문서 전용 애니메이션 ── */
+.rq-anim { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 14px 8px; margin: var(--sp-4) 0; }
+.rq-anim figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding: 8px 0 6px; }
+/* ① 모호성 증폭 */
+@keyframes rqTok { 0%, 4% { transform: translateX(0); opacity: 0; } 8% { opacity: 1; } 30% { transform: translateX(200px); } 55% { transform: translateX(400px); } 80% { transform: translateX(600px); opacity: 1; } 92%, 100% { transform: translateX(600px); opacity: 0; } }
+.rq-tok { animation: rqTok 10s ease-in-out infinite; }
+@keyframes rqQ { 0%, 32% { opacity: 0; transform: translateY(6px); } 40%, 78% { opacity: 1; transform: translateY(0); } 90%, 100% { opacity: 0; } }
+.rq-q { opacity: 0; animation: rqQ 10s ease-in-out infinite; }
+.rq-q2 { animation-delay: .3s; } .rq-q3 { animation-delay: .6s; }
+@keyframes rqVerdict { 0%, 74% { opacity: 0; transform: scale(.9); } 82%, 92% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
+.rq-verdict { opacity: 0; transform-box: fill-box; transform-origin: center; animation: rqVerdict 10s ease-in-out infinite; }
+@keyframes rqTest { 0%, 30% { opacity: .25; } 38%, 78% { opacity: 1; } 90%, 100% { opacity: .25; } }
+.rq-test { opacity: .25; animation: rqTest 10s ease-in-out infinite; }
+/* ② 변경 파급 */
+@keyframes rqPulse { 0%, 5% { stroke-width: 2.5; } 12% { stroke-width: 7; } 20%, 100% { stroke-width: 3.5; } }
+.rq-src { animation: rqPulse 9s ease-in-out infinite; }
+@keyframes rqLit1 { 0%, 14% { opacity: .22; } 22%, 92% { opacity: 1; } 100% { opacity: .22; } }
+@keyframes rqLit2 { 0%, 28% { opacity: .22; } 36%, 92% { opacity: 1; } 100% { opacity: .22; } }
+@keyframes rqLit3 { 0%, 44% { opacity: .22; } 52%, 92% { opacity: 1; } 100% { opacity: .22; } }
+@keyframes rqLit4 { 0%, 60% { opacity: .22; } 68%, 92% { opacity: 1; } 100% { opacity: .22; } }
+.rq-l1 { opacity: .22; animation: rqLit1 9s ease-in-out infinite; }
+.rq-l2 { opacity: .22; animation: rqLit2 9s ease-in-out infinite; }
+.rq-l3 { opacity: .22; animation: rqLit3 9s ease-in-out infinite; }
+.rq-l4 { opacity: .22; animation: rqLit4 9s ease-in-out infinite; }
+@keyframes rqCount { 0%, 72% { opacity: 0; } 80%, 92% { opacity: 1; } 100% { opacity: 0; } }
+.rq-count { opacity: 0; animation: rqCount 9s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .rq-anim * { animation: none !important; }
+  .rq-q, .rq-verdict, .rq-test, .rq-l1, .rq-l2, .rq-l3, .rq-l4, .rq-count { opacity: 1 !important; transform: none !important; }
+  .rq-tok { opacity: 0; }
+}
+@media (max-width: 720px) { .rq-anim .fig-scroll svg { min-width: 860px; } }
+</style>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>소프트웨어<br>요구사항</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#why">1. 왜 요구사항인가 — 그리고 "MS 방식"의 정체</a>
+    <a href="#levels">2. 세 층위와 문서 체계</a>
+    <a href="#elicit">3. 도출 — 사람에게서 꺼내기</a>
+    <a href="#models">4. 분석 모델 — 그림으로 누락 찾기</a>
+    <a href="#write">5. 작성 — 문법·EARS·품질 속성</a>
+    <a href="#stories">6. 유스케이스·스토리·수용 기준·우선순위</a>
+    <a href="#validate">7. 검증 — 리뷰·테스트·프로토타입</a>
+    <a href="#ambiguity" class="sub">7-1. 모호성 증폭 (동적)</a>
+    <a href="#manage">8. 관리 — 변경·추적성</a>
+    <a href="#ripple" class="sub">8-1. 변경 파급 (동적)</a>
+    <a href="#variants">9. 프로젝트 유형별 변주</a>
+    <a href="#ai-era">10. AI 시대 — Spec Kit과 명세 엔지니어링</a>
+    <a href="#failures">11. 흔한 실패와 처방</a>
+    <a href="#refs">12. 함께 읽기</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.09</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Software Engineering · Requirements</div>
+  <h1>소프트웨어 요구사항 작성과 관리<br><span class="thin">"무엇을 만들지"를 검증 가능하게 적는 기술</span></h1>
+  <p class="sub">코드가 싸질수록 "무엇을 만들지 정확히 적는 능력"이 병목이 된다.
+  Karl Wiegers의 <em>Software Requirements</em>(Microsoft Press)를 뼈대로,
+  세 층위 분리 · 도출과 분석 모델 · EARS 문법 · 수용 기준 · 추적성 관리까지 정리하고,
+  이 40년 된 원칙이 GitHub Spec Kit이라는 AI 에이전트 워크플로로 환생한 2026년의 지형까지 잇는다.</p>
+  <div class="tags">
+    <span class="tag">세 층위</span><span class="tag">EARS</span><span class="tag">수용 기준</span>
+    <span class="tag">추적성</span><span class="tag">Azure DevOps</span><span class="tag">Spec Kit</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 다섯 문장</h2>
+    <p>이 문서 전체의 압축</p>
+  </div>
+
+  <div class="card-grid g4">
+    <div class="stat-card"><div class="stat-value">3층</div><div class="stat-label">비즈니스 · 사용자 · 기능+품질<br>섞으면 아무도 판단 못 한다 (§2)</div></div>
+    <div class="stat-card"><div class="stat-value">What</div><div class="stat-label">요구사항은 무엇, 설계는 어떻게<br>이 선을 넘지 않는다 (§2)</div></div>
+    <div class="stat-card"><div class="stat-value">검증</div><div class="stat-label">테스트로 참/거짓을 가릴 수 있어야<br>요구사항이다 (§5·§7)</div></div>
+    <div class="stat-card"><div class="stat-value">척추</div><div class="stat-label">Epic→Feature→Story→Task→Test<br>링크가 변경을 견디게 한다 (§8)</div></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📋</span>
+    <div><strong>"마이크로소프트 요구사항 방식"의 정체 —</strong> 인터넷에서 그렇게 불리는 것은 세 갈래다.
+    ① <u>Karl Wiegers의 『Software Requirements』</u>(Microsoft Press, 1999 초판·2013 3판) — 업계 표준 교과서이며 출판사 때문에 MS 방식으로 통칭된다.
+    ② <u>Azure DevOps의 작업 항목 계층</u> — 문서를 관리 가능한 항목과 추적성으로 바꾸는 실행 도구.
+    ③ <u>GitHub Spec Kit</u>(2025.09) — 그 원칙을 AI 에이전트 워크플로로 옮긴 최신 실체.
+    이 문서는 ①을 뼈대로 ②③을 잇는다. 그리고 다섯 번째 문장: <strong>AI 시대에 요구사항 문서는 관료적 절차가 아니라 에이전트에게 주는 실행 명세다</strong>(§10).</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. WHY ═══════════ -->
+<section id="why">
+  <div class="section-header">
+    <div class="eyebrow">Why</div>
+    <h2>1. 왜 요구사항인가 — 결함은 발견이 늦을수록 비싸다</h2>
+    <p>그리고 "다 아는데 왜 안 쓰나"의 답</p>
+  </div>
+
+  <p class="body">소프트웨어 프로젝트 실패 원인 조사에서 수십 년째 상위를 지키는 항목이 "불완전한 요구사항", "사용자 참여 부족", "비현실적 기대"다.
+  공통점은 <strong>코드가 아니라 코드 이전</strong>에 있다는 것. 그리고 요구사항 단계의 결함은 발견이 늦을수록 수정 비용이 뛴다 —
+  요구사항 검토에서 잡으면 문장 하나를 고치지만, 출시 후에 잡으면 설계·코드·테스트·데이터·사용자 교육을 전부 되감는다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">결함이 발견된 시점</th><th>고쳐야 하는 것</th><th style="width:170px">비용 감각 (개략)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">요구사항 검토</td><td>문장 하나</td><td>1</td></tr>
+        <tr><td class="hl">설계</td><td>설계 문서 + 이미 합의된 인터페이스</td><td>수 배</td></tr>
+        <tr><td class="hl">구현</td><td>코드 + 단위 테스트</td><td>십 배 안팎</td></tr>
+        <tr><td class="hl">시스템 테스트</td><td>코드 + 통합 + 회귀 테스트 전체</td><td>수십 배</td></tr>
+        <tr><td class="hl">출시 후</td><td>위 전부 + 데이터 마이그레이션 + 사용자 재교육 + 신뢰</td><td>백 배 안팎</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🤔</span>
+    <div><strong>다 아는데 왜 안 쓰나 —</strong> 세 가지 착각 때문이다.
+    ① <u>"머릿속에 다 있다"</u>: 있다. 단, 내 머릿속에만 있고 개발자·AI·석 달 뒤의 나에게는 없다.
+    ② <u>"어차피 바뀐다"</u>: 바뀐다. 그래서 관리(§8)가 있는 것이지 안 쓰는 이유가 아니다 — 바뀌는 것과 <u>몰래</u> 바뀌는 것은 다르다.
+    ③ <u>"문서보다 코드가 빠르다"</u>: 바이브코딩 시대에 특히 위험한 착각 — 코드는 빨라졌지만 <strong>엉뚱한 코드도 그만큼 빨라졌다</strong>(§7-1).</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. LEVELS ═══════════ -->
+<section id="levels">
+  <div class="section-header">
+    <div class="eyebrow">Three Levels</div>
+    <h2>2. 세 층위와 문서 체계 — 실무 혼란의 90%를 없애는 구분</h2>
+    <p>왜 · 무엇을 하려는가 · 시스템이 무엇을 얼마나 잘</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/rq-three-levels.svg" alt="비즈니스, 사용자, 기능과 품질 속성 세 층위와 각 층을 담는 문서, 요구사항과 설계의 경계선, 비즈니스 규칙의 분리"></div>
+    <figcaption>층마다 답하는 질문·독자·문서가 다르다 — 그리고 요구사항(What)과 설계(How) 사이의 빨간 선 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:160px">층</th><th style="width:150px">답하는 질문</th><th style="width:170px">담는 문서</th><th>흔한 위반</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">비즈니스 요구사항</td><td><em>왜</em> 만드는가</td><td>비전과 범위 문서</td><td>성공 지표가 숫자가 아님 → "완성됐나"를 영원히 판정 못 함</td></tr>
+        <tr><td class="hl">사용자 요구사항</td><td>사용자가 <em>무엇을</em> 하려는가</td><td>유스케이스 · 유저 스토리</td><td>"버튼을 누르면 팝업이" — 목표가 아니라 화면 설계를 씀</td></tr>
+        <tr><td class="hl">기능 요구사항</td><td>시스템이 <em>무엇을</em> 해야 하는가</td><td>SRS §3</td><td>"PostgreSQL을 써야 한다" — 요구사항으로 위장한 설계</td></tr>
+        <tr><td class="hl">품질 속성</td><td><em>얼마나 잘</em> 해야 하는가</td><td>SRS §5</td><td>"빠르게", "사용자 친화적" — 측정 불가</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="num">A</span>비전과 범위 문서 — "왜"를 담는 그릇</h3>
+  <p class="body">SRS와 분리된 짧은 문서다. 비전 선언문, <strong>비즈니스 목표와 성공 지표</strong>, 범위 안과 <u>범위 밖</u>, 컨텍스트 다이어그램(시스템과 외부 세계의 경계), 이해관계자, 제약, 가정.
+  "범위 밖"을 적는 것이 범위 안만큼 중요하다 — 나중에 "이것도 당연히 되는 줄 알았는데"를 막는 유일한 장치다.</p>
+
+  <h3><span class="num">B</span>따로 사는 것 — 비즈니스 규칙</h3>
+  <p class="body">"주문 5만 원 이상 무료배송", "관리자만 삭제 가능", "세율은 10%"는 요구사항이 아니라 <strong>비즈니스 규칙</strong>이다.
+  종류는 다섯 — 사실, 제약, 행동 촉발, 추론, 계산. 규칙 목록을 별도로 두고 요구사항은 "규칙 BR-12에 따라"로 참조만 한다.
+  그래야 세율이 바뀔 때 요구사항 문서를 다시 쓰지 않고, 같은 규칙이 여러 기능에서 다르게 구현되는 사고를 막는다.</p>
+
+  <div class="callout red">
+    <span class="icon">🚧</span>
+    <div><strong>What과 How의 선 —</strong> 요구사항은 <u>무엇</u>, 설계는 <u>어떻게</u>. "왜?"를 세 번 물으면 대개 What으로 환원된다:
+    "PostgreSQL을 써야 한다" → 왜? "관계형 조회가 많아서" → 왜? "주문·고객·상품을 조인해 보고서를 뽑아야 해서" → <strong>이것이 요구사항</strong>이고 DB 선택은 설계의 자유다.
+    단, 진짜 제약(고객사가 특정 DB를 지정, 법규가 특정 암호화를 요구)은 "제약" 절에 <u>제약으로</u> 적는다 — 요구사항인 척 섞지 않는다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 3. ELICIT ═══════════ -->
+<section id="elicit">
+  <div class="section-header">
+    <div class="eyebrow">Elicitation</div>
+    <h2>3. 도출 — 사람에게서 꺼내기</h2>
+    <p>"무엇이 필요하세요?"라고 묻지 말 것</p>
+  </div>
+
+  <p class="body">요구사항은 "수집"되지 않는다 — 어디 놓여 있어서 주워 오는 게 아니라 사람의 머릿속·업무·불만에서 <strong>꺼내야</strong> 한다(도출, elicitation).
+  가장 중요한 원칙: 사용자는 <u>해결책</u>을 말하지 <u>문제</u>를 말하지 않는다. "엑셀 내보내기 버튼이 필요해요"는 해결책이고, 문제는 "매주 보고서를 손으로 옮겨 적느라 두 시간이 든다"다.
+  그래서 좋은 질문은 "무엇이 필요하세요?"가 아니라 <strong>"지금 어떻게 하고 계세요? 어디서 막히세요?"</strong>다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">기법</th><th style="width:250px">무엇을 얻나</th><th>주의</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">인터뷰</td><td>목표·불만·우선순위</td><td>사람은 자기가 실제로 하는 일과 <u>다르게</u> 설명한다 — 관찰로 교차 검증</td></tr>
+        <tr><td class="hl">현장 관찰 ★</td><td>말로 안 나오는 실제 절차·우회로·암묵지</td><td>가장 진실에 가깝다. "왜 그렇게 하세요?"를 현장에서 묻는다</td></tr>
+        <tr><td class="hl">워크숍</td><td>이해관계자 간 충돌을 <u>그 자리에서</u> 조정</td><td>진행자가 필요 — 목소리 큰 사람이 요구사항이 되지 않게</td></tr>
+        <tr><td class="hl">기존 문서 분석</td><td>업무 규정·양식·기존 시스템 화면·불만 접수 기록</td><td>"현재 어떻게 되어 있나"의 가장 싼 출처</td></tr>
+        <tr><td class="hl">설문</td><td>다수의 선호·빈도</td><td>"왜"는 못 얻는다 — 인터뷰의 대상 선정용으로</td></tr>
+        <tr><td class="hl">프로토타입</td><td>"이런 건가요?" — 반응으로 요구사항을 끌어냄</td><td>완성품으로 오해받지 않게 기대 관리 (§7)</td></tr>
+        <tr><td class="hl">브레인스토밍</td><td>선택지의 폭</td><td>평가는 나중에 — 발산과 수렴을 섞지 않는다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="num">A</span>누구에게서 꺼내나 — 이해관계자 분석</h3>
+  <p class="body">사용자만이 이해관계자가 아니다. 구매 결정자, 운영자, 고객 지원, 법무, 보안, 그리고 <u>이 시스템 때문에 일이 바뀌는 사람</u>.
+  권한(높/낮)과 관심(높/낮)의 2×2로 분류해 권한 높고 관심 높은 쪽은 긴밀히, 권한 높고 관심 낮은 쪽은 <u>만족 상태 유지</u>, 나머지는 정보 제공·관찰로 대응한다.
+  그리고 <strong>제품 챔피언</strong> — 사용자 집단을 대표해 결정할 권한을 가진 한 사람. 이 사람이 없으면 모든 충돌이 개발자에게 떨어진다.</p>
+
+  <div class="callout green">
+    <span class="icon">📮</span>
+    <div><strong>혼자 만드는 프로젝트라도 —</strong> "사용자"와 "개발자"가 같은 사람이면 도출을 건너뛰기 쉽다. 그래도 한 번은 <u>사용자 모자를 쓰고</u> "지금 이걸 어떻게 하고 있나, 어디서 짜증이 나나"를 적어보는 것이 좋다.
+    「AI 시대의 개발 프로세스」의 기사 수집기 예시가 정확히 그 장면이다 — "매일 아침 여섯 사이트를 돌며 20분"이 도출된 문제이고, 거기서 요구사항이 나왔다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. MODELS ═══════════ -->
+<section id="models">
+  <div class="section-header">
+    <div class="eyebrow">Analysis Models</div>
+    <h2>4. 분석 모델 — 그림으로 누락 찾기</h2>
+    <p>각 모델은 특정 종류의 빈틈을 드러내는 렌즈다</p>
+  </div>
+
+  <p class="body">글로 쓴 요구사항은 빈틈이 보이지 않는다. 그림으로 옮기면 "이 상태에서 저 이벤트가 오면?", "이 데이터는 어디서 오나?" 같은 질문이 <u>저절로</u> 생긴다.
+  전부 그릴 필요는 없다 — 프로젝트 성격에 맞는 두세 개면 충분하다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">모델</th><th style="width:230px">무엇을 그리나</th><th>어떤 누락을 드러내나</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">컨텍스트 다이어그램</td><td>시스템을 원 하나로, 외부 개체와 오가는 데이터</td><td><strong>범위</strong> — 무엇이 시스템 안이고 밖인가. 첫 그림으로 최적</td></tr>
+        <tr><td class="hl">데이터 흐름도 (DFD)</td><td>처리·저장소·흐름</td><td>데이터가 어디서 와서 어디로 가나 — 출처 없는 데이터, 아무도 안 읽는 저장소</td></tr>
+        <tr><td class="hl">ERD</td><td>개체와 관계</td><td>데이터 구조의 모순 — 1:N인지 N:M인지 (「데이터베이스」·「온톨로지」)</td></tr>
+        <tr><td class="hl">상태 전이도</td><td>상태와 전이 이벤트</td><td><strong>빠진 전이</strong> — "결제 중" 상태에서 취소가 오면? (「SaaS 해부」의 구독 상태 기계)</td></tr>
+        <tr><td class="hl">스윔레인 활동도</td><td>역할별 줄에 절차를 배치</td><td>책임의 공백 — 이 단계는 누가 하나</td></tr>
+        <tr><td class="hl">결정표 · 결정 트리</td><td>조건 조합 × 결과</td><td><strong>조합의 누락</strong> — 조건 3개면 경우의 수 8, 문서에는 보통 3개만 있다</td></tr>
+        <tr><td class="hl">다이얼로그 맵</td><td>화면 간 이동</td><td>막다른 화면, 돌아갈 길 없는 흐름</td></tr>
+        <tr><td class="hl">피처 트리</td><td>기능의 계층 분해</td><td>범위의 크기 감각 — 한눈에 "이게 다인가"</td></tr>
+        <tr><td class="hl">이벤트–응답 표</td><td>외부 이벤트 × 시스템 상태 × 응답</td><td>임베디드·실시간에서 핵심 (「기능안전과 워치독」의 타이밍 요구)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="num">A</span>데이터 요구사항과 데이터 사전</h3>
+  <p class="body">3판에서 신설된 장이다. 기능만 적고 데이터를 안 적는 문서가 많은데, 실제 결함의 상당수는 "이 필드가 비어 있을 수 있나", "길이 제한이 있나", "날짜는 어느 시간대인가"에서 나온다.
+  <strong>데이터 사전</strong>은 각 항목의 정의·형식·허용 범위·기본값·출처를 표로 고정한다 — 「데이터베이스」 문서의 스키마 설계로 넘어가기 직전의 What이다.</p>
+</section>
+
+<!-- ═══════════ 5. WRITE ═══════════ -->
+<section id="write">
+  <div class="section-header">
+    <div class="eyebrow">Writing</div>
+    <h2>5. 작성 — 문법 · EARS · 품질 속성의 정량화</h2>
+    <p>읽는 사람마다 다르게 해석되지 않게</p>
+  </div>
+
+  <h3><span class="num">A</span>좋은 요구사항의 특성 — 검증 가능성이 리트머스</h3>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">특성</th><th>뜻</th><th style="width:260px">위반 예 → 수정</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">검증 가능 ★</td><td>테스트로 참/거짓 판정 가능</td><td>"사용자 친화적" → "도움말 없이 3분 내 첫 수집 완료"</td></tr>
+        <tr><td class="hl">명확</td><td>해석이 하나</td><td>"적절히 처리" → "건너뛰고 오류 로그에 기록"</td></tr>
+        <tr><td class="hl">완전</td><td>빠진 조건·예외 없음</td><td>정상 흐름만 → 실패·시간 초과·중복 케이스 추가</td></tr>
+        <tr><td class="hl">정확</td><td>사실과 일치</td><td>이해관계자 검토로 확인</td></tr>
+        <tr><td class="hl">실현 가능</td><td>기술·예산·일정 안</td><td>개발자가 도출 단계에 참여</td></tr>
+        <tr><td class="hl">필요</td><td>진짜 필요</td><td>출처(누가 왜)를 적을 수 없으면 삭제 후보</td></tr>
+        <tr><td class="hl">우선순위</td><td>버릴 순서가 있음</td><td>전부 "필수" → MoSCoW 강제 배분 (§6-C)</td></tr>
+        <tr><td class="hl">추적 가능</td><td>고유 ID·출처·연결</td><td>ID 없는 문단 → REQ-042 형식 + 링크</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🚫</span>
+    <div><strong>금지어 목록을 갖고 있을 것 —</strong> 빠르게 · 사용자 친화적 · 유연한 · 효율적 · 적절히 · 충분히 · 최소화 · 최대화 · 등등 · 필요시 · 가능한 한 · 일반적으로 · 지원한다(무엇을?).
+    이 단어가 보이면 숫자나 구체 조건으로 바꾼다. 그리고 <u>"그리고/또는"</u>이 한 문장에 있으면 대개 요구사항 두 개가 붙은 것 — 쪼갠다.</div>
+  </div>
+
+  <h3><span class="num">B</span>문법 — shall · 한 문장 한 요구사항 · EARS</h3>
+  <p class="body">전통 문법: <strong>shall</strong>(해야 한다)은 필수, <strong>should</strong>는 권장, <strong>may</strong>는 허용 — 이 셋을 섞어 쓰지 않는다.
+  한 문장에 요구사항 하나, 능동태, 부정문 회피("~하지 않아야 한다"는 검증이 어렵다), 고유 ID.
+  그리고 여기에 <strong>EARS</strong>가 있다 — 자유 문장을 다섯 가지 틀로 살짝 구속해 모호함을 걷어내는 문법이다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/rq-ears.svg" alt="EARS 요구사항 문법의 다섯 패턴 상시, 이벤트 구동, 상태 구동, 원치 않는 동작, 선택 기능과 복합 패턴"></div>
+    <figcaption>상시 · When(이벤트) · While(상태) · If-Then(원치 않는 동작) · Where(선택 기능) — 조건 먼저, 응답은 마지막 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <p class="body">표준 쪽은 IEEE 830이 은퇴하고 <strong>ISO/IEC/IEEE 29148</strong>이 현행이다(유저 스토리도 명시적으로 허용). INCOSE의 작성 규칙 41개가 실무 체크리스트로 쓰이며,
+  Jama·QVscribe 같은 도구는 EARS 패턴과 INCOSE 규칙 준수를 <u>작성 중에 자동 채점</u>한다 — 「LLM-as-a-Judge」의 채점을 요구사항 문장에 적용한 셈이다.</p>
+
+  <h3><span class="num">C</span>품질 속성 — "빠르게"를 숫자로</h3>
+  <p class="body">품질 속성(비기능 요구사항)은 가장 모호하게 적히는 층이다. 처방은 속성마다 <strong>척도 · 측정 방법 · 목표치 · 최소 허용치</strong> 네 칸을 채우는 것(Tom Gilb의 Planguage 방식):</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">속성</th><th style="width:200px">척도 · 측정법</th><th style="width:150px">목표</th><th>최소 허용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">성능</td><td>첫 화면 표시 시간 · 3G 에뮬레이션, 상위 95%</td><td>2초</td><td>4초</td></tr>
+        <tr><td class="hl">가용성</td><td>월간 가동률 · 모니터링 로그</td><td>99.9%</td><td>99.5%</td></tr>
+        <tr><td class="hl">사용성</td><td>첫 수집 완료까지 시간 · 신규 사용자 5명 관찰</td><td>3분</td><td>10분</td></tr>
+        <tr><td class="hl">보안</td><td>OWASP Top 10 자동 스캔 통과 항목 수</td><td>10/10</td><td>고위험 0건</td></tr>
+        <tr><td class="hl">유지보수성</td><td>신규 소스 추가에 드는 변경 파일 수</td><td>1개</td><td>3개</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout purple">
+    <span class="icon">⚖️</span>
+    <div><strong>속성끼리 싸운다 — 트레이드오프 매트릭스 —</strong> 보안을 올리면 사용성이 내려가고(인증 단계 추가), 성능을 올리면 이식성이 내려가며(플랫폼 특화 최적화), 유연성을 올리면 성능과 단순성이 내려간다.
+    어느 쪽을 우선하는지를 <u>미리</u> 표로 적어두지 않으면, 개발자가 매 순간 임의로 결정하고 그 결정이 문서에 남지 않는다.
+    「AI 하드웨어」·「로컬 모델」에서 본 "속도 vs 정확도 vs 메모리"가 이 매트릭스의 AI판이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. STORIES ═══════════ -->
+<section id="stories">
+  <div class="section-header">
+    <div class="eyebrow">Use Cases · Stories · Priority</div>
+    <h2>6. 유스케이스 · 유저 스토리 · 수용 기준 · 우선순위</h2>
+    <p>사용자 층을 적는 두 가지 방식, 그리고 버릴 순서</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px"></th><th>유스케이스</th><th>유저 스토리</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">형태</td><td>액터 · 사전조건 · 정상 흐름 · 대안 흐름 · 예외 흐름 · 사후조건</td><td>As a [역할], I want [목표], so that [이유] + 수용 기준</td></tr>
+        <tr><td class="hl">성격</td><td>흐름의 <strong>명세</strong></td><td>대화의 <strong>약속</strong> — 상세는 대화와 수용 기준에서</td></tr>
+        <tr><td class="hl">강점</td><td>예외·대안 흐름을 강제로 생각하게 함</td><td>빠르고 가볍다 · 스프린트 단위</td></tr>
+        <tr><td class="hl">약점</td><td>무겁다 · 작성에 시간</td><td>예외가 빠지기 쉽다 · 스토리만 쌓이면 전체 그림이 사라진다</td></tr>
+        <tr><td class="hl">언제</td><td>예외 처리가 중요한 시스템(결제·안전·규제)</td><td>속도가 중요한 제품 개발 · 대부분의 앱</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="num">A</span>스토리는 요구사항이 아니다 — 수용 기준이 요구사항이다</h3>
+  <p class="body">"As a 마케터, I want 관심 키워드 기사를 매일 아침 받아보기를, so that 트렌드를 놓치지 않을 수 있다"는 <u>무엇을 왜</u>의 약속이다. 실제 명세는 <strong>수용 기준(Acceptance Criteria)</strong>에 들어간다:</p>
+
+  <pre><code>Given  키워드가 3개 등록된 사용자가
+When   매일 07:00 수집이 실행되면
+Then   각 키워드당 최대 10건의 신규 기사가 이메일로 발송된다
+And    같은 기사가 두 키워드에 걸리면 한 번만 포함된다
+And    소스 응답이 30초를 넘기면 해당 소스를 건너뛰고 관리자에게 알린다</code></pre>
+
+  <p class="body">Given/When/Then(Gherkin 문법)으로 쓰면 <strong>그대로 테스트 케이스</strong>가 된다 — BDD·ATDD가 이 흐름이고, §10에서 AI에게 "이 수용 기준으로 테스트를 먼저 써줘"라고 하는 근거다.
+  EARS의 When/If-Then과 구조가 같다는 점도 눈여겨볼 것 — 조건과 응답의 분리라는 한 원리의 두 표기다.</p>
+
+  <div class="callout navy">
+    <span class="icon">✅</span>
+    <div><strong>"준비됨"의 정의(Definition of Ready) —</strong> 수용 기준 없는 스토리는 스프린트에 들어갈 수 없다. Azure DevOps 실무의 공통 규칙이며, 스토리를 "누가 읽어도 같은 테스트를 쓸 수 있는 상태"로 만드는 게이트다.
+    INVEST 체크(독립적·협상 가능·가치 있음·추정 가능·작음·테스트 가능)도 같은 목적이다.</div>
+  </div>
+
+  <h3><span class="num">B</span>인수 조건의 실전 팁 — 예외부터 쓴다</h3>
+  <p class="body">정상 흐름은 누구나 쓴다. 가치는 <u>예외</u>에 있다 — "소스가 죽었을 때", "키워드가 0개일 때", "같은 기사가 두 번 올 때", "07:00에 서버가 재시작 중일 때".
+  EARS의 If-Then 패턴이 "가장 잘 빠지는 패턴"인 이유와 같다. 결정표(§4)로 조건 조합을 세면 빠진 경우가 기계적으로 나온다.</p>
+
+  <h3><span class="num">C</span>우선순위 — 버릴 순서를 정하는 네 가지 방법</h3>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">방법</th><th>내용</th><th style="width:220px">언제</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">MoSCoW</td><td>Must / Should / Could / Won't(이번엔) — 강제 배분. Must가 60%를 넘으면 배분이 안 된 것</td><td>가장 보편 · 첫 정렬</td></tr>
+        <tr><td class="hl">Kano 모델</td><td><strong>당연한 것</strong>(없으면 불만, 있어도 무감) · <strong>일차원</strong>(많을수록 만족) · <strong>매력</strong>(없어도 무감, 있으면 감동)</td><td>제품 기획 — "당연한 것"은 아무도 요구사항으로 말해주지 않아 가장 잘 빠진다</td></tr>
+        <tr><td class="hl">100달러법</td><td>이해관계자에게 가상 100달러를 주고 항목에 배분</td><td>우선순위 갈등 조정</td></tr>
+        <tr><td class="hl">가치·비용·위험 매트릭스</td><td>각 항목의 상대 가치 ÷ (상대 비용 + 상대 위험)으로 정렬 (Wiegers 방식)</td><td>항목이 수십 개 이상일 때 · 반정량</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════ 7. VALIDATE ═══════════ -->
+<section id="validate">
+  <div class="section-header">
+    <div class="eyebrow">Validation</div>
+    <h2>7. 검증 — "이게 맞나"를 코드 전에 확인하기</h2>
+    <p>리뷰 · 테스트 도출 · 프로토타입</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">방법</th><th>내용</th><th style="width:230px">잡는 것</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">동료 검토 · 인스펙션</td><td>체크리스트(§5-A의 특성·금지어) 기반으로 여러 눈이 읽는다 — 형식적 인스펙션은 역할(진행·낭독·기록)을 나눈다</td><td>모호·누락·모순 — <strong>가장 비용 효율이 높은 검증</strong></td></tr>
+        <tr><td class="hl">테스트 케이스 도출</td><td>요구사항마다 "이걸 어떻게 확인하지?"를 써본다 — 못 쓰면 요구사항이 아니다</td><td>검증 불가능한 문장</td></tr>
+        <tr><td class="hl">프로토타입</td><td>버리는(throwaway) vs 진화형 · 수평(넓고 얕게, 화면 흐름) vs 수직(한 기능을 깊게) · 종이 프로토타입</td><td>"내가 원한 게 이게 아닌데" — 보기 전엔 모르는 것</td></tr>
+        <tr><td class="hl">시뮬레이션 · 모델 검증</td><td>상태 전이도·결정표를 따라가 보기</td><td>조합·전이의 누락</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🎭</span>
+    <div><strong>프로토타입의 기대 관리 —</strong> 예쁜 프로토타입은 "거의 다 됐네요?"라는 오해를 부른다. 버리는 프로토타입은 <u>일부러 거칠게</u>(종이·회색 와이어프레임) 만들어 "이건 확인용"임을 시각적으로 말한다.
+    반대로 진화형 프로토타입은 처음부터 제품 품질로 — 둘을 섞으면 프로토타입 코드가 제품에 남는다(「AI 시대의 개발 프로세스」의 "빠른 초안이 그대로 배포되는" 사고).</div>
+  </div>
+
+  <h3 id="ambiguity">7-1. 모호성 증폭 — 모호한 문장이 AI를 지나면 (동적)</h3>
+
+  <p class="body">사람 개발자는 모호한 요구사항을 만나면 <u>물어본다</u>. AI 에이전트는 <strong>그럴듯하게 채운다</strong> — 그리고 채운 가정은 어디에도 기록되지 않는다. 같은 문장이 두 경로를 지나는 모습:</p>
+
+  <figure class="rq-anim">
+    <div class="fig-scroll">
+    <svg viewBox="0 0 900 400" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" style="width:100%;display:block">
+      <text x="450" y="28" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">같은 요구사항, 두 가지 적기 — 에이전트를 지난 뒤 무엇이 남나</text>
+
+      <!-- 레인 A: 모호 -->
+      <rect x="30" y="48" width="840" height="150" rx="12" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2"/>
+      <text x="52" y="72" font-size="12" font-weight="800" fill="#B91C1C">A. "첫 화면이 빠르게 로딩되어야 한다"</text>
+
+      <rect x="52" y="90" width="150" height="52" rx="10" fill="#FFFFFF" stroke="#B91C1C" stroke-width="1.5"/>
+      <text x="127" y="112" font-size="10.5" font-weight="700" fill="#B91C1C" text-anchor="middle">요구사항</text>
+      <text x="127" y="130" font-size="9.5" fill="#555555" text-anchor="middle">"빠르게" — 기준 없음</text>
+
+      <rect x="252" y="90" width="150" height="52" rx="10" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+      <text x="327" y="112" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">🤖 에이전트</text>
+      <text x="327" y="130" font-size="9.5" fill="#555555" text-anchor="middle">묻지 않고 가정을 채운다</text>
+
+      <g class="rq-q"><rect x="240" y="150" width="60" height="20" rx="10" fill="#B91C1C"/><text x="270" y="164" font-size="9" font-weight="700" fill="#FFF" text-anchor="middle">3초?</text></g>
+      <g class="rq-q rq-q2"><rect x="306" y="150" width="60" height="20" rx="10" fill="#B91C1C"/><text x="336" y="164" font-size="9" font-weight="700" fill="#FFF" text-anchor="middle">와이파이?</text></g>
+      <g class="rq-q rq-q3"><rect x="372" y="150" width="60" height="20" rx="10" fill="#B91C1C"/><text x="402" y="164" font-size="9" font-weight="700" fill="#FFF" text-anchor="middle">평균?</text></g>
+
+      <rect x="452" y="90" width="150" height="52" rx="10" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+      <text x="527" y="112" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">코드</text>
+      <text x="527" y="130" font-size="9.5" fill="#555555" text-anchor="middle">가정이 어디에도 안 남음</text>
+
+      <rect x="652" y="90" width="196" height="52" rx="10" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+      <text x="750" y="112" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">배포 후</text>
+      <text x="750" y="130" font-size="9.5" fill="#555555" text-anchor="middle">3G 사용자: 9초 · "빠르다며?"</text>
+
+      <g class="rq-verdict">
+        <rect x="560" y="150" width="288" height="36" rx="10" fill="#B91C1C"/>
+        <text x="704" y="173" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">✗ 요구사항은 충족됐다고 주장 가능 — 기준이 없으므로</text>
+      </g>
+
+      <!-- 레인 B: 검증 가능 -->
+      <rect x="30" y="212" width="840" height="150" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
+      <text x="52" y="236" font-size="12" font-weight="800" fill="#0F766E">B. "3G 에뮬레이션에서 첫 화면이 상위 95% 기준 2초 이내 표시되어야 한다"</text>
+
+      <rect x="52" y="254" width="150" height="52" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/>
+      <text x="127" y="276" font-size="10.5" font-weight="700" fill="#0F766E" text-anchor="middle">요구사항</text>
+      <text x="127" y="294" font-size="9.5" fill="#555555" text-anchor="middle">척도·조건·목표 명시</text>
+
+      <rect x="252" y="254" width="150" height="52" rx="10" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+      <text x="327" y="276" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">🤖 에이전트</text>
+      <text x="327" y="294" font-size="9.5" fill="#555555" text-anchor="middle">채울 가정이 없다</text>
+
+      <g class="rq-test">
+        <rect x="252" y="314" width="150" height="24" rx="8" fill="#0F766E"/>
+        <text x="327" y="330" font-size="9.5" font-weight="700" fill="#FFF" text-anchor="middle">🧪 테스트를 먼저 쓴다</text>
+      </g>
+
+      <rect x="452" y="254" width="150" height="52" rx="10" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+      <text x="527" y="276" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">코드</text>
+      <text x="527" y="294" font-size="9.5" fill="#555555" text-anchor="middle">테스트가 과녁 역할</text>
+
+      <rect x="652" y="254" width="196" height="52" rx="10" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+      <text x="750" y="276" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">배포 전</text>
+      <text x="750" y="294" font-size="9.5" fill="#555555" text-anchor="middle">2.6초 → 불합격 → 수정 → 1.8초</text>
+
+      <g class="rq-verdict">
+        <rect x="560" y="314" width="288" height="36" rx="10" fill="#0F766E"/>
+        <text x="704" y="337" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">✓ 배포 전에 걸렸다 — 요구사항이 곧 테스트였으므로</text>
+      </g>
+
+      <!-- 이동 토큰 (두 레인 공통 x, y는 각각) -->
+      <g class="rq-tok"><circle cx="127" cy="116" r="9" fill="#E8962A"/><circle cx="127" cy="280" r="9" fill="#E8962A"/></g>
+
+      <rect x="30" y="372" width="840" height="24" rx="7" fill="#0D1B2E"/>
+      <text x="450" y="389" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">차이는 코드 실력이 아니라 문장 하나 — 사람은 모호함을 물어보고, 에이전트는 채운다. 그래서 검증 가능성이 AI 시대에 더 중요해졌다</text>
+    </svg>
+    </div>
+    <figcaption>위 레인에서는 에이전트가 빨간 가정("3초? 와이파이? 평균?")을 조용히 채우고 배포 후에 터진다. 아래 레인에서는 채울 가정이 없어 테스트가 먼저 서고 배포 전에 걸린다 (동작 줄이기 설정 시 정지)</figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════ 8. MANAGE ═══════════ -->
+<section id="manage">
+  <div class="section-header">
+    <div class="eyebrow">Management</div>
+    <h2>8. 관리 — 요구사항은 변한다, 몰래 변하지 않게</h2>
+    <p>속성 · 베이스라인 · 변경 통제 · 추적성</p>
+  </div>
+
+  <p class="body">Wiegers는 요구사항 활동을 <strong>개발</strong>(§3~7: 도출·분석·명세·검증)과 <strong>관리</strong>(이 절)로 나눈다. 관리의 전제는 하나 — <u>요구사항이 변하는 것은 정상</u>이다. 문제는 변하는 것이 아니라 <u>기록 없이</u> 변하는 것.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">장치</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">요구사항 속성</td><td>항목마다 ID · 우선순위 · 상태(제안→승인→구현→검증→삭제) · 출처(누가 왜) · 근거 · 담당 · 목표 릴리스. Azure DevOps의 작업 항목 필드가 정확히 이것</td></tr>
+        <tr><td class="hl">베이스라인</td><td>"이 버전이 합의된 것"을 고정 — 이후의 변경은 전부 변경 요청을 거친다. 베이스라인 없이는 "원래 그랬다"는 논쟁이 끝나지 않는다</td></tr>
+        <tr><td class="hl">변경 통제</td><td>변경 요청 → <strong>영향 분석</strong>(무엇이 흔들리나, 비용·일정) → 승인/기각(변경 통제 위원회 또는 제품 챔피언) → 반영 → 관련자 통지</td></tr>
+        <tr><td class="hl">추적성 매트릭스</td><td>요구사항 ↔ 설계 ↔ 코드 ↔ 테스트의 연결표. 앞으로(누락 탐지)·뒤로(고아 코드 탐지)·위로(왜)·아래로(무엇이 나왔나)</td></tr>
+        <tr><td class="hl">버전 관리</td><td>요구사항 문서도 git에 — 마크다운 SRS는 diff·blame·PR 리뷰가 그대로 된다. 이 저장소의 planning/ 폴더가 그 방식</td></tr>
+        <tr><td class="hl">변동성 지표</td><td>월간 변경 요청 수, TBD 잔여 수, 리뷰에서 발견된 결함 밀도 — 문서의 건강 상태를 숫자로</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/rq-traceability.svg" alt="Epic, Feature, User Story, Task로 이어지는 Azure DevOps 계층과 테스트 케이스 링크, 추적성의 네 방향, 영향 분석"></div>
+    <figcaption>Azure DevOps 계층이 곧 추적성의 척추 — 위로 "왜", 아래로 "무엇이 나왔나", 옆으로 "어떻게 확인했나" · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <h3 id="ripple">8-1. 변경 파급 — 요구사항 하나를 바꾸면 (동적)</h3>
+
+  <p class="body">"수집 시각을 07:00에서 사용자 지정으로 바꿔주세요"라는 변경 요청이 왔다. 추적성 척추가 있으면 링크를 따라 영향 범위가 <u>즉시</u> 나오고, 없으면 사람의 기억을 뒤진다:</p>
+
+  <figure class="rq-anim">
+    <div class="fig-scroll">
+    <svg viewBox="0 0 900 380" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" style="width:100%;display:block">
+      <text x="450" y="28" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">변경 요청: "수집 시각을 사용자 지정으로" — 링크를 따라 영향이 번진다</text>
+
+      <!-- 원천 -->
+      <rect class="rq-src" x="40" y="150" width="170" height="70" rx="12" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3.5"/>
+      <text x="125" y="176" font-size="11.5" font-weight="800" fill="#B91C1C" text-anchor="middle">REQ-07 변경</text>
+      <text x="125" y="196" font-size="9.5" fill="#555555" text-anchor="middle">"매일 07:00 수집" →</text>
+      <text x="125" y="210" font-size="9.5" fill="#555555" text-anchor="middle">"사용자 지정 시각"</text>
+
+      <!-- 1홉: 스토리 -->
+      <g class="rq-l1">
+        <line x1="210" y1="170" x2="256" y2="100" stroke="#1A5CB5" stroke-width="2.5"/>
+        <line x1="210" y1="200" x2="256" y2="262" stroke="#1A5CB5" stroke-width="2.5"/>
+        <rect x="260" y="70" width="160" height="58" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+        <text x="340" y="94" font-size="10.5" font-weight="800" fill="#002C5F" text-anchor="middle">Story S-12</text>
+        <text x="340" y="112" font-size="9.5" fill="#555555" text-anchor="middle">아침 요약 메일 받기</text>
+        <rect x="260" y="234" width="160" height="58" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+        <text x="340" y="258" font-size="10.5" font-weight="800" fill="#002C5F" text-anchor="middle">Story S-15</text>
+        <text x="340" y="276" font-size="9.5" fill="#555555" text-anchor="middle">설정 화면</text>
+      </g>
+
+      <!-- 2홉: 태스크 -->
+      <g class="rq-l2">
+        <line x1="420" y1="90" x2="466" y2="70" stroke="#E8962A" stroke-width="2.5"/>
+        <line x1="420" y1="108" x2="466" y2="140" stroke="#E8962A" stroke-width="2.5"/>
+        <line x1="420" y1="262" x2="466" y2="262" stroke="#E8962A" stroke-width="2.5"/>
+        <rect x="470" y="48" width="150" height="44" rx="9" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.8"/>
+        <text x="545" y="67" font-size="10" font-weight="700" fill="#AF5109" text-anchor="middle">T-31 스케줄러</text>
+        <text x="545" y="83" font-size="9" fill="#555555" text-anchor="middle">cron 고정 → 사용자별</text>
+        <rect x="470" y="118" width="150" height="44" rx="9" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.8"/>
+        <text x="545" y="137" font-size="10" font-weight="700" fill="#AF5109" text-anchor="middle">T-32 메일 발송</text>
+        <text x="545" y="153" font-size="9" fill="#555555" text-anchor="middle">시간대(timezone) 처리</text>
+        <rect x="470" y="240" width="150" height="44" rx="9" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.8"/>
+        <text x="545" y="259" font-size="10" font-weight="700" fill="#AF5109" text-anchor="middle">T-40 설정 UI</text>
+        <text x="545" y="275" font-size="9" fill="#555555" text-anchor="middle">시각 선택 컴포넌트</text>
+      </g>
+
+      <!-- 3홉: 데이터·테스트 -->
+      <g class="rq-l3">
+        <line x1="620" y1="70" x2="666" y2="70" stroke="#0F766E" stroke-width="2.5"/>
+        <line x1="620" y1="140" x2="666" y2="140" stroke="#0F766E" stroke-width="2.5"/>
+        <line x1="620" y1="262" x2="666" y2="210" stroke="#0F766E" stroke-width="2.5"/>
+        <rect x="670" y="48" width="180" height="44" rx="9" fill="#E6F7F1" stroke="#0F766E" stroke-width="1.8"/>
+        <text x="760" y="67" font-size="10" font-weight="700" fill="#0F766E" text-anchor="middle">🧪 TC-07a·07b</text>
+        <text x="760" y="83" font-size="9" fill="#555555" text-anchor="middle">"07:00" 하드코딩 → 재작성</text>
+        <rect x="670" y="118" width="180" height="44" rx="9" fill="#E6F7F1" stroke="#0F766E" stroke-width="1.8"/>
+        <text x="760" y="137" font-size="10" font-weight="700" fill="#0F766E" text-anchor="middle">🗄 데이터 사전</text>
+        <text x="760" y="153" font-size="9" fill="#555555" text-anchor="middle">users.collect_at 컬럼 신설</text>
+        <rect x="670" y="188" width="180" height="44" rx="9" fill="#E6F7F1" stroke="#0F766E" stroke-width="1.8"/>
+        <text x="760" y="207" font-size="10" font-weight="700" fill="#0F766E" text-anchor="middle">📄 도움말·이용약관</text>
+        <text x="760" y="223" font-size="9" fill="#555555" text-anchor="middle">"매일 아침 7시" 문구 수정</text>
+      </g>
+
+      <!-- 4홉: 품질 속성 -->
+      <g class="rq-l4">
+        <line x1="760" y1="232" x2="760" y2="256" stroke="#6B21A8" stroke-width="2.5"/>
+        <rect x="670" y="260" width="180" height="44" rx="9" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.8"/>
+        <text x="760" y="279" font-size="10" font-weight="700" fill="#6B21A8" text-anchor="middle">⚖️ 품질 속성 QA-3</text>
+        <text x="760" y="295" font-size="9" fill="#555555" text-anchor="middle">"3분 내 완료" — 동시 수집 시 재검토</text>
+      </g>
+
+      <!-- 카운터 -->
+      <g class="rq-count">
+        <rect x="40" y="250" width="170" height="56" rx="10" fill="#0D1B2E"/>
+        <text x="125" y="273" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">영향 항목 9건</text>
+        <text x="125" y="292" font-size="9.5" fill="#AAB9CF" text-anchor="middle">스토리 2 · 태스크 3 · 테스트·데이터·문서 3 · 품질 1</text>
+      </g>
+
+      <rect x="40" y="326" width="810" height="44" rx="10" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+      <text x="445" y="345" font-size="10.5" font-weight="700" fill="#002C5F" text-anchor="middle">척추가 없으면: "스케줄러만 고치면 되겠지" → 도움말은 여전히 7시, 테스트는 07:00 하드코딩으로 통과, 시간대 버그는 배포 후 발견</text>
+      <text x="445" y="362" font-size="9.5" fill="#666666" text-anchor="middle">영향 분석의 값은 "고칠 것 목록"이 아니라 "빠뜨릴 뻔한 것 목록"에 있다 — 그래서 변경 통제가 링크를 요구한다</text>
+    </svg>
+    </div>
+    <figcaption>빨간 요구사항이 고동치면 링크가 홉 단위로 점등한다 — 스토리 → 태스크 → 테스트·데이터·문서 → 품질 속성까지 9건. 사람의 기억은 대개 첫 홉에서 멈춘다 (동작 줄이기 설정 시 정지)</figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════ 9. VARIANTS ═══════════ -->
+<section id="variants">
+  <div class="section-header">
+    <div class="eyebrow">Project Types</div>
+    <h2>9. 프로젝트 유형별 변주 — 같은 원칙, 다른 무게</h2>
+    <p>3판 3부의 요지</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">프로젝트 유형</th><th>요구사항 활동에서 달라지는 것</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">애자일</td><td>문서 대신 백로그 + 스토리 + 수용 기준. 단, "문서를 안 쓴다"가 아니라 <u>적시에 조금씩</u> 쓴다. 비전과 범위·품질 속성·비즈니스 규칙은 여전히 앞에서 한 번 정리해야 한다</td></tr>
+        <tr><td class="hl">기존 시스템 개선·교체</td><td>가장 큰 함정: <strong>"지금 되는 건 다 돼야 한다"</strong>가 암묵 요구사항. 기존 시스템의 기능 목록을 먼저 뽑고(역공학), 버릴 것을 명시적으로 결정한다</td></tr>
+        <tr><td class="hl">패키지 도입 (COTS·SaaS)</td><td>요구사항이 "만들 것"이 아니라 <strong>"고를 기준"</strong>이 된다 — 필수/선호를 가려 후보를 채점. 커스터마이징 범위를 미리 제한하지 않으면 패키지 도입의 이점이 사라진다 (「SaaS 해부」)</td></tr>
+        <tr><td class="hl">아웃소싱</td><td>요구사항이 <strong>계약서</strong>다 — 모호함이 곧 분쟁. 수용 기준과 검수 절차를 계약에 넣는다. 대화로 보완할 여지가 적으니 문서 완성도가 가장 높아야 한다</td></tr>
+        <tr><td class="hl">업무 자동화</td><td>현재 업무 절차(As-Is)를 먼저 그리고 개선 절차(To-Be)를 그린다 — 스윔레인 활동도가 주 도구. "자동화 전에 절차부터 고쳐야 하는" 경우가 많다</td></tr>
+        <tr><td class="hl">임베디드 · 안전 관련</td><td>이벤트–응답 표·상태 전이도·타이밍 요구가 핵심. 안전 요구사항은 별도 등급(ASIL 등)과 추적성이 <u>법규로</u> 요구된다 (「기능안전과 워치독」) — 추적성 매트릭스가 선택이 아니라 감사 대상</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">♻️</span>
+    <div><strong>재사용 —</strong> 로그인·권한·감사 로그·알림 같은 요구사항은 프로젝트마다 거의 같다. 잘 쓴 요구사항 묶음을 라이브러리처럼 두고 가져다 쓰면 품질과 속도가 함께 오른다.
+    Spec Kit의 constitution.md가 "프로젝트를 넘어 재사용되는 원칙"이라는 점에서 같은 발상이다(§10).</div>
+  </div>
+</section>
+
+<!-- ═══════════ 10. AI ERA ═══════════ -->
+<section id="ai-era">
+  <div class="section-header">
+    <div class="eyebrow">2026</div>
+    <h2>10. AI 시대 — 명세가 실행 명세가 되다</h2>
+    <p>GitHub Spec Kit · Azure DevOps + Copilot · 명세 엔지니어</p>
+  </div>
+
+  <p class="body">코드가 싸질수록 병목은 <strong>"무엇을 만들지 정확히 적는 능력"</strong>으로 옮겨간다. 이 문서의 모든 원칙이 갑자기 실용적이 된 이유다 — 요구사항 문서를 읽는 독자가 사람에서 에이전트로 바뀌었고, 에이전트는 모호함을 묻지 않고 채운다(§7-1).
+  마이크로소프트·GitHub은 이 흐름을 <strong>Spec-Driven Development</strong>라 부르고 도구로 만들었다:</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/rq-speckit.svg" alt="GitHub Spec Kit의 constitution, specify, plan, tasks 4파일 흐름과 전통 요구사항 공학의 층위 대응"></div>
+    <figcaption>constitution(불변 원칙) → spec(무엇·왜, 기술 금지) → plan(어떻게) → tasks(구현 단위) — Wiegers의 층위가 파일 경계로 물리화됐다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:190px">Spec Kit 요소</th><th>하는 일</th><th style="width:230px">전통 대응물</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">constitution.md</td><td>구현 전에 정하는 불변 원칙 — 코딩 규칙·품질 기준·금지 사항·라이선스 정책. 이후 모든 산출물이 이를 위반하면 안 된다</td><td>제약 절 + 비즈니스 규칙 + 품질 정책 (이 저장소의 rules/LICENSE-RULES.md가 한 조각)</td></tr>
+        <tr><td class="hl">/specify → spec.md</td><td>무엇을 왜. 사용자 시나리오·기능 요구사항·수용 기준·범위 밖. <strong>기술 언급 금지</strong>. 모호한 곳은 [NEEDS CLARIFICATION] 표시</td><td>사용자·기능 요구사항 (SRS 앞부분) — [NEEDS CLARIFICATION] = TBD 목록</td></tr>
+        <tr><td class="hl">/plan → plan.md</td><td>여기서 비로소 스택·데이터 모델·API·구조. 같은 spec에서 plan 여러 개를 뽑아 비교 가능</td><td>설계 문서 — What/How 경계의 아래</td></tr>
+        <tr><td class="hl">/tasks → tasks.md</td><td>구현 단위로 분해, 순서·병렬 가능 표시 → /implement</td><td>Task 계층 (추적성의 맨 아래)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🔁</span>
+    <div><strong>이 저장소의 다른 문서와 이어지는 지점 —</strong>
+    「AI 시대의 개발 프로세스」 §2-①의 <u>의도 정의</u>가 곧 spec.md이고, §4-1 "과녁 세우기"가 수용 기준 → 테스트의 흐름이다.
+    「AI 시대의 직무 지형」의 <u>Spec Engineer</u>는 이 절을 직무로 만든 것이며,
+    「AI 오케스트레이션」 §5의 오류 복리는 "모호한 spec이 여러 에이전트를 거치며 증폭되는" 같은 현상의 다른 각도다.
+    「LLM-as-a-Judge」는 수용 기준을 심판의 채점표로 쓰는 방법이다.</div>
+  </div>
+
+  <h3><span class="num">A</span>Azure DevOps + Copilot — 관리 쪽의 변화</h3>
+  <p class="body">Azure Boards의 Copilot이 스토리 초안과 수용 기준 초안을 생성하고, Test Plans와의 "Tested By" 링크로 요구사항↔테스트 추적성을 도구가 관리한다.
+  주의점은 §7-1과 같다 — <u>AI가 쓴 수용 기준은 그럴듯하지만 도메인의 예외를 모른다</u>. 초안으로 받고 예외(§6-B)를 사람이 덧붙이는 것이 실무 리듬이다.
+  개인 프로젝트라면 GitHub Issues + 라벨 + PR 링크로 같은 척추를 만들 수 있다 — 핵심은 도구가 아니라 <strong>링크가 있느냐</strong>다.</p>
+
+  <h3><span class="num">B</span>바이브코딩에서 오늘 바로 쓰는 루프</h3>
+  <ol style="line-height:1.9;padding-left:1.4em">
+    <li><strong>spec 먼저</strong> — "무엇을 왜"를 기술 없이 적는다. 금지어(§5-A)가 보이면 숫자로 바꾼다.</li>
+    <li><strong>수용 기준을 Given/When/Then으로</strong> — 정상 1개, 예외 3개 이상.</li>
+    <li><strong>"이 수용 기준으로 테스트를 먼저 써줘"</strong> — 과녁이 선다.</li>
+    <li><strong>그다음 구현을 시킨다</strong> — 테스트가 통과할 때까지. 에이전트가 가정을 채울 틈이 줄어든다.</li>
+    <li><strong>변경이 오면 spec부터 고친다</strong> — 코드부터 고치면 spec이 거짓말이 된다(§8).</li>
+  </ol>
+</section>
+
+<!-- ═══════════ 11. FAILURES ═══════════ -->
+<section id="failures">
+  <div class="section-header">
+    <div class="eyebrow">Anti-patterns</div>
+    <h2>11. 흔한 실패와 처방</h2>
+    <p>전부 실제로 반복되는 것들</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:230px">실패</th><th>처방</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">층위를 섞어 씀</td><td>§2의 세 층을 문서로 물리적 분리 — Spec Kit은 파일로 강제한다</td></tr>
+        <tr><td class="hl">요구사항으로 위장한 설계</td><td>"왜?" 세 번 → What으로 환원. 진짜 제약은 제약 절에</td></tr>
+        <tr><td class="hl">검증 불가능한 표현</td><td>금지어 목록 + 척도·측정법·목표·최소치 네 칸</td></tr>
+        <tr><td class="hl">정상 흐름만 씀</td><td>예외부터 쓴다 · EARS If-Then · 결정표로 조합 세기</td></tr>
+        <tr><td class="hl">전부 "필수"</td><td>MoSCoW 강제 배분 — Must 60% 초과면 다시</td></tr>
+        <tr><td class="hl">"당연한 것"이 빠짐</td><td>Kano의 당연 품질을 별도 점검 — 아무도 말해주지 않는다</td></tr>
+        <tr><td class="hl">범위 슬금슬금 증식</td><td>베이스라인 + 변경 통제 + "범위 밖" 목록</td></tr>
+        <tr><td class="hl">문서를 쓰고 아무도 안 읽음</td><td>리뷰를 이벤트로 · 수용 기준을 테스트로 연결해 <u>읽지 않으면 굴러가지 않게</u></td></tr>
+        <tr><td class="hl">코드부터 고치고 문서는 나중에</td><td>spec이 거짓이 되는 순간 이후의 모든 AI 작업이 오염된다 — 변경은 spec부터</td></tr>
+        <tr><td class="hl">AI가 채운 가정을 모름</td><td>[NEEDS CLARIFICATION]을 강제 · 에이전트에게 "가정한 것을 목록으로 내라"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>맺음 —</strong> 요구사항 공학의 40년은 한 문장으로 압축된다: <u>"무엇을 만들지를, 읽는 사람마다 같게 해석되고 테스트로 판정할 수 있게, 층을 나눠 적고, 바뀌면 기록하라."</u>
+    바뀐 것은 읽는 사람이 에이전트가 됐다는 것뿐이고, 그래서 이 문장은 더 중요해졌다. 잘 적힌 요구사항은 관료적 산출물이 아니라 <strong>가장 싼 테스트이자 가장 정확한 프롬프트</strong>다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 12. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">Related</div>
+    <h2>12. 함께 읽기</h2>
+    <p>이 문서에서 갈라지는 길들</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:280px">주제</th><th>문서</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">의도 정의 → 과녁 → 구현의 루프</td><td>「AI 시대의 개발 프로세스」 §2·§4 — spec.md의 실전 형태</td></tr>
+        <tr><td class="hl">명세를 직무로</td><td>「AI 시대의 직무 지형」 — Spec Engineer · FDE</td></tr>
+        <tr><td class="hl">수용 기준을 채점표로</td><td>「LLM-as-a-Judge」 — 심판의 기준이 곧 요구사항</td></tr>
+        <tr><td class="hl">모호함이 증폭되는 구조</td><td>「AI 오케스트레이션」 §5 — 오류의 복리</td></tr>
+        <tr><td class="hl">테스트가 게이트가 되는 곳</td><td>「CI/CD 정리」 — 수용 기준 → 자동 테스트 → 파이프라인</td></tr>
+        <tr><td class="hl">데이터 사전의 다음 단계</td><td>「데이터베이스」 · 「PostgreSQL 해부」 · 「온톨로지와 지식 그래프」(ERD·개념 모델)</td></tr>
+        <tr><td class="hl">상태 기계·품질 속성의 실례</td><td>「SaaS 해부」(구독 상태 기계·멀티테넌시 요구) · 「앱 출시의 관문」(플랫폼 의무 = 외부 제약)</td></tr>
+        <tr><td class="hl">안전 요구사항과 법정 추적성</td><td>「기능안전과 워치독」 — ASIL·타이밍 요구·감사</td></tr>
+        <tr><td class="hl">불변 원칙의 실물</td><td>rules/LICENSE-RULES.md · 「오픈소스 라이선스와 바이브코딩」 — constitution의 한 조각</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 뼈대: Karl Wiegers &amp; Joy Beatty, <em>Software Requirements</em> 3rd ed. (Microsoft Press, 2013) — 개념을 재구성했으며 원문 인용 없음 · EARS: Mavin et al., RE'09 · ISO/IEC/IEEE 29148:2018 · GitHub Spec Kit·Azure DevOps 사항은 2026.09 웹 확인 기준 개략 · 도식: img/rq-*.svg (4종) + 동적 도식 2종(모호성 증폭·변경 파급, CSS 애니메이션)
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>
