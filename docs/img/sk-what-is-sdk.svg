@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs>
+    <marker id="skw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="660" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">SDK란 무엇인가 — 내 코드와 OS 사이에 놓인 "부탁하는 법" 상자</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">화면·파일·네트워크는 OS만 만질 수 있다 — 내 프로그램은 부탁해야 하고, 부탁하는 법을 적은 것이 SDK다</text>
+
+  <!-- 내 코드 -->
+  <rect x="40" y="110" width="180" height="150" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="130" y="138" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">내 코드</text>
+  <text x="130" y="162" font-size="10.5" fill="#555555" text-anchor="middle">"창 하나 띄워줘"</text>
+  <text x="130" y="180" font-size="10.5" fill="#555555" text-anchor="middle">"이 파일 읽어줘"</text>
+  <text x="130" y="198" font-size="10.5" fill="#555555" text-anchor="middle">"서버에 보내줘"</text>
+  <text x="130" y="226" font-size="10" font-weight="700" fill="#1A5CB5" text-anchor="middle">직접은 못 한다</text>
+  <text x="130" y="244" font-size="9.5" fill="#666666" text-anchor="middle">하드웨어는 OS의 것</text>
+
+  <line x1="220" y1="185" x2="266" y2="185" stroke="#003F8A" stroke-width="2.5" marker-end="url(#skw)"/>
+  <text x="243" y="176" font-size="9.5" fill="#666666" text-anchor="middle">부탁</text>
+
+  <!-- SDK 상자 -->
+  <rect x="270" y="90" width="360" height="270" rx="16" fill="#FEF3E2" stroke="#E8962A" stroke-width="3.5"/>
+  <text x="450" y="118" font-size="14" font-weight="800" fill="#AF5109" text-anchor="middle">🧳 SDK — 플랫폼 주인이 주는 상자</text>
+  <rect x="290" y="132" width="320" height="50" rx="9" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="304" y="152" font-size="11" font-weight="800" fill="#AF5109">① 헤더 — "부탁하는 법" 목록</text>
+  <text x="304" y="170" font-size="9.5" fill="#555555">함수 이름·넘길 값·돌려받는 값. 예: CreateWindow(제목, 크기…)</text>
+  <rect x="290" y="188" width="320" height="50" rx="9" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="304" y="208" font-size="11" font-weight="800" fill="#AF5109">② 링커 스텁 — 연결 접착제</text>
+  <text x="304" y="226" font-size="9.5" fill="#555555">빌드 때 "이 부탁은 OS의 저 파일로 간다"를 맞춰줌 (.lib / .tbd)</text>
+  <rect x="290" y="244" width="320" height="50" rx="9" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="304" y="264" font-size="11" font-weight="800" fill="#AF5109">③ 도구 — 그 플랫폼 전용 유틸리티</text>
+  <text x="304" y="282" font-size="9.5" fill="#555555">서명 · 패키징 · 에뮬레이터 · 리소스 컴파일러</text>
+  <rect x="290" y="300" width="320" height="46" rx="9" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="304" y="320" font-size="11" font-weight="800" fill="#AF5109">④ 문서·샘플 — 사용 설명서</text>
+  <text x="304" y="338" font-size="9.5" fill="#555555">①을 사람이 읽을 수 있게 풀어쓴 것 + 예제 코드</text>
+
+  <line x1="630" y1="185" x2="676" y2="185" stroke="#003F8A" stroke-width="2.5" marker-end="url(#skw)"/>
+
+  <!-- OS -->
+  <rect x="680" y="110" width="180" height="150" rx="14" fill="#0D1B2E"/>
+  <text x="770" y="138" font-size="13.5" font-weight="800" fill="#FFF" text-anchor="middle">OS (실제 기능)</text>
+  <text x="770" y="162" font-size="10" fill="#AAB9CF" text-anchor="middle">kernel32.dll · user32.dll</text>
+  <text x="770" y="180" font-size="10" fill="#AAB9CF" text-anchor="middle">Foundation · AppKit</text>
+  <text x="770" y="206" font-size="10" fill="#AAB9CF" text-anchor="middle">화면 · 파일 · 네트워크 ·</text>
+  <text x="770" y="222" font-size="10" fill="#AAB9CF" text-anchor="middle">메모리 · 카메라 · 알림</text>
+  <text x="770" y="246" font-size="9.5" fill="#7FD1A8" text-anchor="middle">「가상화의 세계」의 자원 배분자</text>
+
+  <!-- 두 시점 -->
+  <rect x="40" y="390" width="405" height="150" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="242" y="418" font-size="13" font-weight="800" fill="#6B21A8" text-anchor="middle">🔨 빌드 타임 — SDK가 일하는 시점</text>
+  <text x="62" y="444" font-size="10.5" fill="#555555">툴체인(컴파일러·링커)이 SDK의 헤더로 내 부탁이</text>
+  <text x="62" y="462" font-size="10.5" fill="#555555">규격에 맞는지 <tspan font-weight="700">검사</tspan>하고, 스텁으로 OS 파일에 <tspan font-weight="700">연결</tspan>해</text>
+  <text x="62" y="480" font-size="10.5" fill="#555555">산출물(.exe · .app · .apk)을 만든다</text>
+  <text x="62" y="508" font-size="10" font-weight="700" fill="#6B21A8">SDK가 없으면 여기서 멈춘다 — "stdio.h를 찾을 수 없음"</text>
+  <text x="62" y="526" font-size="9.5" fill="#666666">「개발 생태계 해부」의 6층(빌드 도구)이 등판하는 순간</text>
+
+  <rect x="455" y="390" width="405" height="150" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="657" y="418" font-size="13" font-weight="800" fill="#0F766E" text-anchor="middle">▶ 런타임 — SDK는 없고 OS만 있다</text>
+  <text x="477" y="444" font-size="10.5" fill="#555555">사용자 PC에는 SDK가 없다. 산출물이 실행되면 OS의</text>
+  <text x="477" y="462" font-size="10.5" fill="#555555"><tspan font-weight="700">실제 라이브러리</tspan>(kernel32.dll · Foundation)와 결합한다</text>
+  <text x="477" y="480" font-size="10.5" fill="#555555">그래서 "SDK 버전"은 만들 때 기준이고,</text>
+  <text x="477" y="498" font-size="10.5" fill="#555555">"최소 OS 버전"은 실행될 때 기준이다 (§1-F)</text>
+  <text x="477" y="526" font-size="9.5" fill="#666666">서비스 SDK(Firebase 등)는 예외 — 앱 안에 동봉되어 함께 실행된다</text>
+
+  <!-- 하단 정의 -->
+  <rect x="40" y="560" width="820" height="84" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="588" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">정의 한 줄: SDK = 특정 플랫폼 위에서 돌아가는 소프트웨어를 만들기 위해, 플랫폼 주인이 제공하는 부탁 규격 + 연결 부품 + 도구 + 설명서</text>
+  <text x="450" y="612" font-size="10.5" fill="#AAB9CF" text-anchor="middle">"플랫폼"이 OS면 플랫폼 SDK(iOS · Android · Windows), 남의 서비스면 서비스 SDK(Firebase · Stripe · Claude) — §3</text>
+  <text x="450" y="632" font-size="10.5" fill="#7FD1A8" text-anchor="middle">언어는 자유롭게 골라도 이 상자 없이는 그 플랫폼용 산출물이 나오지 않는다 — 「애플 앱 개발의 지도」의 "툴체인은 의무"</text>
+</svg>

@@ -351,7 +351,7 @@
         "계정 삭제",
         "강제 업데이트"
       ],
-      "version": 5,
+      "version": 6,
       "assets": [
         "docs/img/am-three-gates.svg",
         "docs/img/am-settings.svg",
@@ -424,10 +424,11 @@
         "xcode-select",
         "빌드 소환"
       ],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/sk-taxonomy.svg",
-        "docs/img/sk-mac-windows.svg"
+        "docs/img/sk-mac-windows.svg",
+        "docs/img/sk-what-is-sdk.svg"
       ]
     },
     {

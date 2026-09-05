@@ -364,18 +364,19 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
-    <a href="#names">1. 이름 정리 — 여행 가방과 공장 라인</a>
-    <a href="#two-faces">2. SDK의 두 얼굴</a>
-    <a href="#inside">3. 상자 안 — Windows SDK vs macOS SDK</a>
-    <a href="#mac">4. 맥의 두 경로 — Xcode와 CLT</a>
-    <a href="#windows">5. 윈도우 대응물 1:1</a>
-    <a href="#why">6. 왜 필요한가 — 빌드 소환 조건</a>
-    <a href="#summon" class="sub">6-1. 빌드 소환 (동적)</a>
-    <a href="#brew">7. Homebrew는 왜 CLT를 요구하나</a>
-    <a href="#ops">8. 확인·설치·업데이트·판올림</a>
-    <a href="#pointer" class="sub">8-1. 판올림 후 포인터 유실 (동적)</a>
-    <a href="#audit">9. AI 대화 검증 기록</a>
-    <a href="#refs">10. 함께 읽기</a>
+    <a href="#what">1. SDK란 무엇인가 — 처음부터</a>
+    <a href="#names">2. 이름 정리 — 여행 가방과 공장 라인</a>
+    <a href="#two-faces">3. SDK의 두 얼굴</a>
+    <a href="#inside">4. 상자 안 — Windows SDK vs macOS SDK</a>
+    <a href="#mac">5. 맥의 두 경로 — Xcode와 CLT</a>
+    <a href="#windows">6. 윈도우 대응물 1:1</a>
+    <a href="#why">7. 왜 필요한가 — 빌드 소환 조건</a>
+    <a href="#summon" class="sub">7-1. 빌드 소환 (동적)</a>
+    <a href="#brew">8. Homebrew는 왜 CLT를 요구하나</a>
+    <a href="#ops">9. 확인·설치·업데이트·판올림</a>
+    <a href="#pointer" class="sub">9-1. 판올림 후 포인터 유실 (동적)</a>
+    <a href="#audit">10. AI 대화 검증 기록</a>
+    <a href="#refs">11. 함께 읽기</a>
   </nav>
   <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.09</div>
 </aside>
@@ -407,26 +408,126 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
 
   <div class="card-grid g4">
-    <div class="stat-card"><div class="stat-value">🧳</div><div class="stat-label">SDK = 목적지별 여행 가방<br>층이 아니라 묶음 (§1)</div></div>
-    <div class="stat-card"><div class="stat-value">2</div><div class="stat-label">SDK를 얻는 경로는 둘뿐<br>IDE 전체 또는 최소 툴체인 (§4·§5)</div></div>
-    <div class="stat-card"><div class="stat-value">완제품</div><div class="stat-label">있으면 컴파일러가 소환되지 않는다<br>오류를 못 본 이유 (§6)</div></div>
-    <div class="stat-card"><div class="stat-value">한 줄</div><div class="stat-label">판올림 후 오류가 나면<br>xcode-select --install (§8)</div></div>
+    <div class="stat-card"><div class="stat-value">🧳</div><div class="stat-label">SDK = 목적지별 여행 가방<br>층이 아니라 묶음 (§2)</div></div>
+    <div class="stat-card"><div class="stat-value">2</div><div class="stat-label">SDK를 얻는 경로는 둘뿐<br>IDE 전체 또는 최소 툴체인 (§5·§6)</div></div>
+    <div class="stat-card"><div class="stat-value">완제품</div><div class="stat-label">있으면 컴파일러가 소환되지 않는다<br>오류를 못 본 이유 (§7)</div></div>
+    <div class="stat-card"><div class="stat-value">한 줄</div><div class="stat-label">판올림 후 오류가 나면<br>xcode-select --install (§9)</div></div>
   </div>
 
   <div class="callout navy">
     <span class="icon">🧭</span>
-    <div><strong>이 문서의 위치 —</strong> <a href="dev-ecosystem.html">「개발 생태계 해부」</a>가 6층 명함으로 이름들을 분류했다면,
+    <div><strong>이 문서의 위치 —</strong> SDK라는 개념 자체가 낯설면 <a href="#what">§1</a>부터. <a href="dev-ecosystem.html">「개발 생태계 해부」</a>가 6층 명함으로 이름들을 분류했다면,
     이 문서는 <u>층에 안 들어가는 묶음들</u>(SDK·툴체인·CLT)을 다룬다.
     <a href="apple-app-dev.html">「애플 앱 개발의 지도」</a>가 "언어는 자유, 툴체인은 의무"라고 했던 그 <u>툴체인의 실물</u>이 여기 있고,
     <a href="dev-os-comparison.html">「개발 환경으로서의 macOS vs Windows」</a>의 도구 비교를 설치 층위까지 내려서 본다.</div>
   </div>
 </section>
 
-<!-- ═══════════ 1. NAMES ═══════════ -->
+<!-- ═══════════ 1. WHAT IS SDK ═══════════ -->
+<section id="what">
+  <div class="section-header">
+    <div class="eyebrow">From Scratch</div>
+    <h2>1. SDK란 무엇인가 — 처음부터</h2>
+    <p>개념이 없는 상태에서 출발하는 절</p>
+  </div>
+
+  <h3><span class="num">A</span>문제 — 내 프로그램은 화면을 직접 못 만진다</h3>
+  <p class="body">프로그램이 하는 일 대부분은 결국 <strong>화면에 그리기, 파일 읽고 쓰기, 네트워크로 보내기, 소리 내기</strong>다.
+  그런데 이것들은 전부 하드웨어를 만지는 일이고, 하드웨어는 <u>OS의 것</u>이다. <a href="virtualization.html">「가상화의 세계」</a>에서 OS를 "자원 배분자"라고 했던 그 의미다.
+  내 코드는 화면에 직접 점을 찍을 수 없고, OS에게 <strong>"창 하나 띄워줘"라고 부탁</strong>해야 한다.</p>
+  <p class="body">그러면 질문이 생긴다. <u>부탁은 어떻게 하나?</u> 어떤 이름의 함수를 어떤 값과 함께 불러야 OS가 알아듣나?
+  윈도우는 창을 띄우는 부탁의 이름이 CreateWindow이고 맥은 NSWindow인데, 이 목록은 수만 개다.
+  <strong>이 "부탁하는 법"의 목록과, 그 부탁을 실제 OS에 연결해 주는 부품과, 그 플랫폼 전용 도구를 한 상자에 담아 플랫폼 주인이 나눠주는 것</strong>이 SDK다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/sk-what-is-sdk.svg" alt="내 코드가 OS에 부탁하는 사이에 놓인 SDK 상자의 네 구성품과, SDK가 일하는 빌드 타임과 OS만 있는 런타임의 구분"></div>
+    <figcaption>내 코드 → SDK(부탁하는 법·연결 부품·도구·설명서) → OS. SDK는 만들 때 쓰이고, 실행할 때는 OS만 있다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <h3><span class="num">B</span>정의 — 한 줄과 풀어쓰기</h3>
+  <div class="callout navy">
+    <span class="icon">📖</span>
+    <div><strong>SDK(Software Development Kit) = 특정 플랫폼 위에서 돌아가는 소프트웨어를 만들기 위해, 그 플랫폼의 주인이 제공하는 부탁 규격 + 연결 부품 + 전용 도구 + 설명서 묶음.</strong><br>
+    풀어쓰면 — "플랫폼"은 iOS·Android·Windows 같은 OS일 수도, Firebase·Stripe 같은 남의 서비스일 수도 있다(§3).
+    "주인"은 애플·구글·마이크로소프트·해당 회사다. "만들기 위해"가 핵심이다 — SDK는 <u>만드는 쪽</u>의 물건이지, 사용자 PC에서 실행되는 물건이 아니다(§1-E).</div>
+  </div>
+
+  <h3><span class="num">C</span>상자를 열어보면 — 실제 폴더의 모습</h3>
+  <p class="body">SDK는 대부분 <u>실행 아이콘이 없는 파일 묶음</u>이다. 맥과 안드로이드의 SDK 폴더를 열면 대략 이렇다:</p>
+  <pre><code>MacOSX.sdk/                          Android SDK/
+├─ usr/include/                      ├─ platforms/android-35/     ← OS 35 버전의 부탁 규격
+│   ├─ stdio.h   ← 부탁 규격(C 표준)  │   └─ android.jar
+│   └─ unistd.h                      ├─ build-tools/35.0.0/       ← 패키징·서명 도구
+├─ usr/lib/*.tbd  ← 연결 스텁         ├─ platform-tools/adb        ← 기기와 통신
+└─ System/Library/Frameworks/        ├─ emulator/                 ← 가짜 폰
+    ├─ Foundation.framework           └─ sources/                  ← 설명서 겸 원본
+    └─ AppKit.framework   ← 창·버튼</code></pre>
+  <p class="body">헤더 파일 하나를 열면 이런 줄이 있다 — <span class="mono">int open(const char *path, int flags);</span> —
+  "open이라는 부탁은 경로 문자열과 옵션 숫자를 받고 정수를 돌려준다"는 <u>규격 한 줄</u>이다. 실제로 파일을 여는 코드는 여기 없다. 그건 OS 안에 있다.
+  SDK의 헤더는 <strong>전화번호부</strong>이지 전화 상대가 아니다.</p>
+
+  <h3><span class="num">D</span>개발자가 쓰는 순서 — 다섯 걸음</h3>
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">걸음</th><th>하는 일</th><th style="width:250px">예</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① 설치</td><td>플랫폼 주인에게서 상자를 받는다 — IDE에 동봉되거나 최소 툴체인으로 (§5·§6)</td><td>Xcode / CLT · Android Studio · Visual Studio 설치 관리자</td></tr>
+        <tr><td class="hl">② 불러오기</td><td>코드 첫 줄에서 "이 상자의 규격을 쓰겠다"고 선언</td><td><span class="mono">import UIKit</span> · <span class="mono">#include &lt;windows.h&gt;</span> · <span class="mono">import firebase_admin</span></td></tr>
+        <tr><td class="hl">③ 부탁 작성</td><td>규격에 맞춰 함수를 부른다 — 이 시점엔 아직 아무 일도 안 일어난다</td><td><span class="mono">let w = NSWindow(...)</span></td></tr>
+        <tr><td class="hl">④ 빌드</td><td>툴체인이 SDK 헤더로 부탁이 규격에 맞는지 <strong>검사</strong>하고, 스텁으로 OS 파일에 <strong>연결</strong>해 산출물을 만든다</td><td>clang · cl.exe · gradle → .app · .exe · .apk</td></tr>
+        <tr><td class="hl">⑤ 실행</td><td>산출물이 사용자 PC의 <strong>실제 OS 라이브러리</strong>와 결합해 돌아간다 — SDK는 이 자리에 없다</td><td>사용자가 앱 아이콘을 누른다</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="body">②③은 사람이, ④는 툴체인이, ⑤는 OS가 한다. SDK가 실제로 "일하는" 순간은 ④ 하나뿐이다 —
+  그래서 SDK가 없어도 코드는 <u>쓸 수는</u> 있고, 빌드에서 "stdio.h를 찾을 수 없음"으로 멈춘다(§7).</p>
+
+  <h3><span class="num">E</span>"SDK 없이 하면?" — 왜 의무인가</h3>
+  <p class="body">이론상 규격을 직접 적을 수는 있다. 함수 하나의 이름과 형식을 내가 헤더에 손으로 쓰고 링크만 맞추면 컴파일은 된다.
+  그러나 부탁 규격은 수만 개이고 OS 버전마다 바뀐다. 누구도 이것을 손으로 관리하지 않으므로 <strong>"SDK 없이"는 현실에서 "그 플랫폼용 산출물을 못 만든다"와 같은 말</strong>이 된다.
+  <a href="apple-app-dev.html">「애플 앱 개발의 지도」</a>가 "언어는 자유, 툴체인은 의무"라고 한 이유가 정확히 이것이다 — 언어는 골라도 부탁 규격은 애플 것을 받아야 한다.</p>
+
+  <h3><span class="num">F</span>SDK 버전의 세 숫자 — 만들 때 기준과 실행될 때 기준</h3>
+  <p class="body">"SDK 35", "iOS 18 SDK"라는 숫자를 만나면 두 질문을 구분해야 한다. <u>어느 OS 버전의 부탁 규격으로 만들었나</u>(빌드 기준)와 <u>어느 OS 버전부터 실행되나</u>(실행 기준)는 다른 숫자다:</p>
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:160px">숫자</th><th style="width:180px">Android 이름</th><th style="width:170px">iOS 이름</th><th>뜻</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">빌드 기준</td><td>compileSdk</td><td>SDK 버전 (Xcode에 동봉)</td><td>이 버전의 규격까지 <u>쓸 수 있다</u>. 높을수록 새 기능 사용 가능</td></tr>
+        <tr><td class="hl">동작 기준</td><td>targetSdk</td><td>(동일)</td><td>"나는 이 버전의 규칙을 따른다"는 선언 — 스토어가 최신을 <strong>의무화</strong>하는 숫자 (<a href="app-release.html">「앱 출시의 관문」</a> §2-1)</td></tr>
+        <tr><td class="hl">실행 기준</td><td>minSdk</td><td>Deployment Target</td><td>이 버전 <u>미만의 기기에서는 설치 불가</u>. 낮출수록 사용자 폭이 넓고 새 기능은 조건부로 써야 한다</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="body">"최신 SDK로 빌드하라"는 스토어 요구는 빌드·동작 기준을 올리라는 것이지, 오래된 폰을 버리라는 뜻이 아니다 — 실행 기준은 따로 낮게 둘 수 있다.
+  세 숫자를 섞으면 "왜 새 SDK로 빌드했는데 구형 폰에서도 도나?"라는 혼란이 생긴다.</p>
+
+  <h3><span class="num">G</span>흔한 오해 다섯</h3>
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:260px">오해</th><th>실제</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">SDK는 프로그램이다</td><td>대부분 실행 아이콘 없는 <u>파일 묶음</u>이다. 응용 프로그램 폴더에 안 보이는 이유 (§5)</td></tr>
+        <tr><td class="hl">SDK를 깔면 그 플랫폼 앱이 실행된다</td><td>SDK는 <u>만드는</u> 쪽 물건. 실행은 OS가 한다. 에뮬레이터가 포함되면 "가짜 기기"로 실행해 볼 수는 있다</td></tr>
+        <tr><td class="hl">SDK와 API는 같은 말</td><td>API는 부탁 규격 자체(문). SDK는 규격 + 연결 부품 + 도구 + 설명서(가방). API만 있으면 HTTP를 직접 짜야 하고, SDK가 있으면 함수 하나로 끝난다 (§2)</td></tr>
+        <tr><td class="hl">언어마다 SDK가 다르다</td><td>플랫폼 SDK는 <u>플랫폼</u>마다다. 같은 iOS SDK를 Swift·Objective-C·(브릿지를 거쳐) JS가 쓴다. 서비스 SDK는 언어별 포장이 따로 나오기도 한다</td></tr>
+        <tr><td class="hl">SDK 버전 = 앱이 요구하는 최소 OS</td><td>아니다 — 그건 minSdk·Deployment Target이라는 별개 숫자 (§1-F)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🧭</span>
+    <div><strong>여기까지의 요약 —</strong> 내 코드는 OS에 부탁해야만 화면·파일·네트워크를 쓸 수 있고, SDK는 그 부탁의 규격과 연결 부품과 도구를 담은 상자다.
+    만들 때(빌드) 쓰이고 실행할 때는 없다. 이름·비유·이웃 개념과의 구분은 §2, 두 얼굴은 §3, 상자 속 실물 비교는 §4로 이어진다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. NAMES ═══════════ -->
 <section id="names">
   <div class="section-header">
     <div class="eyebrow">Taxonomy</div>
-    <h2>1. 이름 정리 — 여행 가방과 공장 라인</h2>
+    <h2>2. 이름 정리 — 여행 가방과 공장 라인</h2>
     <p>API · 라이브러리 · 프레임워크 · SDK · 툴체인 · IDE</p>
   </div>
 
@@ -461,7 +562,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <section id="two-faces">
   <div class="section-header">
     <div class="eyebrow">Two Meanings</div>
-    <h2>2. SDK의 두 얼굴 — 플랫폼 SDK와 서비스 SDK</h2>
+    <h2>3. SDK의 두 얼굴 — 플랫폼 SDK와 서비스 SDK</h2>
     <p>같은 이름, 다른 크기</p>
   </div>
 
@@ -488,7 +589,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <section id="inside">
   <div class="section-header">
     <div class="eyebrow">Inside the Box</div>
-    <h2>3. 상자 안 — Windows SDK vs macOS SDK</h2>
+    <h2>4. 상자 안 — Windows SDK vs macOS SDK</h2>
     <p>헤더 · 링커 스텁 · 도구, 그리고 두 회사의 포장법 차이</p>
   </div>
 
@@ -514,7 +615,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <span class="icon">📂</span>
     <div><strong>맥에서 /usr/include가 없는 이유 —</strong> 윈도우 출신이 당황하는 지점이다. macOS는 Catalina부터 시스템 볼륨을 읽기 전용으로 봉인하면서
     C 표준 헤더를 루트에서 치우고 <u>SDK 안으로</u> 옮겼다. "보안 때문"이라기보다 <u>시스템 볼륨 봉인과 SDK 기반 빌드로의 전환</u>이 이유다.
-    결과는 같다 — 네이티브 빌드는 SDK 없이는 한 줄도 컴파일되지 않고, 그 SDK는 CLT나 Xcode 안에만 있다(§4).</div>
+    결과는 같다 — 네이티브 빌드는 SDK 없이는 한 줄도 컴파일되지 않고, 그 SDK는 CLT나 Xcode 안에만 있다(§5).</div>
   </div>
 </section>
 
@@ -522,7 +623,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <section id="mac">
   <div class="section-header">
     <div class="eyebrow">macOS</div>
-    <h2>4. 맥의 두 경로 — Xcode 전체와 Command Line Tools</h2>
+    <h2>5. 맥의 두 경로 — Xcode 전체와 Command Line Tools</h2>
     <p>양자택일이 아니라 포함 관계</p>
   </div>
 
@@ -558,9 +659,9 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <span class="icon">🫥</span>
     <div><strong>"난 CLT를 깐 적이 없는데?" —</strong> 깔려 있을 확률이 매우 높다. 세 경로 중 하나를 지났을 것이다.
     ① 터미널에서 git을 처음 쳤을 때 뜬 "명령줄 개발자 도구를 설치하겠습니까?" 팝업에서 설치를 눌렀다.
-    ② Homebrew 설치 스크립트가 CLT 부재를 감지하고 <u>대신 설치했다</u>(§7).
+    ② Homebrew 설치 스크립트가 CLT 부재를 감지하고 <u>대신 설치했다</u>(§8).
     ③ 어떤 개발 도구의 설치 안내를 따라 xcode-select --install을 쳤다.
-    §8의 확인 명령 한 줄이면 답이 나온다.</div>
+    §9의 확인 명령 한 줄이면 답이 나온다.</div>
   </div>
 </section>
 
@@ -568,7 +669,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <section id="windows">
   <div class="section-header">
     <div class="eyebrow">Windows</div>
-    <h2>5. 윈도우 대응물 — 1:1 대응표</h2>
+    <h2>6. 윈도우 대응물 — 1:1 대응표</h2>
     <p>윈도우만 쓰던 사람을 위한 번역기</p>
   </div>
 
@@ -595,14 +696,14 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 
   <p class="body">「애플 앱 개발의 지도」 §0의 윈도우↔맥 대응표가 <u>앱 개발 과정</u>의 대응이었다면, 이 표는 그 아래 <u>설치 층위</u>의 대응이다.
   가장 큰 차이 하나는 git이다 — 맥은 툴체인에 동봉되어 "git을 치면 툴체인 설치 팝업이 뜨는" 구조이고, 윈도우는 git이 독립 프로그램이다.
-  그래서 윈도우 출신은 "git이 왜 컴파일러 설치를 요구하지?"라는 의문을 갖게 되고, 그 답이 §4의 포함 관계다.</p>
+  그래서 윈도우 출신은 "git이 왜 컴파일러 설치를 요구하지?"라는 의문을 갖게 되고, 그 답이 §5의 포함 관계다.</p>
 </section>
 
 <!-- ═══════════ 6. WHY ═══════════ -->
 <section id="why">
   <div class="section-header">
     <div class="eyebrow">Why It Matters</div>
-    <h2>6. 왜 필요한가 — 빌드 소환 조건</h2>
+    <h2>7. 왜 필요한가 — 빌드 소환 조건</h2>
     <p>"pip install에서 오류를 본 적이 없다"의 정확한 이유</p>
   </div>
 
@@ -622,7 +723,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     </table>
   </div>
 
-  <h3 id="summon">6-1. 빌드 소환 — 완제품이 있을 때와 없을 때 (동적)</h3>
+  <h3 id="summon">7-1. 빌드 소환 — 완제품이 있을 때와 없을 때 (동적)</h3>
 
   <figure class="sk-anim">
     <div class="fig-scroll">
@@ -703,7 +804,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <section id="brew">
   <div class="section-header">
     <div class="eyebrow">Homebrew</div>
-    <h2>7. Homebrew는 왜 CLT를 요구하나 — 정확한 이유</h2>
+    <h2>8. Homebrew는 왜 CLT를 요구하나 — 정확한 이유</h2>
     <p>흔한 설명 중 틀린 것 하나를 걸러내며</p>
   </div>
 
@@ -712,7 +813,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
       <thead><tr><th style="width:230px">이유</th><th>내용</th><th style="width:110px">판정</th></tr></thead>
       <tbody>
         <tr><td class="hl">① git 의존</td><td>Homebrew 본체가 git 저장소다. 설치 스크립트가 git clone을 하고, brew update가 본체를 git으로 갱신한다. git은 CLT에 동봉</td><td>맞음</td></tr>
-        <tr><td class="hl">② 소스 빌드 대비</td><td>bottle이 없는 formula(§6-A)는 ./configure &amp;&amp; make 를 돌린다 — 그때 clang·make·SDK가 필요. Homebrew는 자체 컴파일러를 들고 다니지 않고 Apple 툴체인을 전제한다</td><td>맞음</td></tr>
+        <tr><td class="hl">② 소스 빌드 대비</td><td>bottle이 없는 formula(§7-A)는 ./configure &amp;&amp; make 를 돌린다 — 그때 clang·make·SDK가 필요. Homebrew는 자체 컴파일러를 들고 다니지 않고 Apple 툴체인을 전제한다</td><td>맞음</td></tr>
         <tr><td class="hl">③ "bottle도 SDK와 결합해야 한다"</td><td>bottle은 이미 링크가 끝난 바이너리라 <u>실행에 SDK가 필요 없다</u>. 동적 링크는 런타임에 OS 라이브러리와 붙는 것이지 SDK 헤더를 보는 게 아니다</td><td><strong>틀림</strong></td></tr>
         <tr><td class="hl">④ 패키지 명세를 git으로 받는다</td><td>2023년부터 기본값이 <strong>JSON API</strong>다 — formula 명세는 formulae.brew.sh에서 JSON으로 받고, homebrew-core 저장소를 통째로 clone하지 않는다. 본체만 git</td><td>낡음</td></tr>
       </tbody>
@@ -723,7 +824,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <span class="icon">🍺</span>
     <div><strong>그리고 중요한 사실 하나 —</strong> "CLT가 없으면 Homebrew 설치가 진행되지 않는다"는 흔한 설명은 반만 맞다.
     Homebrew 설치 스크립트는 CLT 부재를 감지하면 <u>대신 설치를 진행한다</u>. 그래서 Homebrew를 깐 사람은 자기도 모르게 CLT를 갖게 된다 —
-    §4의 "난 깐 적이 없는데?"의 가장 흔한 답이 이것이다.</div>
+    §5의 "난 깐 적이 없는데?"의 가장 흔한 답이 이것이다.</div>
   </div>
 </section>
 
@@ -731,7 +832,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <section id="ops">
   <div class="section-header">
     <div class="eyebrow">Operations</div>
-    <h2>8. 확인 · 설치 · 업데이트 · 판올림</h2>
+    <h2>9. 확인 · 설치 · 업데이트 · 판올림</h2>
     <p>평소엔 잊고 지내다 1년에 한 번 꺼내는 명령들</p>
   </div>
 
@@ -752,7 +853,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     </table>
   </div>
 
-  <h3 id="pointer">8-1. 판올림 후 포인터 유실 — 1년에 한 번 겪는 그 오류 (동적)</h3>
+  <h3 id="pointer">9-1. 판올림 후 포인터 유실 — 1년에 한 번 겪는 그 오류 (동적)</h3>
 
   <p class="body">macOS 메이저 판올림 뒤 터미널에서 git이나 brew를 쳤더니 <span class="mono">invalid active developer path</span> 가 뜨는 현상이다.
   기존 CLT가 새 OS 규격과 맞지 않아 포인터가 가리키던 폴더가 무효가 된 것이고, 처방은 한 줄이다:</p>
@@ -835,7 +936,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <section id="audit">
   <div class="section-header">
     <div class="eyebrow">Fact Check</div>
-    <h2>9. AI 대화 검증 기록 — 무엇이 맞고 무엇이 낡았나</h2>
+    <h2>10. AI 대화 검증 기록 — 무엇이 맞고 무엇이 낡았나</h2>
     <p>이 문서의 출발점이 된 대화의 사실 확인</p>
   </div>
 
@@ -846,12 +947,12 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <table class="ds">
       <thead><tr><th style="width:280px">대화의 주장</th><th>실제</th></tr></thead>
       <tbody>
-        <tr><td class="hl">CLT 없으면 Homebrew 설치가 진행되지 않는다</td><td>설치 스크립트가 CLT를 대신 설치한다 (§7)</td></tr>
-        <tr><td class="hl">Bottle도 시스템과 결합하려면 SDK가 필요</td><td>틀림 — 이미 링크된 바이너리라 실행에 SDK 불필요 (§7)</td></tr>
-        <tr><td class="hl">brew update가 Formula를 git pull로 받는다</td><td>2023년부터 기본 JSON API. 본체만 git (§7)</td></tr>
-        <tr><td class="hl">/usr/include를 치운 이유는 보안</td><td>Catalina의 시스템 볼륨 봉인과 SDK 기반 빌드 전환이 이유. 결과는 같다 (§3)</td></tr>
-        <tr><td class="hl">자동 업데이트를 켜두면 CLT도 백그라운드에서 알아서</td><td>과장 — 대개 사용자가 눌러야 하고, 판올림 후엔 재설치가 필요하다고 스스로 말한 것과 어긋남 (§8)</td></tr>
-        <tr><td class="hl">Xcode에 모든 플랫폼 시뮬레이터가 포함</td><td>Xcode 15부터 플랫폼 시뮬레이터 런타임은 별도 다운로드. SDK 헤더는 포함 (§4)</td></tr>
+        <tr><td class="hl">CLT 없으면 Homebrew 설치가 진행되지 않는다</td><td>설치 스크립트가 CLT를 대신 설치한다 (§8)</td></tr>
+        <tr><td class="hl">Bottle도 시스템과 결합하려면 SDK가 필요</td><td>틀림 — 이미 링크된 바이너리라 실행에 SDK 불필요 (§8)</td></tr>
+        <tr><td class="hl">brew update가 Formula를 git pull로 받는다</td><td>2023년부터 기본 JSON API. 본체만 git (§8)</td></tr>
+        <tr><td class="hl">/usr/include를 치운 이유는 보안</td><td>Catalina의 시스템 볼륨 봉인과 SDK 기반 빌드 전환이 이유. 결과는 같다 (§4)</td></tr>
+        <tr><td class="hl">자동 업데이트를 켜두면 CLT도 백그라운드에서 알아서</td><td>과장 — 대개 사용자가 눌러야 하고, 판올림 후엔 재설치가 필요하다고 스스로 말한 것과 어긋남 (§9)</td></tr>
+        <tr><td class="hl">Xcode에 모든 플랫폼 시뮬레이터가 포함</td><td>Xcode 15부터 플랫폼 시뮬레이터 런타임은 별도 다운로드. SDK 헤더는 포함 (§5)</td></tr>
       </tbody>
     </table>
   </div>
@@ -859,7 +960,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   <div class="callout amber">
     <span class="icon">🔍</span>
     <div><strong>맞았던 것들 —</strong> CLT 구성, gcc가 clang 별칭, xcode-select와 -p의 정체, pkgutil 패키지 ID, 시스템 정보에서의 확인 경로, 판올림 후 오류와 처방,
-    Windows SDK와 Build Tools의 역할 분담, .tbd 스텁과 Framework 번들, 그리고 무엇보다 <u>"바이너리 휠 때문에 오류를 못 봤다"</u>는 설명. 이 마지막 것이 대화의 가장 좋은 부분이었고 §6의 뼈대가 됐다.
+    Windows SDK와 Build Tools의 역할 분담, .tbd 스텁과 Framework 번들, 그리고 무엇보다 <u>"바이너리 휠 때문에 오류를 못 봤다"</u>는 설명. 이 마지막 것이 대화의 가장 좋은 부분이었고 §7의 뼈대가 됐다.
     「AI 시대의 개발 프로세스」의 원칙대로 — AI 설명은 뼈대를 받고 세부는 확인한다.</div>
   </div>
 </section>
@@ -868,7 +969,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <section id="refs">
   <div class="section-header">
     <div class="eyebrow">Related</div>
-    <h2>10. 함께 읽기</h2>
+    <h2>11. 함께 읽기</h2>
     <p>이 문서에서 갈라지는 길들</p>
   </div>
 

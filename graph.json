@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-05",
+ "generated": "2026-09-06",
  "note": "scripts/build-graph.py가 생성. nodes는 docs.json 참조, edges는 자동 추출, curated는 손으로 유지.",
  "nodes": [
   {
@@ -1230,25 +1230,25 @@
    "source": "sdk-toolchain",
    "target": "app-release",
    "type": "link",
-   "weight": 2
+   "weight": 3
   },
   {
    "source": "sdk-toolchain",
    "target": "app-release",
    "type": "mention",
-   "weight": 2
-  },
-  {
-   "source": "sdk-toolchain",
-   "target": "apple-app-dev",
-   "type": "link",
    "weight": 3
   },
   {
    "source": "sdk-toolchain",
    "target": "apple-app-dev",
-   "type": "mention",
+   "type": "link",
    "weight": 4
+  },
+  {
+   "source": "sdk-toolchain",
+   "target": "apple-app-dev",
+   "type": "mention",
+   "weight": 5
   },
   {
    "source": "sdk-toolchain",
@@ -1302,13 +1302,13 @@
    "source": "sdk-toolchain",
    "target": "virtualization",
    "type": "link",
-   "weight": 1
+   "weight": 2
   },
   {
    "source": "sdk-toolchain",
    "target": "virtualization",
    "type": "mention",
-   "weight": 1
+   "weight": 2
   },
   {
    "source": "software-requirements",
