@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>SDK와 툴체인 — 맥과 윈도우의 개발 도구 해부</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #1D4ED8 55%, #E8962A 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<style>
+/* ── SDK·툴체인 문서 전용 애니메이션 ── */
+.sk-anim { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 14px 8px; margin: var(--sp-4) 0; }
+.sk-anim figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding: 8px 0 6px; }
+/* ① 빌드 소환 */
+@keyframes skTokA { 0%, 4% { transform: translate(0,0); opacity: 0; } 8% { opacity: 1; } 26% { transform: translate(190px,-70px); } 48% { transform: translate(400px,-70px); } 66% { transform: translate(600px,-70px); opacity: 1; } 74%, 100% { transform: translate(600px,-70px); opacity: 0; } }
+@keyframes skTokB { 0%, 4% { transform: translate(0,0); opacity: 0; } 8% { opacity: 1; } 26% { transform: translate(190px,70px); } 48% { transform: translate(400px,70px); } 66% { transform: translate(600px,70px); opacity: 1; } 74%, 100% { transform: translate(600px,70px); opacity: 0; } }
+.sk-tokA { animation: skTokA 11s ease-in-out infinite; }
+.sk-tokB { animation: skTokB 11s ease-in-out infinite; }
+@keyframes skNeed { 0%, 44% { opacity: 0; } 52%, 86% { opacity: 1; } 94%, 100% { opacity: 0; } }
+.sk-need { opacity: 0; animation: skNeed 11s ease-in-out infinite; }
+@keyframes skVerdict { 0%, 64% { opacity: 0; transform: scale(.9); } 72%, 90% { opacity: 1; transform: scale(1); } 98%, 100% { opacity: 0; } }
+.sk-verdict { opacity: 0; transform-box: fill-box; transform-origin: center; animation: skVerdict 11s ease-in-out infinite; }
+/* ② 포인터 유실 */
+@keyframes skPtrOk { 0%, 24% { opacity: 1; } 30%, 78% { opacity: 0; } 84%, 100% { opacity: 1; } }
+@keyframes skPtrBad { 0%, 26% { opacity: 0; } 32%, 76% { opacity: 1; } 82%, 100% { opacity: 0; } }
+.sk-ptr-ok { animation: skPtrOk 12s ease-in-out infinite; }
+.sk-ptr-bad { opacity: 0; animation: skPtrBad 12s ease-in-out infinite; }
+@keyframes skUpgrade { 0%, 14% { opacity: 0; transform: translateY(-8px); } 20%, 40% { opacity: 1; transform: translateY(0); } 46%, 100% { opacity: 0; } }
+.sk-upgrade { opacity: 0; animation: skUpgrade 12s ease-in-out infinite; }
+@keyframes skFolderOld { 0%, 24% { opacity: 1; } 30%, 100% { opacity: .28; } }
+.sk-folder-old { animation: skFolderOld 12s ease-in-out infinite; }
+@keyframes skErr { 0%, 34% { opacity: 0; } 40%, 62% { opacity: 1; } 68%, 100% { opacity: 0; } }
+.sk-err { opacity: 0; animation: skErr 12s ease-in-out infinite; }
+@keyframes skCmd { 0%, 58% { opacity: 0; } 64%, 96% { opacity: 1; } 100% { opacity: 0; } }
+.sk-cmd { opacity: 0; animation: skCmd 12s ease-in-out infinite; }
+@keyframes skFolderNew { 0%, 72% { opacity: 0; } 80%, 100% { opacity: 1; } }
+.sk-folder-new { opacity: 0; animation: skFolderNew 12s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .sk-anim * { animation: none !important; }
+  .sk-need, .sk-verdict, .sk-upgrade, .sk-err, .sk-cmd, .sk-folder-new, .sk-ptr-ok { opacity: 1 !important; transform: none !important; }
+  .sk-tokA, .sk-tokB, .sk-ptr-bad { opacity: 0; }
+}
+@media (max-width: 720px) { .sk-anim .fig-scroll svg { min-width: 860px; } }
+</style>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>SDK와<br>툴체인</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#names">1. 이름 정리 — 여행 가방과 공장 라인</a>
+    <a href="#two-faces">2. SDK의 두 얼굴</a>
+    <a href="#inside">3. 상자 안 — Windows SDK vs macOS SDK</a>
+    <a href="#mac">4. 맥의 두 경로 — Xcode와 CLT</a>
+    <a href="#windows">5. 윈도우 대응물 1:1</a>
+    <a href="#why">6. 왜 필요한가 — 빌드 소환 조건</a>
+    <a href="#summon" class="sub">6-1. 빌드 소환 (동적)</a>
+    <a href="#brew">7. Homebrew는 왜 CLT를 요구하나</a>
+    <a href="#ops">8. 확인·설치·업데이트·판올림</a>
+    <a href="#pointer" class="sub">8-1. 판올림 후 포인터 유실 (동적)</a>
+    <a href="#audit">9. AI 대화 검증 기록</a>
+    <a href="#refs">10. 함께 읽기</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.09</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Dev Environment · macOS · Windows</div>
+  <h1>SDK와 툴체인<br><span class="thin">맥과 윈도우의 개발 도구 해부</span></h1>
+  <p class="sub">맥북을 새로 사서 뭘 하다 보면 SDK, Command Line Tools, xcode-select, Homebrew라는 이름이 계속 나온다.
+  윈도우만 쓰던 사람에게 이 넷의 관계는 아무도 설명해주지 않는다.
+  이 문서는 SDK가 무엇인지부터, 맥의 두 경로(Xcode와 CLT), 윈도우의 대응물(VS Build Tools와 Windows SDK),
+  그리고 "왜 pip install에서 한 번도 오류가 안 났는가"까지를 한 장의 지도로 만든다.</p>
+  <div class="tags">
+    <span class="tag">SDK</span><span class="tag">Command Line Tools</span><span class="tag">xcode-select</span>
+    <span class="tag">Windows SDK</span><span class="tag">빌드 소환</span><span class="tag">Homebrew</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0. OVERVIEW ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 네 문장</h2>
+    <p>급한 사람을 위한 요약</p>
+  </div>
+
+  <div class="card-grid g4">
+    <div class="stat-card"><div class="stat-value">🧳</div><div class="stat-label">SDK = 목적지별 여행 가방<br>층이 아니라 묶음 (§1)</div></div>
+    <div class="stat-card"><div class="stat-value">2</div><div class="stat-label">SDK를 얻는 경로는 둘뿐<br>IDE 전체 또는 최소 툴체인 (§4·§5)</div></div>
+    <div class="stat-card"><div class="stat-value">완제품</div><div class="stat-label">있으면 컴파일러가 소환되지 않는다<br>오류를 못 본 이유 (§6)</div></div>
+    <div class="stat-card"><div class="stat-value">한 줄</div><div class="stat-label">판올림 후 오류가 나면<br>xcode-select --install (§8)</div></div>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>이 문서의 위치 —</strong> <a href="dev-ecosystem.html">「개발 생태계 해부」</a>가 6층 명함으로 이름들을 분류했다면,
+    이 문서는 <u>층에 안 들어가는 묶음들</u>(SDK·툴체인·CLT)을 다룬다.
+    <a href="apple-app-dev.html">「애플 앱 개발의 지도」</a>가 "언어는 자유, 툴체인은 의무"라고 했던 그 <u>툴체인의 실물</u>이 여기 있고,
+    <a href="dev-os-comparison.html">「개발 환경으로서의 macOS vs Windows」</a>의 도구 비교를 설치 층위까지 내려서 본다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 1. NAMES ═══════════ -->
+<section id="names">
+  <div class="section-header">
+    <div class="eyebrow">Taxonomy</div>
+    <h2>1. 이름 정리 — 여행 가방과 공장 라인</h2>
+    <p>API · 라이브러리 · 프레임워크 · SDK · 툴체인 · IDE</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/sk-taxonomy.svg" alt="API, 라이브러리, 프레임워크, SDK, 툴체인, IDE의 관계와 6층 명함 위의 위치, 포함 관계"></div>
+    <figcaption>크기 순서가 아니라 "무엇을 담는가"의 차이 — SDK와 툴체인은 여러 층의 물건을 목적지별로 다시 포장한 것 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">이름</th><th style="width:110px">비유</th><th>정체</th><th style="width:200px">6층 명함에서</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">API</td><td>문(계약)</td><td>"이렇게 부르면 이렇게 답한다"는 약속. 코드가 아니라 규격</td><td>5층 부품의 겉면</td></tr>
+        <tr><td class="hl">라이브러리</td><td>부품</td><td>내가 부르는 함수 모음. 주도권은 내 코드에</td><td>5층</td></tr>
+        <tr><td class="hl">프레임워크</td><td>뼈대</td><td>뼈대가 내 코드를 부른다(제어의 역전). SwiftUI·React</td><td>5층</td></tr>
+        <tr><td class="hl">SDK ★</td><td>여행 가방</td><td>특정 목적지로 가기 위한 부품·뼈대·도구·문서를 한 상자에</td><td><strong>묶음</strong> — 5층+6층+(2층 일부)</td></tr>
+        <tr><td class="hl">툴체인</td><td>공장 라인</td><td>컴파일러 → 링커 → 빌드 관리자의 사슬</td><td>6층 도구들의 사슬</td></tr>
+        <tr><td class="hl">IDE</td><td>작업대</td><td>위 전부를 화면 하나에 얹은 GUI</td><td>층 밖 (「개발 생태계 해부」 §7)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">💡</span>
+    <div><strong>"SDK는 몇 층?"은 성립하지 않는 질문이다 —</strong> 층은 역할별 서랍이고, SDK는 여러 서랍에서 꺼낸 물건을 <u>목적지별로</u> 다시 싼 가방이다.
+    그래서 "SDK를 설치하라"는 말은 "그 목적지(iOS·Windows·Firebase)에 필요한 부품과 도구를 한 번에 받으라"는 뜻이고,
+    SDK 버전 숫자는 <u>어느 OS 버전의 기능까지 쓸 수 있는가</u>다. <a href="app-release.html">「앱 출시의 관문」</a>의 타겟 API 의무가 정확히 "최신 SDK로 빌드하라"는 요구다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. TWO FACES ═══════════ -->
+<section id="two-faces">
+  <div class="section-header">
+    <div class="eyebrow">Two Meanings</div>
+    <h2>2. SDK의 두 얼굴 — 플랫폼 SDK와 서비스 SDK</h2>
+    <p>같은 이름, 다른 크기</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px"></th><th>플랫폼 SDK</th><th>서비스 SDK</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">목적지</td><td>OS·기기 — 그 위에서 <u>돌아가는</u> 앱을 만든다</td><td>남의 서비스 — 그것을 내 코드에서 <u>편하게 부른다</u></td></tr>
+        <tr><td class="hl">예</td><td>iOS SDK · Android SDK · Windows SDK · JDK</td><td>Firebase SDK · Stripe SDK · Supabase 클라이언트 · Claude SDK</td></tr>
+        <tr><td class="hl">상자 안</td><td>헤더·링커 스텁·컴파일러·에뮬레이터·서명 도구·문서</td><td>사실상 <strong>API 클라이언트 라이브러리</strong> — HTTP를 감싼 함수들 + 문서</td></tr>
+        <tr><td class="hl">크기</td><td>수 GB ~ 수십 GB</td><td>수 MB — pip·npm으로 받는 패키지 하나</td></tr>
+        <tr><td class="hl">없으면</td><td>그 플랫폼용 산출물을 <u>만들 수 없다</u></td><td>HTTP 요청을 직접 짜면 된다 — 편의의 문제</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">이 저장소에서 여러 번 본 "이름의 다의성" 패턴이다. Claude Agent SDK는 서비스 SDK라서 에뮬레이터 같은 것이 없고 pip 패키지 하나다.
+  반면 iOS SDK는 Xcode 안에 동봉되는 플랫폼 SDK라서 그것 없이는 iOS 앱 바이너리가 나오지 않는다.
+  자바의 JDK는 플랫폼 SDK인데 목적지가 OS가 아니라 <u>JVM이라는 가상 플랫폼</u>이라는 점만 다르다 — JRE(실행만)에 컴파일러와 도구를 더한 것이며,
+  「개발 생태계 해부」의 "컴파일러는 런타임이 아니다" 구분이 그대로 적용된다.</p>
+</section>
+
+<!-- ═══════════ 3. INSIDE ═══════════ -->
+<section id="inside">
+  <div class="section-header">
+    <div class="eyebrow">Inside the Box</div>
+    <h2>3. 상자 안 — Windows SDK vs macOS SDK</h2>
+    <p>헤더 · 링커 스텁 · 도구, 그리고 두 회사의 포장법 차이</p>
+  </div>
+
+  <p class="body">플랫폼 SDK의 핵심은 셋이다. <strong>헤더</strong>는 OS가 제공하는 함수의 이름과 형식이 적힌 선언서,
+  <strong>링커 스텁</strong>은 빌드 시점에 내 코드가 OS 내부 라이브러리와 올바르게 연결되도록 심볼을 맞춰주는 접착제,
+  <strong>도구</strong>는 서명·패키징·리소스 컴파일 같은 플랫폼 전용 유틸리티다. 여기까지는 두 회사가 같고, 포장법이 다르다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px"></th><th>Windows SDK</th><th>macOS SDK (MacOSX.sdk)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">API 체계</td><td>Win32 · COM · DirectX · Windows App SDK</td><td>POSIX(UNIX 표준) + Cocoa(Foundation·AppKit) + Metal</td></tr>
+        <tr><td class="hl">포장 단위</td><td>헤더 폴더(include)와 라이브러리 폴더(lib)를 <u>따로</u></td><td>기능별 <strong>Framework 번들</strong> — 헤더와 바이너리 참조를 한 폴더에</td></tr>
+        <tr><td class="hl">링크 방식</td><td>임포트 라이브러리(.lib) 참조 → 런타임에 DLL 로드</td><td>텍스트 스텁(.tbd) 참조 → 런타임에 dyld 공유 캐시 연결</td></tr>
+        <tr><td class="hl">대표 헤더</td><td>windows.h · winsock2.h</td><td>unistd.h · Foundation/Foundation.h</td></tr>
+        <tr><td class="hl">설치 위치</td><td>C:\Program Files (x86)\Windows Kits\10</td><td>/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk</td></tr>
+        <tr><td class="hl">특징</td><td>수십 년치 하위 호환이 한 킷에 공존</td><td>.tbd는 심볼 이름만 적은 텍스트라 SDK가 가볍다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">📂</span>
+    <div><strong>맥에서 /usr/include가 없는 이유 —</strong> 윈도우 출신이 당황하는 지점이다. macOS는 Catalina부터 시스템 볼륨을 읽기 전용으로 봉인하면서
+    C 표준 헤더를 루트에서 치우고 <u>SDK 안으로</u> 옮겼다. "보안 때문"이라기보다 <u>시스템 볼륨 봉인과 SDK 기반 빌드로의 전환</u>이 이유다.
+    결과는 같다 — 네이티브 빌드는 SDK 없이는 한 줄도 컴파일되지 않고, 그 SDK는 CLT나 Xcode 안에만 있다(§4).</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4. MAC ═══════════ -->
+<section id="mac">
+  <div class="section-header">
+    <div class="eyebrow">macOS</div>
+    <h2>4. 맥의 두 경로 — Xcode 전체와 Command Line Tools</h2>
+    <p>양자택일이 아니라 포함 관계</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/sk-mac-windows.svg" alt="맥의 Xcode 전체와 Command Line Tools 두 경로, xcode-select 포인터, 윈도우의 Visual Studio와 Build Tools 대응"></div>
+    <figcaption>왼쪽이 맥, 오른쪽이 윈도우 — 양쪽 다 "IDE 전체" 또는 "최소 툴체인" 두 경로이고, 둘 다 SDK를 품고 있다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px"></th><th>경로 A · Xcode.app</th><th>경로 B · Command Line Tools ★</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">누구용</td><td>iOS·macOS GUI 앱 개발자</td><td>터미널·웹·백엔드·데이터·스크립팅 — <strong>대부분의 맥 사용자</strong></td></tr>
+        <tr><td class="hl">크기</td><td>수십 GB (시뮬레이터를 받을수록 커짐)</td><td>수 GB</td></tr>
+        <tr><td class="hl">툴체인</td><td>clang · swiftc · ld · lldb · xcodebuild</td><td>clang(gcc는 별칭) · make · ld · lldb · <strong>git</strong></td></tr>
+        <tr><td class="hl">SDK</td><td>macOS + iOS + watchOS + visionOS + tvOS</td><td>macOS 하나</td></tr>
+        <tr><td class="hl">GUI</td><td>편집기 · Interface Builder · 시뮬레이터 앱</td><td>없음 — 응용 프로그램 폴더에 <u>보이지 않는다</u></td></tr>
+        <tr><td class="hl">설치</td><td>App Store</td><td>xcode-select --install 또는 git 첫 실행 시 팝업</td></tr>
+        <tr><td class="hl">경로</td><td>/Applications/Xcode.app/Contents/Developer</td><td>/Library/Developer/CommandLineTools</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">📍</span>
+    <div><strong>xcode-select는 CLT가 아니다 —</strong> 둘 중 어느 폴더를 터미널이 바라볼지 가리키는 <u>포인터 관리자</u>이며 OS에 내장돼 있다.
+    터미널에서 git이나 clang을 치면 이 포인터가 가리키는 폴더의 것이 실행된다.
+    <span class="mono">-p</span>는 --print-path의 약자로 "지금 어디를 가리키나"를 찍고, <span class="mono">--install</span>은 설치 팝업, <span class="mono">-s</span>는 전환, <span class="mono">-r</span>은 초기화다.
+    Xcode를 깔면 포인터가 A를 가리키고, CLT만 있으면 B를 가리킨다 — 둘 다 있으면 어느 쪽이든 고를 수 있다.</div>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🫥</span>
+    <div><strong>"난 CLT를 깐 적이 없는데?" —</strong> 깔려 있을 확률이 매우 높다. 세 경로 중 하나를 지났을 것이다.
+    ① 터미널에서 git을 처음 쳤을 때 뜬 "명령줄 개발자 도구를 설치하겠습니까?" 팝업에서 설치를 눌렀다.
+    ② Homebrew 설치 스크립트가 CLT 부재를 감지하고 <u>대신 설치했다</u>(§7).
+    ③ 어떤 개발 도구의 설치 안내를 따라 xcode-select --install을 쳤다.
+    §8의 확인 명령 한 줄이면 답이 나온다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. WINDOWS ═══════════ -->
+<section id="windows">
+  <div class="section-header">
+    <div class="eyebrow">Windows</div>
+    <h2>5. 윈도우 대응물 — 1:1 대응표</h2>
+    <p>윈도우만 쓰던 사람을 위한 번역기</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:190px">역할</th><th>macOS</th><th>Windows</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">IDE 전체</td><td>Xcode.app</td><td>Visual Studio</td></tr>
+        <tr><td class="hl">최소 툴체인 + SDK</td><td>Command Line Tools</td><td>VS Build Tools + Windows SDK</td></tr>
+        <tr><td class="hl">플랫폼 SDK 실물</td><td>MacOSX.sdk (Framework 번들·.tbd)</td><td>Windows Kits\10 (include·lib)</td></tr>
+        <tr><td class="hl">C/C++ 컴파일러</td><td>clang (gcc는 별칭)</td><td>cl.exe (MSVC)</td></tr>
+        <tr><td class="hl">링커</td><td>ld</td><td>link.exe</td></tr>
+        <tr><td class="hl">빌드 관리자</td><td>make · xcodebuild</td><td>nmake · MSBuild</td></tr>
+        <tr><td class="hl">디버거</td><td>lldb</td><td>Visual Studio 디버거 · WinDbg</td></tr>
+        <tr><td class="hl">동적 라이브러리</td><td>.dylib · Framework</td><td>.dll</td></tr>
+        <tr><td class="hl">링크용 참조 파일</td><td>.tbd 텍스트 스텁</td><td>.lib 임포트 라이브러리</td></tr>
+        <tr><td class="hl">"어느 툴체인을 쓸지"</td><td>xcode-select 포인터</td><td>개발자 명령 프롬프트(vcvars가 환경 변수 세팅)</td></tr>
+        <tr><td class="hl">OS 패키지 매니저</td><td>Homebrew</td><td>winget · Chocolatey</td></tr>
+        <tr><td class="hl">git</td><td><strong>CLT에 동봉</strong></td><td><strong>별도 설치</strong> (Git for Windows)</td></tr>
+        <tr><td class="hl">빌드 도구 부재 시 오류</td><td>xcrun: error: invalid active developer path</td><td>Microsoft Visual C++ 14.0 or greater is required</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">「애플 앱 개발의 지도」 §0의 윈도우↔맥 대응표가 <u>앱 개발 과정</u>의 대응이었다면, 이 표는 그 아래 <u>설치 층위</u>의 대응이다.
+  가장 큰 차이 하나는 git이다 — 맥은 툴체인에 동봉되어 "git을 치면 툴체인 설치 팝업이 뜨는" 구조이고, 윈도우는 git이 독립 프로그램이다.
+  그래서 윈도우 출신은 "git이 왜 컴파일러 설치를 요구하지?"라는 의문을 갖게 되고, 그 답이 §4의 포함 관계다.</p>
+</section>
+
+<!-- ═══════════ 6. WHY ═══════════ -->
+<section id="why">
+  <div class="section-header">
+    <div class="eyebrow">Why It Matters</div>
+    <h2>6. 왜 필요한가 — 빌드 소환 조건</h2>
+    <p>"pip install에서 오류를 본 적이 없다"의 정확한 이유</p>
+  </div>
+
+  <p class="body">C++를 쓰지 않아도 툴체인이 필요한 이유는 <strong>다른 언어의 패키지 안에 C 코드가 숨어 있기 때문</strong>이다.
+  NumPy·Pandas의 핵심 연산, node의 sharp·sqlite3 같은 네이티브 모듈은 속도를 위해 C/C++로 쓰였다.
+  그런데 대부분의 사용자가 오류를 한 번도 못 본 이유가 있다 — 패키지 생태계가 <u>완제품</u>을 미리 구워 배포하기 때문이다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">생태계</th><th>완제품의 이름</th><th>동작</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Python (pip)</td><td><strong>바이너리 휠</strong> — numpy-…-macosx_arm64.whl</td><td>내 OS·CPU·파이썬 버전에 맞는 휠이 있으면 내려받아 압축만 푼다. 컴파일러 호출 없음</td></tr>
+        <tr><td class="hl">Node (npm)</td><td><strong>사전 빌드 바이너리</strong> — prebuild-install·node-pre-gyp</td><td>GitHub Releases 등에서 OS·Node 버전에 맞는 바이너리를 받는다</td></tr>
+        <tr><td class="hl">Homebrew</td><td><strong>Bottle</strong></td><td>미리 컴파일된 tar를 받아 푼다. 대부분의 formula가 bottle 제공</td></tr>
+        <tr><td class="hl">순수 언어 패키지</td><td>—</td><td>requests·FastAPI·React·Express는 C 코드가 없어 애초에 컴파일러가 불필요</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="summon">6-1. 빌드 소환 — 완제품이 있을 때와 없을 때 (동적)</h3>
+
+  <figure class="sk-anim">
+    <div class="fig-scroll">
+    <svg viewBox="0 0 900 380" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" style="width:100%;display:block">
+      <text x="450" y="28" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">같은 명령 "pip install 패키지" — 갈림길은 "완제품이 있나"</text>
+
+      <!-- 시작 -->
+      <rect x="40" y="160" width="130" height="60" rx="12" fill="#0D1B2E"/>
+      <text x="105" y="185" font-size="11" font-weight="800" fill="#FFF" text-anchor="middle">pip install</text>
+      <text x="105" y="204" font-size="9.5" fill="#AAB9CF" text-anchor="middle">npm · brew도 같은 구조</text>
+
+      <!-- 분기 -->
+      <rect x="200" y="164" width="120" height="52" rx="26" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+      <text x="260" y="186" font-size="10.5" font-weight="800" fill="#AF5109" text-anchor="middle">완제품 있나?</text>
+      <text x="260" y="203" font-size="9" fill="#666666" text-anchor="middle">내 OS·CPU·버전 기준</text>
+      <line x1="170" y1="190" x2="196" y2="190" stroke="#003F8A" stroke-width="2.5"/>
+      <path d="M 320 178 C 360 120 380 120 420 112" fill="none" stroke="#0F766E" stroke-width="2.5"/>
+      <path d="M 320 202 C 360 260 380 260 420 268" fill="none" stroke="#B91C1C" stroke-width="2.5"/>
+      <text x="366" y="132" font-size="10" font-weight="800" fill="#0F766E">있음 (대부분)</text>
+      <text x="366" y="262" font-size="10" font-weight="800" fill="#B91C1C">없음 (가끔)</text>
+
+      <!-- 상단 레인 -->
+      <rect x="420" y="84" width="440" height="60" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+      <text x="440" y="108" font-size="11" font-weight="800" fill="#0F766E">휠 · 사전 빌드 · Bottle 내려받기</text>
+      <text x="440" y="130" font-size="10" fill="#555555">압축 풀고 끝 — 컴파일러도 SDK도 호출되지 않는다</text>
+      <g class="sk-verdict">
+        <rect x="680" y="94" width="170" height="40" rx="10" fill="#0F766E"/>
+        <text x="765" y="112" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">✓ 설치 완료</text>
+        <text x="765" y="127" font-size="9" fill="#D4F5E4" text-anchor="middle">툴체인 유무와 무관</text>
+      </g>
+
+      <!-- 하단 레인 -->
+      <rect x="420" y="240" width="440" height="110" rx="12" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2.5"/>
+      <text x="440" y="264" font-size="11" font-weight="800" fill="#B91C1C">소스(.tar.gz) 받아 로컬에서 빌드</text>
+      <text x="440" y="284" font-size="10" fill="#555555">setup.py · node-gyp · ./configure &amp;&amp; make 가 돌기 시작</text>
+      <g class="sk-need">
+        <rect x="440" y="296" width="200" height="44" rx="8" fill="#FFFFFF" stroke="#B91C1C" stroke-width="1.5"/>
+        <text x="540" y="314" font-size="10" font-weight="800" fill="#B91C1C" text-anchor="middle">소환: 컴파일러 + SDK 헤더</text>
+        <text x="540" y="331" font-size="9" fill="#555555" text-anchor="middle">clang · stdio.h · Python.h</text>
+      </g>
+      <g class="sk-verdict">
+        <rect x="654" y="296" width="196" height="44" rx="8" fill="#FFFFFF" stroke="#8A8478" stroke-width="1.5"/>
+        <text x="752" y="313" font-size="9.5" font-weight="800" fill="#0F766E" text-anchor="middle">CLT 있음 → 빌드 성공</text>
+        <text x="752" y="331" font-size="9.5" font-weight="800" fill="#B91C1C" text-anchor="middle">없음 → error: … not found</text>
+      </g>
+
+      <!-- 이동 토큰 -->
+      <g class="sk-tokA"><circle cx="105" cy="190" r="9" fill="#E8962A"/></g>
+      <g class="sk-tokB"><circle cx="105" cy="190" r="9" fill="#E8962A"/></g>
+
+      <rect x="40" y="356" width="820" height="20" rx="6" fill="#E8EEF7"/>
+      <text x="450" y="370" font-size="9.5" font-weight="700" fill="#002C5F" text-anchor="middle">「개발 생태계 해부」 §5-1 "빌드 소환 조건"의 설치판 — 완제품이 없을 때만 6층(빌드 도구)이 등판한다</text>
+    </svg>
+    </div>
+    <figcaption>주황 토큰 둘이 같은 명령에서 출발해 갈라진다 — 위 레인은 압축만 풀고 끝, 아래 레인은 컴파일러와 SDK를 소환하고 그것이 없으면 오류 (동작 줄이기 설정 시 정지)</figcaption>
+  </figure>
+
+  <h3><span class="num">A</span>아래 레인으로 떨어지는 상황 — 실제로 오류를 만나는 때</h3>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:230px">상황</th><th>왜 완제품이 없나</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">갓 나온 파이썬·Node 버전</td><td>패키지 제작자가 아직 그 버전용 휠을 안 올렸다 — 새 메이저 버전 직후 몇 주가 위험 구간</td></tr>
+        <tr><td class="hl">비주류·레거시 패키지</td><td>사전 빌드를 아예 제공하지 않는다</td></tr>
+        <tr><td class="hl">소스 직접 설치</td><td>pip install git+https://… 는 정의상 소스 빌드</td></tr>
+        <tr><td class="hl">새 OS 판올림 직후 Homebrew</td><td>그 OS 버전용 bottle이 아직 없어 소스 빌드로 전환</td></tr>
+        <tr><td class="hl">특수 CPU·옵션</td><td>빌드 옵션을 직접 주거나, 흔치 않은 조합</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body">그래서 답은 이렇다. <strong>평소에는 툴체인이 소환되지 않아서 있는지도 모른다.</strong> 그러나 위 상황 중 하나에 들어가는 순간 소환되고, 그때 없으면 빨간 오류가 뜬다.
+  툴체인은 보험이며, 맥에서는 그 보험이 git과 함께 오기 때문에 대부분 이미 들어 있다.</p>
+</section>
+
+<!-- ═══════════ 7. BREW ═══════════ -->
+<section id="brew">
+  <div class="section-header">
+    <div class="eyebrow">Homebrew</div>
+    <h2>7. Homebrew는 왜 CLT를 요구하나 — 정확한 이유</h2>
+    <p>흔한 설명 중 틀린 것 하나를 걸러내며</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:230px">이유</th><th>내용</th><th style="width:110px">판정</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">① git 의존</td><td>Homebrew 본체가 git 저장소다. 설치 스크립트가 git clone을 하고, brew update가 본체를 git으로 갱신한다. git은 CLT에 동봉</td><td>맞음</td></tr>
+        <tr><td class="hl">② 소스 빌드 대비</td><td>bottle이 없는 formula(§6-A)는 ./configure &amp;&amp; make 를 돌린다 — 그때 clang·make·SDK가 필요. Homebrew는 자체 컴파일러를 들고 다니지 않고 Apple 툴체인을 전제한다</td><td>맞음</td></tr>
+        <tr><td class="hl">③ "bottle도 SDK와 결합해야 한다"</td><td>bottle은 이미 링크가 끝난 바이너리라 <u>실행에 SDK가 필요 없다</u>. 동적 링크는 런타임에 OS 라이브러리와 붙는 것이지 SDK 헤더를 보는 게 아니다</td><td><strong>틀림</strong></td></tr>
+        <tr><td class="hl">④ 패키지 명세를 git으로 받는다</td><td>2023년부터 기본값이 <strong>JSON API</strong>다 — formula 명세는 formulae.brew.sh에서 JSON으로 받고, homebrew-core 저장소를 통째로 clone하지 않는다. 본체만 git</td><td>낡음</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🍺</span>
+    <div><strong>그리고 중요한 사실 하나 —</strong> "CLT가 없으면 Homebrew 설치가 진행되지 않는다"는 흔한 설명은 반만 맞다.
+    Homebrew 설치 스크립트는 CLT 부재를 감지하면 <u>대신 설치를 진행한다</u>. 그래서 Homebrew를 깐 사람은 자기도 모르게 CLT를 갖게 된다 —
+    §4의 "난 깐 적이 없는데?"의 가장 흔한 답이 이것이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 8. OPS ═══════════ -->
+<section id="ops">
+  <div class="section-header">
+    <div class="eyebrow">Operations</div>
+    <h2>8. 확인 · 설치 · 업데이트 · 판올림</h2>
+    <p>평소엔 잊고 지내다 1년에 한 번 꺼내는 명령들</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">하고 싶은 것</th><th style="width:300px">명령 · 경로</th><th>결과 읽는 법</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">설치됐나 (터미널)</td><td><span class="mono">xcode-select -p</span></td><td>/Library/Developer/CommandLineTools 이면 CLT, /Applications/Xcode.app/… 이면 Xcode. 오류면 미설치 또는 포인터 유실</td></tr>
+        <tr><td class="hl">버전·설치일</td><td><span class="mono">pkgutil --pkg-info=com.apple.pkg.CLTools_Executables</span></td><td>version·install-time 출력. "No receipt"면 미설치</td></tr>
+        <tr><td class="hl">설치됐나 (GUI)</td><td>Option 키 누른 채 애플 메뉴 → 시스템 정보 → 소프트웨어 → 설치</td><td>"Command Line Tools for Xcode" 항목과 날짜</td></tr>
+        <tr><td class="hl">설치됐나 (Finder)</td><td>이동 → 폴더로 이동 → /Library/Developer</td><td>CommandLineTools 안에 usr·SDKs 폴더가 있으면 정상</td></tr>
+        <tr><td class="hl">설치</td><td><span class="mono">xcode-select --install</span></td><td>팝업이 뜨고 몇 분 뒤 완료</td></tr>
+        <tr><td class="hl">업데이트 (GUI)</td><td>시스템 설정 → 일반 → 소프트웨어 업데이트</td><td>"Command Line Tools for Xcode" 항목이 뜨면 설치. <u>대개 사용자가 눌러야 한다</u></td></tr>
+        <tr><td class="hl">업데이트 (터미널)</td><td><span class="mono">softwareupdate -l</span> → <span class="mono">softwareupdate -i "항목 이름"</span></td><td>목록에서 CLT 항목 이름을 확인 후 설치</td></tr>
+        <tr><td class="hl">포인터 초기화</td><td><span class="mono">sudo xcode-select -r</span></td><td>기본 경로로 되돌림</td></tr>
+        <tr><td class="hl">Xcode ↔ CLT 전환</td><td><span class="mono">sudo xcode-select -s /Library/Developer/CommandLineTools</span></td><td>둘 다 있을 때 어느 쪽을 쓸지 지정</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="pointer">8-1. 판올림 후 포인터 유실 — 1년에 한 번 겪는 그 오류 (동적)</h3>
+
+  <p class="body">macOS 메이저 판올림 뒤 터미널에서 git이나 brew를 쳤더니 <span class="mono">invalid active developer path</span> 가 뜨는 현상이다.
+  기존 CLT가 새 OS 규격과 맞지 않아 포인터가 가리키던 폴더가 무효가 된 것이고, 처방은 한 줄이다:</p>
+
+  <figure class="sk-anim">
+    <div class="fig-scroll">
+    <svg viewBox="0 0 900 340" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" style="width:100%;display:block">
+      <text x="450" y="28" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">xcode-select 포인터의 1년 — 정상 → 판올림 → 유실 → 재설치 → 정상</text>
+
+      <!-- xcode-select -->
+      <rect x="40" y="130" width="170" height="70" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+      <text x="125" y="158" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">xcode-select</text>
+      <text x="125" y="178" font-size="9.5" fill="#555555" text-anchor="middle">OS 내장 포인터</text>
+
+      <!-- 정상 화살표 -->
+      <g class="sk-ptr-ok">
+        <path d="M 210 165 L 396 165" stroke="#0F766E" stroke-width="4"/>
+        <polygon points="396,157 412,165 396,173" fill="#0F766E"/>
+        <text x="305" y="152" font-size="9.5" font-weight="700" fill="#0F766E" text-anchor="middle">가리킴</text>
+      </g>
+      <!-- 유실 화살표 -->
+      <g class="sk-ptr-bad">
+        <path d="M 210 165 L 396 165" stroke="#B91C1C" stroke-width="4" stroke-dasharray="8 6"/>
+        <text x="305" y="152" font-size="9.5" font-weight="800" fill="#B91C1C" text-anchor="middle">길을 잃음</text>
+        <text x="305" y="188" font-size="12" font-weight="800" fill="#B91C1C" text-anchor="middle">?</text>
+      </g>
+
+      <!-- 기존 폴더 -->
+      <g class="sk-folder-old">
+        <rect x="416" y="120" width="240" height="90" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+        <text x="536" y="146" font-size="11" font-weight="800" fill="#0F766E" text-anchor="middle">📁 CommandLineTools</text>
+        <text x="536" y="166" font-size="9.5" fill="#555555" text-anchor="middle">구 OS 규격의 SDK · clang · git</text>
+        <text x="536" y="186" font-size="9.5" fill="#555555" text-anchor="middle">/Library/Developer/…</text>
+      </g>
+
+      <!-- 판올림 배지 -->
+      <g class="sk-upgrade">
+        <rect x="400" y="52" width="272" height="44" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+        <text x="536" y="70" font-size="10.5" font-weight="800" fill="#AF5109" text-anchor="middle">⬆ macOS 메이저 판올림</text>
+        <text x="536" y="88" font-size="9" fill="#555555" text-anchor="middle">OS 규격이 바뀌어 기존 CLT가 무효 처리됨</text>
+      </g>
+
+      <!-- 오류 -->
+      <g class="sk-err">
+        <rect x="40" y="228" width="616" height="40" rx="10" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2"/>
+        <text x="348" y="246" font-size="10.5" font-weight="800" fill="#B91C1C" text-anchor="middle">$ git status</text>
+        <text x="348" y="261" font-size="9.5" fill="#B91C1C" text-anchor="middle">xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools)</text>
+      </g>
+
+      <!-- 처방 -->
+      <g class="sk-cmd">
+        <rect x="40" y="282" width="616" height="40" rx="10" fill="#0D1B2E"/>
+        <text x="348" y="300" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">$ xcode-select --install</text>
+        <text x="348" y="315" font-size="9.5" fill="#AAB9CF" text-anchor="middle">새 OS 규격의 CLT를 받아 같은 경로에 다시 놓는다 — 몇 분</text>
+      </g>
+
+      <!-- 새 폴더 -->
+      <g class="sk-folder-new">
+        <rect x="676" y="120" width="200" height="90" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="3"/>
+        <text x="776" y="146" font-size="11" font-weight="800" fill="#0F766E" text-anchor="middle">📁 CommandLineTools</text>
+        <text x="776" y="166" font-size="9.5" fill="#555555" text-anchor="middle">새 OS 규격 · 같은 경로</text>
+        <text x="776" y="186" font-size="9.5" font-weight="700" fill="#0F766E" text-anchor="middle">✓ 포인터 복구</text>
+        <text x="776" y="244" font-size="9.5" fill="#666666" text-anchor="middle">평소엔 잊고 지낸다</text>
+        <text x="776" y="260" font-size="9.5" fill="#666666" text-anchor="middle">1년에 한 번 이 한 줄</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>초록 화살표가 폴더를 가리키다가, 판올림 배지가 뜨면 폴더가 흐려지고 화살표가 빨간 점선으로 바뀌며 오류가 뜬다. 명령 한 줄이 새 폴더를 놓고 화살표가 되살아난다 (동작 줄이기 설정 시 정지)</figcaption>
+  </figure>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>운영 요약 —</strong> CLT는 윈도우의 Visual C++ 재배포 패키지처럼 <u>배경 인프라</u>다. 설치되어 있다는 사실을 의식할 일이 없고,
+    업데이트는 소프트웨어 업데이트 목록에 뜰 때 눌러주면 되며, 판올림 후 오류가 나면 위 한 줄이다.
+    Xcode 전체를 깔 이유는 iOS·macOS GUI 앱을 만들 때뿐이다 — <a href="apple-app-dev.html">「애플 앱 개발의 지도」</a> §2의 판단 흐름 그대로.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 9. AUDIT ═══════════ -->
+<section id="audit">
+  <div class="section-header">
+    <div class="eyebrow">Fact Check</div>
+    <h2>9. AI 대화 검증 기록 — 무엇이 맞고 무엇이 낡았나</h2>
+    <p>이 문서의 출발점이 된 대화의 사실 확인</p>
+  </div>
+
+  <p class="body">이 문서는 "맥 Command Line Tools가 뭐냐"로 시작한 AI 대화를 검증하면서 만들어졌다. 대화의 뼈대는 정확했고, 세부 여섯 곳이 과장이거나 낡았다.
+  같은 설명을 다른 곳에서 만났을 때 걸러내라고 기록해 둔다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:280px">대화의 주장</th><th>실제</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">CLT 없으면 Homebrew 설치가 진행되지 않는다</td><td>설치 스크립트가 CLT를 대신 설치한다 (§7)</td></tr>
+        <tr><td class="hl">Bottle도 시스템과 결합하려면 SDK가 필요</td><td>틀림 — 이미 링크된 바이너리라 실행에 SDK 불필요 (§7)</td></tr>
+        <tr><td class="hl">brew update가 Formula를 git pull로 받는다</td><td>2023년부터 기본 JSON API. 본체만 git (§7)</td></tr>
+        <tr><td class="hl">/usr/include를 치운 이유는 보안</td><td>Catalina의 시스템 볼륨 봉인과 SDK 기반 빌드 전환이 이유. 결과는 같다 (§3)</td></tr>
+        <tr><td class="hl">자동 업데이트를 켜두면 CLT도 백그라운드에서 알아서</td><td>과장 — 대개 사용자가 눌러야 하고, 판올림 후엔 재설치가 필요하다고 스스로 말한 것과 어긋남 (§8)</td></tr>
+        <tr><td class="hl">Xcode에 모든 플랫폼 시뮬레이터가 포함</td><td>Xcode 15부터 플랫폼 시뮬레이터 런타임은 별도 다운로드. SDK 헤더는 포함 (§4)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🔍</span>
+    <div><strong>맞았던 것들 —</strong> CLT 구성, gcc가 clang 별칭, xcode-select와 -p의 정체, pkgutil 패키지 ID, 시스템 정보에서의 확인 경로, 판올림 후 오류와 처방,
+    Windows SDK와 Build Tools의 역할 분담, .tbd 스텁과 Framework 번들, 그리고 무엇보다 <u>"바이너리 휠 때문에 오류를 못 봤다"</u>는 설명. 이 마지막 것이 대화의 가장 좋은 부분이었고 §6의 뼈대가 됐다.
+    「AI 시대의 개발 프로세스」의 원칙대로 — AI 설명은 뼈대를 받고 세부는 확인한다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 10. REFS ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">Related</div>
+    <h2>10. 함께 읽기</h2>
+    <p>이 문서에서 갈라지는 길들</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:280px">주제</th><th>문서</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">6층 명함 — 이 문서가 딛고 선 분류</td><td><a href="dev-ecosystem.html">「개발 생태계 해부」</a> §2·§5-1(빌드 소환 조건)·§7(IDE·Homebrew)</td></tr>
+        <tr><td class="hl">"툴체인은 의무"의 앱 개발 쪽 맥락</td><td><a href="apple-app-dev.html">「애플 앱 개발의 지도」</a> §0(윈도우↔맥 대응)·§1(Xcode 해부)·§2(판단 흐름)</td></tr>
+        <tr><td class="hl">SDK 버전 = 타겟 API 의무</td><td><a href="app-release.html">「앱 출시의 관문」</a> §2-1 플랫폼 전용 의무</td></tr>
+        <tr><td class="hl">맥 vs 윈도우 — 도구 위의 층위</td><td><a href="dev-os-comparison.html">「개발 환경으로서의 macOS vs Windows」</a></td></tr>
+        <tr><td class="hl">라이브러리 vs 프레임워크의 원론</td><td><a href="tech-stack.html">「기술 스택 고르기」</a> §5-A</td></tr>
+        <tr><td class="hl">Xcode가 컨테이너에 못 들어가는 이유</td><td><a href="llm-factory.html">「로컬 LLM 코딩 공장」</a> §3 — 세 겹의 벽</td></tr>
+        <tr><td class="hl">WSL이라는 "리눅스 툴체인" 경로</td><td><a href="virtualization.html">「가상화의 세계」</a> §6·§8-2</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/sk-*.svg (2종) + 동적 도식 2종(빌드 소환·포인터 유실, CSS 애니메이션) · 경로·용량·명령은 2026.09 기준 개략 — 판올림마다 확인 · 「개발 생태계 해부」의 도구 각론
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+</body>
+</html>

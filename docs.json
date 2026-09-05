@@ -246,7 +246,7 @@
         "Apple Silicon",
         "로컬 LLM"
       ],
-      "version": 6,
+      "version": 7,
       "assets": [
         "docs/img/os-unix-lineage.svg",
         "docs/img/os-unix-vs-linux.svg",
@@ -325,7 +325,7 @@
         "CLT",
         "서명·공증"
       ],
-      "version": 7,
+      "version": 8,
       "assets": [
         "docs/img/ax-xcode-anatomy.svg",
         "docs/img/ax-ladder.svg",
@@ -351,7 +351,7 @@
         "계정 삭제",
         "강제 업데이트"
       ],
-      "version": 4,
+      "version": 5,
       "assets": [
         "docs/img/am-three-gates.svg",
         "docs/img/am-settings.svg",
@@ -400,11 +400,34 @@
         "npm·pip",
         "빌드 타임"
       ],
-      "version": 8,
+      "version": 9,
       "assets": [
         "docs/img/eco-layers.svg",
         "docs/img/eco-buildtime.svg",
         "docs/img/eco-merge.svg"
+      ]
+    },
+    {
+      "id": "sdk-toolchain",
+      "title": "SDK와 툴체인",
+      "desc": "맥과 윈도우의 개발 도구 해부 — SDK의 정체, Xcode vs Command Line Tools, xcode-select, 빌드 소환 조건, Homebrew가 CLT를 요구하는 진짜 이유",
+      "file": "docs/sdk-toolchain.html",
+      "group": "Software · Dev",
+      "icon": "🧳",
+      "gradient": [
+        "#0D1B2E",
+        "#1D4ED8"
+      ],
+      "tags": [
+        "SDK",
+        "Command Line Tools",
+        "xcode-select",
+        "빌드 소환"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/sk-taxonomy.svg",
+        "docs/img/sk-mac-windows.svg"
       ]
     },
     {

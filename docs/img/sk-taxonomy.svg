@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">이름 정리 — API · 라이브러리 · 프레임워크 · SDK · 툴체인 · IDE</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">크기 순서가 아니라 "무엇을 담는가"의 차이 — 그리고 SDK와 툴체인은 층이 아니라 묶음이다</text>
+
+  <!-- 왼쪽: 개념 사다리 -->
+  <rect x="40" y="84" width="400" height="66" rx="12" fill="#F2EDE4" stroke="#8A8478" stroke-width="2"/>
+  <text x="62" y="110" font-size="13" font-weight="800" fill="#555555">API — 문(계약)</text>
+  <text x="62" y="132" font-size="10.5" fill="#555555">"이렇게 부르면 이렇게 답한다"는 약속 자체. 코드가 아니라 규격</text>
+
+  <rect x="40" y="160" width="400" height="66" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="62" y="186" font-size="13" font-weight="800" fill="#002C5F">라이브러리 — 부품</text>
+  <text x="62" y="208" font-size="10.5" fill="#555555">내가 부르는 함수 모음. 주도권은 내 코드에 (「기술 스택 고르기」 §5)</text>
+
+  <rect x="40" y="236" width="400" height="66" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
+  <text x="62" y="262" font-size="13" font-weight="800" fill="#0F766E">프레임워크 — 뼈대</text>
+  <text x="62" y="284" font-size="10.5" fill="#555555">뼈대가 내 코드를 부른다(제어의 역전). SwiftUI·UIKit·React</text>
+
+  <rect x="40" y="312" width="400" height="90" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
+  <text x="62" y="338" font-size="13.5" font-weight="800" fill="#AF5109">SDK — 여행 가방 ★</text>
+  <text x="62" y="360" font-size="10.5" fill="#555555">특정 목적지(플랫폼·서비스)로 가기 위해 필요한 것을 한 상자에:</text>
+  <text x="62" y="378" font-size="10.5" fill="#555555">헤더·라이브러리(부품) + 프레임워크(뼈대) + 도구 + 문서·샘플</text>
+  <text x="62" y="394" font-size="9.5" fill="#AF5109" font-weight="700">"SDK를 설치하라" = 그 목적지의 부품과 도구를 한 번에 받으라</text>
+
+  <rect x="40" y="412" width="400" height="80" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="62" y="438" font-size="13" font-weight="800" fill="#6B21A8">툴체인 — 공장 라인</text>
+  <text x="62" y="460" font-size="10.5" fill="#555555">소스를 산출물로 만드는 도구의 사슬: 컴파일러 → 링커 → 빌드 관리자</text>
+  <text x="62" y="480" font-size="10" fill="#666666">맥의 CLT, 윈도우의 VS Build Tools가 "SDK를 포함한 최소 툴체인"</text>
+
+  <rect x="40" y="502" width="400" height="66" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="2"/>
+  <text x="62" y="528" font-size="13" font-weight="800" fill="#555555">IDE — 작업대</text>
+  <text x="62" y="550" font-size="10.5" fill="#555555">위 전부를 화면 하나에 얹은 GUI. Xcode·Visual Studio·VS Code</text>
+
+  <!-- 오른쪽: 6층 명함 위치 -->
+  <rect x="470" y="84" width="400" height="300" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="670" y="112" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">「개발 생태계 해부」 6층 명함 위의 위치</text>
+  <text x="492" y="140" font-size="10.5" fill="#555555">1층 언어 · 2층 런타임 · 3층 패키지 매니저</text>
+  <text x="492" y="158" font-size="10.5" fill="#555555">4층 레지스트리 · 5층 패키지 · 6층 빌드 도구</text>
+  <line x1="492" y1="170" x2="848" y2="170" stroke="#D5CFBF" stroke-width="1.5"/>
+  <text x="492" y="196" font-size="10.5" fill="#555555">API = 5층 부품의 <tspan font-weight="700">겉면 규격</tspan></text>
+  <text x="492" y="218" font-size="10.5" fill="#555555">라이브러리·프레임워크 = <tspan font-weight="700">5층</tspan> (둘 다 패키지)</text>
+  <text x="492" y="240" font-size="10.5" fill="#AF5109" font-weight="700">SDK = 5층 + 6층 + (2층 일부)를 한 상자에 — 층이 아니라 묶음</text>
+  <text x="492" y="262" font-size="10.5" fill="#6B21A8" font-weight="700">툴체인 = 6층의 도구들을 사슬로 이은 것</text>
+  <text x="492" y="284" font-size="10.5" fill="#555555">IDE = 층 밖의 작업대 (「개발 생태계 해부」 §7)</text>
+  <line x1="492" y1="298" x2="848" y2="298" stroke="#D5CFBF" stroke-width="1.5"/>
+  <text x="492" y="322" font-size="10" fill="#666666">그래서 "SDK는 몇 층?"이라는 질문은 성립하지 않는다 —</text>
+  <text x="492" y="340" font-size="10" fill="#666666">여러 층의 물건을 목적지별로 다시 포장한 것이기 때문</text>
+  <text x="492" y="366" font-size="10" fill="#1A5CB5" font-weight="700">「애플 앱 개발의 지도」의 "툴체인은 의무" = SDK+툴체인 의무</text>
+
+  <!-- 오른쪽 아래: 포함 관계 -->
+  <rect x="470" y="400" width="400" height="168" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="670" y="428" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">포함 관계로 보면</text>
+  <rect x="492" y="442" width="356" height="110" rx="10" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="670" y="462" font-size="10.5" font-weight="800" fill="#555555" text-anchor="middle">IDE (Xcode · Visual Studio)</text>
+  <rect x="510" y="470" width="320" height="72" rx="8" fill="#F3E8FF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="670" y="488" font-size="10.5" font-weight="800" fill="#6B21A8" text-anchor="middle">툴체인 (컴파일러 · 링커 · make)</text>
+  <rect x="528" y="496" width="284" height="38" rx="6" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="670" y="512" font-size="10.5" font-weight="800" fill="#AF5109" text-anchor="middle">SDK (헤더 · 링커 스텁 · 프레임워크)</text>
+  <text x="670" y="528" font-size="9" fill="#666666" text-anchor="middle">라이브러리·프레임워크·API가 이 안에</text>
+
+  <!-- 하단 -->
+  <rect x="40" y="586" width="830" height="40" rx="10" fill="#0D1B2E"/>
+  <text x="455" y="611" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">API는 문, 라이브러리는 부품, 프레임워크는 뼈대, SDK는 여행 가방, 툴체인은 공장 라인, IDE는 작업대</text>
+</svg>
