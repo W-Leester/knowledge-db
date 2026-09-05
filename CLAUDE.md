@@ -83,4 +83,6 @@ localStorage 키는 `kdb-` 접두사: `kdb-theme`, `kdb-pos:{docId}`, `kdb-recen
 
 **로컬 검증** (push 전): ① `docs.json`이 참조하는 `file`·`assets`가 전부 실존하는지 ② 새/수정 SVG의 XML 유효성 ③ 헤드리스 크롬 360px 렌더로 가로 오버플로 없는지(`scrollWidth == innerWidth`). 검증 스크립트가 아직 없으므로 필요 시 임시로 조합해 돌린다 (`scripts/verify.sh`로 굳히면 좋음).
 
+**헤드리스 크롬 함정** (실사고 — 세션 내내 "먹통"이었던 원인): macOS에는 GNU `timeout`이 없다. `timeout 20 chrome …`은 조용히 실패해 스크린샷이 안 나온다. 되는 레시피: `(npx --yes serve -l 5179 . &)` → `"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu --no-sandbox --hide-scrollbars --window-size=390,844 --virtual-time-budget=8000 --screenshot=OUT.png URL &` → `sleep 12; kill $!` → 스크린샷을 Read로 눈으로 확인. `--enable-logging=stderr`로 콘솔 오류도 잡힌다. 물리 시뮬레이션·애니메이션 페이지는 반드시 이렇게 실제 렌더를 봐야 한다 (graph.html의 노드 겹침은 정적 검사로는 못 잡았음).
+
 docs.json 갱신 누락과 `<noscript>` 누락이 이 구조의 반복 휴먼에러 지점이므로 문서 작업 시 반드시 함께 확인한다.
