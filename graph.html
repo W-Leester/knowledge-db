@@ -96,7 +96,12 @@ function applyTheme(t){var d=t==='dark'||(t==='system'&&matchMedia('(prefers-col
 themeBtn.onclick=function(){var t=localStorage.getItem('kdb-theme')||'system';t=t==='system'?'light':t==='light'?'dark':'system';try{localStorage.setItem('kdb-theme',t);}catch(e){}applyTheme(t);};
 applyTheme(localStorage.getItem('kdb-theme')||'system');
 
-fetch('graph.json').then(function(r){return r.json();}).then(init).catch(function(){document.getElementById('err').style.display='grid';});
+Promise.all([fetch('docs.json').then(function(r){return r.json();}),fetch('graph.json').then(function(r){return r.json();})]).then(function(rs){
+  var docs=rs[0].docs,g=rs[1],known={};g.nodes.forEach(function(n){known[n.id]=1;});
+  g.nodes=docs.map(function(d){return {id:d.id,title:d.title,group:d.group,icon:d.icon||'',file:d.file,desc:d.desc||'',fresh:!known[d.id]};});
+  g.stale=g.nodes.filter(function(n){return n.fresh;}).length;
+  init(g);
+}).catch(function(){document.getElementById('err').style.display='grid';});
 
 function init(data){
   var gl=[];data.nodes.forEach(function(n){if(gl.indexOf(n.group)<0)gl.push(n.group);});
@@ -105,7 +110,7 @@ function init(data){
     .filter(function(e){return byId[e.source]&&byId[e.target];})
     .map(function(e){e.s=byId[e.source];e.t=byId[e.target];e.s.deg+=e.weight;e.t.deg+=e.weight;return e;});
   var top=nodes.slice().sort(function(a,b){return b.deg-a.deg;}).slice(0,8);top.forEach(function(n){n.hub=true;});
-  stat.textContent=nodes.length+'개 문서 · '+edges.length+'개 관계 · '+data.generated;
+  stat.textContent=nodes.length+'개 문서 · '+edges.length+'개 관계 · '+data.generated+(data.stale?' · 관계 미추출 '+data.stale+'건':'');
   buildChips(); render(); fit(); tick();
 }
 function buildChips(){
@@ -117,10 +122,10 @@ function buildChips(){
 function render(){
   gE.innerHTML='';gN.innerHTML='';
   edges.forEach(function(e){var l=document.createElementNS(NS,'line');l.setAttribute('class','e '+e.type);l.setAttribute('stroke-width',Math.min(1+e.weight*0.6,6));e.el=l;gE.appendChild(l);});
-  nodes.forEach(function(n){var g=document.createElementNS(NS,'g');g.setAttribute('class','n'+(n.hub?' hub':''));var c=document.createElementNS(NS,'circle');n.r=9+Math.sqrt(n.deg)*2.2;c.setAttribute('r',n.r);c.setAttribute('fill',GC[n.group]||'#555');var t=document.createElementNS(NS,'text');t.setAttribute('y',n.r+13);t.setAttribute('text-anchor','middle');t.textContent=(n.icon?n.icon+' ':'')+(n.title.length>14?n.title.slice(0,13)+'…':n.title);var tt=document.createElementNS(NS,'title');tt.textContent=n.title;g.appendChild(tt);g.appendChild(c);g.appendChild(t);n.el=g;gN.appendChild(g);
-    g.addEventListener('pointerdown',function(ev){ev.stopPropagation();n.drag=true;n.px=ev.clientX;n.py=ev.clientY;n.moved=false;g.setPointerCapture(ev.pointerId);alpha=Math.max(alpha,.3);});
-    g.addEventListener('pointermove',function(ev){if(!n.drag)return;n.x+=(ev.clientX-n.px)/sc;n.y+=(ev.clientY-n.py)/sc;n.px=ev.clientX;n.py=ev.clientY;n.moved=true;alpha=Math.max(alpha,.15);});
-    g.addEventListener('pointerup',function(ev){n.drag=false;if(!n.moved)select(n);});
+  nodes.forEach(function(n){var g=document.createElementNS(NS,'g');g.setAttribute('class','n'+(n.hub?' hub':''));var c=document.createElementNS(NS,'circle');n.r=9+Math.sqrt(n.deg)*2.2;c.setAttribute('r',n.r);c.setAttribute('fill',GC[n.group]||'#555');if(n.fresh){c.setAttribute('stroke-dasharray','4 3');c.setAttribute('stroke','#E8962A');}var t=document.createElementNS(NS,'text');t.setAttribute('y',n.r+13);t.setAttribute('text-anchor','middle');t.textContent=(n.icon?n.icon+' ':'')+(n.title.length>14?n.title.slice(0,13)+'…':n.title);var tt=document.createElementNS(NS,'title');tt.textContent=n.title;g.appendChild(tt);g.appendChild(c);g.appendChild(t);n.el=g;gN.appendChild(g);
+    g.addEventListener('pointerdown',function(ev){ev.stopPropagation();n.drag=true;n.px=ev.clientX;n.py=ev.clientY;n.moved=false;n.vx=n.vy=0;g.setPointerCapture(ev.pointerId);settled=true;alpha=Math.max(alpha,.06);});
+    g.addEventListener('pointermove',function(ev){if(!n.drag)return;n.x+=(ev.clientX-n.px)/sc;n.y+=(ev.clientY-n.py)/sc;n.px=ev.clientX;n.py=ev.clientY;n.moved=true;n.vx=n.vy=0;alpha=Math.max(alpha,.04);});
+    g.addEventListener('pointerup',function(ev){n.drag=false;n.vx=n.vy=0;if(!n.moved)select(n);});
     g.addEventListener('pointercancel',function(){n.drag=false;});
   });
   refresh();
@@ -159,16 +164,16 @@ function tick(){
     for(i=0;i<nodes.length;i++){n=nodes[i];if(!visible(n))continue;
       for(j=i+1;j<nodes.length;j++){m=nodes[j];if(!visible(m))continue;dx=m.x-n.x;dy=m.y-n.y;d2=dx*dx+dy*dy+0.01;d=Math.sqrt(d2);
         var minD=n.r+m.r+PAD;
-        if(d<minD){f=(minD-d)*0.5;dx/=d;dy/=d;n.vx-=dx*f;n.vy-=dy*f;m.vx+=dx*f;m.vy+=dy*f;continue;}
+        if(d<minD){f=(minD-d)*0.12;dx/=d;dy/=d;n.vx-=dx*f;n.vy-=dy*f;m.vx+=dx*f;m.vy+=dy*f;continue;}
         if(d2>640000)continue;f=9000/d2*alpha;dx/=d;dy/=d;n.vx-=dx*f;n.vy-=dy*f;m.vx+=dx*f;m.vy+=dy*f;}
       var c=cent[n.group];if(c&&cnt[n.group]>1){n.vx+=((c.x/cnt[n.group])-n.x)*0.004*alpha;n.vy+=((c.y/cnt[n.group])-n.y)*0.004*alpha;}
       var cg=n.deg?0.0012:0.02;n.vx-=n.x*cg*alpha;n.vy-=n.y*cg*alpha;
     }
     edges.forEach(function(e){if(e.el.style.display==='none')return;dx=e.t.x-e.s.x;dy=e.t.y-e.s.y;d=Math.sqrt(dx*dx+dy*dy)+0.01;f=(d-(e.type==='mention'?230:170))*0.006*Math.min(1,0.5+e.weight*0.1)*alpha;dx/=d;dy/=d;e.s.vx+=dx*f;e.s.vy+=dy*f;e.t.vx-=dx*f;e.t.vy-=dy*f;});
-    nodes.forEach(function(n){if(n.drag)return;n.vx*=0.85;n.vy*=0.85;n.x+=n.vx;n.y+=n.vy;});
+    nodes.forEach(function(n){if(n.drag)return;n.vx*=0.78;n.vy*=0.78;var sp=Math.sqrt(n.vx*n.vx+n.vy*n.vy);if(sp>9){n.vx*=9/sp;n.vy*=9/sp;}n.x+=n.vx;n.y+=n.vy;});
     /* 질량 중심을 원점에 고정 — 레이아웃이 한쪽으로 흘러가지 않게 */
-    var cx=0,cy=0,cn=0;nodes.forEach(function(n){if(visible(n)&&n.deg>0){cx+=n.x;cy+=n.y;cn++;}});
-    if(cn){cx/=cn;cy/=cn;nodes.forEach(function(n){n.x-=cx;n.y-=cy;});}
+    var cx=0,cy=0,cn=0,dragging=nodes.some(function(n){return n.drag;});nodes.forEach(function(n){if(visible(n)&&n.deg>0){cx+=n.x;cy+=n.y;cn++;}});
+    if(cn&&!dragging&&!settled){cx/=cn;cy/=cn;nodes.forEach(function(n){n.x-=cx;n.y-=cy;});}
     alpha*=0.99;frame++;
     if(!settled&&(frame%20===0||alpha<0.05)){fit();if(alpha<0.05)settled=true;}
   }
