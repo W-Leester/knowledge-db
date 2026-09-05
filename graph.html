@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#002C5F">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<title>Knowledge DB — 지식 그래프</title>
+<script>(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/dark.css">
+<style>
+:root{--bg-primary:#F2EDE4;--bg-secondary:#FFFFFF;--navy-900:#002C5F;--navy-700:#003F8A;--navy-500:#1A5CB5;--navy-100:#E8EEF7;--text-primary:#1A1A1A;--text-secondary:#555555;--text-muted:#8A8A8A;--border:#D5CFBF;--radius-md:14px;--shadow-md:0 4px 16px rgba(0,0,0,.12)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:var(--bg-primary);color:var(--text-primary);font-size:14px;-webkit-tap-highlight-color:transparent}
+#top{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;gap:8px;align-items:center;padding:10px 12px;background:linear-gradient(135deg,var(--navy-900),var(--navy-700));color:#fff;box-shadow:var(--shadow-md)}
+#top a.home{color:#fff;text-decoration:none;font-size:18px;width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,.14)}
+#top h1{font-size:15px;font-weight:800;white-space:nowrap}
+#top .sub{font-size:11px;opacity:.7;white-space:nowrap}
+#q{flex:1;min-width:80px;height:34px;border:0;border-radius:10px;padding:0 12px;font:inherit;font-size:13.5px;background:rgba(255,255,255,.16);color:#fff;outline:none}
+#q::placeholder{color:rgba(255,255,255,.6)}
+#theme{width:34px;height:34px;border:0;border-radius:10px;background:rgba(255,255,255,.14);color:#fff;font-size:16px;cursor:pointer}
+#chips{position:fixed;left:0;right:0;top:54px;z-index:4;display:flex;gap:6px;padding:8px 12px;overflow-x:auto;scrollbar-width:none;background:linear-gradient(var(--bg-primary),rgba(242,237,228,0))}
+:root[data-theme="dark"] #chips{background:linear-gradient(var(--bg-primary),rgba(15,21,32,0))}
+#chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;border:1.5px solid var(--c);color:var(--c);background:var(--bg-secondary);border-radius:999px;padding:4px 11px;font-size:12px;font-weight:700;cursor:pointer;user-select:none;white-space:nowrap}
+.chip.off{opacity:.35;border-style:dashed}
+.chip.edge{border-color:var(--border);color:var(--text-secondary)}
+svg#g{position:fixed;inset:0;width:100%;height:100%;touch-action:none;cursor:grab}
+svg#g.grabbing{cursor:grabbing}
+line.e{stroke:var(--navy-500);stroke-opacity:.35;stroke-linecap:round}
+line.e.mention{stroke:var(--text-muted);stroke-dasharray:4 4;stroke-opacity:.45}
+line.e.curated{stroke:#E8962A;stroke-opacity:.8}
+line.e.dim{stroke-opacity:.06}
+line.e.hi{stroke-opacity:.95;stroke:var(--navy-700)}
+line.e.mention.hi{stroke:var(--text-secondary)}
+g.n{cursor:pointer}
+g.n circle{stroke:var(--bg-primary);stroke-width:2.5}
+g.n text{font-size:11.5px;font-weight:700;fill:var(--text-primary);paint-order:stroke;stroke:var(--bg-primary);stroke-width:4px;stroke-linejoin:round;pointer-events:none}
+g.n.dim{opacity:.18}
+g.n.sel circle{stroke:#E8962A;stroke-width:4}
+g.n.match circle{stroke:#E8962A;stroke-width:4}
+#panel{position:fixed;z-index:6;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-md);padding:14px 16px;max-height:46vh;overflow:auto;transform:translateY(110%);transition:transform .25s;left:10px;right:10px;bottom:10px}
+#panel.open{transform:none}
+@media(min-width:760px){#panel{left:auto;right:16px;bottom:16px;width:360px;max-height:70vh}}
+#panel h2{font-size:15.5px;font-weight:800;color:var(--navy-900);margin-bottom:2px}
+#panel .grp{font-size:11.5px;font-weight:700;margin-bottom:6px}
+#panel p{font-size:12.5px;color:var(--text-secondary);line-height:1.55;margin-bottom:10px}
+#panel .open-doc{display:inline-block;background:var(--navy-900);color:#fff;text-decoration:none;font-weight:700;font-size:12.5px;padding:7px 12px;border-radius:9px;margin-bottom:10px}
+#panel h3{font-size:12px;color:var(--text-muted);margin:8px 0 4px;font-weight:700}
+#panel ul{list-style:none}
+#panel li{font-size:12.5px;padding:3px 0;display:flex;gap:6px;align-items:center;cursor:pointer}
+#panel li:hover{color:var(--navy-500)}
+#panel li .w{margin-left:auto;font-size:11px;color:var(--text-muted)}
+#panel .x{position:absolute;right:10px;top:8px;border:0;background:none;font-size:18px;color:var(--text-muted);cursor:pointer}
+#zoom{position:fixed;right:12px;top:100px;z-index:4;display:flex;flex-direction:column;gap:6px}
+#zoom button{width:34px;height:34px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);border-radius:9px;font-size:16px;cursor:pointer}
+#legend{position:fixed;left:12px;bottom:12px;z-index:3;font-size:11px;color:var(--text-secondary);background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:6px 10px;line-height:1.7}
+#legend span{display:inline-block;width:22px;border-top:2px solid var(--navy-500);vertical-align:middle;margin-right:5px}
+#legend span.m{border-top:2px dashed var(--text-muted)}
+#legend span.c{border-top:2px solid #E8962A}
+@media(max-width:759px){#legend{display:none}}
+#err{position:fixed;inset:0;display:none;place-items:center;padding:20px;text-align:center;color:var(--text-secondary);font-size:13.5px}
+</style>
+</head>
+<body>
+<div id="top">
+  <a class="home" href="./" title="문서 목록으로">⌂</a>
+  <div><h1>지식 그래프</h1><div class="sub" id="stat">불러오는 중…</div></div>
+  <input id="q" type="search" placeholder="문서 찾기" autocomplete="off" aria-label="문서 찾기">
+  <button id="theme" title="테마">◐</button>
+</div>
+<div id="chips"></div>
+<svg id="g" xmlns="http://www.w3.org/2000/svg"><g id="view"><g id="edges"></g><g id="nodes"></g></g></svg>
+<div id="zoom"><button id="zi" title="확대">＋</button><button id="zo" title="축소">－</button><button id="zf" title="전체 보기">⤢</button></div>
+<div id="legend"><span></span>하이퍼링크 &nbsp;<span class="m"></span>제목 언급 &nbsp;<span class="c"></span>손으로 추가 &nbsp;· 원 크기 = 연결 수 · 노드를 누르면 이웃만 밝아진다</div>
+<div id="panel"><button class="x" id="px" aria-label="닫기">✕</button><div id="pc"></div></div>
+<div id="err">그래프 데이터(graph.json)를 불러오지 못했습니다.<br>file:// 로 직접 열면 fetch가 막힙니다 — 로컬 서버(npx serve)로 열어주세요.</div>
+<script>
+(function(){
+var GC={'Software · Dev':'#1A5CB5','Software · Data':'#0F766E','AI · LLM':'#6B21A8','AI Hardware':'#B45309','AI · Physical':'#B91C1C','Embedded · Safety':'#0E7490','논문':'#7C2D12','Design':'#6B6459'};
+var svg=document.getElementById('g'),view=document.getElementById('view'),gE=document.getElementById('edges'),gN=document.getElementById('nodes');
+var panel=document.getElementById('panel'),pc=document.getElementById('pc'),stat=document.getElementById('stat');
+var NS='http://www.w3.org/2000/svg';
+var nodes=[],edges=[],byId={},sel=null,hiddenGroups={},showType={link:true,mention:true,curated:true};
+var tx=0,ty=0,sc=1,alpha=1,raf=null,W=innerWidth,H=innerHeight;
+
+/* 테마 3단 토글 (app.js와 같은 키) */
+var themeBtn=document.getElementById('theme');
+function applyTheme(t){var d=t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');themeBtn.textContent=t==='system'?'◐':t==='dark'?'☾':'☀';}
+themeBtn.onclick=function(){var t=localStorage.getItem('kdb-theme')||'system';t=t==='system'?'light':t==='light'?'dark':'system';try{localStorage.setItem('kdb-theme',t);}catch(e){}applyTheme(t);};
+applyTheme(localStorage.getItem('kdb-theme')||'system');
+
+fetch('graph.json').then(function(r){return r.json();}).then(init).catch(function(){document.getElementById('err').style.display='grid';});
+
+function init(data){
+  nodes=data.nodes.map(function(n,i){n.deg=0;n.x=Math.cos(i/data.nodes.length*6.283)*220;n.y=Math.sin(i/data.nodes.length*6.283)*220;n.vx=0;n.vy=0;byId[n.id]=n;return n;});
+  edges=data.edges.concat((data.curated||[]).map(function(e){return {source:e.source,target:e.target,type:'curated',weight:e.weight||2,note:e.note};}))
+    .filter(function(e){return byId[e.source]&&byId[e.target];})
+    .map(function(e){e.s=byId[e.source];e.t=byId[e.target];e.s.deg+=e.weight;e.t.deg+=e.weight;return e;});
+  stat.textContent=nodes.length+'개 문서 · '+edges.length+'개 관계 · '+data.generated;
+  buildChips(); render(); fit(); tick();
+}
+function buildChips(){
+  var c=document.getElementById('chips'),groups=[];
+  nodes.forEach(function(n){if(groups.indexOf(n.group)<0)groups.push(n.group);});
+  groups.forEach(function(g){var b=document.createElement('button');b.className='chip';b.style.setProperty('--c',GC[g]||'#555');b.textContent=g;b.onclick=function(){hiddenGroups[g]=!hiddenGroups[g];b.classList.toggle('off');refresh();};c.appendChild(b);});
+  [['link','링크'],['mention','언급'],['curated','손 추가']].forEach(function(t){var b=document.createElement('button');b.className='chip edge';b.textContent='— '+t[1];b.onclick=function(){showType[t[0]]=!showType[t[0]];b.classList.toggle('off');refresh();};c.appendChild(b);});
+}
+function render(){
+  gE.innerHTML='';gN.innerHTML='';
+  edges.forEach(function(e){var l=document.createElementNS(NS,'line');l.setAttribute('class','e '+e.type);l.setAttribute('stroke-width',Math.min(1+e.weight*0.6,6));e.el=l;gE.appendChild(l);});
+  nodes.forEach(function(n){var g=document.createElementNS(NS,'g');g.setAttribute('class','n');var c=document.createElementNS(NS,'circle');n.r=9+Math.sqrt(n.deg)*2.2;c.setAttribute('r',n.r);c.setAttribute('fill',GC[n.group]||'#555');var t=document.createElementNS(NS,'text');t.setAttribute('y',n.r+13);t.setAttribute('text-anchor','middle');t.textContent=(n.icon?n.icon+' ':'')+n.title;g.appendChild(c);g.appendChild(t);n.el=g;gN.appendChild(g);
+    g.addEventListener('pointerdown',function(ev){ev.stopPropagation();n.drag=true;n.px=ev.clientX;n.py=ev.clientY;n.moved=false;g.setPointerCapture(ev.pointerId);alpha=Math.max(alpha,.3);});
+    g.addEventListener('pointermove',function(ev){if(!n.drag)return;n.x+=(ev.clientX-n.px)/sc;n.y+=(ev.clientY-n.py)/sc;n.px=ev.clientX;n.py=ev.clientY;n.moved=true;alpha=Math.max(alpha,.15);});
+    g.addEventListener('pointerup',function(ev){n.drag=false;if(!n.moved)select(n);});
+    g.addEventListener('pointercancel',function(){n.drag=false;});
+  });
+  refresh();
+}
+function visible(n){return !hiddenGroups[n.group]&&!n.filtered;}
+function refresh(){
+  nodes.forEach(function(n){n.el.style.display=visible(n)?'':'none';});
+  edges.forEach(function(e){e.el.style.display=(showType[e.type]&&visible(e.s)&&visible(e.t))?'':'none';});
+  applySel();
+}
+function applySel(){
+  var nb={};
+  if(sel){edges.forEach(function(e){if(e.s===sel)nb[e.t.id]=1;if(e.t===sel)nb[e.s.id]=1;});}
+  nodes.forEach(function(n){n.el.classList.toggle('dim',!!sel&&n!==sel&&!nb[n.id]);n.el.classList.toggle('sel',n===sel);});
+  edges.forEach(function(e){var on=sel&&(e.s===sel||e.t===sel);e.el.classList.toggle('hi',!!on);e.el.classList.toggle('dim',!!sel&&!on);});
+}
+function select(n){
+  sel=(sel===n)?null:n;applySel();
+  if(!sel){panel.classList.remove('open');return;}
+  var out=[],inn=[];
+  edges.forEach(function(e){if(e.s===sel)out.push([e.t,e]);if(e.t===sel)inn.push([e.s,e]);});
+  function li(pair){var m=pair[0],e=pair[1];return '<li data-id="'+m.id+'"><span style="color:'+(GC[m.group]||'#555')+'">●</span>'+(m.icon||'')+' '+m.title+'<span class="w">'+(e.type==='link'?'🔗':e.type==='mention'?'「」':'✎')+' ×'+e.weight+'</span></li>';}
+  pc.innerHTML='<h2>'+(sel.icon||'')+' '+sel.title+'</h2><div class="grp" style="color:'+(GC[sel.group]||'#555')+'">'+sel.group+'</div><p>'+(sel.desc||'')+'</p><a class="open-doc" href="'+sel.file+'">문서 열기 →</a>'
+    +'<h3>이 문서가 가리키는 문서 ('+out.length+')</h3><ul>'+(out.map(li).join('')||'<li style="color:var(--text-muted)">없음</li>')+'</ul>'
+    +'<h3>이 문서를 가리키는 문서 ('+inn.length+')</h3><ul>'+(inn.map(li).join('')||'<li style="color:var(--text-muted)">없음</li>')+'</ul>';
+  pc.querySelectorAll('li[data-id]').forEach(function(el){el.onclick=function(){var m=byId[el.getAttribute('data-id')];select(m);center(m);};});
+  panel.classList.add('open');
+}
+document.getElementById('px').onclick=function(){sel=null;applySel();panel.classList.remove('open');};
+
+/* 물리: 반발 + 스프링 + 중심 + 그룹 응집 */
+function tick(){
+  if(alpha>0.012){
+    var i,j,n,m,dx,dy,d2,d,f,cent={},cnt={};
+    for(i=0;i<nodes.length;i++){n=nodes[i];if(!visible(n))continue;cent[n.group]=cent[n.group]||{x:0,y:0};cent[n.group].x+=n.x;cent[n.group].y+=n.y;cnt[n.group]=(cnt[n.group]||0)+1;}
+    for(i=0;i<nodes.length;i++){n=nodes[i];if(!visible(n))continue;
+      for(j=i+1;j<nodes.length;j++){m=nodes[j];if(!visible(m))continue;dx=m.x-n.x;dy=m.y-n.y;d2=dx*dx+dy*dy+0.01;if(d2>360000)continue;f=2600/d2*alpha;d=Math.sqrt(d2);dx/=d;dy/=d;n.vx-=dx*f;n.vy-=dy*f;m.vx+=dx*f;m.vy+=dy*f;}
+      var c=cent[n.group];if(c){n.vx+=((c.x/cnt[n.group])-n.x)*0.012*alpha;n.vy+=((c.y/cnt[n.group])-n.y)*0.012*alpha;}
+      n.vx-=n.x*0.004*alpha;n.vy-=n.y*0.004*alpha;
+    }
+    edges.forEach(function(e){if(e.el.style.display==='none')return;dx=e.t.x-e.s.x;dy=e.t.y-e.s.y;d=Math.sqrt(dx*dx+dy*dy)+0.01;f=(d-(e.type==='mention'?150:110))*0.02*Math.min(1,0.4+e.weight*0.15)*alpha;dx/=d;dy/=d;e.s.vx+=dx*f;e.s.vy+=dy*f;e.t.vx-=dx*f;e.t.vy-=dy*f;});
+    nodes.forEach(function(n){if(n.drag)return;n.vx*=0.82;n.vy*=0.82;n.x+=n.vx;n.y+=n.vy;});
+    alpha*=0.985;
+  }
+  draw();raf=requestAnimationFrame(tick);
+}
+function draw(){
+  edges.forEach(function(e){e.el.setAttribute('x1',e.s.x);e.el.setAttribute('y1',e.s.y);e.el.setAttribute('x2',e.t.x);e.el.setAttribute('y2',e.t.y);});
+  nodes.forEach(function(n){n.el.setAttribute('transform','translate('+n.x+','+n.y+')');});
+  view.setAttribute('transform','translate('+tx+','+ty+') scale('+sc+')');
+}
+function fit(){var xs=nodes.filter(visible);if(!xs.length)return;var minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9;xs.forEach(function(n){minx=Math.min(minx,n.x);maxx=Math.max(maxx,n.x);miny=Math.min(miny,n.y);maxy=Math.max(maxy,n.y);});
+  var w=maxx-minx+160,h=maxy-miny+160;sc=Math.min(W/w,(H-110)/h,1.6);tx=W/2-(minx+maxx)/2*sc;ty=(H+90)/2-(miny+maxy)/2*sc;}
+function center(n){tx=W/2-n.x*sc;ty=(H+90)/2-n.y*sc;}
+setTimeout(fit,1400);setTimeout(fit,3200);
+
+/* 팬·줌 */
+var pan=null;
+svg.addEventListener('pointerdown',function(ev){pan={x:ev.clientX,y:ev.clientY,tx:tx,ty:ty};svg.classList.add('grabbing');svg.setPointerCapture(ev.pointerId);});
+svg.addEventListener('pointermove',function(ev){if(!pan)return;tx=pan.tx+(ev.clientX-pan.x);ty=pan.ty+(ev.clientY-pan.y);});
+svg.addEventListener('pointerup',function(){pan=null;svg.classList.remove('grabbing');});
+svg.addEventListener('wheel',function(ev){ev.preventDefault();zoomAt(ev.clientX,ev.clientY,ev.deltaY<0?1.15:1/1.15);},{passive:false});
+var pinch=null;
+svg.addEventListener('touchstart',function(ev){if(ev.touches.length===2){pinch=dist(ev.touches);}},{passive:true});
+svg.addEventListener('touchmove',function(ev){if(ev.touches.length===2&&pinch){ev.preventDefault();var d=dist(ev.touches);var cx=(ev.touches[0].clientX+ev.touches[1].clientX)/2,cy=(ev.touches[0].clientY+ev.touches[1].clientY)/2;zoomAt(cx,cy,d/pinch);pinch=d;pan=null;}},{passive:false});
+svg.addEventListener('touchend',function(){pinch=null;});
+function dist(t){var dx=t[0].clientX-t[1].clientX,dy=t[0].clientY-t[1].clientY;return Math.sqrt(dx*dx+dy*dy);}
+function zoomAt(cx,cy,k){var ns=Math.max(.25,Math.min(4,sc*k));tx=cx-(cx-tx)*ns/sc;ty=cy-(cy-ty)*ns/sc;sc=ns;}
+document.getElementById('zi').onclick=function(){zoomAt(W/2,H/2,1.25);};
+document.getElementById('zo').onclick=function(){zoomAt(W/2,H/2,.8);};
+document.getElementById('zf').onclick=fit;
+addEventListener('resize',function(){W=innerWidth;H=innerHeight;});
+
+/* 검색 */
+document.getElementById('q').addEventListener('input',function(){var q=this.value.trim().toLowerCase();nodes.forEach(function(n){var hit=q&&(n.title.toLowerCase().indexOf(q)>=0||(n.desc||'').toLowerCase().indexOf(q)>=0);n.el.classList.toggle('match',!!hit);});if(q){var first=nodes.filter(function(n){return n.el.classList.contains('match');})[0];if(first)center(first);}});
+})();
+</script>
+</body>
+</html>

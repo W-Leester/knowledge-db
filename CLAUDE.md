@@ -27,7 +27,7 @@ npx serve   # 로컬 서버 — index.html은 docs.json을 fetch하므로 file:/
 
 ### 디렉토리 구조
 
-- 루트 = 앱 셸: `index.html`, `docs.json`, `manifest.webmanifest`, `assets/`, `icons/` (Phase 3에서 `sw.js` 추가 예정 — SW 스코프 때문에 루트 필수)
+- 루트 = 앱 셸: `index.html`, `docs.json`, `manifest.webmanifest`, `assets/`, `icons/`, **`graph.html` + `graph.json`**(문서 관계 그래프 — `scripts/build-graph.py`가 본문의 `<a href>`·「제목」 언급을 추출해 생성. 노드는 docs.json에서 오므로 여기에 문서를 따로 등록하지 않는다. 손으로 넣는 관계는 graph.json의 `curated` 배열에 `{source,target,note}`로 — 재생성 시 보존됨) (Phase 3에서 `sw.js` 추가 예정 — SW 스코프 때문에 루트 필수)
 - `docs/` = 지식 문서 HTML + `docs/img/`(문서용 SVG)
 - `planning/` = 기획·설계 문서 (앱 소스 아님, 아래 참조)
 
@@ -77,9 +77,9 @@ localStorage 키는 `kdb-` 접두사: `kdb-theme`, `kdb-pos:{docId}`, `kdb-recen
 
 이 저장소는 여러 PC에서 사용한다. **작업 시작 전 `git pull`, 작업 완료 후 커밋·push**를 기본 리듬으로 한다.
 
-**새 문서 추가** (아래를 모두 해야 "완료"): ① 기존 문서 복제 → `docs/`에 작성 (SVG는 `docs/img/`) ② `docs.json`에 항목 추가 — `file`은 `docs/….html`, assets에 참조 SVG 전부 나열, **같은 `group`끼리 인접 배치**(홈 화면이 순회하며 라벨을 찍으므로 떨어져 있으면 라벨 중복 표시) ③ `index.html`의 `<noscript>` 폴백 목록에 링크 추가 ④ 로컬 검증(아래) ⑤ 커밋·push
+**새 문서 추가** (아래를 모두 해야 "완료"): ① 기존 문서 복제 → `docs/`에 작성 (SVG는 `docs/img/`) ② `docs.json`에 항목 추가 — `file`은 `docs/….html`, assets에 참조 SVG 전부 나열, **같은 `group`끼리 인접 배치**(홈 화면이 순회하며 라벨을 찍으므로 떨어져 있으면 라벨 중복 표시) ③ `index.html`의 `<noscript>` 폴백 목록에 링크 추가 ④ 다른 문서를 언급할 때는 「제목」만 쓰지 말고 `<a href="다른문서.html">「제목」</a>`로 실제 링크를 걸고, 관련 문서의 "함께 읽기" 표에 역링크 행을 추가 ⑤ `python3 scripts/build-graph.py`로 graph.json 재생성(미해결 언급·고립 노드가 찍히면 별칭 또는 링크 보강) ⑥ 로컬 검증(아래) ⑦ 커밋·push
 
-**기존 문서 수정** (아래를 모두 해야 "완료"): HTML 수정 → `docs.json`의 해당 `version` +1 → 로컬 검증 → 커밋·push
+**기존 문서 수정** (아래를 모두 해야 "완료"): HTML 수정 → `docs.json`의 해당 `version` +1 → 참조를 추가·삭제했다면 `python3 scripts/build-graph.py` → 로컬 검증 → 커밋·push
 
 **로컬 검증** (push 전): ① `docs.json`이 참조하는 `file`·`assets`가 전부 실존하는지 ② 새/수정 SVG의 XML 유효성 ③ 헤드리스 크롬 360px 렌더로 가로 오버플로 없는지(`scrollWidth == innerWidth`). 검증 스크립트가 아직 없으므로 필요 시 임시로 조합해 돌린다 (`scripts/verify.sh`로 굳히면 좋음).
 
