@@ -1288,6 +1288,18 @@
   },
   {
    "source": "sdk-toolchain",
+   "target": "ontology-kg",
+   "type": "link",
+   "weight": 1
+  },
+  {
+   "source": "sdk-toolchain",
+   "target": "ontology-kg",
+   "type": "mention",
+   "weight": 1
+  },
+  {
+   "source": "sdk-toolchain",
    "target": "tech-stack",
    "type": "link",
    "weight": 1
