@@ -364,9 +364,9 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#what">1. SDK란 무엇인가 — 처음부터</a>
     <a href="#names">2. 이름 정리 — 여행 가방과 공장 라인</a>
-    <a href="#concept-graph" class="sub">2-1. 개념 그래프 (인터랙티브)</a>
     <a href="#two-faces">3. SDK의 두 얼굴</a>
     <a href="#inside">4. 상자 안 — Windows SDK vs macOS SDK</a>
     <a href="#mac">5. 맥의 두 경로 — Xcode와 CLT</a>
@@ -422,6 +422,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="apple-app-dev.html">「애플 앱 개발의 지도」</a>가 "언어는 자유, 툴체인은 의무"라고 했던 그 <u>툴체인의 실물</u>이 여기 있고,
     <a href="dev-os-comparison.html">「개발 환경으로서의 macOS vs Windows」</a>의 도구 비교를 설치 층위까지 내려서 본다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["맥 도구","#0F766E"],"f":["파일·산출물","#AF5109"],"s":["상황·함정","#B91C1C"],"p":["윈도우 대응물","#6B21A8"]},"nodes":[{"id":"os","label":"OS","kind":"c","sec":"#what","def":"화면·파일·네트워크를 쥔 자원 배분자. 내 코드는 OS에 \"부탁\"해야만 하드웨어를 쓴다"},{"id":"api","label":"API","kind":"c","sec":"#names","def":"\"이렇게 부르면 이렇게 답한다\"는 부탁 규격 자체. 코드가 아니라 약속"},{"id":"sdk","label":"SDK","kind":"c","sec":"#what","def":"특정 플랫폼용 소프트웨어를 만들기 위한 부탁 규격·연결 부품·도구·설명서 묶음 — 여행 가방"},{"id":"hdr","label":"헤더","kind":"f","sec":"#what","def":"부탁하는 법의 목록. 함수 이름·넘길 값·돌려받는 값. 전화번호부이지 전화 상대가 아니다"},{"id":"stub","label":"링커 스텁","kind":"f","sec":"#inside","def":"빌드 때 내 부탁을 OS 파일에 연결해 주는 접착제 (.lib / .tbd)"},{"id":"psdk","label":"플랫폼 SDK","kind":"c","sec":"#two-faces","def":"목적지가 OS·기기. 이것 없이는 그 플랫폼용 산출물을 만들 수 없다"},{"id":"ssdk","label":"서비스 SDK","kind":"c","sec":"#two-faces","def":"목적지가 남의 서비스. 사실상 API 클라이언트 라이브러리 (Firebase·Stripe·Claude)"},{"id":"tc","label":"툴체인","kind":"c","sec":"#names","def":"컴파일러 → 링커 → 빌드 관리자의 사슬. 공장 라인"},{"id":"ide","label":"IDE","kind":"c","sec":"#names","def":"툴체인·SDK 전부를 화면 하나에 얹은 작업대"},{"id":"xcode","label":"Xcode","kind":"t","sec":"#mac","def":"맥의 IDE 전체. 툴체인 + macOS·iOS 등 SDK 동봉. 수십 GB"},{"id":"clt","label":"CLT","kind":"t","sec":"#mac","def":"GUI 없는 최소 툴체인. clang·make·git + macOS SDK. 대부분의 맥 사용자가 쓰는 경로"},{"id":"xsel","label":"xcode-select","kind":"t","sec":"#mac","def":"Xcode와 CLT 중 어디를 터미널이 바라볼지 가리키는 OS 내장 포인터. -p·--install·-s·-r"},{"id":"macsdk","label":"MacOSX.sdk","kind":"f","sec":"#inside","def":"맥 플랫폼 SDK 실물. Framework 번들 + .tbd 스텁. CLT나 Xcode 안에만 있다"},{"id":"clang","label":"clang","kind":"t","sec":"#windows","def":"맥의 C/C++ 컴파일러. gcc는 이것의 별칭"},{"id":"make","label":"make","kind":"t","sec":"#windows","def":"빌드 관리자. Makefile을 읽어 컴파일러를 순서대로 부른다"},{"id":"git","label":"git","kind":"t","sec":"#brew","def":"맥에서는 CLT에 동봉 — 처음 git을 치면 CLT 설치 팝업이 뜨는 이유"},{"id":"brew","label":"Homebrew","kind":"t","sec":"#brew","def":"맥의 OS 패키지 매니저. 본체가 git 저장소이고, 소스 빌드 대비로 CLT를 전제한다"},{"id":"bottle","label":"Bottle","kind":"f","sec":"#why","def":"Homebrew의 완제품. 있으면 압축만 풀고 끝, 실행에 SDK 불필요"},{"id":"wheel","label":"바이너리 휠","kind":"f","sec":"#why","def":"pip의 완제품(.whl). 내 OS·CPU·파이썬 버전에 맞는 것이 있으면 컴파일러가 소환되지 않는다"},{"id":"summon","label":"빌드 소환","kind":"s","sec":"#summon","def":"완제품이 없을 때 소스 빌드로 떨어지는 상황 — 이때만 컴파일러와 SDK 헤더가 필요하다"},{"id":"lost","label":"포인터 유실","kind":"s","sec":"#pointer","def":"macOS 판올림 후 invalid active developer path — 처방은 xcode-select --install"},{"id":"vs","label":"Visual Studio","kind":"p","sec":"#windows","def":"윈도우의 IDE 전체. Xcode의 대응물"},{"id":"vsbt","label":"VS Build Tools","kind":"p","sec":"#windows","def":"cl.exe·link.exe·MSBuild. CLT의 대응물 (git은 별도)"},{"id":"wsdk","label":"Windows SDK","kind":"p","sec":"#inside","def":"헤더(include) + 임포트 라이브러리(lib). MacOSX.sdk의 대응물"}],"edges":[{"s":"sdk","t":"hdr","rel":"포함"},{"s":"sdk","t":"stub","rel":"포함"},{"s":"sdk","t":"psdk","rel":"종류"},{"s":"sdk","t":"ssdk","rel":"종류"},{"s":"hdr","t":"api","rel":"적어둔 것"},{"s":"sdk","t":"os","rel":"연결"},{"s":"tc","t":"sdk","rel":"사용"},{"s":"ide","t":"tc","rel":"포함"},{"s":"tc","t":"clang","rel":"구성"},{"s":"tc","t":"make","rel":"구성"},{"s":"xcode","t":"tc","rel":"포함"},{"s":"xcode","t":"macsdk","rel":"포함"},{"s":"clt","t":"clang","rel":"포함"},{"s":"clt","t":"make","rel":"포함"},{"s":"clt","t":"git","rel":"포함"},{"s":"clt","t":"macsdk","rel":"포함"},{"s":"xsel","t":"xcode","rel":"가리킴"},{"s":"xsel","t":"clt","rel":"가리킴"},{"s":"lost","t":"xsel","rel":"증상"},{"s":"brew","t":"clt","rel":"요구"},{"s":"brew","t":"git","rel":"요구"},{"s":"brew","t":"bottle","rel":"받음"},{"s":"bottle","t":"summon","rel":"없으면"},{"s":"wheel","t":"summon","rel":"없으면"},{"s":"summon","t":"clang","rel":"요구"},{"s":"summon","t":"hdr","rel":"요구"},{"s":"vs","t":"xcode","rel":"대응"},{"s":"vsbt","t":"clt","rel":"대응"},{"s":"wsdk","t":"macsdk","rel":"대응"},{"s":"wsdk","t":"psdk","rel":"종류"},{"s":"macsdk","t":"psdk","rel":"종류"},{"s":"ide","t":"sdk","rel":"포함"}]}</script>
+    <figcaption>「SDK와 툴체인」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. WHAT IS SDK ═══════════ -->
@@ -558,102 +565,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     SDK 버전 숫자는 <u>어느 OS 버전의 기능까지 쓸 수 있는가</u>다. <a href="app-release.html">「앱 출시의 관문」</a>의 타겟 API 의무가 정확히 "최신 SDK로 빌드하라"는 요구다.</div>
   </div>
 
-  <h3 id="concept-graph">2-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
 
-  <p class="body">이 문서에 나오는 이름들을 <a href="ontology-kg.html">「온톨로지와 지식 그래프」</a>식으로 그려봤다.
-  노드는 개념, 선은 <u>이름 붙은 관계</u>다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
-
-  <figure class="sk-anim" id="sk-cg">
-    <div class="fig-scroll">
-      <svg id="sk-cg-svg" viewBox="0 0 900 450" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" style="width:100%;display:block;touch-action:none">
-        <g id="sk-cg-e"></g><g id="sk-cg-l"></g><g id="sk-cg-n"></g>
-      </svg>
-    </div>
-    <div id="sk-cg-panel" style="margin:6px 4px 2px;padding:10px 12px;border-radius:10px;background:#FFFFFF;border:1px solid #D5CFBF;color:#1A1A1A;font-size:13px;line-height:1.55;min-height:58px">
-      <span style="color:#666666">노드를 누르면 여기에 정의와 관계가 표시됩니다 · 색: <b style="color:#1A5CB5">개념</b> · <b style="color:#0F766E">맥 도구</b> · <b style="color:#6B21A8">윈도우 대응물</b> · <b style="color:#AF5109">파일·산출물</b> · <b style="color:#B91C1C">상황</b></span>
-    </div>
-    <figcaption>이 문서 자체를 지식 그래프로 — 온톨로지(개념·관계 종류)와 데이터(이 문서의 사실)가 합쳐진 모습</figcaption>
-  </figure>
-
-  <script>
-  (function(){
-    var C={c:'#1A5CB5',m:'#0F766E',w:'#6B21A8',f:'#AF5109',s:'#B91C1C'};
-    var N=[
-      ['os','OS','c','#what','화면·파일·네트워크를 쥔 자원 배분자. 내 코드는 OS에 "부탁"해야만 하드웨어를 쓴다'],
-      ['api','API','c','#names','"이렇게 부르면 이렇게 답한다"는 부탁 규격 자체. 코드가 아니라 약속'],
-      ['lib','라이브러리','c','#names','내가 부르는 함수 모음. 주도권은 내 코드에'],
-      ['fw','프레임워크','c','#names','뼈대가 내 코드를 부른다(제어의 역전). SwiftUI·UIKit·React'],
-      ['sdk','SDK','c','#what','특정 플랫폼용 소프트웨어를 만들기 위한 부탁 규격·연결 부품·도구·설명서 묶음 — 여행 가방'],
-      ['hdr','헤더','f','#what','부탁하는 법의 목록. 함수 이름·넘길 값·돌려받는 값. 전화번호부이지 전화 상대가 아니다'],
-      ['stub','링커 스텁','f','#inside','빌드 때 내 부탁을 OS 파일에 연결해 주는 접착제 (.lib / .tbd)'],
-      ['tools','전용 도구','f','#what','서명·패키징·에뮬레이터·리소스 컴파일러 등 플랫폼 전용 유틸리티'],
-      ['psdk','플랫폼 SDK','c','#two-faces','목적지가 OS·기기. 이것 없이는 그 플랫폼용 산출물을 만들 수 없다'],
-      ['ssdk','서비스 SDK','c','#two-faces','목적지가 남의 서비스. 사실상 API 클라이언트 라이브러리 (Firebase·Stripe·Claude)'],
-      ['tc','툴체인','c','#names','컴파일러 → 링커 → 빌드 관리자의 사슬. 공장 라인'],
-      ['ide','IDE','c','#names','툴체인·SDK 전부를 화면 하나에 얹은 작업대'],
-      ['xcode','Xcode','m','#mac','맥의 IDE 전체. 툴체인 + macOS·iOS 등 SDK 동봉. 수십 GB'],
-      ['clt','Command Line Tools','m','#mac','GUI 없는 최소 툴체인. clang·make·git + macOS SDK. 대부분의 맥 사용자가 쓰는 경로'],
-      ['xsel','xcode-select','m','#mac','Xcode와 CLT 중 어디를 터미널이 바라볼지 가리키는 OS 내장 포인터. -p·--install·-s·-r'],
-      ['macsdk','MacOSX.sdk','f','#inside','맥 플랫폼 SDK 실물. Framework 번들 + .tbd 스텁. CLT나 Xcode 안에만 있다'],
-      ['clang','clang','m','#windows','맥의 C/C++ 컴파일러. gcc는 이것의 별칭'],
-      ['make','make','m','#windows','빌드 관리자. Makefile을 읽어 컴파일러를 순서대로 부른다'],
-      ['git','git','m','#brew','맥에서는 CLT에 동봉 — 처음 git을 치면 CLT 설치 팝업이 뜨는 이유'],
-      ['brew','Homebrew','m','#brew','맥의 OS 패키지 매니저. 본체가 git 저장소이고, 소스 빌드 대비로 CLT를 전제한다'],
-      ['bottle','Bottle','f','#why','Homebrew의 완제품. 있으면 압축만 풀고 끝, 실행에 SDK 불필요'],
-      ['wheel','바이너리 휠','f','#why','pip의 완제품(.whl). 내 OS·CPU·파이썬 버전에 맞는 것이 있으면 컴파일러가 소환되지 않는다'],
-      ['summon','빌드 소환','s','#why','완제품이 없을 때 소스 빌드로 떨어지는 상황 — 이때만 컴파일러와 SDK 헤더가 필요하다'],
-      ['lost','포인터 유실','s','#ops','macOS 판올림 후 invalid active developer path. 처방은 xcode-select --install 한 줄'],
-      ['vs','Visual Studio','w','#windows','윈도우의 IDE 전체. Xcode의 대응물'],
-      ['vsbt','VS Build Tools','w','#windows','cl.exe·link.exe·MSBuild. CLT의 대응물 (git은 별도)'],
-      ['wsdk','Windows SDK','w','#inside','헤더(include) + 임포트 라이브러리(lib). MacOSX.sdk의 대응물'],
-      ['ver','버전 세 숫자','c','#what','compileSdk·targetSdk·minSdk — 빌드 기준과 실행 기준은 다른 숫자']
-    ];
-    var E=[
-      ['sdk','hdr','포함'],['sdk','stub','포함'],['sdk','tools','포함'],['sdk','psdk','종류'],['sdk','ssdk','종류'],
-      ['hdr','api','적어둔 것'],['lib','sdk','담김'],['fw','sdk','담김'],['sdk','os','연결'],
-      ['tc','sdk','사용'],['ide','tc','포함'],['tc','clang','구성'],['tc','make','구성'],
-      ['xcode','tc','포함'],['xcode','macsdk','포함'],['clt','clang','포함'],['clt','make','포함'],['clt','git','포함'],['clt','macsdk','포함'],
-      ['xsel','xcode','가리킴'],['xsel','clt','가리킴'],['lost','xsel','증상'],
-      ['brew','clt','요구'],['brew','git','요구'],['brew','bottle','받음'],['bottle','summon','없으면'],['wheel','summon','없으면'],
-      ['summon','clang','요구'],['summon','hdr','요구'],
-      ['vs','xcode','대응'],['vsbt','clt','대응'],['wsdk','macsdk','대응'],['wsdk','psdk','종류'],['macsdk','psdk','종류'],
-      ['ver','psdk','속성'],['ide','sdk','포함']
-    ];
-    var NS='http://www.w3.org/2000/svg',svg=document.getElementById('sk-cg-svg');if(!svg)return;
-    var gE=document.getElementById('sk-cg-e'),gL=document.getElementById('sk-cg-l'),gN=document.getElementById('sk-cg-n'),panel=document.getElementById('sk-cg-panel');
-    var nodes=N.map(function(a,i){return {id:a[0],label:a[1],kind:a[2],sec:a[3],def:a[4],x:Math.cos(i/N.length*6.283)*230,y:Math.sin(i/N.length*6.283)*180,vx:0,vy:0,deg:0};});
-    var byId={};nodes.forEach(function(n){byId[n.id]=n;});
-    var edges=E.map(function(e){var s=byId[e[0]],t=byId[e[1]];s.deg++;t.deg++;return {s:s,t:t,rel:e[2]};});
-    /* 동기 시뮬레이션 — 그린 뒤에는 정지 (문서 안에서 흔들리지 않게) */
-    for(var it=0;it<420;it++){var a=1-it/420;
-      for(var i=0;i<nodes.length;i++){var n=nodes[i];for(var j=i+1;j<nodes.length;j++){var m=nodes[j],dx=m.x-n.x,dy=m.y-n.y,d=Math.sqrt(dx*dx+dy*dy)+.01,f;
-        if(d<64){f=(64-d)*.15;}else{f=2200/(d*d)*a;}dx/=d;dy/=d;n.vx-=dx*f;n.vy-=dy*f;m.vx+=dx*f;m.vy+=dy*f;}
-        n.vx-=n.x*.004*a;n.vy-=n.y*.0065*a;}
-      edges.forEach(function(e){var dx=e.t.x-e.s.x,dy=e.t.y-e.s.y,d=Math.sqrt(dx*dx+dy*dy)+.01,f=(d-95)*.02*a;dx/=d;dy/=d;e.s.vx+=dx*f;e.s.vy+=dy*f;e.t.vx-=dx*f;e.t.vy-=dy*f;});
-      nodes.forEach(function(n){n.vx*=.8;n.vy*=.8;n.x+=n.vx;n.y+=n.vy;});}
-    var minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9;nodes.forEach(function(n){minx=Math.min(minx,n.x);maxx=Math.max(maxx,n.x);miny=Math.min(miny,n.y);maxy=Math.max(maxy,n.y);});
-    var sx=(900-120)/(maxx-minx),sy=(450-80)/(maxy-miny),k=Math.min(sx,sy);
-    nodes.forEach(function(n){n.x=60+(n.x-minx)*k+((900-120)-(maxx-minx)*k)/2;n.y=36+(n.y-miny)*k+((450-80)-(maxy-miny)*k)/2;});
-    function mk(t,at){var el=document.createElementNS(NS,t);for(var q in at)el.setAttribute(q,at[q]);return el;}
-    edges.forEach(function(e){e.el=mk('line',{stroke:'#B5AFA5','stroke-width':1.6,'stroke-opacity':.7});gE.appendChild(e.el);
-      e.lab=mk('text',{'font-size':10,'font-weight':700,fill:'#1A1A1A','text-anchor':'middle','paint-order':'stroke',stroke:'#FFFFFF','stroke-width':4,'stroke-linejoin':'round',style:'display:none'});e.lab.textContent=e.rel;gL.appendChild(e.lab);});
-    var sel=null;
-    nodes.forEach(function(n){var g=mk('g',{style:'cursor:pointer'});var r=9+n.deg*1.3;var c=mk('circle',{r:r,fill:C[n.kind],stroke:'#FFFFFF','stroke-width':2.5});var t=mk('text',{y:r+12,'font-size':11.5,'font-weight':700,fill:'#1A1A1A','text-anchor':'middle','paint-order':'stroke',stroke:'#FAF7F2','stroke-width':4,'stroke-linejoin':'round'});t.textContent=n.label;g.appendChild(c);g.appendChild(t);n.el=g;n.c=c;gN.appendChild(g);
-      var drag=false,moved=false,px,py;
-      g.addEventListener('pointerdown',function(ev){ev.stopPropagation();ev.preventDefault();drag=true;moved=false;px=ev.clientX;py=ev.clientY;g.setPointerCapture(ev.pointerId);});
-      g.addEventListener('pointermove',function(ev){if(!drag)return;var sc=svg.getBoundingClientRect().width/900;n.x+=(ev.clientX-px)/sc;n.y+=(ev.clientY-py)/sc;px=ev.clientX;py=ev.clientY;moved=true;draw();});
-      g.addEventListener('pointerup',function(){drag=false;if(!moved)select(n);});
-      g.addEventListener('pointercancel',function(){drag=false;});});
-    function draw(){edges.forEach(function(e){e.el.setAttribute('x1',e.s.x);e.el.setAttribute('y1',e.s.y);e.el.setAttribute('x2',e.t.x);e.el.setAttribute('y2',e.t.y);e.lab.setAttribute('x',(e.s.x+e.t.x)/2);e.lab.setAttribute('y',(e.s.y+e.t.y)/2+3);});nodes.forEach(function(n){n.el.setAttribute('transform','translate('+n.x+','+n.y+')');});}
-    function select(n){sel=(sel===n)?null:n;var nb={};
-      edges.forEach(function(e){var on=sel&&(e.s===sel||e.t===sel);if(on){nb[e.s.id]=1;nb[e.t.id]=1;}e.el.setAttribute('stroke',on?'#E8962A':'#B5AFA5');e.el.setAttribute('stroke-width',on?3:1.6);e.el.setAttribute('stroke-opacity',sel?(on?1:.12):.7);e.lab.style.display=on?'':'none';});
-      nodes.forEach(function(m){m.el.style.opacity=sel&&!nb[m.id]&&m!==sel?.2:1;m.c.setAttribute('stroke',m===sel?'#E8962A':'#FFFFFF');m.c.setAttribute('stroke-width',m===sel?4:2.5);});
-      if(!sel){panel.innerHTML='<span style="color:#666666">노드를 누르면 여기에 정의와 관계가 표시됩니다</span>';return;}
-      var out=[],inn=[];edges.forEach(function(e){if(e.s===sel)out.push(sel.label+' —'+e.rel+'→ <b>'+e.t.label+'</b>');if(e.t===sel)inn.push('<b>'+e.s.label+'</b> —'+e.rel+'→ '+sel.label);});
-      panel.innerHTML='<div style="font-weight:800;color:'+C[sel.kind]+';font-size:14px">'+sel.label+' <a href="'+sel.sec+'" style="font-size:11.5px;font-weight:700;color:#1A5CB5;text-decoration:none;margin-left:6px">해당 절로 이동 ↗</a></div><div style="margin:4px 0 6px">'+sel.def+'</div><div style="font-size:12px;color:#555555">'+out.concat(inn).join(' · ')+'</div>';}
-    draw();
-  })();
-  </script>
 </section>
 
 <!-- ═══════════ 2. TWO FACES ═══════════ -->
@@ -1147,5 +1059,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

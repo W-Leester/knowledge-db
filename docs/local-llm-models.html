@@ -328,6 +328,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#principles">1. 모델명보다 오래가는 원칙</a>
     <a href="#tiers">2. 메모리 구간별 지도</a>
     <a href="#vram" class="sub">2-1. 실질 VRAM — KV 캐시 포함</a>
@@ -379,6 +380,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     이 판은 몇 달 단위로 물갈이되니, 반년 뒤에 읽는다면 §1의 원칙과 §6의 검증법만 믿고
     모델명은 그때의 최신으로 갈아끼울 것 — 그러라고 원칙을 앞에 뒀다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["모델","#0F766E"],"s":["함정·독법","#B91C1C"]},"nodes":[{"id":"dense","label":"dense","kind":"c","sec":"#principles","def":"모든 파라미터가 매 토큰 일한다 — 지시 이행·도구 호출이 안정적, 중요 자동화용"},{"id":"moe","label":"MoE","kind":"c","sec":"#principles","def":"토큰마다 일부 전문가만 활성 — 같은 품질 대비 2~5배 빠르나 꼬리 작업에 기복"},{"id":"bandwidth","label":"메모리 대역폭","kind":"c","sec":"#principles","def":"tok/s ≈ 대역폭 ÷ 활성 파라미터 — 램을 늘려도 속도는 안 는다, 이득은 여유"},{"id":"mylog","label":"내 로그","kind":"c","sec":"#verify","def":"남의 순위표는 후보 선정까지, 채택은 30분 A/B로 만든 내 성적표로"},{"id":"stale","label":"철 지난 추천 글","kind":"s","sec":"#principles","def":"2024년 모델(Llama 3.x·Mixtral)을 아직 1순위로 추천하면 거른다"},{"id":"tiers","label":"메모리 구간","kind":"c","sec":"#tiers","def":"폰~8GB부터 128GB까지 — 올라갈수록 '같은 모델을 더 좋은 조건으로'"},{"id":"kvcache","label":"KV 캐시","kind":"c","sec":"#vram","def":"지금까지 읽은 것을 기억하는 메모리 — 토큰 수에 정비례, 128K면 가중치보다 커지기도"},{"id":"realvram","label":"실질 VRAM","kind":"c","sec":"#vram","def":"가중치(양자화 후) + KV 캐시(단가×길이) + 런타임 여유 — 가중치만 말하면 반쪽"},{"id":"onemillion","label":"1M 토큰의 현실","kind":"s","sec":"#vram","def":"bf16 KV만 ~240GB — 홍보에 가깝다, 편안한 상한은 8bit + KV 8bit + 256K"},{"id":"qwen27","label":"Qwen 3.6 27B","kind":"t","sec":"#models","def":"24~32GB 구간의 왕 — dense, SWE-bench 77.2%, 코딩·에이전트의 현 최강"},{"id":"qwen35","label":"35B-A3B MoE","kind":"t","sec":"#models","def":"27B의 속도 보완재 — 활성 3B라 왕복이 경쾌, 상주 비서 1위"},{"id":"gptoss","label":"gpt-oss-120b","kind":"t","sec":"#models","def":"'27B보다 아는 건 많은데 더 빠른' 역전 — MoE 희소성 교과서, 추론 특화, 96GB+"},{"id":"gemma","label":"Gemma 4","kind":"t","sec":"#models","def":"점수보다 '대화 결'이 좋다는 평 — 범용·글쓰기, 제약 적은 라이선스"},{"id":"coder","label":"Qwen3-Coder","kind":"t","sec":"#models","def":"코딩 특화·256K 컨텍스트 — 대형 코드베이스용, Coder-Next는 64GB급"},{"id":"format","label":"GGUF vs MLX판","kind":"s","sec":"#models","def":"같은 모델도 추론 서버별 변환본이 따로 — 받기 전 자기 서버용이 있는지 확인"},{"id":"bonsai","label":"Bonsai 27B","kind":"t","sec":"#quant","def":"Qwen3.6-27B를 1-bit(3.9GB)로 — 폰에서 27B급 ~11 tok/s, 유지율 ~89.5%"},{"id":"extremequant","label":"극단 양자화","kind":"c","sec":"#quant","def":"BitNet 계열, 가중치를 ±1·3진값까지 — 가중치의 마법이지 KV의 마법이 아니다"},{"id":"retention","label":"유지율 90%","kind":"s","sec":"#quant","def":"벤치 평균이다 — 열화는 꼬리(긴 다단계 추론·밤샘 루프)에서 먼저 나타난다"},{"id":"lineup","label":"128GB 편성","kind":"c","sec":"#usecase","def":"주전 27B 8bit + 속도용 MoE + 잡무용 터너리 + 임베딩 동시 상주, 작업별 라우팅"},{"id":"embedding","label":"임베딩 모델","kind":"c","sec":"#embedding","def":"텍스트를 좌표로 — 오픈이 상위권 상시 점유, 로컬이 주류급인 예외 지대"},{"id":"marriage","label":"임베딩은 결혼","kind":"s","sec":"#embedding","def":"모델마다 좌표계가 달라 교체 = 전체 재색인 — 클라우드는 은퇴당하면 강제 재색인"},{"id":"bgem3","label":"bge-m3","kind":"t","sec":"#embedding","def":"범용 다국어 기본값 — 100+ 언어, MIT, 리랭커 bge-reranker와 세트"},{"id":"kure","label":"KURE-v1","kind":"t","sec":"#embedding","def":"고려대 한국어 특화 — 법률·의료·금융 도메인 어휘에서 다국어 모델 대비 우위"}],"edges":[{"s":"dense","t":"moe","rel":"대비"},{"s":"qwen27","t":"dense","rel":"종류"},{"s":"qwen35","t":"moe","rel":"종류"},{"s":"gptoss","t":"moe","rel":"종류"},{"s":"gemma","t":"dense","rel":"종류"},{"s":"bandwidth","t":"moe","rel":"속도 근거"},{"s":"bandwidth","t":"bonsai","rel":"속도 근거"},{"s":"tiers","t":"bandwidth","rel":"속도 무관"},{"s":"retention","t":"mylog","rel":"검증 필요"},{"s":"mylog","t":"stale","rel":"거른다"},{"s":"tiers","t":"qwen27","rel":"1픽"},{"s":"tiers","t":"gptoss","rel":"96GB+"},{"s":"tiers","t":"bonsai","rel":"폰 구간"},{"s":"realvram","t":"kvcache","rel":"포함"},{"s":"kvcache","t":"onemillion","rel":"원인"},{"s":"gptoss","t":"kvcache","rel":"절약 설계"},{"s":"qwen27","t":"kvcache","rel":"가중치 초과"},{"s":"extremequant","t":"bonsai","rel":"생성"},{"s":"extremequant","t":"kvcache","rel":"못 줄임"},{"s":"bonsai","t":"retention","rel":"속성"},{"s":"bonsai","t":"qwen27","rel":"원본"},{"s":"qwen35","t":"qwen27","rel":"보완재"},{"s":"lineup","t":"qwen27","rel":"주전"},{"s":"lineup","t":"qwen35","rel":"속도용"},{"s":"lineup","t":"embedding","rel":"포함"},{"s":"lineup","t":"bonsai","rel":"잡무용"},{"s":"embedding","t":"marriage","rel":"속성"},{"s":"embedding","t":"bgem3","rel":"기본값"},{"s":"embedding","t":"kure","rel":"한국어"},{"s":"kure","t":"bgem3","rel":"대안"},{"s":"qwen27","t":"format","rel":"주의"},{"s":"coder","t":"qwen27","rel":"코딩 2위"},{"s":"embedding","t":"mylog","rel":"적용"},{"s":"onemillion","t":"realvram","rel":"계산"}]}</script>
+    <figcaption>「현실적으로 사용해볼만한 로컬 모델」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. PRINCIPLES ═══════════ -->
@@ -775,5 +783,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

@@ -365,6 +365,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기 — 약어 해체</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#family" class="sub">0-1. Continuous·Ops 가족</a>
     <a href="#why">1. 왜 생겼나</a>
     <a href="#ci">2. CI — 지속적 통합</a>
@@ -472,6 +473,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <u>Chaos Engineering</u>(일부러 장애를 주입해 견디는지 확인 — Chaos Monkey가 원조).
     전부 §0의 판별법과 같은 요령으로 읽으면 된다 — <strong>이름이 아니라 "무엇을, 언제 하는가"를 본다.</strong></div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["도구·기술","#0F766E"],"f":["파일·산출물","#AF5109"],"s":["상황·함정","#B91C1C"],"p":["사람·조직","#6B21A8"]},"nodes":[{"id":"ci","label":"CI","kind":"c","sec":"#ci","def":"코드를 자주 합치고 합칠 때마다 기계가 검사 — 뜻이 하나뿐"},{"id":"delivery","label":"CD① Delivery","kind":"c","sec":"#cd","def":"언제든 배포할 수 있는 상태 유지 — 배포 버튼은 사람이 누른다"},{"id":"deployment","label":"CD② Deployment","kind":"c","sec":"#cd","def":"통과하면 사람 없이 프로덕션까지 자동 — 이 지식 베이스의 push가 그것"},{"id":"ct","label":"CT 세 가지 뜻","kind":"c","sec":"#ct","def":"Testing(DevOps)·Training(MLOps)·통합+테스트(임베디드) — 도메인으로 갈린다"},{"id":"polysemy","label":"약어의 다의성","kind":"s","sec":"#overview","def":"CD는 두 뜻, CT는 세 뜻 — 혼란의 원인은 개념이 아니라 겹치는 약어"},{"id":"hell","label":"통합 지옥","kind":"s","sec":"#why","def":"몇 주씩 따로 개발하다 마지막에 합치면 충돌이 산더미 — CI가 답"},{"id":"fear","label":"배포 공포","kind":"s","sec":"#why","def":"손으로 하는 큰 행사 → 미루고 → 한 번에 많이 → 더 무섭다 — CD가 답"},{"id":"branch","label":"짧은 브랜치","kind":"c","sec":"#why","def":"CI의 숨은 전제 — 합치는 빈도는 사람이 정한다. 작게 자를수록 검증이 의미 있다"},{"id":"pipeline","label":"파이프라인","kind":"c","sec":"#ci","def":"커밋이 관문들을 지나는 과정 — 본질은 통과시키는 게 아니라 못 통과하게 막는 것"},{"id":"gate","label":"품질 게이트","kind":"t","sec":"#tools","def":"테스트·린트·타입·보안·라이선스·커버리지 — CI의 알맹이"},{"id":"test","label":"테스트·린트","kind":"t","sec":"#ci","def":"대부분의 문제가 여기서 걸린다 — 회귀 버그·스타일 위반"},{"id":"staging","label":"스테이징","kind":"c","sec":"#ci","def":"실제와 비슷한 리허설 무대 — 환경 차이로만 드러나는 문제를 잡는다"},{"id":"secret","label":"시크릿 저장소","kind":"f","sec":"#ci","def":"DB 주소·API 키는 코드가 아니라 환경 변수+CI 시크릿에 — YAML에 적으면 즉시 유출"},{"id":"speed","label":"파이프라인 속도","kind":"s","sec":"#ci","def":"30분 걸리면 아무도 안 기다린다 — 목표 10분. 느린 파이프라인은 없는 것보다 나쁠 수 있다"},{"id":"button","label":"사람 승인 버튼","kind":"p","sec":"#cd","def":"Delivery와 Deployment의 유일한 갈림길 — 프로덕션 전에 누르는 버튼이 있나"},{"id":"flag","label":"기능 스위치","kind":"t","sec":"#strategy","def":"코드는 배포하되 꺼둔 상태 — 배포와 릴리스를 분리한다. 되돌리기 즉시"},{"id":"strategy","label":"배포 전략 4종","kind":"c","sec":"#strategy","def":"롤링·블루그린·카나리아·기능 스위치 — 공통 목표는 빨리 되돌리는 것"},{"id":"canary","label":"카나리아","kind":"c","sec":"#strategy","def":"1%→10%→100% 점진 노출 — 모니터링이 없으면 무의미"},{"id":"data","label":"데이터 롤백 불가","kind":"s","sec":"#strategy","def":"코드는 되돌려도 DB 마이그레이션은 어렵다 — 구·신 버전 호환으로 단계적 변경"},{"id":"actions","label":"GitHub Actions","kind":"t","sec":"#tools","def":"저장소 내장·YAML — GitHub를 쓴다면 기본값"},{"id":"gitops","label":"GitOps","kind":"c","sec":"#family","def":"Git 저장소의 선언 = 실제 인프라 상태 — ArgoCD·Flux. 규모가 커졌을 때"},{"id":"mlops","label":"MLOps","kind":"c","sec":"#ct","def":"코드+데이터+모델이 변한다 — CT②(Training)가 사는 곳. AIOps와 방향 반대"},{"id":"dora","label":"DORA 4지표","kind":"c","sec":"#start","def":"배포 빈도·리드타임·실패율·복구 시간 — 속도 둘+안정 둘을 함께 본다"},{"id":"skip","label":"CI를 안 붙이는 경우","kind":"s","sec":"#start","def":"혼자·작업마다 다른 검사·구조 진화 중 — CI의 값은 회귀 위험에 비례"}],"edges":[{"s":"polysemy","t":"delivery","rel":"사례"},{"s":"polysemy","t":"ct","rel":"사례"},{"s":"hell","t":"ci","rel":"원인"},{"s":"fear","t":"delivery","rel":"원인"},{"s":"branch","t":"ci","rel":"전제"},{"s":"ci","t":"pipeline","rel":"실행"},{"s":"ci","t":"gate","rel":"알맹이"},{"s":"pipeline","t":"test","rel":"관문"},{"s":"gate","t":"test","rel":"포함"},{"s":"pipeline","t":"staging","rel":"관문"},{"s":"pipeline","t":"secret","rel":"요구"},{"s":"speed","t":"pipeline","rel":"생명"},{"s":"actions","t":"pipeline","rel":"실행판"},{"s":"delivery","t":"button","rel":"요구"},{"s":"deployment","t":"button","rel":"없음"},{"s":"delivery","t":"deployment","rel":"대비"},{"s":"deployment","t":"flag","rel":"전제"},{"s":"strategy","t":"flag","rel":"종류"},{"s":"strategy","t":"canary","rel":"종류"},{"s":"data","t":"strategy","rel":"함정"},{"s":"ct","t":"mlops","rel":"맥락"},{"s":"gitops","t":"deployment","rel":"방식"},{"s":"dora","t":"pipeline","rel":"측정"},{"s":"skip","t":"ci","rel":"대비"},{"s":"pipeline","t":"deployment","rel":"종착"},{"s":"staging","t":"delivery","rel":"전제"}]}</script>
+    <figcaption>「CI/CD 정리」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. WHY ═══════════ -->
@@ -1020,5 +1028,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

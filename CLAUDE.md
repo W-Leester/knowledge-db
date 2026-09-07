@@ -38,6 +38,7 @@ npx serve   # 로컬 서버 — index.html은 docs.json을 fetch하므로 file:/
 1. FOUC 방지 인라인 스니펫 (localStorage `kdb-theme` 읽어 `data-theme` 즉시 설정)
 2. `../assets/fonts.css` + `../assets/dark.css` 링크
 3. `../assets/app.js` (defer) — 테마 3단 토글(시스템/라이트/다크), ⌂ 홈 버튼, 읽던 위치 저장·이어읽기 토스트, 최근 문서 기록을 플로팅 UI로 주입
+4. `../assets/concept-graph.js` (defer) — **§0 끝의 "0-1. 개념 그래프"**를 그린다. 데이터는 문서 안 `<figure class="cg-anim"><script type="application/json" class="cg-data">{kinds,nodes,edges}</script></figure>`에 인라인(자립성 유지). 스키마: `kinds`{키:[라벨,색]} (키 c/t/f/s/p, 색 고정), `nodes`[{id,label≤14자,kind,sec=#문서내앵커,def≤70자}] 14~24개, `edges`[{s,t,rel(2~6자 한국어 관계명)}] 18~40개, 고립 노드 금지. 새 문서에도 반드시 넣는다 — 노드는 절 이름이 아니라 **개념**, 관계는 이름 있는 관계(포함·요구·대응·없으면…). 래퍼가 `-anim`으로 끝나야 다크 매트를 받고, 패널·라벨은 고정색(토큰 쓰면 매트 위에서 안 보임). 슬라이드 덱(ai-hw-*)은 슬라이드 모드·문서 모드 양쪽에 같은 데이터가 두 번 들어 있고 `cg-fixed`로 모바일 min-width를 끈다.
 
 문서 내 이미지 참조는 `img/…`(문서 기준 상대경로), docs.json의 `assets` 배열은 `docs/img/…`(사이트 루트 기준)로 적는다.
 
@@ -77,7 +78,7 @@ localStorage 키는 `kdb-` 접두사: `kdb-theme`, `kdb-pos:{docId}`, `kdb-recen
 
 이 저장소는 여러 PC에서 사용한다. **작업 시작 전 `git pull`, 작업 완료 후 커밋·push**를 기본 리듬으로 한다.
 
-**새 문서 추가** (아래를 모두 해야 "완료"): ① 기존 문서 복제 → `docs/`에 작성 (SVG는 `docs/img/`) ② `docs.json`에 항목 추가 — `file`은 `docs/….html`, assets에 참조 SVG 전부 나열, **같은 `group`끼리 인접 배치**(홈 화면이 순회하며 라벨을 찍으므로 떨어져 있으면 라벨 중복 표시) ③ `index.html`의 `<noscript>` 폴백 목록에 링크 추가 ④ 다른 문서를 언급할 때는 「제목」만 쓰지 말고 `<a href="다른문서.html">「제목」</a>`로 실제 링크를 걸고, 관련 문서의 "함께 읽기" 표에 역링크 행을 추가 ⑤ `python3 scripts/build-graph.py`로 graph.json 재생성(미해결 언급·고립 노드가 찍히면 별칭 또는 링크 보강) ⑥ 로컬 검증(아래) ⑦ 커밋·push
+**새 문서 추가** (아래를 모두 해야 "완료"): ① 기존 문서 복제 → `docs/`에 작성 (SVG는 `docs/img/`) ② `docs.json`에 항목 추가 — `file`은 `docs/….html`, assets에 참조 SVG 전부 나열, **같은 `group`끼리 인접 배치**(홈 화면이 순회하며 라벨을 찍으므로 떨어져 있으면 라벨 중복 표시) ③ `index.html`의 `<noscript>` 폴백 목록에 링크 추가 ④ §0 끝에 개념 그래프(위 문서 페이지 구조 4번 스키마)를 넣고 앵커가 실존하는지 확인 ⑤ 다른 문서를 언급할 때는 「제목」만 쓰지 말고 `<a href="다른문서.html">「제목」</a>`로 실제 링크를 걸고, 관련 문서의 "함께 읽기" 표에 역링크 행을 추가 ⑥ `python3 scripts/build-graph.py`로 graph.json 재생성(미해결 언급·고립 노드가 찍히면 별칭 또는 링크 보강) ⑦ 로컬 검증(아래) ⑧ 커밋·push
 
 **기존 문서 수정** (아래를 모두 해야 "완료"): HTML 수정 → `docs.json`의 해당 `version` +1 → 참조를 추가·삭제했다면 `python3 scripts/build-graph.py` → 로컬 검증 → 커밋·push
 

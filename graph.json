@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-06",
+ "generated": "2026-09-07",
  "note": "scripts/build-graph.py가 생성. nodes는 docs.json 참조, edges는 자동 추출, curated는 손으로 유지.",
  "nodes": [
   {
@@ -1283,18 +1283,6 @@
   {
    "source": "sdk-toolchain",
    "target": "llm-factory",
-   "type": "mention",
-   "weight": 1
-  },
-  {
-   "source": "sdk-toolchain",
-   "target": "ontology-kg",
-   "type": "link",
-   "weight": 1
-  },
-  {
-   "source": "sdk-toolchain",
-   "target": "ontology-kg",
    "type": "mention",
    "weight": 1
   },

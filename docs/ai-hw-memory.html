@@ -774,6 +774,27 @@ body.doc-mode #toc-sidebar { display: block; }
 <!-- ╔══════════════════════════════════════════╗
      ║  SLIDE 1 — 메모리 병목                   ║
      ╚══════════════════════════════════════════╝ -->
+<section class="slide" id="slide-overview">
+<div class="slide-inner">
+  <div class="slide-tag">Overview · 한눈에 보기</div>
+  <div class="slide-title">0. 한눈에 보기 — 결론 네 줄과 개념 그래프</div>
+  <div class="slide-subtitle">AI 성능의 병목은 연산이 아니라 메모리 — 이 덱 전체의 요약</div>
+  <div class="two-col" style="flex:1; min-height:0; gap:22px;">
+    <div class="col" style="justify-content:flex-start; gap:10px; min-width:0;">
+      <div class="callout red"><span class="callout-icon">⚠</span><div><strong>병목은 대역폭이다.</strong> H100은 초당 3,958 TFLOPS를 계산하지만 메모리는 3.35 TB/s만 준다. LLM 추론의 연산 강도는 Ridge Point의 1/1,181 — FLOPS를 올려도 빨라지지 않는 이유</div></div>
+      <div class="callout"><span class="callout-icon">📶</span><div><strong>대역폭 사다리.</strong> DDR5 67 GB/s → LPDDR5X 410 → GDDR7 1,792 → HBM3e 4,800 GB/s. 맨 아래와 맨 위는 약 188배 차이</div></div>
+      <div class="callout"><span class="callout-icon">🧮</span><div><strong>추론은 메모리 산수다.</strong> 가중치 + KV 캐시가 한 칩에 들어가야 돈다 — Llama 3 70B INT4 35GB + 128K 컨텍스트 KV 42.9GB = 77.9GB</div></div>
+      <div class="callout"><span class="callout-icon">🔭</span><div><strong>다음 수는 셋.</strong> CXL 메모리 풀링 · HBM4 · 메모리 안에서 계산하는 PIM</div></div>
+    </div>
+    <div class="col" style="justify-content:flex-start; min-width:0;">
+      <div style="font-size:13px;font-weight:700;color:var(--navy-900);margin-bottom:6px;">개념 그래프 — 노드를 누르면 관계와 정의</div>
+      <figure class="cg-anim cg-fixed" style="margin:0;padding:8px 8px 4px;flex:1;min-height:0;">
+        <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["메모리·기술","#0F766E"],"s":["병목·제약","#B91C1C"]},"nodes":[{"id":"membound","label":"메모리 바운드","kind":"s","sec":"#slide-1","def":"연산 유닛은 빠른데 메모리가 느려 대부분의 시간을 기다리는 상태 — LLM 추론이 여기"},{"id":"roofline","label":"Roofline","kind":"c","sec":"#slide-1","def":"산술 강도가 Ridge Point(H100 1,181 FLOP/B)보다 낮으면 메모리 바운드"},{"id":"ai_int","label":"산술 강도","kind":"c","sec":"#slide-1","def":"FLOPs ÷ 메모리 바이트 — decode batch=1은 ≈1, 배치가 커질수록 compute-bound로"},{"id":"dram","label":"DRAM","kind":"c","sec":"#slide-2","def":"1T1C 셀 — 커패시터 충전이 1, 누설 때문에 64ms마다 리프레시하는 휘발성 메모리"},{"id":"latency","label":"레이턴시","kind":"c","sec":"#slide-2","def":"첫 데이터까지의 대기(ns) — 물리적 충방전 시간에 종속, 주파수로 못 줄인다"},{"id":"bandwidth","label":"대역폭","kind":"c","sec":"#slide-2","def":"초당 전송량(GB/s) = 버스 폭 × 주파수 — 레이턴시와는 다른 물건"},{"id":"ddr5","label":"DDR5","kind":"t","sec":"#slide-3","def":"2×32-bit 서브채널·온다이 ECC·PMIC 내장 — 단순 속도 향상이 아닌 재설계"},{"id":"subchannel","label":"Sub-channel","kind":"c","sec":"#slide-3","def":"64-bit를 2×32-bit 독립 채널로 — Bank Conflict 감소, 가중치 로딩 효율 향상"},{"id":"lpddr","label":"LPDDR5X","kind":"t","sec":"#slide-4","def":"모바일 특화, BGA로 SoC에 직접 납땜 — 전력 효율 최대, 용량 확장 불가"},{"id":"uma","label":"Unified Memory","kind":"c","sec":"#slide-4","def":"CPU/GPU/NPU가 같은 물리 메모리 공유 — PCIe 복사 0, 128GB 전량을 LLM에"},{"id":"gddr7","label":"GDDR7","kind":"t","sec":"#slide-5","def":"PAM4로 핀당 36 Gbps, RTX 5090 1.8 TB/s — 저비용·확장 용이한 GPU 메모리"},{"id":"pam4","label":"PAM4","kind":"t","sec":"#slide-5","def":"0/1/2/3 4레벨 신호로 같은 주파수에서 2배 전송 — SNR 요구가 높다"},{"id":"hbm","label":"HBM3e","kind":"t","sec":"#slide-6","def":"DRAM 다이를 수직 적층 — 핀 수(버스 폭)를 극대화, H200 4.8 TB/s"},{"id":"tsv","label":"TSV","kind":"t","sec":"#slide-6","def":"웨이퍼를 관통하는 수직 전도 경로 — 1,024~2,048bit 와이드 버스, 12~16단 적층"},{"id":"cowos","label":"CoWoS","kind":"t","sec":"#slide-6","def":"GPU와 HBM을 실리콘 인터포저에 함께 배치 — 비용 10× 이상, 생산 능력이 병목"},{"id":"supply","label":"HBM 공급 부족","kind":"s","sec":"#slide-6","def":"공급사는 SK하이닉스·삼성·마이크론 3곳뿐 — 2024~25 AI 칩 제약의 핵심 요인"},{"id":"kvcache","label":"KV-Cache","kind":"c","sec":"#slide-8","def":"Key/Value 행렬을 재사용 — 컨텍스트에 직선 비례, 70B 128K면 42.9GB"},{"id":"context","label":"컨텍스트 길이","kind":"c","sec":"#slide-8","def":"메모리 용량이 직접 결정하는 한계 — H100 80GB엔 70B 128K가 안 들어간다"},{"id":"gqa","label":"GQA","kind":"t","sec":"#slide-8","def":"KV heads(8) < Q heads(64) — KV-Cache 크기 8× 절약, MQA는 더 공격적"},{"id":"paged","label":"PagedAttention","kind":"t","sec":"#slide-8","def":"KV-cache를 16토큰 블록으로 가상 메모리처럼 관리 — 단편화 최소, 처리량 2~4×"},{"id":"quant","label":"INT4 양자화","kind":"t","sec":"#slide-8","def":"Llama 3 70B FP16 140GB → INT4 35GB — H200에서 128K 컨텍스트 가능"},{"id":"cxl","label":"CXL 3.0","kind":"t","sec":"#slide-9","def":"PCIe 6.0 기반 코히런트 풀링 — 128TB 풀을 여러 노드가 공유"},{"id":"hbm4","label":"HBM4","kind":"t","sec":"#slide-9","def":"2048-bit 버스 + 하이브리드 본딩 — 스택당 1,500 GB/s 목표"},{"id":"pim","label":"PIM","kind":"t","sec":"#slide-9","def":"메모리 칩 안에 연산 유닛 — 데이터를 옮기지 않고 메모리 월을 근본 해결"}],"edges":[{"s":"roofline","t":"membound","rel":"판정"},{"s":"roofline","t":"ai_int","rel":"사용"},{"s":"ai_int","t":"membound","rel":"원인"},{"s":"bandwidth","t":"membound","rel":"해결"},{"s":"dram","t":"latency","rel":"속성"},{"s":"dram","t":"bandwidth","rel":"속성"},{"s":"latency","t":"bandwidth","rel":"대비"},{"s":"dram","t":"ddr5","rel":"종류"},{"s":"dram","t":"lpddr","rel":"종류"},{"s":"dram","t":"gddr7","rel":"종류"},{"s":"dram","t":"hbm","rel":"종류"},{"s":"ddr5","t":"subchannel","rel":"포함"},{"s":"subchannel","t":"bandwidth","rel":"향상"},{"s":"uma","t":"lpddr","rel":"사용"},{"s":"uma","t":"context","rel":"넓힘"},{"s":"lpddr","t":"hbm","rel":"대비"},{"s":"gddr7","t":"pam4","rel":"사용"},{"s":"pam4","t":"bandwidth","rel":"향상"},{"s":"gddr7","t":"hbm","rel":"대비"},{"s":"hbm","t":"tsv","rel":"사용"},{"s":"tsv","t":"bandwidth","rel":"향상"},{"s":"hbm","t":"cowos","rel":"요구"},{"s":"cowos","t":"supply","rel":"원인"},{"s":"hbm","t":"supply","rel":"상황"},{"s":"hbm","t":"bandwidth","rel":"최대"},{"s":"kvcache","t":"context","rel":"비례"},{"s":"kvcache","t":"membound","rel":"원인"},{"s":"gqa","t":"kvcache","rel":"절감"},{"s":"paged","t":"kvcache","rel":"관리"},{"s":"quant","t":"context","rel":"가능케"},{"s":"hbm","t":"hbm4","rel":"선행"},{"s":"hbm4","t":"tsv","rel":"개선"},{"s":"pim","t":"membound","rel":"해결"},{"s":"cxl","t":"membound","rel":"해결"},{"s":"hbm4","t":"membound","rel":"해결"}]}</script>
+      </figure>
+    </div>
+  </div>
+</div>
+</section>
 <section class="slide" id="slide-1">
 <div class="slide-inner">
   <div class="slide-tag">Performance · Roofline Model</div>
@@ -1306,6 +1327,7 @@ body.doc-mode #toc-sidebar { display: block; }
   <nav id="toc-sidebar">
     <h4>목차</h4>
     <a class="toc-item" onclick="DocMode.scrollTo('doc-0')">01. 커버</a>
+    <a class="toc-item" onclick="DocMode.scrollTo('doc-overview')">00. 한눈에 보기</a>
     <a class="toc-item" onclick="DocMode.scrollTo('doc-1')">02. 메모리 병목</a>
     <a class="toc-item" onclick="DocMode.scrollTo('doc-2')">03. DRAM 기초</a>
     <a class="toc-item" onclick="DocMode.scrollTo('doc-3')">04. DDR4 → DDR5</a>
@@ -1327,8 +1349,8 @@ body.doc-mode #toc-sidebar { display: block; }
 ═══════════════════════════════════════════════ */
 const SlideEngine = (() => {
   let current = 0;
-  const total = 10;
   const slides = () => document.querySelectorAll('.slide');
+  const total = slides().length;
 
   function goto(n, dir = 1) {
     if (n < 0 || n >= total) return;
@@ -1403,14 +1425,15 @@ const AnimationEngine = (() => {
   const entered = new Set();
 
   function onSlideEnter(idx) {
-    if (idx === 7) BandwidthChart.animate();
-    if (idx === 5) MiniBarChart.animate();
+    const _el = document.querySelectorAll('.slide')[idx]; const _id = _el ? _el.id : '';
+    if (_id === 'slide-7') BandwidthChart.animate();
+    if (_id === 'slide-5') MiniBarChart.animate();
     animateCountups(idx);
     animateFadeUps(idx);
   }
 
   function animateCountups(idx) {
-    const slide = document.getElementById(`slide-${idx}`);
+    const slide = document.querySelectorAll('.slide')[idx];
     if (!slide) return;
     slide.querySelectorAll('[data-countup]').forEach(el => {
       const target = parseFloat(el.dataset.countup);
@@ -1437,7 +1460,7 @@ const AnimationEngine = (() => {
   }
 
   function animateFadeUps(idx) {
-    const slide = document.getElementById(`slide-${idx}`);
+    const slide = document.querySelectorAll('.slide')[idx];
     if (!slide) return;
     slide.querySelectorAll('.anim-fadeup').forEach((el, i) => {
       el.style.transitionDelay = `${i * 80}ms`;
@@ -1603,6 +1626,7 @@ const DocMode = (() => {
 
   const sections = [
     { id: 'doc-0', title: '커버', content: `<div style="background:var(--bg-dark); border-radius:16px; padding:60px; text-align:center; color:white; margin-bottom:8px;"><div style="font-size:48px; font-weight:900; margin-bottom:12px;">AI의 혈관</div><div style="font-size:20px; opacity:0.6; margin-bottom:8px;">메모리 아키텍처 완전 분해</div><div style="font-size:14px; opacity:0.4;">DDR · LPDDR · GDDR · HBM</div></div>` },
+    { id: 'doc-overview', title: '0. 한눈에 보기 — 결론 네 줄과 개념 그래프', content: `<p><strong>AI 성능의 진짜 병목은 연산이 아니라 메모리 대역폭</strong>입니다. H100은 3,958 TFLOPS를 계산하지만 메모리는 3.35 TB/s만 공급하고, LLM 추론의 연산 강도는 Ridge Point의 1/1,181에 불과합니다. 대역폭 사다리는 DDR5 67 GB/s → LPDDR5X 410 → GDDR7 1,792 → HBM3e 4,800 GB/s로 약 188배 차이가 납니다. 추론은 메모리 산수입니다 — 가중치와 KV 캐시가 한 칩에 들어가야 돕니다(Llama 3 70B INT4 35GB + 128K KV 42.9GB). 다음 수는 CXL 풀링·HBM4·PIM입니다.</p><p style="margin-top:12px;">아래 개념 그래프의 노드를 누르면 정의와 관계, 해당 절로 가는 링크가 표시됩니다.</p><figure class="cg-anim cg-fixed"><script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["메모리·기술","#0F766E"],"s":["병목·제약","#B91C1C"]},"nodes":[{"id":"membound","label":"메모리 바운드","kind":"s","sec":"#slide-1","def":"연산 유닛은 빠른데 메모리가 느려 대부분의 시간을 기다리는 상태 — LLM 추론이 여기"},{"id":"roofline","label":"Roofline","kind":"c","sec":"#slide-1","def":"산술 강도가 Ridge Point(H100 1,181 FLOP/B)보다 낮으면 메모리 바운드"},{"id":"ai_int","label":"산술 강도","kind":"c","sec":"#slide-1","def":"FLOPs ÷ 메모리 바이트 — decode batch=1은 ≈1, 배치가 커질수록 compute-bound로"},{"id":"dram","label":"DRAM","kind":"c","sec":"#slide-2","def":"1T1C 셀 — 커패시터 충전이 1, 누설 때문에 64ms마다 리프레시하는 휘발성 메모리"},{"id":"latency","label":"레이턴시","kind":"c","sec":"#slide-2","def":"첫 데이터까지의 대기(ns) — 물리적 충방전 시간에 종속, 주파수로 못 줄인다"},{"id":"bandwidth","label":"대역폭","kind":"c","sec":"#slide-2","def":"초당 전송량(GB/s) = 버스 폭 × 주파수 — 레이턴시와는 다른 물건"},{"id":"ddr5","label":"DDR5","kind":"t","sec":"#slide-3","def":"2×32-bit 서브채널·온다이 ECC·PMIC 내장 — 단순 속도 향상이 아닌 재설계"},{"id":"subchannel","label":"Sub-channel","kind":"c","sec":"#slide-3","def":"64-bit를 2×32-bit 독립 채널로 — Bank Conflict 감소, 가중치 로딩 효율 향상"},{"id":"lpddr","label":"LPDDR5X","kind":"t","sec":"#slide-4","def":"모바일 특화, BGA로 SoC에 직접 납땜 — 전력 효율 최대, 용량 확장 불가"},{"id":"uma","label":"Unified Memory","kind":"c","sec":"#slide-4","def":"CPU/GPU/NPU가 같은 물리 메모리 공유 — PCIe 복사 0, 128GB 전량을 LLM에"},{"id":"gddr7","label":"GDDR7","kind":"t","sec":"#slide-5","def":"PAM4로 핀당 36 Gbps, RTX 5090 1.8 TB/s — 저비용·확장 용이한 GPU 메모리"},{"id":"pam4","label":"PAM4","kind":"t","sec":"#slide-5","def":"0/1/2/3 4레벨 신호로 같은 주파수에서 2배 전송 — SNR 요구가 높다"},{"id":"hbm","label":"HBM3e","kind":"t","sec":"#slide-6","def":"DRAM 다이를 수직 적층 — 핀 수(버스 폭)를 극대화, H200 4.8 TB/s"},{"id":"tsv","label":"TSV","kind":"t","sec":"#slide-6","def":"웨이퍼를 관통하는 수직 전도 경로 — 1,024~2,048bit 와이드 버스, 12~16단 적층"},{"id":"cowos","label":"CoWoS","kind":"t","sec":"#slide-6","def":"GPU와 HBM을 실리콘 인터포저에 함께 배치 — 비용 10× 이상, 생산 능력이 병목"},{"id":"supply","label":"HBM 공급 부족","kind":"s","sec":"#slide-6","def":"공급사는 SK하이닉스·삼성·마이크론 3곳뿐 — 2024~25 AI 칩 제약의 핵심 요인"},{"id":"kvcache","label":"KV-Cache","kind":"c","sec":"#slide-8","def":"Key/Value 행렬을 재사용 — 컨텍스트에 직선 비례, 70B 128K면 42.9GB"},{"id":"context","label":"컨텍스트 길이","kind":"c","sec":"#slide-8","def":"메모리 용량이 직접 결정하는 한계 — H100 80GB엔 70B 128K가 안 들어간다"},{"id":"gqa","label":"GQA","kind":"t","sec":"#slide-8","def":"KV heads(8) < Q heads(64) — KV-Cache 크기 8× 절약, MQA는 더 공격적"},{"id":"paged","label":"PagedAttention","kind":"t","sec":"#slide-8","def":"KV-cache를 16토큰 블록으로 가상 메모리처럼 관리 — 단편화 최소, 처리량 2~4×"},{"id":"quant","label":"INT4 양자화","kind":"t","sec":"#slide-8","def":"Llama 3 70B FP16 140GB → INT4 35GB — H200에서 128K 컨텍스트 가능"},{"id":"cxl","label":"CXL 3.0","kind":"t","sec":"#slide-9","def":"PCIe 6.0 기반 코히런트 풀링 — 128TB 풀을 여러 노드가 공유"},{"id":"hbm4","label":"HBM4","kind":"t","sec":"#slide-9","def":"2048-bit 버스 + 하이브리드 본딩 — 스택당 1,500 GB/s 목표"},{"id":"pim","label":"PIM","kind":"t","sec":"#slide-9","def":"메모리 칩 안에 연산 유닛 — 데이터를 옮기지 않고 메모리 월을 근본 해결"}],"edges":[{"s":"roofline","t":"membound","rel":"판정"},{"s":"roofline","t":"ai_int","rel":"사용"},{"s":"ai_int","t":"membound","rel":"원인"},{"s":"bandwidth","t":"membound","rel":"해결"},{"s":"dram","t":"latency","rel":"속성"},{"s":"dram","t":"bandwidth","rel":"속성"},{"s":"latency","t":"bandwidth","rel":"대비"},{"s":"dram","t":"ddr5","rel":"종류"},{"s":"dram","t":"lpddr","rel":"종류"},{"s":"dram","t":"gddr7","rel":"종류"},{"s":"dram","t":"hbm","rel":"종류"},{"s":"ddr5","t":"subchannel","rel":"포함"},{"s":"subchannel","t":"bandwidth","rel":"향상"},{"s":"uma","t":"lpddr","rel":"사용"},{"s":"uma","t":"context","rel":"넓힘"},{"s":"lpddr","t":"hbm","rel":"대비"},{"s":"gddr7","t":"pam4","rel":"사용"},{"s":"pam4","t":"bandwidth","rel":"향상"},{"s":"gddr7","t":"hbm","rel":"대비"},{"s":"hbm","t":"tsv","rel":"사용"},{"s":"tsv","t":"bandwidth","rel":"향상"},{"s":"hbm","t":"cowos","rel":"요구"},{"s":"cowos","t":"supply","rel":"원인"},{"s":"hbm","t":"supply","rel":"상황"},{"s":"hbm","t":"bandwidth","rel":"최대"},{"s":"kvcache","t":"context","rel":"비례"},{"s":"kvcache","t":"membound","rel":"원인"},{"s":"gqa","t":"kvcache","rel":"절감"},{"s":"paged","t":"kvcache","rel":"관리"},{"s":"quant","t":"context","rel":"가능케"},{"s":"hbm","t":"hbm4","rel":"선행"},{"s":"hbm4","t":"tsv","rel":"개선"},{"s":"pim","t":"membound","rel":"해결"},{"s":"cxl","t":"membound","rel":"해결"},{"s":"hbm4","t":"membound","rel":"해결"}]}<\/script><figcaption>「AI 하드웨어 — 메모리」의 개념 그래프</figcaption></figure>` },
     { id: 'doc-1', title: '메모리 병목 문제', content: `<p>AI 성능의 진짜 병목은 연산(TFLOPS)이 아닌 메모리 대역폭입니다. H100 기준 Peak Compute 3,958 TFLOPS(FP8) vs Memory Bandwidth 3.35 TB/s. Ridge Point = 1,181 FLOP/Byte. LLM 추론(batch=1)의 Arithmetic Intensity ≈ 1 FLOP/Byte로 Ridge Point의 1/1,181에 불과합니다. 이것이 FLOPS를 올려도 추론이 빨라지지 않는 이유입니다.</p><img src="img/mem-roofline-model.svg" style="max-width:600px; margin:16px auto; display:block;">` },
     { id: 'doc-2', title: 'DRAM 기초', content: `<p>DRAM의 기본 셀은 1개 트랜지스터 + 1개 커패시터(1T1C)입니다. 커패시터는 누설 전류로 서서히 방전되므로 64ms마다 Refresh가 필수입니다. 레이턴시(첫 데이터까지 대기 시간)와 대역폭(초당 전송량)은 본질적으로 다른 개념입니다.</p><img src="img/mem-dram-cell.svg" style="max-width:500px; margin:16px auto; display:block;">` },
     { id: 'doc-3', title: 'DDR4 → DDR5', content: `<p>DDR5의 핵심 변화는 64-bit 단일 채널에서 <strong>2×32-bit Sub-channel</strong>로의 분리입니다. 독립적 커맨드/어드레스 버스로 Bank Conflict 감소, 대역폭 2배 이상 향상(25.6 → 67.2 GB/s), 전압 1.2V→1.1V, On-die ECC 기본 내장. 2-socket Xeon 서버에서 16채널 DDR5-8400 = 1.07 TB/s 총 대역폭.</p><img src="img/mem-ddr5-subchannel.svg" style="max-width:560px; margin:16px auto; display:block;">` },
@@ -1629,6 +1653,7 @@ const DocMode = (() => {
       `;
       container.appendChild(div);
     });
+    if (window.ConceptGraph) ConceptGraph.init();
 
     // TOC scroll spy
     const observer = new IntersectionObserver(entries => {
@@ -1790,5 +1815,16 @@ class ResizablePanels {
   <div id="lb-caption"></div>
 </div>
 
+<script src="../assets/concept-graph.js" defer></script>
+<script>
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('figure.cg-anim a[href^="#"]'); if(!a) return;
+  var id = a.getAttribute('href').slice(1); var n = id.replace(/^(slide|doc)-/, '');
+  e.preventDefault();
+  if (document.body.classList.contains('doc-mode')) { var d = document.getElementById('doc-'+n); if (d) d.scrollIntoView({behavior:'smooth', block:'start'}); return; }
+  var all = Array.from(document.querySelectorAll('.slide')); var i = all.findIndex(function(x){ return x.id === 'slide-'+n; });
+  if (i >= 0 && SlideEngine.goto) SlideEngine.goto(i);
+});
+</script>
 </body>
 </html>

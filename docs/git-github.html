@@ -321,6 +321,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#spaces">1. Git의 공간 구조</a>
     <a href="#remote">2. GitHub 연결의 실체</a>
     <a href="#r-connect" class="sub">2-1. 연결을 만든 명령 2개</a>
@@ -378,6 +379,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <u>.git/config에 주소 몇 줄을 적어둔 것</u>이다. 커밋만 하면 아무것도 올라가지 않고,
     <span class="mono">push</span>를 실행하는 그 순간에만 전송된다. 예전처럼 로컬 커밋만 하는 습관은 연결된 상태에서도 그대로 유효하다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["도구·명령","#0F766E"],"f":["파일","#AF5109"],"s":["상황·함정","#B91C1C"]},"nodes":[{"id":"git","label":"git","kind":"t","sec":"#overview","def":"내 컴퓨터의 버전 관리 도구 — 인터넷 없이 완전하게 동작한다"},{"id":"github","label":"GitHub","kind":"t","sec":"#overview","def":"저장소 사본을 올려두는 웹 서비스 — git 입장에선 여러 원격 중 하나일 뿐"},{"id":"gitdir","label":".git/","kind":"f","sec":"#overview","def":"커밋 이력 전체가 사는 곳 — 이 폴더가 곧 저장소"},{"id":"working","label":"작업 폴더","kind":"c","sec":"#spaces","def":"지금 보고 편집하는 실제 파일들 — git이 변경을 감지하는 대상"},{"id":"staging","label":"스테이징","kind":"c","sec":"#spaces","def":"다음 커밋에 포함할 변경분의 대기석 — 커밋 단위를 다듬는 곳"},{"id":"commit","label":"commit","kind":"t","sec":"#spaces","def":"스테이징된 것을 .git/에 기록 — 네트워크 통신 0회, 100% 로컬"},{"id":"push","label":"push","kind":"t","sec":"#spaces","def":"원격으로 넘어가는 유일한 길 — 이 순간에만 전송된다"},{"id":"pull","label":"pull·fetch","kind":"t","sec":"#spaces","def":"fetch는 보기만, pull은 fetch+merge — 다른 PC의 커밋을 받는 명령"},{"id":"remote","label":"remote·origin","kind":"c","sec":"#remote","def":"연결이 아니라 주소 등록 — .git/config에 적힌 URL 몇 줄"},{"id":"config","label":".git/config","kind":"f","sec":"#remote","def":"[remote origin] url과 [branch main] 추적 설정 — 연결의 실체 전부"},{"id":"autosync","label":"자동 동기화 오해","kind":"s","sec":"#remote","def":"연결됐다고 커밋이 자동 업로드되는 일은 절대 없다 — 그런 기능 자체가 없다"},{"id":"upstream","label":"push -u","kind":"t","sec":"#r-connect","def":"로컬 main이 origin/main을 추적 — 이후 push/pull만 쳐도 목적지를 안다"},{"id":"rmremote","label":"remote remove","kind":"t","sec":"#r-manage","def":"내 쪽 주소록만 삭제 — 커밋·파일은 그대로, GitHub 사본도 남는다"},{"id":"rhythm","label":"하루의 리듬","kind":"c","sec":"#daily","def":"pull → 작업 → add·commit → push — 여러 PC를 쓸 때 pull부터가 규칙"},{"id":"revert","label":"revert","kind":"t","sec":"#daily","def":"취소 커밋을 추가 — 이력 보존, push 후에도 안전"},{"id":"reset","label":"reset --hard","kind":"s","sec":"#daily","def":"커밋을 이력에서 지운다 — push된 커밋에 쓰면 다른 PC와 충돌 지옥"},{"id":"grass","label":"잔디","kind":"c","sec":"#grass","def":"지난 1년 기여 히트맵 — 이메일·기본 브랜치·push 셋을 모두 만족해야 심긴다"},{"id":"email","label":"이메일 불일치","kind":"s","sec":"#grass","def":"author 이메일이 GitHub 계정과 다르면 누구 것인지 몰라 잔디 0칸"},{"id":"authordate","label":"author date","kind":"c","sec":"#grass","def":"잔디는 push한 날이 아니라 커밋한 날짜 기준으로 소급해 심긴다"},{"id":"pr","label":"Pull Request","kind":"c","sec":"#pr","def":"git에 없는 GitHub 협업 절차 — Merge 버튼을 눌러야 비로소 병합"},{"id":"gh","label":"gh CLI","kind":"t","sec":"#pr-gh","def":"GitHub를 조작하는 터미널 리모컨 — 모든 명령은 계정 인증이 전제"},{"id":"auth","label":"인증 실패","kind":"s","sec":"#thisrepo","def":"could not read Username — gh auth login 한 번이면 이후 자동"},{"id":"rejected","label":"push 거부","kind":"s","sec":"#thisrepo","def":"다른 PC가 먼저 push한 것 — git pull --rebase로 받아 내 커밋을 위에 얹는다"},{"id":"pages","label":"push = 배포","kind":"c","sec":"#thisrepo","def":"main에 push하면 Pages가 그대로 배포 — 원격이 백업이 아니라 서비스"}],"edges":[{"s":"git","t":"gitdir","rel":"저장"},{"s":"git","t":"github","rel":"대비"},{"s":"github","t":"remote","rel":"종류"},{"s":"working","t":"staging","rel":"add"},{"s":"staging","t":"commit","rel":"선행"},{"s":"commit","t":"gitdir","rel":"기록"},{"s":"commit","t":"push","rel":"선행"},{"s":"push","t":"github","rel":"전송"},{"s":"pull","t":"github","rel":"수신"},{"s":"remote","t":"config","rel":"기록"},{"s":"remote","t":"autosync","rel":"오해"},{"s":"autosync","t":"push","rel":"교정"},{"s":"upstream","t":"remote","rel":"생성"},{"s":"upstream","t":"config","rel":"설정"},{"s":"rmremote","t":"remote","rel":"삭제"},{"s":"rhythm","t":"pull","rel":"시작"},{"s":"rhythm","t":"push","rel":"마무리"},{"s":"rhythm","t":"rejected","rel":"예방"},{"s":"pull","t":"rejected","rel":"해결"},{"s":"revert","t":"reset","rel":"대체"},{"s":"grass","t":"push","rel":"요구"},{"s":"grass","t":"email","rel":"함정"},{"s":"grass","t":"authordate","rel":"기준"},{"s":"pr","t":"pull","rel":"대비"},{"s":"gh","t":"pr","rel":"조작"},{"s":"gh","t":"github","rel":"조작"},{"s":"gh","t":"auth","rel":"해결"},{"s":"pages","t":"push","rel":"속성"},{"s":"pages","t":"remote","rel":"유지 이유"},{"s":"pages","t":"grass","rel":"자연 충족"},{"s":"reset","t":"github","rel":"충돌"}]}</script>
+    <figcaption>「Git & GitHub 정리」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. SPACES ═══════════ -->
@@ -824,5 +832,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

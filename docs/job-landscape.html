@@ -352,6 +352,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#fde">1. FDE — 마지막 1마일의 직무</a>
     <a href="#f-what" class="sub">1-A. 무엇을 남기고 떠나는가</a>
     <a href="#f-why" class="sub">1-B. 왜 지금 폭발했나</a>
@@ -413,6 +414,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     출처마다 수치 차이가 크다. 업계에서도 작명이 정리되지 않아 같은 일을 회사마다 다르게 부른다 —
     그래서 이 문서는 <strong>이름을 외우는 대신 "무엇을 소유하는가"로 읽는 법</strong>을 제안한다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["도구","#0F766E"],"f":["산출물","#AF5109"],"s":["함정","#B91C1C"],"p":["직무·사람","#6B21A8"]},"nodes":[{"id":"thesis","label":"범용 모델·특수 가치","kind":"c","sec":"#overview","def":"모델은 범용, 가치는 특수한 맥락에서만 — 코드가 싸질수록 '무엇을 만들지'의 값이 오른다"},{"id":"lastmile","label":"마지막 1마일","kind":"c","sec":"#f-why","def":"모델→제품은 공급사 몫, 그 뒤 실제 업무까지의 구간 — 새 직무들의 서식지"},{"id":"pilotfail","label":"파일럿 실패","kind":"s","sec":"#f-why","def":"모델이 약해서가 아니라 배치가 깨져서 — 이 진단이 FDE를 표준으로 만들었다"},{"id":"fde","label":"FDE","kind":"p","sec":"#fde","def":"엔지니어를 고객사 안에 밀어 넣어 현장에서 작동하는 프로덕션 코드를 쓴다"},{"id":"leaves","label":"남기는 것","kind":"c","sec":"#f-what","def":"확신·설계도·보고서·작동하는 시스템 — 직함 대신 이것으로 직무를 판단"},{"id":"se","label":"세일즈 엔지니어","kind":"p","sec":"#f-what","def":"계약 전 확신을 남긴다 — 계약이 성사되면 임무 끝"},{"id":"sa","label":"솔루션 아키텍트","kind":"p","sec":"#f-what","def":"설계도·자문을 남기고 구현은 인계 — 인계 지점에서 맥락이 샌다"},{"id":"consultant","label":"컨설턴트","kind":"p","sec":"#f-what","def":"보고서·권고를 남긴다 — 코드를 쓰지 않는다"},{"id":"mirror","label":"거울상","kind":"p","sec":"#mirror","def":"도메인 전문가가 구현 능력을 얻는 길 — 처음부터 안에 있어 발굴 비용 0"},{"id":"converge","label":"도착점","kind":"c","sec":"#m-converge","def":"도메인을 알면서 직접 만들 수 있는 사람 — 이 조합이 희소해서 비싸다"},{"id":"domain","label":"도메인 지식","kind":"c","sec":"#m-converge","def":"몇 달로 안 되는 것 — FDE는 현장 상주로 수개월 걸려 흡수"},{"id":"impl","label":"구현 능력","kind":"c","sec":"#m-converge","def":"AI가 상당 부분 대신하므로 수주면 획득 — 거울상이 더 빠를 수 있는 이유"},{"id":"vibe","label":"바이브코딩","kind":"t","sec":"#mirror","def":"도메인 전문가에게 구현 능력을 주입한 도구 — 구현 단가를 끌어내렸다"},{"id":"gap","label":"만들기 vs 책임","kind":"c","sec":"#m-gap","def":"프로토타입·내부 도구는 쉽지만 프로덕션 운영·고객 데이터 책임은 여전히 어렵다"},{"id":"boundary","label":"책임의 경계","kind":"c","sec":"#self","def":"프로토타입/내부 도구/고객 제품/안전 시스템 — 어디까지 책임지는가가 직무 정의"},{"id":"naming","label":"작명 재앙","kind":"s","sec":"#landscape","def":"같은 일을 회사마다 다르게 부른다 — 직함 대신 '무엇을 남기나'로 읽어라"},{"id":"context","label":"Context Eng.","kind":"p","sec":"#landscape","def":"컨텍스트·RAG·메모리로 모델을 정확한 정보에 접지 — 프롬프트 엔지니어의 진화형"},{"id":"evals","label":"Evals Engineer","kind":"p","sec":"#landscape","def":"평가 하네스·정답 데이터셋·LLM-as-a-Judge 파이프라인을 소유"},{"id":"spec","label":"Spec Engineer","kind":"p","sec":"#landscape","def":"AI가 실행할 명세를 정밀하게 쓴다 — 요구를 코드 이전에 확정"},{"id":"trainer","label":"도메인 트레이너","kind":"p","sec":"#landscape","def":"변호사·의사가 모델 학습·평가에 직접 참여 — 코딩 없이 도메인만으로"},{"id":"evidence","label":"결과물 증거","kind":"f","sec":"#landscape","def":"저장소·배포한 에이전트·평가 스위트 — 만들어 본 것이 이력서"},{"id":"fdemodel","label":"FDE 사업 모델","kind":"c","sec":"#business","def":"한계비용 0을 포기하고 사람이 붙는다 — '확장되지 않는 일'의 제도화"},{"id":"saas","label":"셀프서브 SaaS","kind":"c","sec":"#business","def":"가입하면 알아서 씀, 고객 추가 비용≈0 — FDE 모델의 반대편"},{"id":"hygiene","label":"주변 위생","kind":"c","sec":"#self","def":"버전 관리·기계 게이트·라이선스·데이터 책임 — 만든 것을 맡길 수 있게 하는 층"}],"edges":[{"s":"thesis","t":"lastmile","rel":"결과"},{"s":"thesis","t":"converge","rel":"파생"},{"s":"thesis","t":"context","rel":"파생"},{"s":"thesis","t":"evals","rel":"파생"},{"s":"thesis","t":"spec","rel":"파생"},{"s":"thesis","t":"trainer","rel":"파생"},{"s":"fde","t":"lastmile","rel":"뚫음"},{"s":"mirror","t":"lastmile","rel":"뚫음"},{"s":"lastmile","t":"pilotfail","rel":"무덤"},{"s":"pilotfail","t":"fde","rel":"촉발"},{"s":"fde","t":"leaves","rel":"작동시스템"},{"s":"se","t":"leaves","rel":"확신"},{"s":"sa","t":"leaves","rel":"설계도"},{"s":"consultant","t":"leaves","rel":"보고서"},{"s":"fde","t":"mirror","rel":"대비"},{"s":"fde","t":"domain","rel":"흡수"},{"s":"fde","t":"impl","rel":"보유"},{"s":"mirror","t":"domain","rel":"보유"},{"s":"mirror","t":"impl","rel":"획득"},{"s":"converge","t":"domain","rel":"요구"},{"s":"converge","t":"impl","rel":"요구"},{"s":"fde","t":"converge","rel":"도달"},{"s":"mirror","t":"converge","rel":"도달"},{"s":"vibe","t":"impl","rel":"대신함"},{"s":"vibe","t":"mirror","rel":"열어줌"},{"s":"gap","t":"mirror","rel":"경계"},{"s":"gap","t":"boundary","rel":"정의"},{"s":"naming","t":"leaves","rel":"대신"},{"s":"trainer","t":"domain","rel":"코딩없이"},{"s":"evidence","t":"mirror","rel":"유리"},{"s":"evidence","t":"naming","rel":"대신"},{"s":"fdemodel","t":"saas","rel":"대비"},{"s":"fdemodel","t":"fde","rel":"제도화"},{"s":"vibe","t":"fdemodel","rel":"채산성"},{"s":"hygiene","t":"gap","rel":"메움"},{"s":"hygiene","t":"mirror","rel":"다음과제"}]}</script>
+    <figcaption>「AI 시대의 직무 지형」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. FDE ═══════════ -->
@@ -792,5 +800,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

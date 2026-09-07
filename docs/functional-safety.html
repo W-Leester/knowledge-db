@@ -353,6 +353,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#vs-app">1. 앱의 워치독과 무엇이 다른가</a>
     <a href="#evolution">2. 워치독의 진화 4단계</a>
     <a href="#window" class="sub">2-1. 윈도우 워치독의 타이밍</a>
@@ -408,6 +409,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     ③ <u>리소스는 얼마나?</u> → 하드웨어는 대개 SBC에 흡수돼 미미하고, 연산도 1% 미만이다.
     <strong>진짜 비용은 3레벨 구조의 설계와 검증 공수</strong>다(§7).</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["메커니즘·부품","#0F766E"],"s":["고장·비용","#B91C1C"],"p":["표준·등급","#6B21A8"]},"nodes":[{"id":"wdt","label":"하드웨어 워치독","kind":"c","sec":"#overview","def":"제어기가 스스로 정상임을 증명 못 하면 시스템을 예측 가능한 무해 상태로 보내는 최후의 방어선"},{"id":"appwdt","label":"앱의 워치독","kind":"c","sec":"#vs-app","def":"죽으면 되살리는 가용성(uptime) 편의 기능 — 같은 이름이지만 설계 목표부터 다르다"},{"id":"runaway","label":"폭주","kind":"s","sec":"#vs-app","def":"엔진 ECU 고장이 스로틀 고착·의도치 않은 가속으로 번지는 것 — 실패의 결과가 다르다"},{"id":"simple","label":"단순 WDT","kind":"t","sec":"#evolution","def":"정해진 시간 안에 리프레시 — 완전 정지(무한 루프·데드락)만 잡는다"},{"id":"window","label":"윈도우 WDT","kind":"t","sec":"#window","def":"리프레시가 열린 창 안에 도착해야 통과 — 너무 빨라도 실패, 창 폭은 제어 주기에서 역산"},{"id":"qa","label":"Q&A 워치독","kind":"t","sec":"#qa","def":"매 주기 바뀌는 질문을 계산해 맞춰야 통과 — CPU 핵심 기능의 실사용 검사"},{"id":"extic","label":"외부 감시 IC","kind":"t","sec":"#evolution","def":"MCU 밖의 칩이 판정 — 내부 워치독은 클럭 정지·전원 이상 때 MCU와 같이 죽는다"},{"id":"threelevel","label":"3레벨 감시","kind":"c","sec":"#three-level","def":"제어하는 자·검증하는 자·검증자를 보는 자를 분리한 엔진 제어의 표준 구조(E-Gas)"},{"id":"l1","label":"Level 1 기능","kind":"c","sec":"#three-level","def":"실제 엔진 제어 — 토크·연료·점화, 코드의 대부분이며 스스로를 검증하지 않는다"},{"id":"l2","label":"Level 2 기능 감시","kind":"c","sec":"#three-level","def":"Level 1 결과를 다른 알고리즘으로 독립 재계산해 비교 — 독립성이 생명"},{"id":"l3","label":"Level 3 CPU 감시","kind":"c","sec":"#three-level","def":"'계산이 맞나'가 아니라 '이 CPU가 정상인가'를 본다 — 워치독이 들어가는 층"},{"id":"safestate","label":"안전 상태","kind":"c","sec":"#three-level","def":"'멈춤'이 아니라 '예측 가능하게 무해해짐' — 분사 차단·리셋·림프홈"},{"id":"ftti","label":"FTTI","kind":"c","sec":"#three-level","def":"고장이 위험으로 번지기까지 허용되는 시간 — '왜 10ms인가'의 답이 여기서 나온다"},{"id":"counter","label":"고장 카운터","kind":"t","sec":"#qa","def":"1회 실패로 단정하지 않고 임계 초과 시 리셋, 반복되면 파워스테이지 차단"},{"id":"pfm","label":"프로그램 흐름 감시","kind":"t","sec":"#others","def":"'돌고 있나'가 아니라 '제대로 된 길로 돌고 있나'를 체크포인트로 본다"},{"id":"lockstep","label":"Lockstep 코어","kind":"t","sec":"#others","def":"두 코어가 같은 연산을 동시에 하고 하드웨어가 비교 — 즉시 감지, 원가 차이의 근원"},{"id":"mpu","label":"메모리 보호(MPU)","kind":"t","sec":"#others","def":"태스크별 접근 권한 분리 — 낮은 등급 코드가 안전 데이터를 훼손하지 못하게"},{"id":"coverage","label":"진단 커버리지","kind":"c","sec":"#others","def":"안전은 단일 장치가 아니라 그물 — 그 촘촘함을 정량화한 개념"},{"id":"wdgm","label":"AUTOSAR WdgM","kind":"t","sec":"#autosar","def":"살아있나·제때 끝났나·순서 맞나 세 축 감시 — 통과해야 하드웨어 워치독을 리프레시"},{"id":"sbc","label":"SBC","kind":"t","sec":"#resource","def":"전원 관리+CAN+워치독 통합 칩 — 외부 워치독 부품값이 거의 0인 이유"},{"id":"effort","label":"개발 공수","kind":"s","sec":"#resource","def":"비용의 본체 — 안전 요구사항·FMEA/FTA·검증·추적성, ASIL D에선 코드보다 크다"},{"id":"iso","label":"ISO 26262","kind":"p","sec":"#asil","def":"자동차 기능안전 표준 — 안전 메커니즘을 요구하고 위험도를 ASIL로 나눈다"},{"id":"asil","label":"ASIL","kind":"p","sec":"#asil","def":"위험도 등급 A~D — 고장의 결과가 사람을 다치게 하는가가 워치독 수준을 정한다"},{"id":"qm","label":"QM","kind":"p","sec":"#asil","def":"비안전 등급(인포테인먼트·시트) — 단순 WDT로 족하며 앱의 워치독과 성격이 같아진다"}],"edges":[{"s":"wdt","t":"appwdt","rel":"대비"},{"s":"wdt","t":"runaway","rel":"방어"},{"s":"wdt","t":"simple","rel":"종류"},{"s":"wdt","t":"window","rel":"종류"},{"s":"wdt","t":"qa","rel":"종류"},{"s":"wdt","t":"extic","rel":"종류"},{"s":"simple","t":"window","rel":"선행"},{"s":"window","t":"qa","rel":"선행"},{"s":"qa","t":"extic","rel":"선행"},{"s":"window","t":"runaway","rel":"검출"},{"s":"ftti","t":"window","rel":"역산"},{"s":"ftti","t":"safestate","rel":"시한"},{"s":"qa","t":"counter","rel":"사용"},{"s":"counter","t":"safestate","rel":"결과"},{"s":"threelevel","t":"l1","rel":"포함"},{"s":"threelevel","t":"l2","rel":"포함"},{"s":"threelevel","t":"l3","rel":"포함"},{"s":"l2","t":"l1","rel":"검증"},{"s":"l3","t":"qa","rel":"포함"},{"s":"l3","t":"extic","rel":"포함"},{"s":"l3","t":"pfm","rel":"포함"},{"s":"threelevel","t":"safestate","rel":"유도"},{"s":"pfm","t":"wdt","rel":"보완"},{"s":"lockstep","t":"wdt","rel":"보완"},{"s":"mpu","t":"wdt","rel":"보완"},{"s":"pfm","t":"coverage","rel":"기여"},{"s":"lockstep","t":"coverage","rel":"기여"},{"s":"mpu","t":"coverage","rel":"기여"},{"s":"iso","t":"coverage","rel":"요구"},{"s":"wdgm","t":"wdt","rel":"리프레시"},{"s":"wdgm","t":"appwdt","rel":"대비"},{"s":"sbc","t":"extic","rel":"흡수"},{"s":"threelevel","t":"effort","rel":"비용"},{"s":"l2","t":"effort","rel":"원인"},{"s":"iso","t":"asil","rel":"정의"},{"s":"asil","t":"threelevel","rel":"요구"},{"s":"asil","t":"qa","rel":"요구"},{"s":"asil","t":"lockstep","rel":"고등급"},{"s":"asil","t":"qm","rel":"종류"},{"s":"qm","t":"simple","rel":"충분"}]}</script>
+    <figcaption>「기능안전과 워치독」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. VS APP ═══════════ -->
@@ -846,5 +854,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

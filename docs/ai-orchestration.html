@@ -373,6 +373,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#ladder">1. 진화 계보 — 호출에서 오케스트라로</a>
     <a href="#flow">2. 실행 흐름 (동적)</a>
     <a href="#patterns">3. 패턴 카탈로그 6종</a>
@@ -424,6 +425,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     이 문서는 그 <u>실행 형태와 자원 계산</u>이다. 「로컬 LLM 코딩 공장」의 Goal Runner가 소박한 오케스트레이터이고,
     「LLM-as-a-Judge」는 이 문서 §3의 심판 패턴이 통째로 사는 곳이다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["도구","#0F766E"],"s":["상황·함정","#B91C1C"]},"nodes":[{"id":"orch","label":"오케스트레이션","kind":"c","sec":"#overview","def":"여러 AI 호출·도구·에이전트를 정해진 흐름으로 조율 — \"맡기되 확인하기\""},{"id":"loop","label":"에이전트 루프","kind":"c","sec":"#ladder","def":"모델에게 \"알아서 해봐\"라고 맡기는 방식 — 강력하지만 길어지면 흐트러지고 검증자가 없다"},{"id":"conductor","label":"지휘자(코드)","kind":"c","sec":"#flow","def":"흐름·검증·계산을 쥐는 코드 — 지휘 자체는 거의 공짜다"},{"id":"player","label":"단원(모델)","kind":"c","sec":"#resources","def":"판단과 언어만 맡는 모델 — 지휘자는 싸고 단원이 비싸다"},{"id":"routing","label":"라우팅","kind":"c","sec":"#patterns","def":"싼 모델이 분류하고 비싼 모델은 필요할 때만 — 분류기에도 검증이 필요"},{"id":"fanout","label":"병렬 팬아웃","kind":"c","sec":"#patterns","def":"독립적인 조각이 많을 때 동시 실행 — 로컬이면 동시 실행 수 = 메모리 제약"},{"id":"judge","label":"심판 게이트","kind":"c","sec":"#patterns","def":"단계가 둘 이상이면 사실상 필수 — 심판도 틀린다"},{"id":"pipeline","label":"파이프라인","kind":"c","sec":"#patterns","def":"단계마다 다른 전문성 — 체인과의 차이는 각 칸에 게이트·재시도가 붙는 것"},{"id":"reflect","label":"반성 루프","kind":"c","sec":"#patterns","def":"품질이 비용보다 중요할 때 산출물 다듬기 — 비용이 배수로, 반복 상한 필수"},{"id":"hier","label":"계층 위임","kind":"c","sec":"#patterns","def":"관리자 AI가 일을 쪼갠다 — 가장 유연하지만 가장 예측 불가"},{"id":"compound","label":"오류의 복리","kind":"s","sec":"#compound","def":"검증 없이 단계를 이으면 정확도가 곱해진다 — 90% × 5단계 = 59%"},{"id":"gate","label":"게이트(검증)","kind":"c","sec":"#compound","def":"각 단계 뒤의 검증 — \"있으면 좋은 것\"이 아니라 구조를 성립시키는 전제"},{"id":"memory","label":"통합 메모리","kind":"t","sec":"#resources","def":"\"동시에 무대에 올릴 단원 수\" — 워커+임베딩+심판을 상주시킬 수 있는가"},{"id":"swap","label":"모델 스왑","kind":"s","sec":"#resources","def":"메모리가 부족해 단원을 갈아끼우는 동안 지휘가 멈추는 현상"},{"id":"cloud","label":"클라우드 단원","kind":"c","sec":"#resources","def":"사양 무관 — 노트북·맥미니 16GB로도 완벽한 지휘자가 된다"},{"id":"local","label":"로컬 오케스트라","kind":"c","sec":"#resources","def":"로컬 모델을 지휘 — 메모리가 오케스트라의 규모 상한이다"},{"id":"framework","label":"LangGraph 류","kind":"t","sec":"#tools","def":"그래프·역할로 흐름을 코드로 정의하는 프레임워크 — 처음부터 고르지 말 것"},{"id":"script","label":"파이썬 스크립트","kind":"t","sec":"#tools","def":"for문·if문 + 상태 기계 — 의외로 흔하고 충분하다 (Goal Runner가 이 부류)"},{"id":"cap","label":"상한","kind":"c","sec":"#practice","def":"반복 횟수·비용·시간 상한 — \"얼마나 돌지 모른다\"는 패턴에 반드시 건다"},{"id":"log","label":"관찰 가능성","kind":"c","sec":"#practice","def":"어느 칸에서 무엇이 오갔는지 로그 — 없으면 디버깅 불가, jsonl 로깅이 최소형"},{"id":"detcode","label":"결정적 계산은 코드","kind":"c","sec":"#practice","def":"숫자 합계·날짜 정렬은 모델에 시키지 않는다 — 지휘자가 직접 하는 편이 정확하고 싸다"},{"id":"overkill","label":"과한 오케스트라","kind":"s","sec":"#practice","def":"한 번의 호출로 되는 일에 오케스트라 — 오류·비용·디버깅 난이도가 함께 는다"}],"edges":[{"s":"orch","t":"loop","rel":"대비"},{"s":"loop","t":"orch","rel":"선행"},{"s":"orch","t":"conductor","rel":"포함"},{"s":"orch","t":"player","rel":"포함"},{"s":"conductor","t":"player","rel":"지휘"},{"s":"orch","t":"routing","rel":"종류"},{"s":"orch","t":"fanout","rel":"종류"},{"s":"orch","t":"judge","rel":"종류"},{"s":"orch","t":"pipeline","rel":"종류"},{"s":"orch","t":"reflect","rel":"종류"},{"s":"orch","t":"hier","rel":"종류"},{"s":"routing","t":"gate","rel":"요구"},{"s":"fanout","t":"memory","rel":"제약"},{"s":"judge","t":"compound","rel":"해결"},{"s":"judge","t":"gate","rel":"구현"},{"s":"pipeline","t":"gate","rel":"요구"},{"s":"reflect","t":"cap","rel":"요구"},{"s":"hier","t":"cap","rel":"요구"},{"s":"orch","t":"compound","rel":"유발"},{"s":"gate","t":"compound","rel":"없으면"},{"s":"memory","t":"local","rel":"상한"},{"s":"memory","t":"swap","rel":"없으면"},{"s":"swap","t":"conductor","rel":"정지"},{"s":"cloud","t":"memory","rel":"무관"},{"s":"player","t":"cloud","rel":"종류"},{"s":"player","t":"local","rel":"종류"},{"s":"script","t":"framework","rel":"선행"},{"s":"script","t":"conductor","rel":"구현"},{"s":"framework","t":"conductor","rel":"구현"},{"s":"orch","t":"log","rel":"요구"},{"s":"conductor","t":"detcode","rel":"담당"},{"s":"orch","t":"overkill","rel":"함정"},{"s":"orch","t":"gate","rel":"전제"}]}</script>
+    <figcaption>「AI 오케스트레이션」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. LADDER ═══════════ -->
@@ -821,5 +829,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

@@ -378,6 +378,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#anchor">1. 출발점 — OS는 자원 배분자</a>
     <a href="#vm">2. 가상머신 — 컴퓨터 안의 가짜 컴퓨터</a>
     <a href="#twolevel" class="sub">2-1. 2단 배분 (동적)</a>
@@ -441,6 +442,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     venv는 패키지 세계를, 컨테이너는 OS 세계를, VM은 컴퓨터 자체를 속인다 —
     무엇을 속이느냐가 층을 가르고, 층이 무게를 정한다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["도구·기술","#0F766E"],"s":["상황·함정","#B91C1C"]},"nodes":[{"id":"os","label":"OS = 자원 배분자","kind":"c","sec":"#anchor","def":"CPU 시간을 쪼개 나눠주고 메모리를 구획하는 배분자 — 이미 모든 프로그램에게 착각을 제공한다"},{"id":"illusion","label":"착각의 제공","kind":"c","sec":"#spectrum","def":"가상화의 본질 — 무엇을 속이느냐가 층을 가르고, 층이 무게를 정한다"},{"id":"hypervisor","label":"하이퍼바이저","kind":"c","sec":"#hypervisor","def":"OS들을 돌리며 자원을 배분하는 OS — 마트료시카처럼 같은 구조가 한 겹 더"},{"id":"vm","label":"가상머신(VM)","kind":"c","sec":"#vm","def":"호스트 안에 소프트웨어로 세운 가짜 컴퓨터 — 집 한 채, GB·수십 초"},{"id":"guest","label":"게스트 OS","kind":"c","sec":"#vm","def":"가짜 컴퓨터 위에서 자기가 진짜인 줄 알고 도는 OS — 흔히 말하는 가상 OS"},{"id":"twolevel","label":"2단 배분","kind":"c","sec":"#twolevel","def":"앱의 요청이 게스트 OS와 하이퍼바이저, 배분자 두 명을 차례로 지난다"},{"id":"timeshare","label":"CPU 시분할","kind":"c","sec":"#timeshare","def":"vCPU 8개는 코어를 떼어놓는 게 아니라 진짜 코어들의 시간을 쪼개 받는 티켓"},{"id":"thin","label":"성장형 디스크","kind":"c","sec":"#resource","def":"게스트엔 256GB로 보이지만 실체는 호스트의 파일 하나 — 쓴 만큼만 자란다"},{"id":"type1","label":"Type 1","kind":"c","sec":"#hypervisor","def":"하드웨어 바로 위에 서는 OS들의 OS — 윈도우조차 세입자 1호가 된다"},{"id":"type2","label":"Type 2","kind":"c","sec":"#hypervisor","def":"윈도우 안의 앱으로 도는 겸업 하이퍼바이저 — VirtualBox류"},{"id":"hyperv","label":"Hyper-V","kind":"t","sec":"#hypervisor","def":"WSL2를 켜면 활성화되는 MS의 Type 1 엔진 — 구조를 뒤집는 반전의 주역"},{"id":"wsl2","label":"WSL2","kind":"t","sec":"#wsl","def":"Hyper-V 경량 VM에서 진짜 리눅스 커널을 돌리는 윈도우 공식 통로"},{"id":"wsl1","label":"WSL1","kind":"t","sec":"#wsl","def":"커널 없이 리눅스 요청을 윈도우 요청으로 실시간 통역하던 번역 계층 — 흉내"},{"id":"unixgap","label":"개발 세계는 유닉스","kind":"s","sec":"#wsl","def":"도구·서버·문서가 유닉스 전제라 순정 윈도우에선 명령어·경로가 자꾸 어긋난다"},{"id":"kernel","label":"리눅스 커널","kind":"c","sec":"#ubuntu","def":"엄밀한 의미의 리눅스 — 자원 배분자 그 자체, 엔진. 커널만으론 명령어 하나 못 친다"},{"id":"distro","label":"배포판","kind":"c","sec":"#ubuntu","def":"커널 + 명령어 + 패키지 매니저 + 설치 도구를 한 세트로 포장한 완성차"},{"id":"ubuntu","label":"Ubuntu","kind":"t","sec":"#ubuntu","def":"배포판 중 국민차 — 서버·CI·WSL 기본 선택지, 사실상 리눅스의 기본값"},{"id":"container","label":"컨테이너","kind":"c","sec":"#container","def":"건물 커널을 공유하는 아파트 호실 — 두 번째 배분자가 없어 MB·수 초로 가볍다"},{"id":"cgroups","label":"한도 딱지(cgroups)","kind":"c","sec":"#container","def":"'이 컨테이너는 CPU 2개·4GB까지' — 호스트 커널이 붙이는 한도 표시"},{"id":"docker","label":"Docker(맥·윈)","kind":"t","sec":"#container","def":"맥·윈도우엔 리눅스 커널이 없어 경량 VM을 먼저 띄우고 그 안에서 컨테이너를 돌린다"},{"id":"venv","label":"venv","kind":"t","sec":"#spectrum","def":"패키지 세계만 속이는 경로 트릭 — 자원 배분 개입 0, 무게 0"},{"id":"sandbox","label":"부숴도 되는 우리","kind":"s","sec":"#when","def":"수상한 파일·실험·AI 에이전트 — 부서지는 건 가짜 세계뿐, 삭제하면 흔적도 없다"},{"id":"snapshot","label":"VM 스냅샷","kind":"c","sec":"#when","def":"실험 전 찍고 깨지면 5초 복원 — 물리 컴퓨터엔 없는 되감기 버튼"},{"id":"iossim","label":"iOS 시뮬레이터","kind":"t","sec":"#met","def":"iOS를 통째 돌리는 게 아니라 iOS API를 맥에서 흉내 — VM 아님, 그래서 빠르다"}],"edges":[{"s":"os","t":"illusion","rel":"제공"},{"s":"hypervisor","t":"os","rel":"재귀"},{"s":"hypervisor","t":"vm","rel":"생성"},{"s":"vm","t":"guest","rel":"포함"},{"s":"guest","t":"os","rel":"종류"},{"s":"vm","t":"twolevel","rel":"구조"},{"s":"twolevel","t":"timeshare","rel":"사용"},{"s":"os","t":"timeshare","rel":"사용"},{"s":"vm","t":"thin","rel":"속성"},{"s":"hypervisor","t":"type1","rel":"종류"},{"s":"hypervisor","t":"type2","rel":"종류"},{"s":"type1","t":"os","rel":"밑을 파고듦"},{"s":"type2","t":"os","rel":"안의 앱"},{"s":"hyperv","t":"type1","rel":"종류"},{"s":"wsl2","t":"hyperv","rel":"사용"},{"s":"wsl2","t":"kernel","rel":"포함"},{"s":"wsl1","t":"wsl2","rel":"선행"},{"s":"wsl2","t":"unixgap","rel":"해결"},{"s":"wsl2","t":"ubuntu","rel":"기본값"},{"s":"distro","t":"kernel","rel":"포함"},{"s":"ubuntu","t":"distro","rel":"종류"},{"s":"container","t":"cgroups","rel":"사용"},{"s":"container","t":"kernel","rel":"공유"},{"s":"vm","t":"container","rel":"대비"},{"s":"docker","t":"container","rel":"실행"},{"s":"docker","t":"wsl2","rel":"사용"},{"s":"venv","t":"illusion","rel":"종류"},{"s":"container","t":"illusion","rel":"종류"},{"s":"vm","t":"illusion","rel":"종류"},{"s":"venv","t":"vm","rel":"대비"},{"s":"sandbox","t":"vm","rel":"요구"},{"s":"vm","t":"snapshot","rel":"제공"},{"s":"snapshot","t":"sandbox","rel":"지원"},{"s":"iossim","t":"vm","rel":"아님"},{"s":"iossim","t":"wsl1","rel":"같은 부류"}]}</script>
+    <figcaption>「가상화의 세계」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. ANCHOR ═══════════ -->
@@ -967,5 +975,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

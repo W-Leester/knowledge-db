@@ -365,6 +365,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#problem">1. 문제 — 언어의 세 난제</a>
     <a href="#history">2. 이전 계보 — RNN에서 어텐션까지</a>
     <a href="#core">3. 핵심 원리 — 회의실 비유</a>
@@ -418,6 +419,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     누구에게 얼마나 주목할지를 스스로 배우는 구조"</u>다. "동시에"가 GPU와의 결혼(§4)을,
     "모두를"이 n² 청구서(§5)를 낳았다 — 영광과 약점이 같은 문장 안에 있다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["구조·모델","#0F766E"],"s":["난제·약점","#B91C1C"],"p":["사람·조직","#6B21A8"]},"nodes":[{"id":"tf","label":"트랜스포머","kind":"c","sec":"#core","def":"문장의 모든 단어가 다른 모든 단어를 동시에 보며 주목할 곳을 스스로 배우는 구조"},{"id":"attn","label":"셀프 어텐션","kind":"c","sec":"#core","def":"각 토큰이 Q로 모두의 K를 대조해 점수를 매기고 V를 섞어 가져오는 회의실"},{"id":"qkv","label":"Q·K·V","kind":"c","sec":"#core","def":"Q는 질문, K는 명찰, V는 내용 — 토큰마다 만드는 세 장의 카드"},{"id":"multihead","label":"멀티 헤드","kind":"c","sec":"#core","def":"어텐션 회의를 여러 관점으로 동시에 여는 것"},{"id":"ffn","label":"FFN","kind":"c","sec":"#core","def":"어텐션 뒤 각 토큰이 따로 소화하는 층 — MoE는 이것을 전문가 여럿으로 쪼갠 것"},{"id":"kvcache","label":"KV 캐시","kind":"c","sec":"#cost","def":"생성 때 이전 토큰의 명찰(K)·내용(V) 카드를 다시 계산하지 않으려 저장해두는 것"},{"id":"longdep","label":"장거리 의존","kind":"s","sec":"#problem","def":"'그것'의 정체가 열 단어 밖에 있다 — 역대 구조들의 무덤"},{"id":"ngram","label":"n-gram","kind":"t","sec":"#history","def":"바로 앞 몇 단어로 다음 단어 확률을 센다 — 문맥 2~4단어, 장거리는 원리적으로 불가"},{"id":"rnn","label":"RNN","kind":"t","sec":"#history","def":"한 단어씩 읽으며 '지금까지의 요약'을 넘긴다 — 전화 게임 + 순차 처리"},{"id":"lstm","label":"LSTM·GRU","kind":"t","sec":"#history","def":"게이트로 무엇을 기억·망각할지 조절 — 전화 게임은 완화, 순차 처리는 그대로"},{"id":"seq2seq","label":"Seq2seq+어텐션","kind":"t","sec":"#history","def":"출력마다 입력 전체를 다시 훑는 '조수' — 알고 보니 공의 대부분이 조수의 것"},{"id":"google","label":"구글 연구진","kind":"p","sec":"#history","def":"2017년 '순환도 합성곱도 필요 없다'는 선언문 제목의 번역 논문을 낸 팀"},{"id":"gpu","label":"GPU","kind":"t","sec":"#why-won","def":"'모두가 모두를 동시에'는 거대한 행렬 곱셈 — 정확히 GPU가 잘하는 유일한 일"},{"id":"scaling","label":"스케일링 법칙","kind":"c","sec":"#why-won","def":"데이터·파라미터·계산을 키우면 성능이 예측 가능하게 좋아진다는 투자 공식"},{"id":"universal","label":"범용성","kind":"c","sec":"#why-won","def":"무엇이든 토큰 시퀀스로 만들면 트랜스포머가 먹는다 — ViT·음성·코드·단백질"},{"id":"lottery","label":"하드웨어 복권","kind":"c","sec":"#why-won","def":"구조의 승리엔 시대 하드웨어와 맞아떨어진 운도 작용 — 이제 생태계가 구조를 지킨다"},{"id":"n2","label":"O(n²) 청구서","kind":"s","sec":"#cost","def":"토큰 n개가 서로 전부를 보면 n×n번 계산 — 문맥 2배면 비용 4배"},{"id":"mamba","label":"Mamba·SSM","kind":"t","sec":"#challengers","def":"전체 회의 대신 요약 노트 한 권을 갱신하며 전진 — 선형 O(n), 정밀 참조엔 약함"},{"id":"rwkv","label":"RWKV·xLSTM","kind":"t","sec":"#challengers","def":"RNN의 부활 — 학습은 병렬, 추론은 상태 하나만. KV 캐시가 아예 없다"},{"id":"diffusion","label":"확산 LLM","kind":"t","sec":"#challengers","def":"한 토큰씩 대신 전체 초안을 반복해 다듬는다 — 내부 블록은 여전히 트랜스포머"},{"id":"hybrid","label":"하이브리드","kind":"t","sec":"#challengers","def":"대부분 층은 선형으로 싸게, 몇 층만 진짜 어텐션으로 — 2026의 실질 대세"},{"id":"moe","label":"MoE","kind":"c","sec":"#challengers","def":"도전자가 아니다 — 트랜스포머 내부의 FFN을 전문가 여럿으로 쪼갠 변형"},{"id":"verdict","label":"비율의 문제","kind":"c","sec":"#verdict","def":"전복이 아니라 침투 — 하이브리드 안에서 어텐션 층의 지분이 줄어드는 방식"}],"edges":[{"s":"tf","t":"attn","rel":"포함"},{"s":"attn","t":"qkv","rel":"사용"},{"s":"tf","t":"multihead","rel":"포함"},{"s":"multihead","t":"attn","rel":"여러 관점"},{"s":"tf","t":"ffn","rel":"포함"},{"s":"attn","t":"kvcache","rel":"생성"},{"s":"tf","t":"longdep","rel":"해결"},{"s":"attn","t":"longdep","rel":"직통 연결"},{"s":"ngram","t":"longdep","rel":"못 푼다"},{"s":"ngram","t":"rnn","rel":"선행"},{"s":"rnn","t":"lstm","rel":"선행"},{"s":"lstm","t":"seq2seq","rel":"선행"},{"s":"seq2seq","t":"tf","rel":"선행"},{"s":"seq2seq","t":"attn","rel":"포함"},{"s":"rnn","t":"gpu","rel":"놀린다"},{"s":"tf","t":"rnn","rel":"대체"},{"s":"tf","t":"gpu","rel":"결혼"},{"s":"tf","t":"n2","rel":"원인"},{"s":"n2","t":"kvcache","rel":"청구서②"},{"s":"scaling","t":"tf","rel":"승리 요인"},{"s":"universal","t":"tf","rel":"승리 요인"},{"s":"gpu","t":"lottery","rel":"당첨"},{"s":"lottery","t":"verdict","rel":"관성"},{"s":"mamba","t":"n2","rel":"공격"},{"s":"rwkv","t":"n2","rel":"공격"},{"s":"diffusion","t":"n2","rel":"공격"},{"s":"hybrid","t":"n2","rel":"공격"},{"s":"mamba","t":"hybrid","rel":"합류"},{"s":"hybrid","t":"attn","rel":"포함"},{"s":"rwkv","t":"kvcache","rel":"없앰"},{"s":"diffusion","t":"tf","rel":"내부 유지"},{"s":"moe","t":"ffn","rel":"쪼갬"},{"s":"tf","t":"moe","rel":"내부 변형"},{"s":"hybrid","t":"verdict","rel":"침투 경로"},{"s":"google","t":"tf","rel":"발표"}]}</script>
+    <figcaption>「트랜스포머 해부」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. PROBLEM ═══════════ -->
@@ -830,5 +838,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

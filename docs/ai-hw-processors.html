@@ -1110,7 +1110,39 @@ body.doc-mode #doc-mode-content {
     <!-- =========================================================
          SLIDE 1 — AI 워크로드의 특성
     ========================================================== -->
-    <section class="slide" id="slide-1">
+        <section class="slide" id="slide-overview">
+      <div class="slide-header">
+        <div class="slide-eyebrow">SLIDE 00 · 한눈에 보기</div>
+        <h2 class="slide-title">0. 한눈에 보기 — 결론 세 줄과 개념 그래프</h2>
+        <div class="title-rule"></div>
+      </div>
+      <div class="slide-body" style="overflow:hidden;">
+        <div class="two-col" style="flex:1; min-height:0; gap:22px;">
+          <div style="display:flex;flex-direction:column;gap:12px;min-width:0;">
+            <div class="card" style="flex:1;">
+              <div class="card-title">결론 세 줄</div>
+              <ul class="bullet-list">
+                <li><strong>AI = 거대한 행렬 곱셈의 반복.</strong> 범용인 CPU는 여기에 약하고, GPU·NPU·TPU는 이 한 가지에 특화한 칩이다</li>
+                <li><strong>용도가 칩을 정한다.</strong> LLM 학습 → GPU/TPU · 클라우드 추론 → GPU · 엣지·온디바이스 → NPU(Apple M) · 구글 인프라 → TPU</li>
+                <li><strong>선택 축은 최고 성능이 아니라 트레이드오프.</strong> 성능·전력 효율·유연성·비용 네 축이 서로 반대로 움직인다 (§6 비교표)</li>
+              </ul>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+              <div class="stat-card"><div class="stat-number">3,958</div><div class="stat-label">TFLOPS FP8 · H100</div></div>
+              <div class="stat-card"><div class="stat-number">38</div><div class="stat-label">TOPS · Apple M4 NE</div></div>
+              <div class="stat-card"><div class="stat-number">×8</div><div class="stat-label">H100 vs M4 Max 가격 차 (개략)</div></div>
+            </div>
+          </div>
+          <div style="min-width:0;display:flex;flex-direction:column;">
+            <div class="card-title" style="margin-bottom:6px;">개념 그래프 — 노드를 누르면 관계와 정의</div>
+            <figure class="cg-anim cg-fixed" style="margin:0;padding:8px 8px 4px;flex:1;min-height:0;">
+              <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["칩·기술","#0F766E"],"s":["병목·함정","#B91C1C"],"p":["기업","#6B21A8"]},"nodes":[{"id":"gemm","label":"GEMM","kind":"c","sec":"#slide-1","def":"AI = 거대한 행렬 곱셈의 반복 — GPT-3 학습 3.14×10²³ FLOP, CPU 하나론 수십 년"},{"id":"amdahl","label":"Amdahl's Law","kind":"c","sec":"#slide-1","def":"병렬화 불가 부분이 병목 — 행렬곱은 99%+ 병렬화 가능해 수천 코어가 극적 이득"},{"id":"roofline","label":"Roofline Model","kind":"c","sec":"#slide-1","def":"연산 강도(FLOPs/byte)가 하드웨어 능선보다 낮으면 Memory-bound"},{"id":"membound","label":"Memory-bound","kind":"s","sec":"#slide-3","def":"LLM 추론은 연산이 아니라 대역폭이 병목 — TFLOPS를 올려도 안 빨라진다"},{"id":"cpu","label":"CPU","kind":"t","sec":"#slide-2","def":"범용의 강자, AI의 조력자 — 분기 예측·OoO, KV-cache 관리·전처리·AMX 담당"},{"id":"gpu","label":"GPU","kind":"t","sec":"#slide-3","def":"병렬의 제왕 — SIMT로 수천 스레드가 같은 명령을 동시 실행, H100 16,896 코어"},{"id":"warp","label":"Warp","kind":"c","sec":"#slide-3","def":"32 스레드 실행 단위 — 메모리 대기 시 즉시 다른 Warp로 전환해 레이턴시를 숨긴다"},{"id":"tensorcore","label":"Tensor Core","kind":"t","sec":"#slide-3","def":"행렬곱 전용 코어 — Hopper FP8 3,958 TFLOPS, FP16 대비 2× 처리량"},{"id":"flash","label":"FlashAttention","kind":"t","sec":"#slide-3","def":"SRAM 안에서 타일 연산 — HBM 접근 5~10× 감소, 속도 3× 향상"},{"id":"nvlink","label":"NVLink","kind":"t","sec":"#slide-5","def":"GPU 간 900 GB/s 직결, NVSwitch full-mesh — ICI보다 유연한 토폴로지"},{"id":"npu","label":"NPU","kind":"t","sec":"#slide-4","def":"추론 효율의 극한 — INT8/INT4 전용 회로, M4 NE 38 TOPS를 ~3W로"},{"id":"systolic","label":"Systolic Array","kind":"c","sec":"#slide-4","def":"MAC 격자를 데이터가 물결처럼 흘러 연산 — 추가 메모리 접근 없음, 가중치 고정"},{"id":"quant","label":"양자화","kind":"t","sec":"#slide-4","def":"FP32→INT8 메모리 4×, INT4 8× 절감 — Llama 3.2 3B INT4 = 1.8GB"},{"id":"uma","label":"Unified Memory","kind":"c","sec":"#slide-4","def":"CPU/GPU/NPU가 같은 메모리 공유, 복사 없음 — Apple Silicon의 핵심 혁신"},{"id":"tpu","label":"TPU","kind":"t","sec":"#slide-5","def":"Google이 직접 만든 가속기 — Weight-Stationary MXU, v5p 459 TFLOPS BF16"},{"id":"ici","label":"ICI","kind":"t","sec":"#slide-5","def":"TPU 전용 3D 토러스 상호연결 — 4,096칩 Pod을 스위치 없이 직결"},{"id":"xla","label":"XLA","kind":"t","sec":"#slide-5","def":"TPU의 컴파일러 의존 — 범용성은 낮지만 특화 성능 극대화"},{"id":"chiplet","label":"Chiplet","kind":"t","sec":"#slide-8","def":"단일 다이 한계를 넘어 이종 칩을 패키지 수준에서 조합 — UCIe 표준화"},{"id":"pim","label":"PIM","kind":"t","sec":"#slide-8","def":"메모리 안에서 직접 연산해 메모리 월 돌파 — LLM 추론 에너지 10× 절감 목표"},{"id":"intel","label":"Intel","kind":"p","sec":"#slide-10","def":"깊고 빠르게 — 높은 클럭 + P/E 하이브리드, 타일 전환 중, 자체 팹"},{"id":"amd","label":"AMD","kind":"p","sec":"#slide-10","def":"칩렛 레고 — CCD+IOD, 공유 L3 + 3D V-Cache, 팹리스(TSMC)"},{"id":"apple","label":"Apple","kind":"p","sec":"#slide-10","def":"넓고 느리게 — 넓은 디코더로 IPC 승부, SoC + 온패키지 통합 메모리"},{"id":"isa","label":"명령어 집합","kind":"c","sec":"#slide-10","def":"x86 가변 길이는 디코더를 넓히기 어렵고, ARM64 4B 고정은 옆으로 늘릴 수 있다"},{"id":"avx512","label":"AVX-512","kind":"s","sec":"#slide-11","def":"인텔이 만들었으나 E코어가 못 받아 제거, AMD는 전 코어 지원 — 얄궂은 역전"}],"edges":[{"s":"gemm","t":"gpu","rel":"최적"},{"s":"amdahl","t":"gemm","rel":"근거"},{"s":"roofline","t":"membound","rel":"판정"},{"s":"membound","t":"flash","rel":"해결"},{"s":"membound","t":"pim","rel":"해결"},{"s":"membound","t":"quant","rel":"완화"},{"s":"cpu","t":"gpu","rel":"보조"},{"s":"gpu","t":"warp","rel":"사용"},{"s":"gpu","t":"tensorcore","rel":"포함"},{"s":"gpu","t":"flash","rel":"사용"},{"s":"gpu","t":"nvlink","rel":"연결"},{"s":"nvlink","t":"ici","rel":"대비"},{"s":"tpu","t":"ici","rel":"연결"},{"s":"tpu","t":"xla","rel":"요구"},{"s":"tpu","t":"systolic","rel":"사용"},{"s":"npu","t":"systolic","rel":"사용"},{"s":"npu","t":"quant","rel":"사용"},{"s":"uma","t":"npu","rel":"공유"},{"s":"apple","t":"uma","rel":"채택"},{"s":"gpu","t":"npu","rel":"대비"},{"s":"gpu","t":"tpu","rel":"대비"},{"s":"gemm","t":"tensorcore","rel":"가속"},{"s":"amd","t":"chiplet","rel":"선구"},{"s":"intel","t":"chiplet","rel":"전환 중"},{"s":"intel","t":"amd","rel":"대비"},{"s":"apple","t":"intel","rel":"대비"},{"s":"isa","t":"intel","rel":"제약"},{"s":"isa","t":"apple","rel":"이점"},{"s":"amd","t":"avx512","rel":"지원"},{"s":"intel","t":"avx512","rel":"제거"},{"s":"cpu","t":"intel","rel":"진영"},{"s":"cpu","t":"amd","rel":"진영"},{"s":"cpu","t":"apple","rel":"진영"}]}</script>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+<section class="slide" id="slide-1">
       <div class="slide-header">
         <div class="slide-eyebrow">SLIDE 01 · AI 워크로드</div>
         <h2 class="slide-title">왜 CPU 하나로는 부족한가</h2>
@@ -2096,6 +2128,7 @@ body.doc-mode #doc-mode-content {
     <div class="toc-title">목차</div>
     <ul class="toc-list" id="toc-list">
       <li class="toc-item" data-section="ds-0">표지</li>
+      <li class="toc-item" data-section="ds-overview">0. 한눈에 보기</li>
       <li class="toc-item" data-section="ds-1">AI 워크로드의 특성</li>
       <li class="toc-item" data-section="ds-2">CPU 아키텍처</li>
       <li class="toc-item" data-section="ds-3">GPU 아키텍처</li>
@@ -2114,6 +2147,16 @@ body.doc-mode #doc-mode-content {
       <div class="doc-section-num">Section 00</div>
       <h2 class="doc-h2">AI를 움직이는 두뇌</h2>
       <p class="doc-p">프로세서 아키텍처 완전 분해 — CPU · GPU · NPU · TPU에 대한 심층 기술 분석 자료입니다. 전문가를 대상으로 기초 개념부터 최신 아키텍처 혁신까지 다룹니다.</p>
+    </div>
+    <div class="doc-section" id="ds-overview">
+      <div class="doc-section-num">Section 00</div>
+      <h2 class="doc-h2">한눈에 보기 — 결론 세 줄과 개념 그래프</h2>
+      <p><strong>AI는 거대한 행렬 곱셈의 반복</strong>이다. 범용인 CPU는 여기에 약하고, GPU·NPU·TPU는 이 한 가지에 특화한 칩이다. <strong>용도가 칩을 정한다</strong> — LLM 학습은 GPU/TPU, 클라우드 추론은 GPU, 엣지·온디바이스는 NPU(Apple M 시리즈), 구글 인프라는 TPU. 선택 축은 최고 성능이 아니라 <strong>성능·전력 효율·유연성·비용의 트레이드오프</strong>다.</p>
+      <p style="margin-top:12px;">아래 개념 그래프의 노드를 누르면 정의와 관계, 해당 절로 가는 링크가 표시된다.</p>
+      <figure class="cg-anim cg-fixed">
+        <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["칩·기술","#0F766E"],"s":["병목·함정","#B91C1C"],"p":["기업","#6B21A8"]},"nodes":[{"id":"gemm","label":"GEMM","kind":"c","sec":"#slide-1","def":"AI = 거대한 행렬 곱셈의 반복 — GPT-3 학습 3.14×10²³ FLOP, CPU 하나론 수십 년"},{"id":"amdahl","label":"Amdahl's Law","kind":"c","sec":"#slide-1","def":"병렬화 불가 부분이 병목 — 행렬곱은 99%+ 병렬화 가능해 수천 코어가 극적 이득"},{"id":"roofline","label":"Roofline Model","kind":"c","sec":"#slide-1","def":"연산 강도(FLOPs/byte)가 하드웨어 능선보다 낮으면 Memory-bound"},{"id":"membound","label":"Memory-bound","kind":"s","sec":"#slide-3","def":"LLM 추론은 연산이 아니라 대역폭이 병목 — TFLOPS를 올려도 안 빨라진다"},{"id":"cpu","label":"CPU","kind":"t","sec":"#slide-2","def":"범용의 강자, AI의 조력자 — 분기 예측·OoO, KV-cache 관리·전처리·AMX 담당"},{"id":"gpu","label":"GPU","kind":"t","sec":"#slide-3","def":"병렬의 제왕 — SIMT로 수천 스레드가 같은 명령을 동시 실행, H100 16,896 코어"},{"id":"warp","label":"Warp","kind":"c","sec":"#slide-3","def":"32 스레드 실행 단위 — 메모리 대기 시 즉시 다른 Warp로 전환해 레이턴시를 숨긴다"},{"id":"tensorcore","label":"Tensor Core","kind":"t","sec":"#slide-3","def":"행렬곱 전용 코어 — Hopper FP8 3,958 TFLOPS, FP16 대비 2× 처리량"},{"id":"flash","label":"FlashAttention","kind":"t","sec":"#slide-3","def":"SRAM 안에서 타일 연산 — HBM 접근 5~10× 감소, 속도 3× 향상"},{"id":"nvlink","label":"NVLink","kind":"t","sec":"#slide-5","def":"GPU 간 900 GB/s 직결, NVSwitch full-mesh — ICI보다 유연한 토폴로지"},{"id":"npu","label":"NPU","kind":"t","sec":"#slide-4","def":"추론 효율의 극한 — INT8/INT4 전용 회로, M4 NE 38 TOPS를 ~3W로"},{"id":"systolic","label":"Systolic Array","kind":"c","sec":"#slide-4","def":"MAC 격자를 데이터가 물결처럼 흘러 연산 — 추가 메모리 접근 없음, 가중치 고정"},{"id":"quant","label":"양자화","kind":"t","sec":"#slide-4","def":"FP32→INT8 메모리 4×, INT4 8× 절감 — Llama 3.2 3B INT4 = 1.8GB"},{"id":"uma","label":"Unified Memory","kind":"c","sec":"#slide-4","def":"CPU/GPU/NPU가 같은 메모리 공유, 복사 없음 — Apple Silicon의 핵심 혁신"},{"id":"tpu","label":"TPU","kind":"t","sec":"#slide-5","def":"Google이 직접 만든 가속기 — Weight-Stationary MXU, v5p 459 TFLOPS BF16"},{"id":"ici","label":"ICI","kind":"t","sec":"#slide-5","def":"TPU 전용 3D 토러스 상호연결 — 4,096칩 Pod을 스위치 없이 직결"},{"id":"xla","label":"XLA","kind":"t","sec":"#slide-5","def":"TPU의 컴파일러 의존 — 범용성은 낮지만 특화 성능 극대화"},{"id":"chiplet","label":"Chiplet","kind":"t","sec":"#slide-8","def":"단일 다이 한계를 넘어 이종 칩을 패키지 수준에서 조합 — UCIe 표준화"},{"id":"pim","label":"PIM","kind":"t","sec":"#slide-8","def":"메모리 안에서 직접 연산해 메모리 월 돌파 — LLM 추론 에너지 10× 절감 목표"},{"id":"intel","label":"Intel","kind":"p","sec":"#slide-10","def":"깊고 빠르게 — 높은 클럭 + P/E 하이브리드, 타일 전환 중, 자체 팹"},{"id":"amd","label":"AMD","kind":"p","sec":"#slide-10","def":"칩렛 레고 — CCD+IOD, 공유 L3 + 3D V-Cache, 팹리스(TSMC)"},{"id":"apple","label":"Apple","kind":"p","sec":"#slide-10","def":"넓고 느리게 — 넓은 디코더로 IPC 승부, SoC + 온패키지 통합 메모리"},{"id":"isa","label":"명령어 집합","kind":"c","sec":"#slide-10","def":"x86 가변 길이는 디코더를 넓히기 어렵고, ARM64 4B 고정은 옆으로 늘릴 수 있다"},{"id":"avx512","label":"AVX-512","kind":"s","sec":"#slide-11","def":"인텔이 만들었으나 E코어가 못 받아 제거, AMD는 전 코어 지원 — 얄궂은 역전"}],"edges":[{"s":"gemm","t":"gpu","rel":"최적"},{"s":"amdahl","t":"gemm","rel":"근거"},{"s":"roofline","t":"membound","rel":"판정"},{"s":"membound","t":"flash","rel":"해결"},{"s":"membound","t":"pim","rel":"해결"},{"s":"membound","t":"quant","rel":"완화"},{"s":"cpu","t":"gpu","rel":"보조"},{"s":"gpu","t":"warp","rel":"사용"},{"s":"gpu","t":"tensorcore","rel":"포함"},{"s":"gpu","t":"flash","rel":"사용"},{"s":"gpu","t":"nvlink","rel":"연결"},{"s":"nvlink","t":"ici","rel":"대비"},{"s":"tpu","t":"ici","rel":"연결"},{"s":"tpu","t":"xla","rel":"요구"},{"s":"tpu","t":"systolic","rel":"사용"},{"s":"npu","t":"systolic","rel":"사용"},{"s":"npu","t":"quant","rel":"사용"},{"s":"uma","t":"npu","rel":"공유"},{"s":"apple","t":"uma","rel":"채택"},{"s":"gpu","t":"npu","rel":"대비"},{"s":"gpu","t":"tpu","rel":"대비"},{"s":"gemm","t":"tensorcore","rel":"가속"},{"s":"amd","t":"chiplet","rel":"선구"},{"s":"intel","t":"chiplet","rel":"전환 중"},{"s":"intel","t":"amd","rel":"대비"},{"s":"apple","t":"intel","rel":"대비"},{"s":"isa","t":"intel","rel":"제약"},{"s":"isa","t":"apple","rel":"이점"},{"s":"amd","t":"avx512","rel":"지원"},{"s":"intel","t":"avx512","rel":"제거"},{"s":"cpu","t":"intel","rel":"진영"},{"s":"cpu","t":"amd","rel":"진영"},{"s":"cpu","t":"apple","rel":"진영"}]}</script>
+        <figcaption>「AI 하드웨어 — 프로세서」의 개념 그래프</figcaption>
+      </figure>
     </div>
     <div class="doc-section" id="ds-1">
       <div class="doc-section-num">Section 01</div>
@@ -2489,7 +2532,7 @@ const AnimEngine = {
     if (this.triggered.has(idx)) return;
     this.triggered.add(idx);
     // Countup
-    const slide = document.getElementById(`slide-${idx}`);
+    const slide = document.querySelectorAll('.slide')[idx];
     if (!slide) return;
     slide.querySelectorAll('[data-target]').forEach(el => {
       const target = parseFloat(el.getAttribute('data-target'));
@@ -2952,5 +2995,17 @@ class ResizablePanels {
   <div id="lb-caption"></div>
 </div>
 
+<script src="../assets/concept-graph.js" defer></script>
+<script>
+/* 개념 그래프 패널의 "해당 절로 이동": 슬라이드 모드면 해당 슬라이드로, 문서 모드면 해당 절로 스크롤 */
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('figure.cg-anim a[href^="#"]'); if(!a) return;
+  var id = a.getAttribute('href').slice(1); var n = id.replace(/^(slide|ds)-/, '');
+  e.preventDefault();
+  if (document.body.classList.contains('doc-mode')) { var ds = document.getElementById('ds-'+n); if (ds) ds.scrollIntoView({behavior:'smooth', block:'start'}); return; }
+  var all = Array.from(document.querySelectorAll('.slide')); var i = all.findIndex(function(x){ return x.id === 'slide-'+n; });
+  if (i >= 0 && typeof slideEngine !== 'undefined') slideEngine.goto(i);
+});
+</script>
 </body>
 </html>

@@ -328,6 +328,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기 — 세 개의 층</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#why">1. 웹과 앱은 무엇이 다른가</a>
     <a href="#legal">2. 1층 — 법·정책 의무</a>
     <a href="#l-platform" class="sub">2-1. 플랫폼 전용 의무</a>
@@ -378,6 +379,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     이 문서는 "만든 것에 <u>무엇을 담아야 내보낼 수 있나</u>"다 — 안드로이드까지 포함한 공통 관문.
     라이선스 고지의 원고는 「오픈소스 라이선스」 §4에서, 계정·데이터의 책임은 「SaaS 해부」에서 이어진다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["도구·기술","#0F766E"],"f":["파일·산출물","#AF5109"],"s":["상황·함정","#B91C1C"],"p":["사람·조직","#6B21A8"]},"nodes":[{"id":"gap","label":"웹과 앱의 차이","kind":"c","sec":"#why","def":"배포·버전·규칙의 주인 세 차이 — 이 문서의 모든 항목이 여기서 따라 나온다"},{"id":"oldver","label":"구버전이 영원히 산다","kind":"s","sec":"#why","def":"몇 달 전 버전 사용자가 항상 존재 — '나중에 넣지'가 몇 주짜리 지연이 된다"},{"id":"layer1","label":"1층 정책 의무","kind":"c","sec":"#legal","def":"심사관의 체크리스트 — 없으면 거절·제재, 출시 자체가 안 된다"},{"id":"privacy","label":"개인정보처리방침","kind":"f","sec":"#legal","def":"앱 내 링크 + 스토어 등록란 양쪽 — 하드코딩 말고 웹 URL을 웹뷰로"},{"id":"datadecl","label":"수집 데이터 신고","kind":"c","sec":"#legal","def":"Apple 개인정보 라벨·Play 데이터 보안 섹션 — 실제 수집과 일치해야 한다"},{"id":"accountdel","label":"계정 삭제 기능","kind":"c","sec":"#legal","def":"계정 생성이 있으면 앱 안에서 삭제 제공 — '이메일 주시면 지워드려요'는 부족"},{"id":"license","label":"라이선스 고지 화면","kind":"f","sec":"#legal","def":"의존성 저작권 고지를 앱 내 화면으로 — THIRD-PARTY-NOTICES가 원고, 도구로 자동 생성"},{"id":"iap","label":"인앱결제 규정","kind":"c","sec":"#legal","def":"디지털 상품·구독은 스토어 결제 — 외부 결제 유도 문구는 즉시 거절 사유"},{"id":"mismatch","label":"신고와 실제 불일치","kind":"s","sec":"#legal","def":"심사 거절 대부분은 기능 결함이 아니라 말한 것과 실제가 다른 것"},{"id":"sdk","label":"AI가 붙인 SDK","kind":"t","sec":"#legal","def":"분석·광고·크래시 SDK가 무엇을 수집하는지 모르면 신고가 실제와 어긋난다"},{"id":"att","label":"ATT 추적 팝업","kind":"c","sec":"#l-platform","def":"iOS — 광고 ID로 앱 간 추적하면 시스템 표준 팝업으로 사전 동의, 광고 SDK 붙이면 발동"},{"id":"applelogin","label":"Apple 로그인 의무","kind":"c","sec":"#l-platform","def":"iOS — 구글·카카오 소셜 로그인을 넣으면 'Apple로 로그인'도 반드시 함께"},{"id":"purpose","label":"권한 목적 문구","kind":"f","sec":"#l-platform","def":"iOS — Info.plist purpose string, 없으면 앱이 죽고 성의 없어도 거절"},{"id":"targetapi","label":"타겟 API 레벨","kind":"c","sec":"#l-platform","def":"Android — 매년 최신에 가깝게 강제, '한 번 내고 방치'가 구조적으로 불가능"},{"id":"crossplat","label":"크로스플랫폼","kind":"t","sec":"#l-platform","def":"React Native·Flutter는 코드를 통일할 뿐 — 플랫폼 의무는 면제하지 않는다"},{"id":"layer2","label":"2층 운영의 필수","kind":"c","sec":"#ops","def":"심사는 통과하지만 첫 서버 변경일에 무너지는 것들 — 심장은 강제 업데이트·점검 모드"},{"id":"minver","label":"min_version","kind":"c","sec":"#ops","def":"낡은 앱을 스토어행 화면으로 — v1.0.0에 없으면 그 구버전은 영원히 제어 불능"},{"id":"maint","label":"점검 모드 플래그","kind":"c","sec":"#ops","def":"maintenance: true면 안내 화면 — DB 마이그레이션 30분을 고장이 아닌 점검으로"},{"id":"remotejson","label":"서버 JSON","kind":"f","sec":"#ops","def":"앱 시작마다 서버에 묻는 작은 파일 — 읽기 실패 시엔 그냥 통과(단일 장애점 금지)"},{"id":"crash","label":"크래시 리포팅","kind":"t","sec":"#ops","def":"Crashlytics·Sentry — 어느 기기에서 튕기는지 알되, 수집 사실을 신고에 반영"},{"id":"layer3","label":"3층 품질 플러스","kind":"c","sec":"#plus","def":"없어도 출시는 된다 — 그러나 별점과 재방문율이 여기서 갈린다"},{"id":"settings","label":"설정 화면 골격","kind":"c","sec":"#settings","def":"계정 삭제·알림 분리·지원·법적 고지 4종·버전 — 1층 의무의 집합소"},{"id":"play","label":"Google Play","kind":"p","sec":"#stores","def":"일단 들여보내고 나중에 잡는 공항 세관 — 자동 심사, 사후 적발·일괄 제재"},{"id":"appstore","label":"App Store","kind":"p","sec":"#stores","def":"입구에서 다 뜯어보는 대사관 인터뷰 — 사람 심사, 거절 사유를 문답으로"}],"edges":[{"s":"gap","t":"oldver","rel":"포함"},{"s":"gap","t":"layer1","rel":"원인"},{"s":"oldver","t":"layer2","rel":"원인"},{"s":"layer1","t":"layer2","rel":"위층"},{"s":"layer2","t":"layer3","rel":"위층"},{"s":"layer1","t":"privacy","rel":"포함"},{"s":"layer1","t":"datadecl","rel":"포함"},{"s":"layer1","t":"accountdel","rel":"포함"},{"s":"layer1","t":"license","rel":"포함"},{"s":"layer1","t":"iap","rel":"포함"},{"s":"mismatch","t":"layer1","rel":"거절 사유"},{"s":"sdk","t":"mismatch","rel":"원인"},{"s":"privacy","t":"datadecl","rel":"일치"},{"s":"datadecl","t":"sdk","rel":"반영"},{"s":"crash","t":"datadecl","rel":"반영"},{"s":"sdk","t":"att","rel":"발동"},{"s":"crossplat","t":"layer1","rel":"면제 안함"},{"s":"appstore","t":"att","rel":"요구"},{"s":"appstore","t":"applelogin","rel":"요구"},{"s":"appstore","t":"purpose","rel":"요구"},{"s":"play","t":"targetapi","rel":"요구"},{"s":"play","t":"appstore","rel":"대비"},{"s":"appstore","t":"iap","rel":"요구"},{"s":"layer2","t":"minver","rel":"포함"},{"s":"layer2","t":"maint","rel":"포함"},{"s":"layer2","t":"crash","rel":"포함"},{"s":"remotejson","t":"minver","rel":"전달"},{"s":"remotejson","t":"maint","rel":"전달"},{"s":"minver","t":"oldver","rel":"해결"},{"s":"settings","t":"accountdel","rel":"포함"},{"s":"settings","t":"license","rel":"포함"},{"s":"settings","t":"privacy","rel":"포함"},{"s":"settings","t":"layer1","rel":"집합소"},{"s":"layer3","t":"settings","rel":"알림 분리"}]}</script>
+    <figcaption>「앱 출시의 관문」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. WHY ═══════════ -->
@@ -711,5 +719,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

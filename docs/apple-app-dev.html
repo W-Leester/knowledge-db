@@ -328,6 +328,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#map-desktop" class="sub">0-A. 윈도우 ↔ 맥 대응표</a>
     <a href="#map-mobile" class="sub">0-B. 안드로이드 ↔ iOS 대응표</a>
     <a href="#map-terms" class="sub">0-C. 용어 풀이 12개</a>
@@ -485,6 +486,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     "오른쪽 열의 몇 칸을 자세히 설명하는 것"에 가깝다: Xcode의 정체(§1), 무엇이 진짜 의무인가(§2·§3),
     서명·공증의 관문(§4), 그리고 Swift·SwiftUI·UIKit의 관계(§6).</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["도구·기술","#0F766E"],"f":["파일·산출물","#AF5109"],"s":["상황·함정","#B91C1C"],"p":["사람·조직","#6B21A8"]},"nodes":[{"id":"xcode","label":"Xcode","kind":"t","sec":"#anatomy","def":"언어도 환경도 아닌 작업대(IDE) — 단, 툴체인이 분리 불가로 동봉된 풀옵션 공장"},{"id":"toolchain","label":"툴체인(의무의 실체)","kind":"c","sec":"#identity","def":"swiftc·xcodebuild·SDK·서명 체계 — 의무인 건 껍데기가 아니라 이 알맹이"},{"id":"necessity","label":"필수성 ≠ 정체","kind":"c","sec":"#identity","def":"'없으면 안 된다'는 층을 알려주지 않는다 — 수직 통합의 신호일 뿐, 몇 층인지 물어라"},{"id":"swift","label":"Swift","kind":"t","sec":"#c-when","def":"1층 언어 — 필요 여부가 아니라 내 코드에서 차지하는 비율의 문제, 대부분 0줄"},{"id":"clt","label":"CLT(경량판)","kind":"t","sec":"#identity","def":"풀 Xcode 없이 컴파일러+SDK만 — xcode-select --install, CLI 도구는 이걸로 끝"},{"id":"sdk","label":"SDK(5층)","kind":"t","sec":"#anatomy","def":"SwiftUI·UIKit·AppKit — 창고에서 받는 게 아니라 Xcode에 동봉되는 의무의 몸통 ②"},{"id":"swiftpm","label":"SwiftPM","kind":"t","sec":"#anatomy","def":"3층 패키지 매니저 — 중앙 창고 없이 깃 저장소 주소로 직거래"},{"id":"simulator","label":"iOS 시뮬레이터","kind":"t","sec":"#anatomy","def":"iOS의 복제품(2층 유사) — 맥 가상화에 묶이며, 에뮬레이터보다 가볍고 빠르다"},{"id":"ladder","label":"의무의 사다리","kind":"c","sec":"#ladder","def":"애플 독점 자산을 만지는 정도에 따라 사슬이 조였다 풀린다 — 무조건은 꼭대기 한 칸"},{"id":"iosapp","label":"아이폰 앱","kind":"c","sec":"#ladder","def":"SDK·시뮬레이터·스토어 셋 다 애플 독점이라 예외 없는 유일한 구역"},{"id":"macapp","label":"맥 네이티브 앱","kind":"c","sec":"#ladder","def":"툴체인은 의무지만 GUI Xcode는 선택 — 껍데기 자유, 알맹이 의무"},{"id":"webapp","label":"웹앱·PWA","kind":"c","sec":"#ladder","def":"브라우저가 무대라 애플 사슬 밖 — 이 지식 베이스가 살아 있는 증거"},{"id":"personal","label":"개인 유틸(자유 구역)","kind":"c","sec":"#practice","def":"사다리·관문 두 축 모두 바닥 — 스크립트·Swift CLI·SwiftPM 세 경로, Xcode 불필요"},{"id":"gate","label":"배포의 관문","kind":"c","sec":"#gate","def":"의무의 둘째 축 — 같은 앱도 어디까지 나눠주느냐로 치러야 할 의식이 달라진다"},{"id":"signing","label":"코드 서명","kind":"c","sec":"#gate","def":"'내가 만들었고 변조되지 않았다'는 도장 — 남에게 나눠줄 때부터 필요"},{"id":"notarize","label":"공증","kind":"c","sec":"#gate","def":"애플 서버에 앱을 올려 악성코드 검사를 받는 윈도우엔 없는 추가 단계"},{"id":"gatekeeper","label":"Gatekeeper","kind":"s","sec":"#map-desktop","def":"'확인되지 않은 개발자' 차단 — 서명 없는 앱을 막는 맥의 문지기 (UAC와 다름)"},{"id":"devaccount","label":"개발자 계정","kind":"p","sec":"#gate","def":"스토어 자격을 얻는 계정 개설비 — 라이선스료 아님, 애플은 매년 갱신(개략)"},{"id":"appstore","label":"App Store 심사","kind":"p","sec":"#gate","def":"전체 사슬 + 사람 심사 — 애플 유통망의 정식 관문, 두 축 모두 꼭대기"},{"id":"provisioning","label":"프로비저닝 프로파일","kind":"f","sec":"#map-mobile","def":"어느 기기·어느 용도로 설치 가능한가까지 서명에 묶는다 — 안드로이드보다 개념 하나 더"},{"id":"crossplat","label":"크로스플랫폼","kind":"t","sec":"#c-lang","def":"애플 사슬을 없애지 않고 감싸는 완충재 — 빌드 단계에서 Xcode 툴체인을 호출"},{"id":"electron","label":"Electron·Tauri","kind":"t","sec":"#c-lang","def":"빌드 주체가 Node·Rust로 넘어가 애플 몫을 CLT 수준으로 줄이는 맥 앱 경로"},{"id":"swiftui","label":"SwiftUI","kind":"t","sec":"#c-ui","def":"'상태가 이러면 화면은 이렇다'만 선언 — 갱신은 프레임워크가, 애플이 미는 쪽"},{"id":"uikit","label":"UIKit","kind":"t","sec":"#c-ui","def":"'이 라벨의 글자를 바꿔라'를 내가 지시하는 명령형 — jQuery 자리, 17년치 자료"}],"edges":[{"s":"xcode","t":"toolchain","rel":"포함"},{"s":"xcode","t":"simulator","rel":"동봉"},{"s":"xcode","t":"swiftpm","rel":"동봉"},{"s":"toolchain","t":"sdk","rel":"포함"},{"s":"toolchain","t":"clt","rel":"경량판"},{"s":"clt","t":"sdk","rel":"포함"},{"s":"necessity","t":"xcode","rel":"적용"},{"s":"swiftui","t":"swift","rel":"사용"},{"s":"uikit","t":"swift","rel":"사용"},{"s":"swiftui","t":"uikit","rel":"대비"},{"s":"sdk","t":"swiftui","rel":"포함"},{"s":"sdk","t":"uikit","rel":"포함"},{"s":"ladder","t":"iosapp","rel":"꼭대기"},{"s":"ladder","t":"macapp","rel":"둘째 칸"},{"s":"ladder","t":"webapp","rel":"바닥"},{"s":"ladder","t":"personal","rel":"바닥"},{"s":"ladder","t":"gate","rel":"둘째 축"},{"s":"iosapp","t":"xcode","rel":"요구"},{"s":"iosapp","t":"simulator","rel":"요구"},{"s":"iosapp","t":"provisioning","rel":"요구"},{"s":"iosapp","t":"appstore","rel":"요구"},{"s":"macapp","t":"toolchain","rel":"요구"},{"s":"webapp","t":"xcode","rel":"벗어남"},{"s":"electron","t":"clt","rel":"축소"},{"s":"crossplat","t":"xcode","rel":"감쌈"},{"s":"crossplat","t":"swift","rel":"0줄~일부"},{"s":"gate","t":"signing","rel":"요구"},{"s":"gate","t":"notarize","rel":"요구"},{"s":"gate","t":"appstore","rel":"포함"},{"s":"notarize","t":"gatekeeper","rel":"통과"},{"s":"signing","t":"devaccount","rel":"요구"},{"s":"appstore","t":"devaccount","rel":"요구"},{"s":"personal","t":"signing","rel":"생략"},{"s":"personal","t":"clt","rel":"사용"}]}</script>
+    <figcaption>「애플 앱 개발의 지도」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. ANATOMY ═══════════ -->
@@ -915,5 +923,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

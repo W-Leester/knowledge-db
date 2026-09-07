@@ -321,6 +321,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#foundation">1. 기반 — IP·TCP·DNS·포트</a>
     <a href="#http">2. HTTP — 웹의 공용어</a>
     <a href="#h-anatomy" class="sub">2-1. 요청과 응답의 해부</a>
@@ -380,6 +381,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     더 안전하게(TLS), 더 잘 설계된 형태로(REST), 그리고 그 규칙 자체를 넘어서까지(WebSocket)
     확장해 온 이야기다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["기술·방식","#0F766E"],"f":["형식","#AF5109"],"s":["병목","#B91C1C"]},"nodes":[{"id":"ip","label":"IP","kind":"c","sec":"#foundation","def":"주소 체계와 도로망 — 패킷을 목적지까지 운반하되 순서·성공은 보장 안 함"},{"id":"tcp","label":"TCP","kind":"c","sec":"#foundation","def":"등기우편 — 순서 보장·수령 확인·재전송, 연결을 먼저 수립하고 통신"},{"id":"udp","label":"UDP","kind":"c","sec":"#foundation","def":"엽서 — 확인 없이 던진다, 빠르지만 분실 가능. HTTP/3(QUIC)의 기반"},{"id":"dns","label":"DNS","kind":"c","sec":"#foundation","def":"주소록 — 사람이 기억하는 이름을 IP 주소로 바꾼다, 결과는 곳곳에 캐싱"},{"id":"port","label":"포트","kind":"c","sec":"#foundation","def":"아파트 호수 — 같은 컴퓨터 안의 프로그램 구분, 80=HTTP·443=HTTPS"},{"id":"handshake","label":"3-way 핸드셰이크","kind":"c","sec":"#foundation","def":"서로 '보낼 수 있고 받을 수 있음'을 확인하는 3번 왕복 — 2번은 부족, 4번은 불필요"},{"id":"http","label":"HTTP","kind":"c","sec":"#http","def":"요청 하나, 응답 하나, 아무것도 기억하지 않는 텍스트 규약 — 웹의 공용어"},{"id":"stateless","label":"무상태","kind":"c","sec":"#http","def":"서버는 이전 요청을 기억하지 않는다 — 쿠키·토큰으로 매번 증명, 확장의 비결"},{"id":"method","label":"메서드","kind":"c","sec":"#h-anatomy","def":"GET 조회·POST 생성·PUT 전체 교체·PATCH 부분 수정·DELETE 삭제"},{"id":"status","label":"상태 코드","kind":"c","sec":"#h-anatomy","def":"2xx 성공·3xx 리다이렉트·4xx 클라이언트 잘못·5xx 서버 잘못"},{"id":"cache","label":"캐싱","kind":"c","sec":"#h-anatomy","def":"Cache-Control(얼마나 오래)+ETag(지문) — 안 바뀌면 본문 없이 304, 숨은 주인공"},{"id":"hol","label":"HOL 블로킹","kind":"s","sec":"#h-evolution","def":"앞 요청이 뒤를 막는 줄서기 — 1.1과 2에서 층을 옮겨 두 번 나타난 병목"},{"id":"h2","label":"HTTP/2","kind":"t","sec":"#h-evolution","def":"응답을 프레임으로 섞어 보내는 멀티플렉싱 — 연결 하나로 수십 파일 동시에"},{"id":"h3","label":"HTTP/3","kind":"t","sec":"#h-evolution","def":"TCP를 버리고 UDP 위 QUIC — 스트림별 독립 배송으로 마지막 줄서기까지 제거"},{"id":"tls","label":"TLS","kind":"c","sec":"#https","def":"느린 비대칭키로 열쇠만 전달하고 대화는 빠른 대칭키로 — 도청·변조·사칭을 막는 층"},{"id":"cert","label":"인증서·CA","kind":"c","sec":"#https","def":"'이 공개키는 진짜 github.io 것' — 신뢰받는 제3자가 서명으로 보증"},{"id":"rest","label":"REST","kind":"c","sec":"#rest","def":"URL은 자원(명사), 행위는 메서드(동사) — HTTP를 원래 의도대로 쓰자는 스타일"},{"id":"idem","label":"멱등성","kind":"c","sec":"#rest","def":"여러 번 보내도 결과가 한 번과 같다 — GET·PUT·DELETE는 멱등, POST는 아님"},{"id":"json","label":"JSON","kind":"f","sec":"#rest","def":"사람이 읽고 모든 언어가 다루며 JS와 궁합이 완벽 — 본문의 사실상 표준"},{"id":"polling","label":"폴링","kind":"t","sec":"#realtime","def":"클라가 주기적으로 묻기 — 몇 초 늦어도 되면 충분, 이 앱의 새 문서 확인도 이것"},{"id":"sse","label":"SSE","kind":"t","sec":"#realtime","def":"서버→클라 단방향 즉시 — 피드·알림·AI 챗봇의 글자 스트리밍"},{"id":"ws","label":"WebSocket","kind":"t","sec":"#realtime","def":"HTTP로 문을 두드려 101로 갈아탄 양방향 상시 통로 — 채팅·게임·협업"},{"id":"grpc","label":"gRPC","kind":"t","sec":"#beyond","def":"HTTP/2+Protobuf 바이너리 — 마이크로서비스 내부 통신의 사실상 표준"},{"id":"graphql","label":"GraphQL","kind":"t","sec":"#beyond","def":"필요한 필드만 골라 한 번에 — 과잉·과소 조회를 동시에 해결"}],"edges":[{"s":"tcp","t":"ip","rel":"위에서"},{"s":"udp","t":"ip","rel":"위에서"},{"s":"tcp","t":"udp","rel":"대비"},{"s":"tcp","t":"handshake","rel":"연결수립"},{"s":"dns","t":"tcp","rel":"선행"},{"s":"tcp","t":"tls","rel":"선행"},{"s":"tls","t":"http","rel":"암호화"},{"s":"port","t":"http","rel":"호수"},{"s":"http","t":"stateless","rel":"속성"},{"s":"http","t":"method","rel":"포함"},{"s":"http","t":"status","rel":"포함"},{"s":"http","t":"cache","rel":"포함"},{"s":"cache","t":"status","rel":"304"},{"s":"hol","t":"http","rel":"1.1병목"},{"s":"h2","t":"hol","rel":"해결"},{"s":"hol","t":"tcp","rel":"재발"},{"s":"h3","t":"hol","rel":"해결"},{"s":"h3","t":"udp","rel":"사용"},{"s":"h2","t":"tcp","rel":"위에서"},{"s":"tls","t":"cert","rel":"사용"},{"s":"rest","t":"http","rel":"잘쓰기"},{"s":"rest","t":"method","rel":"동사"},{"s":"rest","t":"json","rel":"본문"},{"s":"rest","t":"stateless","rel":"원칙"},{"s":"idem","t":"method","rel":"성질"},{"s":"http","t":"ws","rel":"넘어섬"},{"s":"ws","t":"status","rel":"101전환"},{"s":"polling","t":"http","rel":"반복"},{"s":"polling","t":"sse","rel":"진화"},{"s":"sse","t":"ws","rel":"진화"},{"s":"grpc","t":"h2","rel":"사용"},{"s":"grpc","t":"rest","rel":"대체"},{"s":"graphql","t":"rest","rel":"대체"},{"s":"grpc","t":"json","rel":"대체"}]}</script>
+    <figcaption>「네트워크 통신 정리」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. FOUNDATION ═══════════ -->
@@ -764,5 +772,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

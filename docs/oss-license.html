@@ -340,6 +340,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#two">1. 두 방향 — 내보내기와 들여오기</a>
     <a href="#spectrum">2. 라이선스 스펙트럼</a>
     <a href="#clauses" class="sub">2-1. 실제 조항 뜯어보기</a>
@@ -392,6 +393,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     라이선스 해석은 관할·배포 형태에 따라 달라질 수 있으니, 상업적으로 중요한 판단은 전문가 확인이 필요하다.
     다만 아래 원칙들은 오픈소스 커뮤니티에서 널리 합의된 실무 관행이다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["도구","#0F766E"],"f":["파일","#AF5109"],"s":["위험·함정","#B91C1C"]},"nodes":[{"id":"export","label":"내보내기","kind":"c","sec":"#two","def":"남들이 내 코드로 무엇을 할 수 있나 — LICENSE 한 장으로 한 번에 끝나는 결정"},{"id":"import","label":"들여오기","kind":"s","sec":"#two","def":"내가 쓰는 남의 코드의 조건 — AI가 제안할 때마다 자라는 진짜 위험"},{"id":"licensefile","label":"LICENSE 파일","kind":"f","sec":"#mine","def":"저장소의 첫 확인 항목 — 없으면 아무도 내 코드를 합법적으로 못 쓴다"},{"id":"mit","label":"MIT","kind":"c","sec":"#clauses","def":"의무는 '고지를 포함하라' 한 문장뿐 — 개인 프로젝트의 무난한 답"},{"id":"apache","label":"Apache-2.0","kind":"c","sec":"#clauses","def":"MIT + 특허 라이선스 명시 + 변경 파일 고지 — 기업 채택을 기대할 때"},{"id":"bsd","label":"BSD","kind":"c","sec":"#clauses","def":"MIT와 거의 동일 — 3-Clause는 이름 도용 금지 한 줄이 추가된 형태"},{"id":"lgpl","label":"LGPL","kind":"c","sec":"#clauses","def":"라이브러리는 GPL, 동적 링크로 쓰는 내 앱은 자유 — 수정·정적 링크면 의무 커짐"},{"id":"gpl","label":"GPL","kind":"s","sec":"#clauses","def":"배포하면 저작물 전체를 GPL로 — 내 코드까지 공개 의무가 번진다"},{"id":"agpl","label":"AGPL","kind":"s","sec":"#clauses","def":"GPL의 구멍을 막은 §13 — 네트워크 서비스 제공만으로 소스 공개 발동"},{"id":"sspl","label":"SSPL·BUSL","kind":"s","sec":"#clauses","def":"오픈소스처럼 보이지만 OSI 미승인 — 서비스 제공 시 운영 스택 전체 공개 요구"},{"id":"nolicense","label":"라이선스 없음","kind":"s","sec":"#clauses","def":"문구가 없으면 저작권 전부 보유 — GitHub에 공개돼 있어도 사용 불가"},{"id":"contagion","label":"전염","kind":"c","sec":"#spectrum","def":"의존성의 공개 의무가 내 코드까지 번지는 성질 — 스펙트럼 오른쪽일수록 강함"},{"id":"convey","label":"배포(convey)","kind":"c","sec":"#clauses","def":"사본이 남에게 넘어가는 것 — GPL 발동 조건, GitHub 공개도 배포다"},{"id":"derivative","label":"파생·결합 저작물","kind":"c","sec":"#clauses","def":"내 코드가 그 코드와 한 몸이 되었는가 — 전염 범위를 가르는 판단"},{"id":"saas","label":"서비스 제공(SaaS)","kind":"s","sec":"#clauses","def":"배포 없이 웹 서비스로만 제공 — GPL은 안 걸리지만 AGPL은 걸린다"},{"id":"ai","label":"AI 추천 의존성","kind":"s","sec":"#risk","def":"AI는 라이브러리를 권하며 라이선스를 말하지 않고, 물어도 틀릴 수 있다"},{"id":"reproduce","label":"코드 재현","kind":"s","sec":"#risk","def":"AI가 유명 저장소 코드를 상당량 재현하면 원본 라이선스가 따라온다"},{"id":"gates","label":"세 게이트","kind":"c","sec":"#guard","def":"시작·의존성 추가·배포 세 지점의 확인 단계 — 기억이 아니라 구조로 막는다"},{"id":"checker","label":"검사 명령","kind":"t","sec":"#guard","def":"npx license-checker·pip-licenses — 의존성 라이선스를 명령 한 줄로 검사"},{"id":"ci","label":"CI 자동 차단","kind":"t","sec":"#guard","def":"--failOn을 GitHub Actions에 걸면 🔴 라이선스 유입 순간 빌드 실패"},{"id":"rules","label":"룰 파일","kind":"f","sec":"#rules","def":"에이전트가 매 세션 읽는 룰 파일 — 라이선스 확인이 기본 동작이 된다"},{"id":"traffic","label":"3색 신호등","kind":"c","sec":"#rules","def":"🟢/🟡/🔴 라이선스 이름을 명시 나열 — 에이전트가 판단 않고 조회하게"},{"id":"notices","label":"고지 파일","kind":"f","sec":"#rules","def":"사용한 패키지의 저작권 고지를 모은 한 장 — MIT 고지 의무를 해결"}],"edges":[{"s":"export","t":"import","rel":"대비"},{"s":"mit","t":"export","rel":"해결"},{"s":"licensefile","t":"export","rel":"실체"},{"s":"gates","t":"import","rel":"해결"},{"s":"rules","t":"import","rel":"해결"},{"s":"ai","t":"import","rel":"증폭"},{"s":"ai","t":"reproduce","rel":"가능"},{"s":"contagion","t":"lgpl","rel":"약함"},{"s":"contagion","t":"gpl","rel":"강함"},{"s":"contagion","t":"agpl","rel":"최강"},{"s":"convey","t":"gpl","rel":"발동조건"},{"s":"saas","t":"gpl","rel":"면제"},{"s":"saas","t":"agpl","rel":"발동"},{"s":"derivative","t":"contagion","rel":"범위"},{"s":"lgpl","t":"derivative","rel":"링크방식"},{"s":"apache","t":"mit","rel":"확장"},{"s":"bsd","t":"mit","rel":"유사"},{"s":"sspl","t":"agpl","rel":"상회"},{"s":"licensefile","t":"nolicense","rel":"없으면"},{"s":"gates","t":"checker","rel":"사용"},{"s":"ci","t":"checker","rel":"자동실행"},{"s":"rules","t":"gates","rel":"명문화"},{"s":"rules","t":"traffic","rel":"포함"},{"s":"rules","t":"notices","rel":"템플릿"},{"s":"traffic","t":"mit","rel":"🟢"},{"s":"traffic","t":"lgpl","rel":"🟡"},{"s":"traffic","t":"gpl","rel":"🔴"},{"s":"checker","t":"traffic","rel":"판정"},{"s":"rules","t":"ai","rel":"대응"},{"s":"rules","t":"reproduce","rel":"금지"},{"s":"notices","t":"mit","rel":"고지이행"},{"s":"rules","t":"agpl","rel":"금지선"},{"s":"gates","t":"saas","rel":"결정"}]}</script>
+    <figcaption>「오픈소스 라이선스와 바이브코딩」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. TWO DIRECTIONS ═══════════ -->
@@ -918,5 +926,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

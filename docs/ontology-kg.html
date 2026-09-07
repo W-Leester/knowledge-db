@@ -387,6 +387,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#what">1. 온톨로지란 — 어휘 사전 + 규칙</a>
     <a href="#kg">2. 지식 그래프 — 설계도와 건물</a>
     <a href="#neo4j">3. Neo4j 실전 — 관계를 걷는 법</a>
@@ -448,6 +449,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     Palantir의 핵심 상품이 "기업 온톨로지"인 것(「AI 시대의 직무 지형」의 그 회사),
     직군 지도에 "온톨로지 엔지니어"가 등장한 것이 같은 흐름이다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["도구·기술","#0F766E"],"f":["시나리오","#AF5109"],"s":["함정·한계","#B91C1C"],"p":["사람·조직","#6B21A8"]},"nodes":[{"id":"onto","label":"온톨로지","kind":"c","sec":"#what","def":"도메인의 개념·관계·규칙을 명시적·형식적으로 정의 — 가도 되는 길이야?"},{"id":"inference","label":"추론·모순 탐지","kind":"c","sec":"#what","def":"안 적힌 사실 도출과 잘못된 관계 거부 — 분류체계·스키마와 갈리는 지점"},{"id":"taxonomy","label":"분류체계","kind":"c","sec":"#what","def":"계층(is-a)뿐 — 찾아 내려가기만 가능. docs.json의 group·tags가 이것"},{"id":"palantir","label":"Palantir","kind":"p","sec":"#what","def":"기업 온톨로지가 제품 핵심 — 데이터와 AI 에이전트가 그 지도 위에서만 움직인다"},{"id":"kg","label":"지식 그래프","kind":"c","sec":"#kg","def":"온톨로지 뼈대 + 실제 데이터(노드·엣지) — 규격대로 지은 건물"},{"id":"graphdb","label":"그래프 DB","kind":"t","sec":"#kg","def":"지식 그래프를 담는 저장·질의 기술 — 공법, Neo4j가 실무 표준"},{"id":"chaos","label":"낙서장 그래프","kind":"s","sec":"#kg","def":"온톨로지 없는 그래프 — 회사/업체 레이블 혼재, 같은 관계가 세 이름으로"},{"id":"neo4j","label":"Neo4j","kind":"t","sec":"#neo4j","def":"속성 그래프 — 노드·레이블·관계·속성 넷뿐. 관계가 포인터라 걷는 비용이 일정"},{"id":"cypher","label":"Cypher","kind":"t","sec":"#neo4j","def":"그래프 모양을 아스키 아트로 그리는 질의 — 한국어 어순이 그대로 패턴"},{"id":"hop","label":"다단계 탐색","kind":"c","sec":"#hop","def":"3홉을 걸어 답에 도달 — 패턴에 안 맞는 이웃은 걸러진다. 벡터가 못 걷는 길"},{"id":"vector","label":"벡터 DB","kind":"t","sec":"#vector","def":"텍스트를 좌표로 저장해 가까운 것을 찾는다 — 표현이 달라도 찾지만 길은 모른다"},{"id":"embed","label":"임베딩 모델","kind":"t","sec":"#vector","def":"문단·질문을 수백~수천 차원 좌표로 — 로컬(bge-m3 등)이면 무료"},{"id":"multihop","label":"멀티홉 질문","kind":"s","sec":"#vector","def":"답이 흩어진 사실의 연결에 있어 벡터가 무너지는 유형 — 구조엔 구조의 답"},{"id":"global","label":"전역 질문","kind":"s","sec":"#vector","def":"'전체를 요약해줘'는 어느 문단과도 안 비슷하다 — 커뮤니티 요약이 답"},{"id":"trio","label":"분업의 삼각형","kind":"c","sec":"#trio","def":"벡터가 문을 찾고, 그래프가 길을 걷고, 온톨로지가 법을 지킨다"},{"id":"graphrag","label":"GraphRAG","kind":"c","sec":"#graphrag","def":"셋의 합체 — 구축은 LLM이 노동하고, 질문은 셋이 릴레이한다"},{"id":"llm","label":"생성 LLM","kind":"t","sec":"#graphrag","def":"구축 땐 읽고 뽑는 노동, 질의 땐 마지막 1회 — 가장 비싼 부품을 가장 적게"},{"id":"pipeline","label":"질문 파이프라인","kind":"c","sec":"#pipeline","def":"다섯 주자의 릴레이 — 표준 RAG는 ①→⑤ 직행이었다"},{"id":"mail","label":"메일 PST","kind":"f","sec":"#mail","def":"헤더는 공짜 그래프, 본문은 임베딩 배치 — 모델은 양 끝에만 있다"},{"id":"freegraph","label":"공짜 그래프","kind":"c","sec":"#mail","def":"이미 구조화된 관계부터 줍는다 — 메일은 헤더, 코드는 import, 문서는 링크"},{"id":"pgvector","label":"pgvector","kind":"t","sec":"#practice","def":"Supabase면 확장 하나로 벡터부터 — DB를 늘리지 않는 시작점"},{"id":"overdesign","label":"온톨로지 과설계","kind":"s","sec":"#practice","def":"첫날부터 개념 200개 — '처음부터 최고로' 착각의 지식 그래프판"},{"id":"maintain","label":"유지 비용","kind":"s","sec":"#practice","def":"구축보다 유지(추출 검수·개체 통합·갱신)가 진짜 비용"},{"id":"ontoeng","label":"온톨로지 엔지니어","kind":"p","sec":"#meta","def":"추출이 싸지자 규격과 검수가 비싸졌다 — 관계에 이름을 붙이는 직군"}],"edges":[{"s":"onto","t":"inference","rel":"가능케"},{"s":"onto","t":"taxonomy","rel":"대비"},{"s":"palantir","t":"onto","rel":"제품화"},{"s":"onto","t":"kg","rel":"뼈대"},{"s":"graphdb","t":"kg","rel":"저장"},{"s":"onto","t":"chaos","rel":"없으면"},{"s":"chaos","t":"graphdb","rel":"증상"},{"s":"neo4j","t":"graphdb","rel":"종류"},{"s":"neo4j","t":"cypher","rel":"사용"},{"s":"cypher","t":"hop","rel":"수행"},{"s":"hop","t":"multihop","rel":"해결"},{"s":"vector","t":"multihop","rel":"무너짐"},{"s":"vector","t":"global","rel":"무너짐"},{"s":"vector","t":"embed","rel":"요구"},{"s":"trio","t":"vector","rel":"진입점"},{"s":"trio","t":"neo4j","rel":"멀티홉"},{"s":"trio","t":"onto","rel":"검증"},{"s":"trio","t":"graphrag","rel":"합체"},{"s":"graphrag","t":"llm","rel":"사용"},{"s":"graphrag","t":"pipeline","rel":"포함"},{"s":"graphrag","t":"global","rel":"해결"},{"s":"llm","t":"kg","rel":"구축"},{"s":"onto","t":"llm","rel":"규격"},{"s":"mail","t":"graphrag","rel":"예시"},{"s":"mail","t":"freegraph","rel":"활용"},{"s":"mail","t":"pgvector","rel":"사용"},{"s":"mail","t":"embed","rel":"배치"},{"s":"pgvector","t":"vector","rel":"종류"},{"s":"overdesign","t":"onto","rel":"함정"},{"s":"maintain","t":"kg","rel":"함정"},{"s":"ontoeng","t":"onto","rel":"담당"},{"s":"taxonomy","t":"kg","rel":"가벼운판"}]}</script>
+    <figcaption>「온톨로지와 지식 그래프」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. WHAT ═══════════ -->
@@ -974,5 +982,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

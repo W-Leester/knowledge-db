@@ -329,6 +329,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#map">1. 아키텍처 지도</a>
     <a href="#m-catalog" class="sub">1-A. 서브시스템 카탈로그</a>
     <a href="#m-tools" class="sub">1-B. 도구·커맨드 목록</a>
@@ -402,6 +403,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <u>"로컬 하네스에 필요한 것"</u>으로 끝난다. 급하면 §2(루프) → §5(압축) → §10(청사진)만 읽어도
     로컬 하네스의 뼈대가 잡힌다. 나머지는 그 위에 붙여 나가는 순서다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["도구·기술","#0F766E"],"f":["블록·파일","#AF5109"],"s":["함정","#B91C1C"]},"nodes":[{"id":"harness","label":"하네스","kind":"c","sec":"#overview","def":"51만 줄 중 모델은 0줄 — 모델을 부르고·보여주고·막고·버티게 하는 코드 전부"},{"id":"model","label":"모델(API 너머)","kind":"c","sec":"#overview","def":"이 코드 안에 0줄 — Claude는 API 너머에 있고 하네스는 전부 \"모델 바깥\""},{"id":"loop","label":"에이전트 루프","kind":"c","sec":"#loop","def":"query.ts의 while(true) — API 왕복 1회 + 도구 실행, tool_use가 안 나올 때까지"},{"id":"tooluse","label":"tool_use 블록","kind":"f","sec":"#loop","def":"응답에 있는가가 루프를 한 번 더 돌지 정하는 유일한 신호"},{"id":"toolresult","label":"tool_result","kind":"f","sec":"#loop","def":"도구 결과를 user 메시지로 변환해 append — 성공·실패 모두 같은 구조"},{"id":"orphan","label":"고아 tool_use","kind":"s","sec":"#loop","def":"대응 tool_result 없는 tool_use — 하네스에서 가장 흔히 터지는 400 에러"},{"id":"recovery","label":"회복 로직","kind":"c","sec":"#loop","def":"query.ts가 68KB인 이유 — 압축·모델 폴백·abort·토큰 예산·고아 방지"},{"id":"tool","label":"도구(Tool)","kind":"c","sec":"#tools","def":"노출·실행·정책 세 부분으로 분리 — description이 곧 프롬프트"},{"id":"failclosed","label":"fail-closed","kind":"c","sec":"#tools","def":"buildTool()이 누락 메서드에 위험한 쪽 기본값 — \"모르면 위험한 쪽으로\""},{"id":"mcp","label":"MCP","kind":"t","sec":"#tools","def":"외부 서버의 tools/list를 mcp__server__tool로 래핑 — 힌트로 안전 분류 파생"},{"id":"perm","label":"권한 게이트 6단계","kind":"c","sec":"#perm","def":"순서가 곧 우선순위 — deny→ask→도구별→safetyCheck→모드→사용자 질문"},{"id":"deny","label":"deny 룰","kind":"c","sec":"#perm","def":"무엇보다 우선 — bypass로도 훅으로도 못 뚫는다"},{"id":"safety","label":"safetyCheck","kind":"c","sec":"#perm","def":".git·.claude 등 민감 경로 쓰기는 bypass 면역 — 최후의 안전선"},{"id":"hooks","label":"훅(Hooks)","kind":"c","sec":"#perm","def":"28종 이벤트에 셸/HTTP/LLM 훅 — 권한 완화는 가능해도 deny는 못 뚫는다"},{"id":"compact","label":"압축 3겹","kind":"c","sec":"#context","def":"microcompact→full 요약→영속 메모리, 싼 것부터 — 로컬 이식 가치 최고"},{"id":"tokens","label":"토큰 회계","kind":"c","sec":"#context","def":"유효창 = 창 − 출력예약 − 버퍼 — 불확실하면 과대추정, 일찍 도는 게 안전"},{"id":"memdir","label":"영속 메모리","kind":"f","sec":"#memory","def":"MEMORY.md 인덱스만 상시 로드 + 토픽 파일을 주문형 회상"},{"id":"subagent","label":"서브에이전트","kind":"c","sec":"#subagent","def":"자체 메시지 배열·자체 루프로 격리 — 마지막 텍스트 하나만 부모가 회수"},{"id":"assembly","label":"컨텍스트 조립","kind":"c","sec":"#assembly","def":"system(정적→동적→git) + CLAUDE.md·날짜 + 대화 — 변동 낮은 것 앞"},{"id":"skills","label":"스킬·커맨드","kind":"c","sec":"#skills","def":"하나의 Command 타입 — progressive disclosure로 프론트매터만 상시 노출"},{"id":"blueprint","label":"로컬 하네스 청사진","kind":"c","sec":"#blueprint","def":"필수(도는 에이전트)→권장→규모 순으로 쌓는 사다리 — 이 문서의 결론"},{"id":"llamacpp","label":"llama-server","kind":"t","sec":"#llamacpp","def":"하네스가 필요로 하는 것을 거의 내장 — 서비스 계층의 API 호출부만 교체"},{"id":"grammar","label":"문법 강제","kind":"t","sec":"#llamacpp","def":"json_schema/GBNF로 샘플러가 깨진 JSON을 원천 차단 — 약한 로컬 모델의 구원"},{"id":"dialect","label":"두 방언","kind":"c","sec":"#l-dialects","def":"OpenAI vs Anthropic 메시지 형식 — /v1/messages 지원으로 어댑터가 사라진다"}],"edges":[{"s":"harness","t":"model","rel":"부림"},{"s":"harness","t":"loop","rel":"포함"},{"s":"harness","t":"tool","rel":"포함"},{"s":"harness","t":"perm","rel":"포함"},{"s":"harness","t":"compact","rel":"포함"},{"s":"harness","t":"assembly","rel":"포함"},{"s":"harness","t":"memdir","rel":"포함"},{"s":"harness","t":"subagent","rel":"포함"},{"s":"harness","t":"skills","rel":"포함"},{"s":"loop","t":"tooluse","rel":"신호"},{"s":"tooluse","t":"toolresult","rel":"요구"},{"s":"toolresult","t":"orphan","rel":"없으면"},{"s":"recovery","t":"orphan","rel":"방지"},{"s":"loop","t":"recovery","rel":"포함"},{"s":"tool","t":"toolresult","rel":"생성"},{"s":"tool","t":"failclosed","rel":"원칙"},{"s":"mcp","t":"tool","rel":"래핑"},{"s":"perm","t":"tool","rel":"선행"},{"s":"perm","t":"deny","rel":"포함"},{"s":"perm","t":"safety","rel":"포함"},{"s":"hooks","t":"perm","rel":"완화"},{"s":"deny","t":"hooks","rel":"면역"},{"s":"safety","t":"hooks","rel":"면역"},{"s":"compact","t":"tokens","rel":"요구"},{"s":"compact","t":"memdir","rel":"포함"},{"s":"compact","t":"toolresult","rel":"제거"},{"s":"subagent","t":"loop","rel":"포함"},{"s":"subagent","t":"tokens","rel":"절약"},{"s":"assembly","t":"loop","rel":"공급"},{"s":"assembly","t":"memdir","rel":"포함"},{"s":"assembly","t":"skills","rel":"포함"},{"s":"harness","t":"blueprint","rel":"축소"},{"s":"blueprint","t":"llamacpp","rel":"사용"},{"s":"llamacpp","t":"grammar","rel":"제공"},{"s":"llamacpp","t":"tokens","rel":"제공"},{"s":"llamacpp","t":"dialect","rel":"지원"},{"s":"harness","t":"dialect","rel":"사용"},{"s":"grammar","t":"model","rel":"보완"}]}</script>
+    <figcaption>「Claude Code 내부 해부」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. MAP ═══════════ -->
@@ -1074,5 +1082,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

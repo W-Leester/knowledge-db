@@ -378,6 +378,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#rdbms">1. RDBMS — 관계형의 시대</a>
     <a href="#nosql-why">2. NoSQL은 왜 등장했나</a>
     <a href="#nosql-types">3. NoSQL 4대 유형</a>
@@ -444,6 +445,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <div><strong>이 문서를 관통하는 하나의 질문 —</strong> "당신의 데이터는 <u>틀리면 안 되는가</u>(일관성), <u>멈추면 안 되는가</u>(가용성), <u>커져도 되는가</u>(확장성)?"
     모든 DB는 이 세 가지 사이의 서로 다른 타협점이다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["제품·기술","#0F766E"],"f":["파일·산출물","#AF5109"],"s":["상황·함정","#B91C1C"]},"nodes":[{"id":"rdbms","label":"RDBMS","kind":"t","sec":"#rdbms","def":"표·정규화·SQL·JOIN — 40년간 유일한 표준이었고 여전히 기본값인 기술"},{"id":"acid","label":"ACID","kind":"c","sec":"#rdbms","def":"원자성·일관성·고립성·지속성 — 트랜잭션의 4대 보증, 은행 장부의 철학"},{"id":"norm","label":"정규화","kind":"c","sec":"#rdbms","def":"하나의 사실은 한 곳에만 — 갱신 이상을 막는 대신 조회 시 JOIN 비용을 치른다"},{"id":"scaleout","label":"scale-out","kind":"c","sec":"#nosql-why","def":"수천 대 값싼 서버에 데이터를 나눠 담기 — JOIN·ACID가 극도로 어려워지는 지점"},{"id":"cap","label":"CAP 정리","kind":"c","sec":"#nosql-why","def":"일관성·가용성·분단내성 중 둘만 — P는 피할 수 없으니 실질은 CP vs AP"},{"id":"base","label":"BASE","kind":"c","sec":"#nosql-why","def":"일단 응답하고 나중에 맞춘다 — 최종적 일관성, SNS 피드의 철학"},{"id":"redis","label":"Redis","kind":"t","sec":"#nosql-types","def":"인메모리 자료구조 서버 — 캐시·세션·랭킹에 곁들이는 것, 원본 저장소는 아님"},{"id":"mongo","label":"MongoDB","kind":"t","sec":"#nosql-types","def":"JSON 문서 하나에 중첩해 저장 — 스키마 진화가 자유롭지만 비정규화가 기본"},{"id":"cassandra","label":"Cassandra","kind":"t","sec":"#nosql-types","def":"마스터 없는 P2P 링 + LSM-Tree — 쓰기 폭주와 무중단의 AP 대표"},{"id":"neo4j","label":"Neo4j","kind":"t","sec":"#nosql-types","def":"노드·관계를 일급 데이터로, 이웃 포인터를 직접 보유 — 친구의 친구를 걷는다"},{"id":"newsql","label":"NewSQL","kind":"c","sec":"#modern","def":"분산 위에서 ACID를 되살린 세대 — Spanner가 출발점, Cockroach·TiDB가 후예"},{"id":"vectordb","label":"벡터 DB","kind":"t","sec":"#modern","def":"고차원 임베딩의 근사 최근접 검색 — RAG의 저장소, pgvector면 확장 하나로"},{"id":"duckdb","label":"DuckDB","kind":"t","sec":"#modern","def":"분석계의 SQLite — 설치 없이 Parquet·CSV를 SQL로, 백테스트 최적"},{"id":"polyglot","label":"Polyglot","kind":"c","sec":"#polyglot","def":"데이터 성격별로 최적 저장소를 조합 — 단 DB가 늘수록 운영·정합성 부담"},{"id":"postgres","label":"PostgreSQL","kind":"t","sec":"#compare","def":"JSONB·pgvector·전문검색까지 품은 떠오르는 왕 — 고민되면 이걸로 시작"},{"id":"s3","label":"S3 객체 스토리지","kind":"t","sec":"#storage","def":"파일 저장을 서버에서 떼어내라 — 버킷·객체·키, 11-nines 내구성"},{"id":"cdn","label":"CDN","kind":"t","sec":"#storage","def":"전 세계 엣지에 미리 복사해 가장 가까운 곳에서 전달 — 저장과 전달은 다른 문제"},{"id":"filesindb","label":"파일을 DB에","kind":"s","sec":"#storage","def":"철칙 위반 — 백업·복제·쿼리 전부 무거워진다. DB엔 URL만, 파일은 스토리지에"},{"id":"supabase","label":"Supabase","kind":"t","sec":"#baas","def":"Firebase처럼 편하게, 제대로 된 SQL로 — DB·인증·스토리지·API·실시간 통합"},{"id":"firebase","label":"Firebase","kind":"t","sec":"#baas","def":"서버리스 앱 개발의 개척자 — NoSQL 기반, 모바일에선 표준이나 이사가 재설계급"},{"id":"sqlite","label":"SQLite","kind":"t","sec":"#r-vehicle","def":"파일 하나가 곧 DB — 혼자 쓰는 앱·프로토타입의 훌륭한 출발점"},{"id":"resp","label":"책임의 선택","kind":"c","sec":"#responsibility","def":"DB 선택은 기술이 아니라 책임의 선택 — 개인정보·보안·백업·동시성·권한"},{"id":"rls","label":"RLS·키 관리","kind":"s","sec":"#r-supabase","def":"행 단위 보안과 anon/service 키 — 모르고 쓰면 안 보이거나 다 보인다"},{"id":"myths","label":"초보의 두 착각","kind":"s","sec":"#r-myths","def":"처음부터 제일 좋은 걸로 / 구글 시트로 다 하자 — 가볍게 시작하되 책임은 알고"}],"edges":[{"s":"rdbms","t":"acid","rel":"보증"},{"s":"rdbms","t":"norm","rel":"원칙"},{"s":"rdbms","t":"scaleout","rel":"약점"},{"s":"norm","t":"mongo","rel":"대비"},{"s":"scaleout","t":"cap","rel":"제약"},{"s":"acid","t":"base","rel":"대비"},{"s":"cap","t":"base","rel":"AP 선택"},{"s":"cassandra","t":"base","rel":"속성"},{"s":"cassandra","t":"scaleout","rel":"최강"},{"s":"mongo","t":"cap","rel":"CP"},{"s":"redis","t":"postgres","rel":"곁들임"},{"s":"neo4j","t":"rdbms","rel":"JOIN대비"},{"s":"newsql","t":"acid","rel":"복원"},{"s":"newsql","t":"scaleout","rel":"달성"},{"s":"postgres","t":"rdbms","rel":"종류"},{"s":"postgres","t":"vectordb","rel":"흡수"},{"s":"postgres","t":"mongo","rel":"흡수"},{"s":"postgres","t":"polyglot","rel":"시작점"},{"s":"polyglot","t":"redis","rel":"조합"},{"s":"polyglot","t":"cassandra","rel":"조합"},{"s":"polyglot","t":"neo4j","rel":"조합"},{"s":"duckdb","t":"sqlite","rel":"분석판"},{"s":"sqlite","t":"rdbms","rel":"종류"},{"s":"s3","t":"filesindb","rel":"해결"},{"s":"cdn","t":"s3","rel":"전달"},{"s":"supabase","t":"postgres","rel":"기반"},{"s":"supabase","t":"s3","rel":"포함"},{"s":"supabase","t":"firebase","rel":"대비"},{"s":"firebase","t":"supabase","rel":"재설계급"},{"s":"supabase","t":"rls","rel":"함정"},{"s":"sqlite","t":"supabase","rel":"성장 경로"},{"s":"resp","t":"sqlite","rel":"기준"},{"s":"resp","t":"supabase","rel":"기준"},{"s":"resp","t":"rls","rel":"권한 책임"},{"s":"myths","t":"resp","rel":"경고"},{"s":"vectordb","t":"supabase","rel":"확장 켜기"}]}</script>
+    <figcaption>「데이터베이스 완전 정리」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. RDBMS ═══════════ -->
@@ -1312,5 +1320,6 @@ SCENARIOS.forEach((s, i) => {
   btnWrap.appendChild(b);
 });
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

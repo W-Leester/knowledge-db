@@ -321,6 +321,7 @@ ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted)
   </div>
   <nav id="toc">
     <a href="#overview">0. 논문 개요</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#lineage">1. 배경 — 렌즈 가문</a>
     <a href="#method">2. J-lens의 동작 원리</a>
     <a href="#jspace">3. 발견 — J-space</a>
@@ -383,6 +384,13 @@ ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted)
     수치·세부 주장은 원문(Transformer Circuits) 확인을 권한다. 특히 언론 해설에는 "의식" 관련
     과장이 섞이기 쉬운 주제이므로, 저자들이 명시한 선긋기(§3 끝)를 기준으로 읽을 것.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["도구·모델","#0F766E"],"s":["한계·비판","#B91C1C"],"p":["사람·조직","#6B21A8"]},"nodes":[{"id":"jlens","label":"J-lens","kind":"t","sec":"#method","def":"활성화를 어느 방향으로 밀면 특정 단어를 말할 확률이 오르는가로 성향을 읽는 렌즈"},{"id":"jacobian","label":"자코비안","kind":"c","sec":"#method","def":"출력이 입력 변화에 얼마나·어느 방향으로 민감한가를 담는 편미분 행렬 — 민감도 지도"},{"id":"disposition","label":"발화 성향","kind":"c","sec":"#method","def":"아직 말하지 않았으나 말하려는 성향(disposition) — 단어 목록으로 읽힌다"},{"id":"logitlens","label":"Logit lens","kind":"t","sec":"#lineage","def":"중간 계층 활성화를 출력 사전으로 투영 — '몇 층째에 답을 알았나', 다음 토큰만 본다"},{"id":"tunedlens","label":"Tuned lens","kind":"t","sec":"#lineage","def":"계층별 번역기를 학습해 정확도를 높인 렌즈 — 그래도 창은 다음 토큰 하나"},{"id":"verbalizable","label":"언어화 가능","kind":"c","sec":"#method","def":"'모델이 보고할 수 있는 표현'을 성향 변화와의 일치라는 측정 가능한 기준으로 정의"},{"id":"jspace","label":"J-space","kind":"c","sec":"#jspace","def":"언어화 가능한 개념이 모인 중간 계층의 작은 부분공간 — 활성화 분산의 약 10% 이하"},{"id":"dark","label":"어두운 계산의 바다","kind":"c","sec":"#jspace","def":"J-space 밖의 훨씬 거대한 계산 — 모델 스스로 서술도 접근도 못 한다"},{"id":"gwt","label":"글로벌 워크스페이스","kind":"c","sec":"#jspace","def":"제한된 용량의 작업 공간이 정보를 뇌 전체에 방송한다는 이론 — 세 예측이 J-space와 일치"},{"id":"ignition","label":"점화(ignition)","kind":"c","sec":"#b-ignition","def":"자극이 문턱을 넘으면 장거리 뉴런망이 켜지며 방송 — 뇌는 시간으로, 모델은 깊이로"},{"id":"superposition","label":"중첩","kind":"c","sec":"#b-regions","def":"기능이 같은 뉴런들에 겹쳐 인코딩 — '어느 뉴런'이 아니라 '어느 방향'을 물어야 한다"},{"id":"harness","label":"하네스","kind":"t","sec":"#b-regions","def":"모델에 없는 뇌 부위(기저핵 게이팅·해마 기억)를 바깥에 만들어 붙인 외부 구조"},{"id":"siliconneuro","label":"실리콘 신경과학","kind":"c","sec":"#b-method","def":"읽기·밀기·끄기 — 해석가능성 연구가 신경과학의 도구 상자를 완전 관측 조건에서 재발명"},{"id":"steering","label":"조향(steering)","kind":"t","sec":"#b-method","def":"J-space 방향으로 활성화를 밀어 성향을 바꾸는 인과 개입 — 개입해야 인과를 말한다"},{"id":"deception","label":"기만 탐지","kind":"c","sec":"#safety","def":"출력은 '문제없다'인데 내부 성향은 오류·회피로 기운 순간 — 말과 속마음의 불일치 포착"},{"id":"cot","label":"CoT 신실성","kind":"c","sec":"#safety","def":"생각의 사슬이 실제 계산의 기록인지 그럴듯한 사후 설명인지 내부 성향과 대조"},{"id":"circularity","label":"방법론적 순환성","kind":"s","sec":"#limits","def":"언어화 가능을 J-lens로 정의해 놓고 GWT 일치를 논증 — 정의와 결론이 맞물려 있다"},{"id":"hiding","label":"적대적 은닉","kind":"s","sec":"#limits","def":"감시가 J-space에 집중되면 나쁜 추론이 밖으로 숨도록 학습될 수 있나 — 미검증"},{"id":"generalization","label":"일반화 미검증","kind":"s","sec":"#limits","def":"주 결과는 Claude 기반 — 다른 모델·규모에서의 재현이 열려 있다"},{"id":"openweights","label":"오픈 가중치 모델","kind":"t","sec":"#practical","def":"진짜 특권은 내부를 열어볼 권리 — API 뒤 클라우드 모델엔 적용 불가"},{"id":"hfstack","label":"HF+PyTorch 경로","kind":"t","sec":"#practical","def":"공개 구현의 기반 — Ollama·GGUF는 활성화·미분을 노출하지 않아 불가"},{"id":"qwen","label":"Qwen","kind":"t","sec":"#practical","def":"공개 구현이 명시 지원하는 오픈 모델 — 로컬 LLM 스택과 바로 만난다"},{"id":"gate","label":"에이전트 안전 게이트","kind":"c","sec":"#p-usecases","def":"위험 도구 호출 직전의 내부 성향을 검사 — 훅(PreToolUse)의 '내면 검사판'"},{"id":"anthropic","label":"Anthropic","kind":"p","sec":"#overview","def":"2026-07 Transformer Circuits에 발표, Apache 2.0 오픈소스로 공개"}],"edges":[{"s":"jlens","t":"jacobian","rel":"사용"},{"s":"jlens","t":"disposition","rel":"읽기"},{"s":"logitlens","t":"tunedlens","rel":"선행"},{"s":"tunedlens","t":"jlens","rel":"선행"},{"s":"jlens","t":"logitlens","rel":"대비"},{"s":"jlens","t":"verbalizable","rel":"정의"},{"s":"verbalizable","t":"jspace","rel":"밀집"},{"s":"jlens","t":"jspace","rel":"발견"},{"s":"jspace","t":"dark","rel":"대비"},{"s":"jspace","t":"gwt","rel":"일치"},{"s":"gwt","t":"ignition","rel":"뇌 버전"},{"s":"ignition","t":"jspace","rel":"유비"},{"s":"superposition","t":"jlens","rel":"요구"},{"s":"harness","t":"gate","rel":"포함"},{"s":"harness","t":"dark","rel":"보완"},{"s":"siliconneuro","t":"jlens","rel":"읽기"},{"s":"siliconneuro","t":"steering","rel":"밀기"},{"s":"steering","t":"jspace","rel":"사용"},{"s":"steering","t":"disposition","rel":"조절"},{"s":"jspace","t":"deception","rel":"표적"},{"s":"dark","t":"deception","rel":"원인"},{"s":"jlens","t":"cot","rel":"검증"},{"s":"cot","t":"disposition","rel":"대조"},{"s":"circularity","t":"jspace","rel":"비판"},{"s":"circularity","t":"gwt","rel":"비판"},{"s":"hiding","t":"deception","rel":"위협"},{"s":"generalization","t":"jspace","rel":"비판"},{"s":"generalization","t":"qwen","rel":"재현"},{"s":"jlens","t":"openweights","rel":"전제"},{"s":"jlens","t":"hfstack","rel":"요구"},{"s":"hfstack","t":"qwen","rel":"지원"},{"s":"gate","t":"disposition","rel":"검사"},{"s":"gate","t":"deception","rel":"조기경보"},{"s":"anthropic","t":"jlens","rel":"발표"},{"s":"anthropic","t":"jspace","rel":"발견"}]}</script>
+    <figcaption>「논문 — Jacobian Lens」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. LINEAGE ═══════════ -->
@@ -794,5 +802,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

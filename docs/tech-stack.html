@@ -328,6 +328,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#axes">1. 선택의 기준 — 5개의 저울</a>
     <a href="#popularity">2. 인기 지형 — 측정법마다 다르다</a>
     <a href="#languages">3. 주요 언어별 강점·쓰임새</a>
@@ -394,6 +395,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <div><strong>신선도 주의 —</strong> 언어·프레임워크 인기는 빠르게 변한다. 아래 수치는 2025~2026 설문·지표(Stack Overflow·GitHub·TIOBE 등)를
     조사 시점 기준이며, 순위 자체보다 <u>"각 언어가 어디서 강한가"의 구조</u>를 읽는 데 쓰는 것이 좋다. 세부 수치는 §8 출처로 최신 확인 권장.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["언어·도구","#0F766E"]},"nodes":[{"id":"bottleneck","label":"병목","kind":"c","sec":"#axes","def":"첫 질문은 '뭐가 빠른가'가 아니라 '병목이 어디냐' — 병목 아닌 축은 아무리 좋아도 소용없다"},{"id":"scales","label":"5개의 저울","kind":"c","sec":"#axes","def":"성능·개발 속도·안전·생태계·인력 — 하나를 최대화하는 게 아니라 여러 축을 저울질"},{"id":"perf","label":"실행 성능","kind":"c","sec":"#axes","def":"연산이 진짜 병목일 때만 의미 — 대기(네트워크·모델·디스크)가 병목이면 거의 무관"},{"id":"devspeed","label":"개발 속도","kind":"c","sec":"#axes","def":"컴파일 대기 없이 즉시 실행 — 매주 바뀌는 제품에서 진짜 경쟁력"},{"id":"safety","label":"안전성","kind":"c","sec":"#axes","def":"버그를 미리 얼마나 막나 — Rust는 컴파일이, GC 언어는 메모리 버그 자체가 없음"},{"id":"ecosystem","label":"생태계","kind":"c","sec":"#axes","def":"필요한 라이브러리가 있나 — 바퀴를 다시 발명 안 해도 되는 정도"},{"id":"talent","label":"인력","kind":"c","sec":"#axes","def":"쓸 사람이 많은가 — 팀 키우기·유지보수, 시스템 개발자는 적고 비쌈"},{"id":"popularity","label":"인기 지형","kind":"c","sec":"#popularity","def":"1위는 측정법마다 다르다 — 설문 JS, 커밋 TS, 검색 Python, 선망 Rust"},{"id":"js","label":"JavaScript","kind":"t","sec":"#languages","def":"브라우저의 유일한 언어 — 웹 프론트 사실상 독점, 생태계·인력 최대"},{"id":"ts","label":"TypeScript","kind":"t","sec":"#languages","def":"타입 붙은 JavaScript — 대규모 코드의 리팩터링·실수 방지, Claude Code의 언어"},{"id":"python","label":"Python","kind":"t","sec":"#languages","def":"읽기 쉬운 만능 언어 — AI·데이터의 표준, 밑단은 C/C++로 가속"},{"id":"rust","label":"Rust","kind":"t","sec":"#languages","def":"C++급 속도 + 컴파일이 메모리 버그를 원천 차단 — 가장 선망받지만 어렵다"},{"id":"cpp","label":"C / C++","kind":"t","sec":"#languages","def":"하드웨어에 가장 가까운 — OS·게임엔진·추론엔진, 밀리초·메모리가 병목인 곳"},{"id":"runtime","label":"런타임","kind":"c","sec":"#f-what","def":"코드를 실제로 실행하는 엔진 — 말을 알아듣고 움직이는 일꾼(Node·Bun·CPython·JVM)"},{"id":"framework","label":"프레임워크","kind":"c","sec":"#f-what","def":"미리 지어진 뼈대 — 골조가 흐름을 쥐고 나는 빈칸만 채운다, '입문'하는 것"},{"id":"library","label":"라이브러리","kind":"c","sec":"#f-what","def":"필요할 때 꺼내 쓰는 도구상자 — 주도권이 내 코드에, '배우는' 것"},{"id":"ioc","label":"제어의 역전","kind":"c","sec":"#f-what","def":"우리를 부르지 마세요, 우리가 당신을 부를게요 — 프레임워크가 소유하는 건 루프·생명주기"},{"id":"compile","label":"컴파일(AOT)","kind":"c","sec":"#f-run","def":"실행 전에 전부 기계어로 번역 — 실행 최고속, 대신 빌드 대기·OS별 빌드"},{"id":"interp","label":"인터프리터","kind":"c","sec":"#f-run","def":"런타임이 한 줄씩 즉석 번역 — 저장하면 바로 돌고 이식 쉬움, 실행은 느림"},{"id":"transpile","label":"트랜스파일","kind":"c","sec":"#f-run","def":"TS→JS 가벼운 컴파일 — 타입 검사 후 JS로 바뀔 뿐 기계어가 아니다"},{"id":"bun","label":"Bun","kind":"t","sec":"#f-choices","def":"TS를 실행 순간 즉석 변환해 바로 실행하는 JS 런타임 — Claude Code가 택한 이유"},{"id":"layers","label":"층 분담","kind":"c","sec":"#layers","def":"층마다 병목이 다르니 언어도 다르게 — 밑단은 빠른 언어, 윗단은 편한 언어"},{"id":"claudecode","label":"Claude Code","kind":"t","sec":"#overview","def":"모델 대기가 99%인 네트워크·모델 바운드 — 성능 저울이 0이라 TypeScript가 합리적"},{"id":"llamacpp","label":"llama.cpp","kind":"t","sec":"#layers","def":"연산이 진짜 병목인 추론엔진 — 같은 제품 안에서도 C++이 정답인 층"}],"edges":[{"s":"bottleneck","t":"scales","rel":"무게 결정"},{"s":"scales","t":"perf","rel":"포함"},{"s":"scales","t":"devspeed","rel":"포함"},{"s":"scales","t":"safety","rel":"포함"},{"s":"scales","t":"ecosystem","rel":"포함"},{"s":"scales","t":"talent","rel":"포함"},{"s":"perf","t":"cpp","rel":"강함"},{"s":"perf","t":"rust","rel":"강함"},{"s":"devspeed","t":"python","rel":"강함"},{"s":"devspeed","t":"ts","rel":"강함"},{"s":"safety","t":"rust","rel":"강함"},{"s":"ecosystem","t":"python","rel":"강함"},{"s":"ecosystem","t":"js","rel":"강함"},{"s":"talent","t":"js","rel":"강함"},{"s":"claudecode","t":"ts","rel":"사용"},{"s":"claudecode","t":"bun","rel":"사용"},{"s":"claudecode","t":"bottleneck","rel":"사례"},{"s":"popularity","t":"js","rel":"설문 1위"},{"s":"popularity","t":"ts","rel":"커밋 1위"},{"s":"popularity","t":"python","rel":"검색 1위"},{"s":"popularity","t":"rust","rel":"선망 1위"},{"s":"ts","t":"js","rel":"확장"},{"s":"framework","t":"runtime","rel":"위에"},{"s":"framework","t":"library","rel":"대비"},{"s":"framework","t":"ioc","rel":"속성"},{"s":"ioc","t":"claudecode","rel":"사례"},{"s":"compile","t":"interp","rel":"대비"},{"s":"cpp","t":"compile","rel":"종류"},{"s":"rust","t":"compile","rel":"종류"},{"s":"python","t":"interp","rel":"종류"},{"s":"js","t":"interp","rel":"종류"},{"s":"ts","t":"transpile","rel":"종류"},{"s":"bun","t":"transpile","rel":"즉석"},{"s":"bun","t":"runtime","rel":"종류"},{"s":"compile","t":"perf","rel":"결과"},{"s":"interp","t":"devspeed","rel":"결과"},{"s":"layers","t":"ts","rel":"윗단"},{"s":"bottleneck","t":"layers","rel":"원인"},{"s":"layers","t":"llamacpp","rel":"밑단"},{"s":"llamacpp","t":"cpp","rel":"사용"}]}</script>
+    <figcaption>「기술 스택 고르기」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. AXES ═══════════ -->
@@ -905,5 +913,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

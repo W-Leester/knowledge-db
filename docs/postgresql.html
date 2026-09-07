@@ -364,6 +364,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기 — 숫자와 명제</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#two-words">1. "확장성"은 두 단어다</a>
     <a href="#sockets">2. 확장이 1급 시민인 설계</a>
     <a href="#cartridge" class="sub">2-1. 카트리지 장착 (동적)</a>
@@ -418,6 +419,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     그 소켓들이 AI 시대에 <u>pgvector라는 결정타</u>를 만들어냈다(§5).
     「데이터베이스」 §8이 "기본값은 PostgreSQL"이라는 <u>결론</u>이었다면, 이 문서는 그 <u>이유의 해부</u>다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["확장·제품","#0F766E"],"s":["약점·함정","#B91C1C"]},"nodes":[{"id":"ext","label":"Extensibility","kind":"c","sec":"#two-words","def":"새 능력을 꽂을 수 있나 — 게임기에 카트리지 꽂기. Postgres를 왕으로 만든 쪽"},{"id":"scal","label":"Scalability","kind":"c","sec":"#two-words","def":"부하가 커지면 버티나 — 건물 층수 올리기. Postgres는 준수, 확장으로 메꾼다"},{"id":"sockets","label":"6개 소켓","kind":"c","sec":"#sockets","def":"타입·인덱스·함수·FDW·워커·훅 — 1986년부터 확장을 1급 시민으로 둔 코어"},{"id":"firstclass","label":"1급 시민","kind":"c","sec":"#sockets","def":"확장이 추가한 타입도 내장 integer와 같은 대우 — 트랜잭션·WAL·백업·복제·인덱스"},{"id":"cartridge","label":"카트리지 장착","kind":"t","sec":"#cartridge","def":"CREATE EXTENSION 한 줄 — DB를 갈아타지 않고 DB가 변신한다"},{"id":"pgvector","label":"pgvector","kind":"t","sec":"#ecosystem","def":"벡터 타입+거리 계산기 — 임베딩이 원본 옆에 살아 JOIN 가능. AI 시대의 결정타"},{"id":"jsonb","label":"JSONB","kind":"t","sec":"#ecosystem","def":"문서형을 코어 내장+GIN 인덱스로 — Mongo 가기 전에 JSONB"},{"id":"postgis","label":"PostGIS","kind":"t","sec":"#ecosystem","def":"지리 정보의 사실상 표준 — 확장 생태계의 원조 킬러앱"},{"id":"timescale","label":"TimescaleDB","kind":"t","sec":"#ecosystem","def":"시계열 확장 — 대규모 IoT 인입이면 전문 DB를 고려하는 조건부 대체"},{"id":"age","label":"Apache AGE","kind":"t","sec":"#ecosystem","def":"openCypher를 PG 안에서 — 그래프가 주인공이 되면 Neo4j로"},{"id":"citus","label":"Citus","kind":"t","sec":"#ecosystem","def":"샤딩마저 확장으로 — 기능 확장성이 규모 확장성을 낳는 반전의 증거"},{"id":"redis","label":"Redis 캐시","kind":"s","sec":"#ecosystem","def":"흡수 대상이 아니다 — 인메모리 속도는 구조가 다르니 곁들이는 것"},{"id":"embed","label":"임베딩 모델","kind":"c","sec":"#ecosystem","def":"텍스트를 좌표로 바꾸는 작고 싼 모델 — pgvector만으론 AI 검색이 안 되는 이유"},{"id":"threshold","label":"임계점","kind":"s","sec":"#ecosystem","def":"언제 전문 DB로 갈라서나 — 측정으로 증명된 것만 분리한다"},{"id":"polyglot","label":"Polyglot","kind":"c","sec":"#just-use","def":"일마다 최적 DB를 조합 — DB 5개면 백업·장애·학습도 5배, 동기화 지옥"},{"id":"justuse","label":"그냥 Postgres 써","kind":"c","sec":"#just-use","def":"충분히 좋은 하나+카트리지 — Polyglot의 부정이 아니라 시작점을 하나로 모으는 진화"},{"id":"mysql","label":"MySQL","kind":"t","sec":"#why-won","def":"LAMP 시대의 기본값 — 오라클 인수 후 불확실성, 관대한 기본값에 데인 개발자들"},{"id":"governance","label":"주인 없는 DB","kind":"c","sec":"#why-won","def":"어느 회사도 소유하지 않는 커뮤니티+관대한 라이선스 — 기업이 안심하고 베팅"},{"id":"supabase","label":"Supabase·Neon","kind":"t","sec":"#why-won","def":"신생 클라우드가 전부 PG 기반 — 신규 프로젝트의 기본값 지위를 가져갔다"},{"id":"writescale","label":"쓰기 수평 확장","kind":"s","sec":"#honest","def":"쓰기는 한 대가 받는다 — 대부분 수직 확장으로 멀리 가고, 진짜 한계에서 Citus"},{"id":"conn","label":"연결 비용","kind":"s","sec":"#honest","def":"연결마다 프로세스 — 수천 동시 연결에 약함, pgbouncer가 표준 처방"},{"id":"vacuum","label":"VACUUM","kind":"s","sec":"#honest","def":"MVCC의 대가로 쌓이는 죽은 행 청소 — 대량 갱신 워크로드에선 튜닝 대상"},{"id":"ladder","label":"스케일 사다리","kind":"c","sec":"#honest","def":"튜닝→캐시→읽기 복제→파티셔닝→샤딩 — 대부분의 서비스는 ③에서 끝난다"}],"edges":[{"s":"ext","t":"scal","rel":"대비"},{"s":"sockets","t":"ext","rel":"기반"},{"s":"sockets","t":"firstclass","rel":"보증"},{"s":"cartridge","t":"sockets","rel":"사용"},{"s":"pgvector","t":"cartridge","rel":"확장"},{"s":"postgis","t":"cartridge","rel":"확장"},{"s":"timescale","t":"cartridge","rel":"확장"},{"s":"age","t":"cartridge","rel":"확장"},{"s":"citus","t":"cartridge","rel":"확장"},{"s":"jsonb","t":"firstclass","rel":"코어 내장"},{"s":"pgvector","t":"firstclass","rel":"대우"},{"s":"pgvector","t":"embed","rel":"요구"},{"s":"citus","t":"scal","rel":"메꿈"},{"s":"ext","t":"scal","rel":"낳음"},{"s":"timescale","t":"threshold","rel":"조건부"},{"s":"age","t":"threshold","rel":"조건부"},{"s":"threshold","t":"redis","rel":"예외"},{"s":"redis","t":"justuse","rel":"곁들임"},{"s":"justuse","t":"threshold","rel":"요구"},{"s":"polyglot","t":"justuse","rel":"반동"},{"s":"justuse","t":"polyglot","rel":"진화형"},{"s":"ext","t":"justuse","rel":"근거"},{"s":"jsonb","t":"justuse","rel":"근거"},{"s":"pgvector","t":"mysql","rel":"제침"},{"s":"governance","t":"mysql","rel":"제침"},{"s":"supabase","t":"mysql","rel":"제침"},{"s":"sockets","t":"supabase","rel":"원인"},{"s":"sockets","t":"pgvector","rel":"원인"},{"s":"writescale","t":"scal","rel":"약점"},{"s":"conn","t":"scal","rel":"약점"},{"s":"vacuum","t":"scal","rel":"약점"},{"s":"writescale","t":"citus","rel":"해결"},{"s":"conn","t":"supabase","rel":"내장 처방"},{"s":"ladder","t":"scal","rel":"대응"},{"s":"ladder","t":"citus","rel":"최상단"},{"s":"ladder","t":"redis","rel":"② 캐시"}]}</script>
+    <figcaption>「PostgreSQL 해부」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. TWO WORDS ═══════════ -->
@@ -821,5 +829,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>

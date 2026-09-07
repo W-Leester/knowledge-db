@@ -328,6 +328,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
   <nav id="toc">
     <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
     <a href="#confusion">1. 왜 헷갈리나 — 실제 질문 사슬</a>
     <a href="#layers">2. 6층 명함</a>
     <a href="#map">3. 생태계 지도 — 8개 언어</a>
@@ -382,6 +383,13 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     이 문서는 그 개념들이 실제 생태계에서 <u>어떤 이름표를 달고 사는지</u>를 다룬다 — 형제 문서다.
     도구 사슬 통합의 최전선(Bun)은 「Claude Code 내부 해부」와 만난다.</div>
   </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["도구·기술","#0F766E"],"f":["파일·산출물","#AF5109"],"s":["상황·함정","#B91C1C"],"p":["사람·조직","#6B21A8"]},"nodes":[{"id":"lang","label":"언어(1층)","kind":"c","sec":"#layers","def":"문법 규칙 — 실체는 명세서. 연극의 대본을 쓰는 말"},{"id":"runtime","label":"런타임(2층)","kind":"c","sec":"#d-runtime","def":"그 말을 실행하는 프로그램 — 무대. 같은 대본을 올릴 무대가 여럿일 수 있다"},{"id":"pm","label":"패키지 매니저(3층)","kind":"c","sec":"#d-pm","def":"남의 코드를 가져오고 버전 관리하는 도구 — 소품 배달부"},{"id":"registry","label":"레지스트리(4층)","kind":"c","sec":"#d-pm","def":"패키지가 모인 온라인 창고 — 소품 도매시장"},{"id":"pkg","label":"패키지(5층)","kind":"c","sec":"#layers","def":"배달받은 코드 뭉치 — 라이브러리·프레임워크, 소품 그 자체"},{"id":"build","label":"빌드 도구(6층)","kind":"c","sec":"#d-build","def":"코드를 배포 표적에 맞게 변환·묶음·압축 — 공연 전 리허설·무대 전환 팀"},{"id":"terminal","label":"터미널(창구)","kind":"c","sec":"#layers","def":"여섯 층 누구든 이름을 불러 깨우는 인터페이스 — 매표소, 공연 자체는 아니다"},{"id":"node","label":"Node.js","kind":"t","sec":"#d-runtime","def":"화면 없는 JS 무대 — 파일·네트워크·서버 능력. npm이 사은품으로 따라온다"},{"id":"browser","label":"브라우저","kind":"t","sec":"#d-runtime","def":"화면이 있는 JS 무대 — 내 파일엔 손 못 댐. TS·JSX를 모르고 앞으로도 모른다"},{"id":"npm","label":"npm","kind":"t","sec":"#d-pm","def":"도구(3층)이자 창고 npmjs.com(4층)의 이름 — 다의성의 단골"},{"id":"pip","label":"pip / PyPI","kind":"t","sec":"#d-pm","def":"파이썬의 배달부와 창고 — 이름이 갈라져 있어 오히려 명확하다"},{"id":"react","label":"React","kind":"t","sec":"#practice","def":"언어가 아니라 JS로 쓰인 코드 뭉치(5층) — npm 창고에서 배달받는 라이브러리"},{"id":"vite","label":"Vite·esbuild","kind":"t","sec":"#d-build","def":"Node 위에서 도는 6층 변환 공장 — 번역·번들·압축"},{"id":"ts","label":"TypeScript","kind":"t","sec":"#practice","def":"1층 언어인데 브라우저가 못 읽어 6층(tsc)을 반드시 소환하는 언어"},{"id":"jsx","label":"JSX","kind":"c","sec":"#practice","def":"언어가 아니라 JS의 문법 확장(1층의 사투리) — 역시 6층 번역이 필수"},{"id":"buildtime","label":"빌드 타임","kind":"c","sec":"#buildtime","def":"내 컴퓨터의 조리실 — Node+Vite가 소스를 정적 파일로 변환하는 시점"},{"id":"runmoment","label":"런타임(시점)","kind":"c","sec":"#buildtime","def":"사용자의 테이블 — 브라우저가 산출물을 실행하는 시점. Node는 없고 필요한 적도 없다"},{"id":"summon","label":"빌드 소환","kind":"s","sec":"#b-when","def":"빌드는 언어의 의무가 아니라 TS·JSX·npm 패키지를 쓰면 따라오는 결과"},{"id":"dist","label":"dist/ 산출물","kind":"f","sec":"#b-when","def":"빌드가 새로 만든 정적 파일(app.js·d.ts·map) — src/는 커밋, dist/는 제외"},{"id":"isolation","label":"격리","kind":"c","sec":"#d-pm","def":"A는 v1, B는 v2 — JS는 node_modules 폴더가 곧 격리, 파이썬은 venv"},{"id":"supply","label":"공급망 공격","kind":"s","sec":"#d-pm","def":"창고의 개방성이 곧 공격면 — 타이포스쿼팅·탈취. lockfile로 버전 고정"},{"id":"polysemy","label":"이름의 다의성","kind":"s","sec":"#overview","def":"한 이름이 여러 층에 걸치면 \"언어 = 환경\" 같은 잘못된 등식이 생긴다"},{"id":"merge","label":"통합 도구","kind":"c","sec":"#merge","def":"cargo·go·Bun·uv — 여러 층을 한 몸에. 질문이 \"몇 층을 겸하지?\"로 진화"},{"id":"ide","label":"IDE","kind":"t","sec":"#practice","def":"층이 아니라 작업대 — 터미널의 GUI 진화형. VS Code는 빈 작업대, Xcode는 풀옵션 공장"}],"edges":[{"s":"runtime","t":"lang","rel":"실행"},{"s":"pm","t":"registry","rel":"받아옴"},{"s":"registry","t":"pkg","rel":"보관"},{"s":"pm","t":"pkg","rel":"배달"},{"s":"build","t":"dist","rel":"생성"},{"s":"terminal","t":"pm","rel":"호출"},{"s":"terminal","t":"runtime","rel":"호출"},{"s":"node","t":"runtime","rel":"종류"},{"s":"browser","t":"runtime","rel":"종류"},{"s":"npm","t":"pm","rel":"종류"},{"s":"npm","t":"registry","rel":"겸함"},{"s":"pip","t":"pm","rel":"종류"},{"s":"node","t":"npm","rel":"동봉"},{"s":"npm","t":"node","rel":"위에서 돎"},{"s":"vite","t":"node","rel":"위에서 돎"},{"s":"react","t":"pkg","rel":"종류"},{"s":"npm","t":"react","rel":"배달"},{"s":"vite","t":"build","rel":"종류"},{"s":"ts","t":"lang","rel":"종류"},{"s":"ts","t":"summon","rel":"원인"},{"s":"jsx","t":"summon","rel":"원인"},{"s":"jsx","t":"react","rel":"문법"},{"s":"browser","t":"ts","rel":"모름"},{"s":"summon","t":"build","rel":"소환"},{"s":"build","t":"buildtime","rel":"시점"},{"s":"runmoment","t":"browser","rel":"무대"},{"s":"buildtime","t":"dist","rel":"산출"},{"s":"dist","t":"runmoment","rel":"실행됨"},{"s":"isolation","t":"pm","rel":"부속"},{"s":"supply","t":"registry","rel":"그림자"},{"s":"polysemy","t":"npm","rel":"사례"},{"s":"merge","t":"runtime","rel":"겸함"},{"s":"merge","t":"pm","rel":"겸함"},{"s":"merge","t":"build","rel":"겸함"},{"s":"ide","t":"terminal","rel":"진화형"}]}</script>
+    <figcaption>「개발 생태계 해부」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
 </section>
 
 <!-- ═══════════ 1. CONFUSION ═══════════ -->
@@ -858,5 +866,6 @@ const spy = new IntersectionObserver(entries => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 targets.forEach(t => spy.observe(t));
 </script>
+<script src="../assets/concept-graph.js" defer></script>
 </body>
 </html>
