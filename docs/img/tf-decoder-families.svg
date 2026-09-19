@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs><marker id="tdf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/></marker></defs>
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">디코더라는 부품 — 원조의 두 덩어리, 앞만 보는 규칙, 그리고 세 가족</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">"디코더"가 생성을 맡는 이유는 규칙 하나다: 자기보다 앞에 놓인 토큰만 볼 수 있다</text>
+
+  <!-- 원조 구조 -->
+  <rect x="30" y="80" width="410" height="250" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="235" y="106" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">2017 원조 — 인코더 + 디코더 (번역기)</text>
+  <rect x="50" y="126" width="170" height="150" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="135" y="152" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">인코더</text>
+  <text x="135" y="172" font-size="10" fill="#555555" text-anchor="middle">입력 문장을 읽는다</text>
+  <text x="135" y="190" font-size="10" fill="#555555" text-anchor="middle">모든 토큰이 서로를 본다</text>
+  <text x="135" y="208" font-size="10" font-weight="700" fill="#1A5CB5" text-anchor="middle">양방향</text>
+  <text x="135" y="232" font-size="9.5" fill="#666666" text-anchor="middle">"I ate an apple"</text>
+  <text x="135" y="250" font-size="9.5" fill="#666666" text-anchor="middle">→ 이해한 좌표 묶음</text>
+  <line x1="220" y1="200" x2="256" y2="200" stroke="#003F8A" stroke-width="2.5" marker-end="url(#tdf)"/>
+  <text x="238" y="190" font-size="8.5" fill="#666666" text-anchor="middle">교차</text>
+  <text x="238" y="216" font-size="8.5" fill="#666666" text-anchor="middle">어텐션</text>
+  <rect x="260" y="126" width="170" height="150" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="345" y="152" font-size="12.5" font-weight="800" fill="#AF5109" text-anchor="middle">디코더</text>
+  <text x="345" y="172" font-size="10" fill="#555555" text-anchor="middle">출력 문장을 쓴다</text>
+  <text x="345" y="190" font-size="10" fill="#555555" text-anchor="middle">자기가 쓴 앞부분 + 인코더 결과</text>
+  <text x="345" y="208" font-size="10" font-weight="700" fill="#AF5109" text-anchor="middle">왼쪽만 (causal)</text>
+  <text x="345" y="232" font-size="9.5" fill="#666666" text-anchor="middle">"나는 사과를 ___"</text>
+  <text x="345" y="250" font-size="9.5" fill="#666666" text-anchor="middle">→ 다음 토큰 하나</text>
+  <text x="235" y="306" font-size="10" fill="#555555" text-anchor="middle">번역은 "다 읽고 → 다시 쓰기"라서 두 덩어리가 자연스러웠다</text>
+
+  <!-- causal mask -->
+  <rect x="460" y="80" width="410" height="250" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="665" y="106" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">causal mask — 어텐션 행렬의 위쪽 삼각형을 가린다</text>
+  <g font-size="9" fill="#555555" text-anchor="middle">
+    <text x="530" y="131">나는</text><text x="562" y="131">사과</text><text x="594" y="131">를</text><text x="626" y="131">어제</text><text x="658" y="131">먹</text><text x="690" y="131">었다</text>
+  </g>
+  <g font-size="9" fill="#555555" text-anchor="end">
+    <text x="510" y="160">나는</text><text x="510" y="192">사과</text><text x="510" y="224">를</text><text x="510" y="256">어제</text><text x="510" y="288">먹</text><text x="510" y="320">었다</text>
+  </g>
+  <g>
+    <rect x="514" y="144" width="30" height="30" fill="#E8962A"/><rect x="546" y="144" width="30" height="30" fill="#EDE8DF"/><rect x="578" y="144" width="30" height="30" fill="#EDE8DF"/><rect x="610" y="144" width="30" height="30" fill="#EDE8DF"/><rect x="642" y="144" width="30" height="30" fill="#EDE8DF"/><rect x="674" y="144" width="30" height="30" fill="#EDE8DF"/>
+    <rect x="514" y="176" width="30" height="30" fill="#E8962A"/><rect x="546" y="176" width="30" height="30" fill="#E8962A"/><rect x="578" y="176" width="30" height="30" fill="#EDE8DF"/><rect x="610" y="176" width="30" height="30" fill="#EDE8DF"/><rect x="642" y="176" width="30" height="30" fill="#EDE8DF"/><rect x="674" y="176" width="30" height="30" fill="#EDE8DF"/>
+    <rect x="514" y="208" width="30" height="30" fill="#E8962A"/><rect x="546" y="208" width="30" height="30" fill="#E8962A"/><rect x="578" y="208" width="30" height="30" fill="#E8962A"/><rect x="610" y="208" width="30" height="30" fill="#EDE8DF"/><rect x="642" y="208" width="30" height="30" fill="#EDE8DF"/><rect x="674" y="208" width="30" height="30" fill="#EDE8DF"/>
+    <rect x="514" y="240" width="30" height="30" fill="#E8962A"/><rect x="546" y="240" width="30" height="30" fill="#E8962A"/><rect x="578" y="240" width="30" height="30" fill="#E8962A"/><rect x="610" y="240" width="30" height="30" fill="#E8962A"/><rect x="642" y="240" width="30" height="30" fill="#EDE8DF"/><rect x="674" y="240" width="30" height="30" fill="#EDE8DF"/>
+    <rect x="514" y="272" width="30" height="30" fill="#E8962A"/><rect x="546" y="272" width="30" height="30" fill="#E8962A"/><rect x="578" y="272" width="30" height="30" fill="#E8962A"/><rect x="610" y="272" width="30" height="30" fill="#E8962A"/><rect x="642" y="272" width="30" height="30" fill="#E8962A"/><rect x="674" y="272" width="30" height="30" fill="#EDE8DF"/>
+    <rect x="514" y="304" width="30" height="30" fill="#E8962A"/><rect x="546" y="304" width="30" height="30" fill="#E8962A"/><rect x="578" y="304" width="30" height="30" fill="#E8962A"/><rect x="610" y="304" width="30" height="30" fill="#E8962A"/><rect x="642" y="304" width="30" height="30" fill="#E8962A"/><rect x="674" y="304" width="30" height="30" fill="#E8962A"/>
+  </g>
+  <text x="790" y="170" font-size="10" fill="#555555">세로 = 질문하는 토큰</text>
+  <text x="790" y="188" font-size="10" fill="#555555">가로 = 보는 대상</text>
+  <text x="790" y="216" font-size="10" font-weight="700" fill="#AF5109">주황 = 볼 수 있음</text>
+  <text x="790" y="234" font-size="10" fill="#666666">회색 = 미래, 가려짐</text>
+  <text x="790" y="266" font-size="9.5" fill="#555555">"사과"는 "나는"과</text>
+  <text x="790" y="282" font-size="9.5" fill="#555555">자기 자신만 본다</text>
+  <text x="790" y="310" font-size="9.5" fill="#1A5CB5" font-weight="700">인코더는 전부 주황</text>
+
+  <!-- 세 가족 -->
+  <rect x="30" y="350" width="270" height="200" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="165" y="378" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">인코더만 — BERT 혈통</text>
+  <text x="50" y="402" font-size="10.5" fill="#555555">학습 목표: <tspan font-weight="700">빈칸 맞히기</tspan> (양방향)</text>
+  <text x="50" y="422" font-size="10.5" fill="#555555">잘하는 것: 이해 · 분류 · 임베딩</text>
+  <text x="50" y="442" font-size="10.5" fill="#555555">못 하는 것: 긴 글 생성</text>
+  <text x="50" y="470" font-size="10" fill="#666666">BERT · RoBERTa · ko-sroberta</text>
+  <text x="50" y="488" font-size="10" fill="#666666">bge-m3 같은 임베딩 모델도 여기</text>
+  <text x="50" y="520" font-size="9.5" fill="#1A5CB5" font-weight="700">「로컬 모델」 §5-1의 임베딩이 이 가족</text>
+
+  <rect x="315" y="350" width="270" height="200" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3.5"/>
+  <text x="450" y="378" font-size="13" font-weight="800" fill="#AF5109" text-anchor="middle">디코더만 — GPT 혈통 ★</text>
+  <text x="335" y="402" font-size="10.5" fill="#555555">학습 목표: <tspan font-weight="700">다음 토큰 예측</tspan> (왼쪽만)</text>
+  <text x="335" y="422" font-size="10.5" fill="#555555">잘하는 것: 생성 · 대화 · 코드 · 추론</text>
+  <text x="335" y="442" font-size="10.5" fill="#555555">프롬프트 = "이미 쓰인 앞부분"</text>
+  <text x="335" y="470" font-size="10" fill="#666666">GPT · Claude · Gemini · Llama · Qwen</text>
+  <text x="335" y="488" font-size="10" fill="#666666">지금의 LLM 전부</text>
+  <text x="335" y="520" font-size="9.5" fill="#AF5109" font-weight="700">읽기와 쓰기를 한 부품, 한 규칙으로</text>
+
+  <rect x="600" y="350" width="270" height="200" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="735" y="378" font-size="13" font-weight="800" fill="#0F766E" text-anchor="middle">둘 다 — 변환기 혈통</text>
+  <text x="620" y="402" font-size="10.5" fill="#555555">학습 목표: <tspan font-weight="700">입력 → 다른 출력</tspan></text>
+  <text x="620" y="422" font-size="10.5" fill="#555555">잘하는 것: 번역 · 요약 · 음성→글</text>
+  <text x="620" y="442" font-size="10.5" fill="#555555">입력과 출력의 성격이 다를 때</text>
+  <text x="620" y="470" font-size="10" fill="#666666">T5 · BART · Whisper(음성 인코더)</text>
+  <text x="620" y="488" font-size="10" fill="#666666">원조 논문의 형태</text>
+  <text x="620" y="520" font-size="9.5" fill="#0F766E" font-weight="700">LLM 시대에는 소수파가 됐다</text>
+
+  <rect x="30" y="568" width="840" height="56" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="592" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">"디코더가 중요하다" = 현대 LLM은 디코더만으로 만들어져 있다 — 인코더를 버린 대가로 구조가 단순해졌고, 단순함이 스케일링을 이겼다</text>
+  <text x="450" y="612" font-size="10.5" fill="#AAB9CF" text-anchor="middle">단, 양방향 이해가 필요한 임베딩·분류에서는 BERT 혈통이 여전히 강하다 — 가족은 대체가 아니라 분업이다</text>
+</svg>

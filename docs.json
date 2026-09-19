@@ -519,11 +519,13 @@
         "RNN·LSTM",
         "Mamba·하이브리드"
       ],
-      "version": 2,
+      "version": 3,
       "assets": [
         "docs/img/tf-history.svg",
         "docs/img/tf-architecture.svg",
-        "docs/img/tf-challengers.svg"
+        "docs/img/tf-challengers.svg",
+        "docs/img/tf-decoder-families.svg",
+        "docs/img/tf-decoding-strategies.svg"
       ]
     },
     {

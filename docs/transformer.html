@@ -349,9 +349,23 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 .tf-n3 { transform-box: fill-box; transform-origin: bottom; animation: tfLin3 11s ease-out infinite; }
 @keyframes tfBill { 0%, 78% { opacity: 0; } 86%, 100% { opacity: 1; } }
 .tf-bill { opacity: 0; animation: tfBill 11s ease-out infinite; }
+/* ④ 프리필 vs 디코드 */
+@keyframes tfPf { 0%, 4% { opacity: 0; transform: translateY(6px); } 9%, 100% { opacity: 1; transform: translateY(0); } }
+.tf-pf { opacity: 0; animation: tfPf 14s ease-out infinite; }
+.tf-dk1 { opacity: 0; animation: tfD1 14s ease-out infinite; } .tf-dk2 { opacity: 0; animation: tfD2 14s ease-out infinite; } .tf-dk3 { opacity: 0; animation: tfD3 14s ease-out infinite; }
+.tf-dk4 { opacity: 0; animation: tfD4 14s ease-out infinite; } .tf-dk5 { opacity: 0; animation: tfD5 14s ease-out infinite; } .tf-dk6 { opacity: 0; animation: tfD6 14s ease-out infinite; }
+@keyframes tfD1 { 0%, 22% { opacity: 0; } 26%, 100% { opacity: 1; } } @keyframes tfD2 { 0%, 34% { opacity: 0; } 38%, 100% { opacity: 1; } } @keyframes tfD3 { 0%, 46% { opacity: 0; } 50%, 100% { opacity: 1; } }
+@keyframes tfD4 { 0%, 58% { opacity: 0; } 62%, 100% { opacity: 1; } } @keyframes tfD5 { 0%, 70% { opacity: 0; } 74%, 100% { opacity: 1; } } @keyframes tfD6 { 0%, 82% { opacity: 0; } 86%, 100% { opacity: 1; } }
+@keyframes tfRead { 0%, 20% { opacity: .15; } 23%, 25% { opacity: 1; } 32% { opacity: .15; } 35%, 37% { opacity: 1; } 44% { opacity: .15; } 47%, 49% { opacity: 1; } 56% { opacity: .15; } 59%, 61% { opacity: 1; } 68% { opacity: .15; } 71%, 73% { opacity: 1; } 80% { opacity: .15; } 83%, 85% { opacity: 1; } 92%, 100% { opacity: .15; } }
+.tf-read { opacity: .15; animation: tfRead 14s linear infinite; }
+@keyframes tfKv { 0%, 8% { transform: scaleX(.3); } 22% { transform: scaleX(.3); } 26% { transform: scaleX(.42); } 38% { transform: scaleX(.54); } 50% { transform: scaleX(.66); } 62% { transform: scaleX(.78); } 74% { transform: scaleX(.9); } 86%, 100% { transform: scaleX(1); } }
+.tf-kv { transform-box: fill-box; transform-origin: left; animation: tfKv 14s linear infinite; }
+@keyframes tfGpu { 0%, 4% { opacity: .2; } 6%, 12% { opacity: 1; } 16%, 100% { opacity: .2; } }
+.tf-gpu { opacity: .2; animation: tfGpu 14s linear infinite; }
 @media (prefers-reduced-motion: reduce) {
   .tf-anim * { animation: none !important; }
-  .tf-beam, .tf-glow, .tf-w, .tf-result, .tf-g1, .tf-g2, .tf-g3, .tf-bill { opacity: 1 !important; }
+  .tf-beam, .tf-glow, .tf-w, .tf-result, .tf-g1, .tf-g2, .tf-g3, .tf-bill, .tf-pf, .tf-dk1, .tf-dk2, .tf-dk3, .tf-dk4, .tf-dk5, .tf-dk6, .tf-read, .tf-gpu { opacity: 1 !important; }
+  .tf-kv { transform: scaleX(1); }
   .tf-n1, .tf-n2, .tf-n3 { transform: scaleY(1); }
 }
 @media (max-width: 720px) { .tf-anim .fig-scroll svg { min-width: 860px; } }
@@ -370,12 +384,14 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#history">2. 이전 계보 — RNN에서 어텐션까지</a>
     <a href="#core">3. 핵심 원리 — 회의실 비유</a>
     <a href="#spotlight" class="sub">3-1. 어텐션 스포트라이트 (동적)</a>
-    <a href="#why-won">4. 왜 대세가 됐나 — 세 요인</a>
-    <a href="#cost">5. 아킬레스건 — n²의 청구서</a>
-    <a href="#quadratic" class="sub">5-1. n² 성장 (동적)</a>
-    <a href="#challengers">6. 도전자들 (2026)</a>
-    <a href="#verdict">7. 트랜스포머는 끝났나</a>
-    <a href="#refs">8. 함께 읽기</a>
+    <a href="#decoder">4. 디코더 — 부품·단계·전략</a>
+    <a href="#prefill" class="sub">4-1. 프리필 vs 디코드 (동적)</a>
+    <a href="#why-won">5. 왜 대세가 됐나 — 세 요인</a>
+    <a href="#cost">6. 아킬레스건 — n²의 청구서</a>
+    <a href="#quadratic" class="sub">6-1. n² 성장 (동적)</a>
+    <a href="#challengers">7. 도전자들 (2026)</a>
+    <a href="#verdict">8. 트랜스포머는 끝났나</a>
+    <a href="#refs">9. 함께 읽기</a>
   </nav>
   <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.09</div>
 </aside>
@@ -409,21 +425,21 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   <div class="card-grid g4">
     <div class="stat-card"><div class="stat-value">2017</div><div class="stat-label">"Attention Is All You Need"<br>— 8년 만에 AI 전체를 재편 (§2)</div></div>
     <div class="stat-card"><div class="stat-value">동시에</div><div class="stat-label">모든 단어가 서로를<br>한 번에 본다 (§3)</div></div>
-    <div class="stat-card"><div class="stat-value">n²</div><div class="stat-label">그 대가 — 문맥 2배면<br>비용 4배 (§5)</div></div>
-    <div class="stat-card"><div class="stat-value">혼혈</div><div class="stat-label">2026 도전자들의 침투로 —<br>순혈 대신 하이브리드 (§6)</div></div>
+    <div class="stat-card"><div class="stat-value">n²</div><div class="stat-label">그 대가 — 문맥 2배면<br>비용 4배 (§6)</div></div>
+    <div class="stat-card"><div class="stat-value">혼혈</div><div class="stat-label">2026 도전자들의 침투로 —<br>순혈 대신 하이브리드 (§7)</div></div>
   </div>
 
   <div class="callout navy">
     <span class="icon">🔦</span>
     <div><strong>한 문장으로 —</strong> 트랜스포머는 <u>"문장의 모든 단어가 다른 모든 단어를 동시에 쳐다보며,
-    누구에게 얼마나 주목할지를 스스로 배우는 구조"</u>다. "동시에"가 GPU와의 결혼(§4)을,
-    "모두를"이 n² 청구서(§5)를 낳았다 — 영광과 약점이 같은 문장 안에 있다.</div>
+    누구에게 얼마나 주목할지를 스스로 배우는 구조"</u>다. "동시에"가 GPU와의 결혼(§5)을,
+    "모두를"이 n² 청구서(§6)를 낳았다 — 영광과 약점이 같은 문장 안에 있다.</div>
   </div>
 
   <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
   <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
   <figure class="cg-anim">
-    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["구조·모델","#0F766E"],"s":["난제·약점","#B91C1C"],"p":["사람·조직","#6B21A8"]},"nodes":[{"id":"tf","label":"트랜스포머","kind":"c","sec":"#core","def":"문장의 모든 단어가 다른 모든 단어를 동시에 보며 주목할 곳을 스스로 배우는 구조"},{"id":"attn","label":"셀프 어텐션","kind":"c","sec":"#core","def":"각 토큰이 Q로 모두의 K를 대조해 점수를 매기고 V를 섞어 가져오는 회의실"},{"id":"qkv","label":"Q·K·V","kind":"c","sec":"#core","def":"Q는 질문, K는 명찰, V는 내용 — 토큰마다 만드는 세 장의 카드"},{"id":"multihead","label":"멀티 헤드","kind":"c","sec":"#core","def":"어텐션 회의를 여러 관점으로 동시에 여는 것"},{"id":"ffn","label":"FFN","kind":"c","sec":"#core","def":"어텐션 뒤 각 토큰이 따로 소화하는 층 — MoE는 이것을 전문가 여럿으로 쪼갠 것"},{"id":"kvcache","label":"KV 캐시","kind":"c","sec":"#cost","def":"생성 때 이전 토큰의 명찰(K)·내용(V) 카드를 다시 계산하지 않으려 저장해두는 것"},{"id":"longdep","label":"장거리 의존","kind":"s","sec":"#problem","def":"'그것'의 정체가 열 단어 밖에 있다 — 역대 구조들의 무덤"},{"id":"ngram","label":"n-gram","kind":"t","sec":"#history","def":"바로 앞 몇 단어로 다음 단어 확률을 센다 — 문맥 2~4단어, 장거리는 원리적으로 불가"},{"id":"rnn","label":"RNN","kind":"t","sec":"#history","def":"한 단어씩 읽으며 '지금까지의 요약'을 넘긴다 — 전화 게임 + 순차 처리"},{"id":"lstm","label":"LSTM·GRU","kind":"t","sec":"#history","def":"게이트로 무엇을 기억·망각할지 조절 — 전화 게임은 완화, 순차 처리는 그대로"},{"id":"seq2seq","label":"Seq2seq+어텐션","kind":"t","sec":"#history","def":"출력마다 입력 전체를 다시 훑는 '조수' — 알고 보니 공의 대부분이 조수의 것"},{"id":"google","label":"구글 연구진","kind":"p","sec":"#history","def":"2017년 '순환도 합성곱도 필요 없다'는 선언문 제목의 번역 논문을 낸 팀"},{"id":"gpu","label":"GPU","kind":"t","sec":"#why-won","def":"'모두가 모두를 동시에'는 거대한 행렬 곱셈 — 정확히 GPU가 잘하는 유일한 일"},{"id":"scaling","label":"스케일링 법칙","kind":"c","sec":"#why-won","def":"데이터·파라미터·계산을 키우면 성능이 예측 가능하게 좋아진다는 투자 공식"},{"id":"universal","label":"범용성","kind":"c","sec":"#why-won","def":"무엇이든 토큰 시퀀스로 만들면 트랜스포머가 먹는다 — ViT·음성·코드·단백질"},{"id":"lottery","label":"하드웨어 복권","kind":"c","sec":"#why-won","def":"구조의 승리엔 시대 하드웨어와 맞아떨어진 운도 작용 — 이제 생태계가 구조를 지킨다"},{"id":"n2","label":"O(n²) 청구서","kind":"s","sec":"#cost","def":"토큰 n개가 서로 전부를 보면 n×n번 계산 — 문맥 2배면 비용 4배"},{"id":"mamba","label":"Mamba·SSM","kind":"t","sec":"#challengers","def":"전체 회의 대신 요약 노트 한 권을 갱신하며 전진 — 선형 O(n), 정밀 참조엔 약함"},{"id":"rwkv","label":"RWKV·xLSTM","kind":"t","sec":"#challengers","def":"RNN의 부활 — 학습은 병렬, 추론은 상태 하나만. KV 캐시가 아예 없다"},{"id":"diffusion","label":"확산 LLM","kind":"t","sec":"#challengers","def":"한 토큰씩 대신 전체 초안을 반복해 다듬는다 — 내부 블록은 여전히 트랜스포머"},{"id":"hybrid","label":"하이브리드","kind":"t","sec":"#challengers","def":"대부분 층은 선형으로 싸게, 몇 층만 진짜 어텐션으로 — 2026의 실질 대세"},{"id":"moe","label":"MoE","kind":"c","sec":"#challengers","def":"도전자가 아니다 — 트랜스포머 내부의 FFN을 전문가 여럿으로 쪼갠 변형"},{"id":"verdict","label":"비율의 문제","kind":"c","sec":"#verdict","def":"전복이 아니라 침투 — 하이브리드 안에서 어텐션 층의 지분이 줄어드는 방식"}],"edges":[{"s":"tf","t":"attn","rel":"포함"},{"s":"attn","t":"qkv","rel":"사용"},{"s":"tf","t":"multihead","rel":"포함"},{"s":"multihead","t":"attn","rel":"여러 관점"},{"s":"tf","t":"ffn","rel":"포함"},{"s":"attn","t":"kvcache","rel":"생성"},{"s":"tf","t":"longdep","rel":"해결"},{"s":"attn","t":"longdep","rel":"직통 연결"},{"s":"ngram","t":"longdep","rel":"못 푼다"},{"s":"ngram","t":"rnn","rel":"선행"},{"s":"rnn","t":"lstm","rel":"선행"},{"s":"lstm","t":"seq2seq","rel":"선행"},{"s":"seq2seq","t":"tf","rel":"선행"},{"s":"seq2seq","t":"attn","rel":"포함"},{"s":"rnn","t":"gpu","rel":"놀린다"},{"s":"tf","t":"rnn","rel":"대체"},{"s":"tf","t":"gpu","rel":"결혼"},{"s":"tf","t":"n2","rel":"원인"},{"s":"n2","t":"kvcache","rel":"청구서②"},{"s":"scaling","t":"tf","rel":"승리 요인"},{"s":"universal","t":"tf","rel":"승리 요인"},{"s":"gpu","t":"lottery","rel":"당첨"},{"s":"lottery","t":"verdict","rel":"관성"},{"s":"mamba","t":"n2","rel":"공격"},{"s":"rwkv","t":"n2","rel":"공격"},{"s":"diffusion","t":"n2","rel":"공격"},{"s":"hybrid","t":"n2","rel":"공격"},{"s":"mamba","t":"hybrid","rel":"합류"},{"s":"hybrid","t":"attn","rel":"포함"},{"s":"rwkv","t":"kvcache","rel":"없앰"},{"s":"diffusion","t":"tf","rel":"내부 유지"},{"s":"moe","t":"ffn","rel":"쪼갬"},{"s":"tf","t":"moe","rel":"내부 변형"},{"s":"hybrid","t":"verdict","rel":"침투 경로"},{"s":"google","t":"tf","rel":"발표"}]}</script>
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념","#1A5CB5"],"t":["구조·모델","#0F766E"],"s":["난제·약점","#B91C1C"],"p":["사람·조직","#6B21A8"]},"nodes":[{"id":"tf","label":"트랜스포머","kind":"c","sec":"#core","def":"문장의 모든 단어가 다른 모든 단어를 동시에 보며 주목할 곳을 스스로 배우는 구조"},{"id":"attn","label":"셀프 어텐션","kind":"c","sec":"#core","def":"각 토큰이 Q로 모두의 K를 대조해 점수를 매기고 V를 섞어 가져오는 회의실"},{"id":"qkv","label":"Q·K·V","kind":"c","sec":"#core","def":"Q는 질문, K는 명찰, V는 내용 — 토큰마다 만드는 세 장의 카드"},{"id":"multihead","label":"멀티 헤드","kind":"c","sec":"#core","def":"어텐션 회의를 여러 관점으로 동시에 여는 것"},{"id":"ffn","label":"FFN","kind":"c","sec":"#core","def":"어텐션 뒤 각 토큰이 따로 소화하는 층 — MoE는 이것을 전문가 여럿으로 쪼갠 것"},{"id":"kvcache","label":"KV 캐시","kind":"c","sec":"#cost","def":"생성 때 이전 토큰의 명찰(K)·내용(V) 카드를 다시 계산하지 않으려 저장해두는 것"},{"id":"longdep","label":"장거리 의존","kind":"s","sec":"#problem","def":"'그것'의 정체가 열 단어 밖에 있다 — 역대 구조들의 무덤"},{"id":"ngram","label":"n-gram","kind":"t","sec":"#history","def":"바로 앞 몇 단어로 다음 단어 확률을 센다 — 문맥 2~4단어, 장거리는 원리적으로 불가"},{"id":"rnn","label":"RNN","kind":"t","sec":"#history","def":"한 단어씩 읽으며 '지금까지의 요약'을 넘긴다 — 전화 게임 + 순차 처리"},{"id":"lstm","label":"LSTM·GRU","kind":"t","sec":"#history","def":"게이트로 무엇을 기억·망각할지 조절 — 전화 게임은 완화, 순차 처리는 그대로"},{"id":"seq2seq","label":"Seq2seq+어텐션","kind":"t","sec":"#history","def":"출력마다 입력 전체를 다시 훑는 '조수' — 알고 보니 공의 대부분이 조수의 것"},{"id":"google","label":"구글 연구진","kind":"p","sec":"#history","def":"2017년 '순환도 합성곱도 필요 없다'는 선언문 제목의 번역 논문을 낸 팀"},{"id":"gpu","label":"GPU","kind":"t","sec":"#why-won","def":"'모두가 모두를 동시에'는 거대한 행렬 곱셈 — 정확히 GPU가 잘하는 유일한 일"},{"id":"scaling","label":"스케일링 법칙","kind":"c","sec":"#why-won","def":"데이터·파라미터·계산을 키우면 성능이 예측 가능하게 좋아진다는 투자 공식"},{"id":"universal","label":"범용성","kind":"c","sec":"#why-won","def":"무엇이든 토큰 시퀀스로 만들면 트랜스포머가 먹는다 — ViT·음성·코드·단백질"},{"id":"lottery","label":"하드웨어 복권","kind":"c","sec":"#why-won","def":"구조의 승리엔 시대 하드웨어와 맞아떨어진 운도 작용 — 이제 생태계가 구조를 지킨다"},{"id":"n2","label":"O(n²) 청구서","kind":"s","sec":"#cost","def":"토큰 n개가 서로 전부를 보면 n×n번 계산 — 문맥 2배면 비용 4배"},{"id":"mamba","label":"Mamba·SSM","kind":"t","sec":"#challengers","def":"전체 회의 대신 요약 노트 한 권을 갱신하며 전진 — 선형 O(n), 정밀 참조엔 약함"},{"id":"rwkv","label":"RWKV·xLSTM","kind":"t","sec":"#challengers","def":"RNN의 부활 — 학습은 병렬, 추론은 상태 하나만. KV 캐시가 아예 없다"},{"id":"diffusion","label":"확산 LLM","kind":"t","sec":"#challengers","def":"한 토큰씩 대신 전체 초안을 반복해 다듬는다 — 내부 블록은 여전히 트랜스포머"},{"id":"hybrid","label":"하이브리드","kind":"t","sec":"#challengers","def":"대부분 층은 선형으로 싸게, 몇 층만 진짜 어텐션으로 — 2026의 실질 대세"},{"id":"moe","label":"MoE","kind":"c","sec":"#challengers","def":"도전자가 아니다 — 트랜스포머 내부의 FFN을 전문가 여럿으로 쪼갠 변형"},{"id":"verdict","label":"비율의 문제","kind":"c","sec":"#verdict","def":"전복이 아니라 침투 — 하이브리드 안에서 어텐션 층의 지분이 줄어드는 방식"},{"id":"decoder","label":"디코더","kind":"c","sec":"#decoder","def":"앞만 보며 한 토큰씩 쓰는 블록. 지금의 LLM은 이것만으로 만들어진다"}],"edges":[{"s":"tf","t":"attn","rel":"포함"},{"s":"attn","t":"qkv","rel":"사용"},{"s":"tf","t":"multihead","rel":"포함"},{"s":"multihead","t":"attn","rel":"여러 관점"},{"s":"tf","t":"ffn","rel":"포함"},{"s":"attn","t":"kvcache","rel":"생성"},{"s":"tf","t":"longdep","rel":"해결"},{"s":"attn","t":"longdep","rel":"직통 연결"},{"s":"ngram","t":"longdep","rel":"못 푼다"},{"s":"ngram","t":"rnn","rel":"선행"},{"s":"rnn","t":"lstm","rel":"선행"},{"s":"lstm","t":"seq2seq","rel":"선행"},{"s":"seq2seq","t":"tf","rel":"선행"},{"s":"seq2seq","t":"attn","rel":"포함"},{"s":"rnn","t":"gpu","rel":"놀린다"},{"s":"tf","t":"rnn","rel":"대체"},{"s":"tf","t":"gpu","rel":"결혼"},{"s":"tf","t":"n2","rel":"원인"},{"s":"n2","t":"kvcache","rel":"청구서②"},{"s":"scaling","t":"tf","rel":"승리 요인"},{"s":"universal","t":"tf","rel":"승리 요인"},{"s":"gpu","t":"lottery","rel":"당첨"},{"s":"lottery","t":"verdict","rel":"관성"},{"s":"mamba","t":"n2","rel":"공격"},{"s":"rwkv","t":"n2","rel":"공격"},{"s":"diffusion","t":"n2","rel":"공격"},{"s":"hybrid","t":"n2","rel":"공격"},{"s":"mamba","t":"hybrid","rel":"합류"},{"s":"hybrid","t":"attn","rel":"포함"},{"s":"rwkv","t":"kvcache","rel":"없앰"},{"s":"diffusion","t":"tf","rel":"내부 유지"},{"s":"moe","t":"ffn","rel":"쪼갬"},{"s":"tf","t":"moe","rel":"내부 변형"},{"s":"hybrid","t":"verdict","rel":"침투 경로"},{"s":"google","t":"tf","rel":"발표"},{"s":"tf","t":"decoder","rel":"가족"},{"s":"decoder","t":"kvcache","rel":"생성"},{"s":"diffusion","t":"decoder","rel":"도전"}]}</script>
     <figcaption>「트랜스포머 해부」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
   </figure>
 </section>
@@ -468,7 +484,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
         <tr><td class="hl">RNN</td><td>한 단어씩 읽으며 "지금까지의 요약"을 넘긴다</td><td><strong>전화 게임</strong>(요약을 덮어쓰다 앞 내용 소실) + <strong>순차 처리</strong>(병렬 불가 — GPU가 논다)</td></tr>
         <tr><td class="hl">LSTM · GRU</td><td>게이트로 "무엇을 기억·망각할지" 조절</td><td>전화 게임은 완화했으나 <u>순차 처리는 그대로</u></td></tr>
         <tr><td class="hl">Seq2seq + Attention</td><td>출력할 때마다 입력 전체를 다시 훑는 "조수"를 붙임</td><td>성능이 급등했는데 — 알고 보니 <u>공의 대부분이 조수의 것</u>이었다</td></tr>
-        <tr><td class="hl">Transformer (2017)</td><td><strong>주인(RNN)을 해고하고 조수(attention)만 남긴다</strong></td><td>— (그리고 새 약점이 생긴다: §5)</td></tr>
+        <tr><td class="hl">Transformer (2017)</td><td><strong>주인(RNN)을 해고하고 조수(attention)만 남긴다</strong></td><td>— (그리고 새 약점이 생긴다: §6)</td></tr>
       </tbody>
     </table>
   </div>
@@ -586,11 +602,175 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   </div>
 </section>
 
-<!-- ═══════════ 4. WHY WON ═══════════ -->
+<!-- ═══════════ 4. DECODER ═══════════ -->
+<section id="decoder">
+  <div class="section-header">
+    <div class="eyebrow">The Decoder</div>
+    <h2>4. 디코더 — 한 이름, 세 가지 뜻</h2>
+    <p>부품 · 추론의 단계 · 생성 전략</p>
+  </div>
+
+  <p class="body">LLM 공부를 하다 보면 "디코더가 중요하다"는 말을 계속 만난다. 그런데 이 단어는 <strong>세 가지 다른 것</strong>을 가리킨다 —
+  구조의 <u>부품</u>(decoder), 추론의 <u>단계</u>(decode phase), 토큰을 고르는 <u>전략</u>(decoding strategy).
+  셋 다 "디코드"라는 이름을 쓰기 때문에 섞이면 문장이 통째로 안 읽힌다. 하나씩 분리한다.</p>
+
+  <h3><span class="num">A</span>부품으로서의 디코더 — 앞만 보는 규칙 하나</h3>
+  <p class="body">2017년 원조는 번역기였고 <strong>인코더와 디코더</strong> 두 덩어리였다. 인코더는 입력 문장을 <u>양방향</u>으로 읽어 이해한 좌표를 만들고,
+  디코더는 그 좌표를 참고하며 출력 문장을 <u>한 토큰씩</u> 쓴다. 디코더의 회의실(§3)에는 규칙이 하나 더 있다 —
+  <strong>자기보다 앞에 앉은 참석자만 볼 수 있다.</strong> 뒤에 올 단어는 아직 쓰이지 않았으니 볼 수 없다는 뜻이고,
+  어텐션 행렬의 위쪽 삼각형을 가리는 이 장치를 <em>causal mask</em>라 부른다. 디코더가 "생성"을 맡는 이유는 이 규칙 하나다.</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/tf-decoder-families.svg" alt="원조 인코더 디코더 구조, causal mask 삼각 행렬, 인코더만 디코더만 둘 다의 세 가족 비교"></div>
+    <figcaption>원조의 두 덩어리 → causal mask(위 삼각형 가림) → 세 가족. 지금의 LLM은 전부 가운데 "디코더만" 가족 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:130px">가족</th><th style="width:170px">학습 목표</th><th style="width:210px">대표</th><th>잘하는 것 · 못 하는 것</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">인코더만</td><td>빈칸 맞히기 (양방향)</td><td>BERT · RoBERTa · ko-sroberta · bge-m3</td><td>이해·분류·<strong>임베딩</strong>에 강함 · 긴 글 생성은 못 함</td></tr>
+        <tr><td class="hl">디코더만 ★</td><td>다음 토큰 예측 (왼쪽만)</td><td>GPT · Claude · Gemini · Llama · Qwen</td><td>생성·대화·코드·추론 — <strong>지금의 LLM 전부</strong></td></tr>
+        <tr><td class="hl">둘 다</td><td>입력 → 다른 출력</td><td>T5 · BART · Whisper</td><td>번역·요약·음성→글처럼 입력과 출력의 성격이 다를 때 · LLM 시대엔 소수파</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="num">B</span>왜 디코더만 남았나 — 프롬프트는 "이미 쓰인 앞부분"이다</h3>
+  <p class="body">인코더를 버렸는데 어떻게 질문을 이해하나? 답은 트릭 하나다. <strong>프롬프트를 "이미 쓰인 앞부분"으로 넣어주면 디코더가 그것을 읽고 그 뒤를 이어 쓴다.</strong>
+  읽기와 쓰기가 같은 부품, 같은 규칙(앞만 보기)으로 처리되니 구조가 단순해지고, 학습 목표도 "다음 토큰 하나"로 통일된다.
+  번역·요약·분류·코딩이 전부 <u>"다음 토큰이 뭔가"</u>의 특수한 경우가 되면서 과제별 모델이 사라지고 하나의 모델이 남았다 —
+  이것이 2018년 GPT-1이 던진 판단이었고, §5의 스케일링 법칙이 이 단순함 위에서 작동했다.</p>
+
+  <div class="callout amber">
+    <span class="icon">⚖️</span>
+    <div><strong>대체가 아니라 분업 —</strong> 디코더만 가족이 이긴 것은 <u>생성</u>에서다. 문장 전체를 양방향으로 봐야 좋은 좌표가 나오는 <u>임베딩</u>에서는
+    BERT 혈통이 여전히 강하고, 「현실적으로 사용해볼만한 로컬 모델」 §5-1의 bge-m3·KURE가 전부 그 가족이다.
+    "LLM = 디코더"는 맞지만 "AI 모델 = 디코더"는 아니다.</div>
+  </div>
+
+  <h3 id="prefill">4-1. 단계로서의 디코드 — 프리필과 디코드 (동적)</h3>
+  <p class="body">디코더만 있는 모델의 추론은 두 단계로 나뉜다. 프롬프트를 통째로 읽는 <strong>프리필</strong>과, 답을 한 토큰씩 쓰는 <strong>디코드</strong>.
+  같은 부품이 일하지만 <u>병목이 완전히 다르다</u>:</p>
+
+  <figure class="tf-anim">
+    <div class="fig-scroll">
+    <svg viewBox="0 0 900 400" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" style="width:100%;display:block">
+      <text x="450" y="28" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">추론의 두 단계 — 프롬프트는 한 번에, 답은 한 토큰씩</text>
+
+      <!-- 프리필 -->
+      <rect x="40" y="52" width="560" height="110" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
+      <text x="60" y="76" font-size="11.5" font-weight="800" fill="#0F766E">① 프리필 — 프롬프트 7토큰을 동시에 처리</text>
+      <g class="tf-pf">
+        <rect x="60" y="88" width="66" height="34" rx="8" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/><text x="93" y="110" font-size="10.5" fill="#1A1A1A" text-anchor="middle">어제</text>
+        <rect x="134" y="88" width="66" height="34" rx="8" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/><text x="167" y="110" font-size="10.5" fill="#1A1A1A" text-anchor="middle">시장에서</text>
+        <rect x="208" y="88" width="66" height="34" rx="8" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/><text x="241" y="110" font-size="10.5" fill="#1A1A1A" text-anchor="middle">산</text>
+        <rect x="282" y="88" width="66" height="34" rx="8" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/><text x="315" y="110" font-size="10.5" fill="#1A1A1A" text-anchor="middle">사과는</text>
+        <rect x="356" y="88" width="66" height="34" rx="8" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/><text x="389" y="110" font-size="10.5" fill="#1A1A1A" text-anchor="middle">어땠어</text>
+        <rect x="430" y="88" width="66" height="34" rx="8" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/><text x="463" y="110" font-size="10.5" fill="#1A1A1A" text-anchor="middle">?</text>
+        <rect x="504" y="88" width="66" height="34" rx="8" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/><text x="537" y="110" font-size="10.5" fill="#1A1A1A" text-anchor="middle">[답:]</text>
+      </g>
+      <text x="60" y="146" font-size="10" fill="#555555">전 토큰 병렬 → GPU 코어가 꽉 찬다 · <tspan font-weight="700" fill="#0F766E">연산 바운드</tspan> · 지표: 첫 토큰까지의 시간(TTFT)</text>
+
+      <!-- 디코드 -->
+      <rect x="40" y="178" width="560" height="120" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+      <text x="60" y="202" font-size="11.5" font-weight="800" fill="#AF5109">② 디코드 — 답 토큰을 하나씩, 매번 모델 전체를 통과</text>
+      <g class="tf-dk1"><rect x="60" y="216" width="80" height="34" rx="8" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/><text x="100" y="238" font-size="10.5" fill="#1A1A1A" text-anchor="middle">아주</text></g>
+      <g class="tf-dk2"><rect x="148" y="216" width="80" height="34" rx="8" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/><text x="188" y="238" font-size="10.5" fill="#1A1A1A" text-anchor="middle">달았</text></g>
+      <g class="tf-dk3"><rect x="236" y="216" width="80" height="34" rx="8" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/><text x="276" y="238" font-size="10.5" fill="#1A1A1A" text-anchor="middle">지만</text></g>
+      <g class="tf-dk4"><rect x="324" y="216" width="80" height="34" rx="8" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/><text x="364" y="238" font-size="10.5" fill="#1A1A1A" text-anchor="middle">하나는</text></g>
+      <g class="tf-dk5"><rect x="412" y="216" width="80" height="34" rx="8" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/><text x="452" y="238" font-size="10.5" fill="#1A1A1A" text-anchor="middle">상했</text></g>
+      <g class="tf-dk6"><rect x="500" y="216" width="80" height="34" rx="8" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/><text x="540" y="238" font-size="10.5" fill="#1A1A1A" text-anchor="middle">어.</text></g>
+      <text x="60" y="272" font-size="10" fill="#555555">토큰 하나마다 가중치 전체를 메모리에서 다시 읽는다 · <tspan font-weight="700" fill="#AF5109">대역폭 바운드</tspan> · 지표: 초당 토큰(tok/s)</text>
+      <text x="60" y="288" font-size="9.5" fill="#666666">GPU 코어는 대부분 놀고, 메모리가 가중치를 퍼 나르는 속도가 상한이다</text>
+
+      <!-- 오른쪽 게이지 -->
+      <rect x="620" y="52" width="240" height="110" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+      <text x="740" y="76" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">GPU 연산 코어</text>
+      <rect x="640" y="92" width="200" height="18" rx="5" fill="#EDE8DF"/>
+      <g class="tf-gpu"><rect x="640" y="92" width="200" height="18" rx="5" fill="#0F766E"/></g>
+      <text x="740" y="128" font-size="9.5" fill="#555555" text-anchor="middle">프리필 순간에만 가득 찬다</text>
+      <text x="740" y="146" font-size="9.5" fill="#666666" text-anchor="middle">디코드 중엔 거의 논다</text>
+
+      <rect x="620" y="178" width="240" height="120" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+      <text x="740" y="202" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">메모리 대역폭</text>
+      <rect x="640" y="214" width="200" height="18" rx="5" fill="#EDE8DF"/>
+      <g class="tf-read"><rect x="640" y="214" width="200" height="18" rx="5" fill="#B91C1C"/></g>
+      <text x="740" y="248" font-size="9.5" fill="#555555" text-anchor="middle">토큰마다 가중치 27GB 재독 (예)</text>
+      <text x="660" y="272" font-size="9.5" fill="#555555">KV 캐시</text>
+      <rect x="712" y="262" width="128" height="14" rx="4" fill="#EDE8DF"/>
+      <g class="tf-kv"><rect x="712" y="262" width="128" height="14" rx="4" fill="#E8962A"/></g>
+      <text x="740" y="292" font-size="9" fill="#666666" text-anchor="middle">토큰이 늘수록 캐시도 자란다</text>
+
+      <rect x="40" y="316" width="820" height="70" rx="12" fill="#0D1B2E"/>
+      <text x="450" y="340" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">같은 부품, 다른 병목 — 프리필은 연산에, 디코드는 대역폭에 묶인다</text>
+      <text x="450" y="360" font-size="10" fill="#AAB9CF" text-anchor="middle">「AI 하드웨어 — 메모리」의 memory-bound가 정확히 ② 단계이고, 맥 통합 메모리가 로컬 추론에서 선전하는 이유도 대역폭이 ②를 정하기 때문</text>
+      <text x="450" y="378" font-size="10" fill="#7FD1A8" text-anchor="middle">긴 프롬프트는 ①을 늘리고(첫 토큰이 늦음), 긴 답은 ②를 늘린다(초당 토큰이 상한)</text>
+    </svg>
+    </div>
+    <figcaption>위: 프롬프트 7토큰이 한 번에 켜지고 GPU 게이지가 순간 가득 찬다. 아래: 답 토큰이 하나씩 나타날 때마다 대역폭 게이지가 빨갛게 점멸하고 KV 캐시가 자란다 (동작 줄이기 설정 시 정지)</figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px"></th><th>① 프리필 (prefill)</th><th>② 디코드 (decode)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">무엇을</td><td>프롬프트 전체를 읽어 K·V 카드를 만든다</td><td>답 토큰을 하나 만들고, 붙이고, 다시 하나</td></tr>
+        <tr><td class="hl">병렬성</td><td>토큰 전부 동시 — 행렬이 크다</td><td>토큰 하나 — 행렬이 얇다</td></tr>
+        <tr><td class="hl">병목</td><td><strong>연산</strong> (GPU 코어)</td><td><strong>메모리 대역폭</strong> (가중치 재독)</td></tr>
+        <tr><td class="hl">지표</td><td>첫 토큰까지의 시간 (TTFT)</td><td>초당 토큰 수 (tok/s)</td></tr>
+        <tr><td class="hl">배치의 효과</td><td>이미 바쁘므로 이득 작음</td><td>여러 요청을 묶으면 한 번 읽은 가중치를 나눠 써 <u>처리량이 크게 오름</u> — 서버가 배치를 쓰는 이유</td></tr>
+        <tr><td class="hl">메모리</td><td>KV 캐시를 <u>만든다</u></td><td>KV 캐시를 <u>읽고 키운다</u> — 토큰마다 한 칸씩</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">🧾</span>
+    <div><strong>KV 캐시가 여기서 태어난다 —</strong> 디코드는 매 단계 "지금까지의 모든 토큰"을 봐야 하는데, 앞 토큰들의 명찰(K)·내용(V)을 매번 다시 계산하면 n²가 n³이 된다.
+    그래서 한 번 만든 카드를 저장해 두는 것이 KV 캐시이고, 크기는 <span class="mono">층 수 × 헤드 수 × 헤드 차원 × 토큰 수 × 2(K,V) × 바이트</span>로 자란다.
+    「현실적으로 사용해볼만한 로컬 모델」 §2-1이 "128K 문맥이면 캐시만 수십 GB"라고 한 계산이 이 식이고, §6의 청구서 ②가 정확히 이것이다.</div>
+  </div>
+
+  <h3><span class="num">C</span>전략으로서의 디코딩 — 확률표에서 무엇을 고르나</h3>
+  <p class="body">디코더는 매 단계 <strong>다음 토큰의 확률표</strong>를 내놓을 뿐이다. 어느 것을 고를지는 별도의 규칙이고, 그것이 디코딩 전략이다.
+  모델을 바꾸지 않아도 이 규칙만으로 답의 성격이 달라진다:</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/tf-decoding-strategies.svg" alt="다음 토큰 확률표 위에 greedy, top-k, top-p, temperature 전략이 어떻게 후보를 자르는지와 추측 디코딩, 보조 손잡이"></div>
+    <figcaption>같은 확률표 위에 네 전략이 긋는 선이 다르다 — greedy는 1위, top-k는 개수, top-p는 누적 확률, temperature는 분포의 모양 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">손잡이</th><th style="width:250px">하는 일</th><th>실전 감각 (개략)</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">temperature</td><td>확률 분포를 뾰족(낮음)·평평(높음)하게</td><td>코드·사실 답변 0.1~0.3 · 일상 대화 0.7 · 브레인스토밍 1.0 안팎 · 0이면 greedy</td></tr>
+        <tr><td class="hl">top-p</td><td>누적 확률 p까지의 후보만 남김</td><td>0.9~0.95가 흔한 기본값 · temperature와 둘 중 하나만 크게 만지는 편</td></tr>
+        <tr><td class="hl">top-k</td><td>상위 k개만 남김</td><td>40 안팎 · 분포 모양을 못 따라가서 요즘은 top-p·min-p에 밀림</td></tr>
+        <tr><td class="hl">min-p</td><td>1위 확률의 일정 비율 미만을 잘라냄</td><td>0.05 안팎 · 로컬 모델 커뮤니티에서 선호가 늘어난 대안</td></tr>
+        <tr><td class="hl">repeat_penalty</td><td>이미 쓴 토큰의 확률을 깎음</td><td>1.05~1.15 · 너무 높이면 필요한 단어도 못 씀</td></tr>
+        <tr><td class="hl">추측 디코딩</td><td>작은 모델의 초안을 큰 모델이 한 번에 검증</td><td>답의 분포는 그대로, 디코드 왕복만 줄임 — 2~3배급 속도 (개략)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>세 뜻을 한 표로 —</strong>
+    <u>디코더(부품)</u>: 앞만 보며 한 토큰씩 쓰는 블록, 지금의 LLM은 이것만으로 만들어진다.
+    <u>디코드(단계)</u>: 프리필 뒤에 오는 "한 토큰씩" 구간, 대역폭에 묶인 병목이며 KV 캐시가 사는 곳.
+    <u>디코딩(전략)</u>: 확률표에서 무엇을 고를지의 규칙, temperature·top-p가 그 손잡이.
+    "디코더가 중요하다"는 말은 대개 첫 번째를 뜻하지만, 로컬에서 초당 토큰이 안 나올 때 봐야 할 것은 두 번째이고, 답이 이상할 때 만질 것은 세 번째다.
+    §7의 확산 LLM은 이 중 두 번째·세 번째, 즉 "한 토큰씩"이라는 생성 방식 자체에 도전하는 진영이다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. WHY WON ═══════════ -->
 <section id="why-won">
   <div class="section-header">
     <div class="eyebrow">Why It Won</div>
-    <h2>4. 왜 대세가 됐나 — 세 요인</h2>
+    <h2>5. 왜 대세가 됐나 — 세 요인</h2>
     <p>성능만으로 이긴 것이 아니다</p>
   </div>
 
@@ -618,7 +798,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <section id="cost">
   <div class="section-header">
     <div class="eyebrow">The Bill</div>
-    <h2>5. 아킬레스건 — "모두가 모두를"의 청구서</h2>
+    <h2>6. 아킬레스건 — "모두가 모두를"의 청구서</h2>
     <p>영광의 문장에 약점이 들어 있다</p>
   </div>
 
@@ -626,7 +806,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   문맥이 2배로 늘면 계산은 4배, 10배로 늘면 100배 — 이것이 <strong>O(n²)</strong>이고,
   긴 문맥이 비싼 근본 이유다. 눈으로 보자:</p>
 
-  <h3 id="quadratic">5-1. n²의 성장 — 문맥이 2배면 비용은 4배 (동적)</h3>
+  <h3 id="quadratic">6-1. n²의 성장 — 문맥이 2배면 비용은 4배 (동적)</h3>
 
   <figure class="tf-anim">
     <div class="fig-scroll">
@@ -691,7 +871,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <div><strong>청구서는 두 장이다 —</strong> ① <u>계산</u>: n²의 관련도 계산이 층마다·새 토큰마다 반복.
     ② <u>메모리</u>: 생성 중 모든 이전 토큰의 K·V 카드를 들고 있어야 한다(KV 캐시) —
     「로컬 모델」 §2-1에서 "128K 문맥이면 캐시만 수십 GB"라던 계산의 뿌리가 정확히 여기다.
-    긴 문맥 LLM이 어려운 이유, 로컬 LLM에서 메모리가 병목인 이유, 그리고 §6 도전자들이 노리는 지점이
+    긴 문맥 LLM이 어려운 이유, 로컬 LLM에서 메모리가 병목인 이유, 그리고 §7 도전자들이 노리는 지점이
     전부 이 두 장의 청구서다.</div>
   </div>
 </section>
@@ -700,7 +880,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <section id="challengers">
   <div class="section-header">
     <div class="eyebrow">The Challengers</div>
-    <h2>6. 도전자들 (2026) — 전복이 아니라 침투</h2>
+    <h2>7. 도전자들 (2026) — 전복이 아니라 침투</h2>
     <p>공격 지점은 하나, 방법은 넷</p>
   </div>
 
@@ -735,12 +915,12 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <section id="verdict">
   <div class="section-header">
     <div class="eyebrow">Verdict</div>
-    <h2>7. 그래서 트랜스포머는 끝났나</h2>
+    <h2>8. 그래서 트랜스포머는 끝났나</h2>
     <p>단기 아니오, 장기 "비율의 문제"</p>
   </div>
 
   <div class="card-grid">
-    <div class="card"><h4>지금 (2026)</h4><p>프론티어 모델 전원이 트랜스포머(±하이브리드)다. 8년치 하드웨어·도구·인력 최적화라는 <strong>생태계 관성</strong>이 왕좌를 지킨다(§4의 복권이 계속 배당 중).</p></div>
+    <div class="card"><h4>지금 (2026)</h4><p>프론티어 모델 전원이 트랜스포머(±하이브리드)다. 8년치 하드웨어·도구·인력 최적화라는 <strong>생태계 관성</strong>이 왕좌를 지킨다(§5의 복권이 계속 배당 중).</p></div>
     <div class="card"><h4>침투 경로</h4><p>전복이 아니라 <strong>비율</strong> — 하이브리드 안에서 어텐션 층의 지분이 줄어드는 방식. 이미 "어텐션 7%"짜리 상용 모델이 벤치마크에서 순혈을 이긴다.</p></div>
     <div class="card"><h4>관전 포인트</h4><p>① 하이브리드의 어텐션 비율 추이 ② 확산 LLM이 저지연 시장을 얼마나 먹나 ③ 엣지(폰·임베디드)에서 RWKV류의 채택 — 세 지표만 보면 지형 변화가 읽힌다.</p></div>
   </div>
@@ -749,8 +929,8 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <span class="icon">📌</span>
     <div><strong>맺음 —</strong> 트랜스포머의 이야기는 세 문장이다.
     <u>"모두가 모두를 동시에 본다"</u>는 아이디어가 장거리 의존과 병렬화를 한 방에 풀었고(§2·3),
-    그 "동시에"가 GPU 시대의 복권에 당첨시켰으며(§4),
-    그 "모두를"이 n²라는 청구서가 되어 도전자들을 불러냈다(§5·6).
+    그 "동시에"가 GPU 시대의 복권에 당첨시켰으며(§5),
+    그 "모두를"이 n²라는 청구서가 되어 도전자들을 불러냈다(§6·7).
     영광과 약점이 같은 문장에서 나왔다는 것 — 이것이 이 구조를 이해하는 가장 짧은 길이다.</div>
   </div>
 </section>
@@ -759,7 +939,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 <section id="refs">
   <div class="section-header">
     <div class="eyebrow">Related</div>
-    <h2>8. 함께 읽기</h2>
+    <h2>9. 함께 읽기</h2>
     <p>이 문서에서 갈라지는 길들</p>
   </div>
 

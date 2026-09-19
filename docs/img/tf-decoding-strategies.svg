@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">디코딩 전략 — 디코더는 확률표를 낼 뿐, 무엇을 고를지는 별도 규칙이다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">"나는 어제 시장에서 ___"의 다음 토큰 확률표 (예시) 위에 각 전략이 어떻게 선을 긋나</text>
+
+  <!-- 확률표 -->
+  <rect x="30" y="80" width="840" height="150" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="52" y="106" font-size="12.5" font-weight="800" fill="#002C5F">디코더가 내놓은 확률표 (softmax 결과)</text>
+  <g font-size="10" fill="#555555" text-anchor="middle">
+    <rect x="70" y="120" width="70" height="84" fill="#1A5CB5"/><text x="105" y="216" fill="#1A1A1A" font-weight="700">사과 .42</text>
+    <rect x="160" y="162" width="70" height="42" fill="#1A5CB5"/><text x="195" y="216" fill="#1A1A1A" font-weight="700">배 .21</text>
+    <rect x="250" y="180" width="70" height="24" fill="#1A5CB5"/><text x="285" y="216" fill="#1A1A1A" font-weight="700">포도 .12</text>
+    <rect x="340" y="186" width="70" height="18" fill="#5E90DC"/><text x="375" y="216" fill="#1A1A1A">귤 .09</text>
+    <rect x="430" y="192" width="70" height="12" fill="#5E90DC"/><text x="465" y="216" fill="#1A1A1A">딸기 .06</text>
+    <rect x="520" y="196" width="70" height="8" fill="#9FBDEB"/><text x="555" y="216" fill="#1A1A1A">수박 .04</text>
+    <rect x="610" y="198" width="70" height="6" fill="#9FBDEB"/><text x="645" y="216" fill="#1A1A1A">자동차 .03</text>
+    <rect x="700" y="198" width="70" height="6" fill="#9FBDEB"/><text x="735" y="216" fill="#1A1A1A">구름 .03</text>
+  </g>
+  <text x="820" y="150" font-size="9.5" fill="#666666" text-anchor="middle">합계 1.0</text>
+  <text x="820" y="166" font-size="9.5" fill="#666666" text-anchor="middle">(어휘 수만 개</text>
+  <text x="820" y="180" font-size="9.5" fill="#666666" text-anchor="middle">중 상위 8)</text>
+
+  <!-- 4 전략 -->
+  <rect x="30" y="250" width="200" height="200" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="130" y="276" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">Greedy</text>
+  <text x="130" y="296" font-size="10" fill="#555555" text-anchor="middle">항상 1위</text>
+  <rect x="60" y="310" width="30" height="60" fill="#1A5CB5"/><rect x="100" y="340" width="30" height="30" fill="#D5CFBF"/><rect x="140" y="352" width="30" height="18" fill="#D5CFBF"/><rect x="180" y="358" width="30" height="12" fill="#D5CFBF"/>
+  <text x="75" y="386" font-size="9" fill="#1A5CB5" font-weight="700" text-anchor="middle">선택</text>
+  <text x="130" y="412" font-size="9.5" fill="#555555" text-anchor="middle">같은 입력이면 늘 같은 답</text>
+  <text x="130" y="428" font-size="9.5" fill="#B91C1C" text-anchor="middle">단조롭고 반복에 빠지기 쉬움</text>
+
+  <rect x="245" y="250" width="200" height="200" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
+  <text x="345" y="276" font-size="12.5" font-weight="800" fill="#0F766E" text-anchor="middle">Top-k (k=3)</text>
+  <text x="345" y="296" font-size="10" fill="#555555" text-anchor="middle">상위 k개만 남기고 그 안에서 뽑기</text>
+  <rect x="275" y="310" width="30" height="60" fill="#0F766E"/><rect x="315" y="340" width="30" height="30" fill="#0F766E"/><rect x="355" y="352" width="30" height="18" fill="#0F766E"/><rect x="395" y="358" width="30" height="12" fill="#D5CFBF"/>
+  <line x1="388" y1="306" x2="388" y2="374" stroke="#B91C1C" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="345" y="412" font-size="9.5" fill="#555555" text-anchor="middle">후보 수를 고정</text>
+  <text x="345" y="428" font-size="9.5" fill="#B91C1C" text-anchor="middle">확률이 평평할 땐 너무 좁고, 뾰족할 땐 넓음</text>
+
+  <rect x="460" y="250" width="200" height="200" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="560" y="276" font-size="12.5" font-weight="800" fill="#AF5109" text-anchor="middle">Top-p (p=0.8)</text>
+  <text x="560" y="296" font-size="10" fill="#555555" text-anchor="middle">누적 확률이 p를 넘을 때까지</text>
+  <rect x="482" y="310" width="26" height="60" fill="#E8962A"/><rect x="514" y="340" width="26" height="30" fill="#E8962A"/><rect x="546" y="352" width="26" height="18" fill="#E8962A"/><rect x="578" y="358" width="26" height="12" fill="#E8962A"/><rect x="610" y="362" width="26" height="8" fill="#D5CFBF"/>
+  <text x="560" y="386" font-size="9" fill="#AF5109" font-weight="700" text-anchor="middle">.42+.21+.12+.09 = .84 ≥ .8</text>
+  <text x="560" y="412" font-size="9.5" fill="#555555" text-anchor="middle">후보 수가 분포에 따라 변함</text>
+  <text x="560" y="428" font-size="9.5" fill="#0F766E" text-anchor="middle">가장 흔한 기본값 (nucleus)</text>
+
+  <rect x="675" y="250" width="195" height="200" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="772" y="276" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">Temperature</text>
+  <text x="772" y="296" font-size="10" fill="#555555" text-anchor="middle">뽑기 전에 분포를 뾰족·평평하게</text>
+  <text x="722" y="318" font-size="9" fill="#555555" text-anchor="middle">T=0.3</text>
+  <rect x="700" y="322" width="12" height="48" fill="#6B21A8"/><rect x="716" y="360" width="12" height="10" fill="#6B21A8"/><rect x="732" y="366" width="12" height="4" fill="#6B21A8"/>
+  <text x="822" y="318" font-size="9" fill="#555555" text-anchor="middle">T=1.5</text>
+  <rect x="796" y="344" width="12" height="26" fill="#6B21A8"/><rect x="812" y="350" width="12" height="20" fill="#6B21A8"/><rect x="828" y="354" width="12" height="16" fill="#6B21A8"/><rect x="844" y="356" width="12" height="14" fill="#6B21A8"/>
+  <text x="772" y="412" font-size="9.5" fill="#555555" text-anchor="middle">낮으면 결정적, 높으면 창의적</text>
+  <text x="772" y="428" font-size="9.5" fill="#B91C1C" text-anchor="middle">너무 높이면 헛소리, 0이면 greedy</text>
+
+  <!-- 하단: 속도 기법 + 대안 -->
+  <rect x="30" y="470" width="410" height="110" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="52" y="496" font-size="12" font-weight="800" fill="#002C5F">속도 기법 — 추측 디코딩 (speculative decoding)</text>
+  <text x="52" y="518" font-size="10" fill="#555555">작은 모델이 토큰 여러 개를 먼저 써 보고, 큰 모델이 한 번의 통과로</text>
+  <text x="52" y="536" font-size="10" fill="#555555">그 초안을 검증한다. 맞은 만큼은 한 번에 받아들이고 틀린 곳부터 다시 쓴다</text>
+  <text x="52" y="562" font-size="9.5" fill="#0F766E" font-weight="700">답의 분포는 그대로, 디코드 단계의 왕복 횟수만 줄인다 — 2~3배급 (개략)</text>
+
+  <rect x="460" y="470" width="410" height="110" rx="12" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="482" y="496" font-size="12" font-weight="800" fill="#002C5F">자주 같이 쓰는 손잡이</text>
+  <text x="482" y="518" font-size="10" fill="#555555">repeat_penalty: 이미 쓴 토큰의 확률을 깎아 반복 억제</text>
+  <text x="482" y="536" font-size="10" fill="#555555">min_p: 1위 대비 일정 비율 미만의 후보를 잘라냄 (top-p의 대안)</text>
+  <text x="482" y="562" font-size="9.5" fill="#666666">stop 토큰 · 최대 길이는 "언제 멈추나"의 규칙 — 전략과 별개</text>
+
+  <rect x="30" y="596" width="840" height="34" rx="10" fill="#0D1B2E"/>
+  <text x="450" y="618" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">모델을 바꾸지 않아도 이 손잡이만으로 답의 성격이 달라진다 — 로컬 모델 설정 화면의 그 항목들이 전부 여기 있다</text>
+</svg>

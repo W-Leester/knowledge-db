@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-07",
+ "generated": "2026-09-19",
  "note": "scripts/build-graph.py가 생성. nodes는 docs.json 참조, edges는 자동 추출, curated는 손으로 유지.",
  "nodes": [
   {
@@ -1470,7 +1470,7 @@
    "source": "transformer",
    "target": "ai-hw-memory",
    "type": "mention",
-   "weight": 1
+   "weight": 2
   },
   {
    "source": "transformer",
@@ -1500,7 +1500,7 @@
    "source": "transformer",
    "target": "local-llm-models",
    "type": "mention",
-   "weight": 8
+   "weight": 10
   },
   {
    "source": "transformer",
