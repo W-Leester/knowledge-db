@@ -38,7 +38,7 @@ npx serve   # 로컬 서버 — index.html은 docs.json을 fetch하므로 file:/
 1. FOUC 방지 인라인 스니펫 (localStorage `kdb-theme` 읽어 `data-theme` 즉시 설정)
 2. `../assets/fonts.css` + `../assets/dark.css` 링크
 3. `../assets/app.js` (defer) — 테마 3단 토글(시스템/라이트/다크), ⌂ 홈 버튼, 읽던 위치 저장·이어읽기 토스트, 최근 문서 기록을 플로팅 UI로 주입
-4. `../assets/concept-graph.js` (defer) — **§0 끝의 "0-1. 개념 그래프"**를 그린다. 데이터는 문서 안 `<figure class="cg-anim"><script type="application/json" class="cg-data">{kinds,nodes,edges}</script></figure>`에 인라인(자립성 유지). 스키마: `kinds`{키:[라벨,색]} (키 c/t/f/s/p, 색 고정), `nodes`[{id,label≤14자,kind,sec=#문서내앵커,def≤70자}] 14~24개, `edges`[{s,t,rel(2~6자 한국어 관계명)}] 18~40개, 고립 노드 금지. 새 문서에도 반드시 넣는다 — 노드는 절 이름이 아니라 **개념**, 관계는 이름 있는 관계(포함·요구·대응·없으면…). 래퍼가 `-anim`으로 끝나야 다크 매트를 받고, 패널·라벨은 고정색(토큰 쓰면 매트 위에서 안 보임). 슬라이드 덱(ai-hw-*)은 슬라이드 모드·문서 모드 양쪽에 같은 데이터가 두 번 들어 있고 `cg-fixed`로 모바일 min-width를 끈다.
+4. `../assets/concept-graph.js` (defer) — **§0 끝의 "0-1. 개념 그래프"**를 그린다. 데이터는 문서 안 `<figure class="cg-anim"><script type="application/json" class="cg-data">{kinds,nodes,edges}</script></figure>`에 인라인(자립성 유지). 스키마: `kinds`{키:[라벨,색]} (키 c/t/f/s/p, 색 고정), `nodes`[{id,label≤14자,kind,sec=#문서내앵커,def≤70자}] 14~24개, `edges`[{s,t,rel(2~6자 한국어 관계명)}] 18~40개, 고립 노드 금지. 새 문서에도 반드시 넣는다 — 노드는 절 이름이 아니라 **개념**, 관계는 이름 있는 관계(포함·요구·대응·없으면…). **다크모드는 매트가 아니라 JS가 직접 칠한다** — `concept-graph.js`가 `data-theme`·`prefers-color-scheme`을 읽어 배경·노드·엣지·라벨·패널 색을 테마별로 적용하고, 테마가 바뀌면 MutationObserver로 다시 칠한다(그래서 `dark.css`의 `-anim` 매트 규칙에서 `.cg-anim`은 `:not()`으로 제외돼 있다 — 되돌리지 말 것). 줌·팬 내장(휠·핀치·드래그·버튼)이라 모바일에서 `min-width` 가로 스크롤을 쓰지 않는다. 슬라이드 덱(ai-hw-*)은 슬라이드 모드·문서 모드 양쪽에 같은 데이터가 두 번 들어 있고 `cg-fixed`로 모바일 min-width를 끈다.
 
 문서 내 이미지 참조는 `img/…`(문서 기준 상대경로), docs.json의 `assets` 배열은 `docs/img/…`(사이트 루트 기준)로 적는다.
 
