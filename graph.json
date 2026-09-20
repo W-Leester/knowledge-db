@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-19",
+ "generated": "2026-09-20",
  "note": "scripts/build-graph.py가 생성. nodes는 docs.json 참조, edges는 자동 추출, curated는 손으로 유지.",
  "nodes": [
   {
@@ -97,6 +97,14 @@
    "icon": "🪟",
    "file": "docs/windows-com.html",
    "desc": "COM으로 엑셀·시스템 자동화, 그리고 macOS의 Apple Events·접근성 — 두 OS 개발 차이"
+  },
+  {
+   "id": "mobile-stack",
+   "title": "모바일 앱 개발 스택 지도",
+   "group": "Software · Dev",
+   "icon": "📲",
+   "file": "docs/mobile-stack.html",
+   "desc": "Kotlin은 언어, Flutter는 프레임워크 — 네이티브·크로스플랫폼·KMP·PWA를 '무엇을 공유하나' 한 축으로 정렬한다"
   },
   {
    "id": "apple-app-dev",
@@ -412,6 +420,18 @@
   },
   {
    "source": "app-release",
+   "target": "mobile-stack",
+   "type": "link",
+   "weight": 1
+  },
+  {
+   "source": "app-release",
+   "target": "mobile-stack",
+   "type": "mention",
+   "weight": 1
+  },
+  {
+   "source": "app-release",
    "target": "nas-data-strategy",
    "type": "mention",
    "weight": 1
@@ -463,6 +483,18 @@
    "target": "llm-factory",
    "type": "mention",
    "weight": 5
+  },
+  {
+   "source": "apple-app-dev",
+   "target": "mobile-stack",
+   "type": "link",
+   "weight": 1
+  },
+  {
+   "source": "apple-app-dev",
+   "target": "mobile-stack",
+   "type": "mention",
+   "weight": 1
   },
   {
    "source": "apple-app-dev",
@@ -927,6 +959,114 @@
    "weight": 2
   },
   {
+   "source": "mobile-stack",
+   "target": "ai-dev-process",
+   "type": "link",
+   "weight": 1
+  },
+  {
+   "source": "mobile-stack",
+   "target": "ai-dev-process",
+   "type": "mention",
+   "weight": 1
+  },
+  {
+   "source": "mobile-stack",
+   "target": "app-release",
+   "type": "link",
+   "weight": 3
+  },
+  {
+   "source": "mobile-stack",
+   "target": "app-release",
+   "type": "mention",
+   "weight": 3
+  },
+  {
+   "source": "mobile-stack",
+   "target": "apple-app-dev",
+   "type": "link",
+   "weight": 3
+  },
+  {
+   "source": "mobile-stack",
+   "target": "apple-app-dev",
+   "type": "mention",
+   "weight": 5
+  },
+  {
+   "source": "mobile-stack",
+   "target": "database-systems",
+   "type": "link",
+   "weight": 3
+  },
+  {
+   "source": "mobile-stack",
+   "target": "database-systems",
+   "type": "mention",
+   "weight": 3
+  },
+  {
+   "source": "mobile-stack",
+   "target": "dev-ecosystem",
+   "type": "link",
+   "weight": 2
+  },
+  {
+   "source": "mobile-stack",
+   "target": "dev-ecosystem",
+   "type": "mention",
+   "weight": 2
+  },
+  {
+   "source": "mobile-stack",
+   "target": "oss-license",
+   "type": "link",
+   "weight": 2
+  },
+  {
+   "source": "mobile-stack",
+   "target": "oss-license",
+   "type": "mention",
+   "weight": 2
+  },
+  {
+   "source": "mobile-stack",
+   "target": "sdk-toolchain",
+   "type": "link",
+   "weight": 2
+  },
+  {
+   "source": "mobile-stack",
+   "target": "sdk-toolchain",
+   "type": "mention",
+   "weight": 2
+  },
+  {
+   "source": "mobile-stack",
+   "target": "software-requirements",
+   "type": "link",
+   "weight": 1
+  },
+  {
+   "source": "mobile-stack",
+   "target": "software-requirements",
+   "type": "mention",
+   "weight": 1
+  },
+  {
+   "source": "mobile-stack",
+   "target": "tech-stack",
+   "type": "link",
+   "weight": 1
+  },
+  {
+   "source": "mobile-stack",
+   "target": "tech-stack",
+   "type": "mention",
+   "weight": 1
+  },
+  {
    "source": "nas-data-strategy",
    "target": "database-systems",
    "type": "mention",
@@ -1283,6 +1423,18 @@
   {
    "source": "sdk-toolchain",
    "target": "llm-factory",
+   "type": "mention",
+   "weight": 1
+  },
+  {
+   "source": "sdk-toolchain",
+   "target": "mobile-stack",
+   "type": "link",
+   "weight": 1
+  },
+  {
+   "source": "sdk-toolchain",
+   "target": "mobile-stack",
    "type": "mention",
    "weight": 1
   },

@@ -310,6 +310,30 @@
       ]
     },
     {
+      "id": "mobile-stack",
+      "title": "모바일 앱 개발 스택 지도",
+      "desc": "Kotlin은 언어, Flutter는 프레임워크 — 네이티브·크로스플랫폼·KMP·PWA를 '무엇을 공유하나' 한 축으로 정렬한다",
+      "file": "docs/mobile-stack.html",
+      "group": "Software · Dev",
+      "icon": "📲",
+      "gradient": [
+        "#0D1B2E",
+        "#0891B2"
+      ],
+      "tags": [
+        "Kotlin·Compose",
+        "Flutter",
+        "React Native",
+        "KMP"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/mb-layers.svg",
+        "docs/img/mb-landscape.svg",
+        "docs/img/mb-decision.svg"
+      ]
+    },
+    {
       "id": "apple-app-dev",
       "title": "애플 앱 개발의 지도",
       "desc": "Xcode와 의무의 사다리 — \"무조건\"은 아이폰 한 칸뿐, 개인 맥 유틸은 자유 구역이다",
@@ -325,7 +349,7 @@
         "CLT",
         "서명·공증"
       ],
-      "version": 9,
+      "version": 10,
       "assets": [
         "docs/img/ax-xcode-anatomy.svg",
         "docs/img/ax-ladder.svg",
@@ -351,7 +375,7 @@
         "계정 삭제",
         "강제 업데이트"
       ],
-      "version": 7,
+      "version": 8,
       "assets": [
         "docs/img/am-three-gates.svg",
         "docs/img/am-settings.svg",
@@ -424,7 +448,7 @@
         "xcode-select",
         "빌드 소환"
       ],
-      "version": 4,
+      "version": 5,
       "assets": [
         "docs/img/sk-taxonomy.svg",
         "docs/img/sk-mac-windows.svg",

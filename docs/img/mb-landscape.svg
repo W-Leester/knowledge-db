@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs><marker id="mbl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/></marker></defs>
+  <rect width="900" height="700" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">선택지 지형 — 무엇을 공유하고 무엇을 따로 만드나</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">왼쪽으로 갈수록 각 플랫폼에 밀착하고, 오른쪽으로 갈수록 한 벌의 코드로 넓게 덮는다</text>
+
+  <!-- 스펙트럼 축 -->
+  <line x1="60" y1="96" x2="840" y2="96" stroke="#D5CFBF" stroke-width="3"/>
+  <text x="70" y="88" font-size="10.5" font-weight="700" fill="#1A5CB5">밀착 · 품질 · 최신 기능</text>
+  <text x="830" y="88" font-size="10.5" font-weight="700" fill="#AF5109" text-anchor="end">공유 · 속도 · 한 벌</text>
+
+  <!-- 네이티브 -->
+  <rect x="30" y="112" width="400" height="230" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="230" y="138" font-size="14" font-weight="800" fill="#002C5F" text-anchor="middle">네이티브 — 플랫폼마다 따로 만든다</text>
+  <rect x="52" y="152" width="170" height="108" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+  <text x="137" y="176" font-size="12" font-weight="800" fill="#0F766E" text-anchor="middle">🤖 안드로이드</text>
+  <text x="137" y="198" font-size="10" fill="#555555" text-anchor="middle">Kotlin + Compose</text>
+  <text x="137" y="216" font-size="9.5" fill="#6F6A60" text-anchor="middle">(구세대: Java + XML)</text>
+  <text x="137" y="240" font-size="9.5" fill="#555555" text-anchor="middle">Android Studio</text>
+  <rect x="238" y="152" width="170" height="108" rx="10" fill="#FFFFFF" stroke="#B91C1C" stroke-width="2"/>
+  <text x="323" y="176" font-size="12" font-weight="800" fill="#B91C1C" text-anchor="middle">🍎 iOS</text>
+  <text x="323" y="198" font-size="10" fill="#555555" text-anchor="middle">Swift + SwiftUI</text>
+  <text x="323" y="216" font-size="9.5" fill="#6F6A60" text-anchor="middle">(구세대: ObjC + UIKit)</text>
+  <text x="323" y="240" font-size="9.5" fill="#555555" text-anchor="middle">Xcode (맥 필수)</text>
+  <text x="52" y="284" font-size="10.5" fill="#0F766E" font-weight="700">✓ OS 새 기능을 가장 먼저 · 성능·통합 최상 · 사람 구하기 쉬움</text>
+  <text x="52" y="304" font-size="10.5" fill="#B91C1C" font-weight="700">✕ 같은 앱을 두 번 만든다 — 인력·일정·버그도 두 벌</text>
+  <text x="52" y="326" font-size="9.5" fill="#666666">양쪽 구조가 대칭이다: 새 언어가 옛 언어를, 선언형 UI가 옛 방식을 대체했다</text>
+
+  <!-- 크로스플랫폼 -->
+  <rect x="446" y="112" width="424" height="230" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
+  <text x="658" y="138" font-size="14" font-weight="800" fill="#AF5109" text-anchor="middle">크로스플랫폼 — 한 벌로 양쪽에</text>
+  <rect x="468" y="152" width="184" height="108" rx="10" fill="#FFFFFF" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="560" y="176" font-size="12" font-weight="800" fill="#AF5109" text-anchor="middle">Flutter (Dart)</text>
+  <text x="560" y="198" font-size="9.5" fill="#555555" text-anchor="middle">화면을 직접 그린다</text>
+  <text x="560" y="216" font-size="9.5" fill="#555555" text-anchor="middle">양쪽이 똑같이 보임</text>
+  <text x="560" y="240" font-size="9.5" fill="#0F766E" text-anchor="middle">UI까지 공유 — 공유율 최대</text>
+  <rect x="664" y="152" width="184" height="108" rx="10" fill="#FFFFFF" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="756" y="176" font-size="12" font-weight="800" fill="#AF5109" text-anchor="middle">React Native (JS·TS)</text>
+  <text x="756" y="198" font-size="9.5" fill="#555555" text-anchor="middle">OS의 진짜 부품을 쓴다</text>
+  <text x="756" y="216" font-size="9.5" fill="#555555" text-anchor="middle">각 OS의 느낌이 남음</text>
+  <text x="756" y="240" font-size="9.5" fill="#0F766E" text-anchor="middle">웹 개발자가 바로 진입</text>
+  <text x="468" y="284" font-size="10.5" fill="#0F766E" font-weight="700">✓ 코드 한 벌 · 두 스토어 동시 · 작은 팀에 유리</text>
+  <text x="468" y="304" font-size="10.5" fill="#B91C1C" font-weight="700">✕ OS 새 기능은 한 박자 늦음 · 네이티브 모듈이 필요한 순간이 온다</text>
+  <text x="468" y="326" font-size="9.5" fill="#666666">2026 기준 이 둘이 크로스플랫폼의 대부분을 차지 (개략)</text>
+
+  <!-- 제3의 길 -->
+  <rect x="30" y="360" width="840" height="120" rx="14" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="52" y="386" font-size="14" font-weight="800" fill="#6B21A8">제3의 길 · Kotlin Multiplatform — "UI는 각자, 로직만 공유"</text>
+  <rect x="52" y="398" width="240" height="66" rx="10" fill="#FFFFFF" stroke="#6B21A8" stroke-width="1.5"/>
+  <text x="172" y="420" font-size="10.5" font-weight="800" fill="#6B21A8" text-anchor="middle">공유 (Kotlin)</text>
+  <text x="172" y="438" font-size="9.5" fill="#555555" text-anchor="middle">비즈니스 로직 · 네트워크 · DB</text>
+  <text x="172" y="454" font-size="9.5" fill="#555555" text-anchor="middle">검증 규칙 · 모델</text>
+  <line x1="292" y1="431" x2="330" y2="431" stroke="#6B21A8" stroke-width="2.5" marker-end="url(#mbl)"/>
+  <rect x="334" y="398" width="170" height="66" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="419" y="420" font-size="10.5" font-weight="800" fill="#0F766E" text-anchor="middle">안드로이드 UI</text>
+  <text x="419" y="440" font-size="9.5" fill="#555555" text-anchor="middle">Compose (네이티브 그대로)</text>
+  <rect x="514" y="398" width="170" height="66" rx="10" fill="#FFFFFF" stroke="#B91C1C" stroke-width="1.5"/>
+  <text x="599" y="420" font-size="10.5" font-weight="800" fill="#B91C1C" text-anchor="middle">iOS UI</text>
+  <text x="599" y="440" font-size="9.5" fill="#555555" text-anchor="middle">SwiftUI (네이티브 그대로)</text>
+  <text x="700" y="416" font-size="9.5" fill="#555555">UI 품질은 네이티브,</text>
+  <text x="700" y="434" font-size="9.5" fill="#555555">중복은 로직에서 제거</text>
+  <text x="700" y="454" font-size="9.5" fill="#6B21A8" font-weight="700">최근 채택이 빠르게 증가</text>
+
+  <!-- 그 외 -->
+  <rect x="30" y="498" width="840" height="122" rx="14" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+  <text x="52" y="524" font-size="13" font-weight="800" fill="#002C5F">그 외 — 목적이 분명할 때 고르는 길들</text>
+  <text x="52" y="548" font-size="10.5" fill="#555555"><tspan font-weight="700">.NET MAUI (C#)</tspan> — 마이크로소프트 진영·사내 시스템과 엮을 때 · <tspan font-weight="700">Unity (C#)</tspan> — 게임이 주 무대</text>
+  <text x="52" y="570" font-size="10.5" fill="#555555"><tspan font-weight="700">Capacitor·Ionic</tspan> — 웹 앱을 껍데기에 넣어 스토어로 · <tspan font-weight="700">Compose Multiplatform</tspan> — KMP에서 UI까지 공유하려는 갈래</text>
+  <text x="52" y="592" font-size="10.5" fill="#555555"><tspan font-weight="700">PWA</tspan> — 설치 없이 홈 화면에 추가. 스토어를 거치지 않는 유일한 길 — <tspan font-weight="700" fill="#0F766E">이 지식 베이스가 그 방식</tspan></text>
+  <text x="52" y="612" font-size="9.5" fill="#666666">스토어 심사·수수료·서명이 전부 없어지지만, 푸시·백그라운드·하드웨어 접근에 제약이 남는다</text>
+
+  <rect x="30" y="636" width="840" height="52" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="660" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">축은 "무엇을 공유하나" — 아무것도(네이티브) · 로직만(KMP) · 전부(Flutter·RN) · 스토어까지 건너뛰기(PWA)</text>
+  <text x="450" y="678" font-size="10.5" fill="#AAB9CF" text-anchor="middle">공유가 늘수록 빨라지지만, 플랫폼의 새 기능과 멀어진다 — 이 문서 §5의 저울</text>
+</svg>

@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs><marker id="mbd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/></marker></defs>
+  <rect width="900" height="640" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">결정 트리 — 여섯 질문이면 후보가 하나로 좁혀진다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">"무엇이 최고인가"가 아니라 "내 제약에서 무엇이 남는가"를 묻는다</text>
+
+  <rect x="330" y="80" width="240" height="46" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="109" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">시작 — 모바일 앱을 만든다</text>
+  <line x1="450" y1="126" x2="450" y2="146" stroke="#003F8A" stroke-width="2.5" marker-end="url(#mbd)"/>
+
+  <!-- Q1 -->
+  <rect x="300" y="150" width="300" height="44" rx="22" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="450" y="177" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">Q1. 스토어에 꼭 올려야 하나?</text>
+  <line x1="300" y1="172" x2="220" y2="172" stroke="#0F766E" stroke-width="2" marker-end="url(#mbd)"/>
+  <text x="258" y="164" font-size="9.5" font-weight="700" fill="#0F766E" text-anchor="middle">아니오</text>
+  <rect x="40" y="150" width="176" height="44" rx="10" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+  <text x="128" y="170" font-size="11" font-weight="800" fill="#0F766E" text-anchor="middle">→ PWA</text>
+  <text x="128" y="186" font-size="9" fill="#555555" text-anchor="middle">심사·수수료·서명 없음</text>
+  <line x1="450" y1="194" x2="450" y2="214" stroke="#003F8A" stroke-width="2.5" marker-end="url(#mbd)"/>
+  <text x="466" y="208" font-size="9.5" fill="#666666">예</text>
+
+  <!-- Q2 -->
+  <rect x="300" y="218" width="300" height="44" rx="22" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="450" y="245" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">Q2. 한 플랫폼만으로 충분한가?</text>
+  <line x1="600" y1="240" x2="680" y2="240" stroke="#1A5CB5" stroke-width="2" marker-end="url(#mbd)"/>
+  <text x="640" y="232" font-size="9.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">예</text>
+  <rect x="684" y="218" width="176" height="44" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="772" y="238" font-size="11" font-weight="800" fill="#002C5F" text-anchor="middle">→ 네이티브</text>
+  <text x="772" y="254" font-size="9" fill="#555555" text-anchor="middle">Kotlin+Compose / Swift+SwiftUI</text>
+  <line x1="450" y1="262" x2="450" y2="282" stroke="#003F8A" stroke-width="2.5" marker-end="url(#mbd)"/>
+  <text x="472" y="276" font-size="9.5" fill="#666666">아니오</text>
+
+  <!-- Q3 -->
+  <rect x="300" y="286" width="300" height="44" rx="22" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="450" y="313" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">Q3. 게임인가?</text>
+  <line x1="600" y1="308" x2="680" y2="308" stroke="#1A5CB5" stroke-width="2" marker-end="url(#mbd)"/>
+  <text x="640" y="300" font-size="9.5" font-weight="700" fill="#1A5CB5" text-anchor="middle">예</text>
+  <rect x="684" y="286" width="176" height="44" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2"/>
+  <text x="772" y="313" font-size="11" font-weight="800" fill="#AF5109" text-anchor="middle">→ Unity · Unreal</text>
+  <line x1="450" y1="330" x2="450" y2="350" stroke="#003F8A" stroke-width="2.5" marker-end="url(#mbd)"/>
+
+  <!-- Q4 -->
+  <rect x="300" y="354" width="300" height="44" rx="22" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="450" y="381" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">Q4. 팀이 웹(React·TS)에 익숙한가?</text>
+  <line x1="300" y1="376" x2="220" y2="376" stroke="#E8962A" stroke-width="2" marker-end="url(#mbd)"/>
+  <text x="258" y="368" font-size="9.5" font-weight="700" fill="#AF5109" text-anchor="middle">예</text>
+  <rect x="40" y="354" width="176" height="44" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+  <text x="128" y="374" font-size="11" font-weight="800" fill="#AF5109" text-anchor="middle">→ React Native</text>
+  <text x="128" y="390" font-size="9" fill="#555555" text-anchor="middle">기존 지식·인력을 그대로</text>
+  <line x1="450" y1="398" x2="450" y2="418" stroke="#003F8A" stroke-width="2.5" marker-end="url(#mbd)"/>
+
+  <!-- Q5 -->
+  <rect x="300" y="422" width="300" height="44" rx="22" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="450" y="449" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">Q5. UI가 각 OS 느낌이어야 하나?</text>
+  <line x1="600" y1="444" x2="680" y2="444" stroke="#6B21A8" stroke-width="2" marker-end="url(#mbd)"/>
+  <text x="640" y="436" font-size="9.5" font-weight="700" fill="#6B21A8" text-anchor="middle">예</text>
+  <rect x="684" y="422" width="176" height="44" rx="10" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="772" y="442" font-size="11" font-weight="800" fill="#6B21A8" text-anchor="middle">→ KMP</text>
+  <text x="772" y="458" font-size="9" fill="#555555" text-anchor="middle">로직만 공유, UI는 네이티브</text>
+  <line x1="450" y1="466" x2="450" y2="486" stroke="#003F8A" stroke-width="2.5" marker-end="url(#mbd)"/>
+  <text x="472" y="480" font-size="9.5" fill="#666666">아니오</text>
+
+  <rect x="330" y="490" width="240" height="46" rx="12" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
+  <text x="450" y="512" font-size="12" font-weight="800" fill="#AF5109" text-anchor="middle">→ Flutter</text>
+  <text x="450" y="528" font-size="9" fill="#555555" text-anchor="middle">UI까지 한 벌 · 양쪽 동일한 화면</text>
+
+  <!-- 하단 주의 -->
+  <rect x="30" y="556" width="840" height="74" rx="12" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2"/>
+  <text x="52" y="580" font-size="11.5" font-weight="800" fill="#B91C1C">어느 가지로 가든 바뀌지 않는 것</text>
+  <text x="52" y="602" font-size="10.5" fill="#555555">iOS 산출물은 <tspan font-weight="700">맥 + Xcode + 서명</tspan>을 통과해야 한다 · 스토어 심사·연회비·타겟 API 의무도 그대로 (「앱 출시의 관문」)</text>
+  <text x="52" y="622" font-size="10.5" fill="#555555">그리고 <tspan font-weight="700">되돌리기 비용</tspan>: 크로스플랫폼 → 네이티브는 사실상 재작성이다 — 초기 선택이 가장 비싼 결정</text>
+</svg>
