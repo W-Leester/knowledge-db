@@ -326,11 +326,12 @@
         "React Native",
         "KMP"
       ],
-      "version": 1,
+      "version": 2,
       "assets": [
         "docs/img/mb-layers.svg",
         "docs/img/mb-landscape.svg",
-        "docs/img/mb-decision.svg"
+        "docs/img/mb-decision.svg",
+        "docs/img/mb-rendering.svg"
       ]
     },
     {

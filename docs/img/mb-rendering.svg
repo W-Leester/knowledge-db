@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs><marker id="mbr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/></marker></defs>
+  <rect width="900" height="700" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">화면을 그리는 세 가지 방식 — 픽셀까지 가는 길이 다르다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">이 차이 하나가 앱 용량 · 화면 일관성 · OS 업데이트 대응을 전부 결정한다</text>
+
+  <!-- 공통 헤더 라벨 -->
+  <text x="150" y="88" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">내 코드</text>
+  <text x="355" y="88" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">중간에 무엇이 있나</text>
+  <text x="590" y="88" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">화면을 실제로 그리는 것</text>
+  <text x="800" y="88" font-size="10.5" font-weight="700" fill="#555555" text-anchor="middle">앱에 동봉되는 것</text>
+
+  <!-- 1 네이티브 -->
+  <rect x="30" y="100" width="840" height="160" rx="14" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="52" y="126" font-size="13.5" font-weight="800" fill="#002C5F">① 네이티브 — OS의 부품을 그대로 쓴다</text>
+  <rect x="60" y="140" width="180" height="56" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="150" y="162" font-size="10.5" font-weight="700" fill="#002C5F" text-anchor="middle">Kotlin · Swift</text>
+  <text x="150" y="182" font-size="9.5" fill="#555555" text-anchor="middle">Compose · SwiftUI</text>
+  <line x1="240" y1="168" x2="272" y2="168" stroke="#003F8A" stroke-width="2.2" marker-end="url(#mbr)"/>
+  <rect x="276" y="140" width="160" height="56" rx="10" fill="#F2EDE4" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="356" y="168" font-size="10" fill="#555555" text-anchor="middle">없음 — 직통</text>
+  <text x="356" y="186" font-size="9" fill="#666666" text-anchor="middle">OS UI 툴킷을 바로 호출</text>
+  <line x1="436" y1="168" x2="468" y2="168" stroke="#003F8A" stroke-width="2.2" marker-end="url(#mbr)"/>
+  <rect x="472" y="140" width="180" height="56" rx="10" fill="#0D1B2E"/>
+  <text x="562" y="162" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">OS 렌더러</text>
+  <text x="562" y="182" font-size="9.5" fill="#AAB9CF" text-anchor="middle">진짜 OS 버튼·목록</text>
+  <line x1="652" y1="168" x2="684" y2="168" stroke="#003F8A" stroke-width="2.2" marker-end="url(#mbr)"/>
+  <rect x="688" y="140" width="160" height="56" rx="10" fill="#E6F7F1" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="768" y="162" font-size="10.5" font-weight="800" fill="#0F766E" text-anchor="middle">내 코드만</text>
+  <text x="768" y="182" font-size="9.5" fill="#555555" text-anchor="middle">용량 최소</text>
+  <text x="60" y="222" font-size="10" fill="#0F766E" font-weight="700">✓ OS가 업데이트되면 내 앱의 버튼 모양도 따라 바뀐다 — 언제나 플랫폼 최신 그대로</text>
+  <text x="60" y="244" font-size="10" fill="#555555">✓ 접근성·키보드·다크모드 같은 OS 기능이 공짜로 따라온다</text>
+
+  <!-- 2 Flutter -->
+  <rect x="30" y="274" width="840" height="170" rx="14" fill="#FEF3E2" stroke="#E8962A" stroke-width="3"/>
+  <text x="52" y="300" font-size="13.5" font-weight="800" fill="#AF5109">② Flutter — 빈 캔버스에 직접 그린다</text>
+  <rect x="60" y="314" width="180" height="56" rx="10" fill="#FFFFFF" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="150" y="336" font-size="10.5" font-weight="700" fill="#AF5109" text-anchor="middle">Dart</text>
+  <text x="150" y="356" font-size="9.5" fill="#555555" text-anchor="middle">Flutter 위젯</text>
+  <line x1="240" y1="342" x2="272" y2="342" stroke="#003F8A" stroke-width="2.2" marker-end="url(#mbr)"/>
+  <rect x="276" y="314" width="160" height="56" rx="10" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2"/>
+  <text x="356" y="336" font-size="10.5" font-weight="800" fill="#B91C1C" text-anchor="middle">Flutter 엔진</text>
+  <text x="356" y="356" font-size="9" fill="#555555" text-anchor="middle">자체 렌더링 엔진</text>
+  <line x1="436" y1="342" x2="468" y2="342" stroke="#003F8A" stroke-width="2.2" marker-end="url(#mbr)"/>
+  <rect x="472" y="314" width="180" height="56" rx="10" fill="#0D1B2E"/>
+  <text x="562" y="336" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">빈 캔버스 한 장</text>
+  <text x="562" y="356" font-size="9.5" fill="#AAB9CF" text-anchor="middle">OS 부품을 안 쓴다</text>
+  <line x1="652" y1="342" x2="684" y2="342" stroke="#003F8A" stroke-width="2.2" marker-end="url(#mbr)"/>
+  <rect x="688" y="314" width="160" height="56" rx="10" fill="#FEE2E2" stroke="#B91C1C" stroke-width="1.5"/>
+  <text x="768" y="336" font-size="10.5" font-weight="800" fill="#B91C1C" text-anchor="middle">내 코드 + 엔진</text>
+  <text x="768" y="356" font-size="9.5" fill="#555555" text-anchor="middle">용량이 커지는 이유</text>
+  <text x="60" y="396" font-size="10" fill="#0F766E" font-weight="700">✓ 양 플랫폼이 픽셀 단위로 똑같다 — 디자인 일관성이 최고, 커스텀 UI에 강하다</text>
+  <text x="60" y="418" font-size="10" fill="#B91C1C" font-weight="700">✕ OS가 새 디자인으로 바뀌어도 내 앱은 그대로 — 언젠가 "이 앱만 옛날 같다"가 된다</text>
+  <text x="60" y="438" font-size="9.5" fill="#666666">✕ 접근성·텍스트 선택 같은 OS 기능을 엔진이 따로 흉내 내야 한다</text>
+
+  <!-- 3 RN -->
+  <rect x="30" y="458" width="840" height="170" rx="14" fill="#E6F7F1" stroke="#0F766E" stroke-width="3"/>
+  <text x="52" y="484" font-size="13.5" font-weight="800" fill="#0F766E">③ React Native — OS 부품을 원격 조종한다</text>
+  <rect x="60" y="498" width="180" height="56" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="150" y="520" font-size="10.5" font-weight="700" fill="#0F766E" text-anchor="middle">JS · TypeScript</text>
+  <text x="150" y="540" font-size="9.5" fill="#555555" text-anchor="middle">React 컴포넌트</text>
+  <line x1="240" y1="526" x2="272" y2="526" stroke="#003F8A" stroke-width="2.2" marker-end="url(#mbr)"/>
+  <rect x="276" y="498" width="160" height="56" rx="10" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="356" y="520" font-size="10.5" font-weight="800" fill="#6B21A8" text-anchor="middle">JS 엔진 + 연결층</text>
+  <text x="356" y="540" font-size="9" fill="#555555" text-anchor="middle">"이 버튼을 만들어라"</text>
+  <line x1="436" y1="526" x2="468" y2="526" stroke="#003F8A" stroke-width="2.2" marker-end="url(#mbr)"/>
+  <rect x="472" y="498" width="180" height="56" rx="10" fill="#0D1B2E"/>
+  <text x="562" y="520" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">OS 렌더러</text>
+  <text x="562" y="540" font-size="9.5" fill="#AAB9CF" text-anchor="middle">진짜 OS 버튼·목록</text>
+  <line x1="652" y1="526" x2="684" y2="526" stroke="#003F8A" stroke-width="2.2" marker-end="url(#mbr)"/>
+  <rect x="688" y="498" width="160" height="56" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.5"/>
+  <text x="768" y="520" font-size="10.5" font-weight="800" fill="#AF5109" text-anchor="middle">내 코드 + JS 엔진</text>
+  <text x="768" y="540" font-size="9.5" fill="#555555" text-anchor="middle">중간 크기</text>
+  <text x="60" y="580" font-size="10" fill="#0F766E" font-weight="700">✓ 화면에 뜨는 것은 진짜 OS 부품 — 각 플랫폼의 느낌과 OS 업데이트를 그대로 받는다</text>
+  <text x="60" y="602" font-size="10" fill="#B91C1C" font-weight="700">✕ 내 코드와 화면 사이에 통역이 한 겹 — 무거운 화면에서 성능 튜닝이 필요해진다</text>
+  <text x="60" y="622" font-size="9.5" fill="#666666">✕ 양쪽 OS 부품이 미묘하게 달라 "안드로이드에서만 어긋나는" 화면이 생긴다</text>
+
+  <rect x="30" y="644" width="840" height="46" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="666" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">한 줄: 네이티브는 OS 부품을 쓰고, Flutter는 안 쓰고, React Native는 멀리서 조종한다</text>
+  <text x="450" y="684" font-size="10.5" fill="#AAB9CF" text-anchor="middle">"OS를 얼마나 신뢰하나"의 차이 — 신뢰할수록 가볍고 최신에 붙고, 안 할수록 일관되고 자유롭다</text>
+</svg>

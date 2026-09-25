@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-20",
+ "generated": "2026-09-25",
  "note": "scripts/build-graph.py가 생성. nodes는 docs.json 참조, edges는 자동 추출, curated는 손으로 유지.",
  "nodes": [
   {
@@ -1020,6 +1020,12 @@
   },
   {
    "source": "mobile-stack",
+   "target": "local-llm-models",
+   "type": "link",
+   "weight": 1
+  },
+  {
+   "source": "mobile-stack",
    "target": "oss-license",
    "type": "link",
    "weight": 2
@@ -1058,13 +1064,13 @@
    "source": "mobile-stack",
    "target": "tech-stack",
    "type": "link",
-   "weight": 1
+   "weight": 2
   },
   {
    "source": "mobile-stack",
    "target": "tech-stack",
    "type": "mention",
-   "weight": 1
+   "weight": 2
   },
   {
    "source": "nas-data-strategy",

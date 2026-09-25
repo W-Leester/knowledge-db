@@ -370,9 +370,12 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#native">2. 네이티브 — 양쪽의 대칭 구조</a>
     <a href="#cross">3. 크로스플랫폼 — 무엇을 공유하나</a>
     <a href="#pipeline" class="sub">3-1. 코드 한 벌이 두 스토어로 (동적)</a>
+    <a href="#render" class="sub">3-2. 화면을 그리는 세 방식</a>
+    <a href="#code" class="sub">3-3. 같은 화면, 네 가지 코드</a>
     <a href="#kmp">4. 제3의 길 — KMP와 그 외</a>
     <a href="#tradeoff">5. 저울 — 공유율과 그 대가</a>
     <a href="#share" class="sub">5-1. 공유율과 비용 (동적)</a>
+    <a href="#escape" class="sub">5-2. 네이티브 모듈이 필요한 순간</a>
     <a href="#decide">6. 결정 트리</a>
     <a href="#reality">7. 무엇을 골라도 바뀌지 않는 것</a>
     <a href="#refs">8. 함께 읽기</a>
@@ -423,7 +426,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
   <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
   <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 끌어서 옮길 수도 있다.</p>
   <figure class="cg-anim">
-    <script type="application/json" class="cg-data">{"kinds":{"c":["개념·축","#1A5CB5"],"t":["언어·프레임워크","#0F766E"],"f":["산출물·관문","#AF5109"],"s":["제약·함정","#B91C1C"],"p":["플랫폼","#6B21A8"]},"nodes":[{"id":"layer","label":"이름의 층","kind":"c","sec":"#layers","def":"언어·프레임워크·툴체인 — 세 질문으로 모든 이름이 분류된다"},{"id":"kotlin","label":"Kotlin","kind":"t","sec":"#layers","def":"안드로이드 공식 언어. 층으로는 1층 언어"},{"id":"swift","label":"Swift","kind":"t","sec":"#layers","def":"애플 공식 언어. Xcode가 툴체인으로 따라온다"},{"id":"dart","label":"Dart","kind":"t","sec":"#layers","def":"Flutter를 쓰려고 배우는 언어 — 프레임워크가 데려온다"},{"id":"ts","label":"JS·TypeScript","kind":"t","sec":"#layers","def":"React Native가 데려오는 언어. 웹 지식이 그대로 전이된다"},{"id":"compose","label":"Compose","kind":"t","sec":"#native","def":"안드로이드의 선언형 UI. XML 레이아웃을 대체했다"},{"id":"swiftui","label":"SwiftUI","kind":"t","sec":"#native","def":"iOS의 선언형 UI. UIKit을 대체했다"},{"id":"flutter","label":"Flutter","kind":"t","sec":"#cross","def":"화면을 직접 그려 양 플랫폼을 덮는다. 공유율 최대"},{"id":"rn","label":"React Native","kind":"t","sec":"#cross","def":"OS의 진짜 네이티브 부품을 JS에서 조종한다"},{"id":"kmp","label":"KMP","kind":"t","sec":"#kmp","def":"UI는 각자 네이티브로, 로직만 Kotlin으로 공유하는 절충안"},{"id":"pwa","label":"PWA","kind":"t","sec":"#kmp","def":"스토어를 거치지 않는 유일한 길. 이 지식 베이스가 그 방식"},{"id":"unity","label":"Unity","kind":"t","sec":"#kmp","def":"게임이면 사실상 여기뿐. C#으로 쓴다"},{"id":"native","label":"네이티브","kind":"c","sec":"#native","def":"플랫폼마다 따로 만든다. 품질과 최신 기능이 최상"},{"id":"cross","label":"크로스플랫폼","kind":"c","sec":"#cross","def":"한 벌로 양쪽에. 속도를 얻고 최신과 멀어진다"},{"id":"share","label":"공유율 축","kind":"c","sec":"#tradeoff","def":"무엇을 공유하나 — 이 문서의 선택을 정렬하는 단 하나의 축"},{"id":"symmetry","label":"양쪽의 대칭","kind":"c","sec":"#native","def":"새 언어가 옛 언어를, 선언형 UI가 구식을 대체 — 구조가 거울처럼 겹친다"},{"id":"android","label":"안드로이드","kind":"p","sec":"#native","def":"윈도우·맥·리눅스 어디서나 빌드. 등록비는 1회성"},{"id":"ios","label":"iOS","kind":"p","sec":"#native","def":"맥에서만 빌드. 연회비와 사람 심사"},{"id":"xcode","label":"Xcode·맥","kind":"f","sec":"#reality","def":"어느 언어로 짰든 iOS 산출물은 이 관문을 통과해야 한다"},{"id":"store","label":"스토어 심사","kind":"f","sec":"#reality","def":"계정 삭제·개인정보 라벨·타겟 API 의무 — 스택과 무관하게 남는다"},{"id":"sign","label":"서명·인증서","kind":"f","sec":"#reality","def":"두 스토어 모두 요구. 키를 잃으면 업데이트를 못 낸다"},{"id":"revert","label":"되돌리기 비용","kind":"s","sec":"#tradeoff","def":"크로스플랫폼→네이티브는 사실상 재작성 — 초기 선택이 가장 비싸다"},{"id":"lag","label":"한 박자 늦음","kind":"s","sec":"#tradeoff","def":"OS 새 기능을 프레임워크가 지원할 때까지 기다린다"},{"id":"nativemod","label":"네이티브 모듈","kind":"s","sec":"#cross","def":"문제가 깊어지면 결국 각 OS의 코드를 직접 써야 하는 순간이 온다"}],"edges":[{"s":"layer","t":"kotlin","rel":"분류"},{"s":"layer","t":"flutter","rel":"분류"},{"s":"layer","t":"xcode","rel":"분류"},{"s":"flutter","t":"dart","rel":"데려옴"},{"s":"rn","t":"ts","rel":"데려옴"},{"s":"kotlin","t":"compose","rel":"짝"},{"s":"swift","t":"swiftui","rel":"짝"},{"s":"native","t":"android","rel":"대상"},{"s":"native","t":"ios","rel":"대상"},{"s":"android","t":"kotlin","rel":"공식"},{"s":"ios","t":"swift","rel":"공식"},{"s":"native","t":"symmetry","rel":"성질"},{"s":"symmetry","t":"compose","rel":"예"},{"s":"symmetry","t":"swiftui","rel":"예"},{"s":"cross","t":"flutter","rel":"종류"},{"s":"cross","t":"rn","rel":"종류"},{"s":"share","t":"native","rel":"0%"},{"s":"share","t":"kmp","rel":"로직만"},{"s":"share","t":"cross","rel":"전부"},{"s":"kmp","t":"kotlin","rel":"사용"},{"s":"kmp","t":"compose","rel":"UI는"},{"s":"kmp","t":"swiftui","rel":"UI는"},{"s":"cross","t":"lag","rel":"대가"},{"s":"cross","t":"nativemod","rel":"대가"},{"s":"share","t":"revert","rel":"비대칭"},{"s":"revert","t":"cross","rel":"탈출 비쌈"},{"s":"ios","t":"xcode","rel":"의무"},{"s":"flutter","t":"xcode","rel":"통과"},{"s":"rn","t":"xcode","rel":"통과"},{"s":"store","t":"sign","rel":"요구"},{"s":"android","t":"store","rel":"심사"},{"s":"ios","t":"store","rel":"심사"},{"s":"pwa","t":"store","rel":"건너뜀"},{"s":"unity","t":"cross","rel":"특수"},{"s":"pwa","t":"share","rel":"다른 축"}]}</script>
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념·축","#1A5CB5"],"t":["언어·프레임워크","#0F766E"],"f":["산출물·관문","#AF5109"],"s":["제약·함정","#B91C1C"],"p":["플랫폼","#6B21A8"]},"nodes":[{"id":"layer","label":"이름의 층","kind":"c","sec":"#layers","def":"언어·프레임워크·툴체인 — 세 질문으로 모든 이름이 분류된다"},{"id":"kotlin","label":"Kotlin","kind":"t","sec":"#layers","def":"안드로이드 공식 언어. 층으로는 1층 언어"},{"id":"swift","label":"Swift","kind":"t","sec":"#layers","def":"애플 공식 언어. Xcode가 툴체인으로 따라온다"},{"id":"dart","label":"Dart","kind":"t","sec":"#layers","def":"Flutter를 쓰려고 배우는 언어 — 프레임워크가 데려온다"},{"id":"ts","label":"JS·TypeScript","kind":"t","sec":"#layers","def":"React Native가 데려오는 언어. 웹 지식이 그대로 전이된다"},{"id":"compose","label":"Compose","kind":"t","sec":"#native","def":"안드로이드의 선언형 UI. XML 레이아웃을 대체했다"},{"id":"swiftui","label":"SwiftUI","kind":"t","sec":"#native","def":"iOS의 선언형 UI. UIKit을 대체했다"},{"id":"flutter","label":"Flutter","kind":"t","sec":"#cross","def":"화면을 직접 그려 양 플랫폼을 덮는다. 공유율 최대"},{"id":"rn","label":"React Native","kind":"t","sec":"#cross","def":"OS의 진짜 네이티브 부품을 JS에서 조종한다"},{"id":"kmp","label":"KMP","kind":"t","sec":"#kmp","def":"UI는 각자 네이티브로, 로직만 Kotlin으로 공유하는 절충안"},{"id":"pwa","label":"PWA","kind":"t","sec":"#kmp","def":"스토어를 거치지 않는 유일한 길. 이 지식 베이스가 그 방식"},{"id":"unity","label":"Unity","kind":"t","sec":"#kmp","def":"게임이면 사실상 여기뿐. C#으로 쓴다"},{"id":"native","label":"네이티브","kind":"c","sec":"#native","def":"플랫폼마다 따로 만든다. 품질과 최신 기능이 최상"},{"id":"cross","label":"크로스플랫폼","kind":"c","sec":"#cross","def":"한 벌로 양쪽에. 속도를 얻고 최신과 멀어진다"},{"id":"share","label":"공유율 축","kind":"c","sec":"#tradeoff","def":"무엇을 공유하나 — 이 문서의 선택을 정렬하는 단 하나의 축"},{"id":"symmetry","label":"양쪽의 대칭","kind":"c","sec":"#native","def":"새 언어가 옛 언어를, 선언형 UI가 구식을 대체 — 구조가 거울처럼 겹친다"},{"id":"android","label":"안드로이드","kind":"p","sec":"#native","def":"윈도우·맥·리눅스 어디서나 빌드. 등록비는 1회성"},{"id":"ios","label":"iOS","kind":"p","sec":"#native","def":"맥에서만 빌드. 연회비와 사람 심사"},{"id":"xcode","label":"Xcode·맥","kind":"f","sec":"#reality","def":"어느 언어로 짰든 iOS 산출물은 이 관문을 통과해야 한다"},{"id":"store","label":"스토어 심사","kind":"f","sec":"#reality","def":"계정 삭제·개인정보 라벨·타겟 API 의무 — 스택과 무관하게 남는다"},{"id":"sign","label":"서명·인증서","kind":"f","sec":"#reality","def":"두 스토어 모두 요구. 키를 잃으면 업데이트를 못 낸다"},{"id":"revert","label":"되돌리기 비용","kind":"s","sec":"#tradeoff","def":"크로스플랫폼→네이티브는 사실상 재작성 — 초기 선택이 가장 비싸다"},{"id":"lag","label":"한 박자 늦음","kind":"s","sec":"#tradeoff","def":"OS 새 기능을 프레임워크가 지원할 때까지 기다린다"},{"id":"nativemod","label":"네이티브 모듈","kind":"s","sec":"#cross","def":"문제가 깊어지면 결국 각 OS의 코드를 직접 써야 하는 순간이 온다"},{"id":"render","label":"렌더링 방식","kind":"c","sec":"#render","def":"OS 부품을 쓰나 안 쓰나 — 용량·일관성·OS 대응을 한꺼번에 정하는 갈림길"},{"id":"engine","label":"렌더링 엔진","kind":"f","sec":"#render","def":"Flutter가 앱에 동봉하는 자체 엔진. 앱 용량이 커지는 이유"},{"id":"declarative","label":"선언형 UI","kind":"c","sec":"#code","def":"상태를 적으면 프레임워크가 다시 그린다 — 네 스택의 공통 뼈대"}],"edges":[{"s":"layer","t":"kotlin","rel":"분류"},{"s":"layer","t":"flutter","rel":"분류"},{"s":"layer","t":"xcode","rel":"분류"},{"s":"flutter","t":"dart","rel":"데려옴"},{"s":"rn","t":"ts","rel":"데려옴"},{"s":"kotlin","t":"compose","rel":"짝"},{"s":"swift","t":"swiftui","rel":"짝"},{"s":"native","t":"android","rel":"대상"},{"s":"native","t":"ios","rel":"대상"},{"s":"android","t":"kotlin","rel":"공식"},{"s":"ios","t":"swift","rel":"공식"},{"s":"native","t":"symmetry","rel":"성질"},{"s":"symmetry","t":"compose","rel":"예"},{"s":"symmetry","t":"swiftui","rel":"예"},{"s":"cross","t":"flutter","rel":"종류"},{"s":"cross","t":"rn","rel":"종류"},{"s":"share","t":"native","rel":"0%"},{"s":"share","t":"kmp","rel":"로직만"},{"s":"share","t":"cross","rel":"전부"},{"s":"kmp","t":"kotlin","rel":"사용"},{"s":"kmp","t":"compose","rel":"UI는"},{"s":"kmp","t":"swiftui","rel":"UI는"},{"s":"cross","t":"lag","rel":"대가"},{"s":"cross","t":"nativemod","rel":"대가"},{"s":"share","t":"revert","rel":"비대칭"},{"s":"revert","t":"cross","rel":"탈출 비쌈"},{"s":"ios","t":"xcode","rel":"의무"},{"s":"flutter","t":"xcode","rel":"통과"},{"s":"rn","t":"xcode","rel":"통과"},{"s":"store","t":"sign","rel":"요구"},{"s":"android","t":"store","rel":"심사"},{"s":"ios","t":"store","rel":"심사"},{"s":"pwa","t":"store","rel":"건너뜀"},{"s":"unity","t":"cross","rel":"특수"},{"s":"pwa","t":"share","rel":"다른 축"},{"s":"render","t":"flutter","rel":"직접 그림"},{"s":"render","t":"rn","rel":"조종"},{"s":"render","t":"native","rel":"그대로 씀"},{"s":"flutter","t":"engine","rel":"동봉"},{"s":"engine","t":"lag","rel":"원인"},{"s":"declarative","t":"compose","rel":"공통"},{"s":"declarative","t":"swiftui","rel":"공통"},{"s":"declarative","t":"flutter","rel":"공통"},{"s":"declarative","t":"rn","rel":"공통"},{"s":"symmetry","t":"declarative","rel":"근거"},{"s":"nativemod","t":"cross","rel":"탈출구"}]}</script>
     <figcaption>「모바일 앱 개발 스택 지도」의 개념 그래프 — 온톨로지(개념·관계 종류)와 이 문서의 사실이 합쳐진 모습 · 데이터는 이 문서 안에 있다</figcaption>
   </figure>
 </section>
@@ -588,6 +591,96 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     </div>
     <figcaption>주황 토큰이 코드에서 출발해 두 갈래로 흐르고, 아래 갈래에서 맥 관문이 켜지며 경고가 뜬다 — 코드는 한 벌이어도 관문은 둘 (동작 줄이기 설정 시 정지)</figcaption>
   </figure>
+
+  <h3 id="render">3-2. 화면을 그리는 세 가지 방식 — 이 차이가 나머지를 정한다</h3>
+
+  <p class="body">§3 표에서 "Flutter는 직접 그리고 React Native는 OS 부품을 조종한다"고 한 줄로 적었는데, 이 차이가
+  <strong>앱 용량 · 화면 일관성 · OS 업데이트 대응</strong>을 전부 결정한다. 픽셀까지 가는 길을 나란히 놓으면 이렇다:</p>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/mb-rendering.svg" alt="네이티브, Flutter, React Native가 각각 내 코드에서 화면 픽셀까지 도달하는 경로와 앱에 동봉되는 것 비교"></div>
+    <figcaption>네이티브는 OS 부품을 쓰고, Flutter는 빈 캔버스에 직접 그리고, React Native는 OS 부품을 원격 조종한다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">따라오는 결과</th><th>네이티브</th><th>Flutter</th><th>React Native</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">앱에 동봉되는 것</td><td>내 코드만</td><td>내 코드 + <strong>렌더링 엔진</strong></td><td>내 코드 + JS 엔진</td></tr>
+        <tr><td class="hl">기본 앱 용량</td><td>가장 작다</td><td>가장 크다</td><td>중간</td></tr>
+        <tr><td class="hl">OS가 새 디자인으로 바뀌면</td><td>내 앱도 따라 바뀐다</td><td><u>그대로</u> — 직접 고쳐야 한다</td><td>따라 바뀐다</td></tr>
+        <tr><td class="hl">양 플랫폼 화면 차이</td><td>당연히 다르다</td><td><strong>픽셀 단위로 같다</strong></td><td>미묘하게 다르다</td></tr>
+        <tr><td class="hl">접근성·텍스트 선택</td><td>OS 것이 공짜로</td><td>엔진이 흉내 내야 한다</td><td>OS 것이 대체로 따라온다</td></tr>
+        <tr><td class="hl">커스텀 디자인</td><td>부품을 거스르면 힘들다</td><td><strong>자유롭다</strong> — 빈 캔버스니까</td><td>부품의 한계 안에서</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🎨</span>
+    <div><strong>축은 "OS를 얼마나 신뢰하나" —</strong> 신뢰할수록(네이티브·RN) 가볍고 최신에 붙지만 플랫폼의 제약을 받고,
+    신뢰하지 않을수록(Flutter) 일관되고 자유롭지만 엔진을 짊어지고 OS의 변화와 멀어진다.
+    브랜드 디자인이 강한 앱은 Flutter 쪽이, 플랫폼 표준을 따라야 하는 앱은 네이티브·RN 쪽이 편하다.</div>
+  </div>
+
+  <h3 id="code">3-3. 같은 화면, 네 가지 코드 — 문법만 다르고 뼈대는 같다</h3>
+
+  <p class="body">버튼을 누르면 숫자가 오르는 화면을 네 스택으로 각각 써보면, §2에서 말한 "대칭"이 눈으로 보인다.
+  넷 다 <u>① 상태를 선언하고 ② 화면의 모습을 묘사하고 ③ 이벤트에서 상태를 바꾼다</u>는 같은 뼈대다 —
+  이것이 <strong>선언형 UI</strong>의 공통 구조이고, 하나를 익히면 나머지의 학습 비용이 줄어드는 이유다.</p>
+
+  <pre class="code"><span class="title-bar">Kotlin + Jetpack Compose — 안드로이드 네이티브</span><span class="k">@Composable</span>
+<span class="k">fun</span> <span class="f">Counter</span>() {
+    <span class="k">var</span> count <span class="k">by</span> <span class="f">remember</span> { <span class="f">mutableStateOf</span>(<span class="s">0</span>) }   <span class="c">// ① 상태</span>
+    <span class="f">Column</span> {                                       <span class="c">// ② 모습</span>
+        <span class="f">Text</span>(<span class="s">"눌린 횟수: $count"</span>)
+        <span class="f">Button</span>(onClick = { count++ }) {            <span class="c">// ③ 이벤트</span>
+            <span class="f">Text</span>(<span class="s">"누르기"</span>)
+        }
+    }
+}</pre>
+
+  <pre class="code"><span class="title-bar">Swift + SwiftUI — iOS 네이티브</span><span class="k">struct</span> <span class="f">Counter</span>: <span class="f">View</span> {
+    <span class="k">@State</span> <span class="k">private var</span> count = <span class="s">0</span>                  <span class="c">// ① 상태</span>
+    <span class="k">var</span> body: <span class="k">some</span> <span class="f">View</span> {                         <span class="c">// ② 모습</span>
+        <span class="f">VStack</span> {
+            <span class="f">Text</span>(<span class="s">"눌린 횟수: \(count)"</span>)
+            <span class="f">Button</span>(<span class="s">"누르기"</span>) { count += <span class="s">1</span> }        <span class="c">// ③ 이벤트</span>
+        }
+    }
+}</pre>
+
+  <pre class="code"><span class="title-bar">Dart + Flutter — 양 플랫폼</span><span class="k">class</span> <span class="f">_CounterState</span> <span class="k">extends</span> <span class="f">State</span>&lt;<span class="f">Counter</span>&gt; {
+    <span class="k">int</span> count = <span class="s">0</span>;                                 <span class="c">// ① 상태</span>
+    <span class="k">Widget</span> <span class="f">build</span>(<span class="f">BuildContext</span> context) =&gt; <span class="f">Column</span>(  <span class="c">// ② 모습</span>
+        children: [
+            <span class="f">Text</span>(<span class="s">'눌린 횟수: $count'</span>),
+            <span class="f">ElevatedButton</span>(
+                onPressed: () =&gt; <span class="f">setState</span>(() =&gt; count++),  <span class="c">// ③ 이벤트</span>
+                child: <span class="f">Text</span>(<span class="s">'누르기'</span>),
+            ),
+        ],
+    );
+}</pre>
+
+  <pre class="code"><span class="title-bar">TypeScript + React Native — 양 플랫폼</span><span class="k">function</span> <span class="f">Counter</span>() {
+    <span class="k">const</span> [count, setCount] = <span class="f">useState</span>(<span class="s">0</span>);          <span class="c">// ① 상태</span>
+    <span class="k">return</span> (                                          <span class="c">// ② 모습</span>
+        &lt;<span class="f">View</span>&gt;
+            &lt;<span class="f">Text</span>&gt;눌린 횟수: {count}&lt;/<span class="f">Text</span>&gt;
+            &lt;<span class="f">Button</span> title=<span class="s">"누르기"</span>
+                onPress={() =&gt; <span class="f">setCount</span>(count + <span class="s">1</span>)} /&gt;   <span class="c">// ③ 이벤트</span>
+        &lt;/<span class="f">View</span>&gt;
+    );
+}</pre>
+
+  <div class="callout green">
+    <span class="icon">🧩</span>
+    <div><strong>넷이 닮은 것은 우연이 아니다 —</strong> 모두 웹의 React가 퍼뜨린 <u>선언형 + 상태 기반</u> 사고를 받아들였다.
+    "버튼 글자를 바꿔라"라고 지시하는 대신 "상태가 이러면 화면은 이렇다"를 적고, 상태가 바뀌면 프레임워크가 알아서 다시 그린다.
+    그래서 <strong>진짜 학습 비용은 언어가 아니라 이 사고방식에 있고</strong>, 한 번 익히면 스택을 옮겨도 대부분 전이된다.
+    <a href="tech-stack.html">「기술 스택 고르기」</a> §5의 제어의 역전이 화면에 적용된 모습이다.</div>
+  </div>
 </section>
 
 <!-- ═══════════ 4. KMP ═══════════ -->
@@ -694,6 +787,34 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <div><strong>되돌리기 비용이 비대칭이다 —</strong> 네이티브에서 크로스플랫폼으로 가는 것보다, <u>크로스플랫폼에서 네이티브로 되돌아오는 것이 훨씬 비싸다</u> — 사실상 재작성이다.
     <a href="database-systems.html">「데이터베이스 완전 정리」</a> §9의 "이사 난이도"와 같은 논리이고,
     그래서 모바일 스택 선택은 <strong>초기에 가장 비싼 결정</strong>이다. 확신이 없으면 공유율이 낮은 쪽(네이티브·KMP)이 되돌리기 쉽다.</div>
+  </div>
+
+  <h3 id="escape">5-2. 네이티브 모듈이 필요해지는 순간 — 크로스플랫폼의 탈출구</h3>
+
+  <p class="body">§5의 "문제가 깊어지면 결국 네이티브 코드를 써야 한다"는 추상적으로 들리지만, 실제로는 목록이 꽤 분명하다.
+  아래 항목이 요구사항에 있으면 <u>크로스플랫폼을 골라도 각 플랫폼 코드를 따로 쓰게 된다</u> — 고를 때 미리 세어볼 값어치가 있다:</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:210px">요구사항</th><th>왜 네이티브로 내려가나</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">홈 화면 위젯</td><td>위젯은 OS가 직접 그리는 영역이라 각 플랫폼 방식대로 만들어야 한다</td></tr>
+        <tr><td class="hl">백그라운드 작업</td><td>앱이 꺼진 뒤의 동작 규칙이 양 OS에서 완전히 다르다 — 배터리 정책도 각자다</td></tr>
+        <tr><td class="hl">블루투스·NFC·USB</td><td>기기 통신은 OS API에 밀착해 있어 래퍼로 덮기 어렵다</td></tr>
+        <tr><td class="hl">카메라 세밀 제어</td><td>촬영 버튼 수준은 플러그인으로 되지만, 노출·초점·RAW로 들어가면 네이티브</td></tr>
+        <tr><td class="hl">OS 새 기능</td><td>발표 직후에는 프레임워크 지원이 없다 — 먼저 쓰려면 직접 연결</td></tr>
+        <tr><td class="hl">특정 SDK만 제공되는 서비스</td><td>결제·인증·지도 중 일부는 네이티브 SDK만 내놓는다</td></tr>
+        <tr><td class="hl">무거운 실시간 처리</td><td>영상 필터·오디오 처리처럼 매 프레임 계산이 필요한 일 (<a href="local-llm-models.html">온디바이스 모델</a> 포함)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red">
+    <span class="icon">🚪</span>
+    <div><strong>탈출구가 있다는 것이 크로스플랫폼의 설계 —</strong> Flutter와 React Native 모두 "필요하면 네이티브 코드를 붙일 수 있는" 통로를 제공한다.
+    문제는 그 통로를 쓰는 순간 <u>그 기능만은 두 플랫폼을 따로 만들게 되고</u>, 각 OS를 아는 사람이 필요해진다는 것이다.
+    그래서 실전의 질문은 "크로스플랫폼으로 전부 되나"가 아니라 <strong>"내 요구사항에서 탈출구를 몇 번 쓰게 되나"</strong>다.
+    세 번 이상이면 네이티브나 KMP가 오히려 단순할 수 있다.</div>
   </div>
 </section>
 
