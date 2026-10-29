@@ -376,6 +376,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     <a href="#tradeoff">5. 저울 — 공유율과 그 대가</a>
     <a href="#share" class="sub">5-1. 공유율과 비용 (동적)</a>
     <a href="#escape" class="sub">5-2. 네이티브 모듈이 필요한 순간</a>
+    <a href="#numbers" class="sub">5-3. 숫자로 보면 (개략)</a>
     <a href="#decide">6. 결정 트리</a>
     <a href="#reality">7. 무엇을 골라도 바뀌지 않는 것</a>
     <a href="#refs">8. 함께 읽기</a>
@@ -607,10 +608,11 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
       <thead><tr><th style="width:170px">따라오는 결과</th><th>네이티브</th><th>Flutter</th><th>React Native</th></tr></thead>
       <tbody>
         <tr><td class="hl">앱에 동봉되는 것</td><td>내 코드만</td><td>내 코드 + <strong>렌더링 엔진</strong></td><td>내 코드 + JS 엔진</td></tr>
-        <tr><td class="hl">기본 앱 용량</td><td>가장 작다</td><td>가장 크다</td><td>중간</td></tr>
+        <tr><td class="hl">기본 앱 용량</td><td>가장 작다</td><td>엔진 동봉만큼 기본값이 커진다</td><td>JS 엔진 동봉만큼 커진다</td></tr>
         <tr><td class="hl">OS가 새 디자인으로 바뀌면</td><td>내 앱도 따라 바뀐다</td><td><u>그대로</u> — 직접 고쳐야 한다</td><td>따라 바뀐다</td></tr>
         <tr><td class="hl">양 플랫폼 화면 차이</td><td>당연히 다르다</td><td><strong>픽셀 단위로 같다</strong></td><td>미묘하게 다르다</td></tr>
         <tr><td class="hl">접근성·텍스트 선택</td><td>OS 것이 공짜로</td><td>엔진이 흉내 내야 한다</td><td>OS 것이 대체로 따라온다</td></tr>
+        <tr><td class="hl">실제 완성 앱 용량</td><td colspan="3">의존성이 엔진보다 커지면 순서가 뒤집힌다 — 같은 앱을 두 프레임워크로 만든 실측에서 Flutter가 RN의 절반 이하로 나온 사례도 있다 (§5-3)</td></tr>
         <tr><td class="hl">커스텀 디자인</td><td>부품을 거스르면 힘들다</td><td><strong>자유롭다</strong> — 빈 캔버스니까</td><td>부품의 한계 안에서</td></tr>
       </tbody>
     </table>
@@ -816,6 +818,56 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
     그래서 실전의 질문은 "크로스플랫폼으로 전부 되나"가 아니라 <strong>"내 요구사항에서 탈출구를 몇 번 쓰게 되나"</strong>다.
     세 번 이상이면 네이티브나 KMP가 오히려 단순할 수 있다.</div>
   </div>
+
+  <h3 id="numbers">5-3. 숫자로 보면 — 앱 용량과 인력 풀 (개략 · 확인 필요)</h3>
+
+  <p class="body">고를 때 숫자를 찾게 되는데, 이 두 숫자는 <strong>출처마다 서로 어긋난다</strong>. 그래서 값보다 <u>왜 어긋나는지</u>를 먼저 적는다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:180px">항목</th><th style="width:300px">돌아다니는 숫자 (개략)</th><th>믿기 전에 알아둘 것</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">빈 앱 용량 — Flutter</td><td>수 MB ~ 15MB 안팎</td><td>출처 A는 Flutter가 RN보다 크다고, 출처 B는 반대로 적는다. 대부분 방법론 없는 업체 블로그</td></tr>
+        <tr><td class="hl">빈 앱 용량 — React Native</td><td>수 MB ~ 12MB 안팎</td><td>Hermes 엔진 사용 여부·포함한 아키텍처(CPU 종류) 수에 따라 크게 흔들린다</td></tr>
+        <tr><td class="hl">빈 앱 용량 — 네이티브</td><td>가장 작다 (수치 미확인)</td><td>엔진을 동봉하지 않으니 출발점이 낮다는 것만은 구조적으로 확실하다</td></tr>
+        <tr><td class="hl">완성 앱 용량</td><td>같은 앱 실측: Flutter가 RN의 절반 이하 (Android, 1개 사례)</td><td>빈 앱 비교와 결론이 뒤집힌다 — 실제 크기는 <u>엔진이 아니라 의존성</u>이 정한다</td></tr>
+        <tr><td class="hl">언어 사용률 (개발자 설문)</td><td>Kotlin 약 11% · Dart 약 6% · Swift 약 5%</td><td>Stack Overflow 2025를 인용한 2차 출처. 전체 개발자 기준이라 "모바일 개발자 중 비율"이 아니다</td></tr>
+        <tr><td class="hl">크로스플랫폼 점유</td><td>Flutter 40%대 · RN 30%대 · KMP 20%대로 급성장</td><td>설문이 아니라 시장 추정치. 조사마다 순위가 바뀐다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">📏</span>
+    <div><strong>용량 숫자가 어긋나는 세 가지 이유 —</strong>
+    ① <u>APK냐 AAB냐</u>: 스토어는 AAB를 받아 기기별로 쪼개 내려주므로 사용자가 실제 받는 크기는 APK보다 훨씬 작다.
+    ② <u>CPU 아키텍처를 몇 개 넣었나</u>: arm64 하나만이냐 x86까지 넣었냐로 두세 배가 갈린다.
+    ③ <u>빈 앱이냐 완성 앱이냐</u>: 빈 앱은 엔진 크기 싸움이고, 완성 앱은 라이브러리·이미지 싸움이다. 그래서 순위가 뒤집힌다.
+    결론적으로 <strong>용량은 스택 선택의 기준으로 쓰기 어렵다</strong> — 차이가 수 MB이고, 의존성 관리가 그보다 큰 변수다.</div>
+  </div>
+
+  <p class="body">정확한 숫자가 필요하면 남의 표를 믿지 말고 <strong>직접 빈 앱을 빌드해서 재는 것</strong>이 가장 빠르다. 각 10분이면 된다:</p>
+
+  <pre class="code"><span class="title-bar">빈 앱 릴리스 빌드 — 같은 조건으로 재기</span><span class="c"># Flutter</span>
+flutter create size_test &amp;&amp; cd size_test
+flutter build apk --release --split-per-abi     <span class="c"># CPU별로 쪼갠 APK — 실제 다운로드에 가까움</span>
+
+<span class="c"># React Native</span>
+npx @react-native-community/cli init SizeTest &amp;&amp; cd SizeTest/android
+./gradlew assembleRelease
+
+<span class="c"># 네이티브 (Android Studio → Empty Activity(Compose) 템플릿으로 생성 후)</span>
+./gradlew assembleRelease
+
+<span class="c"># 비교는 같은 CPU(arm64-v8a)의 APK끼리 — 파일 크기 확인</span>
+ls -lh app/build/outputs/apk/release/</pre>
+
+  <div class="callout navy">
+    <span class="icon">👥</span>
+    <div><strong>인력 풀은 "몇 %"보다 "내 근처에 있나" —</strong> 설문 비율은 전 세계 평균이고, 실제로 중요한 것은 <u>내가 함께 일할 사람이 무엇을 아는가</u>다.
+    혼자 바이브코딩한다면 기준이 하나 더 있다 — <strong>AI가 학습한 자료의 양</strong>. 웹 생태계와 겹치는 React Native, 공식 문서가 두터운 네이티브와 Flutter는
+    AI가 잘 짜고, KMP처럼 빠르게 바뀌는 신생 조합은 AI가 옛 문법을 섞기 쉽다 (§6 마지막 행).</div>
+  </div>
 </section>
 
 <!-- ═══════════ 6. DECIDE ═══════════ -->
@@ -902,7 +954,7 @@ details.acc .acc-body p { margin-bottom: var(--sp-3); }
 </section>
 
 <footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
-  Hyundai-Inspired Design System v1.0 · 도식: img/mb-*.svg (3종) + 동적 도식 2종(두 스토어 파이프라인·공유율 저울, CSS 애니메이션) · 채택률·공유율 수치는 2026.09 웹 확인 기준 개략 — 세대마다 바뀐다
+  Hyundai-Inspired Design System v1.0 · 도식: img/mb-*.svg (3종) + 동적 도식 2종(두 스토어 파이프라인·공유율 저울, CSS 애니메이션) · 채택률·공유율·앱 용량·언어 사용률은 2026.10 웹 확인 기준 개략 — 출처끼리 어긋나며 세대마다 바뀐다 (§5-3)
 </footer>
 
 </main>
