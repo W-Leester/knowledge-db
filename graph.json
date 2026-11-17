@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-25",
+ "generated": "2026-11-18",
  "note": "scripts/build-graph.py가 생성. nodes는 docs.json 참조, edges는 자동 추출, curated는 손으로 유지.",
  "nodes": [
   {
@@ -209,6 +209,14 @@
    "icon": "🧩",
    "file": "docs/claude-extensions.html",
    "desc": "Skills·Subagents·MCP·Hooks, 그리고 하네스·루프 엔지니어링"
+  },
+  {
+   "id": "claude-confusables",
+   "title": "클로드 기능 헷갈림 사전",
+   "group": "AI · LLM",
+   "icon": "🔀",
+   "file": "docs/claude-confusables.html",
+   "desc": "CLAUDE.md·Skill·커맨드·MCP·Subagent·Hook·Plugin·Memory — 기능을 짝으로 가르고, 증상에서 출발해 고른다"
   },
   {
    "id": "ai-orchestration",
@@ -621,6 +629,78 @@
    "target": "network-comm",
    "type": "mention",
    "weight": 2
+  },
+  {
+   "source": "claude-confusables",
+   "target": "ai-orchestration",
+   "type": "link",
+   "weight": 2
+  },
+  {
+   "source": "claude-confusables",
+   "target": "ai-orchestration",
+   "type": "mention",
+   "weight": 2
+  },
+  {
+   "source": "claude-confusables",
+   "target": "claude-code-internals",
+   "type": "link",
+   "weight": 1
+  },
+  {
+   "source": "claude-confusables",
+   "target": "claude-code-internals",
+   "type": "mention",
+   "weight": 1
+  },
+  {
+   "source": "claude-confusables",
+   "target": "claude-extensions",
+   "type": "link",
+   "weight": 2
+  },
+  {
+   "source": "claude-confusables",
+   "target": "claude-extensions",
+   "type": "mention",
+   "weight": 2
+  },
+  {
+   "source": "claude-confusables",
+   "target": "local-llm-agent",
+   "type": "link",
+   "weight": 1
+  },
+  {
+   "source": "claude-confusables",
+   "target": "local-llm-agent",
+   "type": "mention",
+   "weight": 1
+  },
+  {
+   "source": "claude-confusables",
+   "target": "software-requirements",
+   "type": "link",
+   "weight": 1
+  },
+  {
+   "source": "claude-confusables",
+   "target": "software-requirements",
+   "type": "mention",
+   "weight": 1
+  },
+  {
+   "source": "claude-extensions",
+   "target": "claude-confusables",
+   "type": "link",
+   "weight": 1
+  },
+  {
+   "source": "claude-extensions",
+   "target": "claude-confusables",
+   "type": "mention",
+   "weight": 1
   },
   {
    "source": "claude-extensions",

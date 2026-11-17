@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <defs><marker id="cfd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#003F8A"/></marker></defs>
+  <rect width="900" height="600" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">무엇을 쓸까 — 증상에서 출발하는 결정표</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">기능 이름부터 고르지 말고, 지금 겪는 불편을 먼저 적는다</text>
+
+  <g font-size="11.5">
+    <rect x="30" y="80" width="470" height="54" rx="10" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+    <text x="50" y="104" font-weight="800" fill="#002C5F">"Claude가 그 시스템에 아예 접근을 못 한다"</text>
+    <text x="50" y="122" font-size="10" fill="#666666">메일·DB·사내 위키·브라우저</text>
+    <line x1="500" y1="107" x2="560" y2="107" stroke="#003F8A" stroke-width="2.5" marker-end="url(#cfd)"/>
+    <rect x="564" y="80" width="306" height="54" rx="10" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+    <text x="717" y="104" font-weight="800" fill="#0F766E" text-anchor="middle">MCP</text>
+    <text x="717" y="122" font-size="10" fill="#555555" text-anchor="middle">손을 하나 더 단다</text>
+
+    <rect x="30" y="144" width="470" height="54" rx="10" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+    <text x="50" y="168" font-weight="800" fill="#002C5F">"매번 같은 긴 요청을 내가 타이핑한다"</text>
+    <text x="50" y="186" font-size="10" fill="#666666">새 문서 만들기 · 커밋 메시지 규칙 · 리뷰 요청</text>
+    <line x1="500" y1="171" x2="560" y2="171" stroke="#003F8A" stroke-width="2.5" marker-end="url(#cfd)"/>
+    <rect x="564" y="144" width="306" height="54" rx="10" fill="#FEF3E2" stroke="#E8962A" stroke-width="2.5"/>
+    <text x="717" y="168" font-weight="800" fill="#AF5109" text-anchor="middle">커스텀 커맨드</text>
+    <text x="717" y="186" font-size="10" fill="#555555" text-anchor="middle">/이름 한 번으로</text>
+
+    <rect x="30" y="208" width="470" height="54" rx="10" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+    <text x="50" y="232" font-weight="800" fill="#002C5F">"특정 작업 때만 필요한 긴 절차·자료가 있다"</text>
+    <text x="50" y="250" font-size="10" fill="#666666">PDF 처리법 · 디자인 규칙 · 보조 스크립트까지</text>
+    <line x1="500" y1="235" x2="560" y2="235" stroke="#003F8A" stroke-width="2.5" marker-end="url(#cfd)"/>
+    <rect x="564" y="208" width="306" height="54" rx="10" fill="#E6F7F1" stroke="#0F766E" stroke-width="2.5"/>
+    <text x="717" y="232" font-weight="800" fill="#0F766E" text-anchor="middle">Skill</text>
+    <text x="717" y="250" font-size="10" fill="#555555" text-anchor="middle">필요할 때만 펼치는 매뉴얼</text>
+
+    <rect x="30" y="272" width="470" height="54" rx="10" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+    <text x="50" y="296" font-weight="800" fill="#002C5F">"모든 작업에서 늘 지켜야 할 규칙이 있다"</text>
+    <text x="50" y="314" font-size="10" fill="#666666">빌드 금지 · 커밋 언어 · 폴더 구조</text>
+    <line x1="500" y1="299" x2="560" y2="299" stroke="#003F8A" stroke-width="2.5" marker-end="url(#cfd)"/>
+    <rect x="564" y="272" width="306" height="54" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2.5"/>
+    <text x="717" y="296" font-weight="800" fill="#002C5F" text-anchor="middle">CLAUDE.md</text>
+    <text x="717" y="314" font-size="10" fill="#555555" text-anchor="middle">짧게 · 항상 실림</text>
+
+    <rect x="30" y="336" width="470" height="54" rx="10" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+    <text x="50" y="360" font-weight="800" fill="#002C5F">"부탁했는데 가끔 잊는다 — 잊으면 사고다"</text>
+    <text x="50" y="378" font-size="10" fill="#666666">포맷터 · 비밀 파일 차단 · 커밋 전 검사</text>
+    <line x1="500" y1="363" x2="560" y2="363" stroke="#003F8A" stroke-width="2.5" marker-end="url(#cfd)"/>
+    <rect x="564" y="336" width="306" height="54" rx="10" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2.5"/>
+    <text x="717" y="360" font-weight="800" fill="#B91C1C" text-anchor="middle">Hook (또는 권한 거부)</text>
+    <text x="717" y="378" font-size="10" fill="#555555" text-anchor="middle">부탁이 아니라 장치</text>
+
+    <rect x="30" y="400" width="470" height="54" rx="10" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+    <text x="50" y="424" font-weight="800" fill="#002C5F">"조사 결과가 길어서 대화가 지저분해진다"</text>
+    <text x="50" y="442" font-size="10" fill="#666666">코드베이스 탐색 · 문서 수십 개 읽기</text>
+    <line x1="500" y1="427" x2="560" y2="427" stroke="#003F8A" stroke-width="2.5" marker-end="url(#cfd)"/>
+    <rect x="564" y="400" width="306" height="54" rx="10" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2.5"/>
+    <text x="717" y="424" font-weight="800" fill="#6B21A8" text-anchor="middle">Subagent</text>
+    <text x="717" y="442" font-size="10" fill="#555555" text-anchor="middle">딴 방에서 하고 결론만</text>
+
+    <rect x="30" y="464" width="470" height="54" rx="10" fill="#FFFFFF" stroke="#B5AFA5" stroke-width="1.5"/>
+    <text x="50" y="488" font-weight="800" fill="#002C5F">"이 조합을 다른 PC·다른 사람에게 그대로 주고 싶다"</text>
+    <text x="50" y="506" font-size="10" fill="#666666">커맨드 + Skill + Hook 세트</text>
+    <line x1="500" y1="491" x2="560" y2="491" stroke="#003F8A" stroke-width="2.5" marker-end="url(#cfd)"/>
+    <rect x="564" y="464" width="306" height="54" rx="10" fill="#0D1B2E"/>
+    <text x="717" y="488" font-weight="800" fill="#FFF" text-anchor="middle">Plugin</text>
+    <text x="717" y="506" font-size="10" fill="#AAB9CF" text-anchor="middle">저장소 공유로 충분하면 그것도 OK</text>
+  </g>
+
+  <rect x="30" y="532" width="840" height="56" rx="12" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="1.5"/>
+  <text x="450" y="556" font-size="11.5" font-weight="800" fill="#002C5F" text-anchor="middle">흔한 실수: CLAUDE.md에 다 몰아넣기 — 길어질수록 매 세션 비용이 늘고 핵심 규칙이 묻힌다</text>
+  <text x="450" y="576" font-size="10.5" fill="#555555" text-anchor="middle">"항상 필요한가?"에 아니오면 Skill이나 커맨드로 빼고, "반드시 지켜져야 하나?"에 예면 Hook으로 옮긴다</text>
+</svg>

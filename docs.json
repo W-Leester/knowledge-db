@@ -643,7 +643,7 @@
         "Subagent",
         "Harness"
       ],
-      "version": 7,
+      "version": 8,
       "assets": [
         "docs/img/cx-extension-map.svg",
         "docs/img/cx-context-loading.svg",
@@ -653,6 +653,30 @@
         "docs/img/cx-loop-patterns.svg",
         "docs/img/cx-recursive-loop.svg",
         "docs/img/cx-graph-engineering.svg"
+      ]
+    },
+    {
+      "id": "claude-confusables",
+      "title": "클로드 기능 헷갈림 사전",
+      "desc": "CLAUDE.md·Skill·커맨드·MCP·Subagent·Hook·Plugin·Memory — 기능을 짝으로 가르고, 증상에서 출발해 고른다",
+      "file": "docs/claude-confusables.html",
+      "group": "AI · LLM",
+      "icon": "🔀",
+      "gradient": [
+        "#0D1B2E",
+        "#BE185D"
+      ],
+      "tags": [
+        "Skill vs MCP",
+        "커맨드",
+        "Hook",
+        "Subagent"
+      ],
+      "version": 1,
+      "assets": [
+        "docs/img/cf-map.svg",
+        "docs/img/cf-files.svg",
+        "docs/img/cf-decision.svg"
       ]
     },
     {

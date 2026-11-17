@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="620" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">파일은 어디에 사는가 — 위치가 곧 범위다</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">같은 종류라도 저장소 안이면 팀과 공유되고, 홈 폴더면 나만 쓴다</text>
+
+  <rect x="30" y="80" width="410" height="440" rx="14" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2.5"/>
+  <text x="235" y="108" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">📁 저장소 안 — git으로 공유</text>
+  <g font-family="'JetBrains Mono', Menlo, monospace" font-size="11.5" fill="#1A1A1A">
+    <text x="54" y="142">my-project/</text>
+    <text x="70" y="166">├─ <tspan font-weight="700" fill="#1A5CB5">CLAUDE.md</tspan></text>
+    <text x="70" y="190">├─ <tspan font-weight="700" fill="#0F766E">.mcp.json</tspan></text>
+    <text x="70" y="214">└─ .claude/</text>
+    <text x="96" y="238">├─ <tspan font-weight="700" fill="#AF5109">commands/</tspan>newdoc.md</text>
+    <text x="96" y="262">├─ <tspan font-weight="700" fill="#0F766E">skills/</tspan>pdf/SKILL.md</text>
+    <text x="96" y="286">├─ <tspan font-weight="700" fill="#6B21A8">agents/</tspan>reviewer.md</text>
+    <text x="96" y="310">└─ <tspan font-weight="700" fill="#B91C1C">settings.json</tspan></text>
+  </g>
+  <text x="54" y="346" font-size="10.5" fill="#555555">CLAUDE.md — 항상 실리는 프로젝트 규칙</text>
+  <text x="54" y="366" font-size="10.5" fill="#555555">.mcp.json — 이 프로젝트가 쓰는 MCP 서버 목록</text>
+  <text x="54" y="386" font-size="10.5" fill="#555555">commands/ — /이름 으로 부르는 프롬프트</text>
+  <text x="54" y="406" font-size="10.5" fill="#555555">skills/ — 폴더 하나가 Skill 하나</text>
+  <text x="54" y="426" font-size="10.5" fill="#555555">agents/ — Subagent 정의 (역할·도구·지시)</text>
+  <text x="54" y="446" font-size="10.5" fill="#555555">settings.json — 권한 + <tspan font-weight="700">Hook도 여기에</tspan></text>
+  <text x="54" y="480" font-size="10" fill="#1A5CB5" font-weight="700">settings.local.json은 git에 안 올리는 개인용</text>
+  <text x="54" y="500" font-size="10" fill="#666666">(이 저장소에도 .claude/ 폴더를 만들 수 있다)</text>
+
+  <rect x="460" y="80" width="410" height="440" rx="14" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2.5"/>
+  <text x="665" y="108" font-size="13.5" font-weight="800" fill="#6B21A8" text-anchor="middle">🏠 홈 폴더 — 나만, 모든 프로젝트에서</text>
+  <g font-family="'JetBrains Mono', Menlo, monospace" font-size="11.5" fill="#1A1A1A">
+    <text x="484" y="142">~/.claude/</text>
+    <text x="500" y="166">├─ <tspan font-weight="700" fill="#1A5CB5">CLAUDE.md</tspan></text>
+    <text x="500" y="190">├─ <tspan font-weight="700" fill="#AF5109">commands/</tspan></text>
+    <text x="500" y="214">├─ <tspan font-weight="700" fill="#0F766E">skills/</tspan></text>
+    <text x="500" y="238">├─ <tspan font-weight="700" fill="#6B21A8">agents/</tspan></text>
+    <text x="500" y="262">├─ <tspan font-weight="700" fill="#B91C1C">settings.json</tspan></text>
+    <text x="500" y="286">└─ projects/…/<tspan font-weight="700" fill="#6B21A8">memory/</tspan></text>
+  </g>
+  <text x="484" y="322" font-size="10.5" fill="#555555">구조는 저장소와 같고, 범위만 "나의 모든 프로젝트"</text>
+  <text x="484" y="346" font-size="10.5" fill="#555555">~/.claude/CLAUDE.md — 어디서나 지킬 개인 규칙</text>
+  <text x="484" y="366" font-size="10.5" fill="#555555">memory/ — 프로젝트별 자동 메모리, 색인은 MEMORY.md</text>
+  <text x="484" y="400" font-size="10.5" font-weight="700" fill="#6B21A8">겹치면? 구체적인 쪽이 이긴다</text>
+  <text x="484" y="420" font-size="10.5" fill="#555555">저장소 설정 &gt; 홈 설정 (권한은 거부가 우선)</text>
+  <text x="484" y="454" font-size="10" fill="#666666">MCP 서버는 claude mcp add 명령으로</text>
+  <text x="484" y="472" font-size="10" fill="#666666">사용자 범위 · 프로젝트 범위를 골라 등록</text>
+
+  <rect x="30" y="534" width="840" height="72" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="560" font-size="12.5" font-weight="800" fill="#FFF" text-anchor="middle">판단: 이 규칙·도구를 다른 PC와 다른 사람도 써야 하나? → 저장소 안. 나만의 습관이면 → 홈 폴더</text>
+  <text x="450" y="584" font-size="10.5" fill="#AAB9CF" text-anchor="middle">이 지식 베이스처럼 여러 PC에서 쓰는 저장소라면, 반복 프롬프트는 저장소의 .claude/commands/에 두는 편이 낫다</text>
+</svg>

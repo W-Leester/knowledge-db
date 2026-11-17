@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="660" fill="#FAF7F2"/>
+  <text x="450" y="34" font-size="20" font-weight="800" fill="#002C5F" text-anchor="middle">두 개의 축이면 전부 갈린다 — 누가 발동하나 × 무엇을 주나</text>
+  <text x="450" y="58" font-size="13" fill="#666666" text-anchor="middle">헷갈리는 이유는 이름이 비슷해서가 아니라, 이 두 축을 섞어서 비교하기 때문이다</text>
+
+  <!-- 축 라벨 -->
+  <text x="40" y="104" font-size="11" font-weight="800" fill="#555555">무엇을 주나 ↓ / 누가 발동하나 →</text>
+  <rect x="200" y="84" width="220" height="34" rx="8" fill="#0D1B2E"/>
+  <text x="310" y="106" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">항상 (세션 시작부터)</text>
+  <rect x="430" y="84" width="210" height="34" rx="8" fill="#0D1B2E"/>
+  <text x="535" y="106" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">사람 또는 모델이 필요할 때</text>
+  <rect x="650" y="84" width="220" height="34" rx="8" fill="#0D1B2E"/>
+  <text x="760" y="106" font-size="11.5" font-weight="800" fill="#FFF" text-anchor="middle">이벤트가 생기면 무조건</text>
+
+  <!-- 행: 지시 -->
+  <rect x="30" y="130" width="160" height="110" rx="10" fill="#E8EEF7" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="110" y="172" font-size="13" font-weight="800" fill="#002C5F" text-anchor="middle">📜 지시</text>
+  <text x="110" y="194" font-size="10" fill="#555555" text-anchor="middle">"이렇게 해라"</text>
+  <text x="110" y="212" font-size="10" fill="#555555" text-anchor="middle">텍스트가 컨텍스트에</text>
+  <rect x="200" y="130" width="220" height="110" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="310" y="160" font-size="12.5" font-weight="800" fill="#002C5F" text-anchor="middle">CLAUDE.md</text>
+  <text x="310" y="180" font-size="10" fill="#555555" text-anchor="middle">프로젝트 규칙 · 팀 공유</text>
+  <text x="310" y="206" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">Memory</text>
+  <text x="310" y="226" font-size="10" fill="#555555" text-anchor="middle">개인 기록 · 나와 Claude 사이</text>
+  <rect x="430" y="130" width="210" height="110" rx="10" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2"/>
+  <text x="535" y="160" font-size="12.5" font-weight="800" fill="#AF5109" text-anchor="middle">커스텀 커맨드</text>
+  <text x="535" y="180" font-size="10" fill="#555555" text-anchor="middle">사람이 /이름으로 부름</text>
+  <text x="535" y="206" font-size="12.5" font-weight="800" fill="#0F766E" text-anchor="middle">Skill</text>
+  <text x="535" y="226" font-size="10" fill="#555555" text-anchor="middle">사람 또는 모델이 꺼냄</text>
+  <rect x="650" y="130" width="220" height="110" rx="10" fill="#F2EDE4" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="760" y="190" font-size="10.5" fill="#555555" text-anchor="middle">(비어 있음 — 지시는</text>
+  <text x="760" y="208" font-size="10.5" fill="#555555" text-anchor="middle">"무조건"이 될 수 없다)</text>
+
+  <!-- 행: 능력 -->
+  <rect x="30" y="250" width="160" height="96" rx="10" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
+  <text x="110" y="290" font-size="13" font-weight="800" fill="#0F766E" text-anchor="middle">🔌 능력</text>
+  <text x="110" y="312" font-size="10" fill="#555555" text-anchor="middle">"이걸 할 수 있다"</text>
+  <rect x="200" y="250" width="220" height="96" rx="10" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+  <text x="310" y="284" font-size="12.5" font-weight="800" fill="#0F766E" text-anchor="middle">MCP 서버</text>
+  <text x="310" y="304" font-size="10" fill="#555555" text-anchor="middle">도구 정의가 시작부터 실림</text>
+  <text x="310" y="322" font-size="10" fill="#555555" text-anchor="middle">Gmail · DB · 브라우저</text>
+  <rect x="430" y="250" width="210" height="96" rx="10" fill="#F2EDE4" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="535" y="296" font-size="10.5" fill="#555555" text-anchor="middle">(MCP 도구를 실제로</text>
+  <text x="535" y="314" font-size="10.5" fill="#555555" text-anchor="middle">호출하는 것은 모델)</text>
+  <rect x="650" y="250" width="220" height="96" rx="10" fill="#F2EDE4" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="760" y="304" font-size="10.5" fill="#555555" text-anchor="middle">—</text>
+
+  <!-- 행: 강제 -->
+  <rect x="30" y="356" width="160" height="96" rx="10" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2"/>
+  <text x="110" y="396" font-size="13" font-weight="800" fill="#B91C1C" text-anchor="middle">🔒 강제</text>
+  <text x="110" y="418" font-size="10" fill="#555555" text-anchor="middle">"반드시 일어난다"</text>
+  <rect x="200" y="356" width="220" height="96" rx="10" fill="#FFFFFF" stroke="#B91C1C" stroke-width="2"/>
+  <text x="310" y="390" font-size="12.5" font-weight="800" fill="#B91C1C" text-anchor="middle">settings.json 권한</text>
+  <text x="310" y="410" font-size="10" fill="#555555" text-anchor="middle">허용·거부 목록</text>
+  <text x="310" y="428" font-size="10" fill="#555555" text-anchor="middle">모델이 우회할 수 없다</text>
+  <rect x="430" y="356" width="210" height="96" rx="10" fill="#F2EDE4" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="535" y="408" font-size="10.5" fill="#555555" text-anchor="middle">—</text>
+  <rect x="650" y="356" width="220" height="96" rx="10" fill="#FFFFFF" stroke="#B91C1C" stroke-width="2.5"/>
+  <text x="760" y="390" font-size="12.5" font-weight="800" fill="#B91C1C" text-anchor="middle">Hook</text>
+  <text x="760" y="410" font-size="10" fill="#555555" text-anchor="middle">도구 실행 전후·세션 시작 등</text>
+  <text x="760" y="428" font-size="10" fill="#555555" text-anchor="middle">모델의 판단과 무관하게 실행</text>
+
+  <!-- 행: 격리 -->
+  <rect x="30" y="462" width="160" height="96" rx="10" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="110" y="502" font-size="13" font-weight="800" fill="#6B21A8" text-anchor="middle">🚪 격리</text>
+  <text x="110" y="524" font-size="10" fill="#555555" text-anchor="middle">"딴 방에서 해라"</text>
+  <rect x="200" y="462" width="220" height="96" rx="10" fill="#F2EDE4" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="310" y="514" font-size="10.5" fill="#555555" text-anchor="middle">—</text>
+  <rect x="430" y="462" width="210" height="96" rx="10" fill="#FFFFFF" stroke="#6B21A8" stroke-width="2"/>
+  <text x="535" y="496" font-size="12.5" font-weight="800" fill="#6B21A8" text-anchor="middle">Subagent</text>
+  <text x="535" y="516" font-size="10" fill="#555555" text-anchor="middle">별도 대화로 일하고</text>
+  <text x="535" y="534" font-size="10" fill="#555555" text-anchor="middle">결론만 돌려준다</text>
+  <rect x="650" y="462" width="220" height="96" rx="10" fill="#F2EDE4" stroke="#8A8478" stroke-width="1.5"/>
+  <text x="760" y="514" font-size="10.5" fill="#555555" text-anchor="middle">—</text>
+
+  <!-- 포장 -->
+  <rect x="30" y="572" width="840" height="74" rx="12" fill="#0D1B2E"/>
+  <text x="450" y="598" font-size="13" font-weight="800" fill="#FFF" text-anchor="middle">📦 Plugin — 위 칸들을 한 상자에 담아 나눠주는 포장 단위 (새 기능이 아니다)</text>
+  <text x="450" y="620" font-size="10.5" fill="#AAB9CF" text-anchor="middle">커맨드 · Skill · Subagent · Hook · MCP 설정을 묶어 설치 한 번으로 배포</text>
+  <text x="450" y="638" font-size="10" fill="#7FD1A8" text-anchor="middle">"A냐 B냐"가 헷갈리면 먼저 둘이 같은 칸에 있는지 본다 — 다른 칸이면 경쟁이 아니라 함께 쓰는 관계다</text>
+</svg>

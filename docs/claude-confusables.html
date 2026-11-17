@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>클로드 기능 헷갈림 사전 — Skill·MCP·커맨드·Hook을 짝으로 가르기</title>
+<script>/* FOUC 방지: 스타일 적용 전 테마 확정 */(function(){try{var t=localStorage.getItem('kdb-theme')||'system';if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/dark.css">
+<script src="../assets/app.js" defer></script>
+<style>
+/* ─── Design Tokens (Hyundai-Inspired Design System v1.0) ─── */
+:root {
+  --bg-primary: #F2EDE4;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FAF7F2;
+  --bg-dark: #0D1B2E;
+  --navy-900: #002C5F;
+  --navy-700: #003F8A;
+  --navy-500: #1A5CB5;
+  --navy-300: #5B8DD9;
+  --navy-100: #E8EEF7;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #8A8A8A;
+  --text-inverse: #FFFFFF;
+  --border: #D5CFBF;
+  --border-strong: #B5AFA5;
+  --green: #00AA6C;
+  --green-light: #E6F7F1;
+  --amber: #E8962A;
+  --amber-light: #FEF3E2;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --purple: #6B21A8;
+  --purple-light: #F3E8FF;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ─── Sidebar ─── */
+#sidebar {
+  width: 230px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy-900);
+  color: var(--text-inverse);
+  padding: var(--sp-8) 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+#sidebar .brand {
+  padding: 0 var(--sp-6) var(--sp-6);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: var(--sp-4);
+}
+#sidebar .brand h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: var(--sp-1); }
+#sidebar .brand p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+#sidebar nav a {
+  display: block;
+  padding: 7px var(--sp-6);
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+#sidebar nav a.sub { padding-left: 40px; font-size: 12px; color: rgba(255,255,255,.5); }
+#sidebar nav a:hover, #sidebar nav a.active {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  border-left-color: var(--amber);
+}
+#sidebar .foot { padding: var(--sp-6); font-size: 11px; color: rgba(255,255,255,.35); border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--sp-4); }
+
+/* ─── Main ─── */
+main { flex: 1; min-width: 0; padding: 0 var(--sp-12) var(--sp-16); max-width: 1020px; }
+
+section { margin-bottom: 90px; scroll-margin-top: 24px; }
+
+.section-header { border-bottom: 2px solid var(--navy-900); padding-bottom: var(--sp-3); margin-bottom: var(--sp-8); }
+.section-header .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: 2px; }
+.section-header h2 { font-size: 26px; font-weight: 800; color: var(--navy-900); }
+.section-header p { font-size: 14px; color: var(--text-muted); margin-top: var(--sp-1); }
+
+h3 { font-size: 17px; font-weight: 700; color: var(--navy-900); margin: var(--sp-8) 0 var(--sp-4); }
+h3 .num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--navy-900); color: #fff; font-size: 13px; margin-right: 8px; vertical-align: -4px; }
+p.body { margin-bottom: var(--sp-4); color: var(--text-primary); }
+strong { color: var(--navy-900); }
+
+/* ─── Hero ─── */
+#hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #BE185D 55%, #0F766E 130%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  color: #fff;
+  padding: 64px 56px 56px;
+  margin: 0 calc(-1 * var(--sp-4)) 64px;
+  position: relative;
+  overflow: hidden;
+}
+#hero .wave { position: absolute; right: -60px; bottom: -80px; opacity: .08; pointer-events: none; }
+#hero .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: var(--sp-3); }
+#hero h1 { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: var(--sp-4); }
+#hero h1 .thin { font-weight: 300; font-size: 26px; display: block; color: rgba(255,255,255,.75); margin-top: 4px; }
+#hero .sub { font-size: 15px; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: var(--sp-6); }
+#hero .tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+#hero .tag { padding: 5px 14px; border-radius: 100px; background: rgba(255,255,255,.12); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+/* ─── Cards & grids ─── */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.card-grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.card-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card h4 { font-size: 15px; font-weight: 700; color: var(--navy-900); margin-bottom: var(--sp-2); }
+.card p { font-size: 13px; color: var(--text-secondary); }
+
+.stat-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-6); text-align: center; }
+.stat-card .stat-value { font-size: 34px; font-weight: 800; color: var(--navy-900); font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin-bottom: var(--sp-2); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+/* ─── Callouts ─── */
+.callout {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-6);
+  margin: var(--sp-4) 0; font-size: 14px;
+}
+.callout .icon { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+.callout.navy { background: var(--navy-100); border-left: 4px solid var(--navy-900); }
+.callout.green { background: var(--green-light); border-left: 4px solid var(--green); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.red { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+
+/* ─── Badges ─── */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.badge-blue { background: var(--navy-100); color: var(--navy-900); }
+.badge-green { background: var(--green-light); color: #065F46; }
+.badge-amber { background: var(--amber-light); color: #B45309; }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ─── Tables ─── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin: var(--sp-4) 0 var(--sp-6); }
+table.ds { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-secondary); }
+table.ds thead tr { background: var(--navy-900); color: #fff; }
+table.ds thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; white-space: nowrap; }
+table.ds tbody tr { border-bottom: 1px solid var(--border); }
+table.ds tbody tr:last-child { border-bottom: none; }
+table.ds tbody tr:nth-child(even) { background: var(--bg-card); }
+table.ds tbody tr:hover { background: var(--navy-100); }
+table.ds tbody td { padding: 11px 14px; vertical-align: top; }
+table.ds td.hl { font-weight: 700; color: var(--navy-900); white-space: nowrap; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+
+/* ─── 출처 리스트 ─── */
+ul.refs { margin: var(--sp-4) 0 var(--sp-6) 0; padding-left: 0; list-style: none; }
+ul.refs li { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-3) var(--sp-6); margin-bottom: var(--sp-2); font-size: 13.5px; }
+ul.refs li a { color: var(--navy-500); font-weight: 600; text-decoration: none; word-break: break-all; }
+ul.refs li a:hover { text-decoration: underline; }
+ul.refs li .ref-note { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── Figure / images ─── */
+figure {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  margin: var(--sp-6) 0;
+  box-shadow: var(--shadow-sm);
+}
+figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); cursor: zoom-in; transition: opacity .2s; }
+figure img:hover { opacity: .92; }
+figure figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding-top: var(--sp-3); }
+figure figcaption .zoom-hint { color: var(--navy-500); font-weight: 600; }
+.fig-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── Code block ─── */
+pre.code {
+  background: var(--bg-dark); color: #E8EEF7;
+  border-radius: var(--radius-md); padding: var(--sp-6);
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  line-height: 1.7; overflow-x: auto; margin: var(--sp-4) 0;
+}
+pre.code .c { color: #8A9BB5; }   /* comment */
+pre.code .k { color: #E8962A; }   /* keyword */
+pre.code .s { color: #7FD1A8; }   /* string */
+pre.code .f { color: #5B8DD9; }   /* function/field */
+pre.code .title-bar { display:block; color:#8A9BB5; border-bottom:1px solid rgba(255,255,255,.12); padding-bottom:8px; margin-bottom:10px; font-size:11px; letter-spacing:.05em; }
+
+/* ─── Details / accordion ─── */
+details.acc {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); margin: var(--sp-3) 0; overflow: hidden;
+}
+details.acc summary {
+  padding: var(--sp-4) var(--sp-6); cursor: pointer; font-weight: 700; font-size: 14px;
+  color: var(--navy-900); list-style: none; display: flex; align-items: center; gap: 10px;
+  transition: background .2s; user-select: none;
+}
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::before { content: '+'; font-family:'JetBrains Mono',monospace; font-weight:700; color: var(--amber); font-size: 16px; }
+details.acc[open] summary::before { content: '−'; }
+details.acc summary:hover { background: var(--navy-100); }
+details.acc .acc-body { padding: 0 var(--sp-6) var(--sp-6); font-size: 14px; color: var(--text-secondary); }
+details.acc .acc-body p { margin-bottom: var(--sp-3); }
+
+/* ─── Lightbox ─── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(13,27,46,.92); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 40px; cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95%; max-height: 92vh; border-radius: var(--radius-md); background: var(--bg-primary); box-shadow: var(--shadow-lg); }
+
+/* ─── Top progress bar ─── */
+#progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: transparent; z-index: 100; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), var(--navy-500)); transition: width .1s; }
+
+/* ─── Back to top ─── */
+#to-top {
+  position: fixed; right: 28px; bottom: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer; font-size: 18px;
+  box-shadow: var(--shadow-md); opacity: 0; pointer-events: none; transition: all .25s; z-index: 90;
+}
+#to-top.show { opacity: 1; pointer-events: auto; }
+#to-top:hover { background: var(--navy-700); transform: translateY(-2px); }
+
+/* ─── Mobile: hamburger + drawer sidebar ─── */
+#menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 120;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--navy-900); color: #fff; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); align-items: center; justify-content: center;
+}
+#menu-btn svg { width: 20px; height: 20px; }
+#backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,27,46,.55); z-index: 98;
+}
+#backdrop.show { display: block; }
+
+/* responsive */
+@media (max-width: 900px) {
+  #menu-btn { display: flex; }
+  #sidebar {
+    position: fixed; left: 0; top: 0; width: 258px;
+    transform: translateX(-105%); transition: transform .28s ease;
+    box-shadow: var(--shadow-lg); z-index: 99;
+  }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar nav a { padding: 11px var(--sp-6); font-size: 14px; }
+  #sidebar nav a.sub { padding: 9px 40px; font-size: 13px; }
+  main { padding: 0 var(--sp-4) var(--sp-12); }
+  #hero {
+    margin: 0 calc(-1 * var(--sp-4)) 48px;
+    padding: 76px 22px 40px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+  #hero h1 { font-size: 27px; }
+  #hero h1 .thin { font-size: 19px; }
+  #hero .sub { font-size: 14px; }
+  #hero .tag { padding: 4px 11px; font-size: 11px; }
+  section { margin-bottom: 64px; }
+  .section-header h2 { font-size: 21px; }
+  h3 { font-size: 16px; }
+  .card-grid, .card-grid.g4, .card-grid.g2 { grid-template-columns: 1fr; }
+  .stat-card .stat-value { font-size: 28px; }
+  figure { padding: var(--sp-2); }
+  .fig-scroll img { min-width: 660px; }   /* 도식을 축소하지 않고 가로 스크롤로 열람 */
+  #lightbox { align-items: flex-start; overflow: auto; padding: 12px; }
+  #lightbox img { max-width: none; max-height: none; width: 900px; }
+  figure figcaption { font-size: 11.5px; }
+  table.ds { font-size: 12.5px; min-width: 600px; }
+  table.ds th { width: auto !important; }                 /* 데스크톱용 고정 열 폭 해제 */
+  table.ds th:last-child, table.ds td:last-child { min-width: 240px; }  /* 설명 열 확보 */
+  table.ds td { word-break: keep-all; }                   /* 한국어 어절 단위 줄바꿈 */
+  table.ds thead th, table.ds tbody td { padding: 9px 10px; }
+  pre.code { font-size: 11px; padding: var(--sp-4); }
+  #to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Mobile hamburger + backdrop -->
+<button id="menu-btn" aria-label="목차 열기" onclick="Drawer.toggle()">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+<div id="backdrop" onclick="Drawer.close()"></div>
+
+<style>
+.cf-anim { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 14px 8px; margin: var(--sp-4) 0; }
+.cf-anim figcaption { font-size: 12.5px; color: var(--text-muted); text-align: center; padding: 8px 0 6px; }
+/* ① 컨텍스트 적재 */
+@keyframes cfA { 0%, 4% { transform: scaleX(0); } 12%, 100% { transform: scaleX(1); } }
+@keyframes cfB { 0%, 14% { transform: scaleX(0); } 22%, 100% { transform: scaleX(1); } }
+@keyframes cfC { 0%, 24% { transform: scaleX(0); } 30%, 100% { transform: scaleX(1); } }
+@keyframes cfD { 0%, 48% { transform: scaleX(0); } 58%, 100% { transform: scaleX(1); } }
+.cf-a { transform-box: fill-box; transform-origin: left; animation: cfA 12s ease-out infinite; }
+.cf-b { transform-box: fill-box; transform-origin: left; animation: cfB 12s ease-out infinite; }
+.cf-c { transform-box: fill-box; transform-origin: left; animation: cfC 12s ease-out infinite; }
+.cf-d { transform-box: fill-box; transform-origin: left; animation: cfD 12s ease-out infinite; }
+@keyframes cfCall { 0%, 40% { opacity: 0; } 46%, 92% { opacity: 1; } 100% { opacity: 0; } }
+.cf-call { opacity: 0; animation: cfCall 12s ease-in-out infinite; }
+@keyframes cfSub { 0%, 64% { opacity: 0; transform: translateX(-10px); } 72%, 92% { opacity: 1; transform: translateX(0); } 100% { opacity: 0; } }
+.cf-sub { opacity: 0; animation: cfSub 12s ease-in-out infinite; }
+@keyframes cfRet { 0%, 80% { opacity: 0; } 86%, 94% { opacity: 1; } 100% { opacity: 0; } }
+.cf-ret { opacity: 0; animation: cfRet 12s ease-in-out infinite; }
+/* ② 부탁 vs 장치 */
+@keyframes cfStep1 { 0%, 6% { opacity: .2; } 12%, 100% { opacity: 1; } }
+@keyframes cfStep2 { 0%, 26% { opacity: .2; } 32%, 100% { opacity: 1; } }
+@keyframes cfStep3 { 0%, 46% { opacity: .2; } 52%, 100% { opacity: 1; } }
+@keyframes cfStep4 { 0%, 66% { opacity: .2; } 72%, 100% { opacity: 1; } }
+.cf-s1 { opacity: .2; animation: cfStep1 11s ease-out infinite; }
+.cf-s2 { opacity: .2; animation: cfStep2 11s ease-out infinite; }
+.cf-s3 { opacity: .2; animation: cfStep3 11s ease-out infinite; }
+.cf-s4 { opacity: .2; animation: cfStep4 11s ease-out infinite; }
+@keyframes cfForget { 0%, 44% { opacity: 0; } 50%, 92% { opacity: 1; } 100% { opacity: 0; } }
+.cf-forget { opacity: 0; animation: cfForget 11s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .cf-anim * { animation: none !important; }
+  .cf-a, .cf-b, .cf-c, .cf-d { transform: scaleX(1); }
+  .cf-call, .cf-sub, .cf-ret, .cf-s1, .cf-s2, .cf-s3, .cf-s4, .cf-forget { opacity: 1 !important; transform: none !important; }
+}
+@media (max-width: 720px) { .cf-anim .fig-scroll svg { min-width: 860px; } }
+</style>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sidebar">
+  <div class="brand">
+    <h2>Knowledge DB</h2>
+    <p>클로드 기능<br>헷갈림 사전</p>
+  </div>
+  <nav id="toc">
+    <a href="#overview">0. 한눈에 보기</a>
+    <a href="#concept-graph" class="sub">0-1. 개념 그래프 (인터랙티브)</a>
+    <a href="#axes">1. 두 축의 지도</a>
+    <a href="#context">2. 언제 실리나 — 컨텍스트 비용</a>
+    <a href="#ctx-anim" class="sub">2-1. 세션 한 번의 적재 (동적)</a>
+    <a href="#pairs">3. 헷갈리는 짝 열 쌍</a>
+    <a href="#force">4. 부탁 vs 장치 — Hook</a>
+    <a href="#force-anim" class="sub">4-1. 잊는 부탁, 안 잊는 장치 (동적)</a>
+    <a href="#files">5. 파일은 어디에 사는가</a>
+    <a href="#commands">6. 커스텀 커맨드 실전</a>
+    <a href="#decide">7. 결정표 — 증상에서 출발</a>
+    <a href="#refs">8. 함께 읽기</a>
+  </nav>
+  <div class="foot">Hyundai-Inspired Design System v1.0<br>2026.11</div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<div id="hero">
+  <svg class="wave" width="500" height="400" viewBox="0 0 500 400"><path d="M0,200 C100,120 200,280 300,200 C400,120 450,180 500,160 L500,400 L0,400 Z" fill="#fff"/><path d="M0,260 C120,180 220,330 340,250 C430,190 470,230 500,220 L500,400 L0,400 Z" fill="#fff" opacity=".5"/></svg>
+  <div class="eyebrow">Claude Code · Confusables</div>
+  <h1>클로드 기능 헷갈림 사전<br><span class="thin">CLAUDE.md · Skill · 커맨드 · MCP · Subagent · Hook · Plugin · Memory</span></h1>
+  <p class="sub">기능마다 설명을 읽으면 다 이해되는데, 막상 "이건 Skill로 할까 MCP로 할까"를 정하려면 막힌다.
+  이 문서는 기능을 하나씩 설명하지 않고 <strong>짝으로 가른다</strong>. 두 개의 축으로 지도를 그리고,
+  헷갈리는 열 쌍을 판단 기준 한 줄씩으로 정리하고, 마지막에는 "지금 겪는 불편"에서 출발하는 결정표로 닫는다.</p>
+  <div class="tags">
+    <span class="tag">Skill vs MCP</span><span class="tag">CLAUDE.md vs Skill</span><span class="tag">커맨드</span>
+    <span class="tag">Hook</span><span class="tag">Subagent</span><span class="tag">Memory</span>
+  </div>
+</div>
+
+<!-- ═══════════ 0 ═══════════ -->
+<section id="overview">
+  <div class="section-header">
+    <div class="eyebrow">Overview</div>
+    <h2>0. 한눈에 보기 — 여덟 부품, 한 문장씩</h2>
+    <p>급한 사람을 위한 요약</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">부품</th><th style="width:150px">비유</th><th>한 문장</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">CLAUDE.md</td><td>사무실 벽의 규칙표</td><td><strong>항상</strong> 실리는 프로젝트 규칙. 짧을수록 좋다</td></tr>
+        <tr><td class="hl">Skill</td><td>서랍 속 매뉴얼</td><td><strong>필요할 때만</strong> 펼치는 절차와 자료. 평소엔 제목만 보인다</td></tr>
+        <tr><td class="hl">커스텀 커맨드</td><td>단축 버튼</td><td>내가 매번 치는 프롬프트를 <strong>/이름</strong> 하나로</td></tr>
+        <tr><td class="hl">MCP</td><td>새로 단 손</td><td>접근할 수 없던 시스템에 닿게 해주는 <strong>연결 규격</strong></td></tr>
+        <tr><td class="hl">Subagent</td><td>딴 방의 동료</td><td>별도 대화에서 일하고 <strong>결론만</strong> 돌려준다</td></tr>
+        <tr><td class="hl">Hook</td><td>자동 차단기</td><td>이벤트가 생기면 모델 판단과 무관하게 <strong>무조건</strong> 실행</td></tr>
+        <tr><td class="hl">Plugin</td><td>택배 상자</td><td>위 부품들을 묶어 나눠주는 <strong>포장 단위</strong>. 새 기능이 아니다</td></tr>
+        <tr><td class="hl">Memory</td><td>개인 수첩</td><td>나와 Claude 사이에서만 쓰이는 기록. 팀 규칙은 CLAUDE.md로</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout navy">
+    <span class="icon">🧭</span>
+    <div><strong>헷갈림의 진짜 원인 —</strong> 이름이 비슷해서가 아니라, <u>서로 다른 축에 있는 것을 같은 줄에 놓고 비교</u>하기 때문이다.
+    Skill과 MCP는 경쟁 상대가 아니다 — 하나는 "방법"을, 하나는 "능력"을 준다. 같은 칸에 있는 것끼리만 진짜 선택의 문제다(§1).
+    기능 하나하나의 깊은 설명은 <a href="claude-extensions.html">「클로드 확장하기」</a>에 있고, 이 문서는 <strong>짝을 가르는 데</strong>만 집중한다.</div>
+  </div>
+
+  <h3 id="concept-graph">0-1. 이 문서의 개념 그래프 — 노드를 눌러 관계를 따라가기 (인터랙티브)</h3>
+  <p class="body">이 문서에 나오는 개념들을 노드로, 이름 붙은 관계를 선으로 그렸다. 노드를 누르면 이웃만 밝아지고 관계 이름이 선 위에 나타나며, 아래 칸에 한 줄 정의와 해당 절로 가는 링크가 뜬다. 확대·축소·끌기도 된다.</p>
+  <figure class="cg-anim">
+    <script type="application/json" class="cg-data">{"kinds":{"c":["개념·축","#1A5CB5"],"t":["부품","#0F766E"],"f":["파일","#AF5109"],"s":["함정","#B91C1C"],"p":["사람·주체","#6B21A8"]},"nodes":[{"id":"claudemd","label":"CLAUDE.md","kind":"t","sec":"#axes","def":"항상 실리는 프로젝트 규칙. 짧을수록 좋고 팀과 공유된다"},{"id":"skill","label":"Skill","kind":"t","sec":"#pairs","def":"필요할 때만 펼치는 절차와 자료. 평소엔 이름과 한 줄 설명만 실린다"},{"id":"cmd","label":"커스텀 커맨드","kind":"t","sec":"#commands","def":"매번 치는 프롬프트를 /이름 하나로. 마크다운 파일 하나가 커맨드 하나"},{"id":"mcp","label":"MCP","kind":"t","sec":"#pairs","def":"접근할 수 없던 시스템에 닿게 해주는 AI용 공통 연결 규격"},{"id":"sub","label":"Subagent","kind":"t","sec":"#pairs","def":"별도 대화에서 일하고 결론만 돌려주는 동료"},{"id":"hook","label":"Hook","kind":"t","sec":"#force","def":"이벤트가 생기면 모델 판단과 무관하게 무조건 실행되는 스크립트"},{"id":"plugin","label":"Plugin","kind":"t","sec":"#axes","def":"부품들을 묶어 나눠주는 포장 단위. 새 기능이 아니다"},{"id":"memory","label":"Memory","kind":"t","sec":"#pairs","def":"나와 Claude 사이에서만 쓰이는 개인 기록"},{"id":"perm","label":"권한 설정","kind":"t","sec":"#pairs","def":"settings.json의 허용·거부 목록. 모델이 우회할 수 없다"},{"id":"api","label":"API","kind":"c","sec":"#pairs","def":"서비스마다 다른 개별 창구. MCP는 이것들을 같은 방식으로 맞춘 것"},{"id":"wf","label":"워크플로","kind":"c","sec":"#pairs","def":"여러 Subagent를 코드로 지휘하는 오케스트레이션"},{"id":"axisWhat","label":"무엇을 주나","kind":"c","sec":"#axes","def":"지시·능력·강제·격리 — 지도의 세로축"},{"id":"axisWho","label":"누가 발동하나","kind":"c","sec":"#axes","def":"항상·필요할 때·이벤트 — 지도의 가로축"},{"id":"ctx","label":"컨텍스트 비용","kind":"c","sec":"#context","def":"한정된 책상에 무엇이 언제 올라오나 — 부품 선택의 진짜 질문"},{"id":"ask","label":"부탁","kind":"c","sec":"#force","def":"글로 적은 규칙. 대개 지키지만 잊을 수 있다"},{"id":"enforce","label":"장치","kind":"c","sec":"#force","def":"이벤트에 걸어 무조건 실행되는 것. 잊으면 사고인 일에 쓴다"},{"id":"repo","label":".claude 폴더","kind":"f","sec":"#files","def":"저장소 안 — git으로 팀·다른 PC와 공유되는 범위"},{"id":"home","label":"~/.claude","kind":"f","sec":"#files","def":"홈 폴더 — 나만, 모든 프로젝트에서 쓰는 범위"},{"id":"settings","label":"settings.json","kind":"f","sec":"#files","def":"권한과 Hook 설정이 사는 파일"},{"id":"bloat","label":"CLAUDE.md 비대","kind":"s","sec":"#decide","def":"다 몰아넣으면 매 세션 비용이 늘고 핵심 규칙이 묻힌다"},{"id":"forget","label":"규칙 망각","kind":"s","sec":"#force-anim","def":"긴 작업 끝에 굵게 적은 규칙도 놓칠 수 있다"},{"id":"me","label":"사람","kind":"p","sec":"#axes","def":"커맨드를 부르는 주체"},{"id":"model","label":"모델","kind":"p","sec":"#axes","def":"Skill을 스스로 꺼내고 MCP 도구를 호출하는 주체"},{"id":"event","label":"이벤트","kind":"p","sec":"#force","def":"Hook을 발동시키는 주체 — 도구 실행 전후, 세션 시작 등"}],"edges":[{"s":"axisWhat","t":"claudemd","rel":"지시"},{"s":"axisWhat","t":"mcp","rel":"능력"},{"s":"axisWhat","t":"hook","rel":"강제"},{"s":"axisWhat","t":"sub","rel":"격리"},{"s":"axisWho","t":"me","rel":"하나"},{"s":"axisWho","t":"model","rel":"하나"},{"s":"axisWho","t":"event","rel":"하나"},{"s":"me","t":"cmd","rel":"부름"},{"s":"model","t":"skill","rel":"꺼냄"},{"s":"me","t":"skill","rel":"부름"},{"s":"model","t":"mcp","rel":"호출"},{"s":"event","t":"hook","rel":"발동"},{"s":"skill","t":"mcp","rel":"쓰는 법"},{"s":"claudemd","t":"skill","rel":"덜어냄"},{"s":"cmd","t":"skill","rel":"자라면"},{"s":"sub","t":"wf","rel":"여럿이면"},{"s":"mcp","t":"api","rel":"표준화"},{"s":"memory","t":"claudemd","rel":"개인판"},{"s":"plugin","t":"cmd","rel":"포장"},{"s":"plugin","t":"skill","rel":"포장"},{"s":"plugin","t":"hook","rel":"포장"},{"s":"claudemd","t":"ask","rel":"성격"},{"s":"hook","t":"enforce","rel":"성격"},{"s":"perm","t":"enforce","rel":"성격"},{"s":"ask","t":"forget","rel":"약점"},{"s":"enforce","t":"forget","rel":"해결"},{"s":"ctx","t":"claudemd","rel":"고정비"},{"s":"ctx","t":"skill","rel":"사용료"},{"s":"ctx","t":"sub","rel":"따로"},{"s":"claudemd","t":"bloat","rel":"함정"},{"s":"settings","t":"hook","rel":"담음"},{"s":"settings","t":"perm","rel":"담음"},{"s":"repo","t":"cmd","rel":"담음"},{"s":"repo","t":"settings","rel":"담음"},{"s":"home","t":"memory","rel":"담음"},{"s":"home","t":"repo","rel":"같은 구조"}]}</script>
+    <figcaption>「클로드 기능 헷갈림 사전」의 개념 그래프 · 데이터는 이 문서 안에 있다</figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════ 1 ═══════════ -->
+<section id="axes">
+  <div class="section-header">
+    <div class="eyebrow">Two Axes</div>
+    <h2>1. 두 축의 지도 — 누가 발동하나 × 무엇을 주나</h2>
+    <p>같은 칸이면 선택, 다른 칸이면 조합</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/cf-map.svg" alt="발동 주체(항상, 필요할 때, 이벤트)와 제공물(지시, 능력, 강제, 격리) 두 축 위에 CLAUDE.md, Skill, 커맨드, MCP, Hook, Subagent, Plugin을 배치한 지도"></div>
+    <figcaption>가로는 "언제·누가 발동하나", 세로는 "무엇을 주나". Plugin은 칸이 아니라 상자 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="callout amber">
+    <span class="icon">💡</span>
+    <div><strong>이 지도로 읽는 법 —</strong> 두 기능이 <u>같은 칸</u>에 있으면 하나를 골라야 하는 진짜 선택이다(CLAUDE.md와 Memory, 커맨드와 Skill).
+    <u>다른 칸</u>에 있으면 경쟁이 아니라 함께 쓰는 관계다(MCP가 손을 주고 Skill이 그 손을 쓰는 법을 준다).
+    그리고 빈 칸이 말해주는 것도 있다 — "지시"는 "무조건" 칸에 들어갈 수 없다. 반드시 지켜져야 하는 일을 글로만 적으면 안 되는 이유다(§4).</div>
+  </div>
+</section>
+
+<!-- ═══════════ 2 ═══════════ -->
+<section id="context">
+  <div class="section-header">
+    <div class="eyebrow">Context Cost</div>
+    <h2>2. 언제 실리나 — 컨텍스트라는 한정된 책상</h2>
+    <p>같은 내용이라도 어디에 두느냐에 따라 비용이 다르다</p>
+  </div>
+
+  <p class="body">모델이 한 번에 볼 수 있는 분량(컨텍스트)은 정해져 있다. 그래서 부품을 고를 때 진짜 질문은
+  <strong>"이 내용이 언제 책상 위에 올라오나"</strong>다. 처음부터 올라와 있는 것은 매 세션 자리를 차지하고,
+  필요할 때만 펼치는 것은 평소엔 거의 비용이 없다.</p>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:150px">부품</th><th style="width:190px">언제 실리나</th><th>비용 감각</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">CLAUDE.md</td><td>세션 시작부터 <strong>전문</strong></td><td>매 세션 고정비. 길어질수록 핵심이 묻힌다</td></tr>
+        <tr><td class="hl">MCP 도구</td><td>세션 시작부터 <strong>도구 정의</strong></td><td>서버를 많이 붙이면 정의만으로 무거워진다. 필요할 때 불러오는 방식도 쓰인다</td></tr>
+        <tr><td class="hl">Skill</td><td>시작엔 <strong>이름·한 줄 설명만</strong>, 쓸 때 본문</td><td>평소 거의 공짜. 긴 절차를 두기에 가장 싼 자리</td></tr>
+        <tr><td class="hl">커맨드</td><td>내가 <strong>/이름</strong>을 칠 때만</td><td>안 쓰면 0</td></tr>
+        <tr><td class="hl">Subagent</td><td>별도 창에 실린다</td><td>본 대화에는 <u>결론 몇 줄</u>만 돌아온다 — 오히려 책상을 비워준다</td></tr>
+        <tr><td class="hl">Hook</td><td>실리지 않는다</td><td>모델 밖에서 돈다. 출력이 있으면 그것만 들어온다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="ctx-anim">2-1. 세션 한 번의 적재 — 책상이 차오르는 순서 (동적)</h3>
+
+  <figure class="cf-anim">
+    <div class="fig-scroll">
+    <svg viewBox="0 0 900 380" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" style="width:100%;display:block">
+      <text x="450" y="28" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">컨텍스트(책상) — 무엇이 언제 올라오나</text>
+
+      <rect x="40" y="56" width="560" height="200" rx="12" fill="#FFFFFF" stroke="#1A5CB5" stroke-width="2.5"/>
+      <text x="56" y="80" font-size="11.5" font-weight="800" fill="#002C5F">본 대화의 컨텍스트</text>
+
+      <text x="56" y="110" font-size="10.5" fill="#555555">세션 시작</text>
+      <g class="cf-a"><rect x="140" y="96" width="150" height="22" rx="5" fill="#1A5CB5"/></g>
+      <text x="296" y="112" font-size="10" fill="#1A1A1A" font-weight="700">CLAUDE.md 전문</text>
+      <g class="cf-b"><rect x="140" y="124" width="110" height="22" rx="5" fill="#0F766E"/></g>
+      <text x="256" y="140" font-size="10" fill="#1A1A1A" font-weight="700">MCP 도구 정의</text>
+      <g class="cf-c"><rect x="140" y="152" width="40" height="22" rx="5" fill="#E8962A"/></g>
+      <text x="186" y="168" font-size="10" fill="#1A1A1A" font-weight="700">Skill 이름·설명만</text>
+
+      <text x="56" y="206" font-size="10.5" fill="#555555">작업 중</text>
+      <g class="cf-d"><rect x="140" y="192" width="200" height="22" rx="5" fill="#AF5109"/></g>
+      <text x="346" y="208" font-size="10" fill="#1A1A1A" font-weight="700">Skill 본문 (필요해진 순간)</text>
+      <g class="cf-ret"><rect x="140" y="222" width="60" height="22" rx="5" fill="#6B21A8"/></g>
+      <g class="cf-ret"><text x="206" y="238" font-size="10" fill="#6B21A8" font-weight="800">Subagent의 결론만</text></g>
+
+      <g class="cf-call">
+        <rect x="380" y="146" width="200" height="34" rx="8" fill="#FEF3E2" stroke="#E8962A" stroke-width="1.5"/>
+        <text x="480" y="168" font-size="10" font-weight="700" fill="#AF5109" text-anchor="middle">"PDF 다뤄줘" → Skill 펼침</text>
+      </g>
+
+      <rect x="630" y="56" width="230" height="200" rx="12" fill="#F3E8FF" stroke="#6B21A8" stroke-width="2"/>
+      <text x="745" y="80" font-size="11.5" font-weight="800" fill="#6B21A8" text-anchor="middle">Subagent의 별도 책상</text>
+      <g class="cf-sub">
+        <rect x="650" y="96" width="190" height="22" rx="5" fill="#A855F7"/>
+        <rect x="650" y="124" width="160" height="22" rx="5" fill="#A855F7"/>
+        <rect x="650" y="152" width="175" height="22" rx="5" fill="#A855F7"/>
+        <rect x="650" y="180" width="140" height="22" rx="5" fill="#A855F7"/>
+        <text x="745" y="226" font-size="10" fill="#555555" text-anchor="middle">파일 수십 개·검색 결과</text>
+        <text x="745" y="242" font-size="10" fill="#555555" text-anchor="middle">여기서 쓰고 여기서 버린다</text>
+      </g>
+
+      <rect x="40" y="270" width="820" height="98" rx="12" fill="#0D1B2E"/>
+      <text x="450" y="296" font-size="12" font-weight="800" fill="#FFF" text-anchor="middle">CLAUDE.md는 매번 내는 고정비, Skill은 쓸 때만 내는 사용료, Subagent는 남의 책상을 빌리는 것</text>
+      <text x="450" y="318" font-size="10.5" fill="#AAB9CF" text-anchor="middle">그래서 "모든 작업에 필요한가?"에 아니오면 CLAUDE.md에서 빼서 Skill이나 커맨드로 옮긴다</text>
+      <text x="450" y="340" font-size="10.5" fill="#AAB9CF" text-anchor="middle">"결과만 알면 되는 긴 조사"는 Subagent로 — 본 대화에는 결론 몇 줄만 남는다</text>
+      <text x="450" y="358" font-size="10" fill="#7FD1A8" text-anchor="middle">막대 길이는 비율의 감각을 보여주는 개략이다</text>
+    </svg>
+    </div>
+    <figcaption>세션 시작에 CLAUDE.md·MCP 정의·Skill 이름이 차례로 올라오고, 작업 중 필요해진 Skill 본문이 펼쳐진다. 오른쪽 Subagent 책상은 따로 차오르고 본 책상엔 결론만 돌아온다 (동작 줄이기 설정 시 정지)</figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════ 3 ═══════════ -->
+<section id="pairs">
+  <div class="section-header">
+    <div class="eyebrow">Ten Pairs</div>
+    <h2>3. 헷갈리는 짝 열 쌍 — 판단 기준 한 줄씩</h2>
+    <p>"A냐 B냐"가 떠오르면 이 표에서 찾는다</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:170px">짝</th><th style="width:270px">가르는 기준</th><th>이 저장소의 예</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Skill vs MCP</td><td><strong>방법</strong>을 주나, <strong>능력</strong>을 주나. 못 하면 MCP, 엉뚱하게 하면 Skill</td><td>Gmail에 접근 못 함 → MCP. 메일 요약 형식이 매번 다름 → Skill</td></tr>
+        <tr><td class="hl">CLAUDE.md vs Skill</td><td><strong>항상</strong> 필요하면 CLAUDE.md, <strong>특정 작업 때만</strong>이면 Skill</td><td>"빌드 금지"는 CLAUDE.md. "SVG 대비 검사 절차"는 Skill감</td></tr>
+        <tr><td class="hl">Skill vs 커맨드</td><td><strong>누가 부르나</strong>. 커맨드는 사람만, Skill은 모델도 스스로 꺼낼 수 있다</td><td>"새 문서 만들어"를 매번 친다 → 커맨드</td></tr>
+        <tr><td class="hl">Skill vs Subagent</td><td><strong>같은 방</strong>에 지식을 더하나, <strong>딴 방</strong>에 일을 맡기나</td><td>34개 문서의 개념 그래프 작성 → Subagent 7명에게 분담</td></tr>
+        <tr><td class="hl">Hook vs CLAUDE.md 규칙</td><td><strong>부탁</strong>이냐 <strong>장치</strong>냐. 잊으면 사고인 것은 Hook</td><td>"작업 전 git pull"은 규칙으로 충분, "비밀 폴더 커밋 금지"는 장치가 낫다</td></tr>
+        <tr><td class="hl">Hook vs 권한(settings)</td><td>권한은 <strong>허용·거부</strong>, Hook은 <strong>무언가를 실행</strong></td><td>특정 명령 금지 → 권한. 저장 후 검사 실행 → Hook</td></tr>
+        <tr><td class="hl">MCP vs API</td><td>API는 서비스마다 다른 창구, MCP는 AI용 <strong>공통 콘센트</strong></td><td>같은 Claude가 Gmail·캘린더·드라이브를 같은 방식으로 쓰는 이유</td></tr>
+        <tr><td class="hl">Memory vs CLAUDE.md</td><td>팀·다른 PC도 알아야 하면 CLAUDE.md, <strong>나만의 맥락</strong>이면 Memory</td><td>"여러 PC에서 작업" 사실은 Memory에, 그에 따른 워크플로는 CLAUDE.md에</td></tr>
+        <tr><td class="hl">Plugin vs 나머지</td><td>Plugin은 기능이 아니라 <strong>포장</strong>. 안에 뭐가 들었나를 본다</td><td>혼자·한 저장소면 굳이 필요 없다 — 저장소 공유로 충분</td></tr>
+        <tr><td class="hl">Subagent vs 워크플로</td><td>한 명에게 맡기나, <strong>여러 명을 코드로 지휘</strong>하나</td><td>탐색 한 건 → Subagent. 문서 34개 일괄 검증 → 워크플로 (<a href="ai-orchestration.html">「AI 오케스트레이션」</a>)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <span class="icon">🧩</span>
+    <div><strong>대부분의 답은 "둘 다" —</strong> 표의 짝 중 절반은 실제로 함께 쓴다.
+    MCP가 메일에 손을 대고 Skill이 요약 형식을 정하고 커맨드가 그 둘을 한 번에 부르고 Hook이 비밀 정보가 새지 않게 막는다 —
+    이 네 개가 한 작업 안에서 각자 다른 칸을 맡는다. "어느 것이 더 좋으냐"는 질문은 대개 <u>같은 칸</u>에서만 성립한다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 4 ═══════════ -->
+<section id="force">
+  <div class="section-header">
+    <div class="eyebrow">Ask vs Enforce</div>
+    <h2>4. 부탁 vs 장치 — Hook이 따로 있는 이유</h2>
+    <p>글로 적은 규칙은 아무리 강조해도 부탁이다</p>
+  </div>
+
+  <p class="body">CLAUDE.md에 "반드시", "절대"를 굵게 써도 그것은 모델이 <u>읽고 따르는</u> 지시다. 대화가 길어지거나 다른 일에 몰두하면 놓칠 수 있다.
+  Hook은 다르다. "파일을 쓴 직후", "명령을 실행하기 직전", "세션이 끝날 때" 같은 <strong>이벤트에 붙은 스크립트</strong>라서
+  모델이 기억하든 말든 실행된다. 스크립트가 거부를 돌려주면 그 동작 자체가 막힌다.</p>
+
+  <h3 id="force-anim">4-1. 잊는 부탁, 안 잊는 장치 (동적)</h3>
+
+  <figure class="cf-anim">
+    <div class="fig-scroll">
+    <svg viewBox="0 0 900 340" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif" style="width:100%;display:block">
+      <text x="450" y="28" font-size="13.5" font-weight="800" fill="#002C5F" text-anchor="middle">"비밀 폴더는 절대 커밋하지 마" — 같은 규칙, 두 가지 구현</text>
+
+      <rect x="30" y="48" width="840" height="120" rx="12" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2"/>
+      <text x="50" y="72" font-size="12" font-weight="800" fill="#B91C1C">A. CLAUDE.md에 굵게 적어둠 (부탁)</text>
+      <g class="cf-s1"><rect x="50" y="86" width="170" height="44" rx="9" fill="#FFFFFF" stroke="#B91C1C" stroke-width="1.5"/><text x="135" y="113" font-size="10.5" fill="#1A1A1A" text-anchor="middle">세션 시작: 규칙 읽음</text></g>
+      <g class="cf-s2"><rect x="240" y="86" width="170" height="44" rx="9" fill="#FFFFFF" stroke="#B91C1C" stroke-width="1.5"/><text x="325" y="113" font-size="10.5" fill="#1A1A1A" text-anchor="middle">긴 작업 3시간째</text></g>
+      <g class="cf-s3"><rect x="430" y="86" width="170" height="44" rx="9" fill="#FFFFFF" stroke="#B91C1C" stroke-width="1.5"/><text x="515" y="113" font-size="10.5" fill="#1A1A1A" text-anchor="middle">git add -A</text></g>
+      <g class="cf-s4"><rect x="620" y="86" width="230" height="44" rx="9" fill="#B91C1C"/><text x="735" y="113" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">비밀 폴더가 함께 커밋됨</text></g>
+      <g class="cf-forget"><text x="450" y="154" font-size="10" font-weight="700" fill="#B91C1C" text-anchor="middle">대개는 지킨다 — 하지만 "대개"는 사고가 한 번이면 충분한 영역에서 부족하다</text></g>
+
+      <rect x="30" y="182" width="840" height="120" rx="12" fill="#E6F7F1" stroke="#0F766E" stroke-width="2"/>
+      <text x="50" y="206" font-size="12" font-weight="800" fill="#0F766E">B. Hook으로 막아둠 (장치)</text>
+      <g class="cf-s1"><rect x="50" y="220" width="170" height="44" rx="9" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/><text x="135" y="247" font-size="10.5" fill="#1A1A1A" text-anchor="middle">세션 시작</text></g>
+      <g class="cf-s2"><rect x="240" y="220" width="170" height="44" rx="9" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/><text x="325" y="247" font-size="10.5" fill="#1A1A1A" text-anchor="middle">긴 작업 3시간째</text></g>
+      <g class="cf-s3"><rect x="430" y="220" width="170" height="44" rx="9" fill="#FFFFFF" stroke="#0F766E" stroke-width="1.5"/><text x="515" y="247" font-size="10.5" fill="#1A1A1A" text-anchor="middle">git commit 시도</text></g>
+      <g class="cf-s4"><rect x="620" y="220" width="230" height="44" rx="9" fill="#0F766E"/><text x="735" y="240" font-size="10.5" font-weight="800" fill="#FFF" text-anchor="middle">Hook: 비밀 폴더 감지 → 거부</text><text x="735" y="256" font-size="9.5" fill="#D4F5E4" text-anchor="middle">모델의 기억과 무관</text></g>
+      <text x="450" y="290" font-size="10" font-weight="700" fill="#0F766E" text-anchor="middle">규칙을 "잊을 수 있는 존재"의 기억에 맡기지 않고, 이벤트에 걸어둔다</text>
+
+      <rect x="30" y="312" width="840" height="22" rx="7" fill="#0D1B2E"/>
+      <text x="450" y="327" font-size="10" font-weight="800" fill="#FFF" text-anchor="middle">기준 하나: 어기면 되돌리기 어려운가? 예 → 장치(Hook·권한) · 아니오 → 부탁(CLAUDE.md)으로 충분</text>
+    </svg>
+    </div>
+    <figcaption>위 레인은 규칙을 읽었지만 긴 작업 끝에 놓치고, 아래 레인은 같은 순간 Hook이 동작을 막는다 (동작 줄이기 설정 시 정지)</figcaption>
+  </figure>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:180px">이벤트 (대표)</th><th>언제</th><th style="width:280px">쓰임새</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">PreToolUse</td><td>도구를 실행하기 <strong>직전</strong></td><td>위험한 명령·비밀 파일 접근 차단</td></tr>
+        <tr><td class="hl">PostToolUse</td><td>도구 실행 <strong>직후</strong></td><td>파일 저장 후 포맷터·검사기 실행</td></tr>
+        <tr><td class="hl">UserPromptSubmit</td><td>내가 메시지를 보낼 때</td><td>매번 붙일 맥락 주입</td></tr>
+        <tr><td class="hl">SessionStart</td><td>세션이 열릴 때</td><td>git pull·상태 점검 같은 시작 의식</td></tr>
+        <tr><td class="hl">Stop</td><td>Claude가 응답을 끝낼 때</td><td>마무리 검사·알림</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="body">이벤트 이름과 종류는 버전마다 늘어나니 정확한 목록은 공식 문서를 확인한다 (개략). 설정은 <span class="mono">settings.json</span>의 <span class="mono">hooks</span> 항목에 적는다.</p>
+</section>
+
+<!-- ═══════════ 5 ═══════════ -->
+<section id="files">
+  <div class="section-header">
+    <div class="eyebrow">Where Files Live</div>
+    <h2>5. 파일은 어디에 사는가 — 위치가 곧 범위</h2>
+    <p>저장소 안이면 함께, 홈 폴더면 나만</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/cf-files.svg" alt="저장소 안의 CLAUDE.md, .mcp.json, .claude 폴더(commands, skills, agents, settings.json)와 홈 폴더의 같은 구조 및 메모리 위치 비교"></div>
+    <figcaption>왼쪽은 git으로 공유되는 저장소, 오른쪽은 나만의 홈 폴더. 구조는 같고 범위만 다르다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="callout navy">
+    <span class="icon">🖥️</span>
+    <div><strong>여러 PC에서 쓰는 저장소라면 —</strong> 이 지식 베이스처럼 PC를 옮겨 다니며 작업한다면,
+    반복 프롬프트와 절차는 홈 폴더가 아니라 <u>저장소의 <span class="mono">.claude/</span></u>에 두는 편이 낫다. git pull 한 번으로 모든 PC에 같은 커맨드가 생긴다.
+    반대로 개인적인 말투 선호나 습관은 홈 폴더에 둬서 저장소를 오염시키지 않는다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 6 ═══════════ -->
+<section id="commands">
+  <div class="section-header">
+    <div class="eyebrow">Custom Commands</div>
+    <h2>6. 커스텀 커맨드 실전 — 자주 치는 프롬프트를 파일로</h2>
+    <p>가장 먼저 효과를 보는 부품</p>
+  </div>
+
+  <p class="body">마크다운 파일 하나가 커맨드 하나다. <span class="mono">.claude/commands/newdoc.md</span>를 만들면 <span class="mono">/newdoc</span>이 생긴다.
+  파일 내용이 그대로 프롬프트가 되고, 위쪽 머리말(frontmatter)로 설명과 인자 힌트를 붙인다:</p>
+
+  <pre class="code"><span class="title-bar">.claude/commands/newdoc.md</span><span class="c">---</span>
+<span class="k">description</span>: 새 지식 문서 만들기 (CLAUDE.md 워크플로 전 단계)
+<span class="k">argument-hint</span>: &lt;주제&gt;
+<span class="c">---</span>
+<span class="s">"$ARGUMENTS"</span> 주제로 새 문서를 만들어줘.
+CLAUDE.md의 "새 문서 추가" 단계를 빠짐없이 지키고,
+정적 도식 3종 + 동적 도식 2종 + §0 개념 그래프를 넣어줘.
+
+최근 커밋 참고: !<span class="s">`git log --oneline -5`</span>
+문서 목록 참고: @docs.json
+
+끝나면 헤드리스 렌더로 라이트·다크 둘 다 확인하고 push해줘.</pre>
+
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:180px">장치</th><th>하는 일</th></tr></thead>
+      <tbody>
+        <tr><td class="hl"><span class="mono">$ARGUMENTS</span></td><td>커맨드 뒤에 적은 말 전체. <span class="mono">$1</span>, <span class="mono">$2</span>로 하나씩 받을 수도 있다</td></tr>
+        <tr><td class="hl"><span class="mono">description</span></td><td><span class="mono">/</span>를 쳤을 때 목록에 뜨는 설명</td></tr>
+        <tr><td class="hl"><span class="mono">argument-hint</span></td><td>인자 자리에 회색으로 뜨는 안내</td></tr>
+        <tr><td class="hl"><span class="mono">!`명령`</span></td><td>셸 명령을 먼저 돌리고 그 출력을 프롬프트에 끼워 넣는다</td></tr>
+        <tr><td class="hl"><span class="mono">@파일</span></td><td>그 파일 내용을 함께 붙인다</td></tr>
+        <tr><td class="hl"><span class="mono">allowed-tools</span></td><td>이 커맨드에서 쓸 수 있는 도구를 제한한다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="num">A</span>이 저장소에 어울리는 커맨드 후보</h3>
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:190px">커맨드</th><th>담을 내용</th></tr></thead>
+      <tbody>
+        <tr><td class="hl"><span class="mono">/newdoc 주제</span></td><td>새 문서 워크플로 전체 — 복제·docs.json·noscript·개념 그래프·상호 링크·검증·push</td></tr>
+        <tr><td class="hl"><span class="mono">/enrich 문서id</span></td><td>기존 문서에 도식·동적 도식·표 보강 제안 후 반영</td></tr>
+        <tr><td class="hl"><span class="mono">/darkcheck 문서id</span></td><td>라이트·다크 렌더 + SVG 대비 검사</td></tr>
+        <tr><td class="hl"><span class="mono">/graph</span></td><td>build-graph.py 실행 후 고립 노드·미해결 언급 보고</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <span class="icon">🔀</span>
+    <div><strong>커맨드가 Skill이 되는 순간 —</strong> 커맨드 파일이 길어지고, 참고 자료나 보조 스크립트를 함께 두고 싶어지고,
+    "내가 부르지 않아도 그런 작업이면 알아서 이 방식대로 했으면" 싶어지면 Skill로 옮길 때다.
+    요즘 Claude Code는 둘을 거의 하나로 다뤄서 Skill도 <span class="mono">/이름</span>으로 부를 수 있다 — 차이는 형태(파일 하나 vs 폴더)와 <u>모델이 스스로 꺼낼 수 있느냐</u>다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 7 ═══════════ -->
+<section id="decide">
+  <div class="section-header">
+    <div class="eyebrow">Decision</div>
+    <h2>7. 결정표 — 기능 이름이 아니라 증상에서 출발</h2>
+    <p>지금 겪는 불편을 먼저 적는다</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll"><img src="img/cf-decision.svg" alt="접근 불가, 반복 타이핑, 특정 작업 절차, 상시 규칙, 잊으면 사고, 긴 조사, 배포 일곱 증상을 각각 MCP, 커맨드, Skill, CLAUDE.md, Hook, Subagent, Plugin으로 연결한 결정표"></div>
+    <figcaption>왼쪽 증상에 해당하는 줄을 찾으면 오른쪽이 답이다. 여러 줄에 해당하면 여러 개를 함께 쓴다 · <span class="zoom-hint">클릭하면 확대</span></figcaption>
+  </figure>
+
+  <div class="callout navy">
+    <span class="icon">📌</span>
+    <div><strong>맺음 —</strong> 여덟 개의 이름은 결국 네 가지 질문으로 접힌다.
+    <u>무엇을 주나</u>(지시·능력·강제·격리), <u>언제 실리나</u>(항상·필요할 때·이벤트), <u>누가 부르나</u>(사람·모델·이벤트), <u>누구와 공유하나</u>(저장소·홈 폴더).
+    새 기능 이름을 만나도 이 네 질문에 답해보면 지도 위 어디에 놓일지 바로 보인다.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 8 ═══════════ -->
+<section id="refs">
+  <div class="section-header">
+    <div class="eyebrow">Related</div>
+    <h2>8. 함께 읽기</h2>
+    <p>이 문서에서 갈라지는 길들</p>
+  </div>
+  <div class="tbl-wrap">
+    <table class="ds">
+      <thead><tr><th style="width:280px">주제</th><th>문서</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">기능 하나하나의 깊은 설명</td><td><a href="claude-extensions.html">「클로드 확장하기」</a> — §2 지시·절차 · §4 MCP · §5 Hooks · §7 비교</td></tr>
+        <tr><td class="hl">여러 에이전트를 코드로 지휘하기</td><td><a href="ai-orchestration.html">「AI 오케스트레이션」</a></td></tr>
+        <tr><td class="hl">하네스가 실제로 도는 방식</td><td><a href="claude-code-internals.html">「Claude Code 내부 해부」</a></td></tr>
+        <tr><td class="hl">MCP를 로컬 모델에 붙이기</td><td><a href="local-llm-agent.html">「로컬 LLM 에이전트」</a></td></tr>
+        <tr><td class="hl">규칙 파일을 쓰는 법 — constitution</td><td><a href="software-requirements.html">「소프트웨어 요구사항 작성과 관리」</a> §10</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer style="font-size:12px;color:var(--text-muted);padding-bottom:24px">
+  Hyundai-Inspired Design System v1.0 · 도식: img/cf-*.svg (3종) + 동적 도식 2종(컨텍스트 적재·부탁 vs 장치, CSS 애니메이션) · 기능 이름·이벤트 목록·파일 위치는 2026.11 기준 개략 — Claude Code 버전마다 바뀌니 공식 문서로 확인
+</footer>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+
+<script>
+// ── Mobile drawer ──
+const Drawer = {
+  toggle() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('backdrop').classList.toggle('show', open);
+  },
+  close() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('backdrop').classList.remove('show');
+  }
+};
+document.querySelectorAll('#toc a').forEach(a => a.addEventListener('click', () => Drawer.close()));
+
+// ── Lightbox ──
+document.querySelectorAll('figure img').forEach(img => {
+  img.addEventListener('click', () => {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── Scroll progress + to-top ──
+const fill = document.getElementById('progress-fill');
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  fill.style.width = pct + '%';
+  toTop.classList.toggle('show', h.scrollTop > 600);
+}, { passive: true });
+
+// ── Sidebar scroll-spy ──
+const tocLinks = [...document.querySelectorAll('#toc a')];
+const targets = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+targets.forEach(t => spy.observe(t));
+</script>
+<script src="../assets/concept-graph.js" defer></script>
+</body>
+</html>
